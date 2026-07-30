@@ -207,7 +207,10 @@ def main():
             print(f"[{name}] 失败: {type(e).__name__}: {str(e)[:120]}")
 
     added = updated = 0
-    for it in sorted(fresh, key=lambda x: -x["score"])[:60]:
+    # 单轮入库上限刻意压低：一是控制每天的阅读量（用户在按天学习，一天灌
+    # 100+ 条是轰炸不是雷达）；二是让冷启动积压的高分老内容按 score 从高到
+    # 低分几天匀速放出。每天 3 轮 × 15 = 最多 45 条/天，平稳期真实新增远低于此。
+    for it in sorted(fresh, key=lambda x: -x["score"])[:15]:
         old = by_url.get(it["url"])
         if old:
             # 已有条目：只刷新易变字段，保留 found/中文摘要/演示链接
