@@ -71,6 +71,8 @@ h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
         border:1px solid var(--line); border-radius:6px; padding:3px 8px;
         font:inherit; font-size:13px; color-scheme:dark light; }
 .datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
 [data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
 .item-page .sum-block { background:var(--card); border:1px solid var(--line);
         border-radius:10px; padding:14px 16px; margin:14px 0; }
@@ -88,6 +90,24 @@ JS = """
     document.documentElement.setAttribute("data-lang", next);
     localStorage.setItem("radar-lang", next);
   };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
 })();
 """
 
@@ -102,7 +122,7 @@ SHELL = """<!DOCTYPE html>
 <style>__STYLE__</style>
 <script>__JS__</script>
 </head>
-<body><div class="wrap">
+<body data-page="__PAGE__"><div class="wrap">
 <header class="site">
   <h1><a href="__BASE__/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
   <span class="sub">__SUB__</span>
@@ -118,7 +138,7 @@ __BODY__
 """
 
 
-def shell(title, body):
+def shell(title, body, page=""):
     sub = pair("全双工 · 多模态 · 座舱语音 agent 技术雷达",
                "full-duplex · multimodal · cockpit voice-agent radar")
     foot = pair(
@@ -126,7 +146,8 @@ def shell(title, body):
         '源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a>',
         "Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · "
         '<a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a>')
-    return (SHELL.replace("__TITLE__", esc(title)).replace("__BASE__", BASE)
+    return (SHELL.replace("__TITLE__", esc(title)).replace("__PAGE__", page)
+            .replace("__BASE__", BASE)
             .replace("__STYLE__", STYLE).replace("__JS__", JS)
             .replace("__SUB__", sub).replace("__FOOTER__", foot)
             .replace("__ARCHIVE_LABEL__", pair("存档", "Archive"))
@@ -146,12 +167,38 @@ def card(it, link_self=True):
     if it.get("demo"):
         meta.append(f'<a class="demo-link" href="{BASE}/{esc(it["demo"])}">'
                     + pair("▶ 交互演示", "▶ live demo") + "</a>")
+    meta.append(f'<span title="进入雷达时刻">⏱ {esc(it["found"][11:16])}</span>')
     zh = it.get("summary_zh") or it.get("summary_en") or ""
     en = it.get("summary_en") or ""
     summ = (f'<div class="sum"><span class="l-zh">{esc(zh[:200])}</span>'
             f'<span class="l-en">{esc(en[:200])}</span></div>')
-    return (f'<div class="card"><div class="t"><a href="{href}">{esc(it["title"])}'
+    return (f'<div class="card" data-found="{esc(it["found"])}">'
+            f'<div class="t"><a href="{href}">{esc(it["title"])}'
             f'</a></div><div class="meta">{"".join(meta)}</div>{summ}</div>')
+
+
+def slot_of(it):
+    """found 时刻 → 班次标签。三班制：9 点班 / 14 点班 / 19 点班。"""
+    h = int(it["found"][11:13])
+    if h < 12:
+        return "09:00"
+    if h < 17:
+        return "14:00"
+    return "19:00"
+
+
+def day_cards(rows):
+    """一天内先按班次分组（晚班在前），班内按相关度排序。"""
+    slots = {}
+    for it in rows:
+        slots.setdefault(slot_of(it), []).append(it)
+    parts = []
+    for s in sorted(slots, reverse=True):
+        batch = sorted(slots[s], key=lambda x: -x["score"])
+        parts.append(f'<h3 class="slot">⏰ {s} ' + pair("班", "run")
+                     + f" · {len(batch)} " + pair("条", "items") + "</h3>")
+        parts += [card(it) for it in batch]
+    return parts
 
 
 def item_page(it):
@@ -243,10 +290,10 @@ def main():
     days = all_days[:6]
     os.makedirs(os.path.join(DOCS, "days"), exist_ok=True)
     for d in all_days:
-        rows = sorted(by_day[d], key=lambda x: -x["score"])
+        rows = by_day[d]
         body = (datebar(d, all_days)
                 + f'<h2 class="day">{d} · {len(rows)} ' + pair("条", "items") + "</h2>"
-                + "\n".join(card(it) for it in rows)
+                + "\n".join(day_cards(rows))
                 + f'<p style="margin-top:18px"><a class="btn" href="{BASE}/">'
                 + pair("← 最新", "← latest") + "</a></p>")
         open(os.path.join(DOCS, "days", d + ".html"), "w", encoding="utf-8").write(
@@ -266,12 +313,13 @@ def main():
                      + "</a></p>")
     parts.append(datebar(all_days[0], all_days))
     for d in days:
-        rows = sorted(by_day[d], key=lambda x: -x["score"])
-        parts.append(f'<h2 class="day">{d} · {len(rows)} '
+        rows = by_day[d]
+        parts.append(f'<h2 class="day"><a href="{BASE}/days/{d}.html" '
+                     f'style="color:inherit">{d}</a> · {len(rows)} '
                      + pair("条", "items") + "</h2>")
-        parts += [card(it) for it in rows[:25]]
+        parts += day_cards(rows)
     open(os.path.join(DOCS, "index.html"), "w", encoding="utf-8").write(
-        shell("cockpit-agent-radar", "\n".join(parts)))
+        shell("cockpit-agent-radar", "\n".join(parts), page="index"))
 
     # 子页
     for it in items:
