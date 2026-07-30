@@ -80,7 +80,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-02 · ◈ 12
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Real-time interaction models -- Moshi, MiniCPM-o, Qwen-Omni -- turn serving into a periodic real-time task: on every frame a session ingests streaming audio and must respond by a recurring wall-clock deadline, while its KV cache grows monotonically and stays pinned for the whole conversation. This regime hides a dangerous failure mode. On a real full-duplex stack, sustained load does not degrade serving gracefully: i <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。</span>
     <span class="l-en">Real-time interaction models -- Moshi, MiniCPM-o, Qwen-Omni -- turn serving into a periodic real-time task: on every frame a session ingests streaming audio and must respond by a recurring wall-clock deadline, while its KV cache grows monotonically and stays pinned for the whole conversation. This regime hides a dangerous failure mode. On a real full-duplex stack, sustained load does not degrade serving gracefully: i</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2607.02640v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>

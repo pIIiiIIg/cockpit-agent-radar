@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-30T17:48:49.653095+08:00",
+ "generated": "2026-07-30T19:35:34.113321+08:00",
  "items": [
   {
    "id": "bf76305254",
@@ -664,7 +664,7 @@
     "vad"
    ],
    "summary_en": "Rust-native voice agents for Node.js — WebRTC, VAD, barge-in, and speech events. Free on-device STT+TTS via Sherpa-ONNX; cloud vendors optional. Your LLM stays in TypeScript. local-ai local-first local-stt local-tts node nodejs privacy-first real-time realtime rust sherpa-onnx speech-to-text text-to-speech voice-agent webrtc",
-   "summary_zh": "",
+   "summary_zh": "一个用 Rust 为 Node.js 提供原生语音智能体能力的库，内置 WebRTC、VAD、barge-in(打断)和语音事件，并通过 Sherpa-ONNX 提供免费的端侧 STT/TTS，LLM 逻辑留在 TypeScript 侧。对座舱助手很有参考价值：打断检测与 VAD 是全双工\"边说边听\"的关键痛点，端侧 STT/TTS 契合车内低延迟与隐私需求，其\"推理引擎与 LLM 解耦\"的分层也与自研 harness + 外挂 TTS 的架构思路一致。",
    "demo": "",
    "stars": 3
   },
@@ -682,7 +682,7 @@
     "duplex"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "一篇厘清\"全双工语音到底意味着什么\"的概念性文章。对建站有基础价值：在为 Qwen3-Omni + harness 方案设定目标时，需要明确什么才算真正的全双工（同时听说、可打断、轮替自然），以便界定评测口径与架构差距；摘要缺失，具体内容保守看待。",
    "demo": "",
    "stars": 3
   },
@@ -700,7 +700,7 @@
     "duplex"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "PersonaPlex-7B，一个能同时听和说的端到端全双工语音模型。它是自研 harness 路线的直接对照物：可以用它对比\"模型原生全双工\"与\"harness 编排流式 KV + 外挂 TTS\"两种方案在自然度、可控性和工具接入上的取舍。",
    "demo": "",
    "stars": 4
   },
@@ -718,7 +718,7 @@
     "duplex"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "Hertz-dev，一个开源的全双工会话音频模型。作为开源基线，可用于对比座舱方案中\"端到端音频建模\"与\"多模态模型 + 自研 harness\"的差异，并为流式音频的延迟与轮替指标提供参照。",
    "demo": "",
    "stars": 5
   },
@@ -736,7 +736,7 @@
     "voice agent"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "一篇解读 AIEWF Eval 的文章，论证为什么 speech-to-speech 是 AI 语音智能体的未来。对本站的取舍讨论直接相关：它有助于评估\"harness + 外挂 TTS 的级联路线\"相对\"端到端语音到语音\"在延迟、情感和打断处理上的优劣，其评测方法也可借鉴用于座舱助手的对比测试。",
    "demo": "",
    "stars": 3
   },
@@ -754,7 +754,7 @@
     "voice agent"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "Jargo，把实时语音智能体框架 Pipecat 移植到 Go 的项目。对本站的 harness 工程化有参考意义：可以借鉴其管线编排、音频流处理与打断管理的设计，Go 实现也提示了车载部署时对并发性能与资源占用的考量。",
    "demo": "",
    "stars": 10
   },
@@ -773,7 +773,7 @@
     "turn-taking"
    ],
    "summary_en": "Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phenomena but provide little role grounding or scenario-specific norms, while heuristic or prompted synthesis methods inject",
-   "summary_zh": "",
+   "summary_zh": "DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。",
    "demo": "",
    "stars": null
   },
@@ -791,7 +791,7 @@
     "duplex"
    ],
    "summary_en": "Natural face-to-face conversation requires real-time speech generation together with synchronized facial motion. Existing systems only partially address this problem: speech-only full-duplex models can generate speech in real time but do not produce facial motion, while audio-driven facial motion models animate a face from already available audio rather than jointly generating speech and motion online. To bridge this",
-   "summary_zh": "",
+   "summary_zh": "FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了\"只会说话的全双工模型\"与\"只能对已生成音频做面部驱动\"之间的缺口，实现在线联合生成。对纯语音座舱助手相关性有限，胜在其\"全双工 + 多模态输出流联合生成\"的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。",
    "demo": "",
    "stars": null
   },
@@ -811,7 +811,7 @@
     "vad"
    ],
    "summary_en": "We present Wan-Streamer, a native-streaming, end-to-end interactive foundation model designed from the ground up for real-time, low-latency, full-duplex audio-visual interaction. Wan-Streamer seamlessly models language, audio, and video as both input and output within a single Transformer, where the sequence is represented as interleaved visual, audio, and text input tokens together with visual, audio, and text outpu",
-   "summary_zh": "",
+   "summary_zh": "Wan-Streamer 是一个从零设计的原生流式端到端交互基础模型，在单个 Transformer 内以交错的视觉/音频/文本 token 同时建模输入与输出，实现低延迟全双工音视交互。它几乎是本站项目的同题对标：其原生流式序列组织方式可直接为\"流式进 KV、边说边听\"的座舱 harness 提供架构参照。",
    "demo": "",
    "stars": null
   },
@@ -830,7 +830,7 @@
     "multimodal"
    ],
    "summary_en": "Dialogue models falter in noisy, multi-speaker environments, often producing irrelevant responses and awkward turn-taking. We present AV-Dialog, the first multimodal dialog framework that uses both audio and visual cues to track the target speaker, predict turn-taking, and generate coherent responses. By combining acoustic tokenization with multi-task, multi-stage training on monadic, synthetic, and real audio-visual",
-   "summary_zh": "",
+   "summary_zh": "AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。",
    "demo": "",
    "stars": null
   },
@@ -847,7 +847,7 @@
     "voice assistant"
    ],
    "summary_en": "Desktop voice assistants are still dominated by cloud pipelines that ship raw audio off the machine and expose a fixed set of skills. We describe AnovaX, a small local-first assistant that runs entirely on the user's computer and treats the desktop itself as its action surface. A single Python process wires together a wake-word gate, a speech pipeline, an LLM planner (Gemini) that emits a JSON plan of tool calls, a w",
-   "summary_zh": "",
+   "summary_zh": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。虽然它是桌面而非座舱场景，但其\"规划器-执行器-恢复\"的工具体系设计，对本站 harness 中晚注入工具清单、工具编排的工程实现有直接参考价值。",
    "demo": "",
    "stars": null
   },
@@ -866,7 +866,7 @@
     "omnimodal"
    ],
    "summary_en": "Omnimodal large language models (OmniLLMs) are rapidly extending multimodal reasoning to cover synchronized audio and video. However, the resulting audio-video token sequences are long, leading to high prefill latency and GPU memory usage at inference time. Existing token pruning methods, designed mainly for vision-only inputs, miss both the cross-modal links between audio and video and the user query that decides wh",
-   "summary_zh": "",
+   "summary_zh": "Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。",
    "demo": "",
    "stars": null
   },
@@ -884,7 +884,7 @@
     "multimodal"
    ],
    "summary_en": "Recent multimodal large language models mainly process audio as monaural signals, thereby discarding the spatial cues contained in spatial audio for sound localization, spatial relation reasoning, and spatial scene understanding. We propose Spatial-Omni, a lightweight method that implements SO-Encoder to inject First-Order Ambisonics (FOA) spatial audio into existing Omni LLMs as an independent modality, without modi",
-   "summary_zh": "",
+   "summary_zh": "Spatial-Omni 通过轻量的 SO-Encoder 把一阶 Ambisonics（FOA）空间音频作为独立模态注入现有 Omni LLM，使模型获得声源定位、空间关系推理和场景理解能力，而无需大改原模型。这与座舱高度相关：多麦克风阵列的空间感知正是区分主驾/后排发声、实现分区语音交互的关键能力。",
    "demo": "",
    "stars": null
   },
@@ -902,7 +902,7 @@
     "duplex"
    ],
    "summary_en": "Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which causes substantial knowledge degradation and compromises semantic integrity -- ultimately making full-duplex SLMs feel unn",
-   "summary_zh": "",
+   "summary_zh": "该论文针对全双工语音语言模型提出层级化的声学-语义建模方法，通过模态分离与语义连贯性设计，缓解当前全双工 SLM 中严重的模态干扰所导致的知识退化与语义损伤。它直接命中本站\"边说边听\"路线的核心隐患——全双工下模型变笨，可作为选型与训练时的避坑参考。",
    "demo": "",
    "stars": null
   },
@@ -922,7 +922,7 @@
     "kv cache"
    ],
    "summary_en": "Real-time interaction models -- Moshi, MiniCPM-o, Qwen-Omni -- turn serving into a periodic real-time task: on every frame a session ingests streaming audio and must respond by a recurring wall-clock deadline, while its KV cache grows monotonically and stays pinned for the whole conversation. This regime hides a dangerous failure mode. On a real full-duplex stack, sustained load does not degrade serving gracefully: i",
-   "summary_zh": "",
+   "summary_zh": "Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。",
    "demo": "",
    "stars": null
   },
@@ -940,7 +940,7 @@
     "duplex"
    ],
    "summary_en": "Full-duplex spoken language models (FD-SLMs) enable seamless speech interaction by allowing models to listen and speak simultaneously, yet the internal mechanism by which they coordinate listening and speaking remains underexplored. We analyze the predictive behavior encoded in FD-SLM hidden representations and find that they exhibit stream-specific predictive patterns: during listening, they preferentially predict t",
-   "summary_zh": "",
+   "summary_zh": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。它为\"边说边听\"的协调性提供了可操作的机理洞见，提示我们不必重训模型也能在推理期改善全双工的听说切换行为。",
    "demo": "",
    "stars": null
   },
@@ -1017,7 +1017,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "",
    "demo": "",
-   "stars": 5083
+   "stars": 5085
   },
   {
    "id": "a4b6353a38",

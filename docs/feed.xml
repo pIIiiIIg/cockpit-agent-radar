@@ -199,48 +199,48 @@
 <title>akirilyuk/node-webrtc-rust</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/fdc2fde8d1.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fdc2fde8d1.html</guid>
-<description>Rust-native voice agents for Node.js — WebRTC, VAD, barge-in, and speech events. Free on-device STT+TTS via Sherpa-ONNX; cloud vendors optional. Your LLM stays in TypeScript. local-ai local-first local-stt local-tts node nodejs privacy-first real-time realtime rust sherpa-onnx speech-to-text text-to</description>
+<description>一个用 Rust 为 Node.js 提供原生语音智能体能力的库，内置 WebRTC、VAD、barge-in(打断)和语音事件，并通过 Sherpa-ONNX 提供免费的端侧 STT/TTS，LLM 逻辑留在 TypeScript 侧。对座舱助手很有参考价值：打断检测与 VAD 是全双工&quot;边说边听&quot;的关键痛点，端侧 STT/TTS 契合车内低延迟与隐私需求，其&quot;推理引擎与 LLM 解耦&quot;的分层也与自研 harness + 外挂 TTS 的架构思路一致。</description>
 </item>
 <item>
 <title>What does full duplex (voice) actually mean?</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/71e003ba90.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/71e003ba90.html</guid>
-<description></description>
+<description>一篇厘清&quot;全双工语音到底意味着什么&quot;的概念性文章。对建站有基础价值：在为 Qwen3-Omni + harness 方案设定目标时，需要明确什么才算真正的全双工（同时听说、可打断、轮替自然），以便界定评测口径与架构差距；摘要缺失，具体内容保守看待。</description>
 </item>
 <item>
 <title>PersonaPlex-7B: full-duplex voice model that listens and talks at the same time</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/77dd6732fe.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/77dd6732fe.html</guid>
-<description></description>
+<description>PersonaPlex-7B，一个能同时听和说的端到端全双工语音模型。它是自研 harness 路线的直接对照物：可以用它对比&quot;模型原生全双工&quot;与&quot;harness 编排流式 KV + 外挂 TTS&quot;两种方案在自然度、可控性和工具接入上的取舍。</description>
 </item>
 <item>
 <title>Hertz-dev is an open-source model for full-duplex conversational audio</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c99eed2b91.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c99eed2b91.html</guid>
-<description></description>
+<description>Hertz-dev，一个开源的全双工会话音频模型。作为开源基线，可用于对比座舱方案中&quot;端到端音频建模&quot;与&quot;多模态模型 + 自研 harness&quot;的差异，并为流式音频的延迟与轮替指标提供参照。</description>
 </item>
 <item>
 <title>Why speech-to-speech is the future for AI voice agents: Unpacking the AIEWF Eval</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/95552f3327.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/95552f3327.html</guid>
-<description></description>
+<description>一篇解读 AIEWF Eval 的文章，论证为什么 speech-to-speech 是 AI 语音智能体的未来。对本站的取舍讨论直接相关：它有助于评估&quot;harness + 外挂 TTS 的级联路线&quot;相对&quot;端到端语音到语音&quot;在延迟、情感和打断处理上的优劣，其评测方法也可借鉴用于座舱助手的对比测试。</description>
 </item>
 <item>
 <title>Show HN: Jargo, a Go port of Pipecat for building realtime voice agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/995b0991d8.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/995b0991d8.html</guid>
-<description></description>
+<description>Jargo，把实时语音智能体框架 Pipecat 移植到 Go 的项目。对本站的 harness 工程化有参考意义：可以借鉴其管线编排、音频流处理与打断管理的设计，Go 实现也提示了车载部署时对并发性能与资源占用的考量。</description>
 </item>
 <item>
 <title>DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/5fceaa2ebd.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5fceaa2ebd.html</guid>
-<description>Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phen</description>
+<description>DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。</description>
 </item>
 <item>
 <title>FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/6632215e09.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6632215e09.html</guid>
-<description>Natural face-to-face conversation requires real-time speech generation together with synchronized facial motion. Existing systems only partially address this problem: speech-only full-duplex models can generate speech in real time but do not produce facial motion, while audio-driven facial motion mo</description>
+<description>FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了&quot;只会说话的全双工模型&quot;与&quot;只能对已生成音频做面部驱动&quot;之间的缺口，实现在线联合生成。对纯语音座舱助手相关性有限，胜在其&quot;全双工 + 多模态输出流联合生成&quot;的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。</description>
 </item>
 </channel></rss>

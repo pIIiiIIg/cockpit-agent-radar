@@ -80,7 +80,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-26 · ◈ 13
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Omnimodal large language models (OmniLLMs) are rapidly extending multimodal reasoning to cover synchronized audio and video. However, the resulting audio-video token sequences are long, leading to high prefill latency and GPU memory usage at inference time. Existing token pruning methods, designed mainly for vision-only inputs, miss both the cross-modal links between audio and video and the user query that decides wh <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。</span>
     <span class="l-en">Omnimodal large language models (OmniLLMs) are rapidly extending multimodal reasoning to cover synchronized audio and video. However, the resulting audio-video token sequences are long, leading to high prefill latency and GPU memory usage at inference time. Existing token pruning methods, designed mainly for vision-only inputs, miss both the cross-modal links between audio and video and the user query that decides wh</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2607.23445v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
