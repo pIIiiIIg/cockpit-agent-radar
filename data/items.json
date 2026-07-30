@@ -1,0 +1,1078 @@
+{
+ "generated": "2026-07-30T17:08:13.610881+08:00",
+ "items": [
+  {
+   "id": "bf76305254",
+   "kind": "news",
+   "source": "hn",
+   "title": "Ask HN: What's the current best local/open speech-to-speech setup?",
+   "url": "https://news.ycombinator.com/item?id=46731068",
+   "published": "2026-01-23",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 33,
+   "tags": [
+    "speech-to-speech",
+    "omni",
+    "realtime voice",
+    "streaming asr",
+    "streaming tts",
+    "barge-in"
+   ],
+   "summary_en": "I’m trying to do the “voice assistant” thing fully locally: mic → model → speaker, low latency, ideally streaming + interruptible (barge-in).<p>Qwen3 Omni looks perfect on paper (“real-time”, speech-to-speech, etc). But I’ve been poking around and I can’t find a single reproducible “here’s how I got the open weights doing real speech-to-speech locally” writeup. Lots of “speech in → text out” or “audio out after the m",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 265
+  },
+  {
+   "id": "950a91923f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "IRAF: Interference-Resilient Adaptive Fusion for Noise-Robust End-to-End Full-Duplex Spoken Dialogue Systems",
+   "url": "https://arxiv.org/abs/2606.06559v1",
+   "published": "2026-06-04",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 28,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "voice agent",
+    "turn-taking"
+   ],
+   "summary_en": "Full-duplex spoken dialogue models allow voice agents to listen and speak concurrently, enabling natural interaction with real-time overlap. However, end-to-end dual-channel models that jointly encode user and agent streams may degrade in realistic acoustic environments: interfering speakers leaking into the user microphone can be encoded as part of the user query, corrupting the LLM's conditioning and causing unstab",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ff66a9b753",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "BayLing-Duplex: Native Full-Duplex Speech Dialogue with a Single Autoregressive LLM",
+   "url": "https://arxiv.org/abs/2606.14528v1",
+   "published": "2026-06-12",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 26,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "omni",
+    "turn-taking",
+    "barge-in",
+    "vad"
+   ],
+   "summary_en": "Real-time, full-duplex speech interaction is a key feature of next-generation spoken chatbots, allowing the model to listen and speak at the same time and to handle natural phenomena such as overlap, hesitation, and barge-in. Existing speech language models (SpeechLMs) such as LLaMA-Omni and GLM-4-Voice are still turn-based and rely on an external Voice Activity Detection (VAD) module to mark the end of the user's tu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b58c7fb4b6",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Decoupling Conversational Dynamics in Full-Duplex Spoken Models through Reinforcement Learning",
+   "url": "https://arxiv.org/abs/2607.07148v1",
+   "published": "2026-07-08",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 24,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking",
+    "barge-in",
+    "low latency"
+   ],
+   "summary_en": "Recent full-duplex spoken dialogue models have demonstrated compelling progress toward human-like interaction, enabling agents to respond with low latency, produce backchannels, and handle user barge-ins. Yet these improvements in conversational dynamics often come with weaker reasoning and instruction-following abilities, revealing a potential tension between interactive dynamics and intelligence capability. In this",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "653ff20c8a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Multi-Faceted Interactivity Alignment in Full-Duplex Speech Models",
+   "url": "https://arxiv.org/abs/2606.11167v1",
+   "published": "2026-06-09",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 24,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking",
+    "speech model"
+   ],
+   "summary_en": "Full-duplex spoken dialogue models can listen and speak simultaneously, making them a promising architecture for natural conversation. However, current models are trained solely with supervised learning through token-level likelihood maximization, which does not directly optimize interaction-level behaviors, causing interactivity issues such as excessive silence and ill-timed turn-taking. Recent work has applied rein",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "d36cd9bda6",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Chain-of-Thought Reasoning in Streaming Full-Duplex End-to-End Spoken Dialogue Systems",
+   "url": "https://arxiv.org/abs/2510.02066v1",
+   "published": "2025-10-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 24,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking",
+    "vad"
+   ],
+   "summary_en": "Most end-to-end (E2E) spoken dialogue systems (SDS) rely on voice activity detection (VAD) for turn-taking, but VAD fails to distinguish between pauses and turn completions. Duplex SDS models address this by predicting output continuously, including silence tokens, thus removing the need for explicit VAD. However, they often have complex dual-channel architecture and lag behind cascaded models in semantic reasoning. ",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "da29dadcff",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Chronological Thinking in Full-Duplex Spoken Dialogue Language Models",
+   "url": "https://arxiv.org/abs/2510.05150v3",
+   "published": "2025-10-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 24,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "barge-in"
+   ],
+   "summary_en": "Recent advances in spoken dialogue language models (SDLMs) reflect growing interest in shifting from turn-based to full-duplex systems, where the models continuously perceive user speech streams while generating responses. This simultaneous listening and speaking design enables real-time interaction and the agent can handle dynamic conversational behaviors like user barge-in. However, during the listening phase, exis",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "32efe0aaeb",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "A Reliability Assessment of LALM Audio Judges for Full-Duplex Voice Agents",
+   "url": "https://arxiv.org/abs/2607.07985v1",
+   "published": "2026-07-08",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 23,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "voice agent"
+   ],
+   "summary_en": "We report the empirical reliability of Gemini models as audio judges that score full-duplex agent conversations directly from the raw stereo waveform, tested across three models in the Gemini family: 2.5 Flash, 3.5 Flash, and 3.1 Pro. Our primary evidence base uses Gemini 2.5 Flash as the ground-truth model, validated against three calibrated human raters on 209 stereo sessions, scored on 8 production dimensions: 152",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dc8da916f7",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Phoenix-VAD: Streaming Semantic Endpoint Detection for Full-Duplex Speech Interaction",
+   "url": "https://arxiv.org/abs/2509.20410v4",
+   "published": "2025-09-24",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 23,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "streaming inference",
+    "vad"
+   ],
+   "summary_en": "Spoken dialogue models have significantly advanced intelligent human-computer interaction, yet they lack a plug-and-play full-duplex prediction module for semantic endpoint detection, hindering seamless audio interactions. In this paper, we introduce Phoenix-VAD, an LLM-based model that enables streaming semantic endpoint detection. Specifically, Phoenix-VAD leverages the semantic comprehension capability of the LLM ",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7369317a9f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "TurnGuide: Enhancing Meaningful Full Duplex Spoken Interactions via Dynamic Turn-Level Text-Speech Interleaving",
+   "url": "https://arxiv.org/abs/2508.07375v3",
+   "published": "2025-08-10",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 23,
+   "tags": [
+    "full-duplex",
+    "full duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking"
+   ],
+   "summary_en": "Full-Duplex Speech Language Models (FD-SLMs) are specialized foundation models designed to enable natural, real-time spoken interactions by modeling complex conversational turn-taking such as interruptions, backchannels, and overlapping speech. End-to-end (e2e) FD-SLMs leverage real-world double-channel conversational data to capture nuanced two-speaker dialogue patterns for human-like interactions, but their convers",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "602fa5c48a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DuplexChat: Constructing Speaker-Separated Full-Duplex Dialogue Speech at Scale for Spoken Dialogue Language Modeling",
+   "url": "https://arxiv.org/abs/2607.04941v1",
+   "published": "2026-07-06",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 22,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking"
+   ],
+   "summary_en": "Full-duplex spoken dialogue models are trained on conversational speech in which each speaker is represented as a separate stream, but existing large-scale public speech corpora are mostly monaural, making them unsuited for SDLM training. We present DuplexChat, an open-source corpus for full-duplex spoken dialogue models, and DuplexChat-Pipe, a pipeline for constructing speaker-separated full-duplex dialogue speech f",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3327bbf388",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems",
+   "url": "https://arxiv.org/abs/2606.21970v1",
+   "published": "2026-06-20",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 22,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "low latency"
+   ],
+   "summary_en": "Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly processes the user's audio and facial input while simultaneously generating speech and facial motion. We first construct a",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8539ccbdae",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DuplexSLA: A Full-Duplex Spoken Language Model with Synchronized Speech, Language, and Action",
+   "url": "https://arxiv.org/abs/2605.20755v2",
+   "published": "2026-05-20",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 22,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking",
+    "vad"
+   ],
+   "summary_en": "Recent advances in spoken dialogue language models have shifted from turn-based to full-duplex designs, where the model continuously listens to the user while generating responses. However, existing duplex backbones still lack a native channel for in-conversation planning and tool calling, leaving real-time agentic behaviour either tied to turn boundaries or relegated to an external cascade. We propose DuplexSLA, a n",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "fd269fcd0f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "SoulX-Duplug: Plug-and-Play Streaming State Prediction Module for Realtime Full-Duplex Speech Conversation",
+   "url": "https://arxiv.org/abs/2603.14877v1",
+   "published": "2026-03-16",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 22,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "streaming asr",
+    "spoken dialogue",
+    "vad"
+   ],
+   "summary_en": "Recent advances in spoken dialogue systems have brought increased attention to human-like full-duplex voice interactions. However, our comprehensive review of this field reveals several challenges, including the difficulty in obtaining training data, catastrophic forgetting, and limited scalability. In this work, we propose SoulX-Duplug, a plug-and-play streaming state prediction module for full-duplex spoken dialogu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3c14f68c1b",
+   "kind": "news",
+   "source": "hn",
+   "title": "Why is nobody using this? Full-duplex voice streaming with Gemini Live in React",
+   "url": "https://news.ycombinator.com/item?id=46650679",
+   "published": "2026-01-16",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 22,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "real-time voice",
+    "realtime api",
+    "vad"
+   ],
+   "summary_en": "I built a React hook for real-time voice conversations with Google&#x27;s Gemini Live API and I&#x27;m confused why more people aren&#x27;t doing this.<p>Gemini Live is capable - full-duplex audio (interrupt the AI mid-sentence), screen sharing so the AI sees what you&#x27;re looking at, tool calling, built-in VAD. But using it from a browser is painful:<p>- Browser audio is 48kHz, Gemini wants 16kHz in and sends 24k",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "44a67a536b",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Enabling Conversational Behavior Reasoning Capabilities in Full-Duplex Speech",
+   "url": "https://arxiv.org/abs/2512.21706v1",
+   "published": "2025-12-25",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 20,
+   "tags": [
+    "full-duplex",
+    "full duplex",
+    "duplex",
+    "spoken dialogue",
+    "multimodal"
+   ],
+   "summary_en": "Human conversation is organized by an implicit chain of thoughts that manifests as timed speech acts. Capturing this causal pathway is key to building natural full-duplex interactive systems. We introduce a framework that enables reasoning over conversational behaviors by modeling this process as causal inference within a Graph-of-Thoughts (GoT). Our approach formalizes the intent-to-action pathway with a hierarchica",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "d5aecac7fd",
+   "kind": "repo",
+   "source": "github",
+   "title": "SuperdeMan/cockpit-agent",
+   "url": "https://github.com/SuperdeMan/cockpit-agent",
+   "published": "2026-07-30",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 20,
+   "tags": [
+    "speech-to-speech",
+    "cockpit",
+    "座舱",
+    "multimodal"
+   ],
+   "summary_en": "面向智能座舱的云边协同 AI Agent：端侧毫秒级车控，云端声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI；LLM 只负责理解与规划，VAL 负责确定性安全执行。 agent-orchestration automotive-ai cloud-edge cockpit-agent edge-ai grpc hmi in-vehicle-infotainment intelligent-cockpit large-language-models llm-agent microservices model-context-protocol multi-agent multimodal-ai observability semantic-memory speech-to-speech vehicle-control voice-assistant",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "a298114cb1",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "TurnNat: Automatic Evaluation of Turn-Taking Naturalness in Dyadic Spoken Dialogue",
+   "url": "https://arxiv.org/abs/2607.01345v2",
+   "published": "2026-07-01",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 19,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking"
+   ],
+   "summary_en": "Turn-taking naturalness is central to full-duplex spoken dialogue systems, yet its automatic evaluation remains limited. Existing evaluations often rely on human judgments or behavior-specific timing metrics, making it difficult to compare heterogeneous timing failures within a unified framework. We propose TurnNat, a likelihood-based framework for automatic turn-taking naturalness evaluation in two-channel spoken di",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f65775c8d2",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "How Should LLMs Listen While Speaking? A Study of User-Stream Routing in Full-Duplex Spoken Dialogue",
+   "url": "https://arxiv.org/abs/2605.10199v1",
+   "published": "2026-05-11",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 19,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue"
+   ],
+   "summary_en": "Full-duplex spoken dialogue requires a model to keep listening while generating its own spoken response. This is challenging for large language models (LLMs), which are designed to extend a single coherent sequence and do not naturally support user input arriving during generation. We argue that how the user stream is routed into the LLM is therefore a key architectural question for full-duplex modeling. To study thi",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "fbbb375b6a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "EchoChain: A Full-Duplex Benchmark for State-Update Reasoning Under Interruptions",
+   "url": "https://arxiv.org/abs/2604.16456v1",
+   "published": "2026-04-08",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 19,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "real-time voice",
+    "voice assistant"
+   ],
+   "summary_en": "Real-time voice assistants must revise task state when users interrupt mid-response, but existing spoken-dialog benchmarks largely evaluate turn-based interaction and miss this failure mode. We introduce EchoChain, a controlled benchmark for evaluating full-duplex state-update reasoning under mid-speech interruptions. EchoChain identifies three recurring failure patterns in post-interruption continuations: contextual",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "0483feb407",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "LMPAN: A Lightweight Multi-Path Alignment Network for Joint Full-Duplex Acoustic Echo Cancellation and Noise Suppression",
+   "url": "https://arxiv.org/abs/2607.02062v1",
+   "published": "2026-07-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 18,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "vad"
+   ],
+   "summary_en": "We propose a lightweight multi-path alignment network (LMPAN) for on-device joint acoustic echo cancellation (AEC) and noise suppression (NS) in full-duplex spoken dialogue systems. To address hardware-induced distortions and dynamic acoustic conditions, we introduce three core innovations: (1) a multi-path alignment stage correcting temporal and energy mismatches across reference, linear AEC (LAEC) output, and micro",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "0cfb27f5b9",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "A Survey of Full-Duplex Spoken Dialogue Systems: Architectural Hierarchy, Interaction Ontology, and Decision State Machine",
+   "url": "https://arxiv.org/abs/2606.19453v1",
+   "published": "2026-06-17",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 18,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue"
+   ],
+   "summary_en": "More than a dozen spoken dialogue systems have recently claimed to be \"full-duplex,\" yet the term has been used to describe substantially different capabilities. Existing surveys collapse them onto a single axis (cascaded/end-to-end, or engineered/learned) and miss the distinctions that matter most for builders. We argue that much of this ambiguity is taxonomical: current terminology does not specify where duplex dec",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2b9ce814dc",
+   "kind": "news",
+   "source": "hn",
+   "title": "Nvidia PersonaPlex 7B on Apple Silicon: Full-Duplex Speech-to-Speech in Swift",
+   "url": "https://blog.ivan.digital/nvidia-personaplex-7b-on-apple-silicon-full-duplex-speech-to-speech-in-native-swift-with-mlx-0aa5276f2e23",
+   "published": "2026-03-05",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 18,
+   "tags": [
+    "full-duplex",
+    "speech-to-speech",
+    "duplex"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 374
+  },
+  {
+   "id": "35477e429c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "VideoFDB: Evaluating Full-Duplex Vision-Speech Capabilities in Conversational Agents",
+   "url": "https://arxiv.org/abs/2605.30256v2",
+   "published": "2026-05-28",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 16,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "multimodal"
+   ],
+   "summary_en": "Natural human conversation is full-duplex and audio-visual: people simultaneously speak and listen while continuously interpreting and producing nonverbal cues, such as nods, smiles, and gestures. To support successful human-agent interaction, agents must model full-duplex audiovisual conversation; however, existing full-duplex benchmarks evaluate only speech. In this work, we present VideoFDB, the first benchmark to",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "5e1773f2f1",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "RelayS2S: A Dual-Path Speculative Generation for Real-Time Dialogue",
+   "url": "https://arxiv.org/abs/2603.23346v1",
+   "published": "2026-03-24",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 16,
+   "tags": [
+    "speech-to-speech",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking"
+   ],
+   "summary_en": "Real-time spoken dialogue systems face a fundamental tension between latency and response quality. End-to-end speech-to-speech (S2S) models respond immediately and naturally handle turn-taking, backchanneling, and interruption, but produce semantically weaker outputs. Cascaded pipelines (ASR -> LLM) deliver stronger responses at the cost of latency that grows with model size. We present RelayS2S, a hybrid architectur",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "137d033275",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Sympatheia: Emotionally Adaptive Voice Assistant with Continuous Affect Conditioning",
+   "url": "https://arxiv.org/abs/2606.00851v1",
+   "published": "2026-05-30",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 16,
+   "tags": [
+    "speech-to-speech",
+    "spoken dialogue",
+    "multimodal",
+    "voice assistant"
+   ],
+   "summary_en": "Empathetic spoken dialogue systems must infer a user's emotional state to respond appropriately, yet everyday speech often carries weak, neutral, or ambiguous affective cues. To address this, we introduce Sympatheia, a speech-to-speech dialogue framework conditioned on affect inferred from the user's speech and, when available, explicit affect specifications provided as a continuous valence--arousal (VA) control sign",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6c53ea8835",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DyaPlex: Full-Duplex Speech-Motion Model for Dyadic Interaction",
+   "url": "https://arxiv.org/abs/2606.03874v1",
+   "published": "2026-06-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 15,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "speech model"
+   ],
+   "summary_en": "We present DyaPlex, a streaming, full-duplex speech-and-motion model designed for dyadic interaction. To capture the continuous and reciprocal nature of human communication, this full-duplex capability empowers the agent to simultaneously perceive and generate both speech and physical motion in a streaming fashion. At its core, our method leverages the strong priors of a foundational full-duplex speech model and inte",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3f92468717",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "OmniInteract: Benchmarking Real-World Streaming Interaction for Real-Time Omnimodal Assistants",
+   "url": "https://arxiv.org/abs/2605.26485v1",
+   "published": "2026-05-26",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 15,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "multimodal",
+    "omnimodal"
+   ],
+   "summary_en": "We introduce OmniInteract, a streaming benchmark for real-time omnimodal large language models evaluated through native online inference over audio-visual streams. Unlike offline video understanding or text-prompted streaming QA, OmniInteract preserves the original audio-visual stream and requires models to process it online, without access to future content. User queries and ambient sounds are embedded in the audio ",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f90b0bcb1d",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "S-MARC: Causal Streaming Reasoning for Full-Duplex Conversational Behavior Modeling",
+   "url": "https://arxiv.org/abs/2602.11065v2",
+   "published": "2026-02-11",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 15,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue"
+   ],
+   "summary_en": "Human conversation is organized by an implicit chain of thought and manifests as temporally structured conversational behaviors. Capturing this perceptual pathway is critical for building natural full-duplex interactive systems. We propose S-MARC (Streaming Causal Modeling and Reasoning for Conversation), a streaming, causal, and hierarchical framework for conversational behavior modeling and reasoning. By formalizin",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "51c649aafc",
+   "kind": "repo",
+   "source": "github",
+   "title": "Ruiqi-Yan/Awesome-Full-Duplex-SDM",
+   "url": "https://github.com/Ruiqi-Yan/Awesome-Full-Duplex-SDM",
+   "published": "2026-07-30",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 15,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue"
+   ],
+   "summary_en": "A curated list of full-duplex spoken dialogue models & benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 152
+  },
+  {
+   "id": "0edff6bc67",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Audio AI had a wild day – 5 major open-source / real-time TTS drops",
+   "url": "https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma",
+   "published": "2026-01-23",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 15,
+   "tags": [
+    "full-duplex",
+    "speech-to-speech",
+    "duplex",
+    "speech model"
+   ],
+   "summary_en": "The audio&#x2F;TTS space just moved fast. In the last week alone:<p>NVIDIA – PersonaPlex-7B Open-source, full-duplex conversational speech model.<p>Inworld AI – TTS-1.5 Realtime TTS (&lt;250ms), $0.005&#x2F;min, currently #1 on Artificial Analysis.<p>Flash Labs – Chroma 1.0 First open-source, end-to-end, real-time speech-to-speech model.<p>Alibaba Qwen – Qwen3-TTS Fully open-sourced TTS family: Base, CustomVoice, Voi",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5
+  },
+  {
+   "id": "6ce556933d",
+   "kind": "repo",
+   "source": "github",
+   "title": "xcc-zach/xtalk",
+   "url": "https://github.com/xcc-zach/xtalk",
+   "published": "2026-07-30",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "full-duplex",
+    "speech-to-speech",
+    "duplex",
+    "spoken dialogue"
+   ],
+   "summary_en": "X-Talk is an open-source full-duplex cascaded spoken dialogue system framework enabling low-latency, interruptible, and human-like speech interaction with a lightweight, pure-Python, production-ready architecture. ai conversational-ai python real-time speech-to-speech voice voice-assistant websocket",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 234
+  },
+  {
+   "id": "fdc2fde8d1",
+   "kind": "repo",
+   "source": "github",
+   "title": "akirilyuk/node-webrtc-rust",
+   "url": "https://github.com/akirilyuk/node-webrtc-rust",
+   "published": "2026-07-30",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "voice agent",
+    "barge-in",
+    "text-to-speech",
+    "vad"
+   ],
+   "summary_en": "Rust-native voice agents for Node.js — WebRTC, VAD, barge-in, and speech events. Free on-device STT+TTS via Sherpa-ONNX; cloud vendors optional. Your LLM stays in TypeScript. local-ai local-first local-stt local-tts node nodejs privacy-first real-time realtime rust sherpa-onnx speech-to-text text-to-speech voice-agent webrtc",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "71e003ba90",
+   "kind": "news",
+   "source": "hn",
+   "title": "What does full duplex (voice) actually mean?",
+   "url": "https://www.frisson-labs.com/full-duplex-half-duplex",
+   "published": "2026-05-29",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "full duplex",
+    "duplex"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "77dd6732fe",
+   "kind": "news",
+   "source": "hn",
+   "title": "PersonaPlex-7B: full-duplex voice model that listens and talks at the same time",
+   "url": "https://huggingface.co/nvidia/personaplex-7b-v1",
+   "published": "2026-02-15",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 4
+  },
+  {
+   "id": "c99eed2b91",
+   "kind": "news",
+   "source": "hn",
+   "title": "Hertz-dev is an open-source model for full-duplex conversational audio",
+   "url": "https://huggingface.co/si-pbc/hertz-dev",
+   "published": "2024-11-16",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5
+  },
+  {
+   "id": "95552f3327",
+   "kind": "news",
+   "source": "hn",
+   "title": "Why speech-to-speech is the future for AI voice agents: Unpacking the AIEWF Eval",
+   "url": "https://www.ultravox.ai/blog/why-speech-to-speech-is-the-future-for-ai-voice-agents-unpacking-the-aiewf-eval",
+   "published": "2026-02-03",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "speech-to-speech",
+    "voice agent"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "995b0991d8",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Jargo, a Go port of Pipecat for building realtime voice agents",
+   "url": "https://github.com/gojargo/jargo",
+   "published": "2026-07-25",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 14,
+   "tags": [
+    "realtime voice",
+    "voice agent"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 10
+  },
+  {
+   "id": "5fceaa2ebd",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues",
+   "url": "https://arxiv.org/abs/2607.26178v1",
+   "published": "2026-07-28",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "turn-taking"
+   ],
+   "summary_en": "Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phenomena but provide little role grounding or scenario-specific norms, while heuristic or prompted synthesis methods inject",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6632215e09",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars",
+   "url": "https://arxiv.org/abs/2606.30145v1",
+   "published": "2026-06-29",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "Natural face-to-face conversation requires real-time speech generation together with synchronized facial motion. Existing systems only partially address this problem: speech-only full-duplex models can generate speech in real time but do not produce facial motion, while audio-driven facial motion models animate a face from already available audio rather than jointly generating speech and motion online. To bridge this",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e772de8f55",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Wan-Streamer v0.1: End-to-end Real-time Interactive Foundation Models",
+   "url": "https://arxiv.org/abs/2606.25041v3",
+   "published": "2026-06-23",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "multimodal",
+    "vad"
+   ],
+   "summary_en": "We present Wan-Streamer, a native-streaming, end-to-end interactive foundation model designed from the ground up for real-time, low-latency, full-duplex audio-visual interaction. Wan-Streamer seamlessly models language, audio, and video as both input and output within a single Transformer, where the sequence is represented as interleaved visual, audio, and text input tokens together with visual, audio, and text outpu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "11df86e01c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AV-Dialog: Spoken Dialogue Models with Audio-Visual Input",
+   "url": "https://arxiv.org/abs/2511.11124v1",
+   "published": "2025-11-14",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "spoken dialogue",
+    "turn-taking",
+    "multimodal"
+   ],
+   "summary_en": "Dialogue models falter in noisy, multi-speaker environments, often producing irrelevant responses and awkward turn-taking. We present AV-Dialog, the first multimodal dialog framework that uses both audio and visual cues to track the target speaker, predict turn-taking, and generate coherent responses. By combining acoustic tokenization with multi-task, multi-stage training on monadic, synthetic, and real audio-visual",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "36cf43811f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AnovaX: A Local, Multi-Agent Voice Assistant with LLM Planning, Typed Executors, and Adaptive Recovery",
+   "url": "https://arxiv.org/abs/2607.15367v1",
+   "published": "2026-07-16",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "Desktop voice assistants are still dominated by cloud pipelines that ship raw audio off the machine and expose a fixed set of skills. We describe AnovaX, a small local-first assistant that runs entirely on the user's computer and treats the desktop itself as its action surface. A single Python process wires together a wake-word gate, a speech pipeline, an LLM planner (Gemini) that emits a JSON plan of tool calls, a w",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2524767fb3",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Omni-Prune: Query-Aware Unified Token Pruning for Efficient Omnimodal Large Language Models",
+   "url": "https://arxiv.org/abs/2607.23445v1",
+   "published": "2026-07-26",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "omni",
+    "multimodal",
+    "omnimodal"
+   ],
+   "summary_en": "Omnimodal large language models (OmniLLMs) are rapidly extending multimodal reasoning to cover synchronized audio and video. However, the resulting audio-video token sequences are long, leading to high prefill latency and GPU memory usage at inference time. Existing token pruning methods, designed mainly for vision-only inputs, miss both the cross-modal links between audio and video and the user query that decides wh",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "14533da23c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Spatial-Omni: Spatial Audio Understanding Integration in Multimodal LLMs via FOA Encoding",
+   "url": "https://arxiv.org/abs/2606.10738v1",
+   "published": "2026-06-09",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 13,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Recent multimodal large language models mainly process audio as monaural signals, thereby discarding the spatial cues contained in spatial audio for sound localization, spatial relation reasoning, and spatial scene understanding. We propose Spatial-Omni, a lightweight method that implements SO-Encoder to inject First-Order Ambisonics (FOA) spatial audio into existing Omni LLMs as an independent modality, without modi",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dea7925667",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Hierarchical Acoustic-Semantic Modeling: Modality Separation and Semantic Coherence for Full-Duplex SLMs",
+   "url": "https://arxiv.org/abs/2607.06540v3",
+   "published": "2026-07-07",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which causes substantial knowledge degradation and compromises semantic integrity -- ultimately making full-duplex SLMs feel unn",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "568f96feb9",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Metronome: Bound the Cache, Keep the Beat for Real-Time Interaction Model Serving",
+   "url": "https://arxiv.org/abs/2607.02640v1",
+   "published": "2026-07-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "omni",
+    "kv cache"
+   ],
+   "summary_en": "Real-time interaction models -- Moshi, MiniCPM-o, Qwen-Omni -- turn serving into a periodic real-time task: on every frame a session ingests streaming audio and must respond by a recurring wall-clock deadline, while its KV cache grows monotonically and stays pinned for the whole conversation. This regime hides a dangerous failure mode. On a real full-duplex stack, sustained load does not degrade serving gracefully: i",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "fd2cfdf072",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Overcoming State Inertia in Full-Duplex Spoken Language Models via Activation Steering",
+   "url": "https://arxiv.org/abs/2606.11386v1",
+   "published": "2026-06-09",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "Full-duplex spoken language models (FD-SLMs) enable seamless speech interaction by allowing models to listen and speak simultaneously, yet the internal mechanism by which they coordinate listening and speaking remains underexplored. We analyze the predictive behavior encoded in FD-SLM hidden representations and find that they exhibit stream-specific predictive patterns: during listening, they preferentially predict t",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "cfbb41def0",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "FastTurn: Unifying Acoustic and Streaming Semantic Cues for Low-Latency and Robust Turn Detection",
+   "url": "https://arxiv.org/abs/2604.01897v6",
+   "published": "2026-04-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue"
+   ],
+   "summary_en": "Recent advances in AudioLLMs have enabled spoken dialogue systems to move beyond turn-based interaction toward real-time full-duplex communication, where the agent must decide when to speak, yield, or interrupt while the user is still talking. Existing full-duplex approaches either rely on voice activity cues, which lack semantic understanding, or on ASR-based modules, which introduce latency and degrade under overla",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "694f3be77a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Harness TTS: Towards Context-Aware Expressive Speech Synthesis with Harness Layer",
+   "url": "https://arxiv.org/abs/2607.17900v2",
+   "published": "2026-07-20",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "voice assistant",
+    "speech synthesis"
+   ],
+   "summary_en": "Expressive speech synthesis for voice assistants requires flexible style control that adapts to explicit requests and broader interaction context. We propose Harness TTS, a lightweight control layer that wraps around a TTS engine to externalize and govern its expressive behavior. It reformulates style control as closed-set prompt-tool routing: offline, a compact registry of stylistic prompt tools is constructed with ",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "04145c81fb",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AVSCap: Orchestrating Audio-Visual Synergy for Omni-modal Video Captioning",
+   "url": "https://arxiv.org/abs/2607.12820v1",
+   "published": "2026-07-14",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "omni",
+    "multimodal",
+    "speech recognition"
+   ],
+   "summary_en": "Omni-modal video captioning is not merely combining visual captioning with audio transcription: a useful caption must describe how visual actions, speech, music, and sound effects co-evolve. Existing large multimodal models often fail at this relational step, treating audio and visual streams as loosely coupled observations, relying on automatic speech recognition, and under-specifying non-speech sounds and their lin",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "d126e4ab7f",
+   "kind": "repo",
+   "source": "github",
+   "title": "dograh-hq/dograh",
+   "url": "https://github.com/dograh-hq/dograh",
+   "published": "2026-07-30",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "speech-to-speech",
+    "speech to speech",
+    "text-to-speech"
+   ],
+   "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5082
+  },
+  {
+   "id": "a4b6353a38",
+   "kind": "news",
+   "source": "hn",
+   "title": "VideoFDB: Evaluating Full-Duplex Vision-Speech Capabilities in Agents",
+   "url": "https://research.nvidia.com/labs/amri/projects/video-fdb",
+   "published": "2026-06-02",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 4
+  },
+  {
+   "id": "d6ef711686",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Τ³-Bench is out – can agents handle complex docs and live calls?",
+   "url": "https://news.ycombinator.com/item?id=47520448",
+   "published": "2026-03-25",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "voice agent"
+   ],
+   "summary_en": "τ-Bench is an open benchmark for evaluating AI agents on grounded, multi-turn customer service tasks with verifiable outcomes. It&#x27;s been great to see the community adopt it since launch — this is now the third iteration. With τ³-Bench, we&#x27;re extending it to two new settings: knowledge-intensive retrieval and full-duplex voice.<p>τ-Knowledge: agents must navigate ~700 interconnected policy documents to compl",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 12
+  },
+  {
+   "id": "77b5e8a946",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Production duplex speech model for revenue calls",
+   "url": "https://metavoice.io",
+   "published": "2026-07-23",
+   "found": "2026-07-30T17:08:13.610881+08:00",
+   "score": 12,
+   "tags": [
+    "duplex",
+    "speech model"
+   ],
+   "summary_en": "Hi, HN, we’re building Mia &amp; Leo: AI personalities backed by purpose-built duplex speech models for revenue calls.<p>Teams building real-world agents told us that more than 40% of callers hang up within the first 30 seconds. On a revenue call, that meant a lost booking, an unpaid balance, a cold lead, or a customer who does not come back.<p>This happens because humans interrupt, correct dates, pause halfway throu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 14
+  }
+ ]
+}

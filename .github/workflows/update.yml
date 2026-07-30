@@ -1,0 +1,36 @@
+name: radar-update
+
+on:
+  schedule:
+    # UTC 01/06/11 点 = 北京时间 9:00 / 14:00 / 19:00（Actions cron 只认 UTC）
+    - cron: '0 1,6,11 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: fetch + build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # 提高 search API 限额
+        run: |
+          python scripts/fetch_rank.py
+          python scripts/build_site.py
+      - name: commit & push
+        run: |
+          git config user.name  "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "radar: $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git push

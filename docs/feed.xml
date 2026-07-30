@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+<title>cockpit-agent-radar</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
+<description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
+<item>
+<title>Ask HN: What&#x27;s the current best local/open speech-to-speech setup?</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bf76305254.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bf76305254.html</guid>
+<description>I’m trying to do the “voice assistant” thing fully locally: mic → model → speaker, low latency, ideally streaming + interruptible (barge-in).&lt;p&gt;Qwen3 Omni looks perfect on paper (“real-time”, speech-to-speech, etc). But I’ve been poking around and I can’t find a single reproducible “here’s how I got</description>
+</item>
+<item>
+<title>IRAF: Interference-Resilient Adaptive Fusion for Noise-Robust End-to-End Full-Duplex Spoken Dialogue Systems</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/950a91923f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/950a91923f.html</guid>
+<description>Full-duplex spoken dialogue models allow voice agents to listen and speak concurrently, enabling natural interaction with real-time overlap. However, end-to-end dual-channel models that jointly encode user and agent streams may degrade in realistic acoustic environments: interfering speakers leaking</description>
+</item>
+<item>
+<title>BayLing-Duplex: Native Full-Duplex Speech Dialogue with a Single Autoregressive LLM</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ff66a9b753.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ff66a9b753.html</guid>
+<description>Real-time, full-duplex speech interaction is a key feature of next-generation spoken chatbots, allowing the model to listen and speak at the same time and to handle natural phenomena such as overlap, hesitation, and barge-in. Existing speech language models (SpeechLMs) such as LLaMA-Omni and GLM-4-V</description>
+</item>
+<item>
+<title>Decoupling Conversational Dynamics in Full-Duplex Spoken Models through Reinforcement Learning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b58c7fb4b6.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b58c7fb4b6.html</guid>
+<description>Recent full-duplex spoken dialogue models have demonstrated compelling progress toward human-like interaction, enabling agents to respond with low latency, produce backchannels, and handle user barge-ins. Yet these improvements in conversational dynamics often come with weaker reasoning and instruct</description>
+</item>
+<item>
+<title>Multi-Faceted Interactivity Alignment in Full-Duplex Speech Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/653ff20c8a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/653ff20c8a.html</guid>
+<description>Full-duplex spoken dialogue models can listen and speak simultaneously, making them a promising architecture for natural conversation. However, current models are trained solely with supervised learning through token-level likelihood maximization, which does not directly optimize interaction-level b</description>
+</item>
+<item>
+<title>Chain-of-Thought Reasoning in Streaming Full-Duplex End-to-End Spoken Dialogue Systems</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d36cd9bda6.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d36cd9bda6.html</guid>
+<description>Most end-to-end (E2E) spoken dialogue systems (SDS) rely on voice activity detection (VAD) for turn-taking, but VAD fails to distinguish between pauses and turn completions. Duplex SDS models address this by predicting output continuously, including silence tokens, thus removing the need for explici</description>
+</item>
+<item>
+<title>Chronological Thinking in Full-Duplex Spoken Dialogue Language Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/da29dadcff.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/da29dadcff.html</guid>
+<description>Recent advances in spoken dialogue language models (SDLMs) reflect growing interest in shifting from turn-based to full-duplex systems, where the models continuously perceive user speech streams while generating responses. This simultaneous listening and speaking design enables real-time interaction</description>
+</item>
+<item>
+<title>A Reliability Assessment of LALM Audio Judges for Full-Duplex Voice Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/32efe0aaeb.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/32efe0aaeb.html</guid>
+<description>We report the empirical reliability of Gemini models as audio judges that score full-duplex agent conversations directly from the raw stereo waveform, tested across three models in the Gemini family: 2.5 Flash, 3.5 Flash, and 3.1 Pro. Our primary evidence base uses Gemini 2.5 Flash as the ground-tru</description>
+</item>
+<item>
+<title>Phoenix-VAD: Streaming Semantic Endpoint Detection for Full-Duplex Speech Interaction</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dc8da916f7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dc8da916f7.html</guid>
+<description>Spoken dialogue models have significantly advanced intelligent human-computer interaction, yet they lack a plug-and-play full-duplex prediction module for semantic endpoint detection, hindering seamless audio interactions. In this paper, we introduce Phoenix-VAD, an LLM-based model that enables stre</description>
+</item>
+<item>
+<title>TurnGuide: Enhancing Meaningful Full Duplex Spoken Interactions via Dynamic Turn-Level Text-Speech Interleaving</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7369317a9f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7369317a9f.html</guid>
+<description>Full-Duplex Speech Language Models (FD-SLMs) are specialized foundation models designed to enable natural, real-time spoken interactions by modeling complex conversational turn-taking such as interruptions, backchannels, and overlapping speech. End-to-end (e2e) FD-SLMs leverage real-world double-cha</description>
+</item>
+<item>
+<title>DuplexChat: Constructing Speaker-Separated Full-Duplex Dialogue Speech at Scale for Spoken Dialogue Language Modeling</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/602fa5c48a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/602fa5c48a.html</guid>
+<description>Full-duplex spoken dialogue models are trained on conversational speech in which each speaker is represented as a separate stream, but existing large-scale public speech corpora are mostly monaural, making them unsuited for SDLM training. We present DuplexChat, an open-source corpus for full-duplex </description>
+</item>
+<item>
+<title>Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3327bbf388.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3327bbf388.html</guid>
+<description>Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly pr</description>
+</item>
+<item>
+<title>DuplexSLA: A Full-Duplex Spoken Language Model with Synchronized Speech, Language, and Action</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8539ccbdae.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8539ccbdae.html</guid>
+<description>Recent advances in spoken dialogue language models have shifted from turn-based to full-duplex designs, where the model continuously listens to the user while generating responses. However, existing duplex backbones still lack a native channel for in-conversation planning and tool calling, leaving r</description>
+</item>
+<item>
+<title>SoulX-Duplug: Plug-and-Play Streaming State Prediction Module for Realtime Full-Duplex Speech Conversation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fd269fcd0f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fd269fcd0f.html</guid>
+<description>Recent advances in spoken dialogue systems have brought increased attention to human-like full-duplex voice interactions. However, our comprehensive review of this field reveals several challenges, including the difficulty in obtaining training data, catastrophic forgetting, and limited scalability.</description>
+</item>
+<item>
+<title>Why is nobody using this? Full-duplex voice streaming with Gemini Live in React</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3c14f68c1b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3c14f68c1b.html</guid>
+<description>I built a React hook for real-time voice conversations with Google&amp;#x27;s Gemini Live API and I&amp;#x27;m confused why more people aren&amp;#x27;t doing this.&lt;p&gt;Gemini Live is capable - full-duplex audio (interrupt the AI mid-sentence), screen sharing so the AI sees what you&amp;#x27;re looking at, tool callin</description>
+</item>
+<item>
+<title>Enabling Conversational Behavior Reasoning Capabilities in Full-Duplex Speech</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/44a67a536b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/44a67a536b.html</guid>
+<description>Human conversation is organized by an implicit chain of thoughts that manifests as timed speech acts. Capturing this causal pathway is key to building natural full-duplex interactive systems. We introduce a framework that enables reasoning over conversational behaviors by modeling this process as ca</description>
+</item>
+<item>
+<title>SuperdeMan/cockpit-agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d5aecac7fd.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d5aecac7fd.html</guid>
+<description>面向智能座舱的云边协同 AI Agent：端侧毫秒级车控，云端声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI；LLM 只负责理解与规划，VAL 负责确定性安全执行。 agent-orchestration automotive-ai cloud-edge cockpit-agent edge-ai grpc hmi in-vehicle-infotainment intelligent-cockpit large-language-models llm-agent microservices model-context-prot</description>
+</item>
+<item>
+<title>TurnNat: Automatic Evaluation of Turn-Taking Naturalness in Dyadic Spoken Dialogue</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a298114cb1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a298114cb1.html</guid>
+<description>Turn-taking naturalness is central to full-duplex spoken dialogue systems, yet its automatic evaluation remains limited. Existing evaluations often rely on human judgments or behavior-specific timing metrics, making it difficult to compare heterogeneous timing failures within a unified framework. We</description>
+</item>
+<item>
+<title>How Should LLMs Listen While Speaking? A Study of User-Stream Routing in Full-Duplex Spoken Dialogue</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f65775c8d2.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f65775c8d2.html</guid>
+<description>Full-duplex spoken dialogue requires a model to keep listening while generating its own spoken response. This is challenging for large language models (LLMs), which are designed to extend a single coherent sequence and do not naturally support user input arriving during generation. We argue that how</description>
+</item>
+<item>
+<title>EchoChain: A Full-Duplex Benchmark for State-Update Reasoning Under Interruptions</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fbbb375b6a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fbbb375b6a.html</guid>
+<description>Real-time voice assistants must revise task state when users interrupt mid-response, but existing spoken-dialog benchmarks largely evaluate turn-based interaction and miss this failure mode. We introduce EchoChain, a controlled benchmark for evaluating full-duplex state-update reasoning under mid-sp</description>
+</item>
+<item>
+<title>LMPAN: A Lightweight Multi-Path Alignment Network for Joint Full-Duplex Acoustic Echo Cancellation and Noise Suppression</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0483feb407.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0483feb407.html</guid>
+<description>We propose a lightweight multi-path alignment network (LMPAN) for on-device joint acoustic echo cancellation (AEC) and noise suppression (NS) in full-duplex spoken dialogue systems. To address hardware-induced distortions and dynamic acoustic conditions, we introduce three core innovations: (1) a mu</description>
+</item>
+<item>
+<title>A Survey of Full-Duplex Spoken Dialogue Systems: Architectural Hierarchy, Interaction Ontology, and Decision State Machine</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0cfb27f5b9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0cfb27f5b9.html</guid>
+<description>More than a dozen spoken dialogue systems have recently claimed to be &quot;full-duplex,&quot; yet the term has been used to describe substantially different capabilities. Existing surveys collapse them onto a single axis (cascaded/end-to-end, or engineered/learned) and miss the distinctions that matter most </description>
+</item>
+<item>
+<title>Nvidia PersonaPlex 7B on Apple Silicon: Full-Duplex Speech-to-Speech in Swift</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2b9ce814dc.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2b9ce814dc.html</guid>
+<description></description>
+</item>
+<item>
+<title>VideoFDB: Evaluating Full-Duplex Vision-Speech Capabilities in Conversational Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/35477e429c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/35477e429c.html</guid>
+<description>Natural human conversation is full-duplex and audio-visual: people simultaneously speak and listen while continuously interpreting and producing nonverbal cues, such as nods, smiles, and gestures. To support successful human-agent interaction, agents must model full-duplex audiovisual conversation; </description>
+</item>
+<item>
+<title>RelayS2S: A Dual-Path Speculative Generation for Real-Time Dialogue</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5e1773f2f1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5e1773f2f1.html</guid>
+<description>Real-time spoken dialogue systems face a fundamental tension between latency and response quality. End-to-end speech-to-speech (S2S) models respond immediately and naturally handle turn-taking, backchanneling, and interruption, but produce semantically weaker outputs. Cascaded pipelines (ASR -&gt; LLM)</description>
+</item>
+<item>
+<title>Sympatheia: Emotionally Adaptive Voice Assistant with Continuous Affect Conditioning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/137d033275.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/137d033275.html</guid>
+<description>Empathetic spoken dialogue systems must infer a user&#x27;s emotional state to respond appropriately, yet everyday speech often carries weak, neutral, or ambiguous affective cues. To address this, we introduce Sympatheia, a speech-to-speech dialogue framework conditioned on affect inferred from the user&#x27;</description>
+</item>
+<item>
+<title>DyaPlex: Full-Duplex Speech-Motion Model for Dyadic Interaction</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6c53ea8835.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6c53ea8835.html</guid>
+<description>We present DyaPlex, a streaming, full-duplex speech-and-motion model designed for dyadic interaction. To capture the continuous and reciprocal nature of human communication, this full-duplex capability empowers the agent to simultaneously perceive and generate both speech and physical motion in a st</description>
+</item>
+<item>
+<title>OmniInteract: Benchmarking Real-World Streaming Interaction for Real-Time Omnimodal Assistants</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3f92468717.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3f92468717.html</guid>
+<description>We introduce OmniInteract, a streaming benchmark for real-time omnimodal large language models evaluated through native online inference over audio-visual streams. Unlike offline video understanding or text-prompted streaming QA, OmniInteract preserves the original audio-visual stream and requires m</description>
+</item>
+<item>
+<title>S-MARC: Causal Streaming Reasoning for Full-Duplex Conversational Behavior Modeling</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f90b0bcb1d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f90b0bcb1d.html</guid>
+<description>Human conversation is organized by an implicit chain of thought and manifests as temporally structured conversational behaviors. Capturing this perceptual pathway is critical for building natural full-duplex interactive systems. We propose S-MARC (Streaming Causal Modeling and Reasoning for Conversa</description>
+</item>
+<item>
+<title>Ruiqi-Yan/Awesome-Full-Duplex-SDM</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/51c649aafc.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/51c649aafc.html</guid>
+<description>A curated list of full-duplex spoken dialogue models &amp; benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems</description>
+</item>
+<item>
+<title>Show HN: Audio AI had a wild day – 5 major open-source / real-time TTS drops</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0edff6bc67.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0edff6bc67.html</guid>
+<description>The audio&amp;#x2F;TTS space just moved fast. In the last week alone:&lt;p&gt;NVIDIA – PersonaPlex-7B Open-source, full-duplex conversational speech model.&lt;p&gt;Inworld AI – TTS-1.5 Realtime TTS (&amp;lt;250ms), $0.005&amp;#x2F;min, currently #1 on Artificial Analysis.&lt;p&gt;Flash Labs – Chroma 1.0 First open-source, end-to</description>
+</item>
+<item>
+<title>xcc-zach/xtalk</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6ce556933d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6ce556933d.html</guid>
+<description>X-Talk is an open-source full-duplex cascaded spoken dialogue system framework enabling low-latency, interruptible, and human-like speech interaction with a lightweight, pure-Python, production-ready architecture. ai conversational-ai python real-time speech-to-speech voice voice-assistant websocket</description>
+</item>
+<item>
+<title>akirilyuk/node-webrtc-rust</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fdc2fde8d1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fdc2fde8d1.html</guid>
+<description>Rust-native voice agents for Node.js — WebRTC, VAD, barge-in, and speech events. Free on-device STT+TTS via Sherpa-ONNX; cloud vendors optional. Your LLM stays in TypeScript. local-ai local-first local-stt local-tts node nodejs privacy-first real-time realtime rust sherpa-onnx speech-to-text text-to</description>
+</item>
+<item>
+<title>What does full duplex (voice) actually mean?</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/71e003ba90.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/71e003ba90.html</guid>
+<description></description>
+</item>
+<item>
+<title>PersonaPlex-7B: full-duplex voice model that listens and talks at the same time</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/77dd6732fe.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/77dd6732fe.html</guid>
+<description></description>
+</item>
+<item>
+<title>Hertz-dev is an open-source model for full-duplex conversational audio</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c99eed2b91.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c99eed2b91.html</guid>
+<description></description>
+</item>
+<item>
+<title>Why speech-to-speech is the future for AI voice agents: Unpacking the AIEWF Eval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/95552f3327.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/95552f3327.html</guid>
+<description></description>
+</item>
+<item>
+<title>Show HN: Jargo, a Go port of Pipecat for building realtime voice agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/995b0991d8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/995b0991d8.html</guid>
+<description></description>
+</item>
+<item>
+<title>DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5fceaa2ebd.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5fceaa2ebd.html</guid>
+<description>Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phen</description>
+</item>
+<item>
+<title>FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6632215e09.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6632215e09.html</guid>
+<description>Natural face-to-face conversation requires real-time speech generation together with synchronized facial motion. Existing systems only partially address this problem: speech-only full-duplex models can generate speech in real time but do not produce facial motion, while audio-driven facial motion mo</description>
+</item>
+</channel></rss>
