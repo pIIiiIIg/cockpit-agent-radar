@@ -66,6 +66,11 @@ h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
 .sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
 .tags { margin-top:6px; } .tags .badge { margin-right:5px; }
 .demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
 [data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
 .item-page .sum-block { background:var(--card); border:1px solid var(--line);
         border-radius:10px; padding:14px 16px; margin:14px 0; }
@@ -177,6 +182,33 @@ def item_page(it):
     return shell(it["title"], body)
 
 
+def datebar(cur, dates):
+    """日期选择器 + 前后翻页。dates 为有内容的日期(降序)；选到没内容的日期给提示。"""
+    i = dates.index(cur) if cur in dates else 0
+    older = dates[i + 1] if i + 1 < len(dates) else None    # 更早的一天
+    newer = dates[i - 1] if i > 0 else None                 # 更近的一天
+    def nav(d, arrow, zh_t, en_t):
+        if not d:
+            return f'<span class="btn off">{arrow}</span>'
+        return (f'<a class="btn" href="{BASE}/days/{d}.html" '
+                f'title="{zh_t} {d}">{arrow}</a>')
+    return f"""
+<div class="datebar">
+  {nav(older, "◀", "前一天", "prev")}
+  <input type="date" id="dp" value="{cur}" min="{dates[-1]}" max="{dates[0]}">
+  {nav(newer, "▶", "后一天", "next")}
+  <span style="color:var(--dim);font-size:12.5px">{pair("选日期看当天内容", "pick a date")}</span>
+</div>
+<script>
+var DATES = new Set({json.dumps(dates)});
+document.getElementById("dp").onchange = function () {{
+  if (DATES.has(this.value)) location.href = "{BASE}/days/" + this.value + ".html";
+  else {{ this.style.borderColor = "#e0a23f";
+         this.title = "该日期无内容 / no items on that day"; }}
+}};
+</script>"""
+
+
 def rss(items):
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<rss version="2.0"><channel>',
@@ -203,11 +235,22 @@ def main():
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
 
-    # 首页：按发现日期分组，最近 6 天
+    # 按发现日期分组；首页放最近 6 天，每天另出独立子页 days/<date>.html
     by_day = {}
     for it in items:
         by_day.setdefault(it["found"][:10], []).append(it)
-    days = sorted(by_day, reverse=True)[:6]
+    all_days = sorted(by_day, reverse=True)
+    days = all_days[:6]
+    os.makedirs(os.path.join(DOCS, "days"), exist_ok=True)
+    for d in all_days:
+        rows = sorted(by_day[d], key=lambda x: -x["score"])
+        body = (datebar(d, all_days)
+                + f'<h2 class="day">{d} · {len(rows)} ' + pair("条", "items") + "</h2>"
+                + "\n".join(card(it) for it in rows)
+                + f'<p style="margin-top:18px"><a class="btn" href="{BASE}/">'
+                + pair("← 最新", "← latest") + "</a></p>")
+        open(os.path.join(DOCS, "days", d + ".html"), "w", encoding="utf-8").write(
+            shell(f"{d} · cockpit-agent-radar", body))
     parts = ['<p style="margin:14px 0 0">'
              + pair("盯着：全双工语音、流式多模态模型、agent harness、座舱助手。"
                     "自动抓取 arXiv / GitHub / HuggingFace / HackerNews。",
@@ -221,6 +264,7 @@ def main():
                      + pair("▶ 什么是全双工语音助手？（交互演示）",
                             "▶ What is a full-duplex voice assistant? (interactive)")
                      + "</a></p>")
+    parts.append(datebar(all_days[0], all_days))
     for d in days:
         rows = sorted(by_day[d], key=lambda x: -x["score"])
         parts.append(f'<h2 class="day">{d} · {len(rows)} '

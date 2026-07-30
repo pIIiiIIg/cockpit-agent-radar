@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-30T17:17:41.504804+08:00",
+ "generated": "2026-07-30T17:08:13.610881+08:00",
  "items": [
   {
    "id": "bf76305254",
@@ -186,7 +186,7 @@
     "vad"
    ],
    "summary_en": "Spoken dialogue models have significantly advanced intelligent human-computer interaction, yet they lack a plug-and-play full-duplex prediction module for semantic endpoint detection, hindering seamless audio interactions. In this paper, we introduce Phoenix-VAD, an LLM-based model that enables streaming semantic endpoint detection. Specifically, Phoenix-VAD leverages the semantic comprehension capability of the LLM ",
-   "summary_zh": "",
+   "summary_zh": "Phoenix-VAD 是一个基于 LLM 的流式语义端点检测模型，为全双工语音交互提供即插即用的“用户是否说完”判定模块。对本站的座舱助手直接有用：harness 里边说边听时最痛的难点就是语义级 endpoint/抢话判定，可以借鉴其把 LLM 语义理解能力用于流式 VAD 的思路，替代纯声学 VAD。",
    "demo": "",
    "stars": null
   },
@@ -207,7 +207,7 @@
     "turn-taking"
    ],
    "summary_en": "Full-Duplex Speech Language Models (FD-SLMs) are specialized foundation models designed to enable natural, real-time spoken interactions by modeling complex conversational turn-taking such as interruptions, backchannels, and overlapping speech. End-to-end (e2e) FD-SLMs leverage real-world double-channel conversational data to capture nuanced two-speaker dialogue patterns for human-like interactions, but their convers",
-   "summary_zh": "",
+   "summary_zh": "TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。",
    "demo": "",
    "stars": null
   },
@@ -227,7 +227,7 @@
     "turn-taking"
    ],
    "summary_en": "Full-duplex spoken dialogue models are trained on conversational speech in which each speaker is represented as a separate stream, but existing large-scale public speech corpora are mostly monaural, making them unsuited for SDLM training. We present DuplexChat, an open-source corpus for full-duplex spoken dialogue models, and DuplexChat-Pipe, a pipeline for constructing speaker-separated full-duplex dialogue speech f",
-   "summary_zh": "",
+   "summary_zh": "DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。",
    "demo": "",
    "stars": null
   },
@@ -247,7 +247,7 @@
     "low latency"
    ],
    "summary_en": "Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly processes the user's audio and facial input while simultaneously generating speech and facial motion. We first construct a",
-   "summary_zh": "",
+   "summary_zh": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。",
    "demo": "",
    "stars": null
   },
@@ -268,7 +268,7 @@
     "vad"
    ],
    "summary_en": "Recent advances in spoken dialogue language models have shifted from turn-based to full-duplex designs, where the model continuously listens to the user while generating responses. However, existing duplex backbones still lack a native channel for in-conversation planning and tool calling, leaving real-time agentic behaviour either tied to turn boundaries or relegated to an external cascade. We propose DuplexSLA, a n",
-   "summary_zh": "",
+   "summary_zh": "DuplexSLA 提出语音、语言、动作三者同步的全双工口语模型，在双工主干内原生开辟了一条用于对话中规划和工具调用的通道，使 agentic 行为不再被绑在轮次边界或外部级联上。这正是本站“晚注入工具清单”痛点的正面回应：可借鉴其在流式生成中途插入工具调用而不打断听说的设计。",
    "demo": "",
    "stars": null
   },
@@ -289,7 +289,7 @@
     "vad"
    ],
    "summary_en": "Recent advances in spoken dialogue systems have brought increased attention to human-like full-duplex voice interactions. However, our comprehensive review of this field reveals several challenges, including the difficulty in obtaining training data, catastrophic forgetting, and limited scalability. In this work, we propose SoulX-Duplug, a plug-and-play streaming state prediction module for full-duplex spoken dialogu",
-   "summary_zh": "",
+   "summary_zh": "SoulX-Duplug 是一个即插即用的流式状态预测模块，为现有语音对话系统补齐全双工能力，同时规避了训练数据难获取、灾难性遗忘和可扩展性差的问题。其“不重训主干、外挂模块实现双工”的路线与本站自研 harness 的哲学高度一致，值得重点跟进。",
    "demo": "",
    "stars": null
   },
@@ -310,7 +310,7 @@
     "vad"
    ],
    "summary_en": "I built a React hook for real-time voice conversations with Google&#x27;s Gemini Live API and I&#x27;m confused why more people aren&#x27;t doing this.<p>Gemini Live is capable - full-duplex audio (interrupt the AI mid-sentence), screen sharing so the AI sees what you&#x27;re looking at, tool calling, built-in VAD. But using it from a browser is painful:<p>- Browser audio is 48kHz, Gemini wants 16kHz in and sends 24k",
-   "summary_zh": "",
+   "summary_zh": "这是一篇工程向分享：作者封装了调用 Gemini Live API 的 React hook，实现可打断的全双工语音对话，并吐槽浏览器侧音频工程之坑（48kHz 重采样到 16kHz 入/24kHz 出、内置 VAD、屏幕共享、工具调用）。对本站座舱 harness 的客户端/音频链路有直接参考价值，尤其是重采样与打断处理的实战细节。",
    "demo": "",
    "stars": 3
   },
@@ -331,7 +331,7 @@
     "multimodal"
    ],
    "summary_en": "Human conversation is organized by an implicit chain of thoughts that manifests as timed speech acts. Capturing this causal pathway is key to building natural full-duplex interactive systems. We introduce a framework that enables reasoning over conversational behaviors by modeling this process as causal inference within a Graph-of-Thoughts (GoT). Our approach formalizes the intent-to-action pathway with a hierarchica",
-   "summary_zh": "",
+   "summary_zh": "该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。",
    "demo": "",
    "stars": null
   },
@@ -351,7 +351,7 @@
     "multimodal"
    ],
    "summary_en": "面向智能座舱的云边协同 AI Agent：端侧毫秒级车控，云端声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI；LLM 只负责理解与规划，VAL 负责确定性安全执行。 agent-orchestration automotive-ai cloud-edge cockpit-agent edge-ai grpc hmi in-vehicle-infotainment intelligent-cockpit large-language-models llm-agent microservices model-context-protocol multi-agent multimodal-ai observability semantic-memory speech-to-speech vehicle-control voice-assistant",
-   "summary_zh": "",
+   "summary_zh": "一个面向智能座舱的云边协同 AI Agent 开源项目：端侧负责毫秒级车控，云端做声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI。其'LLM 只管理解与规划、VAL 负责确定性安全执行'的分层思路，与本站 harness 的架构理念高度同构，可作为座舱语音助手工程化（尤其车控安全边界与云边分工）的直接参照。",
    "demo": "",
    "stars": 9
   },
@@ -371,7 +371,7 @@
     "turn-taking"
    ],
    "summary_en": "Turn-taking naturalness is central to full-duplex spoken dialogue systems, yet its automatic evaluation remains limited. Existing evaluations often rely on human judgments or behavior-specific timing metrics, making it difficult to compare heterogeneous timing failures within a unified framework. We propose TurnNat, a likelihood-based framework for automatic turn-taking naturalness evaluation in two-channel spoken di",
-   "summary_zh": "",
+   "summary_zh": "TurnNat 提出一个基于似然（likelihood）的框架，用于自动评估双通道口语对话中轮换（turn-taking）的自然度，把原本依赖人工判断或单一计时指标的异质时序失败统一到一个可比较的体系里。对本站的全双工座舱助手而言，它补上了'边说边听'体验难量化的一环，可用来自动评测抢话、响应延迟、打断时机等关键指标。",
    "demo": "",
    "stars": null
   },
@@ -390,7 +390,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Full-duplex spoken dialogue requires a model to keep listening while generating its own spoken response. This is challenging for large language models (LLMs), which are designed to extend a single coherent sequence and do not naturally support user input arriving during generation. We argue that how the user stream is routed into the LLM is therefore a key architectural question for full-duplex modeling. To study thi",
-   "summary_zh": "",
+   "summary_zh": "这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。它直指本站'边说边听、流式进 KV'的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。",
    "demo": "",
    "stars": null
   },
@@ -410,7 +410,7 @@
     "voice assistant"
    ],
    "summary_en": "Real-time voice assistants must revise task state when users interrupt mid-response, but existing spoken-dialog benchmarks largely evaluate turn-based interaction and miss this failure mode. We introduce EchoChain, a controlled benchmark for evaluating full-duplex state-update reasoning under mid-speech interruptions. EchoChain identifies three recurring failure patterns in post-interruption continuations: contextual",
-   "summary_zh": "",
+   "summary_zh": "EchoChain 是一个受控基准，专门评估全双工语音助手在用户中途打断后能否正确更新任务状态并继续对话，并归纳出打断后续回复中的三类典型失败模式。它命中现有轮次式评测覆盖不到的盲区，可作为本站座舱助手打断恢复（barge-in 后状态修正）能力的回归测试与选型依据。",
    "demo": "",
    "stars": null
   },
@@ -606,7 +606,7 @@
    "summary_en": "A curated list of full-duplex spoken dialogue models & benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems",
    "summary_zh": "",
    "demo": "",
-   "stars": 153
+   "stars": 152
   },
   {
    "id": "0edff6bc67",

@@ -38,6 +38,11 @@ h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
 .sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
 .tags { margin-top:6px; } .tags .badge { margin-right:5px; }
 .demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
 [data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
 .item-page .sum-block { background:var(--card); border:1px solid var(--line);
         border-radius:10px; padding:14px 16px; margin:14px 0; }

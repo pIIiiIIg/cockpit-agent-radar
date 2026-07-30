@@ -38,6 +38,11 @@ h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
 .sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
 .tags { margin-top:6px; } .tags .badge { margin-right:5px; }
 .demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
 [data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
 .item-page .sum-block { background:var(--card); border:1px solid var(--line);
         border-radius:10px; padding:14px 16px; margin:14px 0; }
@@ -75,7 +80,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-03-16 · ◈ 22
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Recent advances in spoken dialogue systems have brought increased attention to human-like full-duplex voice interactions. However, our comprehensive review of this field reveals several challenges, including the difficulty in obtaining training data, catastrophic forgetting, and limited scalability. In this work, we propose SoulX-Duplug, a plug-and-play streaming state prediction module for full-duplex spoken dialogu <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">SoulX-Duplug 是一个即插即用的流式状态预测模块，为现有语音对话系统补齐全双工能力，同时规避了训练数据难获取、灾难性遗忘和可扩展性差的问题。其“不重训主干、外挂模块实现双工”的路线与本站自研 harness 的哲学高度一致，值得重点跟进。</span>
     <span class="l-en">Recent advances in spoken dialogue systems have brought increased attention to human-like full-duplex voice interactions. However, our comprehensive review of this field reveals several challenges, including the difficulty in obtaining training data, catastrophic forgetting, and limited scalability. In this work, we propose SoulX-Duplug, a plug-and-play streaming state prediction module for full-duplex spoken dialogu</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2603.14877v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>

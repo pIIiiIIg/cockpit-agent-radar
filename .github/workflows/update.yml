@@ -21,11 +21,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: fetch + build
+      - name: fetch + enhance + build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # 提高 search API 限额
+          MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}   # Kimi 中文摘要（缺失则自动跳过）
         run: |
           python scripts/fetch_rank.py
+          python scripts/enhance_kimi.py
           python scripts/build_site.py
       - name: commit & push
         run: |

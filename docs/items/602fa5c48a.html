@@ -38,6 +38,11 @@ h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
 .sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
 .tags { margin-top:6px; } .tags .badge { margin-right:5px; }
 .demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
 [data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
 .item-page .sum-block { background:var(--card); border:1px solid var(--line);
         border-radius:10px; padding:14px 16px; margin:14px 0; }
@@ -75,7 +80,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-06 · ◈ 22
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Full-duplex spoken dialogue models are trained on conversational speech in which each speaker is represented as a separate stream, but existing large-scale public speech corpora are mostly monaural, making them unsuited for SDLM training. We present DuplexChat, an open-source corpus for full-duplex spoken dialogue models, and DuplexChat-Pipe, a pipeline for constructing speaker-separated full-duplex dialogue speech f <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。</span>
     <span class="l-en">Full-duplex spoken dialogue models are trained on conversational speech in which each speaker is represented as a separate stream, but existing large-scale public speech corpora are mostly monaural, making them unsuited for SDLM training. We present DuplexChat, an open-source corpus for full-duplex spoken dialogue models, and DuplexChat-Pipe, a pipeline for constructing speaker-separated full-duplex dialogue speech f</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2607.04941v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
