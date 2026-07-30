@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-30T17:08:13.610881+08:00",
+ "generated": "2026-07-30T17:17:41.504804+08:00",
  "items": [
   {
    "id": "bf76305254",
@@ -606,7 +606,7 @@
    "summary_en": "A curated list of full-duplex spoken dialogue models & benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems",
    "summary_zh": "",
    "demo": "",
-   "stars": 152
+   "stars": 153
   },
   {
    "id": "0edff6bc67",
