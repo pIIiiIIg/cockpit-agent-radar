@@ -80,7 +80,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-03-24 · ◈ 16
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Real-time spoken dialogue systems face a fundamental tension between latency and response quality. End-to-end speech-to-speech (S2S) models respond immediately and naturally handle turn-taking, backchanneling, and interruption, but produce semantically weaker outputs. Cascaded pipelines (ASR -&gt; LLM) deliver stronger responses at the cost of latency that grows with model size. We present RelayS2S, a hybrid architectur <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">RelayS2S 针对实时对话中&#x27;低延迟&#x27;与&#x27;高质量&#x27;的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。对我们&#x27;Omni 模型+外挂 TTS&#x27;的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。</span>
     <span class="l-en">Real-time spoken dialogue systems face a fundamental tension between latency and response quality. End-to-end speech-to-speech (S2S) models respond immediately and naturally handle turn-taking, backchanneling, and interruption, but produce semantically weaker outputs. Cascaded pipelines (ASR -&gt; LLM) deliver stronger responses at the cost of latency that grows with model size. We present RelayS2S, a hybrid architectur</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2603.23346v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>

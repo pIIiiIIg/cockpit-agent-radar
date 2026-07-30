@@ -80,7 +80,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-06-12 · ◈ 26
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Real-time, full-duplex speech interaction is a key feature of next-generation spoken chatbots, allowing the model to listen and speak at the same time and to handle natural phenomena such as overlap, hesitation, and barge-in. Existing speech language models (SpeechLMs) such as LLaMA-Omni and GLM-4-Voice are still turn-based and rely on an external Voice Activity Detection (VAD) module to mark the end of the user&#x27;s tu <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">BayLing-Duplex 用单个自回归 LLM 实现原生全双工语音对话，摆脱 LLaMA-Omni、GLM-4-Voice 等轮次式方案对外部 VAD 判断用户话轮结束的依赖，原生处理重叠、犹豫与 barge-in。单模型架构与站内&quot;流式进 KV、边说边听&quot;的 harness 设计高度同构，是验证单模型路线可行性与去 VAD 化的重要参照。</span>
     <span class="l-en">Real-time, full-duplex speech interaction is a key feature of next-generation spoken chatbots, allowing the model to listen and speak at the same time and to handle natural phenomena such as overlap, hesitation, and barge-in. Existing speech language models (SpeechLMs) such as LLaMA-Omni and GLM-4-Voice are still turn-based and rely on an external Voice Activity Detection (VAD) module to mark the end of the user&#x27;s tu</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2606.14528v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>

@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-30T17:08:13.610881+08:00",
+ "generated": "2026-07-30T17:48:49.653095+08:00",
  "items": [
   {
    "id": "bf76305254",
@@ -19,7 +19,7 @@
     "barge-in"
    ],
    "summary_en": "I’m trying to do the “voice assistant” thing fully locally: mic → model → speaker, low latency, ideally streaming + interruptible (barge-in).<p>Qwen3 Omni looks perfect on paper (“real-time”, speech-to-speech, etc). But I’ve been poking around and I can’t find a single reproducible “here’s how I got the open weights doing real speech-to-speech locally” writeup. Lots of “speech in → text out” or “audio out after the m",
-   "summary_zh": "",
+   "summary_zh": "HN 社区讨论帖：发问者想纯本地实现低延迟、可流式、可打断(barge-in)的语音助手(mic→模型→speaker)，发现 Qwen3 Omni 纸面参数完美却找不到任何可复现的开放权重 speech-to-speech 落地方案。这恰好印证了本站项目的价值所在——开源模型与真正可用的全双工本地部署之间存在巨大工程鸿沟，正是自研 harness 要填的坑；帖中社区反馈也可作为选型与排雷参考。",
    "demo": "",
    "stars": 265
   },
@@ -40,7 +40,7 @@
     "turn-taking"
    ],
    "summary_en": "Full-duplex spoken dialogue models allow voice agents to listen and speak concurrently, enabling natural interaction with real-time overlap. However, end-to-end dual-channel models that jointly encode user and agent streams may degrade in realistic acoustic environments: interfering speakers leaking into the user microphone can be encoded as part of the user query, corrupting the LLM's conditioning and causing unstab",
-   "summary_zh": "",
+   "summary_zh": "IRAF 提出一种抗干扰自适应融合机制，解决端到端全双工对话模型在真实声学环境下的退化问题：干扰说话人声音漏入用户麦克风会被编码进用户query，污染 LLM 条件导致输出不稳。对座舱场景直接对口——车内乘客交谈、媒体声正是最典型的干扰源，其双通道融合与抗干扰思路可借鉴到流式 KV 注入的前端处理中。",
    "demo": "",
    "stars": null
   },
@@ -62,7 +62,7 @@
     "vad"
    ],
    "summary_en": "Real-time, full-duplex speech interaction is a key feature of next-generation spoken chatbots, allowing the model to listen and speak at the same time and to handle natural phenomena such as overlap, hesitation, and barge-in. Existing speech language models (SpeechLMs) such as LLaMA-Omni and GLM-4-Voice are still turn-based and rely on an external Voice Activity Detection (VAD) module to mark the end of the user's tu",
-   "summary_zh": "",
+   "summary_zh": "BayLing-Duplex 用单个自回归 LLM 实现原生全双工语音对话，摆脱 LLaMA-Omni、GLM-4-Voice 等轮次式方案对外部 VAD 判断用户话轮结束的依赖，原生处理重叠、犹豫与 barge-in。单模型架构与站内\"流式进 KV、边说边听\"的 harness 设计高度同构，是验证单模型路线可行性与去 VAD 化的重要参照。",
    "demo": "",
    "stars": null
   },
@@ -84,7 +84,7 @@
     "low latency"
    ],
    "summary_en": "Recent full-duplex spoken dialogue models have demonstrated compelling progress toward human-like interaction, enabling agents to respond with low latency, produce backchannels, and handle user barge-ins. Yet these improvements in conversational dynamics often come with weaker reasoning and instruction-following abilities, revealing a potential tension between interactive dynamics and intelligence capability. In this",
-   "summary_zh": "",
+   "summary_zh": "该论文指出全双工模型在追求低延迟、回话(backchannel)、barge-in 等交互动态时往往牺牲推理与指令遵循能力，并通过强化学习将对话动态与智能能力解耦。对本站项目的警示意义直接：外挂 TTS、晚注入工具清单的座舱助手既要会听会抢话，又不能变\"笨\"，其解耦训练思路可用于平衡交互性与工具调用准确性。",
    "demo": "",
    "stars": null
   },
@@ -105,7 +105,7 @@
     "speech model"
    ],
    "summary_en": "Full-duplex spoken dialogue models can listen and speak simultaneously, making them a promising architecture for natural conversation. However, current models are trained solely with supervised learning through token-level likelihood maximization, which does not directly optimize interaction-level behaviors, causing interactivity issues such as excessive silence and ill-timed turn-taking. Recent work has applied rein",
-   "summary_zh": "",
+   "summary_zh": "论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。对做\"边说边听\"座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。",
    "demo": "",
    "stars": null
   },
@@ -126,7 +126,7 @@
     "vad"
    ],
    "summary_en": "Most end-to-end (E2E) spoken dialogue systems (SDS) rely on voice activity detection (VAD) for turn-taking, but VAD fails to distinguish between pauses and turn completions. Duplex SDS models address this by predicting output continuously, including silence tokens, thus removing the need for explicit VAD. However, they often have complex dual-channel architecture and lag behind cascaded models in semantic reasoning. ",
-   "summary_zh": "",
+   "summary_zh": "该工作在流式全双工端到端对话系统中引入思维链(CoT)推理，针对双通道 duplex 模型架构复杂、语义推理落后于级联方案的短板做补强。与站内\"晚注入工具清单\"的诉求呼应：座舱助手需要在保持边说边听的同时完成复杂推理与工具决策，CoT 融入流式 duplex 的路径值得借鉴。",
    "demo": "",
    "stars": null
   },
@@ -146,7 +146,7 @@
     "barge-in"
    ],
    "summary_en": "Recent advances in spoken dialogue language models (SDLMs) reflect growing interest in shifting from turn-based to full-duplex systems, where the models continuously perceive user speech streams while generating responses. This simultaneous listening and speaking design enables real-time interaction and the agent can handle dynamic conversational behaviors like user barge-in. However, during the listening phase, exis",
-   "summary_zh": "",
+   "summary_zh": "论文提出在全双工语音对话语言模型中引入\"时序思维\"(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。摘要信息有限，保守地说，其对\"聆听阶段该想什么\"的建模与站内流式 KV 注入时机的工程问题直接相关。",
    "demo": "",
    "stars": null
   },
@@ -165,7 +165,7 @@
     "voice agent"
    ],
    "summary_en": "We report the empirical reliability of Gemini models as audio judges that score full-duplex agent conversations directly from the raw stereo waveform, tested across three models in the Gemini family: 2.5 Flash, 3.5 Flash, and 3.1 Pro. Our primary evidence base uses Gemini 2.5 Flash as the ground-truth model, validated against three calibrated human raters on 209 stereo sessions, scored on 8 production dimensions: 152",
-   "summary_zh": "",
+   "summary_zh": "该研究实证评估了 Gemini 系列模型作为\"音频裁判\"的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化\"像不像人\"，用 LALM 当 judge 是低成本的回归测试手段。",
    "demo": "",
    "stars": null
   },
@@ -430,7 +430,7 @@
     "vad"
    ],
    "summary_en": "We propose a lightweight multi-path alignment network (LMPAN) for on-device joint acoustic echo cancellation (AEC) and noise suppression (NS) in full-duplex spoken dialogue systems. To address hardware-induced distortions and dynamic acoustic conditions, we introduce three core innovations: (1) a multi-path alignment stage correcting temporal and energy mismatches across reference, linear AEC (LAEC) output, and micro",
-   "summary_zh": "",
+   "summary_zh": "LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱'边说边听'的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。",
    "demo": "",
    "stars": null
   },
@@ -449,7 +449,7 @@
     "spoken dialogue"
    ],
    "summary_en": "More than a dozen spoken dialogue systems have recently claimed to be \"full-duplex,\" yet the term has been used to describe substantially different capabilities. Existing surveys collapse them onto a single axis (cascaded/end-to-end, or engineered/learned) and miss the distinctions that matter most for builders. We argue that much of this ambiguity is taxonomical: current terminology does not specify where duplex dec",
-   "summary_zh": "",
+   "summary_zh": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。",
    "demo": "",
    "stars": null
   },
@@ -468,7 +468,7 @@
     "duplex"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "这条新闻报道了 NVIDIA 的全双工语音到语音模型 PersonaPlex 7B 被移植到 Apple Silicon 上、以 Swift 实现本地运行。它与本站主题的相关性在于展示了大参数全双工 S2S 模型的端侧部署路径，对座舱这种讲究离线可用与低时延的场景有参考价值；但仅有标题信息，具体实现细节与效果需进一步求证。",
    "demo": "",
    "stars": 374
   },
@@ -487,7 +487,7 @@
     "multimodal"
    ],
    "summary_en": "Natural human conversation is full-duplex and audio-visual: people simultaneously speak and listen while continuously interpreting and producing nonverbal cues, such as nods, smiles, and gestures. To support successful human-agent interaction, agents must model full-duplex audiovisual conversation; however, existing full-duplex benchmarks evaluate only speech. In this work, we present VideoFDB, the first benchmark to",
-   "summary_zh": "",
+   "summary_zh": "VideoFDB 是首个评测对话智能体全双工'视觉+语音'能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。",
    "demo": "",
    "stars": null
   },
@@ -507,7 +507,7 @@
     "turn-taking"
    ],
    "summary_en": "Real-time spoken dialogue systems face a fundamental tension between latency and response quality. End-to-end speech-to-speech (S2S) models respond immediately and naturally handle turn-taking, backchanneling, and interruption, but produce semantically weaker outputs. Cascaded pipelines (ASR -> LLM) deliver stronger responses at the cost of latency that grows with model size. We present RelayS2S, a hybrid architectur",
-   "summary_zh": "",
+   "summary_zh": "RelayS2S 针对实时对话中'低延迟'与'高质量'的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。对我们'Omni 模型+外挂 TTS'的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。",
    "demo": "",
    "stars": null
   },
@@ -527,7 +527,7 @@
     "voice assistant"
    ],
    "summary_en": "Empathetic spoken dialogue systems must infer a user's emotional state to respond appropriately, yet everyday speech often carries weak, neutral, or ambiguous affective cues. To address this, we introduce Sympatheia, a speech-to-speech dialogue framework conditioned on affect inferred from the user's speech and, when available, explicit affect specifications provided as a continuous valence--arousal (VA) control sign",
-   "summary_zh": "",
+   "summary_zh": "Sympatheia 是一个情感自适应的语音到语音对话框架，从用户语音中推断情感，并支持以连续的效价-唤醒(VA)控制信号显式指定情感，解决日常语音中情感线索微弱、含糊的问题。在座舱场景里，驾驶员的情绪与疲劳状态是重要上下文，这种'连续情感条件化'的思路可借鉴来调节外挂 TTS 的语调与回复策略，让助手在高压或疲惫工况下应答更得体。",
    "demo": "",
    "stars": null
   },
@@ -546,7 +546,7 @@
     "speech model"
    ],
    "summary_en": "We present DyaPlex, a streaming, full-duplex speech-and-motion model designed for dyadic interaction. To capture the continuous and reciprocal nature of human communication, this full-duplex capability empowers the agent to simultaneously perceive and generate both speech and physical motion in a streaming fashion. At its core, our method leverages the strong priors of a foundational full-duplex speech model and inte",
-   "summary_zh": "",
+   "summary_zh": "DyaPlex 是一个流式全双工的'语音+动作'模型，面向双人交互，能在流式模式下同时感知与生成语音和身体动作，做法上复用了基础全双工语音模型的先验并扩展出动作通道。动作生成对纯座舱语音助手相关性有限，胜在其架构思路——在一个基础全双工语音模型上叠加新的流式输出模态——与我们想在 Omni 模型外挂 TTS/工具通道的 harness 设计异曲同工。",
    "demo": "",
    "stars": null
   },
@@ -566,7 +566,7 @@
     "omnimodal"
    ],
    "summary_en": "We introduce OmniInteract, a streaming benchmark for real-time omnimodal large language models evaluated through native online inference over audio-visual streams. Unlike offline video understanding or text-prompted streaming QA, OmniInteract preserves the original audio-visual stream and requires models to process it online, without access to future content. User queries and ambient sounds are embedded in the audio ",
-   "summary_zh": "",
+   "summary_zh": "OmniInteract 是一个面向实时全模态助手的流式基准，要求模型在原生在线推理下处理原始音视频流、看不到未来内容，用户提问与环境音直接嵌入音频流中。它与本站'流式进 KV、边看边听'的设定高度吻合，可作为评测我们 harness 在线多模态能力的现成协议与对照基准。",
    "demo": "",
    "stars": null
   },
@@ -585,7 +585,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Human conversation is organized by an implicit chain of thought and manifests as temporally structured conversational behaviors. Capturing this perceptual pathway is critical for building natural full-duplex interactive systems. We propose S-MARC (Streaming Causal Modeling and Reasoning for Conversation), a streaming, causal, and hierarchical framework for conversational behavior modeling and reasoning. By formalizin",
-   "summary_zh": "",
+   "summary_zh": "一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。",
    "demo": "",
    "stars": null
   },
@@ -604,9 +604,9 @@
     "spoken dialogue"
    ],
    "summary_en": "A curated list of full-duplex spoken dialogue models & benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems",
-   "summary_zh": "",
+   "summary_zh": "一份精选全双工口语对话模型与基准测试的 awesome 清单，持续收录该方向的模型、系统和评测资源。对座舱助手项目是实用的导航页：选型基线模型、寻找全双工能力评测基准（如打断、抢话、延迟指标）时可以按图索骥，避免重复调研。",
    "demo": "",
-   "stars": 152
+   "stars": 153
   },
   {
    "id": "0edff6bc67",
@@ -624,7 +624,7 @@
     "speech model"
    ],
    "summary_en": "The audio&#x2F;TTS space just moved fast. In the last week alone:<p>NVIDIA – PersonaPlex-7B Open-source, full-duplex conversational speech model.<p>Inworld AI – TTS-1.5 Realtime TTS (&lt;250ms), $0.005&#x2F;min, currently #1 on Artificial Analysis.<p>Flash Labs – Chroma 1.0 First open-source, end-to-end, real-time speech-to-speech model.<p>Alibaba Qwen – Qwen3-TTS Fully open-sourced TTS family: Base, CustomVoice, Voi",
-   "summary_zh": "",
+   "summary_zh": "一则 HN 热帖，汇总了近期音频/TTS 领域的密集发布：NVIDIA 开源全双工对话语音模型 PersonaPlex-7B、Inworld 延迟低于 250ms 的实时 TTS-1.5、Flash Labs 首个开源端到端实时 speech-to-speech 模型 Chroma 1.0，以及阿里全面开源的 Qwen3-TTS 家族。对本站价值直接：外挂 TTS 环节多了一批低延迟可自托管候选（尤其 Qwen3-TTS 与 Qwen3-Omni 同栈），PersonaPlex 和 Chroma 则可作为全双工架构的对标参照。",
    "demo": "",
    "stars": 5
   },
@@ -644,7 +644,7 @@
     "spoken dialogue"
    ],
    "summary_en": "X-Talk is an open-source full-duplex cascaded spoken dialogue system framework enabling low-latency, interruptible, and human-like speech interaction with a lightweight, pure-Python, production-ready architecture. ai conversational-ai python real-time speech-to-speech voice voice-assistant websocket",
-   "summary_zh": "",
+   "summary_zh": "X-Talk 是一个开源的全双处级联式口语对话系统框架，纯 Python、轻量、面向生产，主打低延迟、可打断、拟人化的语音交互，基于 WebSocket 提供服务。与自研 harness 路线高度同构：其级联流水线中打断处理、状态管理与流式调度的工程实现可作为直接参考，也可用作对照基线来验证自研全双工方案的延迟与打断体验。",
    "demo": "",
    "stars": 234
   },
@@ -1017,7 +1017,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "",
    "demo": "",
-   "stars": 5082
+   "stars": 5083
   },
   {
    "id": "a4b6353a38",
