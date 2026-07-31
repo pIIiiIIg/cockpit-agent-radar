@@ -101,6 +101,34 @@ class ExplanationTests(unittest.TestCase):
         self.assertLessEqual(len(selected), MAX_CONTEXT)
         self.assertIn("The measured latency is 240 ms.", selected)
 
+    def test_new_item_limit_applies_after_existing_dedup(self):
+        existing = [{
+            "url": f"https://example.com/old-{index}",
+            "score": 99 - index,
+            "found": "2026-07-30T09:00:00+08:00",
+            "stars": None,
+        } for index in range(20)]
+        fresh = [dict(row, score=100) for row in existing]
+        fresh += [{
+            "url": f"https://example.com/new-{index}",
+            "score": 10 - index,
+            "found": "2026-07-31T09:00:00+08:00",
+            "stars": None,
+        } for index in range(3)]
+        merged, added, updated, candidates = fetch_rank.merge_items(
+            existing, fresh, new_limit=2)
+        urls = {row["url"] for row in merged}
+        self.assertEqual(added, 2)
+        self.assertEqual(updated, 20)
+        self.assertEqual(candidates, 3)
+        self.assertIn("https://example.com/new-0", urls)
+        self.assertIn("https://example.com/new-1", urls)
+
+    def test_empty_scan_day_has_visible_status(self):
+        rendered = build_site.no_updates()
+        self.assertIn("本日扫描已完成", rendered)
+        self.assertIn("Scan completed", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()

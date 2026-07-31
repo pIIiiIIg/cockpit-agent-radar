@@ -95,6 +95,8 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
 .open-status.unavailable { color:#e06b6b; }
 .pending-explain { color:var(--dim); border:1px dashed var(--line);
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
 footer { margin-top:40px; color:var(--dim); font-size:12.5px;
          border-top:1px solid var(--line); padding-top:12px; }
 """
@@ -224,6 +226,14 @@ def day_cards(rows):
                      + f" · {len(batch)} " + pair("条", "items") + "</h3>")
         parts += [card(it) for it in batch]
     return parts
+
+
+def no_updates():
+    return ('<div class="no-updates">'
+            + pair("本日扫描已完成，没有达到相关度门槛的新条目；持续跟踪项仍在更新。",
+                   "Scan completed: no new items crossed the relevance threshold. "
+                   "Existing watch items remain monitored.")
+            + "</div>")
 
 
 def _list_block(rows, ordered=False):
@@ -411,14 +421,16 @@ def main():
     by_day = {}
     for it in items:
         by_day.setdefault(it["found"][:10], []).append(it)
-    all_days = sorted(by_day, reverse=True)
+    scan_day = (data.get("generated") or "")[:10]
+    all_days = sorted(set(by_day) | ({scan_day} if scan_day else set()),
+                      reverse=True)
     days = all_days[:6]
     os.makedirs(os.path.join(DOCS, "days"), exist_ok=True)
     for d in all_days:
-        rows = by_day[d]
+        rows = by_day.get(d, [])
         body = (datebar(d, all_days)
                 + f'<h2 class="day">{d} · {len(rows)} ' + pair("条", "items") + "</h2>"
-                + "\n".join(day_cards(rows))
+                + ("\n".join(day_cards(rows)) if rows else no_updates())
                 + f'<p style="margin-top:18px"><a class="btn" href="{BASE}/">'
                 + pair("← 最新", "← latest") + "</a></p>")
         open(os.path.join(DOCS, "days", d + ".html"), "w", encoding="utf-8").write(
@@ -438,11 +450,14 @@ def main():
                      + "</a></p>")
     parts.append(datebar(all_days[0], all_days))
     for d in days:
-        rows = by_day[d]
+        rows = by_day.get(d, [])
         parts.append(f'<h2 class="day"><a href="{BASE}/days/{d}.html" '
                      f'style="color:inherit">{d}</a> · {len(rows)} '
                      + pair("条", "items") + "</h2>")
-        parts += day_cards(rows)
+        if rows:
+            parts += day_cards(rows)
+        else:
+            parts.append(no_updates())
     open(os.path.join(DOCS, "index.html"), "w", encoding="utf-8").write(
         shell("cockpit-agent-radar", "\n".join(parts), page="index"))
 

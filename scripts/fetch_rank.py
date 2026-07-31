@@ -205,14 +205,43 @@ def src_hn():
 THRESH = {"arxiv": 4, "github": 4, "hf": 3, "hn": 4}
 
 
+def merge_items(items, fresh, new_limit=15, inventory_limit=500):
+    """更新全部旧命中，再从真正的新 URL 中取高分项，避免旧高分项饿死新增。
+
+    同一轮四个来源可能重复返回同一 URL；新候选先按 URL 去重并保留高分版本。
+    """
+    by_url = {it["url"]: it for it in items}
+    new_by_url, updated_urls = {}, set()
+    for incoming in fresh:
+        old = by_url.get(incoming["url"])
+        if old:
+            old["score"] = max(old.get("score", 0), incoming.get("score", 0))
+            if incoming.get("stars") is not None:
+                old["stars"] = incoming["stars"]
+            updated_urls.add(incoming["url"])
+            continue
+        previous = new_by_url.get(incoming["url"])
+        if previous is None or incoming.get("score", 0) > previous.get("score", 0):
+            new_by_url[incoming["url"]] = incoming
+
+    admitted = sorted(
+        new_by_url.values(),
+        key=lambda row: (-row.get("score", 0), row.get("url", "")),
+    )[:new_limit]
+    for item in admitted:
+        by_url[item["url"]] = item
+    merged = sorted(
+        by_url.values(), key=lambda row: row.get("found", ""), reverse=True
+    )[:inventory_limit]
+    return merged, len(admitted), len(updated_urls), len(new_by_url)
+
+
 def main():
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     try:
         items = json.load(open(DATA, encoding="utf-8"))["items"]
     except Exception:
         items = []
-    by_url = {it["url"]: it for it in items}
-
     fresh, fails = [], []
     for name, fn in [("arxiv", src_arxiv), ("github", src_github),
                      ("hf", src_hf), ("hn", src_hn)]:
@@ -225,26 +254,14 @@ def main():
             fails.append(name)
             print(f"[{name}] 失败: {type(e).__name__}: {str(e)[:120]}")
 
-    added = updated = 0
     # 单轮入库上限刻意压低：一是控制每天的阅读量（用户在按天学习，一天灌
     # 100+ 条是轰炸不是雷达）；二是让冷启动积压的高分老内容按 score 从高到
-    # 低分几天匀速放出。每天 3 轮 × 15 = 最多 45 条/天，平稳期真实新增远低于此。
-    for it in sorted(fresh, key=lambda x: -x["score"])[:15]:
-        old = by_url.get(it["url"])
-        if old:
-            # 已有条目：只刷新易变字段，保留 found/中文摘要/演示链接
-            old["score"] = max(old["score"], it["score"])
-            if it.get("stars"):
-                old["stars"] = it["stars"]
-            updated += 1
-        else:
-            by_url[it["url"]] = it
-            added += 1
-
-    items = sorted(by_url.values(), key=lambda x: x["found"], reverse=True)[:500]
+    # 低分几天匀速放出。关键：上限只作用于去重后的“真正新条目”，不能让每轮
+    # 都出现的旧高分结果占满 15 个名额，否则新论文会永久饥饿。
+    items, added, updated, candidates = merge_items(items, fresh)
     json.dump({"generated": NOW.isoformat(), "items": items},
               open(DATA, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print(f"新增 {added}，更新 {updated}，库存 {len(items)}"
+    print(f"新增 {added}/{candidates} 候选，更新 {updated}，库存 {len(items)}"
           + (f"，失败源: {fails}" if fails else ""))
     # 全源失败才算这次运行失败（部分失败下次会补上）
     return 1 if len(fails) == 4 else 0

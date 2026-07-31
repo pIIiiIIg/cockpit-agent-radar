@@ -1,6 +1,280 @@
 {
- "generated": "2026-07-31T14:55:02.913315+08:00",
+ "generated": "2026-07-31T17:20:45.721623+08:00",
  "items": [
+  {
+   "id": "6b9408ecec",
+   "kind": "repo",
+   "source": "github",
+   "title": "Capslockb/hermes-live-discord-agent-plugin",
+   "url": "https://github.com/Capslockb/hermes-live-discord-agent-plugin",
+   "published": "2026-07-29",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 11,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "multimodal"
+   ],
+   "summary_en": "Hermes Live Discord Agent Plugin — full-duplex Discord voice ↔ Google Gemini Multimodal Live API, with function calling, idle hangup, transcripts, and a 3-min oneshot installer. discord-bot gemini-live hermes-agent hermes-plugin multimodal-ai plugin realtime-voice voice-agent voice-bridge",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 13
+  },
+  {
+   "id": "861d4c5ecd",
+   "kind": "repo",
+   "source": "github",
+   "title": "huggingface/speech-to-speech",
+   "url": "https://github.com/huggingface/speech-to-speech",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 11,
+   "tags": [
+    "speech-to-speech",
+    "voice agent"
+   ],
+   "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9443
+  },
+  {
+   "id": "be7f76beb6",
+   "kind": "repo",
+   "source": "github",
+   "title": "Azure-Samples/call-center-voice-agent-accelerator",
+   "url": "https://github.com/Azure-Samples/call-center-voice-agent-accelerator",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 10,
+   "tags": [
+    "speech-to-speech",
+    "voice agent"
+   ],
+   "summary_en": "Create speech-to-speech voice agents that deliver personalized self-service experiences and natural-sounding voices, seamlessly integrated with telephony systems. ai-azd-templates azd-templates azure-speech-services conversational-ai javascript python",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 86
+  },
+  {
+   "id": "a0731e6055",
+   "kind": "repo",
+   "source": "github",
+   "title": "Blaizzy/mlx-audio",
+   "url": "https://github.com/Blaizzy/mlx-audio",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 10,
+   "tags": [
+    "speech-to-speech",
+    "multimodal",
+    "text-to-speech"
+   ],
+   "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 7656
+  },
+  {
+   "id": "5b176e49fe",
+   "kind": "repo",
+   "source": "github",
+   "title": "FudanCVL/AVI-Bench",
+   "url": "https://github.com/FudanCVL/AVI-Bench",
+   "published": "2026-06-20",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 10,
+   "tags": [
+    "omni",
+    "multimodal",
+    "omnimodal"
+   ],
+   "summary_en": "[ICML'26] Toward Human-like Audio-Visual Intelligence of Omni-MLLMs agent audio-visual audio-visual-intelligence avi benchmark icml llm mllm multimodal omnimodal reasoning",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 16
+  },
+  {
+   "id": "52abb7cd86",
+   "kind": "repo",
+   "source": "github",
+   "title": "USC-ICT/vhtoolkit",
+   "url": "https://github.com/USC-ICT/vhtoolkit",
+   "published": "2026-05-26",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 10,
+   "tags": [
+    "speech recognition",
+    "speech synthesis",
+    "text-to-speech"
+   ],
+   "summary_en": "The Virtual Human Toolkit enables researchers and developers to rapidly create embodied conversational agents using speech recognition, audio-visual sensing, natural language processing, text-to-speech synthesis, and nonverbal behavior generation. ai avatars cloud conversational-agents conversational-ai embodied-agent llm nlp sensing simulation socially-intelligent-agents tts unity virtual-humans",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "47d9062193",
+   "kind": "repo",
+   "source": "github",
+   "title": "soniqo/speech-swift",
+   "url": "https://github.com/soniqo/speech-swift",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 10,
+   "tags": [
+    "speech-to-speech",
+    "text-to-speech",
+    "vad"
+   ],
+   "summary_en": "AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML apple-silicon asr coreml ios macos mlx neural-engine on-device speaker-diarization speech-enhancement speech-recognition speech-to-speech swift text-to-speech tts voice-activity-detection",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1088
+  },
+  {
+   "id": "ac53c9cede",
+   "kind": "repo",
+   "source": "github",
+   "title": "sx4im/BIMO",
+   "url": "https://github.com/sx4im/BIMO",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 9,
+   "tags": [
+    "real-time voice",
+    "multimodal"
+   ],
+   "summary_en": "Introducing Bimo 5 (Autonomous Multi-Modal AI Agent with real-time voice, vision processing, document analysis, image generation, and web search). ai-agent ai-assistant ai-chat ai-workspace autonomous-agents flask fullstack-ai image-generation llm multimodal-ai nvidia-nim openai-api python supabase voice-ai web-search",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 7
+  },
+  {
+   "id": "c8b564d136",
+   "kind": "repo",
+   "source": "github",
+   "title": "vllm-project/vllm-omni",
+   "url": "https://github.com/vllm-project/vllm-omni",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5760
+  },
+  {
+   "id": "293306d628",
+   "kind": "repo",
+   "source": "github",
+   "title": "verl-project/verl-omni",
+   "url": "https://github.com/verl-project/verl-omni",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 687
+  },
+  {
+   "id": "5d6e6e2b0a",
+   "kind": "repo",
+   "source": "github",
+   "title": "Dendro-Inspector/Dendro-Inspector",
+   "url": "https://github.com/Dendro-Inspector/Dendro-Inspector",
+   "published": "2026-07-29",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Eval-driven multimodal agent for identifying trees, logs, bark, leaves and wood from photographs. Dendrology is the reference domain; the engineering subject is evidence handling, calibrated uncertainty and evaluation. dendrology evals evaluation llm llm-agents llm-as-a-judge llm-as-judge prompt-engineering tree-identification wood-identification",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 6
+  },
+  {
+   "id": "2696abdf08",
+   "kind": "repo",
+   "source": "github",
+   "title": "redai-infra/Relax",
+   "url": "https://github.com/redai-infra/Relax",
+   "published": "2026-07-31",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 7,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 555
+  },
+  {
+   "id": "b8dde0aed2",
+   "kind": "repo",
+   "source": "github",
+   "title": "HITsz-TMG/Lychee-FD",
+   "url": "https://github.com/HITsz-TMG/Lychee-FD",
+   "published": "2026-07-30",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 6,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "Native End-to-End Full-Duplex Spoken Language Model",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 87
+  },
+  {
+   "id": "43ef79b397",
+   "kind": "repo",
+   "source": "github",
+   "title": "OpenMOSS/MOSS-Audio-Tokenizer",
+   "url": "https://github.com/OpenMOSS/MOSS-Audio-Tokenizer",
+   "published": "2026-06-16",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 6,
+   "tags": [
+    "native audio"
+   ],
+   "summary_en": "MOSS-Audio-Tokenizer is a Causal Transformer-based audio tokenizer built on the CAT architecture. Trained on 3M hours of diverse audio, it supports streaming and variable bitrates, delivering SOTA reconstruction and strong performance in generation and understanding—serving as a unified interface for next-generation native audio language models. audio music speech speech-representation tokenizer tts unified",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 249
+  },
+  {
+   "id": "6b724ee4dd",
+   "kind": "repo",
+   "source": "github",
+   "title": "dotnet/Nerdbank.Streams",
+   "url": "https://github.com/dotnet/Nerdbank.Streams",
+   "published": "2026-07-30",
+   "found": "2026-07-31T17:20:45.721623+08:00",
+   "score": 6,
+   "tags": [
+    "full duplex",
+    "duplex"
+   ],
+   "summary_en": "Specialized .NET Streams and pipes for full duplex in-proc communication, web sockets, and multiplexing",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 712
+  },
   {
    "id": "bf76305254",
    "kind": "news",
@@ -1017,7 +1291,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5085
+   "stars": 5095
   },
   {
    "id": "a4b6353a38",
