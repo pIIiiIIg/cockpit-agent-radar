@@ -37,11 +37,16 @@ KW = {
         "voice-to-voice", "duplex", "omni", "realtime voice", "real-time voice",
         "streaming asr", "streaming tts", "streaming speech", "audio-visual llm",
         "speech llm", "spoken dialogue", "voice agent", "turn-taking", "barge-in",
-        "cockpit", "in-car", "全双工", "座舱", "车机", "语音助手"],
+        "realtime multimodal", "real-time multimodal", "native audio",
+        "multimodal agent", "omnimodal agent", "audio-visual agent",
+        "cockpit", "in-car", "全双工", "座舱", "车机", "语音助手",
+        "多模态智能体", "多模态 agent"],
     2: ["multimodal", "omnimodal", "audio llm", "speech model", "voice assistant",
         "speech recognition", "speech synthesis", "text-to-speech", "kv cache",
         "streaming inference", "agent harness", "computer use", "realtime api",
-        "vad", "wake word", "low latency", "端到端语音", "多模态"],
+        "vision-language-action", "vision language action", "video agent",
+        "audio visual", "multimodal assistant", "vad", "wake word", "low latency",
+        "端到端语音", "多模态"],
     1: ["agent", "asr", "tts", "llm", "voice", "audio", "assistant",
         "automotive", "driving"],
 }
@@ -92,7 +97,8 @@ def mk(kind, source, title, url, published, body, stars=None, bonus=0):
             "title": re.sub(r"\s+", " ", title or "").strip(),
             "url": norm_url(url), "published": (published or "")[:10],
             "found": NOW.isoformat(), "score": s + bonus, "tags": tags,
-            "summary_en": re.sub(r"\s+", " ", (body or "").strip())[:420],
+            # 详情讲解增强需要比列表摘要更完整的依据；页面端仍只展示前 200 字。
+            "summary_en": re.sub(r"\s+", " ", (body or "").strip())[:2000],
             "summary_zh": "", "demo": "", "stars": stars}
 
 
@@ -106,6 +112,10 @@ def src_arxiv():
     queries = ['all:"full-duplex"', 'all:"speech-to-speech"',
                'all:"spoken dialogue" AND all:streaming',
                'all:"voice assistant"', 'abs:omni AND abs:multimodal']
+    queries += ['all:"multimodal agent"', 'all:"audio-visual agent"',
+                'all:"native audio" AND all:multimodal',
+                'all:"vision-language-action"',
+                'all:"real-time multimodal"']
     for q in queries:
         url = ("https://export.arxiv.org/api/query?search_query="
                + urllib.parse.quote(f"({q}) AND {cats}")
@@ -129,7 +139,11 @@ def src_github():
     queries = ["full-duplex in:name,description,topics",
                '"speech-to-speech" in:name,description,topics',
                "omni multimodal in:name,description,topics",
-               "voice agent llm in:name,description,topics"]
+               "voice agent llm in:name,description,topics",
+               '"multimodal agent" in:name,description,topics',
+               '"audio visual" agent in:name,description,topics',
+               '"vision language action" in:name,description,topics',
+               '"native audio" model in:name,description,topics']
     for q in queries:
         url = ("https://api.github.com/search/repositories?q="
                + urllib.parse.quote(q) + "&sort=updated&order=desc&per_page=15")
@@ -153,15 +167,20 @@ def src_hf():
         out.append(mk("paper", "hf", pp.get("title", ""),
                       "https://huggingface.co/papers/" + pp["id"],
                       (p.get("publishedAt") or ""), pp.get("summary", ""), bonus=2))
-    url = ("https://huggingface.co/api/models?search=omni"
-           "&sort=lastModified&direction=-1&limit=15")
-    for m in http_json(url):
-        mid = m.get("modelId") or m.get("id") or ""
-        if not mid:
-            continue
-        body = (m.get("pipeline_tag") or "") + " " + " ".join(m.get("tags") or [])
-        out.append(mk("model", "hf", mid, "https://huggingface.co/" + mid,
-                      (m.get("lastModified") or ""), body, stars=m.get("likes")))
+    for term in ("omni", "multimodal agent", "audio visual", "native audio",
+                 "vision language action"):
+        url = ("https://huggingface.co/api/models?search="
+               + urllib.parse.quote(term)
+               + "&sort=lastModified&direction=-1&limit=15")
+        for m in http_json(url):
+            mid = m.get("modelId") or m.get("id") or ""
+            if not mid:
+                continue
+            body = ((m.get("pipeline_tag") or "") + " "
+                    + " ".join(m.get("tags") or []))
+            out.append(mk("model", "hf", mid, "https://huggingface.co/" + mid,
+                          (m.get("lastModified") or ""), body,
+                          stars=m.get("likes")))
     return out
 
 

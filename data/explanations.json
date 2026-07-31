@@ -1,0 +1,230 @@
+{
+ "950a91923f": {
+  "tl_dr": "IRAF 是插在全双工语音模型内部的逐帧音频可信度门，用目标声纹降低背景说话人对 LLM 上下文的污染。",
+  "problem": "端到端双通道模型通常把用户音频和助手侧表示直接融合。在多人或有背景语音时，非目标说话人的声音也会进入条件上下文，造成误接话、漏响应和答案跑偏。",
+  "method": "IRAF 将目标说话人 embedding 与当前及历史用户音频 embedding 输入一个轻量因果 Transformer，预测范围为 0 到 2 的逐帧可靠性门。门值先缩放用户音频表示，再与助手表示融合，因此既能抑制干扰帧，也能保留或增强目标用户帧。",
+  "workflow": [
+   "ECAPA-TDNN 提取目标说话人声纹。",
+   "流式语音编码器以约 80ms 粒度产生用户音频表示。",
+   "单层因果 Transformer 预测每帧可靠性门。",
+   "缩放后的音频表示进入 LLM，模型继续生成文本和语音。"
+  ],
+  "findings": [
+   "在 InstructS2S-200K 的干扰说话人条件下，响应成功率由噪声增强基线的 69.2% 提升到 91.0%。",
+   "同一条件下响应延迟由 0.97 秒降至 0.82 秒，打断停止成功率达到 99.8%。"
+  ],
+  "project_fit": [
+   "可借鉴为“声纹 + 座位/波束 + AEC 置信度”的多人音频门，再决定哪些音频允许写入流式 KV。",
+   "不应直接照搬单目标用户设计，否则可能误杀副驾和后排乘员的合法指令。"
+  ],
+  "limitations": [
+   "实验干扰主要由 MUSAN 模拟，未覆盖真实车内混响、扬声器回声和麦克风阵列。",
+   "IRAF 位于模型 embedding 融合层，需要联合训练；不是可直接挂到现有 Harness 的独立服务。"
+  ],
+  "open_source": {
+   "status": "unavailable",
+   "code_url": "",
+   "model_url": "",
+   "note": "截至 2026-07-30，论文公开，但未找到官方实现代码或训练权重。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "ff66a9b753": {
+  "tl_dr": "BayLing-Duplex 用一个约 9B 自回归 LLM 同时建模用户语音、助手文本和助手语音，让开口、沉默与打断都变成 next-token prediction。",
+  "problem": "传统语音助手依赖外部 VAD 和轮次控制器，难以自然处理重叠说话、犹豫与用户打断；多个控制模块也会增加时序复杂度。",
+  "method": "模型基于 GLM-4-Voice，将用户语音、助手文本和助手语音按块交错到一个多通道序列中，并加入 SILENCE、assistant、PAD、EPAD 等状态 token。模型通过 SFT 学习序列布局，再用 DPO 优化开口和打断时机。",
+  "workflow": [
+   "语音 tokenizer 将连续用户音频离散化。",
+   "单个 LLM 联合预测对话状态、助手文本和语音 token。",
+   "状态 token 决定继续沉默、开始回答或停止当前语音。",
+   "语音 decoder 将预测 token 还原为声音。"
+  ],
+  "findings": [
+   "论文报告 InstructS2S-Eval 轮次切换成功率 92%，打断成功率 100%。",
+   "Llama Questions 准确率 46.0%，高于论文中 Moshi 的 21.0%。"
+  ],
+  "project_fit": [
+   "适合作为原生全双工语音基线，并借鉴状态 token 与交互 DPO 的训练目标。",
+   "不宜直接替换 Qwen3-Omni：它没有视觉输入，也未证明适应车内噪声、多乘员和车控安全。"
+  ],
+  "limitations": [
+   "模型卡明确表示主要在合成近场语音上评估，未覆盖多方对话、情绪轮替和复杂噪声。",
+   "基于 GLM-4-Voice 自定义许可，商业使用需要登记并遵守标注要求。"
+  ],
+  "open_source": {
+   "status": "open",
+   "code_url": "https://github.com/BayLing-Models/BayLing-Duplex",
+   "model_url": "https://huggingface.co/BayLing-Models/BayLing-Duplex",
+   "note": "推理代码和模型权重已公开，但不是 MIT/Apache 宽松许可。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "8539ccbdae": {
+  "tl_dr": "DuplexSLA 在统一的 160ms 时间线上联合生成助手语音与独立 Action 流，使听、说、规划和工具调用可以并行。",
+  "problem": "现有全双工语音模型通常没有原生工具通道：工具调用要么等待轮次结束，要么由外部级联处理，造成动作延迟并割裂口播。",
+  "method": "它采用双音频流、三语义通道：连续用户音频、离散助手语音，以及限速的文本 Action 通道。Action 通道承载转写、规划、response/interrupt/backchannel 标签和结构化工具 JSON，每个动作都带明确的 160ms 时间位置。",
+  "workflow": [
+   "每个 160ms 块接收两份 80ms 用户音频特征。",
+   "同一主干预测一个文本锚点和四个 40ms 助手语音 token。",
+   "Action 通道每块最多输出 10 个文本 token，超出部分顺延。",
+   "工具调用与助手口播并行，interrupt 标签可让语音迅速切换为静音。"
+  ],
+  "findings": [
+   "工具调用平均延迟为 0.64 秒，ASR+LLM 级联为 2.77 秒；对应准确率分别为 85.56% 和 91.33%。",
+   "论文报告正常接话、停顿、打断和附和识别准确率分别为 96.00%、93.33%、99.33% 和 98.33%。"
+  ],
+  "project_fit": [
+   "最值得借鉴的是独立、带时间戳的 Action 事件流，可逐步替代混在口播文本中的 §车控标签§。",
+   "短期仍应保留本地确定性执行层；模型产生 Action 不等于动作可以无条件落车。"
+  ],
+  "limitations": [
+   "该能力依赖约 32 万小时持续预训练和约 5 万小时后训练，不是 Harness 级的小改。",
+   "工具结果显示速度显著提升，但准确率略低于级联基线。"
+  ],
+  "open_source": {
+   "status": "partial",
+   "code_url": "https://github.com/hyzhang24/DuplexSLA",
+   "model_url": "",
+   "note": "截至 2026-07-30 仅技术报告和项目页公开；推理代码、权重与 DuplexSLA-Bench 标注为 coming soon。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "dc8da916f7": {
+  "tl_dr": "Phoenix-VAD 是直接听音频的二分类语义端点检测器，用来判断用户语义是否完整，而不只是检测有没有声音。",
+  "problem": "能量 VAD 会把犹豫停顿当成话轮结束；ASR+文本端点模型虽然懂语义，却增加级联延迟并丢失声学信息。",
+  "method": "约 150M 的 Zipformer 提取音频特征，两层 Adapter 对齐到 Qwen2.5-0.5B。模型查看约 2.56 秒滑动窗口，每 320ms 输出 Continue Speaking 或 Stop Speaking，并给完整与未完整语句使用不同等待阈值。",
+  "workflow": [
+   "持续接收用户原始音频，不依赖额外 ASR。",
+   "滑动窗口保留局部上下文并进行流式前向。",
+   "语义未完整时继续等待，完整时采用较短超时提交话轮。"
+  ],
+  "findings": [
+   "论文测试集中完整和未完整语音场景准确率约为 98.6% 和 98.5%。",
+   "A6000 上单次状态预测约 50ms。"
+  ],
+  "project_fit": [
+   "可作为 RMS VAD 后的第二道语义闸，减少“然后把……”这类未说完就 commit。",
+   "它只判断继续或停止，不负责区分多人身份、附和与真正插话。"
+  ],
+  "limitations": [
+   "训练语音大量由 TTS 合成；论文将真实录音和拒识能力列为未来工作。",
+   "每次推理仍需要语音编码器和 0.5B LLM，需评估座舱端侧资源。"
+  ],
+  "open_source": {
+   "status": "unavailable",
+   "code_url": "",
+   "model_url": "",
+   "note": "截至 2026-07-30 未找到官方完整代码和训练权重。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "fd269fcd0f": {
+  "tl_dr": "SoulX-Duplug 是外挂在语音助手旁边的流式话轮状态预测器，负责判断用户正在说、没说完、已说完还是只在附和。",
+  "problem": "传统半双工模型不知道何时接话；VAD→ASR→文本判断的级联既慢又割裂，重训整个全双工主干又成本太高。",
+  "method": "它以 160ms 为一块，将音频 token、流式 ASR token 和五种状态 token 交错建模，输出 idle、nonidle、backchannel、complete、incomplete。训练统一优化 ASR 和状态预测，推理时由轻量 SenseVoice 提供 teacher-forced 流式文本。",
+  "workflow": [
+   "GLM-4-Voice tokenizer 将音频变成 12.5Hz 离散 token。",
+   "每个 160ms 块生成局部 ASR 文本和当前用户状态。",
+   "complete 触发助手接话，incomplete 继续等待，backchannel 不抢走话权。"
+  ],
+  "findings": [
+   "论文给出的理论平均状态判断延迟约 240ms。",
+   "项目同时开放中英文状态评测与完整对话系统示例。"
+  ],
+  "project_fit": [
+   "是 StreamingModelHarness 最直接的候选：映射 complete→commit、incomplete→继续收音、backchannel→不取消播报。",
+   "初期应与现有 RMS VAD 双闸运行，先在真实车内回声、音乐和多人语音上 A/B。"
+  ],
+  "limitations": [
+   "会占用额外推理资源，并与现有 faster-whisper 形成重复 ASR 链路。",
+   "开放模型在通用中英文场景训练，仍需验证车控短句、座位和远场音频。"
+  ],
+  "open_source": {
+   "status": "open",
+   "code_url": "https://github.com/Soul-AILab/SoulX-Duplug",
+   "model_url": "https://huggingface.co/Soul-AILab/SoulX-Duplug-0.6B",
+   "note": "代码、模型、WebSocket 示例和 SoulX-Duplug-Eval 已公开。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "fbbb375b6a": {
+  "tl_dr": "EchoChain 是检查语音助手被中途打断后能否更新任务状态、又不丢失原目标的受控评测。",
+  "problem": "普通语音评测只看最终答案或打断速度，无法发现助手听见改口却继续旧计划、短暂更新后又忘记等状态推理错误。",
+  "method": "基准用场景驱动对话，在相对助手开口的固定时刻注入与上下文相关的打断，再检查后续回答是否同时保留原任务和新增约束。",
+  "workflow": [
+   "建立含明确任务状态和约束的对话场景。",
+   "助手播报期间按统一时间注入用户改口。",
+   "比较打断前后状态，分类上下文惯性、打断遗忘和目标丢失。"
+  ],
+  "findings": [
+   "论文评测的实时语音模型没有一个通过率超过 50%。",
+   "改为半双工对照后，总失败相对下降 40.2%，说明大量错误确由中途状态更新造成。"
+  ],
+  "project_fit": [
+   "可直接改造成车控回归：机场改火车站、空调改车窗、执行中撤销和后续指代。",
+   "测试必须记录计划、下发、执行、撤销和补偿，而不仅是口播文本。"
+  ],
+  "limitations": [
+   "它是诊断基准，不会自动修复 Harness。",
+   "截至 2026-07-30 未找到完整官方代码仓库，需要按论文协议自行实现车控版本。"
+  ],
+  "open_source": {
+   "status": "unavailable",
+   "code_url": "",
+   "model_url": "",
+   "note": "论文与方法公开，未找到完整官方 benchmark 代码。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "a298114cb1": {
+  "tl_dr": "TurnNat 给双声道对话的轮替节奏打自然度分，关注谁在什么时候开口和停下，而不是回答内容。",
+  "problem": "首响、抢话、重叠、沉默和附和等时序错误类型不同，单一延迟指标或人工听测很难统一比较。",
+  "method": "一个在自然人类对话上训练的因果模型预测未来双人语音活动状态。实际对话越不像自然时序，其未来状态负对数似然越高；框架再聚合话轮边界附近的平均和尾部异常。",
+  "workflow": [
+   "准备用户与助手分离的双声道录音。",
+   "提取双方逐帧语音活动和话轮边界。",
+   "计算边界单元的 MeanNLL、TailNLL 和整段 DialogNLL。",
+   "用 NatScore 或自然/扰动样本差值比较版本。"
+  ],
+  "findings": [
+   "论文构建了五类局部时序扰动，并经人工自然度判断验证。",
+   "TurnNat 能用同一似然信号识别延迟接话、过早开口、话权转移错误和过度附和。"
+  ],
+  "project_fit": [
+   "给每次座舱回归录制用户/助手双轨，在标签正确率之外增加轮替自然度。",
+   "与 EchoChain 组合：EchoChain 测打断后状态对不对，TurnNat 测打断与恢复的节奏自然不自然。"
+  ],
+  "limitations": [
+   "评分模型学习的是训练语料中的人类节奏，车内任务型对话可能需要重新校准。",
+   "它不判断车控语义、工具参数和动作安全。"
+  ],
+  "open_source": {
+   "status": "open",
+   "code_url": "https://github.com/TedZhangHao/turn-taking-naturalness",
+   "model_url": "",
+   "note": "扰动生成、训练、评分代码与检查点使用说明已公开。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-30T20:30:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ }
+}

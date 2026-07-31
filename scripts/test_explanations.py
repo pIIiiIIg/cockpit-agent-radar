@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""论文讲解 schema 与静态 HTML 安全回归（零第三方依赖）。"""
+import json
+import os
+import sys
+import unittest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+
+import build_site
+import fetch_rank
+from paper_context import MAX_CONTEXT, PaperHTML, _select_context
+
+
+class ExplanationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(ROOT, "data", "items.json"),
+                  encoding="utf-8") as stream:
+            cls.items = json.load(stream)["items"]
+        with open(os.path.join(ROOT, "data", "explanations.json"),
+                  encoding="utf-8") as stream:
+            cls.explanations = json.load(stream)
+        cls.ids = {item["id"] for item in cls.items}
+
+    def test_explanations_reference_real_papers(self):
+        paper_ids = {item["id"] for item in self.items if item["kind"] == "paper"}
+        self.assertTrue(self.explanations)
+        self.assertEqual(set(self.explanations) - paper_ids, set())
+
+    def test_required_schema(self):
+        for iid, row in self.explanations.items():
+            with self.subTest(iid=iid):
+                for key in ("tl_dr", "problem", "method"):
+                    self.assertIsInstance(row.get(key), str)
+                    self.assertGreater(len(row[key]), 8)
+                for key in ("workflow", "findings", "project_fit", "limitations"):
+                    self.assertIsInstance(row.get(key), list)
+                    self.assertTrue(all(isinstance(value, str) for value in row[key]))
+                opened = row.get("open_source")
+                self.assertIsInstance(opened, dict)
+                self.assertIn(opened.get("status"),
+                              {"open", "partial", "unavailable", "unknown"})
+                for key in ("code_url", "model_url"):
+                    url = opened.get(key, "")
+                    self.assertTrue(not url or url.startswith("https://"))
+
+    def test_render_escapes_model_text(self):
+        row = {
+            "tl_dr": "<script>alert(1)</script>",
+            "problem": "problem text",
+            "method": "method text",
+            "workflow": ["<img src=x onerror=alert(1)>"],
+            "findings": [],
+            "project_fit": [],
+            "limitations": [],
+            "open_source": {"status": "unknown", "note": "", "code_url": "",
+                            "model_url": ""},
+        }
+        rendered = build_site.explanation_block(row)
+        self.assertNotIn("<script>", rendered)
+        self.assertNotIn("<img ", rendered)
+        self.assertIn("&lt;script&gt;", rendered)
+
+    def test_paper_parser_keeps_text_and_trusted_links(self):
+        parser = PaperHTML()
+        parser.feed("""
+        <html><script>bad()</script><h2>Method</h2><p>Useful result.</p>
+        <a href="https://github.com/example/repo">code</a>
+        <a href="javascript:alert(1)">bad</a></html>
+        """)
+        text, links = parser.result()
+        self.assertIn("Method", text)
+        self.assertIn("Useful result.", text)
+        self.assertNotIn("bad()", text)
+        self.assertEqual(links, ["https://github.com/example/repo"])
+
+    def test_multimodal_agent_and_vla_are_radar_topics(self):
+        agent_score, _ = fetch_rank.score(
+            "A realtime multimodal agent with native audio", "")
+        vla_score, _ = fetch_rank.score(
+            "Streaming vision-language-action model", "")
+        self.assertGreaterEqual(agent_score, fetch_rank.THRESH["arxiv"])
+        self.assertGreaterEqual(vla_score, fetch_rank.THRESH["arxiv"])
+
+    def test_long_paper_context_keeps_results(self):
+        text = "Introduction\n" + ("background " * 4000)
+        text += "\nResults\nThe measured latency is 240 ms.\n"
+        selected = _select_context(text)
+        self.assertLessEqual(len(selected), MAX_CONTEXT)
+        self.assertIn("The measured latency is 240 ms.", selected)
+
+
+if __name__ == "__main__":
+    unittest.main()

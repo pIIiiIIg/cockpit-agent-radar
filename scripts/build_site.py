@@ -76,6 +76,25 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
 [data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
 .item-page .sum-block { background:var(--card); border:1px solid var(--line);
         border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
 footer { margin-top:40px; color:var(--dim); font-size:12.5px;
          border-top:1px solid var(--line); padding-top:12px; }
 """
@@ -167,6 +186,9 @@ def card(it, link_self=True):
     if it.get("demo"):
         meta.append(f'<a class="demo-link" href="{BASE}/{esc(it["demo"])}">'
                     + pair("▶ 交互演示", "▶ live demo") + "</a>")
+    if it.get("explanation"):
+        meta.append(f'<span class="deep-badge">'
+                    + pair("◆ 深度讲解", "◆ deep dive") + "</span>")
     meta.append(f'<span title="进入雷达时刻">⏱ {esc(it["found"][11:16])}</span>')
     zh = it.get("summary_zh") or it.get("summary_en") or ""
     en = it.get("summary_en") or ""
@@ -201,6 +223,89 @@ def day_cards(rows):
     return parts
 
 
+def _list_block(rows, ordered=False):
+    rows = rows if isinstance(rows, list) else []
+    clean = [row for row in rows if isinstance(row, str) and row.strip()]
+    if not clean:
+        return ""
+    tag = "ol" if ordered else "ul"
+    return f"<{tag}>" + "".join(f"<li>{esc(row)}</li>" for row in clean) + f"</{tag}>"
+
+
+def _trusted_link(url, label):
+    url = (url or "").strip()
+    if not url.startswith("https://"):
+        return ""
+    return f'<a class="btn" href="{esc(url)}" rel="noopener noreferrer">{label}</a>'
+
+
+def explanation_block(explanation):
+    if not isinstance(explanation, dict) or not explanation.get("tl_dr"):
+        return ('<div class="pending-explain">'
+                + pair("深度讲解正在排队：自动增强通道会读取论文正文后补充。",
+                       "Deep dive queued: the enhancement agent will read the paper and add it.")
+                + "</div>")
+
+    workflow = _list_block(explanation.get("workflow"), ordered=True)
+    findings = _list_block(explanation.get("findings"))
+    project_fit = _list_block(explanation.get("project_fit"))
+    limitations = _list_block(explanation.get("limitations"))
+    opened = explanation.get("open_source")
+    opened = opened if isinstance(opened, dict) else {}
+    status = opened.get("status", "unknown")
+    status_labels = {
+        "open": ("已开放", "Open"),
+        "partial": ("部分开放", "Partial"),
+        "unavailable": ("未开放", "Unavailable"),
+        "unknown": ("未核验", "Unverified"),
+    }
+    zh_status, en_status = status_labels.get(status, status_labels["unknown"])
+    links = " ".join(filter(None, [
+        _trusted_link(opened.get("code_url"), pair("代码", "code")),
+        _trusted_link(opened.get("model_url"), pair("模型", "model")),
+    ]))
+
+    source_depth = explanation.get("source_depth", "abstract")
+    depth_label = pair("论文正文" if source_depth == "fulltext" else "摘要",
+                       "full text" if source_depth == "fulltext" else "abstract")
+    review = explanation.get("review_status", "auto")
+    review_label = pair("人工复核" if review == "editorial" else "自动生成",
+                        "editor-reviewed" if review == "editorial" else "auto-generated")
+    findings_section = (
+        f'<h3>{pair("论文报告了什么", "Reported findings")}</h3>{findings}'
+        if findings else "")
+    workflow_section = (
+        f'<h3>{pair("怎么工作", "How it works")}</h3>{workflow}'
+        if workflow else "")
+    limitations_section = (
+        f'<h3>{pair("边界与局限", "Limits")}</h3>{limitations}'
+        if limitations else "")
+
+    return f"""
+<section class="explain">
+  <h2 style="margin:0 0 10px">{pair("深度讲解", "Deep dive")}</h2>
+  <p class="lead">{esc(explanation.get("tl_dr"))}</p>
+  <h3>{pair("它解决什么问题", "Problem")}</h3>
+  <p>{esc(explanation.get("problem"))}</p>
+  <h3>{pair("核心方法", "Core method")}</h3>
+  <p>{esc(explanation.get("method"))}</p>
+  {workflow_section}
+  {findings_section}
+  <div class="editorial">
+    <b>{pair("对 StreamingModelHarness 的帮助（编辑判断）",
+             "Fit for StreamingModelHarness (editorial analysis)")}</b>
+    {project_fit or '<p style="color:var(--dim)">—</p>'}
+  </div>
+  {limitations_section}
+  <h3>{pair("代码与模型开放情况", "Code and model availability")}</h3>
+  <p><span class="open-status {esc(status)}">{pair(zh_status, en_status)}</span>
+     &nbsp; {esc(opened.get("note"))}</p>
+  <p>{links}</p>
+  <p class="note">{pair("依据：", "Basis: ")}{depth_label} · {review_label}
+     · {esc(explanation.get("generated_at", "")[:16].replace("T", " "))}</p>
+</section>"""
+
+
 def item_page(it):
     zk, ek = KIND.get(it["kind"], (it["kind"], it["kind"]))
     zh = it.get("summary_zh")
@@ -211,6 +316,7 @@ def item_page(it):
     if it.get("demo"):
         demo = (f'<p><a class="demo-link" href="{BASE}/{esc(it["demo"])}">'
                 + pair("▶ 打开交互演示", "▶ open live demo") + "</a></p>")
+    deep = explanation_block(it.get("explanation")) if it.get("kind") == "paper" else ""
     body = f"""
 <div class="item-page">
   <h2 style="margin:18px 0 6px">{esc(it["title"])}</h2>
@@ -221,7 +327,8 @@ def item_page(it):
   <div class="sum-block"><b>{pair("摘要", "Summary")}</b><br>
     <span class="l-zh">{zh_block}</span>
     <span class="l-en">{esc(it.get("summary_en") or "")}</span></div>
-  {demo}
+{demo}
+{deep}
   <p><a class="btn" href="{esc(it["url"])}">{pair("→ 原文链接", "→ original link")}</a>
      &nbsp; <a class="btn" href="{BASE}/">{pair("← 返回列表", "← back")}</a></p>
   <div class="tags">{"".join(f'<span class="badge">{esc(t)}</span>' for t in it.get("tags", []))}</div>
@@ -278,6 +385,14 @@ def rss(items):
 def main():
     data = json.load(open(os.path.join(ROOT, "data", "items.json"), encoding="utf-8"))
     items = data["items"]
+    try:
+        explanations = json.load(open(
+            os.path.join(ROOT, "data", "explanations.json"), encoding="utf-8"))
+        explanations = explanations if isinstance(explanations, dict) else {}
+    except Exception:
+        explanations = {}
+    for item in items:
+        item["explanation"] = explanations.get(item["id"], {})
     os.makedirs(os.path.join(DOCS, "items"), exist_ok=True)
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
@@ -338,7 +453,11 @@ def main():
         shell("Archive · cockpit-agent-radar", "\n".join(parts)))
 
     open(os.path.join(DOCS, "feed.xml"), "w", encoding="utf-8").write(rss(items))
-    print(f"site built: {len(items)} items, {len(days)} days on index")
+    explained = sum(bool(item.get("explanation")) for item in items
+                    if item.get("kind") == "paper")
+    papers = sum(item.get("kind") == "paper" for item in items)
+    print(f"site built: {len(items)} items, {len(days)} days on index, "
+          f"paper deep dives {explained}/{papers}")
 
 
 if __name__ == "__main__":
