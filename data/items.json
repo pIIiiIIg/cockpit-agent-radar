@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-30T19:44:00.621467+08:00",
+ "generated": "2026-07-31T09:32:01.592235+08:00",
  "items": [
   {
    "id": "bf76305254",
@@ -959,7 +959,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Recent advances in AudioLLMs have enabled spoken dialogue systems to move beyond turn-based interaction toward real-time full-duplex communication, where the agent must decide when to speak, yield, or interrupt while the user is still talking. Existing full-duplex approaches either rely on voice activity cues, which lack semantic understanding, or on ASR-based modules, which introduce latency and degrade under overla",
-   "summary_zh": "",
+   "summary_zh": "一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。这正是本站全双工座舱助手'边说边听'的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。",
    "demo": "",
    "stars": null
   },
@@ -977,7 +977,7 @@
     "speech synthesis"
    ],
    "summary_en": "Expressive speech synthesis for voice assistants requires flexible style control that adapts to explicit requests and broader interaction context. We propose Harness TTS, a lightweight control layer that wraps around a TTS engine to externalize and govern its expressive behavior. It reformulates style control as closed-set prompt-tool routing: offline, a compact registry of stylistic prompt tools is constructed with ",
-   "summary_zh": "",
+   "summary_zh": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。与本站'外挂TTS'架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。",
    "demo": "",
    "stars": null
   },
@@ -1015,7 +1015,7 @@
     "text-to-speech"
    ],
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
-   "summary_zh": "",
+   "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
    "stars": 5085
   },
@@ -1033,7 +1033,7 @@
     "duplex"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "开源自托管语音AI平台（对标Vapi/Retell），支持Speech-to-Speech或LLM/STT/TTS链路、BYOK、可视化工作流编排、原生MCP与电话接入。虽然面向电话外呼/呼入而非座舱，但其流水线编排与MCP原生工具接入可作为本站harness晚注入工具清单、语音链路架构的工程参照。",
    "demo": "",
    "stars": 4
   },
@@ -1052,7 +1052,7 @@
     "voice agent"
    ],
    "summary_en": "τ-Bench is an open benchmark for evaluating AI agents on grounded, multi-turn customer service tasks with verifiable outcomes. It&#x27;s been great to see the community adopt it since launch — this is now the third iteration. With τ³-Bench, we&#x27;re extending it to two new settings: knowledge-intensive retrieval and full-duplex voice.<p>τ-Knowledge: agents must navigate ~700 interconnected policy documents to compl",
-   "summary_zh": "",
+   "summary_zh": "τ-Bench的第三代开源基准发布，在原有可验证结果的多轮客服任务之外，新增两个场景：约700篇互相关联政策文档的知识密集型检索，以及全双工语音。对本站而言它是少见的把全双工语音纳入Agent评测的公开基准，可用来检验座舱助手在实时打断、多轮工具调用下的表现。",
    "demo": "",
    "stars": 12
   },
@@ -1070,7 +1070,7 @@
     "speech model"
    ],
    "summary_en": "Hi, HN, we’re building Mia &amp; Leo: AI personalities backed by purpose-built duplex speech models for revenue calls.<p>Teams building real-world agents told us that more than 40% of callers hang up within the first 30 seconds. On a revenue call, that meant a lost booking, an unpaid balance, a cold lead, or a customer who does not come back.<p>This happens because humans interrupt, correct dates, pause halfway throu",
-   "summary_zh": "",
+   "summary_zh": "从标题看是一个面向Agent的全双工'视觉+语音'能力评测基准(VideoFDB)。与本站主题几乎正中靶心——全双工座舱助手正是视觉语音双流的Agent，可作为能力评估与回归测试的候选基准；但目前仅有标题信息，具体任务设计与指标待原文确认。",
    "demo": "",
    "stars": 14
   }

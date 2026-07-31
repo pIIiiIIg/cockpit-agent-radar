@@ -100,7 +100,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-04-02 · ◈ 12
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Recent advances in AudioLLMs have enabled spoken dialogue systems to move beyond turn-based interaction toward real-time full-duplex communication, where the agent must decide when to speak, yield, or interrupt while the user is still talking. Existing full-duplex approaches either rely on voice activity cues, which lack semantic understanding, or on ASR-based modules, which introduce latency and degrade under overla <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。这正是本站全双工座舱助手&#x27;边说边听&#x27;的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。</span>
     <span class="l-en">Recent advances in AudioLLMs have enabled spoken dialogue systems to move beyond turn-based interaction toward real-time full-duplex communication, where the agent must decide when to speak, yield, or interrupt while the user is still talking. Existing full-duplex approaches either rely on voice activity cues, which lack semantic understanding, or on ASR-based modules, which introduce latency and degrade under overla</span></div>
   
   <p><a class="btn" href="https://arxiv.org/abs/2604.01897v6"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
