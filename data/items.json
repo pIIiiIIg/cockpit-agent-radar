@@ -1,6 +1,286 @@
 {
- "generated": "2026-07-31T17:20:45.721623+08:00",
+ "generated": "2026-07-31T19:41:18.399072+08:00",
  "items": [
+  {
+   "id": "21e7d7b562",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Sema: Semantic Transport for Real-Time Multimodal Agents",
+   "url": "https://arxiv.org/abs/2604.20940v1",
+   "published": "2026-04-22",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 19,
+   "tags": [
+    "real-time multimodal",
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics rather than reconstructing signals in real time. This fundamental difference shifts the transport goal from the technical problem of signal fidelity (Shannon-Weaver Level A) to the semantic problem of meaning preservation (Level B). This mismatch imposes significant overhead. In visual pipelines, screenshot upload accounts for over 60% of end-to-end action latency on constrained uplinks, and in voice pipelines, conventional transport carries massive redundancy, sending 43-64x more data than needed to maintain task accuracy. We present Sema, a semantic transport system that combines discrete audio tokenizers with a hybrid screen representation (lossless accessibility-tree or OCR text, plus compact visual tokens) and bursty token delivery that eliminates jitter buffers. In simulations under emulated WAN conditions, Sema reduces uplink bandwidth by 64x for audio and 130-210x for screenshots while preserving task accuracy within 0.7 percentage points of the raw baseline.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2db635b47b",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "VAmoS Bench: Voice Agent Simulation Bench",
+   "url": "https://arxiv.org/abs/2607.27453v1",
+   "published": "2026-07-29",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 17,
+   "tags": [
+    "speech-to-speech",
+    "voice agent",
+    "turn-taking"
+   ],
+   "summary_en": "Production voice agents span cascaded, speech-to-speech, and hybrid architectures. Voice-agent benchmarks typically measure component quality and conversational properties such as word error rate, latency, naturalness, and turn-taking. Fewer measure whether the agent handled a phone call correctly on its own. Contact centers refer to this as ``containment'': the share of phone calls the automated system resolves without handing off to a human. On some phone calls the right outcome is refusal or a redirect. To address this gap, we introduce VAmoS Bench, the Voice Agent Simulation Bench. It measures complete voice-agent systems end to end in a stateful customer-support task. The agent is Riley, a credit-card support representative for a fictional bank who can freeze, cancel, replace, or activate a card. Each of 100 scenarios supplies a simulated caller with a private goal and a seeded PostgreSQL backend. The platform uses each scenario to populate and activate an isolated simulation in which the caller reaches Riley over audio; roughly one-third apply adversarial pressure. The agent can use five tools that execute real SQL against the backend. Each scenario also defines binary assertions. A grader evaluates them against the complete trace of what the caller and agent said and what the agent did, including tool invocations, arguments, and returned rows. This catches an agent that claims to have changed a card without updating the database, as well as one that makes the right database change while disclosing protected information. This first benchmark version focuses on financial services. Its evaluation protocol supports an evolving leaderboard: additional voice agents can be evaluated on the same version, while later versions can expand the tasks and scenarios.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "271ff71800",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Omni-Embed-Audio: Leveraging Multimodal LLMs for Robust Audio-Text Retrieval",
+   "url": "https://arxiv.org/abs/2604.18360v3",
+   "published": "2026-04-20",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 16,
+   "tags": [
+    "omni",
+    "native audio",
+    "multimodal"
+   ],
+   "summary_en": "Audio-text retrieval systems based on Contrastive Language-Audio Pretraining (CLAP) achieve strong performance on traditional benchmarks; however, these benchmarks rely on caption-style queries that differ substantially from real-world search behavior, limiting their assessment of practical retrieval robustness. We present Omni-Embed-Audio (OEA), a retrieval-oriented encoder leveraging multimodal LLMs with native audio understanding. To systematically evaluate robustness beyond caption-style queries, we introduce User-Intent Queries (UIQs) - five formulations reflecting natural search behaviors: questions, commands, keyword tags, paraphrases, and exclusion-based negative queries. For negative queries, we develop a hard negative mining pipeline and propose discrimination metrics (HNSR, TFR) assessing models' ability to suppress acoustically similar distractors. Experiments on AudioCaps, Clotho, and MECAT show that OEA achieves comparable text-to-audio retrieval performance to state-of-the-art M2D-CLAP, while demonstrating clear advantages in two critical areas: (1) dominant text-to-text retrieval (+22% relative improvement), and (2) substantially superior hard negative discrimination (+4.3%p HNSR@10, +34.7% relative TFR@10), revealing that LLM backbones provide superior semantic understanding of complex queries.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "a52bf62ed8",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Light-Omni: Reflex over Reasoning in Agentic Video Understanding with Long-Term Memory",
+   "url": "https://arxiv.org/abs/2607.05511v1",
+   "published": "2026-07-06",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 14,
+   "tags": [
+    "omni",
+    "multimodal agent",
+    "multimodal",
+    "video agent"
+   ],
+   "summary_en": "Agentic video understanding equips models with long-term memory to autonomously process and respond to continuous, long-horizon multimodal streams. However, advanced video agents often rely on ``detective-style'' iterative reasoning for action control (e.g., $\\mathtt{search}$) and evidence aggregation, incurring prohibitive costs and latency. We argue that such heavy reasoning primarily compensates for the lack of global context and semantic misalignment in retrieval. This paper introduces Light-Omni, a multimodal agent framework for reflexive and lightweight video understanding. It achieves this through dual contextual states that instantly build the required context in a single forward pass. First, we maintain a global state, a finite-sized multimodal script continuously consolidated from episodic memory, serving as the global context for Light-Omni. Through hierarchical merging, it preserves recent details while summarizing past events. Second, conditioned on this global context, we generate a parametric latent state that directly drives autonomous actions and produces retrieval embeddings, with minimal latency. Benefiting from this coupled design, Light-Omni achieves semantically aligned retrieval and reflexive responses while avoiding iterative reasoning. Extensive experiments validate the effectiveness of Light-Omni across multiple video benchmarks. Notably, it outperforms M3-Agent with an average 2.4% accuracy gain, a 12.1$\\times$ speedup, and a 2.6$\\times$ improvement in GPU memory efficiency. Furthermore, it serves as a memory system to enhance both the performance and efficiency of existing MLLMs. Project page: https://clare-nie.github.io/Light-Omni.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e4ffb7ee50",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing",
+   "url": "https://arxiv.org/abs/2607.08497v1",
+   "published": "2026-07-09",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 14,
+   "tags": [
+    "multimodal agent",
+    "multimodal",
+    "agent harness"
+   ],
+   "summary_en": "Recent unified multimodal models show a single architecture can jointly perform vision/language understanding and image generation/editing. However, they repeatedly feed all historical visual and textual inputs into a shared context window, limiting long-horizon multimodal dialogue due to visual token explosion and unreliable cross-turn referencing. We propose a Cognitive-structured Multimodal Agent that externalizes visual information into an Episodic Visual Memory and selectively reactivates relevant episodes during reasoning. The agent consists of a Perceptual Abstraction Engine for structured visual abstraction, a Cognitive Retrieval Engine for cross-turn memory retrieval, and a Multimodal Executive Controller for autonomous task inference and action planning. To address the lack of turn-level retrieval supervision in existing datasets, we develop a Unified Scenario Engine that programmatically generates structured multi-turn conversations with fine-grained retrieval annotations, enabling reinforcement learning to optimize abstraction and retrieval policies. We also construct a long-horizon visual-dialogue benchmark stratified by difficulty to evaluate episodic visual recall. Our 8B agent achieves 91.4% retrieval accuracy over 20-turn sessions, surpassing 32B baselines by +8.2% while nearly halving per-turn inference time (23.1s -> 12.7s). We further present the Cognitive-structured Multimodal Agent Harness (CMA-Harness), a tool-augmented deployment of the same cognitive structure integrating persistent multimodal memory, web access, image generation/editing/composition tools, and OpenAI-compatible serving. Structured memory and modular decision-making offer a more scalable, efficient paradigm for long-horizon multimodal agents than monolithic parameter scaling. Code: https://github.com/caseclose/cma-harness ; Project page: https://caseclose.github.io/cma-harness/",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "21a60eab7a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Video = World + Event Stream",
+   "url": "https://arxiv.org/abs/2607.15038v2",
+   "published": "2026-07-16",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 13,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "multimodal",
+    "vision-language-action"
+   ],
+   "summary_en": "We present Wan-Streamer v0.3, which reframes our native-streaming interaction model under a single organizing view: a video is a world plus an event stream. The world is the persistent context in which a video unfolds, including the environment, scene, subjects, ambient acoustic conditions, voice characteristics, and other relatively stable conditions. The event stream is everything that changes over time within that world, including scene or environmental changes, subject behavior, speech, and other sounds. This yields a general-purpose pretraining task over large amounts of real video: given a world and incoming input, predict how the world moves, changes, and responds in real time. The resulting competence can be specialized to a broad family of real-time downstream tasks. We instantiate it on real-time full-duplex audio-visual interaction, where the event stream is the agent's speech together with free-form behavior. Functionally, the model's multimodal understanding process is vision-language-action-like: it maps multimodal user input to language-form speech and behavior actions. Wan-Streamer v0.3 preserves the v0.2 operating point: 640x368 video at 25 FPS, a 160 ms streaming unit, approximately 200 ms model-side response latency, and approximately 550 ms total interaction latency under a 350 ms bidirectional network budget.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ebc6945228",
+   "kind": "paper",
+   "source": "hf",
+   "title": "LEDGERMIND: Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger",
+   "url": "https://huggingface.co/papers/2607.28374",
+   "published": "2026-07-29",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 13,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal cannot tell whether a correct answer was reached through grounded evidence, language priors, or accidental error cancellation. We propose to treat a multimodal agent trajectory as a provenance-constrained state machine: tool outputs are normalized into a Structured Evidence Ledger that serves as the trajectory state, downstream reasoning and decision claims may cite only active ledger entries, grounding is checked at the entity and numeric level, and repair is realized as typed state transitions that cannot introduce content without tool-produced provenance. We instantiate this design as LedgerMind (Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger), augmented by a Three-Layer Grounding Protocol, an Adaptive Dual-Path Dispatcher that matches reasoning depth to question complexity, and an Event-Triggered Verification-and-Repair engine with a formal provenance non-amplification guarantee. We use LedgerMind to target four recurring failure patterns that final-answer accuracy tends to obscure: unsupported intermediate reasoning, citation-backed entity hallucination (Phantom Grounding), over-reasoning on simple queries, and repair-time amplification. Experiments across multiple multimodal reasoning benchmarks and backbone MLLMs show that LedgerMind improves both answer accuracy and trajectory-level faithfulness.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3e5ebfc066",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "M*: A Modular, Extensible, Serving System for Multimodal Models",
+   "url": "https://arxiv.org/abs/2606.12688v2",
+   "published": "2026-06-10",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 12,
+   "tags": [
+    "omni",
+    "multimodal",
+    "text-to-speech",
+    "vision-language-action"
+   ],
+   "summary_en": "We are entering a new era of composite model architectures that integrate diverse components such as vision encoders, language backbones, diffusion and flow heads, audio codecs, action generators, and world-model predictors. Such architectures underpin a broad class of multimodal models, including unified multimodal models, omni models, speech-language models, vision-language-action policies, and world models. However, existing model serving frameworks were built on narrow assumptions about model structure, making them ill-suited to accommodate this new architectural diversity. Here we present M*, a universal serving system for efficient serving of composite AI models. M* represents models as dataflow graphs, processing requests spanning diverse modalities and tasks as traversals over these graphs. The core insight is a modular abstraction that supports arbitrary composition of model components, flexible placement onto a physical cluster, and model-agnostic optimizations within a distributed runtime. We call this abstraction the Walk Graph and show how it can concisely capture composite models from a broad range of families. We instantiate M* on representative models and find that it achieves, on average, 20% lower end-to-end latency than vLLM-Omni for text-to-image workloads on BAGEL, while delivering up to 2.9x lower real-time factor and 2.7x higher throughput for text-to-speech workloads on Qwen3-Omni. M* also outperforms the V-JEPA 2-AC rollout baseline for robotic planning by up to 12.5x. Thus, our work paves the road towards more efficient serving of complex models with minimal developer effort.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ab4dbde172",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "MECoBench: A Systematic Study of Multimodal Agent Collaboration in Embodied Environments",
+   "url": "https://arxiv.org/abs/2606.31966v1",
+   "published": "2026-06-30",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 12,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Recent multimodal large language models (MLLMs) have strong potential as embodied agents, but their ability to collaborate in visually grounded environments remains underexplored. To address this gap, we introduce MECoBench, a multimodal embodied cooperation benchmark with an evaluation platform spanning diverse real-world tasks, two cooperation structures, and three collaboration modes. Through extensive experiments across various MLLMs, we summarize three key findings: (i) Collaboration generally improves embodied task completion, but its benefits depend on balancing collaborative gains against coordination complexity. (ii) Communication is essential to collaboration gains, while the best collaboration mode depends on team size and model capability. (iii) Moreover, collaboration improves robustness under noisy priors and exploration conditions. Generally, MECoBench provides a systematic testbed for understanding the mechanisms and limits of multimodal embodied collaboration. Code and dataset are available at https://github.com/q-i-n-g/MECoBench.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "cc0e527f48",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Self-hosted voice AI agent for Asterisk/FreePBX",
+   "url": "https://github.com/hkjarral/AVA-AI-Voice-Agent-for-Asterisk",
+   "published": "2026-07-13",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 12,
+   "tags": [
+    "voice agent",
+    "native audio"
+   ],
+   "summary_en": "Hi HN folks ! I am the author of AVA, a self hosted AI Voice Agent that plugs into Asterisk&#x2F;Freepbx so you own all the aspects of an AI Voice agent in your own infrastructure. It uses Asterisk native Audiosocket&#x2F;RTP with python engine to run STT,LLM and TTS loop. The project support several full providers openai, gemini, grok, elevenlabs out of the box and also provides options to build custom pipelines by choosing different stt tts and llm.<p>It also supports full local agent if you have a GPU with 25GB RAM which enables realtime conversation along with tool calling.<p>I started this as a hobby project last year when I started exploring voice agents and every saw every Saas tried to lock you in their eco system. Since then project has taken off and a lot of asterisk people started using it due to ease of setup and wide range of providers and flexibility.<p>Core is MIT: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;hkjarral&#x2F;AVA-AI-Voice-Agent-for-Asterisk\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;hkjarral&#x2F;AVA-AI-Voice-Agent-for-Asterisk</a> Free and open source forever.<p>No install Mock UI us hosted at: <a href=\"https:&#x2F;&#x2F;demo.agent6789.com\" rel=\"nofollow\">https:&#x2F;&#x2F;demo.agent6789.com</a><p>I am also exploring to convert this into a more polished version for Operators to handle multiple customer and multi tenant environment and I would genuinely like to hear feedback on it.<p>Happy to answer any questions and gather any feedback. Thanks.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 32
+  },
+  {
+   "id": "5af78d53e4",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Stream RAG: Instant and Accurate Spoken Dialogue Systems with Streaming Tool Usage",
+   "url": "https://arxiv.org/abs/2510.02044v1",
+   "published": "2025-10-02",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 11,
+   "tags": [
+    "spoken dialogue"
+   ],
+   "summary_en": "End-to-end speech-in speech-out dialogue systems are emerging as a powerful alternative to traditional ASR-LLM-TTS pipelines, generating more natural, expressive responses with significantly lower latency. However, these systems remain prone to hallucinations due to limited factual grounding. While text-based dialogue systems address this challenge by integrating tools such as web search and knowledge graph APIs, we introduce the first approach to extend tool use directly into speech-in speech-out systems. A key challenge is that tool integration substantially increases response latency, disrupting conversational flow. To mitigate this, we propose Streaming Retrieval-Augmented Generation (Streaming RAG), a novel framework that reduces user-perceived latency by predicting tool queries in parallel with user speech, even before the user finishes speaking. Specifically, we develop a post-training pipeline that teaches the model when to issue tool calls during ongoing speech and how to generate spoken summaries that fuse audio queries with retrieved text results, thereby improving both accuracy and responsiveness. To evaluate our approach, we construct AudioCRAG, a benchmark created by converting queries from the publicly available CRAG dataset into speech form. Experimental results demonstrate that our streaming RAG approach increases QA accuracy by up to 200% relative (from 11.1% to 34.2% absolute) and further enhances user experience by reducing tool use latency by 20%. Importantly, our streaming RAG approach is modality-agnostic and can be applied equally to typed input, paving the way for more agentic, real-time AI assistants.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "420a33f2c8",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "V-Rex: Real-Time Streaming Video LLM Acceleration via Dynamic KV Cache Retrieval",
+   "url": "https://arxiv.org/abs/2512.12284v3",
+   "published": "2025-12-13",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 11,
+   "tags": [
+    "real-time multimodal",
+    "multimodal",
+    "kv cache"
+   ],
+   "summary_en": "Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and computational challenges because their key-value (KV) caches grow substantially with continuous streaming video input. This process requires an iterative prefill stage, which is a unique feature of streaming video LLMs. Due to its iterative prefill stage, it suffers from significant limitations, including extensive computation, substantial data transfer, and degradation in accuracy. Crucially, this issue is exacerbated for edge deployment, which is the primary target for these models. In this work, we propose V-Rex, the first software-hardware co-designed accelerator that comprehensively addresses both algorithmic and hardware bottlenecks in streaming video LLM inference. At its core, V-Rex introduces ReSV, a training-free dynamic KV cache retrieval algorithm. ReSV exploits temporal and spatial similarity-based token clustering to reduce excessive KV cache memory across video frames. To fully realize these algorithmic benefits, V-Rex offers a compact, low-latency hardware accelerator with a dynamic KV cache retrieval engine (DRE), featuring bit-level and early-exit based computing units. V-Rex achieves unprecedented real-time of 3.9-8.3 FPS and energy-efficient streaming video LLM inference on edge deployment with negligible accuracy loss. While DRE only accounts for 2.2% power and 2.0% area, the system delivers 1.9-19.7x speedup and 3.1-18.5x energy efficiency improvements over AGX Orin GPU. This work is the first to comprehensively tackle KV cache retrieval across algorithms and hardware, enabling real-time streaming video LLM inference on resource-constrained edge devices.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ecf1da395a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "LiveTalk: Real-Time Multimodal Interactive Video Diffusion via Improved On-Policy Distillation",
+   "url": "https://arxiv.org/abs/2512.23576v1",
+   "published": "2025-12-29",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 11,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Real-time video generation via diffusion is essential for building general-purpose multimodal interactive AI systems. However, the simultaneous denoising of all video frames with bidirectional attention via an iterative process in diffusion models prevents real-time interaction. While existing distillation methods can make the model autoregressive and reduce sampling steps to mitigate this, they focus primarily on text-to-video generation, leaving the human-AI interaction unnatural and less efficient. This paper targets real-time interactive video diffusion conditioned on a multimodal context, including text, image, and audio, to bridge the gap. Given the observation that the leading on-policy distillation approach Self Forcing encounters challenges (visual artifacts like flickering, black frames, and quality degradation) with multimodal conditioning, we investigate an improved distillation recipe with emphasis on the quality of condition inputs as well as the initialization and schedule for the on-policy optimization. On benchmarks for multimodal-conditioned (audio, image, and text) avatar video generation including HDTF, AVSpeech, and CelebV-HQ, our distilled model matches the visual quality of the full-step, bidirectional baselines of similar or larger size with 20x less inference cost and latency. Further, we integrate our model with audio language models and long-form video inference technique Anchor-Heavy Identity Sinks to build LiveTalk, a real-time multimodal interactive avatar system. System-level evaluation on our curated multi-turn interaction benchmark shows LiveTalk outperforms state-of-the-art models (Sora2, Veo3) in multi-turn video coherence and content quality, while reducing response latency from 1 to 2 minutes to real-time generation, enabling seamless human-AI multimodal interaction.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "219d8f814d",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Discourse-Aware Dual-Track Streaming Response for Low-Latency Spoken Dialogue Systems",
+   "url": "https://arxiv.org/abs/2602.23266v1",
+   "published": "2026-02-26",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 11,
+   "tags": [
+    "spoken dialogue",
+    "speech synthesis"
+   ],
+   "summary_en": "Achieving human-like responsiveness is a critical yet challenging goal for cascaded spoken dialogue systems. Conventional ASR-LLM-TTS pipelines follow a strictly sequential paradigm, requiring complete transcription and full reasoning before speech synthesis can begin, which results in high response latency. We propose the Discourse-Aware Dual-Track Streaming Response (DDTSR) framework, a low-latency architecture that enables listen-while-thinking and speak-while-thinking. DDTSR is built upon three key mechanisms: (1) connective-guided small-large model synergy, where an auxiliary small model generates minimal-committal discourse connectives while a large model performs knowledge-intensive reasoning in parallel; (2) streaming-based cross-modal collaboration, which dynamically overlaps ASR, LLM inference, and TTS to advance the earliest speakable moment; and (3) curriculum-learning-based discourse continuity enhancement, which maintains coherence and logical consistency between early responses and subsequent reasoning outputs. Experiments on two spoken dialogue benchmarks demonstrate that DDTSR reduces response latency by 19%-51% while preserving discourse quality. Further analysis shows that DDTSR functions as a plug-and-play module compatible with diverse LLM backbones, and remains robust across varying utterance lengths, indicating strong practicality and scalability for real-time spoken interaction.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "854193be76",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Context-Aware Multimodal Claim Verification in Spoken Dialogues",
+   "url": "https://arxiv.org/abs/2606.11420v1",
+   "published": "2026-06-09",
+   "found": "2026-07-31T19:41:18.399072+08:00",
+   "score": 11,
+   "tags": [
+    "spoken dialogue",
+    "multimodal"
+   ],
+   "summary_en": "Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused on isolated text, leaving dialogue audio under-studied. We introduce MAD2, a new Multi-turn Audio Dialogues benchmark for spoken claim verification, containing 1,000 two-speaker dialogues with 3,368 check-worthy claims and approximately 10 hours of audio, and propose calibrated multimodal fusion of a context-aware audio encoder and a dialogue-aware text model. Across settings, adding dialogue context improves verification, but the gains depend on scenario type. Using only preceding context often matches offline performance, supporting live-moderation settings, and audio contributes most when transcript-based models are destabilized by additional context. Overall, conversational structure matters more for verification than misinformation framing.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "6b9408ecec",
    "kind": "repo",
@@ -36,7 +316,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 9443
+   "stars": 9544
   },
   {
    "id": "be7f76beb6",
@@ -73,7 +353,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7656
+   "stars": 7659
   },
   {
    "id": "5b176e49fe",
@@ -166,7 +446,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5760
+   "stars": 5763
   },
   {
    "id": "293306d628",
@@ -880,7 +1160,7 @@
    "summary_en": "A curated list of full-duplex spoken dialogue models & benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems",
    "summary_zh": "一份精选全双工口语对话模型与基准测试的 awesome 清单，持续收录该方向的模型、系统和评测资源。对座舱助手项目是实用的导航页：选型基线模型、寻找全双工能力评测基准（如打断、抢话、延迟指标）时可以按图索骥，避免重复调研。",
    "demo": "",
-   "stars": 153
+   "stars": 154
   },
   {
    "id": "0edff6bc67",

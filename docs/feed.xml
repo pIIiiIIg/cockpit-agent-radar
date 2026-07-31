@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>Sema: Semantic Transport for Real-Time Multimodal Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/21e7d7b562.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/21e7d7b562.html</guid>
+<description>Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics </description>
+</item>
+<item>
+<title>VAmoS Bench: Voice Agent Simulation Bench</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2db635b47b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2db635b47b.html</guid>
+<description>Production voice agents span cascaded, speech-to-speech, and hybrid architectures. Voice-agent benchmarks typically measure component quality and conversational properties such as word error rate, latency, naturalness, and turn-taking. Fewer measure whether the agent handled a phone call correctly o</description>
+</item>
+<item>
+<title>Omni-Embed-Audio: Leveraging Multimodal LLMs for Robust Audio-Text Retrieval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/271ff71800.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/271ff71800.html</guid>
+<description>Audio-text retrieval systems based on Contrastive Language-Audio Pretraining (CLAP) achieve strong performance on traditional benchmarks; however, these benchmarks rely on caption-style queries that differ substantially from real-world search behavior, limiting their assessment of practical retrieva</description>
+</item>
+<item>
+<title>Light-Omni: Reflex over Reasoning in Agentic Video Understanding with Long-Term Memory</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a52bf62ed8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a52bf62ed8.html</guid>
+<description>Agentic video understanding equips models with long-term memory to autonomously process and respond to continuous, long-horizon multimodal streams. However, advanced video agents often rely on ``detective-style&#x27;&#x27; iterative reasoning for action control (e.g., $\mathtt{search}$) and evidence aggregati</description>
+</item>
+<item>
+<title>Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e4ffb7ee50.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e4ffb7ee50.html</guid>
+<description>Recent unified multimodal models show a single architecture can jointly perform vision/language understanding and image generation/editing. However, they repeatedly feed all historical visual and textual inputs into a shared context window, limiting long-horizon multimodal dialogue due to visual tok</description>
+</item>
+<item>
+<title>Video = World + Event Stream</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/21a60eab7a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/21a60eab7a.html</guid>
+<description>We present Wan-Streamer v0.3, which reframes our native-streaming interaction model under a single organizing view: a video is a world plus an event stream. The world is the persistent context in which a video unfolds, including the environment, scene, subjects, ambient acoustic conditions, voice ch</description>
+</item>
+<item>
+<title>LEDGERMIND: Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ebc6945228.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ebc6945228.html</guid>
+<description>Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal cannot tell whether a correct answer was reached through grounded</description>
+</item>
+<item>
+<title>M*: A Modular, Extensible, Serving System for Multimodal Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3e5ebfc066.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3e5ebfc066.html</guid>
+<description>We are entering a new era of composite model architectures that integrate diverse components such as vision encoders, language backbones, diffusion and flow heads, audio codecs, action generators, and world-model predictors. Such architectures underpin a broad class of multimodal models, including u</description>
+</item>
+<item>
+<title>MECoBench: A Systematic Study of Multimodal Agent Collaboration in Embodied Environments</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ab4dbde172.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ab4dbde172.html</guid>
+<description>Recent multimodal large language models (MLLMs) have strong potential as embodied agents, but their ability to collaborate in visually grounded environments remains underexplored. To address this gap, we introduce MECoBench, a multimodal embodied cooperation benchmark with an evaluation platform spa</description>
+</item>
+<item>
+<title>Show HN: Self-hosted voice AI agent for Asterisk/FreePBX</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cc0e527f48.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cc0e527f48.html</guid>
+<description>Hi HN folks ! I am the author of AVA, a self hosted AI Voice Agent that plugs into Asterisk&amp;#x2F;Freepbx so you own all the aspects of an AI Voice agent in your own infrastructure. It uses Asterisk native Audiosocket&amp;#x2F;RTP with python engine to run STT,LLM and TTS loop. The project support severa</description>
+</item>
+<item>
+<title>Stream RAG: Instant and Accurate Spoken Dialogue Systems with Streaming Tool Usage</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5af78d53e4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5af78d53e4.html</guid>
+<description>End-to-end speech-in speech-out dialogue systems are emerging as a powerful alternative to traditional ASR-LLM-TTS pipelines, generating more natural, expressive responses with significantly lower latency. However, these systems remain prone to hallucinations due to limited factual grounding. While </description>
+</item>
+<item>
+<title>V-Rex: Real-Time Streaming Video LLM Acceleration via Dynamic KV Cache Retrieval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/420a33f2c8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/420a33f2c8.html</guid>
+<description>Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and computational challenges because their key-value (KV) caches</description>
+</item>
+<item>
+<title>LiveTalk: Real-Time Multimodal Interactive Video Diffusion via Improved On-Policy Distillation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ecf1da395a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ecf1da395a.html</guid>
+<description>Real-time video generation via diffusion is essential for building general-purpose multimodal interactive AI systems. However, the simultaneous denoising of all video frames with bidirectional attention via an iterative process in diffusion models prevents real-time interaction. While existing disti</description>
+</item>
+<item>
+<title>Discourse-Aware Dual-Track Streaming Response for Low-Latency Spoken Dialogue Systems</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/219d8f814d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/219d8f814d.html</guid>
+<description>Achieving human-like responsiveness is a critical yet challenging goal for cascaded spoken dialogue systems. Conventional ASR-LLM-TTS pipelines follow a strictly sequential paradigm, requiring complete transcription and full reasoning before speech synthesis can begin, which results in high response</description>
+</item>
+<item>
+<title>Context-Aware Multimodal Claim Verification in Spoken Dialogues</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/854193be76.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/854193be76.html</guid>
+<description>Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused o</description>
+</item>
+<item>
 <title>Capslockb/hermes-live-discord-agent-plugin</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/6b9408ecec.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6b9408ecec.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/7369317a9f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7369317a9f.html</guid>
 <description>TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。</description>
-</item>
-<item>
-<title>DuplexChat: Constructing Speaker-Separated Full-Duplex Dialogue Speech at Scale for Spoken Dialogue Language Modeling</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/602fa5c48a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/602fa5c48a.html</guid>
-<description>DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。</description>
-</item>
-<item>
-<title>Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3327bbf388.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3327bbf388.html</guid>
-<description>Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。</description>
-</item>
-<item>
-<title>DuplexSLA: A Full-Duplex Spoken Language Model with Synchronized Speech, Language, and Action</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8539ccbdae.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8539ccbdae.html</guid>
-<description>DuplexSLA 提出语音、语言、动作三者同步的全双工口语模型，在双工主干内原生开辟了一条用于对话中规划和工具调用的通道，使 agentic 行为不再被绑在轮次边界或外部级联上。这正是本站“晚注入工具清单”痛点的正面回应：可借鉴其在流式生成中途插入工具调用而不打断听说的设计。</description>
-</item>
-<item>
-<title>SoulX-Duplug: Plug-and-Play Streaming State Prediction Module for Realtime Full-Duplex Speech Conversation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fd269fcd0f.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fd269fcd0f.html</guid>
-<description>SoulX-Duplug 是一个即插即用的流式状态预测模块，为现有语音对话系统补齐全双工能力，同时规避了训练数据难获取、灾难性遗忘和可扩展性差的问题。其“不重训主干、外挂模块实现双工”的路线与本站自研 harness 的哲学高度一致，值得重点跟进。</description>
-</item>
-<item>
-<title>Why is nobody using this? Full-duplex voice streaming with Gemini Live in React</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3c14f68c1b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3c14f68c1b.html</guid>
-<description>这是一篇工程向分享：作者封装了调用 Gemini Live API 的 React hook，实现可打断的全双工语音对话，并吐槽浏览器侧音频工程之坑（48kHz 重采样到 16kHz 入/24kHz 出、内置 VAD、屏幕共享、工具调用）。对本站座舱 harness 的客户端/音频链路有直接参考价值，尤其是重采样与打断处理的实战细节。</description>
-</item>
-<item>
-<title>Enabling Conversational Behavior Reasoning Capabilities in Full-Duplex Speech</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/44a67a536b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/44a67a536b.html</guid>
-<description>该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。</description>
-</item>
-<item>
-<title>SuperdeMan/cockpit-agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d5aecac7fd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d5aecac7fd.html</guid>
-<description>一个面向智能座舱的云边协同 AI Agent 开源项目：端侧负责毫秒级车控，云端做声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI。其&#x27;LLM 只管理解与规划、VAL 负责确定性安全执行&#x27;的分层思路，与本站 harness 的架构理念高度同构，可作为座舱语音助手工程化（尤其车控安全边界与云边分工）的直接参照。</description>
-</item>
-<item>
-<title>TurnNat: Automatic Evaluation of Turn-Taking Naturalness in Dyadic Spoken Dialogue</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a298114cb1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a298114cb1.html</guid>
-<description>TurnNat 提出一个基于似然（likelihood）的框架，用于自动评估双通道口语对话中轮换（turn-taking）的自然度，把原本依赖人工判断或单一计时指标的异质时序失败统一到一个可比较的体系里。对本站的全双工座舱助手而言，它补上了&#x27;边说边听&#x27;体验难量化的一环，可用来自动评测抢话、响应延迟、打断时机等关键指标。</description>
-</item>
-<item>
-<title>How Should LLMs Listen While Speaking? A Study of User-Stream Routing in Full-Duplex Spoken Dialogue</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f65775c8d2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f65775c8d2.html</guid>
-<description>这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。它直指本站&#x27;边说边听、流式进 KV&#x27;的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。</description>
-</item>
-<item>
-<title>EchoChain: A Full-Duplex Benchmark for State-Update Reasoning Under Interruptions</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fbbb375b6a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fbbb375b6a.html</guid>
-<description>EchoChain 是一个受控基准，专门评估全双工语音助手在用户中途打断后能否正确更新任务状态并继续对话，并归纳出打断后续回复中的三类典型失败模式。它命中现有轮次式评测覆盖不到的盲区，可作为本站座舱助手打断恢复（barge-in 后状态修正）能力的回归测试与选型依据。</description>
-</item>
-<item>
-<title>LMPAN: A Lightweight Multi-Path Alignment Network for Joint Full-Duplex Acoustic Echo Cancellation and Noise Suppression</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0483feb407.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0483feb407.html</guid>
-<description>LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱&#x27;边说边听&#x27;的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。</description>
-</item>
-<item>
-<title>A Survey of Full-Duplex Spoken Dialogue Systems: Architectural Hierarchy, Interaction Ontology, and Decision State Machine</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0cfb27f5b9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0cfb27f5b9.html</guid>
-<description>这是一篇全双工口语对话系统的综述，指出当前十几种自称&#x27;全双工&#x27;的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清&#x27;双工决策究竟发生在哪一层&#x27;。对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。</description>
-</item>
-<item>
-<title>Nvidia PersonaPlex 7B on Apple Silicon: Full-Duplex Speech-to-Speech in Swift</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2b9ce814dc.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2b9ce814dc.html</guid>
-<description>这条新闻报道了 NVIDIA 的全双工语音到语音模型 PersonaPlex 7B 被移植到 Apple Silicon 上、以 Swift 实现本地运行。它与本站主题的相关性在于展示了大参数全双工 S2S 模型的端侧部署路径，对座舱这种讲究离线可用与低时延的场景有参考价值；但仅有标题信息，具体实现细节与效果需进一步求证。</description>
-</item>
-<item>
-<title>VideoFDB: Evaluating Full-Duplex Vision-Speech Capabilities in Conversational Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/35477e429c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/35477e429c.html</guid>
-<description>VideoFDB 是首个评测对话智能体全双工&#x27;视觉+语音&#x27;能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。</description>
-</item>
-<item>
-<title>RelayS2S: A Dual-Path Speculative Generation for Real-Time Dialogue</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5e1773f2f1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5e1773f2f1.html</guid>
-<description>RelayS2S 针对实时对话中&#x27;低延迟&#x27;与&#x27;高质量&#x27;的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。对我们&#x27;Omni 模型+外挂 TTS&#x27;的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。</description>
 </item>
 </channel></rss>
