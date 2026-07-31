@@ -122,7 +122,28 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <span class="l-zh">LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱&#x27;边说边听&#x27;的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。</span>
     <span class="l-en">We propose a lightweight multi-path alignment network (LMPAN) for on-device joint acoustic echo cancellation (AEC) and noise suppression (NS) in full-duplex spoken dialogue systems. To address hardware-induced distortions and dynamic acoustic conditions, we introduce three core innovations: (1) a multi-path alignment stage correcting temporal and energy mismatches across reference, linear AEC (LAEC) output, and micro</span></div>
 
-<div class="pending-explain"><span class="l-zh">深度讲解正在排队：自动增强通道会读取论文正文后补充。</span><span class="l-en">Deep dive queued: the enhancement agent will read the paper and add it.</span></div>
+
+<section class="explain">
+  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
+  <p class="lead">LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。</p>
+  <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
+  <p>助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。</p>
+  <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
+  <p>LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱&#x27;边说边听&#x27;的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。</p>
+
+
+  <div class="editorial">
+    <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
+    <ul><li>这正命中座舱&#x27;边说边听&#x27;的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。</li></ul>
+  </div>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+  <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
+  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
+     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
+     · 2026-07-31 11:59</p>
+</section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.02062v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
   <div class="tags"><span class="badge">full-duplex</span><span class="badge">duplex</span><span class="badge">spoken dialogue</span><span class="badge">vad</span></div>

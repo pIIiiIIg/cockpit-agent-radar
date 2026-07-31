@@ -130,13 +130,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <p>传统半双工模型不知道何时接话；VAD→ASR→文本判断的级联既慢又割裂，重训整个全双工主干又成本太高。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
   <p>它以 160ms 为一块，将音频 token、流式 ASR token 和五种状态 token 交错建模，输出 idle、nonidle、backchannel、complete、incomplete。训练统一优化 ASR 和状态预测，推理时由轻量 SenseVoice 提供 teacher-forced 流式文本。</p>
-  <h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>GLM-4-Voice tokenizer 将音频变成 12.5Hz 离散 token。</li><li>每个 160ms 块生成局部 ASR 文本和当前用户状态。</li><li>complete 触发助手接话，incomplete 继续等待，backchannel 不抢走话权。</li></ol>
-  <h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文给出的理论平均状态判断延迟约 240ms。</li><li>项目同时开放中英文状态评测与完整对话系统示例。</li></ul>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>GLM-4-Voice tokenizer 将音频变成 12.5Hz 离散 token。</li><li>每个 160ms 块生成局部 ASR 文本和当前用户状态。</li><li>complete 触发助手接话，incomplete 继续等待，backchannel 不抢走话权。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文给出的理论平均状态判断延迟约 240ms。</li><li>项目同时开放中英文状态评测与完整对话系统示例。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
     <ul><li>是 StreamingModelHarness 最直接的候选：映射 complete→commit、incomplete→继续收音、backchannel→不取消播报。</li><li>初期应与现有 RMS VAD 双闸运行，先在真实车内回声、音乐和多人语音上 A/B。</li></ul>
   </div>
-  <h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>会占用额外推理资源，并与现有 faster-whisper 形成重复 ASR 链路。</li><li>开放模型在通用中英文场景训练，仍需验证车控短句、座位和远场音频。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>会占用额外推理资源，并与现有 faster-whisper 形成重复 ASR 链路。</li><li>开放模型在通用中英文场景训练，仍需验证车控短句、座位和远场音频。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
      &nbsp; 代码、模型、WebSocket 示例和 SoulX-Duplug-Eval 已公开。</p>

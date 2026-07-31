@@ -35,6 +35,10 @@ HackerNews 上与**全双工语音、流式多模态模型、agent harness、座
 优先处理新论文，再按相关度逐班回填历史论文；Agent 缺席不影响 GitHub Actions 的
 抓取、建站和 RSS。`scripts/enhance_kimi.py` 仅保留为手动备用，不在定时流水线运行。
 
+为避免新论文在两班之间只显示“排队中”，GitHub Actions 会先运行
+`backfill_abstract_explanations.py` 生成明确标注的“摘要速读”（零 API、无模型费用）；
+Cursor Agent 随后读取正文，将 `review_status=abstract_backfill` 的条目升级为深度讲解。
+
 ## 本地跑
 
 ```bash

@@ -130,13 +130,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <p>现有全双工语音模型通常没有原生工具通道：工具调用要么等待轮次结束，要么由外部级联处理，造成动作延迟并割裂口播。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
   <p>它采用双音频流、三语义通道：连续用户音频、离散助手语音，以及限速的文本 Action 通道。Action 通道承载转写、规划、response/interrupt/backchannel 标签和结构化工具 JSON，每个动作都带明确的 160ms 时间位置。</p>
-  <h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>每个 160ms 块接收两份 80ms 用户音频特征。</li><li>同一主干预测一个文本锚点和四个 40ms 助手语音 token。</li><li>Action 通道每块最多输出 10 个文本 token，超出部分顺延。</li><li>工具调用与助手口播并行，interrupt 标签可让语音迅速切换为静音。</li></ol>
-  <h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>工具调用平均延迟为 0.64 秒，ASR+LLM 级联为 2.77 秒；对应准确率分别为 85.56% 和 91.33%。</li><li>论文报告正常接话、停顿、打断和附和识别准确率分别为 96.00%、93.33%、99.33% 和 98.33%。</li></ul>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>每个 160ms 块接收两份 80ms 用户音频特征。</li><li>同一主干预测一个文本锚点和四个 40ms 助手语音 token。</li><li>Action 通道每块最多输出 10 个文本 token，超出部分顺延。</li><li>工具调用与助手口播并行，interrupt 标签可让语音迅速切换为静音。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>工具调用平均延迟为 0.64 秒，ASR+LLM 级联为 2.77 秒；对应准确率分别为 85.56% 和 91.33%。</li><li>论文报告正常接话、停顿、打断和附和识别准确率分别为 96.00%、93.33%、99.33% 和 98.33%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
     <ul><li>最值得借鉴的是独立、带时间戳的 Action 事件流，可逐步替代混在口播文本中的 §车控标签§。</li><li>短期仍应保留本地确定性执行层；模型产生 Action 不等于动作可以无条件落车。</li></ul>
   </div>
-  <h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>该能力依赖约 32 万小时持续预训练和约 5 万小时后训练，不是 Harness 级的小改。</li><li>工具结果显示速度显著提升，但准确率略低于级联基线。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>该能力依赖约 32 万小时持续预训练和约 5 万小时后训练，不是 Harness 级的小改。</li><li>工具结果显示速度显著提升，但准确率略低于级联基线。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
      &nbsp; 截至 2026-07-30 仅技术报告和项目页公开；推理代码、权重与 DuplexSLA-Bench 标注为 coming soon。</p>

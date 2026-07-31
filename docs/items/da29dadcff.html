@@ -122,7 +122,28 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <span class="l-zh">论文提出在全双工语音对话语言模型中引入&quot;时序思维&quot;(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。摘要信息有限，保守地说，其对&quot;聆听阶段该想什么&quot;的建模与站内流式 KV 注入时机的工程问题直接相关。</span>
     <span class="l-en">Recent advances in spoken dialogue language models (SDLMs) reflect growing interest in shifting from turn-based to full-duplex systems, where the models continuously perceive user speech streams while generating responses. This simultaneous listening and speaking design enables real-time interaction and the agent can handle dynamic conversational behaviors like user barge-in. However, during the listening phase, exis</span></div>
 
-<div class="pending-explain"><span class="l-zh">深度讲解正在排队：自动增强通道会读取论文正文后补充。</span><span class="l-en">Deep dive queued: the enhancement agent will read the paper and add it.</span></div>
+
+<section class="explain">
+  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
+  <p class="lead">论文提出在全双工语音对话语言模型中引入&quot;时序思维&quot;(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。</p>
+  <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
+  <p>全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。</p>
+  <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
+  <p>论文提出在全双工语音对话语言模型中引入&quot;时序思维&quot;(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。摘要信息有限，保守地说，其对&quot;聆听阶段该想什么&quot;的建模与站内流式 KV 注入时机的工程问题直接相关。</p>
+
+
+  <div class="editorial">
+    <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
+    <ul><li>摘要信息有限，保守地说，其对&quot;聆听阶段该想什么&quot;的建模与站内流式 KV 注入时机的工程问题直接相关。</li></ul>
+  </div>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+  <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
+  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
+     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
+     · 2026-07-31 11:59</p>
+</section>
   <p><a class="btn" href="https://arxiv.org/abs/2510.05150v3"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
   <div class="tags"><span class="badge">full-duplex</span><span class="badge">duplex</span><span class="badge">spoken dialogue</span><span class="badge">barge-in</span></div>

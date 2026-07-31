@@ -130,13 +130,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <p>传统语音助手依赖外部 VAD 和轮次控制器，难以自然处理重叠说话、犹豫与用户打断；多个控制模块也会增加时序复杂度。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
   <p>模型基于 GLM-4-Voice，将用户语音、助手文本和助手语音按块交错到一个多通道序列中，并加入 SILENCE、assistant、PAD、EPAD 等状态 token。模型通过 SFT 学习序列布局，再用 DPO 优化开口和打断时机。</p>
-  <h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>语音 tokenizer 将连续用户音频离散化。</li><li>单个 LLM 联合预测对话状态、助手文本和语音 token。</li><li>状态 token 决定继续沉默、开始回答或停止当前语音。</li><li>语音 decoder 将预测 token 还原为声音。</li></ol>
-  <h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文报告 InstructS2S-Eval 轮次切换成功率 92%，打断成功率 100%。</li><li>Llama Questions 准确率 46.0%，高于论文中 Moshi 的 21.0%。</li></ul>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>语音 tokenizer 将连续用户音频离散化。</li><li>单个 LLM 联合预测对话状态、助手文本和语音 token。</li><li>状态 token 决定继续沉默、开始回答或停止当前语音。</li><li>语音 decoder 将预测 token 还原为声音。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文报告 InstructS2S-Eval 轮次切换成功率 92%，打断成功率 100%。</li><li>Llama Questions 准确率 46.0%，高于论文中 Moshi 的 21.0%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
     <ul><li>适合作为原生全双工语音基线，并借鉴状态 token 与交互 DPO 的训练目标。</li><li>不宜直接替换 Qwen3-Omni：它没有视觉输入，也未证明适应车内噪声、多乘员和车控安全。</li></ul>
   </div>
-  <h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>模型卡明确表示主要在合成近场语音上评估，未覆盖多方对话、情绪轮替和复杂噪声。</li><li>基于 GLM-4-Voice 自定义许可，商业使用需要登记并遵守标注要求。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>模型卡明确表示主要在合成近场语音上评估，未覆盖多方对话、情绪轮替和复杂噪声。</li><li>基于 GLM-4-Voice 自定义许可，商业使用需要登记并遵守标注要求。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
      &nbsp; 推理代码和模型权重已公开，但不是 MIT/Apache 宽松许可。</p>

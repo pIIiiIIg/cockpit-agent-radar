@@ -26,6 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # 提高 search API 限额
         run: |
           python scripts/fetch_rank.py
+          python scripts/backfill_abstract_explanations.py
           python scripts/test_explanations.py
           python scripts/build_site.py
       - name: commit & push

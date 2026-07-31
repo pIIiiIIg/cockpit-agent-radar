@@ -187,8 +187,11 @@ def card(it, link_self=True):
         meta.append(f'<a class="demo-link" href="{BASE}/{esc(it["demo"])}">'
                     + pair("▶ 交互演示", "▶ live demo") + "</a>")
     if it.get("explanation"):
+        abstract_only = (it["explanation"].get("review_status")
+                         == "abstract_backfill")
         meta.append(f'<span class="deep-badge">'
-                    + pair("◆ 深度讲解", "◆ deep dive") + "</span>")
+                    + (pair("◇ 摘要速读", "◇ abstract brief") if abstract_only
+                       else pair("◆ 深度讲解", "◆ deep dive")) + "</span>")
     meta.append(f'<span title="进入雷达时刻">⏱ {esc(it["found"][11:16])}</span>')
     zh = it.get("summary_zh") or it.get("summary_en") or ""
     en = it.get("summary_en") or ""
@@ -269,8 +272,15 @@ def explanation_block(explanation):
     depth_label = pair("论文正文" if source_depth == "fulltext" else "摘要",
                        "full text" if source_depth == "fulltext" else "abstract")
     review = explanation.get("review_status", "auto")
-    review_label = pair("人工复核" if review == "editorial" else "自动生成",
-                        "editor-reviewed" if review == "editorial" else "auto-generated")
+    if review == "editorial":
+        review_label = pair("人工复核", "editor-reviewed")
+    elif review == "abstract_backfill":
+        review_label = pair("摘要级自动整理，待正文升级",
+                            "abstract backfill, awaiting full-text review")
+    else:
+        review_label = pair("自动生成", "auto-generated")
+    section_title = (pair("摘要速读", "Abstract brief") if review == "abstract_backfill"
+                     else pair("深度讲解", "Deep dive"))
     findings_section = (
         f'<h3>{pair("论文报告了什么", "Reported findings")}</h3>{findings}'
         if findings else "")
@@ -283,20 +293,20 @@ def explanation_block(explanation):
 
     return f"""
 <section class="explain">
-  <h2 style="margin:0 0 10px">{pair("深度讲解", "Deep dive")}</h2>
+  <h2 style="margin:0 0 10px">{section_title}</h2>
   <p class="lead">{esc(explanation.get("tl_dr"))}</p>
   <h3>{pair("它解决什么问题", "Problem")}</h3>
   <p>{esc(explanation.get("problem"))}</p>
   <h3>{pair("核心方法", "Core method")}</h3>
   <p>{esc(explanation.get("method"))}</p>
-  {workflow_section}
-  {findings_section}
+{workflow_section}
+{findings_section}
   <div class="editorial">
     <b>{pair("对 StreamingModelHarness 的帮助（编辑判断）",
              "Fit for StreamingModelHarness (editorial analysis)")}</b>
     {project_fit or '<p style="color:var(--dim)">—</p>'}
   </div>
-  {limitations_section}
+{limitations_section}
   <h3>{pair("代码与模型开放情况", "Code and model availability")}</h3>
   <p><span class="open-status {esc(status)}">{pair(zh_status, en_status)}</span>
      &nbsp; {esc(opened.get("note"))}</p>

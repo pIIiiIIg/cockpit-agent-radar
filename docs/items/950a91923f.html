@@ -130,13 +130,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <p>端到端双通道模型通常把用户音频和助手侧表示直接融合。在多人或有背景语音时，非目标说话人的声音也会进入条件上下文，造成误接话、漏响应和答案跑偏。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
   <p>IRAF 将目标说话人 embedding 与当前及历史用户音频 embedding 输入一个轻量因果 Transformer，预测范围为 0 到 2 的逐帧可靠性门。门值先缩放用户音频表示，再与助手表示融合，因此既能抑制干扰帧，也能保留或增强目标用户帧。</p>
-  <h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>ECAPA-TDNN 提取目标说话人声纹。</li><li>流式语音编码器以约 80ms 粒度产生用户音频表示。</li><li>单层因果 Transformer 预测每帧可靠性门。</li><li>缩放后的音频表示进入 LLM，模型继续生成文本和语音。</li></ol>
-  <h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>在 InstructS2S-200K 的干扰说话人条件下，响应成功率由噪声增强基线的 69.2% 提升到 91.0%。</li><li>同一条件下响应延迟由 0.97 秒降至 0.82 秒，打断停止成功率达到 99.8%。</li></ul>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>ECAPA-TDNN 提取目标说话人声纹。</li><li>流式语音编码器以约 80ms 粒度产生用户音频表示。</li><li>单层因果 Transformer 预测每帧可靠性门。</li><li>缩放后的音频表示进入 LLM，模型继续生成文本和语音。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>在 InstructS2S-200K 的干扰说话人条件下，响应成功率由噪声增强基线的 69.2% 提升到 91.0%。</li><li>同一条件下响应延迟由 0.97 秒降至 0.82 秒，打断停止成功率达到 99.8%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
     <ul><li>可借鉴为“声纹 + 座位/波束 + AEC 置信度”的多人音频门，再决定哪些音频允许写入流式 KV。</li><li>不应直接照搬单目标用户设计，否则可能误杀副驾和后排乘员的合法指令。</li></ul>
   </div>
-  <h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>实验干扰主要由 MUSAN 模拟，未覆盖真实车内混响、扬声器回声和麦克风阵列。</li><li>IRAF 位于模型 embedding 融合层，需要联合训练；不是可直接挂到现有 Harness 的独立服务。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>实验干扰主要由 MUSAN 模拟，未覆盖真实车内混响、扬声器回声和麦克风阵列。</li><li>IRAF 位于模型 embedding 融合层，需要联合训练；不是可直接挂到现有 Harness 的独立服务。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
      &nbsp; 截至 2026-07-30，论文公开，但未找到官方实现代码或训练权重。</p>

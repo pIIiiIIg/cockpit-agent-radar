@@ -130,13 +130,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <p>能量 VAD 会把犹豫停顿当成话轮结束；ASR+文本端点模型虽然懂语义，却增加级联延迟并丢失声学信息。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
   <p>约 150M 的 Zipformer 提取音频特征，两层 Adapter 对齐到 Qwen2.5-0.5B。模型查看约 2.56 秒滑动窗口，每 320ms 输出 Continue Speaking 或 Stop Speaking，并给完整与未完整语句使用不同等待阈值。</p>
-  <h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>持续接收用户原始音频，不依赖额外 ASR。</li><li>滑动窗口保留局部上下文并进行流式前向。</li><li>语义未完整时继续等待，完整时采用较短超时提交话轮。</li></ol>
-  <h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文测试集中完整和未完整语音场景准确率约为 98.6% 和 98.5%。</li><li>A6000 上单次状态预测约 50ms。</li></ul>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>持续接收用户原始音频，不依赖额外 ASR。</li><li>滑动窗口保留局部上下文并进行流式前向。</li><li>语义未完整时继续等待，完整时采用较短超时提交话轮。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文测试集中完整和未完整语音场景准确率约为 98.6% 和 98.5%。</li><li>A6000 上单次状态预测约 50ms。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
     <ul><li>可作为 RMS VAD 后的第二道语义闸，减少“然后把……”这类未说完就 commit。</li><li>它只判断继续或停止，不负责区分多人身份、附和与真正插话。</li></ul>
   </div>
-  <h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>训练语音大量由 TTS 合成；论文将真实录音和拒识能力列为未来工作。</li><li>每次推理仍需要语音编码器和 0.5B LLM，需评估座舱端侧资源。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>训练语音大量由 TTS 合成；论文将真实录音和拒识能力列为未来工作。</li><li>每次推理仍需要语音编码器和 0.5B LLM，需评估座舱端侧资源。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
      &nbsp; 截至 2026-07-30 未找到官方完整代码和训练权重。</p>

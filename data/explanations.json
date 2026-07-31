@@ -226,5 +226,732 @@
   "generated_at": "2026-07-30T20:30:00+08:00",
   "generated_by": "GPT-5.6 Sol editorial review",
   "review_status": "editorial"
+ },
+ "6c53ea8835": {
+  "tl_dr": "DyaPlex 在冻结的 PersonaPlex 全双工语音主干旁增加因果 Motion Tower，让智能体边听边说的同时感知对方动作并实时生成自己的身体动作。",
+  "problem": "已有全双工语音模型只处理声音；多数语音驱动动作模型又是离线生成，或看不到对方的身体动作，因此无法形成“我看见你的动作并立刻用动作回应”的闭环双人互动。",
+  "method": "它采用双塔结构：冻结的 PersonaPlex Speech Tower 保留语音对话能力，训练一个 32 层因果 Motion Tower 生成动作。双方动作经 RVQ-VAE 压成 12.5Hz token，并以 A/B 说话人标签交错成统一自回归序列；Motion Tower 在每层通过 cross-attention 读取对应层语音隐藏状态，时间对齐的 speech-motion RoPE 让动作优先关注同一时刻的语音特征。",
+  "workflow": [
+   "PersonaPlex 持续接收双方语音并生成智能体语音，同时暴露 32 层流式隐藏状态。",
+   "因果 RVQ-VAE 将双方 25fps 的 SMPL-X 动作压缩为与语音一致的 12.5Hz token。",
+   "Motion Tower 在统一序列里读取对方动作 token，并只生成智能体位置的动作 token。",
+   "时间对齐 RoPE 和因果 mask 保证动作只能利用当前及历史语音，最终解码回 25fps 身体动作。"
+  ],
+  "findings": [
+   "模型使用约 4000 小时 Seamless Interaction 数据；过滤后训练集约 3435 小时，测试集约 18 小时。",
+   "完整模型的 FGD 为 5.6×10⁻³、P-FD 为 7.3×10⁻³；移除对方动作输入后分别退化到 39×10⁻³ 和 41×10⁻³。",
+   "用户研究中，相比 Audio2Photoreal 和 DualTalk，参与者选择 DyaPlex 的比例分别为 66.3% 和 97.5%。",
+   "将动作上下文缩到 1024 token 后，Motion Tower 每帧约 80ms，在 12.5Hz 下达到实时推理。"
+  ],
+  "project_fit": [
+   "最有价值的不是直接把身体动作搬进座舱，而是“冻结已有全双工主干，外挂一个与主干逐层对齐的流式模态塔”：未来可参考它增加乘员视觉、姿态或独立 Action 通道。",
+   "双方 token 交错与统一时间轴适合多人座舱研究，可用于表达乘员 A 的点头、手势与助手 B 的语音/界面反馈之间的时序关系。",
+   "它不能直接解决当前 Qwen3-Omni Harness 的 VAD、AEC、工具晚注入和车控安全问题，优先级应低于语义判停与回声治理。"
+  ],
+  "limitations": [
+   "当前只支持两人互动；论文将多人 polyadic interaction 列为未来工作。",
+   "动作塔逐个解码每帧 22 个 code，完整 4096-token 上下文时需要 173ms/帧，必须缩短动作上下文才能实时。",
+   "模型输出通用 SMPL-X 骨架动作，不包含真实人的身份外观；若接下游视频生成仍存在深度伪造风险。"
+  ],
+  "open_source": {
+   "status": "unavailable",
+   "code_url": "",
+   "model_url": "",
+   "note": "截至 2026-07-31，论文和 NVIDIA Research 项目演示页公开，未找到官方代码或模型权重发布。"
+  },
+  "source_depth": "fulltext",
+  "generated_at": "2026-07-31T11:58:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
+ },
+ "b58c7fb4b6": {
+  "tl_dr": "该论文指出全双工模型在追求低延迟、回话(backchannel)、barge-in 等交互动态时往往牺牲推理与指令遵循能力，并通过强化学习将对话动态与智能能力解耦。",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "该论文指出全双工模型在追求低延迟、回话(backchannel)、barge-in 等交互动态时往往牺牲推理与指令遵循能力，并通过强化学习将对话动态与智能能力解耦。对本站项目的警示意义直接：外挂 TTS、晚注入工具清单的座舱助手既要会听会抢话，又不能变\"笨\"，其解耦训练思路可用于平衡交互性与工具调用准确性。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对本站项目的警示意义直接：外挂 TTS、晚注入工具清单的座舱助手既要会听会抢话，又不能变\"笨\"，其解耦训练思路可用于平衡交互性与工具调用准确性。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "653ff20c8a": {
+  "tl_dr": "论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。对做\"边说边听\"座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对做\"边说边听\"座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "d36cd9bda6": {
+  "tl_dr": "该工作在流式全双工端到端对话系统中引入思维链(CoT)推理，针对双通道 duplex 模型架构复杂、语义推理落后于级联方案的短板做补强。",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "该工作在流式全双工端到端对话系统中引入思维链(CoT)推理，针对双通道 duplex 模型架构复杂、语义推理落后于级联方案的短板做补强。与站内\"晚注入工具清单\"的诉求呼应：座舱助手需要在保持边说边听的同时完成复杂推理与工具决策，CoT 融入流式 duplex 的路径值得借鉴。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "与站内\"晚注入工具清单\"的诉求呼应：座舱助手需要在保持边说边听的同时完成复杂推理与工具决策，CoT 融入流式 duplex 的路径值得借鉴。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "da29dadcff": {
+  "tl_dr": "论文提出在全双工语音对话语言模型中引入\"时序思维\"(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "论文提出在全双工语音对话语言模型中引入\"时序思维\"(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。摘要信息有限，保守地说，其对\"聆听阶段该想什么\"的建模与站内流式 KV 注入时机的工程问题直接相关。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "摘要信息有限，保守地说，其对\"聆听阶段该想什么\"的建模与站内流式 KV 注入时机的工程问题直接相关。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "32efe0aaeb": {
+  "tl_dr": "该研究实证评估了 Gemini 系列模型作为\"音频裁判\"的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。",
+  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
+  "method": "该研究实证评估了 Gemini 系列模型作为\"音频裁判\"的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化\"像不像人\"，用 LALM 当 judge 是低成本的回归测试手段。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化\"像不像人\"，用 LALM 当 judge 是低成本的回归测试手段。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "7369317a9f": {
+  "tl_dr": "TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。",
+  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
+  "method": "TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "602fa5c48a": {
+  "tl_dr": "DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "3327bbf388": {
+  "tl_dr": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。",
+  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
+  "method": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "44a67a536b": {
+  "tl_dr": "该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "f65775c8d2": {
+  "tl_dr": "这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。它直指本站'边说边听、流式进 KV'的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "它直指本站'边说边听、流式进 KV'的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "0483feb407": {
+  "tl_dr": "LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。",
+  "problem": "助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。",
+  "method": "LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱'边说边听'的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "这正命中座舱'边说边听'的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "0cfb27f5b9": {
+  "tl_dr": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。",
+  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
+  "method": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "35477e429c": {
+  "tl_dr": "VideoFDB 是首个评测对话智能体全双工'视觉+语音'能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。",
+  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
+  "method": "VideoFDB 是首个评测对话智能体全双工'视觉+语音'能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "5e1773f2f1": {
+  "tl_dr": "RelayS2S 针对实时对话中'低延迟'与'高质量'的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "RelayS2S 针对实时对话中'低延迟'与'高质量'的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。对我们'Omni 模型+外挂 TTS'的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对我们'Omni 模型+外挂 TTS'的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "137d033275": {
+  "tl_dr": "Sympatheia 是一个情感自适应的语音到语音对话框架，从用户语音中推断情感，并支持以连续的效价-唤醒(VA)控制信号显式指定情感，解决日常语音中情感线索微弱、含糊的问题。",
+  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
+  "method": "Sympatheia 是一个情感自适应的语音到语音对话框架，从用户语音中推断情感，并支持以连续的效价-唤醒(VA)控制信号显式指定情感，解决日常语音中情感线索微弱、含糊的问题。在座舱场景里，驾驶员的情绪与疲劳状态是重要上下文，这种'连续情感条件化'的思路可借鉴来调节外挂 TTS 的语调与回复策略，让助手在高压或疲惫工况下应答更得体。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "在座舱场景里，驾驶员的情绪与疲劳状态是重要上下文，这种'连续情感条件化'的思路可借鉴来调节外挂 TTS 的语调与回复策略，让助手在高压或疲惫工况下应答更得体。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "3f92468717": {
+  "tl_dr": "OmniInteract 是一个面向实时全模态助手的流式基准，要求模型在原生在线推理下处理原始音视频流、看不到未来内容，用户提问与环境音直接嵌入音频流中。",
+  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
+  "method": "OmniInteract 是一个面向实时全模态助手的流式基准，要求模型在原生在线推理下处理原始音视频流、看不到未来内容，用户提问与环境音直接嵌入音频流中。它与本站'流式进 KV、边看边听'的设定高度吻合，可作为评测我们 harness 在线多模态能力的现成协议与对照基准。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "它与本站'流式进 KV、边看边听'的设定高度吻合，可作为评测我们 harness 在线多模态能力的现成协议与对照基准。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "f90b0bcb1d": {
+  "tl_dr": "一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "5fceaa2ebd": {
+  "tl_dr": "DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。",
+  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
+  "method": "DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "6632215e09": {
+  "tl_dr": "FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了\"只会说话的全双工模型\"与\"只能对已生成音频做面部驱动\"之间的缺口，实现在线联合生成。",
+  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
+  "method": "FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了\"只会说话的全双工模型\"与\"只能对已生成音频做面部驱动\"之间的缺口，实现在线联合生成。对纯语音座舱助手相关性有限，胜在其\"全双工 + 多模态输出流联合生成\"的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对纯语音座舱助手相关性有限，胜在其\"全双工 + 多模态输出流联合生成\"的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "e772de8f55": {
+  "tl_dr": "Wan-Streamer 是一个从零设计的原生流式端到端交互基础模型，在单个 Transformer 内以交错的视觉/音频/文本 token 同时建模输入与输出，实现低延迟全双工音视交互。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Wan-Streamer 是一个从零设计的原生流式端到端交互基础模型，在单个 Transformer 内以交错的视觉/音频/文本 token 同时建模输入与输出，实现低延迟全双工音视交互。它几乎是本站项目的同题对标：其原生流式序列组织方式可直接为\"流式进 KV、边说边听\"的座舱 harness 提供架构参照。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "它几乎是本站项目的同题对标：其原生流式序列组织方式可直接为\"流式进 KV、边说边听\"的座舱 harness 提供架构参照。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "11df86e01c": {
+  "tl_dr": "AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "36cf43811f": {
+  "tl_dr": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。虽然它是桌面而非座舱场景，但其\"规划器-执行器-恢复\"的工具体系设计，对本站 harness 中晚注入工具清单、工具编排的工程实现有直接参考价值。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "虽然它是桌面而非座舱场景，但其\"规划器-执行器-恢复\"的工具体系设计，对本站 harness 中晚注入工具清单、工具编排的工程实现有直接参考价值。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "2524767fb3": {
+  "tl_dr": "Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。",
+  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
+  "method": "Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "14533da23c": {
+  "tl_dr": "Spatial-Omni 通过轻量的 SO-Encoder 把一阶 Ambisonics（FOA）空间音频作为独立模态注入现有 Omni LLM，使模型获得声源定位、空间关系推理和场景理解能力，而无需大改原模型。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Spatial-Omni 通过轻量的 SO-Encoder 把一阶 Ambisonics（FOA）空间音频作为独立模态注入现有 Omni LLM，使模型获得声源定位、空间关系推理和场景理解能力，而无需大改原模型。这与座舱高度相关：多麦克风阵列的空间感知正是区分主驾/后排发声、实现分区语音交互的关键能力。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "这与座舱高度相关：多麦克风阵列的空间感知正是区分主驾/后排发声、实现分区语音交互的关键能力。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "dea7925667": {
+  "tl_dr": "该论文针对全双工语音语言模型提出层级化的声学-语义建模方法，通过模态分离与语义连贯性设计，缓解当前全双工 SLM 中严重的模态干扰所导致的知识退化与语义损伤。",
+  "problem": "助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。",
+  "method": "该论文针对全双工语音语言模型提出层级化的声学-语义建模方法，通过模态分离与语义连贯性设计，缓解当前全双工 SLM 中严重的模态干扰所导致的知识退化与语义损伤。它直接命中本站\"边说边听\"路线的核心隐患——全双工下模型变笨，可作为选型与训练时的避坑参考。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "它直接命中本站\"边说边听\"路线的核心隐患——全双工下模型变笨，可作为选型与训练时的避坑参考。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "568f96feb9": {
+  "tl_dr": "Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。",
+  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
+  "method": "Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "fd2cfdf072": {
+  "tl_dr": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。它为\"边说边听\"的协调性提供了可操作的机理洞见，提示我们不必重训模型也能在推理期改善全双工的听说切换行为。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "它为\"边说边听\"的协调性提供了可操作的机理洞见，提示我们不必重训模型也能在推理期改善全双工的听说切换行为。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "cfbb41def0": {
+  "tl_dr": "一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。",
+  "problem": "助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。",
+  "method": "一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。这正是本站全双工座舱助手'边说边听'的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "这正是本站全双工座舱助手'边说边听'的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "694f3be77a": {
+  "tl_dr": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。与本站'外挂TTS'架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "与本站'外挂TTS'架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "04145c81fb": {
+  "tl_dr": "Omni-modal video captioning is not merely combining visual captioning with audio transcription: a useful caption must describe how visual actions, speech, music, and sound effects co-evolve. Existing large multimodal models often fail at th",
+  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
+  "method": "Omni-modal video captioning is not merely combining visual captioning with audio transcription: a useful caption must describe how visual actions, speech, music, and sound effects co-evolve. Existing large multimodal models often fail at this relational step, treating audio and visual streams as loosely coupled observations, relying on automatic speech recognition, and under-specifying non-speech sounds and their lin",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
  }
 }

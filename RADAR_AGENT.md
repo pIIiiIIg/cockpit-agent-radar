@@ -33,6 +33,9 @@
 
 ### 3. 论文讲解质检
 
+- 待深度处理包括两类：`data/explanations.json` 中完全缺失的论文，以及
+  `review_status=abstract_backfill` 的“摘要速读”。先处理缺失，再按新鲜度和分数
+  升级摘要速读；升级后写成 `review_status=editorial`。
 - 自动讲解在 `data/explanations.json`，优先抽查 `review_status=auto` 的高分论文。
 - `findings` 只能写论文明确报告的数据；不能从常识补数字。
 - `project_fit` 是编辑判断，必须结合 StreamingModelHarness 当前“输入流式、判停后

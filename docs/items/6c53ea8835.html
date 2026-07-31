@@ -122,7 +122,28 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <span class="l-zh">DyaPlex 是一个流式全双工的&#x27;语音+动作&#x27;模型，面向双人交互，能在流式模式下同时感知与生成语音和身体动作，做法上复用了基础全双工语音模型的先验并扩展出动作通道。动作生成对纯座舱语音助手相关性有限，胜在其架构思路——在一个基础全双工语音模型上叠加新的流式输出模态——与我们想在 Omni 模型外挂 TTS/工具通道的 harness 设计异曲同工。</span>
     <span class="l-en">We present DyaPlex, a streaming, full-duplex speech-and-motion model designed for dyadic interaction. To capture the continuous and reciprocal nature of human communication, this full-duplex capability empowers the agent to simultaneously perceive and generate both speech and physical motion in a streaming fashion. At its core, our method leverages the strong priors of a foundational full-duplex speech model and inte</span></div>
 
-<div class="pending-explain"><span class="l-zh">深度讲解正在排队：自动增强通道会读取论文正文后补充。</span><span class="l-en">Deep dive queued: the enhancement agent will read the paper and add it.</span></div>
+
+<section class="explain">
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">DyaPlex 在冻结的 PersonaPlex 全双工语音主干旁增加因果 Motion Tower，让智能体边听边说的同时感知对方动作并实时生成自己的身体动作。</p>
+  <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
+  <p>已有全双工语音模型只处理声音；多数语音驱动动作模型又是离线生成，或看不到对方的身体动作，因此无法形成“我看见你的动作并立刻用动作回应”的闭环双人互动。</p>
+  <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
+  <p>它采用双塔结构：冻结的 PersonaPlex Speech Tower 保留语音对话能力，训练一个 32 层因果 Motion Tower 生成动作。双方动作经 RVQ-VAE 压成 12.5Hz token，并以 A/B 说话人标签交错成统一自回归序列；Motion Tower 在每层通过 cross-attention 读取对应层语音隐藏状态，时间对齐的 speech-motion RoPE 让动作优先关注同一时刻的语音特征。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>PersonaPlex 持续接收双方语音并生成智能体语音，同时暴露 32 层流式隐藏状态。</li><li>因果 RVQ-VAE 将双方 25fps 的 SMPL-X 动作压缩为与语音一致的 12.5Hz token。</li><li>Motion Tower 在统一序列里读取对方动作 token，并只生成智能体位置的动作 token。</li><li>时间对齐 RoPE 和因果 mask 保证动作只能利用当前及历史语音，最终解码回 25fps 身体动作。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>模型使用约 4000 小时 Seamless Interaction 数据；过滤后训练集约 3435 小时，测试集约 18 小时。</li><li>完整模型的 FGD 为 5.6×10⁻³、P-FD 为 7.3×10⁻³；移除对方动作输入后分别退化到 39×10⁻³ 和 41×10⁻³。</li><li>用户研究中，相比 Audio2Photoreal 和 DualTalk，参与者选择 DyaPlex 的比例分别为 66.3% 和 97.5%。</li><li>将动作上下文缩到 1024 token 后，Motion Tower 每帧约 80ms，在 12.5Hz 下达到实时推理。</li></ul>
+  <div class="editorial">
+    <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
+    <ul><li>最有价值的不是直接把身体动作搬进座舱，而是“冻结已有全双工主干，外挂一个与主干逐层对齐的流式模态塔”：未来可参考它增加乘员视觉、姿态或独立 Action 通道。</li><li>双方 token 交错与统一时间轴适合多人座舱研究，可用于表达乘员 A 的点头、手势与助手 B 的语音/界面反馈之间的时序关系。</li><li>它不能直接解决当前 Qwen3-Omni Harness 的 VAD、AEC、工具晚注入和车控安全问题，优先级应低于语义判停与回声治理。</li></ul>
+  </div>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前只支持两人互动；论文将多人 polyadic interaction 列为未来工作。</li><li>动作塔逐个解码每帧 22 个 code，完整 4096-token 上下文时需要 173ms/帧，必须缩短动作上下文才能实时。</li><li>模型输出通用 SMPL-X 骨架动作，不包含真实人的身份外观；若接下游视频生成仍存在深度伪造风险。</li></ul>
+  <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-07-31，论文和 NVIDIA Research 项目演示页公开，未找到官方代码或模型权重发布。</p>
+  <p></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-07-31 11:58</p>
+</section>
   <p><a class="btn" href="https://arxiv.org/abs/2606.03874v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
   <div class="tags"><span class="badge">full-duplex</span><span class="badge">duplex</span><span class="badge">speech model</span></div>

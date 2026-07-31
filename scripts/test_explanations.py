@@ -48,6 +48,14 @@ class ExplanationTests(unittest.TestCase):
                     url = opened.get(key, "")
                     self.assertTrue(not url or url.startswith("https://"))
 
+    def test_all_july30_papers_have_explanations(self):
+        expected = {item["id"] for item in self.items
+                    if item["kind"] == "paper"
+                    and item["found"].startswith("2026-07-30")}
+        self.assertEqual(expected - set(self.explanations), set())
+        self.assertEqual(self.explanations["6c53ea8835"]["review_status"],
+                         "editorial")
+
     def test_render_escapes_model_text(self):
         row = {
             "tl_dr": "<script>alert(1)</script>",

@@ -130,13 +130,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <p>首响、抢话、重叠、沉默和附和等时序错误类型不同，单一延迟指标或人工听测很难统一比较。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
   <p>一个在自然人类对话上训练的因果模型预测未来双人语音活动状态。实际对话越不像自然时序，其未来状态负对数似然越高；框架再聚合话轮边界附近的平均和尾部异常。</p>
-  <h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>准备用户与助手分离的双声道录音。</li><li>提取双方逐帧语音活动和话轮边界。</li><li>计算边界单元的 MeanNLL、TailNLL 和整段 DialogNLL。</li><li>用 NatScore 或自然/扰动样本差值比较版本。</li></ol>
-  <h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文构建了五类局部时序扰动，并经人工自然度判断验证。</li><li>TurnNat 能用同一似然信号识别延迟接话、过早开口、话权转移错误和过度附和。</li></ul>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>准备用户与助手分离的双声道录音。</li><li>提取双方逐帧语音活动和话轮边界。</li><li>计算边界单元的 MeanNLL、TailNLL 和整段 DialogNLL。</li><li>用 NatScore 或自然/扰动样本差值比较版本。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文构建了五类局部时序扰动，并经人工自然度判断验证。</li><li>TurnNat 能用同一似然信号识别延迟接话、过早开口、话权转移错误和过度附和。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
     <ul><li>给每次座舱回归录制用户/助手双轨，在标签正确率之外增加轮替自然度。</li><li>与 EchoChain 组合：EchoChain 测打断后状态对不对，TurnNat 测打断与恢复的节奏自然不自然。</li></ul>
   </div>
-  <h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>评分模型学习的是训练语料中的人类节奏，车内任务型对话可能需要重新校准。</li><li>它不判断车控语义、工具参数和动作安全。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>评分模型学习的是训练语料中的人类节奏，车内任务型对话可能需要重新校准。</li><li>它不判断车控语义、工具参数和动作安全。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
      &nbsp; 扰动生成、训练、评分代码与检查点使用说明已公开。</p>
