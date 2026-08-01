@@ -1,6 +1,277 @@
 {
- "generated": "2026-07-31T19:41:18.399072+08:00",
+ "generated": "2026-08-01T09:31:48.736100+08:00",
  "items": [
+  {
+   "id": "c59bca301f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AVOC: Enhancing Hour-Level Audio-Video Understanding in Omni-Modal LLMs via Retrieval-Inspired Token Compression",
+   "url": "https://arxiv.org/abs/2606.24286v1",
+   "published": "2026-06-23",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal Large Language Models have achieved remarkable progress in short-form audio-video understanding, yet long-form audio-video comprehension remains challenged by limited context windows and severe information redundancy. To address these bottlenecks, we propose AVOC, a framework for long-form audio-video understanding in Omni-modal Large Language Models. AVOC introduces a learnable token compression module between the modality encoders and the LLM backbone. We reframe multimodal token compression as a top-$K$ retrieval problem: given a fixed context budget, the module must retrieve a compact subset of tokens that best supports answering the user query. We draw inspiration from three classical Information Retrieval criteria for selecting informative units from a large candidate pool: relevance, importance, and diversity. AVOC instantiates each criterion as a tailored mechanism for audio-video understanding, and integrates them into a unified retrieval-style compression pipeline. Experiments show that AVOC achieves state-of-the-art performance on long-form audio-video benchmarks, surpassing the second-best model by 4.9 and 5.5 points in average accuracy on OmniVideoBench and LVOmniBench, respectively. Moreover, AVOC maintains robust performance on Audio-Video Needle-in-a-Haystack task at durations up to one hour.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "5c3479442c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DMV-Bench: Diagnosing Long-Horizon Multimodal Agents' Visual Memory with Incidental Cue Injection",
+   "url": "https://arxiv.org/abs/2606.27499v1",
+   "published": "2026-06-25",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Research on agent memory has matured rapidly, but almost entirely on the text side: few existing benchmarks ask, in an interactive environment, when an agent genuinely needs to remember what it saw rather than what it could write down. We introduce DMV-Bench (Code: https://github.com/yyyujintang/DMV-Bench), the first interactive benchmark for multimodal-agent visual memory. DMV-Bench is built on a controlled home-furnishing e-commerce catalogue of 1,000 product variants in which a text-leakage contract keeps the discriminative signal of each task in the pixels alone. Across a chain of autonomous shopping sessions, every visited product image carries a unique, pre-rendered incidental cue, and the agent is later asked to recall a particular cued product and navigate to its URL. Inspired by dual-coding theory, we propose DualMem, a memory architecture that maintains a visual and a verbal code in parallel. On DMV-Bench, DualMem outperforms a caption baseline and three recent multimodal agent-memory systems at every chain length J in {5, 10, 15, 50} on both Gemini 2.5 Flash and Qwen2.5-VL-7B, with the lead surviving controls for memory-bank size and encoding-position bias, and an asymmetric dual-coding regime in which vision carries the cue end-to-end while the verbal channel plays a smaller query-grounding role.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "90cd95064f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "GPTNT: Benchmarking Real-Time Collaboration Between Multimodal Agents on Keep Talking And Nobody Explodes",
+   "url": "https://arxiv.org/abs/2606.28514v1",
+   "published": "2026-06-26",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal models are increasingly deployed to solve tasks collaboratively with humans or other artificial agents. Existing benchmarks show that these models possess many of the required component capabilities, but the conditions that coincide in collaboration, including time pressure, information asymmetry, and imperfect communication, are usually studied in isolation. We introduce GPTNT, a benchmark built on the cooperative video game Keep Talking and Nobody Explodes, in which two agents must coordinate to defuse procedurally generated bomb puzzles against a live countdown. One agent can see and manipulate the bomb but does not have the defusal instructions; the other has the instructions but cannot see or manipulate the bomb. Neither agent can succeed alone: success requires effective and efficient communication. Unlike turn-based proxies, GPTNT requires agents to act asynchronously and communicate in real time. GPTNT is designed to separate collaboration from reliance on memorized solutions: the instruction manual, the partner, or both can be withheld to isolate what a model derives in the moment from what it already knows. We show that GPTNT poses a substantial challenge for state-of-the-art systems: none of the closed- or open-source models we test defuses a single bomb in real time, a bar that human players clear. Through controlled experiments, we identify critical weaknesses in state tracking, efficient action under time pressure, ambiguity handling, and error recovery. We release GPTNT as a benchmark for collaborative performance that current evaluations leave unmeasured. Because it runs on the real game, GPTNT benefits from procedural generation and inherits a living modding community, allowing the benchmark to evolve as models improve rather than being solved once and retired.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "0f6fd313bd",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "ManimAgent: Self-Evolving Multimodal Agents for Visual Education",
+   "url": "https://arxiv.org/abs/2606.30296v2",
+   "published": "2026-06-29",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next begins. We study this gap on a code-generation task: from a scientific paper section, the agent writes Python in the open-source Manim library to render a mathematical animation. We present ManimAgent, a self-evolving multimodal agent that carries reflection experience across tasks through a dual-channel Episodic Memory Bank grown entirely from its own task stream, with no weight updates and no human seeds. After each animation converges, a vision-language model scores the rendered keyframes; the resulting signals populate a positive channel M+ that stores success rationales as soft Reference Examples, and a negative channel M- that stores validated failure patterns as hard Known Pitfalls. On a fixed-probe evaluation against no-memory, matched-budget retrieval-augmented generation, and shuffled-memory baselines, blind human Pass@1 rises and reflection rounds fall as memory size grows. We will release the code, frozen memory snapshots, and the task stream.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "0cc89f3e2e",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "SimpleSearch-VL: A Simple Recipe for Multimodal Agentic Deep Search",
+   "url": "https://arxiv.org/abs/2606.31504v1",
+   "published": "2026-06-30",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "We present SimpleSearch-VL, an efficient, reliable, and practical framework for multimodal agentic search. Its core idea is to improve the agent's own search-and-verification process rather than scaling data, tools, or auxiliary model components. For efficiency, Factorized Adaptive Rollout (FAR) improves sampling efficiency by forming more informative training groups while using redundant samples to mitigate long-tail latency and expose hard samples. For reliability, SimpleSearch-VL performs evidence-verified reasoning, explicitly using chain-of-thought verification to assess the relevance of retrieved visual and textual cues to the original context. For practicality, SimpleSearch-VL keeps a lightweight tool interface and performs webpage self-summary within the agent, requiring no additional external dependencies. With only 5K supervised tool-interleaved trajectories and 2K RL data, SimpleSearch-VL improves Qwen3-VL agentic baselines by 15.8 and 16.0 average points for the 8B and 30B-A3B variants, respectively. The SimpleSearch-VL-30B-A3B model further achieves performance competitive with agentic Gemini-3-Pro.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "41560b57ab",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Robust Autonomous UAV Landing on Maritime Platforms via Multimodal Agentic AI and Active Wave Compensation",
+   "url": "https://arxiv.org/abs/2606.31613v1",
+   "published": "2026-06-30",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Autonomous aerial inspection of marine infrastructure is frequently compromised by stochastic sea states, introducing risks of high-kinetic impacts, post-landing toppling, and sensory occlusion. This paper proposes a decoupled, multi-vehicle landing framework synchronizing an Unmanned Surface Vehicle (USV) equipped with a 3-RPU stabilized platform with a robust Unmanned Aerial Vehicle (UAV). The architecture utilizes two independent Deep Reinforcement Learning (DRL) agents: a Soft Actor-Critic (SAC) agent providing high-frequency wave-motion compensation for the landing deck, and a multimodal RL agent for the UAVs final approach. Evaluated in high-fidelity maritime simulations, the system achieved a 100% landing success rate across 15 trials in wave states varying from calm to rough. Results show a mean stabilization efficacy of 87.8%, maintaining the landing surface within 1 degree of the horizontal plane for 96% of the mission duration in rough conditions, effectively contributing to safer landings.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dcd7184d58",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Omni-Decision: A Progressive Evidence-State Agent System for Omni-Modal QA",
+   "url": "https://arxiv.org/abs/2607.11433v1",
+   "published": "2026-07-13",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Omni-modal evidence-seeking QA requires agents to answer questions whose evidence is sparsely distributed across videos, audio, images, web pages, and computation results. Existing agentic multimodal systems often leave evidence in scratchpads, tool trajectories, or free-form histories, making it difficult to track what has been grounded, what remains missing, and when the evidence is sufficient to answer. We propose Omni-Decision, a training-free evidence-state system that turns omni-modal QA into a query-scoped evidence-closure process. For each query, Omni-Decision maintains a structured evidence state containing confirmed evidence, unresolved conflicts, fact and computation dependencies, and open evidence needs. A shared state view conditions planning, evidence acquisition, validation, repair, and finalization. Heterogeneous observations from media, web, computation, and verification modules are normalized, judged, and committed through deterministic state updates. This design enables targeted evidence acquisition, preserves sparse cross-modal cues, and provides inspectable control over repair and stopping. Omni-Decision achieves 45.6% accuracy on OmniGAIA and 58.3% on WorldSense, improving over the baselines by +27.3 and +30.2 percentage points, respectively. No-state ablations and trajectory audits further support the role of explicit evidence-state control in multi-step omni-modal evidence seeking.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "52daaa0251",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "VetClaw: An Edge-Cloud Multimodal Agentic System for Veterinary Disease Screening",
+   "url": "https://arxiv.org/abs/2607.26042v1",
+   "published": "2026-07-28",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-hosted vision-language model for zero-shot disease classification. The system separates agent interaction from workflow orchestration: OpenClaw provides scheduling, tool access, user interaction, and notification services on the edge device, while LangGraph manages the stateful screening workflow, including input validation, image transmission, model invocation, safety checks, conditional routing, failure handling, and structured logging. This design moves beyond static image classification by enabling the system to collect visual evidence, invoke external models, apply deterministic safety rules, and generate diagnostic-support alerts. Results show that image-only VLM prediction remains limited, whereas symptom-guided and multimodal inputs improve zero-shot classification performance. Thus, VetClaw transforms a static prediction model into a coordinated, safety-aware system that can use tools, manage workflows, handle failures, and escalate uncertain cases.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "cf9f84810a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "CaM-Wolf: Causal-Aware Multimodal Agents for Social Deduction Games",
+   "url": "https://arxiv.org/abs/2607.26393v1",
+   "published": "2026-07-29",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent advances in large language models (LLMs) have driven significant progress in SDG agents, current approaches are predominantly text-based, overlooking the multimodal nature that is fundamental to human social interaction. To bridge this gap, we introduce CaM-Wolf, the first SDG agent that integrates multimodal perception and generation. CaM-Wolf processes video inputs from other players, employs a causal-aware Reasoner trained via reinforcement learning to establish logical chains between observable behaviors and hidden roles, and presents itself through an animated avatar. Our experiments and user study show that CaM-Wolf achieves superior agent gameplay performance and enhances the quality of human-AI interaction. This work represents a significant advancement towards creating more human-like AI agents capable of participating in nuanced social dynamics. Our code is available at https://3dagentworld.github.io/avatar_wolf.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "410933a97d",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Real-Time Multimodal Data Collection Using Smartwatches and Its Visualization in Education",
+   "url": "https://arxiv.org/abs/2512.02651v1",
+   "published": "2025-12-02",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 10,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Wearable sensors, such as smartwatches, have become increasingly prevalent across domains like healthcare, sports, and education, enabling continuous monitoring of physiological and behavioral data. In the context of education, these technologies offer new opportunities to study cognitive and affective processes such as engagement, attention, and performance. However, the lack of scalable, synchronized, and high-resolution tools for multimodal data acquisition continues to be a significant barrier to the widespread adoption of Multimodal Learning Analytics in real-world educational settings. This paper presents two complementary tools developed to address these challenges: Watch-DMLT, a data acquisition application for Fitbit Sense 2 smartwatches that enables real-time, multi-user monitoring of physiological and motion signals; and ViSeDOPS, a dashboard-based visualization system for analyzing synchronized multimodal data collected during oral presentations. We report on a classroom deployment involving 65 students and up to 16 smartwatches, where data streams including heart rate, motion, gaze, video, and contextual annotations were captured and analyzed. Results demonstrate the feasibility and utility of the proposed system for supporting fine-grained, scalable, and interpretable Multimodal Learning Analytics in real learning environments.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2cd0983fbd",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "U-Mind: A Unified Framework for Real-Time Multimodal Interaction with Audiovisual Generation",
+   "url": "https://arxiv.org/abs/2602.23739v1",
+   "published": "2026-02-27",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 10,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Full-stack multimodal interaction in real-time is a central goal in building intelligent embodied agents capable of natural, dynamic communication. However, existing systems are either limited to unimodal generation or suffer from degraded reasoning and poor cross-modal alignment, preventing coherent and perceptually grounded interactions. In this work, we introduce U-Mind, the first unified system for high-intelligence multimodal dialogue that supports real-time generation and jointly models language, speech, motion, and video synthesis within a single interactive loop. At its core, U-Mind implements a Unified Alignment and Reasoning Framework that addresses two key challenges: enhancing cross-modal synchronization via a segment-wise alignment strategy, and preserving reasoning abilities through Rehearsal-Driven Learning. During inference, U-Mind adopts a text-first decoding pipeline that performs internal chain-of-thought planning followed by temporally synchronized generation across modalities. To close the loop, we implement a real-time video rendering framework conditioned on pose and speech, enabling expressive and synchronized visual feedback. Extensive experiments demonstrate that U-Mind achieves state-of-the-art performance on a range of multimodal interaction tasks, including question answering, instruction following, and motion generation, paving the way toward intelligent, immersive conversational agents.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ca6c85d290",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AudioGuard: Toward Comprehensive Audio Safety Protection Across Diverse Threat Models",
+   "url": "https://arxiv.org/abs/2604.08867v1",
+   "published": "2026-04-10",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 10,
+   "tags": [
+    "real-time voice",
+    "voice assistant"
+   ],
+   "summary_en": "Audio has rapidly become a primary interface for foundation models, powering real-time voice assistants. Ensuring safety in audio systems is inherently more complex than just \"unsafe text spoken aloud\": real-world risks can hinge on audio-native harmful sound events, speaker attributes (e.g., child voice), impersonation/voice-cloning misuse, and voice-content compositional harms, such as child voice plus sexual content. The nature of audio makes it challenging to develop comprehensive benchmarks or guardrails against this unique risk landscape. To close this gap, we conduct large-scale red teaming on audio systems, systematically uncover vulnerabilities in audio, and develop a comprehensive, policy-grounded audio risk taxonomy and AudioSafetyBench, the first policy-based audio safety benchmark across diverse threat models. AudioSafetyBench supports diverse languages, suspicious voices (e.g., celebrity/impersonation and child voice), risky voice-content combinations, and non-speech sound events. To defend against these threats, we propose AudioGuard, a unified guardrail consisting of 1) SoundGuard for waveform-level audio-native detection and 2) ContentGuard for policy-grounded semantic protection. Extensive experiments on AudioSafetyBench and four complementary benchmarks show that AudioGuard consistently improves guardrail accuracy over strong audio-LLM-based baselines with substantially lower latency.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8baa8530b2",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Audio2Tool: Speak, Call, Act -- A Dataset for Benchmarking Speech Tool Use",
+   "url": "https://arxiv.org/abs/2604.22821v2",
+   "published": "2026-04-17",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 10,
+   "tags": [
+    "voice assistant",
+    "speech synthesis",
+    "text-to-speech"
+   ],
+   "summary_en": "Voice assistants increasingly rely on Speech Language Models (SpeechLMs) to interpret spoken queries and execute complex tasks, yet existing benchmarks lack domain breadth, acoustic diversity, and compositional reasoning complexity to evaluate tool-calling performance. We introduce Audio2Tool, a large-scale dataset comprising approximately 30,000 queries designed to assess tool-calling capabilities of SpeechLMs across three primary domains: Smart Car, Smart Home, and Wearables. Our benchmark features a multi-tier complexity hierarchy, ranging from simple direct commands to complex multi-intent and needle-in-a-haystack extraction to isolate distinct failure modes. To ensure realism, we employ zero-shot voice cloning text-to-speech synthesis and diverse noise profiles to simulate in-the-wild conditions. Evaluations of state-of-the-art SpeechLMs and ASR-LLM pipelines show strong performance on simple commands but significant degradation under compositional and acoustic challenges. Code and dataset are publicly available on the project page: https://audio2tool.github.io/.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "02e7b8bcb7",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Real-Time Multimodal Activity-Aware Error Detection in Robot-Assisted Surgery",
+   "url": "https://arxiv.org/abs/2606.23593v1",
+   "published": "2026-06-22",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 10,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Robot-assisted minimally invasive surgery improves surgical precision but introduces complexity, making technical error detection essential for ensuring patient safety. Current executional error detection methods using video data often overlook fine-grained contextual descriptions of activities and error types within the hierarchical structure of surgical procedures. They also under-utilize complementary multimodal information. We propose a unified framework for executional error detection that leverages multimodal input, including video, kinematics, and descriptive textual prompts. Through activity prompting, we integrate descriptive language in gesture-level activities, instrument-object interactions, and error definitions. We also introduce activity-aware visual embeddings derived from vision encoders pretrained on surgical activity labels to compare the effectiveness of contrastive language-image embeddings with traditional image-based embeddings for error detection. By seamlessly integrating kinematic data with video and textual modalities, our framework significantly improves error detection performance. Achieving up to 5\\% and 16.6\\% F1 score improvements over state-of-the-art baselines on the JIGSAWS and SAR-RARP50 datasets, respectively, we demonstrate the value of combining curated textual prompts with multimodal data for accurate error detection.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "fe021672c7",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Omni-Perception Policy Optimization for Multimodal Emotion Reasoning",
+   "url": "https://arxiv.org/abs/2606.25325v2",
+   "published": "2026-06-24",
+   "found": "2026-08-01T09:31:48.736100+08:00",
+   "score": 10,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "We find that current emotion-oriented Omni-MLLMs still lack reliable omni-modal perception: they (i) underutilize multimodal cues in their reasoning trajectories and (ii) exhibit unfaithful behavior, often hallucinating modality-specific statements from other modalities. Building on these insights, we propose OPPO (Omni-Perception Policy Optimization), a reinforcement learning framework that explicitly optimizes multimodal perception. First, an Omni-Perception Reward decomposes ground-truth reasoning into fine-grained visual, acoustic, and emotion cues and rewards trajectories that semantically recover these cues. Second, an Omni-Perception Loss compares the policy under full and unimodally masked inputs, applying a KL penalty only to modality-specific evidence tokens to suppress cross-modal hallucination. We further introduce MEP-Bench, a diagnostic benchmark that quantifies utilization and faithfulness. Experiments show that OPPO achieves state-of-the-art performance on MER-UniBench and MME-Emotion, while substantially improving utilization and faithfulness scores on MEP-Bench, highlighting the importance of sufficient and faithful omni perception for multimodal emotion reasoning.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "21e7d7b562",
    "kind": "paper",
@@ -316,7 +587,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 9544
+   "stars": 9845
   },
   {
    "id": "be7f76beb6",
@@ -353,7 +624,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7659
+   "stars": 7663
   },
   {
    "id": "5b176e49fe",
@@ -446,7 +717,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5763
+   "stars": 5769
   },
   {
    "id": "293306d628",
@@ -464,7 +735,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 687
+   "stars": 692
   },
   {
    "id": "5d6e6e2b0a",
@@ -553,7 +824,7 @@
    "summary_en": "Specialized .NET Streams and pipes for full duplex in-proc communication, web sockets, and multiplexing",
    "summary_zh": "",
    "demo": "",
-   "stars": 712
+   "stars": 711
   },
   {
    "id": "bf76305254",
@@ -1571,7 +1842,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5095
+   "stars": 5100
   },
   {
    "id": "a4b6353a38",

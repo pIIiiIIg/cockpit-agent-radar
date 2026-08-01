@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-01 · cockpit-agent-radar</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+
+<div class="datebar">
+  <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-07-31.html" title="前一天 2026-07-31">◀</a>
+  <input type="date" id="dp" value="2026-08-01" min="2026-07-30" max="2026-08-01">
+  <span class="btn off">▶</span>
+  <span style="color:var(--dim);font-size:12.5px"><span class="l-zh">选日期看当天内容</span><span class="l-en">pick a date</span></span>
+</div>
+<script>
+var DATES = new Set(["2026-08-01", "2026-07-31", "2026-07-30"]);
+document.getElementById("dp").onchange = function () {
+  if (DATES.has(this.value)) location.href = "https://piiiiiig.github.io/cockpit-agent-radar/days/" + this.value + ".html";
+  else { this.style.borderColor = "#e0a23f";
+         this.title = "该日期无内容 / no items on that day"; }
+};
+</script><h2 class="day">2026-08-01 · 15 <span class="l-zh">条</span><span class="l-en">items</span></h2><h3 class="slot">⏰ 09:00 <span class="l-zh">班</span><span class="l-en">run</span> · 15 <span class="l-zh">条</span><span class="l-en">items</span></h3>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/c59bca301f.html">AVOC: Enhancing Hour-Level Audio-Video Understanding in Omni-Modal LLMs via Retrieval-Inspired Token Compression</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-23</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Multimodal Large Language Models have achieved remarkable progress in short-form audio-video understanding, yet long-form audio-video comprehension remains challenged by limited context windows and se</span><span class="l-en">Multimodal Large Language Models have achieved remarkable progress in short-form audio-video understanding, yet long-form audio-video comprehension remains challenged by limited context windows and se</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/5c3479442c.html">DMV-Bench: Diagnosing Long-Horizon Multimodal Agents&#x27; Visual Memory with Incidental Cue Injection</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-25</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Research on agent memory has matured rapidly, but almost entirely on the text side: few existing benchmarks ask, in an interactive environment, when an agent genuinely needs to remember what it saw ra</span><span class="l-en">Research on agent memory has matured rapidly, but almost entirely on the text side: few existing benchmarks ask, in an interactive environment, when an agent genuinely needs to remember what it saw ra</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/90cd95064f.html">GPTNT: Benchmarking Real-Time Collaboration Between Multimodal Agents on Keep Talking And Nobody Explodes</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-26</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Multimodal models are increasingly deployed to solve tasks collaboratively with humans or other artificial agents. Existing benchmarks show that these models possess many of the required component cap</span><span class="l-en">Multimodal models are increasingly deployed to solve tasks collaboratively with humans or other artificial agents. Existing benchmarks show that these models possess many of the required component cap</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/0f6fd313bd.html">ManimAgent: Self-Evolving Multimodal Agents for Visual Education</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-29</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds o</span><span class="l-en">Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds o</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/0cc89f3e2e.html">SimpleSearch-VL: A Simple Recipe for Multimodal Agentic Deep Search</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-30</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">We present SimpleSearch-VL, an efficient, reliable, and practical framework for multimodal agentic search. Its core idea is to improve the agent&#x27;s own search-and-verification process rather than scali</span><span class="l-en">We present SimpleSearch-VL, an efficient, reliable, and practical framework for multimodal agentic search. Its core idea is to improve the agent&#x27;s own search-and-verification process rather than scali</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/41560b57ab.html">Robust Autonomous UAV Landing on Maritime Platforms via Multimodal Agentic AI and Active Wave Compensation</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-30</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Autonomous aerial inspection of marine infrastructure is frequently compromised by stochastic sea states, introducing risks of high-kinetic impacts, post-landing toppling, and sensory occlusion. This </span><span class="l-en">Autonomous aerial inspection of marine infrastructure is frequently compromised by stochastic sea states, introducing risks of high-kinetic impacts, post-landing toppling, and sensory occlusion. This </span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/dcd7184d58.html">Omni-Decision: A Progressive Evidence-State Agent System for Omni-Modal QA</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-13</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Omni-modal evidence-seeking QA requires agents to answer questions whose evidence is sparsely distributed across videos, audio, images, web pages, and computation results. Existing agentic multimodal </span><span class="l-en">Omni-modal evidence-seeking QA requires agents to answer questions whose evidence is sparsely distributed across videos, audio, images, web pages, and computation results. Existing agentic multimodal </span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/52daaa0251.html">VetClaw: An Edge-Cloud Multimodal Agentic System for Veterinary Disease Screening</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-28</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with opti</span><span class="l-en">We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with opti</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/cf9f84810a.html">CaM-Wolf: Causal-Aware Multimodal Agents for Social Deduction Games</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-29</span><span title="relevance">◈ 11</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent a</span><span class="l-en">Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent a</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/410933a97d.html">Real-Time Multimodal Data Collection Using Smartwatches and Its Visualization in Education</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2025-12-02</span><span title="relevance">◈ 10</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Wearable sensors, such as smartwatches, have become increasingly prevalent across domains like healthcare, sports, and education, enabling continuous monitoring of physiological and behavioral data. I</span><span class="l-en">Wearable sensors, such as smartwatches, have become increasingly prevalent across domains like healthcare, sports, and education, enabling continuous monitoring of physiological and behavioral data. I</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/2cd0983fbd.html">U-Mind: A Unified Framework for Real-Time Multimodal Interaction with Audiovisual Generation</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-02-27</span><span title="relevance">◈ 10</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Full-stack multimodal interaction in real-time is a central goal in building intelligent embodied agents capable of natural, dynamic communication. However, existing systems are either limited to unim</span><span class="l-en">Full-stack multimodal interaction in real-time is a central goal in building intelligent embodied agents capable of natural, dynamic communication. However, existing systems are either limited to unim</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/ca6c85d290.html">AudioGuard: Toward Comprehensive Audio Safety Protection Across Diverse Threat Models</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-04-10</span><span title="relevance">◈ 10</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Audio has rapidly become a primary interface for foundation models, powering real-time voice assistants. Ensuring safety in audio systems is inherently more complex than just &quot;unsafe text spoken aloud</span><span class="l-en">Audio has rapidly become a primary interface for foundation models, powering real-time voice assistants. Ensuring safety in audio systems is inherently more complex than just &quot;unsafe text spoken aloud</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/8baa8530b2.html">Audio2Tool: Speak, Call, Act -- A Dataset for Benchmarking Speech Tool Use</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-04-17</span><span title="relevance">◈ 10</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Voice assistants increasingly rely on Speech Language Models (SpeechLMs) to interpret spoken queries and execute complex tasks, yet existing benchmarks lack domain breadth, acoustic diversity, and com</span><span class="l-en">Voice assistants increasingly rely on Speech Language Models (SpeechLMs) to interpret spoken queries and execute complex tasks, yet existing benchmarks lack domain breadth, acoustic diversity, and com</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/02e7b8bcb7.html">Real-Time Multimodal Activity-Aware Error Detection in Robot-Assisted Surgery</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-22</span><span title="relevance">◈ 10</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Robot-assisted minimally invasive surgery improves surgical precision but introduces complexity, making technical error detection essential for ensuring patient safety. Current executional error detec</span><span class="l-en">Robot-assisted minimally invasive surgery improves surgical precision but introduces complexity, making technical error detection essential for ensuring patient safety. Current executional error detec</span></div></div>
+<div class="card" data-found="2026-08-01T09:31:48.736100+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/fe021672c7.html">Omni-Perception Policy Optimization for Multimodal Emotion Reasoning</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-06-24</span><span title="relevance">◈ 10</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">We find that current emotion-oriented Omni-MLLMs still lack reliable omni-modal perception: they (i) underutilize multimodal cues in their reasoning trajectories and (ii) exhibit unfaithful behavior, </span><span class="l-en">We find that current emotion-oriented Omni-MLLMs still lack reliable omni-modal perception: they (i) underutilize multimodal cues in their reasoning trajectories and (ii) exhibit unfaithful behavior, </span></div></div><p style="margin-top:18px"><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 最新</span><span class="l-en">← latest</span></a></p>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
