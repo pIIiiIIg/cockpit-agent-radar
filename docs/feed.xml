@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>SPyCE: Skill-Policy Co-evolution for Multimodal Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/857d83c211.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/857d83c211.html</guid>
+<description>Multimodal agents that think with images iteratively manipulate visual evidence and invoke tools across many steps. Existing reinforcement learning methods reduce trajectories to scalar rewards, forcing the policy to discover reusable tool-use patterns from scratch on every new task; memory-based al</description>
+</item>
+<item>
+<title>S1-Omni: A Unified Multimodal Reasoning Model for Scientific Understanding, Prediction, and Generation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/80e73f7a2c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/80e73f7a2c.html</guid>
+<description>We present S1-Omni, a unified multimodal reasoning model for scientific understanding, prediction, and generation. AI for Science (AI4S) has advanced significantly through domain-specific models, tool-augmented LLMs, and scientific language models. However, model capabilities remain highly fragmente</description>
+</item>
+<item>
+<title>Silent Failures in Multimodal Agentic Search:A Diagnostic Taxonomy and Cross-Judge Evaluation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9a76b0c9fd.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9a76b0c9fd.html</guid>
+<description>Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent fa</description>
+</item>
+<item>
+<title>Zero-Shot Face-to-Speech Synthesis via Latent Space Adaptation of a Style-Diffusion TTS Model</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cb3426cfaa.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cb3426cfaa.html</guid>
+<description>Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we propose a Face-to-Speech (F2S) framework that predicts a plausi</description>
+</item>
+<item>
+<title>Full speech pipeline in native Swift/MLX – ASR, TTS, speech-to-speech, on-device</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3d9839c758.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3d9839c758.html</guid>
+<description></description>
+</item>
+<item>
+<title>rapidaai/rapida-react</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3c63b51028.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3c63b51028.html</guid>
+<description>Open-source React SDK for real-time Voice AI, voice agents, streaming audio, and observability using Rapida. ai-orchestration llm observability open-source react real-time sdk sdk-react stt tts voice-ai voice-ai-agents web-audio</description>
+</item>
+<item>
+<title>amalsp/Universal-Multimodal-Agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/90eebefb09.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/90eebefb09.html</guid>
+<description>any-to-any multimodal agentic-ai retrieval-augmented explainable-ai reasoning automation accessibility vision-language audio-processing table-understanding any-to-any en multilingual license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>OmniScope: Modality-Decoupled Token Compression for Omnimodal Large Language Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a5f2fbbd48.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a5f2fbbd48.html</guid>
+<description>Existing token compression methods for omnimodal large language models typically rely on one modality to determine what to retain in the other. We show that this assumption often breaks down: for the same query, audio and video relevance often peaks at different moments. This cross-modal salience mi</description>
+</item>
+<item>
+<title>Show HN: On-prem-deployable voice agent simulation and evals</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/adcc8cf303.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/adcc8cf303.html</guid>
+<description>after a long time of being a HN lurker, I have started my own company (inspired by a lot of you). This is a short blog on why, but please click around the website and let me know what you think! - Loren</description>
+</item>
+<item>
+<title>VAmoS Bench: Voice Agent Simulation Benchmark</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9833bdb15c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9833bdb15c.html</guid>
+<description></description>
+</item>
+<item>
+<title>Streaming Video Instruction Tuning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d1cf370380.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d1cf370380.html</guid>
+<description>We present Streamo, a real-time streaming video LLM that serves as a general-purpose interactive assistant. Unlike existing online video models that focus narrowly on question answering or captioning, Streamo performs a broad spectrum of streaming video tasks, including real-time narration, action u</description>
+</item>
+<item>
+<title>TeleWorld: Towards Dynamic Multimodal Synthesis with a 4D World Model</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e78b666cc0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e78b666cc0.html</guid>
+<description>World models aim to endow AI systems with the ability to represent, generate, and interact with dynamic environments in a coherent and temporally consistent manner. While recent video generation models have demonstrated impressive visual quality, they remain limited in real-time interaction, long-ho</description>
+</item>
+<item>
+<title>FlashLabs Chroma 1.0: A Real-Time End-to-End Spoken Dialogue Model with Personalized Voice Cloning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bc994c827b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bc994c827b.html</guid>
+<description>Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, hindering personalized voice interaction. In this work, we pr</description>
+</item>
+<item>
+<title>MIST: Multimodal Interactive Speech-based Tool-calling Conversational Assistants for Smart Homes</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b021a6932b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b021a6932b.html</guid>
+<description>The rise of Internet of Things (IoT) devices in the physical world necessitates voice-based interfaces capable of handling complex user experiences. While modern Large Language Models (LLMs) already demonstrate strong tool-usage capabilities, modeling real-world IoT devices presents a difficult, und</description>
+</item>
+<item>
+<title>WASIL: In-the-Wild Arabic Spoken Interactions with LLMs</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/41c43c87a1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/41c43c87a1.html</guid>
+<description>Large Language Models (LLMs) voice assistants are commonly built as cascaded Automatic Speech recognition (ASR) to LLM systems, where recognition errors can distort user intent. Dislikes may also arise from ambiguous, out-of-domain, or non-request turns, making it hard to isolate ASR effects. We rel</description>
+</item>
+<item>
 <title>AVOC: Enhancing Hour-Level Audio-Video Understanding in Omni-Modal LLMs via Retrieval-Inspired Token Compression</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c59bca301f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c59bca301f.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/cc0e527f48.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cc0e527f48.html</guid>
 <description>Hi HN folks ! I am the author of AVA, a self hosted AI Voice Agent that plugs into Asterisk&amp;#x2F;Freepbx so you own all the aspects of an AI Voice agent in your own infrastructure. It uses Asterisk native Audiosocket&amp;#x2F;RTP with python engine to run STT,LLM and TTS loop. The project support severa</description>
-</item>
-<item>
-<title>Stream RAG: Instant and Accurate Spoken Dialogue Systems with Streaming Tool Usage</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5af78d53e4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5af78d53e4.html</guid>
-<description>End-to-end speech-in speech-out dialogue systems are emerging as a powerful alternative to traditional ASR-LLM-TTS pipelines, generating more natural, expressive responses with significantly lower latency. However, these systems remain prone to hallucinations due to limited factual grounding. While </description>
-</item>
-<item>
-<title>V-Rex: Real-Time Streaming Video LLM Acceleration via Dynamic KV Cache Retrieval</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/420a33f2c8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/420a33f2c8.html</guid>
-<description>Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and computational challenges because their key-value (KV) caches</description>
-</item>
-<item>
-<title>LiveTalk: Real-Time Multimodal Interactive Video Diffusion via Improved On-Policy Distillation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ecf1da395a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ecf1da395a.html</guid>
-<description>Real-time video generation via diffusion is essential for building general-purpose multimodal interactive AI systems. However, the simultaneous denoising of all video frames with bidirectional attention via an iterative process in diffusion models prevents real-time interaction. While existing disti</description>
-</item>
-<item>
-<title>Discourse-Aware Dual-Track Streaming Response for Low-Latency Spoken Dialogue Systems</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/219d8f814d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/219d8f814d.html</guid>
-<description>Achieving human-like responsiveness is a critical yet challenging goal for cascaded spoken dialogue systems. Conventional ASR-LLM-TTS pipelines follow a strictly sequential paradigm, requiring complete transcription and full reasoning before speech synthesis can begin, which results in high response</description>
-</item>
-<item>
-<title>Context-Aware Multimodal Claim Verification in Spoken Dialogues</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/854193be76.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/854193be76.html</guid>
-<description>Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused o</description>
-</item>
-<item>
-<title>Capslockb/hermes-live-discord-agent-plugin</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6b9408ecec.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6b9408ecec.html</guid>
-<description>Hermes Live Discord Agent Plugin — full-duplex Discord voice ↔ Google Gemini Multimodal Live API, with function calling, idle hangup, transcripts, and a 3-min oneshot installer. discord-bot gemini-live hermes-agent hermes-plugin multimodal-ai plugin realtime-voice voice-agent voice-bridge</description>
-</item>
-<item>
-<title>huggingface/speech-to-speech</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/861d4c5ecd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/861d4c5ecd.html</guid>
-<description>Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation</description>
-</item>
-<item>
-<title>Azure-Samples/call-center-voice-agent-accelerator</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/be7f76beb6.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/be7f76beb6.html</guid>
-<description>Create speech-to-speech voice agents that deliver personalized self-service experiences and natural-sounding voices, seamlessly integrated with telephony systems. ai-azd-templates azd-templates azure-speech-services conversational-ai javascript python</description>
-</item>
-<item>
-<title>Blaizzy/mlx-audio</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a0731e6055.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a0731e6055.html</guid>
-<description>A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple&#x27;s MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers</description>
-</item>
-<item>
-<title>FudanCVL/AVI-Bench</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5b176e49fe.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5b176e49fe.html</guid>
-<description>[ICML&#x27;26] Toward Human-like Audio-Visual Intelligence of Omni-MLLMs agent audio-visual audio-visual-intelligence avi benchmark icml llm mllm multimodal omnimodal reasoning</description>
-</item>
-<item>
-<title>USC-ICT/vhtoolkit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/52abb7cd86.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/52abb7cd86.html</guid>
-<description>The Virtual Human Toolkit enables researchers and developers to rapidly create embodied conversational agents using speech recognition, audio-visual sensing, natural language processing, text-to-speech synthesis, and nonverbal behavior generation. ai avatars cloud conversational-agents conversationa</description>
-</item>
-<item>
-<title>soniqo/speech-swift</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/47d9062193.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/47d9062193.html</guid>
-<description>AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML apple-silicon asr coreml ios macos mlx neural-engine on-device speaker-diarization speech-enhancement speech-recognition speech-to-speech swift text-to-speech tts voice-activity-detection</description>
-</item>
-<item>
-<title>sx4im/BIMO</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ac53c9cede.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ac53c9cede.html</guid>
-<description>Introducing Bimo 5 (Autonomous Multi-Modal AI Agent with real-time voice, vision processing, document analysis, image generation, and web search). ai-agent ai-assistant ai-chat ai-workspace autonomous-agents flask fullstack-ai image-generation llm multimodal-ai nvidia-nim openai-api python supabase </description>
-</item>
-<item>
-<title>vllm-project/vllm-omni</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c8b564d136.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c8b564d136.html</guid>
-<description>A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model</description>
-</item>
-<item>
-<title>verl-project/verl-omni</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/293306d628.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/293306d628.html</guid>
-<description>Multimodal RL training framework for diffusion &amp; omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm</description>
 </item>
 </channel></rss>
