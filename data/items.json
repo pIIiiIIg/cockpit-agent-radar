@@ -1,6 +1,274 @@
 {
- "generated": "2026-08-01T14:47:01.548722+08:00",
+ "generated": "2026-08-01T19:26:12.199360+08:00",
  "items": [
+  {
+   "id": "57a1dc2b93",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "From Senses to Decisions: The Information Flow of Auditory and Visual Perception in Multimodal LLMs",
+   "url": "https://arxiv.org/abs/2606.10147v1",
+   "published": "2026-06-08",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal Large Language Models (MLLMs) can listen and see, but how do audio and visual signals actually travel through the network to shape an answer? Despite their growing role in research and real-world applications, the internal pathways through which audio and visual tokens influence the final prediction remain poorly understood. In this study, we examine audio-visual information flow inside Audio-Visual Large Language Models (AVLLMs), tracing how AVLLMs route, utilize, and integrate audio and visual information across two input configurations, audio-visual video and multiple interleaved audio-visual items. We find that for audio-visual video, AVLLMs follow the sequential information flow pathway established for VLMs and VideoLLMs, with audio and visual contribution flowing along this pathway in proportion to the task's reliance on each modality. In settings with multiple interleaved audio-visual items, this routing shifts to different parallel streams. Furthermore, we demonstrate that audio-visual and other token types can be discarded once their information is transferred to LLM, with minimal impact on the model's prediction or even slight improvement, generalizing across multiple tasks and datasets, enabling more efficient inference. These findings hold across multiple models and scales, Qwen2.5-Omni and Video-SALMONN2 Plus at 3B and 7B scales, leading to hypotheses on why these flow structures emerge. Together, these results deliver the first coherent picture of how AVLLMs orchestrate sound and sight inside the network and lay the groundwork for the next wave of interpretability, design, and efficiency advances in audio-visual and broader MLLMs.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "443a8dd137",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "SymbOmni: Evolving Agentic Omni Models via Symbolic Concept Learning",
+   "url": "https://arxiv.org/abs/2607.12042v1",
+   "published": "2026-07-13",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Visual generation is increasingly ubiquitous in diverse domains, from text-to-image/video synthesis to multimodal interactive creation. Yet prevailing monolithic models remain fundamentally constrained by their inability to learn cumulatively and evolve autonomously, which is a limitation we term the \"perpetual novice\" problem. They lack mechanisms for structuring experience into reusable knowledge and therefore rely on brittle, \"from-scratch\" reasoning for each task, resulting in poor compositional generalization and inefficient knowledge retention. Motivated by these limitations, we propose SymbOmni, an agentic omni-model designed for cumulative evolution through Symbolic Concept Learning. At its core is the Symbolic Concept Box, an optimizable memory module that abstracts low-level operations into reusable Symbolic Workflow Instructions. SymbOmni operates through an induction-transduction cycle: experiences are abstracted into symbolic concepts (induction), which are then adaptively composed to solve novel tasks (transduction). The training is done by verbalized backpropagation with language-based feedback to enable continuous self-improvement without gradient-based model fine-tuning. Comprehensive experiments validate that (I) SymbOmni significantly outperforms existing agent-based systems for iterative creation and also surpasses closed-source models (e.g., Nano Banana, GPT-Image-1) in both image quality and task success rates; (II) SymbOmni effectively reduces token consumption by over 40% while maintaining competitive generation quality; and (III) SymbOmni enables effective continual learning by achieving cumulative gains across multiple online-learning benchmarks and setting a new state of the art.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "47272d2c1c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "OPOD: On-Policy Omni Distillation",
+   "url": "https://arxiv.org/abs/2607.20918v2",
+   "published": "2026-07-23",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Omni-modal models can handle text, images, and audio in one system, but improving all of these abilities together remains difficult. Training a single model on pooled multimodal data often fails to match models specialized for individual modalities. On-policy distillation (OPD) offers a way to combine such specialists: the student generates a response, and a teacher evaluates that same response, so the student learns directly from behaviors it actually produces. Yet using several teachers can introduce competing guidance and improve one modality at the expense of another. We present On-Policy Omni Distillation (OPOD), which routes each student response to the matching text, image, or audio teacher. OPOD keeps teacher guidance only on tokens where the teacher assigns a higher probability than the student, adjusts the influence of each modality teacher independently during training, and asks the routed teacher to assess both the final answer and whether the reasoning supports the correct answer. Across twelve benchmarks and three backbone sizes, OPOD achieves the best average score at every scale, reaching 70.8, 51.7, and 46.2 and exceeding the strongest comparator by 2.1, 1.8, and 1.7 points. On the 30B model, it outperforms both the base model and a counterpart post-trained jointly on pooled multimodal data on all twelve benchmarks, and ranks first or second on eleven even when the individual specialists are included. The specialists are discarded after training, leaving one deployable omni-modal model. These results show that coordinating modality-specific teachers is an effective way to improve a shared model while maintaining cross-modal balance.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "d9d5d237fa",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "MyMentorLLM: A psychotherapy GenAI environment with multimodal voice/text patients, trainees and experts for deliberate practice",
+   "url": "https://arxiv.org/abs/2607.25667v1",
+   "published": "2026-07-28",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "speech-to-speech",
+    "multimodal"
+   ],
+   "summary_en": "Psychotherapists need repeated training and supervision by experts; however, scalability is problematic. Here we present MyMentorLLM, a multimodal voice- and text-based simulation environment for deliberate practice, used to generate 2,100 complete Cognitive Behavioural Therapy (CBT) training sessions. Each session links a DSM-5-TR-grounded patient (with major depressive, generalised anxiety or borderline personality disorder), a therapist-in-training and an expert supervisor. As an initial implementation, we adopted CBT because its structured procedures and competency-based supervision facilitate standardised simulation and evaluation. Sessions were analysed for emotional dynamics, therapeutic competence and diagnostic accuracy. Simulated patients expressed disorder-congruent emotional profiles, which trainee therapists mirrored as in real human counselling. The quality of supervision differed across LLMs: while most models overestimated trainees' competences, native speech-to-speech was closest to human scores. Supervisors' feedback led to better diagnoses in simulated psychotherapists in 5 out of 7 LLMs, and symptom identification accuracy increased with model size. This work shows that simulation of deliberate practice is possible for CBT training, although patient fidelity, calibration of supervisors, and harmful feedback should be evaluated together.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f2ed2f7ce8",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Voice skill for AI agents – sub-200ms latency via native SIP",
+   "url": "https://github.com/nia-agent-cyber/openai-voice-skill",
+   "published": "2026-03-05",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "speech-to-speech",
+    "realtime api"
+   ],
+   "summary_en": "Built an open-source voice skill for AI agents with real phone conversations via OpenAI Realtime API + Twilio SIP. Native speech-to-speech, no STT-LLM-TTS chain, sub-200ms latency. Features: inbound&#x2F;outbound calls, tool calling mid-conversation, recording, transcription, session bridging, health monitoring, metrics, call history API. Use case: missed-call auto-callback for appointment booking ($2,100 avg lost per missed call). Tech: Python + Node.js, 97 tests, MIT licensed, 5-min quickstart.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "2c48b0de3e",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Voice Memory for Agentic Speech Recognition",
+   "url": "https://huggingface.co/papers/2607.26410",
+   "published": "2026-07-28",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "speech recognition"
+   ],
+   "summary_en": "We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file through bounded edits, accepting an edit only when it strictly improves a held-out score. Extended from classical ASR-LM framework, we refer this split the listener-thinker architecture; the two roles are coupled only through the memory, so no weights change and the learned skill stays auditable and portable. Restraint turns out to be the operative skill this loop discovers: unconstrained generative error correction (GER) over-corrects, breaking correct tokens on up to 64% of its edits on financial news, and Voice Memory, reduces this rate to 35%. Across ten HyPoradise domains with an open corrector, Voice Memory, lowers weighted word error rate from 8.36% to 7.52% (7.47% with three added in-context examples) without regressing any dataset below its 1-best baseline; gains concentrate where recoverable headroom is largest, including air-travel commands (8.40% to 3.40%) and noisy far-field speech (CHiME-4, 12.69% to 10.46%). The memory transfers across corrector families and adds zero parameters to the inference path. A demo and example code are provided for future studies.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "a3d7c5ad66",
+   "kind": "model",
+   "source": "hf",
+   "title": "toiar/Khasi-OmniVoice-TTS-2",
+   "url": "https://huggingface.co/toiar/Khasi-OmniVoice-TTS-2",
+   "published": "2026-07-31",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "text-to-speech"
+   ],
+   "summary_en": "text-to-speech safetensors omnivoice text-to-speech tts khasi low-resource-language meghalaya audio speech kha en dataset:your-username/khasi-omni-voice-tts-dataset arxiv:2604.00688 license:cc-by-nc-sa-4.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "358aed2a15",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Streaming Endpointer for Spoken Dialogue using Neural Audio Codecs and Label-Delayed Training",
+   "url": "https://arxiv.org/abs/2506.07081v2",
+   "published": "2025-06-08",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "spoken dialogue"
+   ],
+   "summary_en": "Accurate, low-latency endpointing is crucial for effective spoken dialogue systems. While traditional endpointers often rely on spectrum-based audio features, this work proposes real-time speech endpointing for multi-turn dialogues using streaming, low-bitrate Neural Audio Codec (NAC) features, building upon recent advancements in neural audio codecs. To further reduce cutoff errors, we introduce a novel label delay training scheme. At a fixed median latency of 160 ms, our combined NAC and label delay approach achieves significant relative cutoff error reductions: 42.7% for a single-stream endpointer and 37.5% for a two-stream configuration, compared to baseline methods. Finally, we demonstrate efficient integration with a codec-based pretrained speech large language model, improving its median response time by 1200 ms and reducing its cutoff error by 35%.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7f68c11d12",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Towards Interactive Intelligence for Digital Humans",
+   "url": "https://arxiv.org/abs/2512.13674v2",
+   "published": "2025-12-15",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "We introduce Interactive Intelligence, a novel paradigm of digital human that is capable of personality-aligned expression, adaptive interaction, and self-evolution. To realize this, we present Mio (Multimodal Interactive Omni-Avatar), an end-to-end framework composed of five specialized modules: Thinker, Talker, Face Animator, Body Animator, and Renderer. This unified architecture integrates cognitive reasoning with real-time multimodal embodiment to enable fluid, consistent interaction. Furthermore, we establish a new benchmark to rigorously evaluate the capabilities of interactive intelligence. Extensive experiments demonstrate that our framework achieves superior performance compared to state-of-the-art methods across all evaluated dimensions. Together, these contributions move digital humans beyond superficial imitation toward intelligent interaction.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "eb1a7322ed",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "ALIVE: An Avatar-Lecture Interactive Video Engine with Content-Aware Retrieval for Real-Time Interaction",
+   "url": "https://arxiv.org/abs/2512.20858v1",
+   "published": "2025-12-24",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Traditional lecture videos offer flexibility but lack mechanisms for real-time clarification, forcing learners to search externally when confusion arises. Recent advances in large language models and neural avatars provide new opportunities for interactive learning, yet existing systems typically lack lecture awareness, rely on cloud-based services, or fail to integrate retrieval and avatar-delivered explanations in a unified, privacy-preserving pipeline. We present ALIVE, an Avatar-Lecture Interactive Video Engine that transforms passive lecture viewing into a dynamic, real-time learning experience. ALIVE operates fully on local hardware and integrates (1) Avatar-delivered lecture generated through ASR transcription, LLM refinement, and neural talking-head synthesis; (2) A content-aware retrieval mechanism that combines semantic similarity with timestamp alignment to surface contextually relevant lecture segments; and (3) Real-time multimodal interaction, enabling students to pause the lecture, ask questions through text or voice, and receive grounded explanations either as text or as avatar-delivered responses. To maintain responsiveness, ALIVE employs lightweight embedding models, FAISS-based retrieval, and segmented avatar synthesis with progressive preloading. We demonstrate the system on a complete medical imaging course, evaluate its retrieval accuracy, latency characteristics, and user experience, and show that ALIVE provides accurate, content-aware, and engaging real-time support. ALIVE illustrates how multimodal AI-when combined with content-aware retrieval and local deployment-can significantly enhance the pedagogical value of recorded lectures, offering an extensible pathway toward next-generation interactive learning environments.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "17ddac9bbe",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Avatar Forcing: Real-Time Interactive Head Avatar Generation for Natural Conversation",
+   "url": "https://arxiv.org/abs/2601.00664v2",
+   "published": "2026-01-02",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "real-time multimodal",
+    "multimodal",
+    "low latency"
+   ],
+   "summary_en": "Talking head generation creates lifelike avatars from static portraits for virtual communication and content creation. However, current models do not yet convey the feeling of truly interactive communication, often generating one-way responses that lack emotional engagement. We identify two key challenges toward truly interactive avatars: generating motion in real-time under causal constraints and learning expressive, vibrant reactions without additional labeled data. To address these challenges, we propose Avatar Forcing, a new framework for interactive head avatar generation that models real-time user-avatar interactions through diffusion forcing. This design allows the avatar to process real-time multimodal inputs, including the user's audio and motion, with low latency for instant reactions to both verbal and non-verbal cues such as speech, nods, and laughter. Furthermore, we introduce a direct preference optimization method that leverages synthetic losing samples constructed by dropping user conditions, enabling label-free learning of expressive interaction. Experimental results demonstrate that our framework enables real-time interaction with low latency (approximately 500ms), achieving 6.8X speedup compared to the baseline, and produces reactive and expressive avatar motion, which is preferred over 80% against the baseline.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f7a9bac2ca",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Router-Suggest: Dynamic Routing for Multimodal Auto-Completion in Visually-Grounded Dialogs",
+   "url": "https://arxiv.org/abs/2601.05851v1",
+   "published": "2026-01-09",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Real-time multimodal auto-completion is essential for digital assistants, chatbots, design tools, and healthcare consultations, where user inputs rely on shared visual context. We introduce Multimodal Auto-Completion (MAC), a task that predicts upcoming characters in live chats using partially typed text and visual cues. Unlike traditional text-only auto-completion (TAC), MAC grounds predictions in multimodal context to better capture user intent. To enable this task, we adapt MMDialog and ImageChat to create benchmark datasets. We evaluate leading vision-language models (VLMs) against strong textual baselines, highlighting trade-offs in accuracy and efficiency. We present Router-Suggest, a router framework that dynamically selects between textual models and VLMs based on dialog context, along with a lightweight variant for resource-constrained environments. Router-Suggest achieves a 2.3x to 10x speedup over the best-performing VLM. A user study shows that VLMs significantly excel over textual models on user satisfaction, notably saving user typing effort and improving the quality of completions in multi-turn conversations. These findings underscore the need for multimodal context in auto-completions, leading to smarter, user-aware assistants.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "630dc13e5c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Negotiating Privacy with Smart Voice Assistants: Risk-Benefit and Control-Acceptance Tensions",
+   "url": "https://arxiv.org/abs/2604.06235v1",
+   "published": "2026-04-04",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "Smart Voice assistants (SVAs) are widely adopted by youth, yet privacy decision-making in these environments is often characterized by competing considerations rather than clear-cut preferences. While our prior research has examined privacy risks, benefits, trust, and self-efficacy as distinct predictors of behavior, less attention has been paid to how these factors combine into higher-level tension that shapes privacy outcomes. This study introduces a negotiation-based framework for understanding youth privacy decision-making with SVAs by operationalizing two composite indices: the Risk-Benefit Tension Index (RBTI) and the Control-Acceptance Tension Index (CATI), using survey data from 469 Canadian youth aged 16-24. We examine the distribution of these indices and their relationship with privacy-protective behavior and SVA usage. Results show that both indices are meaningfully associated with protective action. Frequent SVA usage exhibits more benefit-dominant and acceptance-leaning negotiation profiles, suggesting that convenience-driven engagement may come at the expense of perceived control. By reframing privacy decision-making as a process of negotiation rather than inconsistency, this study offers a complementary perspective on the privacy paradox and provides a compact measurement approach for capturing how youth navigate competing privacy pressures in voice-enabled ecosystems.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "937de94bbb",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Still Between Us? Evaluating and Improving Voice Assistant Robustness to Third-Party Interruptions",
+   "url": "https://arxiv.org/abs/2604.17358v1",
+   "published": "2026-04-19",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "While recent Spoken Language Models (SLMs) have been actively deployed in real-world scenarios, they lack the capability to discern Third-Party Interruptions (TPI) from the primary user's ongoing flow, leaving them vulnerable to contextual failures. To bridge this gap, we introduce TPI-Train, a dataset of 88K instances designed with speaker-aware hard negatives to enforce acoustic cue prioritization for interruption handling, and TPI-Bench, a comprehensive evaluation framework designed to rigorously measure the interruption-handling strategy and precise speaker discrimination in deceptive contexts. Experiments demonstrate that our dataset design mitigates semantic shortcut learning-a critical pitfall where models exploit semantic context while neglecting acoustic signals essential for discerning speaker changes. We believe our work establishes a foundational resource for overcoming text-dominated unimodal reliance in SLMs, paving the way for more robust multi-party spoken interaction. The code for the framework is publicly available at https://tpi-va.github.io",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ef4031e707",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Mind the Pause: Disfluency-Aware Objective Tuning for Multilingual Speech Correction with LLMs",
+   "url": "https://arxiv.org/abs/2605.12242v1",
+   "published": "2026-05-12",
+   "found": "2026-08-01T19:26:12.199360+08:00",
+   "score": 8,
+   "tags": [
+    "voice assistant",
+    "speech recognition"
+   ],
+   "summary_en": "Automatic Speech Recognition (ASR) transcripts often contain disfluencies, such as fillers, repetitions, and false starts, which reduce readability and hinder downstream applications like chatbots and voice assistants. If left unaddressed, such disfluencies can significantly degrade the reliability of downstream systems. Most existing approaches rely on classical models that focus on identifying disfluent tokens for removal. While this strategy is effective to some extent, it often disrupts grammatical structure and semantic coherence, leading to incomplete or unnatural sentences. Recent literature explored the use of large language models (LLMs); however, these efforts have primarily focused on disfluency detection or data augmentation, rather than performing comprehensive correction. We propose a multilingual correction pipeline where a sequence tagger first marks disfluent tokens, and these signals guide instruction fine-tuning of an LLM to rewrite transcripts into fluent text. To further improve reliability, we add a contrastive learning objective that penalizes the reproduction of disfluent tokens, encouraging the model to preserve grammar and meaning while removing disfluent artifacts. Our experiments across three Indian languages, namely Hindi, Bengali, and Marathi show consistent improvements over strong baselines, including multilingual sequence-to-sequence models. These results highlight that detection-only strategies are insufficient. Combining token-level cues with instruction tuning and contrastive learning provides a practical and scalable solution for multilingual disfluency correction in speech-driven NLP systems. We make the codes publicly available at https://github.com/deepak-kumar-98/Mind-the-Pause.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "857d83c211",
    "kind": "paper",
@@ -855,7 +1123,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 9929
+   "stars": 9986
   },
   {
    "id": "be7f76beb6",
@@ -985,7 +1253,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5773
+   "stars": 5776
   },
   {
    "id": "293306d628",
@@ -1003,7 +1271,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 692
+   "stars": 693
   },
   {
    "id": "5d6e6e2b0a",
@@ -2110,7 +2378,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5100
+   "stars": 5103
   },
   {
    "id": "a4b6353a38",
