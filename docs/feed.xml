@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>ohbeggar/Qwen2.5-Omni-7B-Q8_0-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9dcae79402.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9dcae79402.html</guid>
+<description>any-to-any transformers gguf multimodal llama-cpp gguf-my-repo any-to-any en base_model:Qwen/Qwen2.5-Omni-7B base_model:quantized:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us conversational</description>
+</item>
+<item>
+<title>MCERQUA/OpenVoiceUI</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/93d667d398.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/93d667d398.html</guid>
+<description>Voice-powered AI assistant platform — connect any LLM, any TTS, with a live web canvas, music generation, and agent orchestration using openclaw. Install: npx openvoiceui setup ai-agent ai-assistant ai-canvas ai-voice docker flask llm music-generation openclaw pinokio self-hosted speech-to-text stt </description>
+</item>
+<item>
+<title>Peuqui/AIfred-Intelligence</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a23c8fc263.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a23c8fc263.html</guid>
+<description>🤵 AIfred-Intelligence — self-hosted Multi-Agent Assistant with Debate Modes (Symposion/Tribunal), Voice (STT + Streaming-TTS), RAG with Long-Term Memory, Web Research and Tool-Calling. Reachable via Web-UI or Telegram/Discord/Email/EPIM. Multi-Backend: llama-swap, Ollama, vLLM, TabbyAPI. ai ai-assis</description>
+</item>
+<item>
+<title>VoxisLive/voxislive</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0ca356cd79.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0ca356cd79.html</guid>
+<description>Real-time simultaneous voice translation for Windows (open-source BYOK build) audio byok gemini gemini-live google-gemini live-translation python pywebview real-time-translation simultaneous-interpretation speech-to-speech vad voice-translation wasapi windows</description>
+</item>
+<item>
+<title>bapX/x8D-Omni-Diffusion</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9ce532631f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9ce532631f.html</guid>
+<description>any-to-any custom dream byte-native diffusion masked-discrete-diffusion moe x8d omni-modal llm text-generation trust-remote-code any-to-any custom_code en hi bn as dataset:sarvamai/indic-diarbench dataset:sarvamai/samvaad-hi-v1 dataset:sarvamai/mmlu-indic dataset:nvidia/Open-SWE-Traces dataset:ai4bh</description>
+</item>
+<item>
+<title>Show HN: We built an open-source tool for real-time speech-to-speech translation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/35c94f74a9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/35c94f74a9.html</guid>
+<description>For the past few days, we have been working on an open-source, self-hosted real-time speech-to-speech translation tool called PolyTalk.&lt;p&gt;The goal was that there are people and organisations who need privacy around the tool they are using, and for the speech-to-speech translation, we haven&amp;#x27;t ha</description>
+</item>
+<item>
+<title>The Artificial Analysis Speech to Speech Index</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/46e51da28d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/46e51da28d.html</guid>
+<description></description>
+</item>
+<item>
+<title>lingyuanli/MultiGen</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/47a2058f73.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/47a2058f73.html</guid>
+<description>Multi-agent end-to-end application - General-purpose artificial intelligence agent for multimodal agent collaboration a2a-agent agents docker manus-ai manus-replica multi-agent-systems reactagent sandbox vnc x11vnc</description>
+</item>
+<item>
+<title>mahimailabs/voicegateway</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e753afab1c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e753afab1c.html</guid>
+<description>The open-source profiler for voice agents cost-tracking fastapi livekit llm mcp observability open-source self-hosted stt tts voice-ai voicegateway</description>
+</item>
+<item>
+<title>modelscope/ms-swift</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8f0eb6d836.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8f0eb6d836.html</guid>
+<description>Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe mu</description>
+</item>
+<item>
+<title>Show HN: EdgeSpeech, on-device speech-to-speech for React Native</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/357904a773.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/357904a773.html</guid>
+<description></description>
+</item>
+<item>
+<title>Ramanuj-Sarkar/multimodal-parsing-agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9e466905aa.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9e466905aa.html</guid>
+<description>visual-question-answering visual-question-answering en region:us</description>
+</item>
+<item>
+<title>ariefansclub/humanoid-multimodal-future-agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bd4ac60505.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bd4ac60505.html</guid>
+<description>robotics multimodal futuristic robotics ai agent en license:mit region:us</description>
+</item>
+<item>
+<title>keylazy/Qwen2.5-Omni-3B-bab-tree-sft</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/043116c037.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/043116c037.html</guid>
+<description>transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>CLBench-V: Evaluating Multimodal Context Learning from Grounding to Knowledge Acquisition</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5d81028f3c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5d81028f3c.html</guid>
+<description>Real-world tasks often require models to learn from task-specific context rather than relying only on pre-trained knowledge. While recent work has highlighted this capability as context learning, existing evaluations mainly focus on textual contexts. In many practical settings, however, the context </description>
+</item>
+<item>
 <title>S1-Omni-Image: A Unified Model for Scientific Image Understanding, Generation, and Editing</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/19c4a7588c.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/19c4a7588c.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/eb1a7322ed.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/eb1a7322ed.html</guid>
 <description>Traditional lecture videos offer flexibility but lack mechanisms for real-time clarification, forcing learners to search externally when confusion arises. Recent advances in large language models and neural avatars provide new opportunities for interactive learning, yet existing systems typically la</description>
-</item>
-<item>
-<title>Avatar Forcing: Real-Time Interactive Head Avatar Generation for Natural Conversation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/17ddac9bbe.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/17ddac9bbe.html</guid>
-<description>Talking head generation creates lifelike avatars from static portraits for virtual communication and content creation. However, current models do not yet convey the feeling of truly interactive communication, often generating one-way responses that lack emotional engagement. We identify two key chal</description>
-</item>
-<item>
-<title>Router-Suggest: Dynamic Routing for Multimodal Auto-Completion in Visually-Grounded Dialogs</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f7a9bac2ca.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f7a9bac2ca.html</guid>
-<description>Real-time multimodal auto-completion is essential for digital assistants, chatbots, design tools, and healthcare consultations, where user inputs rely on shared visual context. We introduce Multimodal Auto-Completion (MAC), a task that predicts upcoming characters in live chats using partially typed</description>
-</item>
-<item>
-<title>Negotiating Privacy with Smart Voice Assistants: Risk-Benefit and Control-Acceptance Tensions</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/630dc13e5c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/630dc13e5c.html</guid>
-<description>Smart Voice assistants (SVAs) are widely adopted by youth, yet privacy decision-making in these environments is often characterized by competing considerations rather than clear-cut preferences. While our prior research has examined privacy risks, benefits, trust, and self-efficacy as distinct predi</description>
-</item>
-<item>
-<title>Still Between Us? Evaluating and Improving Voice Assistant Robustness to Third-Party Interruptions</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/937de94bbb.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/937de94bbb.html</guid>
-<description>While recent Spoken Language Models (SLMs) have been actively deployed in real-world scenarios, they lack the capability to discern Third-Party Interruptions (TPI) from the primary user&#x27;s ongoing flow, leaving them vulnerable to contextual failures. To bridge this gap, we introduce TPI-Train, a data</description>
-</item>
-<item>
-<title>Mind the Pause: Disfluency-Aware Objective Tuning for Multilingual Speech Correction with LLMs</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ef4031e707.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ef4031e707.html</guid>
-<description>Automatic Speech Recognition (ASR) transcripts often contain disfluencies, such as fillers, repetitions, and false starts, which reduce readability and hinder downstream applications like chatbots and voice assistants. If left unaddressed, such disfluencies can significantly degrade the reliability </description>
-</item>
-<item>
-<title>SPyCE: Skill-Policy Co-evolution for Multimodal Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/857d83c211.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/857d83c211.html</guid>
-<description>Multimodal agents that think with images iteratively manipulate visual evidence and invoke tools across many steps. Existing reinforcement learning methods reduce trajectories to scalar rewards, forcing the policy to discover reusable tool-use patterns from scratch on every new task; memory-based al</description>
-</item>
-<item>
-<title>S1-Omni: A Unified Multimodal Reasoning Model for Scientific Understanding, Prediction, and Generation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/80e73f7a2c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/80e73f7a2c.html</guid>
-<description>We present S1-Omni, a unified multimodal reasoning model for scientific understanding, prediction, and generation. AI for Science (AI4S) has advanced significantly through domain-specific models, tool-augmented LLMs, and scientific language models. However, model capabilities remain highly fragmente</description>
-</item>
-<item>
-<title>Silent Failures in Multimodal Agentic Search:A Diagnostic Taxonomy and Cross-Judge Evaluation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9a76b0c9fd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9a76b0c9fd.html</guid>
-<description>Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent fa</description>
-</item>
-<item>
-<title>Zero-Shot Face-to-Speech Synthesis via Latent Space Adaptation of a Style-Diffusion TTS Model</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cb3426cfaa.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cb3426cfaa.html</guid>
-<description>Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we propose a Face-to-Speech (F2S) framework that predicts a plausi</description>
-</item>
-<item>
-<title>Full speech pipeline in native Swift/MLX – ASR, TTS, speech-to-speech, on-device</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3d9839c758.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3d9839c758.html</guid>
-<description></description>
-</item>
-<item>
-<title>rapidaai/rapida-react</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3c63b51028.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3c63b51028.html</guid>
-<description>Open-source React SDK for real-time Voice AI, voice agents, streaming audio, and observability using Rapida. ai-orchestration llm observability open-source react real-time sdk sdk-react stt tts voice-ai voice-ai-agents web-audio</description>
-</item>
-<item>
-<title>amalsp/Universal-Multimodal-Agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/90eebefb09.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/90eebefb09.html</guid>
-<description>any-to-any multimodal agentic-ai retrieval-augmented explainable-ai reasoning automation accessibility vision-language audio-processing table-understanding any-to-any en multilingual license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>OmniScope: Modality-Decoupled Token Compression for Omnimodal Large Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a5f2fbbd48.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a5f2fbbd48.html</guid>
-<description>Existing token compression methods for omnimodal large language models typically rely on one modality to determine what to retain in the other. We show that this assumption often breaks down: for the same query, audio and video relevance often peaks at different moments. This cross-modal salience mi</description>
-</item>
-<item>
-<title>Show HN: On-prem-deployable voice agent simulation and evals</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/adcc8cf303.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/adcc8cf303.html</guid>
-<description>after a long time of being a HN lurker, I have started my own company (inspired by a lot of you). This is a short blog on why, but please click around the website and let me know what you think! - Loren</description>
-</item>
-<item>
-<title>VAmoS Bench: Voice Agent Simulation Benchmark</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9833bdb15c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9833bdb15c.html</guid>
-<description></description>
 </item>
 </channel></rss>

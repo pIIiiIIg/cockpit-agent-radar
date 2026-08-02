@@ -1,6 +1,265 @@
 {
- "generated": "2026-08-02T09:32:08.743388+08:00",
+ "generated": "2026-08-02T14:49:43.605900+08:00",
  "items": [
+  {
+   "id": "9dcae79402",
+   "kind": "model",
+   "source": "hf",
+   "title": "ohbeggar/Qwen2.5-Omni-7B-Q8_0-GGUF",
+   "url": "https://huggingface.co/ohbeggar/Qwen2.5-Omni-7B-Q8_0-GGUF",
+   "published": "2026-08-02",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers gguf multimodal llama-cpp gguf-my-repo any-to-any en base_model:Qwen/Qwen2.5-Omni-7B base_model:quantized:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "93d667d398",
+   "kind": "repo",
+   "source": "github",
+   "title": "MCERQUA/OpenVoiceUI",
+   "url": "https://github.com/MCERQUA/OpenVoiceUI",
+   "published": "2026-08-02",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 7,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "Voice-powered AI assistant platform — connect any LLM, any TTS, with a live web canvas, music generation, and agent orchestration using openclaw. Install: npx openvoiceui setup ai-agent ai-assistant ai-canvas ai-voice docker flask llm music-generation openclaw pinokio self-hosted speech-to-text stt text-to-speech tts voice-agent voice-ai voice-assistant voice-interface",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 66
+  },
+  {
+   "id": "a23c8fc263",
+   "kind": "repo",
+   "source": "github",
+   "title": "Peuqui/AIfred-Intelligence",
+   "url": "https://github.com/Peuqui/AIfred-Intelligence",
+   "published": "2026-08-02",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 7,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "🤵 AIfred-Intelligence — self-hosted Multi-Agent Assistant with Debate Modes (Symposion/Tribunal), Voice (STT + Streaming-TTS), RAG with Long-Term Memory, Web Research and Tool-Calling. Reachable via Web-UI or Telegram/Discord/Email/EPIM. Multi-Backend: llama-swap, Ollama, vLLM, TabbyAPI. ai ai-assistant chain-of-thought chatbot chromadb llm local-llm multi-agent ocr ollama python rag reflex self-hosted text-to-speech tts voice-assistant voice-cloning web-scraping whisper",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 33
+  },
+  {
+   "id": "0ca356cd79",
+   "kind": "repo",
+   "source": "github",
+   "title": "VoxisLive/voxislive",
+   "url": "https://github.com/VoxisLive/voxislive",
+   "published": "2026-08-01",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 7,
+   "tags": [
+    "speech-to-speech",
+    "vad"
+   ],
+   "summary_en": "Real-time simultaneous voice translation for Windows (open-source BYOK build) audio byok gemini gemini-live google-gemini live-translation python pywebview real-time-translation simultaneous-interpretation speech-to-speech vad voice-translation wasapi windows",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 19
+  },
+  {
+   "id": "9ce532631f",
+   "kind": "model",
+   "source": "hf",
+   "title": "bapX/x8D-Omni-Diffusion",
+   "url": "https://huggingface.co/bapX/x8D-Omni-Diffusion",
+   "published": "2026-07-31",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 7,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "any-to-any custom dream byte-native diffusion masked-discrete-diffusion moe x8d omni-modal llm text-generation trust-remote-code any-to-any custom_code en hi bn as dataset:sarvamai/indic-diarbench dataset:sarvamai/samvaad-hi-v1 dataset:sarvamai/mmlu-indic dataset:nvidia/Open-SWE-Traces dataset:ai4bharat/sangraha base_model:Lightricks/LTX-2 base_model:finetune:Lightricks/LTX-2 license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "35c94f74a9",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: We built an open-source tool for real-time speech-to-speech translation",
+   "url": "https://news.ycombinator.com/item?id=48641243",
+   "published": "2026-06-23",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 7,
+   "tags": [
+    "speech-to-speech"
+   ],
+   "summary_en": "For the past few days, we have been working on an open-source, self-hosted real-time speech-to-speech translation tool called PolyTalk.<p>The goal was that there are people and organisations who need privacy around the tool they are using, and for the speech-to-speech translation, we haven&#x27;t had many options.<p>We built the tool with Ollama, Faster Whisper, and Piper.<p>The tool is not limited to speech-to-speech translation only, but you can also share any of your tabs, whether you&#x27;re watching a YouTube video in another language, the tool will give you audio output in your target language.<p>We are aware of how often context and tone get lost in translation, so we ensured translation quality by processing complete sentences instead of individual words.<p>Now we are focused on context support and tone adaptation.<p>If you want to see the project, here is the GitHub repo: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;PolyTalkIO&#x2F;polytalk\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;PolyTalkIO&#x2F;polytalk</a>",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 4
+  },
+  {
+   "id": "46e51da28d",
+   "kind": "news",
+   "source": "hn",
+   "title": "The Artificial Analysis Speech to Speech Index",
+   "url": "https://artificialanalysis.ai/articles/announcing-the-artificial-analysis-speech-to-speech-index",
+   "published": "2026-06-25",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "speech to speech"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 4
+  },
+  {
+   "id": "47a2058f73",
+   "kind": "repo",
+   "source": "github",
+   "title": "lingyuanli/MultiGen",
+   "url": "https://github.com/lingyuanli/MultiGen",
+   "published": "2026-07-30",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multi-agent end-to-end application - General-purpose artificial intelligence agent for multimodal agent collaboration a2a-agent agents docker manus-ai manus-replica multi-agent-systems reactagent sandbox vnc x11vnc",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 464
+  },
+  {
+   "id": "e753afab1c",
+   "kind": "repo",
+   "source": "github",
+   "title": "mahimailabs/voicegateway",
+   "url": "https://github.com/mahimailabs/voicegateway",
+   "published": "2026-08-02",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "voice agent"
+   ],
+   "summary_en": "The open-source profiler for voice agents cost-tracking fastapi livekit llm mcp observability open-source self-hosted stt tts voice-ai voicegateway",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 14
+  },
+  {
+   "id": "8f0eb6d836",
+   "kind": "repo",
+   "source": "github",
+   "title": "modelscope/ms-swift",
+   "url": "https://github.com/modelscope/ms-swift",
+   "published": "2026-08-01",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 15017
+  },
+  {
+   "id": "357904a773",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: EdgeSpeech, on-device speech-to-speech for React Native",
+   "url": "https://github.com/switchboard-sdk/edgespeech",
+   "published": "2026-07-09",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "speech-to-speech"
+   ],
+   "summary_en": "",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5
+  },
+  {
+   "id": "9e466905aa",
+   "kind": "model",
+   "source": "hf",
+   "title": "Ramanuj-Sarkar/multimodal-parsing-agent",
+   "url": "https://huggingface.co/Ramanuj-Sarkar/multimodal-parsing-agent",
+   "published": "2026-02-08",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "visual-question-answering visual-question-answering en region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "bd4ac60505",
+   "kind": "model",
+   "source": "hf",
+   "title": "ariefansclub/humanoid-multimodal-future-agent",
+   "url": "https://huggingface.co/ariefansclub/humanoid-multimodal-future-agent",
+   "published": "2026-01-10",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "robotics multimodal futuristic robotics ai agent en license:mit region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "043116c037",
+   "kind": "model",
+   "source": "hf",
+   "title": "keylazy/Qwen2.5-Omni-3B-bab-tree-sft",
+   "url": "https://huggingface.co/keylazy/Qwen2.5-Omni-3B-bab-tree-sft",
+   "published": "2026-08-01",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "5d81028f3c",
+   "kind": "paper",
+   "source": "hf",
+   "title": "CLBench-V: Evaluating Multimodal Context Learning from Grounding to Knowledge Acquisition",
+   "url": "https://huggingface.co/papers/2607.25294",
+   "published": "2026-07-27",
+   "found": "2026-08-02T14:49:43.605900+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Real-world tasks often require models to learn from task-specific context rather than relying only on pre-trained knowledge. While recent work has highlighted this capability as context learning, existing evaluations mainly focus on textual contexts. In many practical settings, however, the context to be learned from is multimodal: scientific findings are conveyed through figures and tables, financial indicators are scattered across converted reports, and spatial decisions depend on maps, scenes, or web pages. We introduce CLBench-V, a benchmark for multimodal context learning that addresses the difficulty of localizing where context use breaks down by organizing tasks around three dimensions: context grounding, new information application, and new knowledge learning. CLBench-V combines converted public benchmarks with newly constructed datasets spanning domains such as science, finance, long-document understanding, spatial reasoning, and web-based visual question answering. To reduce the cost of constructing domain-specific context-learning tasks, we further use automated construction and filtering procedures for our newly built datasets. Across 3,443 instances and six recent multimodal models, the best overall score is only 0.2847, indicating that multimodal context learning remains far from saturated. Moreover, InternVL3.5-30B-A3B performs best on context grounding and new knowledge learning, while Qwen3.5-Plus performs best on new information application. We further analyze judge reliability, context length, image count, and representative failure cases. Code is available at https://github.com/IamLihua/CLBench-V.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "19c4a7588c",
    "kind": "paper",
@@ -125,7 +384,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 8
+   "stars": 11
   },
   {
    "id": "bd747fc4a6",
@@ -1521,7 +1780,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5783
+   "stars": 5786
   },
   {
    "id": "293306d628",
@@ -1539,7 +1798,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 697
+   "stars": 699
   },
   {
    "id": "5d6e6e2b0a",
