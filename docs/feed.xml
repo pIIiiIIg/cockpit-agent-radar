@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>tianye1999/callpilot</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/57ed1d21ff.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/57ed1d21ff.html</guid>
+<description>Your calls, handled by AI — open-source AI phone agent on a Quectel EC20/EG25 4G modem. Auto-answers calls with realtime voice AI (Qwen/OpenAI/Doubao), dials out, sends SMS, navigates IVR menus. 4g-modem ai ai-agent ec20 macos phone-agent python quectel qwen realtime speech-to-speech telephony voice</description>
+</item>
+<item>
+<title>Anil-matcha/gemini-omni-comfyui</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1f6cd0317b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1f6cd0317b.html</guid>
+<description>ComfyUI custom nodes for Google Gemini Omni — text-to-video, image-to-video, and video editing via the Gemini Omni API on muapi.ai ai ai-video ai-video-generation comfyui comfyui-custom-nodes comfyui-nodes gemini gemini-api gemini-omni generative-ai google google-ai google-gemini image-to-video muap</description>
+</item>
+<item>
+<title>RIME: Enabling Large-Scale Agentic Music Post-Production</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/eae2eebc10.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/eae2eebc10.html</guid>
+<description>Almost every piece of recorded music you have ever heard was modified before it reached you; commercial releases rarely spring fully-formed from the mind of a musician. Despite the promise of music generation models for one-shot output, such fine-grained iterative refinement workflows are a compleme</description>
+</item>
+<item>
+<title>Mage-VL: An Efficient Codec-Native Streaming Multimodal Foundation Model</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c90d454b37.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c90d454b37.html</guid>
+<description>Standard vision-language models (VLMs) suffer from Moravec&#x27;s paradox: they excel at complex offline visual reasoning but struggle with simple streaming perception tasks and process them inefficiently. We present Mage-VL, an efficient codec-native streaming foundation model for real-time multimodal u</description>
+</item>
+<item>
+<title>faster-enhancer.c: A Dependency-Free int8 Runtime for Streaming Speech Enhancement on Commodity CPUs</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f0237f934e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f0237f934e.html</guid>
+<description>This is an implementation and measurement study of what it costs to run a streaming speech enhancer on a CPU. We port FastEnhancer-Medium at 48 kHz to faster-enhancer.c, a C runtime with six int8 GEMM tiers selected at initialization, leaving architecture and weights untouched. One Apple M2 core rea</description>
+</item>
+<item>
+<title>Extracting Voice Styles from Frozen TTS Models via Gradient-Based Inverse Optimization</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ce52649c8d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ce52649c8d.html</guid>
+<description>Some text-to-speech systems ship a synthesis model and preset style vectors but not the reference encoder that turns audio into such a vector. The model still accepts a style vector; a user with a voice of their own cannot produce one. We solve for that input directly, inverting the released pipelin</description>
+</item>
+<item>
+<title>Voice Memory for Agentic Speech Recognition</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3bebe83725.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3bebe83725.html</guid>
+<description>We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file</description>
+</item>
+<item>
+<title>radif-ru/ai-multi-agent-system</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/95cd93b454.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/95cd93b454.html</guid>
+<description>Локальная мульти-агентная система на self-hosted LLM (Ollama). 3 канала (Telegram/консоль/MAX), 4 типа моделей (LLM/embed/vision/voice), мультимодальность (текст/PDF/фото/голос), роли Planner/Executor/Critic с рефлексией. Инструменты: почта, Яндекс.Диск, web, OCR, cron-планировщик. Семантическая пам</description>
+</item>
+<item>
+<title>Automatic Labelling of Speech Translation Errors</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0b2a53e6d5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0b2a53e6d5.html</guid>
+<description>Errors in speech translations reduce trustworthiness of Speech Translation (ST) systems and can have serious consequences. Yet currently there is no established methodology for evaluating confidence and quality estimation of speech translations. To initiate progress in this direction, we propose Spe</description>
+</item>
+<item>
+<title>MIRROR: Novelty-Constrained Memory-Guided MCTS Red-Teaming for Agentic RAG</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/60d22dfd12.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/60d22dfd12.html</guid>
+<description>Multimodal agentic retrieval-augmented generation (RAG) systems expand the attack surface beyond prompt injection to include text poisoning, image injection, direct-query attacks, and orchestrator-level tool manipulation. Existing red-teaming approaches are typically surface-specific and often recyc</description>
+</item>
+<item>
+<title>CaReCoS: A Spectrogram based Visual Benchmark for Cardiac, Respiratory and Cough Sounds</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f83ea1639f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f83ea1639f.html</guid>
+<description>Medical acoustic signals such as respiratory sounds, cardiac auscultations, and cough audio carry rich diagnostic information, yet no existing benchmark evaluates multimodal reasoning over their spectrogram representations. We address both gaps with CaReCoS, a benchmark pairing clinically grounded q</description>
+</item>
+<item>
+<title>CanvasAgent: Enabling Complex Image Creation and Editing via Visual Tool Orchestration</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/738888be56.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/738888be56.html</guid>
+<description>Complex image creation and editing often require more than a single generation or editing model. A user request may involve synthesizing images, localizing objects, segmenting regions, editing selected content, compositing intermediate assets, reading text, and enhancing the final result. Such tasks</description>
+</item>
+<item>
+<title>VaseMuseum: Digital Intelligent Museum for Ancient Greek Pottery</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/aa23f3c029.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/aa23f3c029.html</guid>
+<description>Vision-language models (VLMs) have made interactive digital museums increasingly feasible by connecting 3D digitization with natural-language artifact exploration. However, in cultural heritage domains such as ancient Greek pottery, reliable VLM assistance is limited by two challenges. First, open-e</description>
+</item>
+<item>
+<title>Plover: Steering GUI Agents through Plan-Centric Interaction</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f169a1c3cf.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f169a1c3cf.html</guid>
+<description>Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based multimodal agents improve flexibility by operating directly ov</description>
+</item>
+<item>
+<title>Validating the Single Item Kawaii Measure</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3b810c834f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3b810c834f.html</guid>
+<description>Kawaii is the Japanese instantiation of cuteness. As a multimodal percept theoretically derived from the notion of baby schema, kawaii can be a property of voice and sound, visual appearance and form factor, and movement and expression. However, measuring user perceptions of kawaii remains an open q</description>
+</item>
+<item>
 <title>ohbeggar/Qwen2.5-Omni-7B-Q8_0-GGUF</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/9dcae79402.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9dcae79402.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/65ac4167d9.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/65ac4167d9.html</guid>
 <description>Reliable detection of humans beneath forest canopy remains a difficult remote-sensing challenge due to sparse, structured, and viewpoint-dependent occlusion. This paper presents a multimodal proof-of-concept pipeline that integrates three complementary approaches: (i) experimental evaluation of LiDA</description>
-</item>
-<item>
-<title>Speech Emotion Recognition using Attention-based LSTM-Network with Residual Connection</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bc126ad677.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bc126ad677.html</guid>
-<description>Speech emotion recognition is an important component of modern human-computer interaction systems. However, many state-of-the-art approaches rely on large pretrained models with high computational and memory requirements, limiting their applicability. This paper proposes ResLSTM-SA, a lightweight ar</description>
-</item>
-<item>
-<title>OmniVideo-100K: A Dataset for Audio-Visual Reasoning through Structured Scripts and Evidence Chains</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1181cb0b20.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1181cb0b20.html</guid>
-<description>Current automated pipelines for audio-visual Question Answering (QA) generally adopt a ``video-caption-QA&#x27;&#x27; paradigm. However, these methods typically segment videos into short clips and generate separate descriptions for audio and visual modalities. This decoupled processing severs inherent associa</description>
-</item>
-<item>
-<title>Better Adherence, Richer Context: A Field Evaluation of LLM-Powered Conversational Voice Diaries for Sleep</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6d96a5894b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6d96a5894b.html</guid>
-<description>Sleep diaries are central to behavioral sleep medicine and cognitive behavioral therapy for insomnia, yet daily completion is difficult to sustain, and static forms often provide limited context for interpreting night-to-night sleep variation. We designed an LLM-powered conversational voice diary th</description>
-</item>
-<item>
-<title>HumanForge: A Human-Centric Deepfake Video Benchmark with Multi-Agent Forgery Rationales</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/721ff9a0ae.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/721ff9a0ae.html</guid>
-<description>Rapid advancements in video diffusion models and temporal editing tools have enabled the generation of highly realistic human-centric videos, posing unprecedented challenges to digital content forensics. Existing benchmarks primarily focus on either face-swapping or global text-to-video synthesis, o</description>
-</item>
-<item>
-<title>Where Speech Enhancement Hurts Recognition: An Inference Time Polar Projection Diagnosis</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f474b60b71.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f474b60b71.html</guid>
-<description>Speech enhancement (SE) can substantially improve perceptual quality, yet enhanced speech does not necessarily improve automatic speech recognition (ASR). Existing remedies, such as retraining the enhancer jointly with recognizer or interpolating enhanced speech with the noisy input, can mitigate th</description>
-</item>
-<item>
-<title>From Senses to Decisions: The Information Flow of Auditory and Visual Perception in Multimodal LLMs</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/57a1dc2b93.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/57a1dc2b93.html</guid>
-<description>Multimodal Large Language Models (MLLMs) can listen and see, but how do audio and visual signals actually travel through the network to shape an answer? Despite their growing role in research and real-world applications, the internal pathways through which audio and visual tokens influence the final</description>
-</item>
-<item>
-<title>SymbOmni: Evolving Agentic Omni Models via Symbolic Concept Learning</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/443a8dd137.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/443a8dd137.html</guid>
-<description>Visual generation is increasingly ubiquitous in diverse domains, from text-to-image/video synthesis to multimodal interactive creation. Yet prevailing monolithic models remain fundamentally constrained by their inability to learn cumulatively and evolve autonomously, which is a limitation we term th</description>
-</item>
-<item>
-<title>OPOD: On-Policy Omni Distillation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/47272d2c1c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/47272d2c1c.html</guid>
-<description>Omni-modal models can handle text, images, and audio in one system, but improving all of these abilities together remains difficult. Training a single model on pooled multimodal data often fails to match models specialized for individual modalities. On-policy distillation (OPD) offers a way to combi</description>
-</item>
-<item>
-<title>MyMentorLLM: A psychotherapy GenAI environment with multimodal voice/text patients, trainees and experts for deliberate practice</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d9d5d237fa.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d9d5d237fa.html</guid>
-<description>Psychotherapists need repeated training and supervision by experts; however, scalability is problematic. Here we present MyMentorLLM, a multimodal voice- and text-based simulation environment for deliberate practice, used to generate 2,100 complete Cognitive Behavioural Therapy (CBT) training sessio</description>
-</item>
-<item>
-<title>Show HN: Voice skill for AI agents – sub-200ms latency via native SIP</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f2ed2f7ce8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f2ed2f7ce8.html</guid>
-<description>Built an open-source voice skill for AI agents with real phone conversations via OpenAI Realtime API + Twilio SIP. Native speech-to-speech, no STT-LLM-TTS chain, sub-200ms latency. Features: inbound&amp;#x2F;outbound calls, tool calling mid-conversation, recording, transcription, session bridging, healt</description>
-</item>
-<item>
-<title>Voice Memory for Agentic Speech Recognition</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2c48b0de3e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2c48b0de3e.html</guid>
-<description>We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file</description>
-</item>
-<item>
-<title>toiar/Khasi-OmniVoice-TTS-2</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a3d7c5ad66.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a3d7c5ad66.html</guid>
-<description>text-to-speech safetensors omnivoice text-to-speech tts khasi low-resource-language meghalaya audio speech kha en dataset:your-username/khasi-omni-voice-tts-dataset arxiv:2604.00688 license:cc-by-nc-sa-4.0 region:us</description>
-</item>
-<item>
-<title>Streaming Endpointer for Spoken Dialogue using Neural Audio Codecs and Label-Delayed Training</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/358aed2a15.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/358aed2a15.html</guid>
-<description>Accurate, low-latency endpointing is crucial for effective spoken dialogue systems. While traditional endpointers often rely on spectrum-based audio features, this work proposes real-time speech endpointing for multi-turn dialogues using streaming, low-bitrate Neural Audio Codec (NAC) features, buil</description>
-</item>
-<item>
-<title>Towards Interactive Intelligence for Digital Humans</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7f68c11d12.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7f68c11d12.html</guid>
-<description>We introduce Interactive Intelligence, a novel paradigm of digital human that is capable of personality-aligned expression, adaptive interaction, and self-evolution. To realize this, we present Mio (Multimodal Interactive Omni-Avatar), an end-to-end framework composed of five specialized modules: Th</description>
-</item>
-<item>
-<title>ALIVE: An Avatar-Lecture Interactive Video Engine with Content-Aware Retrieval for Real-Time Interaction</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/eb1a7322ed.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/eb1a7322ed.html</guid>
-<description>Traditional lecture videos offer flexibility but lack mechanisms for real-time clarification, forcing learners to search externally when confusion arises. Recent advances in large language models and neural avatars provide new opportunities for interactive learning, yet existing systems typically la</description>
 </item>
 </channel></rss>

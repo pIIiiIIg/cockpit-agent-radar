@@ -2448,5 +2448,281 @@
   "generated_at": "2026-08-02T14:50:32.566293+08:00",
   "generated_by": "deterministic abstract backfill",
   "review_status": "abstract_backfill"
+ },
+ "eae2eebc10": {
+  "tl_dr": "Almost every piece of recorded music you have ever heard was modified before it reached you; commercial releases rarely spring fully-formed from the mind of a musician. Despite the promise of music generation models for one-shot output, suc",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Almost every piece of recorded music you have ever heard was modified before it reached you; commercial releases rarely spring fully-formed from the mind of a musician. Despite the promise of music generation models for one-shot output, such fine-grained iterative refinement workflows are a complementary problem, and largely out of their reach. There is also a gap for musicians: while they can express what they want to hear, not all have the facility with studio production tools to implement the complex set of actions needed to realize these intuitions. We formalize this task as agentic post-production, wherein individual aspects of a song are targeted, refined, and combined into a final track. We argue the bottleneck is data: existing corpora do not reflect how realistic post-production chains map onto the vocabulary musicians and engineers actually use. We argue there is a language for modifying recorded music that is dense, consistent, and learnable. We introduce the Rule-based Instructions for Music Editing (RIME) framework, which generates realistic paired edit-instruction data from any baseline music dataset grounded in canonical methods, design patterns, and constraints derived from real production workflows. RIME leverages POEMS, a new toolkit that combines stem separation, mixing, and common studio effects for use by multimodal agents. We use RIME and POEMS to generate 3,000 pairs of edit instructions and ground truth audio, and use this data to evaluate existing multimodal LLMs as agents on this task, showing persistent challenges in current models' post-production capabilities. We also demonstrate RIME's ability to improve post-production agent performance via supervised fine-tuning. We see RIME as an early step toward iterative musical agents, collaborative ",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375479+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "c90d454b37": {
+  "tl_dr": "Standard vision-language models (VLMs) suffer from Moravec's paradox: they excel at complex offline visual reasoning but struggle with simple streaming perception tasks and process them inefficiently. We present Mage-VL, an efficient codec-",
+  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
+  "method": "Standard vision-language models (VLMs) suffer from Moravec's paradox: they excel at complex offline visual reasoning but struggle with simple streaming perception tasks and process them inefficiently. We present Mage-VL, an efficient codec-native streaming foundation model for real-time multimodal understanding and interaction. At its core, our custom tokenizer, Mage-ViT, replaces uniform frame sampling by selectively encoding dynamic, entropy-rich regions using motion vectors and residual energy across sparse anchor (I) and predicted (P) frames. Operating at a 16 x 16 patch level, this reduces visual token consumption by over 75% while preserving spatiotemporal context. Trained from scratch on approximately 560M unlabeled images and 100M unlabeled video frames, Mage-ViT matches or outperforms flagship encoders trained on billions of image-text pairs. We establish AI4AI data pipelines encompassing prompt-code joint optimization for multimodal captioning and AI-driven performance diagnosis to guide training recipes. Furthermore, through a bio-inspired dual-system architecture - a lightweight System 1 event gate and a causal System 2 decoder - Mage-VL enables proactive streaming perception. Extensive evaluations show that Mage-VL-4B matches Qwen3-VL-4B on static tasks while achieving strong gains in video understanding and 2D/3D spatial reasoning, with up to a 3.5x wall-clock inference speedup, and comprehensively surpasses the 15B Phi-4-reasoning-vision baseline. Beyond model artifacts, we deliver seven key empirical findings covering pre-training data efficiency, variable-resolution scaling, codec system acceleration, VideoQA SFT redundancy, motion-spatial synergy, AI4AI data pipelines, and Zero-Vision SFT for multimodal RL.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375512+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "f0237f934e": {
+  "tl_dr": "This is an implementation and measurement study of what it costs to run a streaming speech enhancer on a CPU. We port FastEnhancer-Medium at 48 kHz to faster-enhancer.c, a C runtime with six int8 GEMM tiers selected at initialization, leavi",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "This is an implementation and measurement study of what it costs to run a streaming speech enhancer on a CPU. We port FastEnhancer-Medium at 48 kHz to faster-enhancer.c, a C runtime with six int8 GEMM tiers selected at initialization, leaving architecture and weights untouched. One Apple M2 core reaches 0.069 real-time factor, against 0.230 for the fp32 ONNX Runtime graph on the same machine, a 3.3x speedup. A Galaxy S23+ (Snapdragon 8 Gen 2) reaches 0.096. The speedup comes from specializing every layer of the runtime around one fixed model. Activation ranges are recomputed per frame, so no calibration set is needed; the k=3 convolutions use Winograd F(2,3); cross-stage state is fp16; the GRU and the dequantization epilogues are fused; and nothing is allocated after startup. Over 824 VoiceBank-DEMAND utterances the engine tracks fp32 to within -0.006 PESQ and -0.08 dB SNR. Speed alone does not settle deployment cost. The enhancer holds a fraction of a core for as long as the microphone is open, so its real-time factor is a duty cycle. A benchmark races through a file; an audio callback does not. Pacing to the 6.67 ms deadline costs 4.2x per frame, saves 49% of the energy, and leaves the cheapest core placement missing 96% of its deadlines. All SIMD tiers within an architecture family emit byte-identical output. The runtime is released as a dependency-free library.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375533+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "ce52649c8d": {
+  "tl_dr": "Some text-to-speech systems ship a synthesis model and preset style vectors but not the reference encoder that turns audio into such a vector. The model still accepts a style vector; a user with a voice of their own cannot produce one. We s",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Some text-to-speech systems ship a synthesis model and preset style vectors but not the reference encoder that turns audio into such a vector. The model still accepts a style vector; a user with a voice of their own cannot produce one. We solve for that input directly, inverting the released pipeline by gradient descent: every weight stays frozen and only the style vector is optimized, against time-pooled WavLM statistics of one recording. Because the objective discards the time axis, the synthesized text may differ from the recording, so no transcript and no alignment are needed. On 154 speakers from two corpora, ECAPA-TDNN similarity rises from 0.132 to 0.413 and ResNet from 0.099 to 0.401, improving for every speaker; a verifier at its equal-error point accepts 53% of the recovered voices as the target, against 1% for the presets they start from.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375550+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "3bebe83725": {
+  "tl_dr": "We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-bes",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file through bounded edits, accepting an edit only when it strictly improves a held-out score. Extended from classical ASR-LM framework, we refer this split the listener-thinker architecture; the two roles are coupled only through the memory, so no weights change and the learned skill stays auditable and portable. Restraint turns out to be the operative skill this loop discovers: unconstrained generative error correction (GER) over-corrects, breaking correct tokens on up to 64% of its edits on financial news, and Voice Memory, reduces this rate to 35%. Across ten HyPoradise domains with an open corrector, Voice Memory, lowers weighted word error rate from 8.36% to 7.52% (7.47% with three added in-context examples) without regressing any dataset below its 1-best baseline; gains concentrate where recoverable headroom is largest, including air-travel commands (8.40% to 3.40%) and noisy far-field speech (CHiME-4, 12.69% to 10.46%). The memory transfers across corrector families and adds zero parameters to the inference path. A demo and example code are provided for future studies.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375566+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "0b2a53e6d5": {
+  "tl_dr": "Errors in speech translations reduce trustworthiness of Speech Translation (ST) systems and can have serious consequences. Yet currently there is no established methodology for evaluating confidence and quality estimation of speech translat",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Errors in speech translations reduce trustworthiness of Speech Translation (ST) systems and can have serious consequences. Yet currently there is no established methodology for evaluating confidence and quality estimation of speech translations. To initiate progress in this direction, we propose Speech Translation Error Labelling (STEL). We create an annotation protocol, a small authentic end-to-end evaluation dataset, and we analyse how existing text-only and speech-processing systems perform the STEL task. Our results show that text-only XCOMET and multimodal LLM Qwen2.5-Omni are able to perform the STEL task in roughly half the precision of humans. We also find that direct speech processing is necessary for the STEL task, and that the current text-only and speech-processing systems are complementary in labelling translation-only vs. speech-processing errors in ST.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375585+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "60d22dfd12": {
+  "tl_dr": "Multimodal agentic retrieval-augmented generation (RAG) systems expand the attack surface beyond prompt injection to include text poisoning, image injection, direct-query attacks, and orchestrator-level tool manipulation. Existing red-teami",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Multimodal agentic retrieval-augmented generation (RAG) systems expand the attack surface beyond prompt injection to include text poisoning, image injection, direct-query attacks, and orchestrator-level tool manipulation. Existing red-teaming approaches are typically surface-specific and often recycle known attack templates; on text-poisoning benchmarks we measure 73-84% exact duplication. We present MIRROR, a unified cross-surface framework that performs memory-guided Monte Carlo tree search while conditioning candidate generation on retrieved context under an explicit novelty constraint. A deterministic Novelty Gate rejects any candidate matching the retrieval set under normalized comparison, allowing retrieval to inform search priors without enabling prompt copying. Across four attack surfaces on a multimodal agentic RAG target, MIRROR attains 76% ASR on image poisoning compared with 52% for baselines, 97% ASR on orchestrator attacks at half the query cost, and the lowest cross-surface variance (coefficient of variation 0.47). In contrast, specialized baselines collapse across surfaces: suffix optimization reaches 79% ASR on text poisoning but 1% on direct queries. We release ART-SafeBench with 41,815 in-package records and runtime adapters yielding 41,991+ total records across four surfaces.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375603+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "f83ea1639f": {
+  "tl_dr": "Medical acoustic signals such as respiratory sounds, cardiac auscultations, and cough audio carry rich diagnostic information, yet no existing benchmark evaluates multimodal reasoning over their spectrogram representations. We address both ",
+  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
+  "method": "Medical acoustic signals such as respiratory sounds, cardiac auscultations, and cough audio carry rich diagnostic information, yet no existing benchmark evaluates multimodal reasoning over their spectrogram representations. We address both gaps with CaReCoS, a benchmark pairing clinically grounded questions with mel-spectrogram images derived from seven medical audio datasets. Evaluating 9 state-of-the-art vision and omni models, we find that all struggle with fine-grained acoustic features encoded in spectrograms: no model reliably combines visual pattern recognition with medical knowledge, achieving a maximum accuracy of 51.2%, underscoring the need for training on medical sound visualizations.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375623+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "738888be56": {
+  "tl_dr": "Complex image creation and editing often require more than a single generation or editing model. A user request may involve synthesizing images, localizing objects, segmenting regions, editing selected content, compositing intermediate asse",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Complex image creation and editing often require more than a single generation or editing model. A user request may involve synthesizing images, localizing objects, segmenting regions, editing selected content, compositing intermediate assets, reading text, and enhancing the final result. Such tasks shift multimodal agents from perception-augmented reasoning to manipulation-centered visual creation, where tools must actively transform visual states rather than merely inspect them. However, existing multimodal tool-use agents are mostly optimized for perception, search, or domain-specific editing, and lack large-scale supervision for executable image-creation trajectories. In this paper, we introduce CanvasCraft, a large-scale multimodal tool-use dataset for complex image creation and editing, and \\textbf{CanvasAgent}, a tool-augmented multimodal agent that learns to orchestrate heterogeneous visual tools through multi-turn interaction. CanvasCraft contains 140K fully annotated executable trajectories and 10K RL task specifications. CanvasAgent is first trained with SFT to learn executable reasoning-action trajectories, and is then optimized with GRPO using a hybrid reward that combines outcome- and process-level signals. During rollout, CanvasAgent inspects intermediate results, tracks visual assets, and adapts tool decisions to the evolving visual state. Experiments evaluate both final image quality and trajectory behavior, demonstrating the effectiveness of CanvasAgent and the proposed dataset for complex multi-tool image creation workflows.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375640+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "aa23f3c029": {
+  "tl_dr": "Vision-language models (VLMs) have made interactive digital museums increasingly feasible by connecting 3D digitization with natural-language artifact exploration. However, in cultural heritage domains such as ancient Greek pottery, reliabl",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Vision-language models (VLMs) have made interactive digital museums increasingly feasible by connecting 3D digitization with natural-language artifact exploration. However, in cultural heritage domains such as ancient Greek pottery, reliable VLM assistance is limited by two challenges. First, open-ended interpretation requires grounding fine-grained 2D/3D visual evidence in specialized curatorial knowledge, yet the retrieval process may introduce weak sources and unverifiable references. Second, when the available evidence is incomplete, noisy, or ambiguous, VLMs often produce confident but unsupported answers instead of calibrated uncertainty. To address these challenges, we propose VaseMuseum, a lightweight and modular multimodal agent framework for intelligent digital museums of ancient Greek pottery. VaseMuseum combines an interactive virtual museum with VaseAgent, which supports both 2D images and 3D artifacts through multimodal perception, 3D-aware reasoning, external knowledge retrieval, and inference-time reliability control. Specifically, VaseAgent retrieves evidence from authoritative web and museum knowledge sources, and source-level control selects diverse and verifiable evidence before generation. Meanwhile, response-level control checks generated claims against the evidence pool and encourages neutral, evidence-bounded answers when support is insufficient or conflicting. Moreover, a training-free GRPO-style selection mechanism favors responses with valid references and calibrated confidence without updating the VLM backbone. Experiments in a realistic digital museum simulation show that VaseMuseum improves citation validity, reduces hallucinations on knowledge-intensive queries, and produces more neutral answers under ambiguity compared with search-enabled",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375656+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "f169a1c3cf": {
+  "tl_dr": "Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based mu",
+  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
+  "method": "Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based multimodal agents improve flexibility by operating directly over screenshots and natural language instructions, but planning and adaptation often remain internal, limiting users' ability to inspect, supervise, or correct system behavior. We present Plover, a plan-centric vision-based GUI automation system that externalizes task plans and replanning as persistent, inspectable, and revisable artifacts. Through a planner--executor architecture, Plover supports explicit supervision of evolving execution, localized correction through editable plans, natural-language guidance, and screenshot-grounded interventions, while preserving prior progress during repair. A formative study with six participants informed the interaction design. We then evaluate Plover through benchmark failure-case repair and scenario-based workflow analyses. Our results show that many autonomous GUI-agent failures are structurally repairable when plans remain visible and interventions are localized, and that explicit replanning helps make GUI automation more transparent, controllable, and adaptable.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375668+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "3b810c834f": {
+  "tl_dr": "Kawaii is the Japanese instantiation of cuteness. As a multimodal percept theoretically derived from the notion of baby schema, kawaii can be a property of voice and sound, visual appearance and form factor, and movement and expression. How",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Kawaii is the Japanese instantiation of cuteness. As a multimodal percept theoretically derived from the notion of baby schema, kawaii can be a property of voice and sound, visual appearance and form factor, and movement and expression. However, measuring user perceptions of kawaii remains an open question. In the absence of a validated instrument, a one-item self-report measure has been used extensively, but has not been validated. Here, we report on three types of validity -- convergent, known groups, and cross-context -- and reliability for the single item measure across nine data sets featuring responses to video game character voices and visual appearances and computer-generated voice assistant voices from N=967 unique participants. Our results demonstrate initial evidence of the validity of the one-item measure for voice and visual kawaii perceptions. Further rigour can be pursued with novel stimuli, test-retest validation, and concurrent validity against the upcoming multi-item measure of kawaii.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-02T19:25:58.375682+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
  }
 }
