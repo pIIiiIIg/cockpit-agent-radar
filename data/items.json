@@ -1,6 +1,264 @@
 {
- "generated": "2026-08-03T09:32:10.110281+08:00",
+ "generated": "2026-08-03T15:01:15.581906+08:00",
  "items": [
+  {
+   "id": "47b8659e2a",
+   "kind": "paper",
+   "source": "hf",
+   "title": "See2Think: Do Multimodal Models Really Use Intermediate Visual States?",
+   "url": "https://huggingface.co/papers/2607.26769",
+   "published": "2026-07-28",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Multimodal large language models increasingly use sketches, annotations, tools, and intermediate images during reasoning, but it remains unclear whether they truly rely on these visual states. Existing benchmarks are limited both by task collections with narrow coverage or partially text-solvable samples and by evaluations that emphasize final answers without diagnosing how intermediate visual states are generated, rendered, and used. We introduce See2Think, a unified evaluation framework comprising See2ThinkBench and Visual Action-of-Thought (VAoT). See2ThinkBench contains 1,200 open-ended, visually dependent problems across 12 task categories spanning 2D structured, 3D scene, and real-world reasoning. VAoT records textual thoughts, visual actions, rendered states, and subsequent reasoning under four controlled inference settings. Evaluating representative proprietary and open-source multimodal models, we find that visual reasoning is strongly model- and environment-dependent, with no single setting consistently dominating across tasks. Process analysis further shows that models usually select relevant visual operations, while faithful rendering remains the clearest bottleneck and high feedback uptake does not necessarily translate into accuracy gains. Under task-relevant corrupted feedback, models exhibit behavioral dependence on visual states, with accuracy dropping by over 10 percentage points in controlled interventions.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ea5ecf3351",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Σ-Mem: An Online Reliability Memory for LLM-based Multi-Agent Systems",
+   "url": "https://huggingface.co/papers/2607.27958",
+   "published": "2026-07-29",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [],
+   "summary_en": "Memory is central to long-horizon LLM agents, yet existing memory systems primarily preserve interaction content rather than modeling which agents can be trusted and under what conditions. This limitation is particularly important in multi-agent systems, where a central model may be unable to directly verify plausible or correlated peer responses. We introduce Σ-Mem, an online reliability memory that records historical competence evidence for individual peers and peer relationship evidence across the peer set. Both forms of evidence are maintained as real symmetric states and updated from post-decision correctness feedback. By Weyl's inequality, the spectral change caused by each event-level update is bounded, enabling stable online adaptation without retraining the underlying models. Σ-Mem provides a general write-and-read interface: the same memory can be used for residual steering of a central model, response-free peer routing, or reliability-weighted voting. Across five Qwen-family models, Σ-Mem adapts to counterfactual reliability shifts and generalizes to unseen peers and task domains. Direct memory readouts also outperform majority voting and the best fixed peer over the full OOD evaluation set. Moreover, performance improves consistently as more correctness feedback becomes available, indicating that Σ-Mem progressively accumulates actionable reliability information. These results establish reliability memory as a reusable foundation for adaptive coordination in LLM-based multi-agent systems.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "c8d10ef1c8",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Qwen-UI-Agent Technical Report: Toward Next-Generation Real-World Centric Foundation GUI Agents",
+   "url": "https://huggingface.co/papers/2607.28227",
+   "published": "2026-07-29",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [
+    "computer use"
+   ],
+   "summary_en": "GUI agents have the potential to become a general purpose executor over existing digital devices. To advance them toward real-world use, we envision agents that operate reliably on real devices, execute workflows across platforms, combine GUI interaction with CLI execution, complete long-horizon tasks, proactively initiate useful services, and autonomously improve their capabilities with minimal human effort. Guided by this vision, we present Qwen-UI-Agent, a real-world centric foundation GUI agent spanning mobile, computer-use, web, and DeepSearch environments. Qwen-UI-Agent combines diverse sandbox environments with a large-scale real-device mobile runtime. Its unified action space interleaves GUI operations with CLI execution and generates batched actions in a single model turn. An AutoResearch-style data flywheel uses agents to construct tasks and environments, diagnose failures, and plan subsequent iterations. Online RL supports training on trajectories exceeding 100 turns, with over 10,000 concurrent environments accelerating rollout. A lightweight harness layer supports proactive service initiation and stateful workflows across mobile and computer. Across a broad suite of evaluations, Qwen-UI-Agent sets state-of-the-art performance on mobile-use benchmarks while delivering competitive performance on computer- and browser-use tasks against frontier models, including Opus 4.8, Gemini 3.1 Pro, and GPT-5.6 Sol. On mobile use, it achieves 82.1% on MobileWorld, 92.2% on MobileWorld-Real, and 97.5% on AndroidDaily. On computer use, it achieves 79.5% on OSWorld-Verified and a 40.0% partial-progress score on OSWorld-v2. On browser use and GUI grounding, it achieves 73.6% on WebArena and 81.5% on ScreenSpot-Pro, respectively.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b84cddd6ba",
+   "kind": "model",
+   "source": "hf",
+   "title": "vokra/qwen2-5-omni-7b",
+   "url": "https://huggingface.co/vokra/qwen2-5-omni-7b",
+   "published": "2026-08-02",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "vokra gguf license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "e792841f4f",
+   "kind": "model",
+   "source": "hf",
+   "title": "zaid646/multimodal-vision-agent-lora",
+   "url": "https://huggingface.co/zaid646/multimodal-vision-agent-lora",
+   "published": "2026-07-04",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "text-generation peft safetensors qwen2.5 lora ui-agent qlora desktop-automation playwright langgraph instruction-finetuned text-generation conversational arxiv:2106.09685 base_model:Qwen/Qwen2.5-7B-Instruct base_model:adapter:Qwen/Qwen2.5-7B-Instruct license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "a57c74899e",
+   "kind": "news",
+   "source": "hn",
+   "title": "Ask HN: Best “Reference” WebRTC Implementation?",
+   "url": "https://news.ycombinator.com/item?id=36178600",
+   "published": "2023-06-03",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "Would anyone disagree that Chromium-based browsers might have the best WebRTC-reference implementation?<p>For years, I&#x27;ve been running Chromium-based browsers on a server as a WebRTC peer, not because it&#x27;s more efficient to do so, but because of the flexibility.<p>I&#x27;ve recently started experimenting w&#x2F; doing full-duplex game streaming over the same medium, where all participants on the call can connect as players, and it supports haptic feedback, multiple local controllers, etc.<p>I know there are much more efficient ways of going about this, but I think my end goals are to make some sort of &quot;reference&quot; product that browser makers could use to make better browsers.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "6bc046fb81",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Feem – Transfer Files Offline",
+   "url": "https://news.ycombinator.com/item?id=39976082",
+   "published": "2024-04-09",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 6,
+   "tags": [
+    "full duplex",
+    "duplex"
+   ],
+   "summary_en": "Hello HN.<p>I live in a third-world country where Internet speeds have historically been very poor and generally expensive.<p>So I built an offline file transfer tool called Feem, that helps you transfer text, files and folders between your devices without passing through the Internet.<p>Like other apps in this same category, you need to be inside the same LAN. Or share your mobile hotspot. You also need to install the app on all your devices. Feem works on iOS, Android, Windows, Mac and Linux.<p>What makes our take on local file transfers a bit different from similar apps are:<p>- Resumable file transfers. This always comes in handy when your large file transfers get interrupted for one reason or another. It also helps avoid the deduplication of already transferred files.<p>- Full Duplex Support. With Feem, you don&#x27;t have to wait for a large file transfer to terminate before sending or receiving another large file. We use (C++) multi-threading behind the scenes to achieve full duplex support.<p>- Chat-like UI. Comes in very handy when you want to view the history of your transferred files. Or just to chat with colleagues in the same office building.<p>Here&#x27;s a raw walkthrough-demo video of Feem in action between Android and MacOS. https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=WahFB5FuvJc. We will make a much better introductory video later.<p>If interested to try it out for yourself, head over to https:&#x2F;&#x2F;feem.io.<p>Awaiting feedback.<p>Cheers.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "ceea0ea38b",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Probing neural audio codecs for distinctions among English nuclear tunes",
+   "url": "https://arxiv.org/abs/2603.14035v1",
+   "published": "2026-03-14",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "spoken dialogue"
+   ],
+   "summary_en": "State-of-the-art spoken dialogue models (Défossez et al. 2024; Schalkwyk et al. 2025) use neural audio codecs to \"tokenize\" audio signals into a lower-frequency stream of vectorial latent representations, each quantized using a hierarchy of vector codebooks. A transformer layer allows these representations to reflect some time- and context-dependent patterns. We train probes on labeled audio data from Cole et al. (2023) to test whether the pitch trajectories that characterize English phrase-final (nuclear) intonational tunes are among these patterns. Results: Linear probes trained on the unquantized latents or some of the associated codewords yield above-chance accuracy in distinguishing eight phonologically specified nuclear tunes with monotonal pitch accents (top average test accuracy (TATA): 0.31) and the five clusters of these tunes that are robust in human speech production and perception (TATA: 0.45). Greater accuracy (TATAs: 0.74-0.89) is attained for binary distinctions between classes of rising vs. falling tunes, respectively used for questions and assertions. Information about tunes is spread among all codebooks, which calls into question a distinction between 'semantic' and 'acoustic' codebooks found in the literature. Accuracies improve with nonlinear probes, but discrimination among the five clusters remains far from human performance, suggesting a fundamental limitation of current codecs.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dc028051f2",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "First Logit Boosting: Visual Grounding Method to Mitigate Object Hallucination in Large Vision-Language Models",
+   "url": "https://arxiv.org/abs/2604.00455v1",
+   "published": "2026-04-01",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Recent Large Vision-Language Models (LVLMs) have demonstrated remarkable performance across various multimodal tasks that require understanding both visual and linguistic inputs. However, object hallucination -- the generation of nonexistent objects in answers -- remains a persistent challenge. Although several approaches such as retraining and external grounding methods have been proposed to mitigate this issue, they still suffer from high data costs or structural complexity. Training-free methods such as Contrastive Decoding (CD) are more cost-effective, avoiding additional training or external models, but still suffer from long-term decay, where visual grounding weakens and language priors dominate as the generation progresses. In this paper, we propose First Logit Boosting (FLB), a simple yet effective training-free technique designed to alleviate long-term decay in LVLMs. FLB stores the logit of the first generated token and adds it to subsequent token predictions, effectively mitigating long-term decay of visual information. We observe that FLB (1) sustains the visual information embedded in the first token throughout generation, and (2) suppresses hallucinated words through the stabilizing effect of the ``The'' token. Experimental results show that FLB significantly reduces object hallucination across various tasks, benchmarks, and backbone models. Notably, it causes negligible inference overhead, making it highly applicable to real-time multimodal systems. Code is available at https://github.com/jiwooha20/FLB",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8c2e128113",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "SpeechParaling-Bench: A Comprehensive Benchmark for Paralinguistic-Aware Speech Generation",
+   "url": "https://arxiv.org/abs/2604.20842v1",
+   "published": "2026-04-22",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "Paralinguistic cues are essential for natural human-computer interaction, yet their evaluation in Large Audio-Language Models (LALMs) remains limited by coarse feature coverage and the inherent subjectivity of assessment. To address these challenges, we introduce SpeechParaling-Bench, a comprehensive benchmark for paralinguistic-aware speech generation. It expands existing coverage from fewer than 50 to over 100 fine-grained features, supported by more than 1,000 English-Chinese parallel speech queries, and is organized into three progressively challenging tasks: fine-grained control, intra-utterance variation, and context-aware adaptation. To enable reliable evaluation, we further develop a pairwise comparison pipeline, in which candidate responses are evaluated against a fixed baseline by an LALM-based judge. By framing evaluation as relative preference rather than absolute scoring, this approach mitigates subjectivity and yields more stable and scalable assessments without costly human annotation. Extensive experiments reveal substantial limitations in current LALMs. Even leading proprietary models struggle with comprehensive static control and dynamic modulation of paralinguistic features, while failure to correctly interpret paralinguistic cues accounts for 43.3% of errors in situational dialogue. These findings underscore the need for more robust paralinguistic modeling toward human-aligned voice assistants.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "46fcb251fd",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Putting HUMANS first: Efficient LAM Evaluation with Human Preference Alignment",
+   "url": "https://arxiv.org/abs/2605.00022v1",
+   "published": "2026-04-20",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection methods with 18 audio models across 40 tasks covering major LAM evaluation dimensions, we show that subsets of just 50 examples (0.3% of data) can achieve over 0.93 Pearson correlation with full benchmark scores. To understand how well these scores align with what practitioners ultimately care about, user satisfaction, we collect 776 human preference ratings from realistic voice assistant conversations, finding that both subsets and full benchmark achieve only 0.85 correlation with human. To better predict preferences, we trained regression models on these selected subsets, achieving 0.98 correlation -- outperforming regression models trained on both random subsets and the full benchmark. This demonstrates that in regression modeling, well-curated subsets outpredict the full benchmark, showing quality over quantity. We open-source these regression-weighted subsets as the HUMANS benchmark, an efficient proxy for LAM evaluation that captures both benchmark performance and user preferences.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "9ca85357c8",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "BrainJanus: A Unified Model for Understanding and Generation across Brain, Vision, and Language",
+   "url": "https://arxiv.org/abs/2606.30319v1",
+   "published": "2026-06-29",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Modeling the bidirectional correspondence between external sensory stimuli and internal neural activity has emerged as a critical frontier in neuroscience. However, existing approaches predominantly treat brain encoding and decoding as isolated tasks, relying heavily on unimodal alignment and external priors while overlooking the brain's intrinsic nature as a multimodal integration system. To address these limitations, we propose BrainJanus, the first unified brain model that integrates brain, vision, and language within a single framework. Specifically, we introduce a Unified Brain Tokenizer to quantize continuous neural dynamics into discrete tokens aligned with visual and linguistic representations in a shared Omni space. Building on this, we utilize an All-in-One autoregressive architecture that leverages next-token prediction to enable seamless any-to-any generation, which encompasses image-to-brain and text-to-brain encoding, and brain-to-image and brain-to-text decoding. Extensive experiments demonstrate that BrainJanus achieves superior performance across diverse benchmarks. Furthermore, our framework exhibits zero-shot generalization and preserves interpretable biological topography, highlighting its potential as a general-purpose brain modeling paradigm. The code is available at \\href{https://github.com/HaitaoWuTJU/BrainJanus}{GitHub}.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b98e319e44",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Weaving Light and Time: Unified Harmonic-Geometric Representation Learning for Dense RGB-Event Parsing",
+   "url": "https://arxiv.org/abs/2607.09143v1",
+   "published": "2026-07-10",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "real-time multimodal",
+    "multimodal"
+   ],
+   "summary_en": "Fusing standard RGB frames with asynchronous event streams has emerged as a definitive paradigm for robust perception in degraded environments. Although unified backbones have recently gained traction in multi-modal vision, adapting them to the RGB-Event domain remains fundamentally challenging. Existing architectures either resort to decoupled dual encoders that double computational overhead, or adopt generic unified designs that fail to resolve implicit geometric parallax and cross-spectral aliasing under the extreme representational divide between dense intensity grids and sparse kinematic spikes. To transcend these bottlenecks, we present Evita, the first unified backbone specifically engineered for dedicated dense RGB-Event parsing. To achieve profound modal synergy, Evita explicitly embeds a suite of intrinsic co-learning modules directly into every encoder layer. Specifically, it features Geometric Parallax Rectification for adaptive spatial alignment, Harmonic Spectral Resonance for texture transfer exclusively in the complex frequency domain, and Transient Global Routing for event-driven asymmetric attention. To guarantee robust feature extraction against spatial misalignments and decouple representations from specific event encodings, we construct N-ImageNetV2 alongside a stochastic event representation mixing pretraining protocol, empowering the network to seamlessly accommodate arbitrary event formats in downstream tasks. Extensive evaluations across the DELIVER, DDD17, and DSEC benchmarks confirm that Evita establishes new state-of-the-art metrics while delivering a superior accuracy-latency trade-off for real-time multimodal perception.The code are publicly available at: https://github.com/chaineypung/Evita.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "55c6e7aa68",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM",
+   "url": "https://arxiv.org/abs/2607.27205v1",
+   "published": "2026-07-29",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-language-action (VLA) models commonly adopt an LLM-centric $V \\to L \\to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although effective, this design incurs substantial computation and memory overhead at every policy invocation. In this work, we introduce TurboVLA, a new VLA paradigm that reformulates the conventional $V \\to L \\to A$ pathway as a direct $V + L \\to A$ mapping. Instead of using a large language model as the central interface between perception and action, TurboVLA independently encodes visual observations and language instructions, directly exchanges information between them through lightweight bidirectional vision-language interaction, and predicts continuous action chunks with a compact decoder. This simple design constructs task-conditioned representations directly from visual and linguistic features, significantly reducing the computational and memory costs of VLA inference. On LIBERO, TurboVLA achieves 97.7% average success with only 0.2B parameters, 31.2 ms inference latency, and 0.9 GB inference VRAM on a consumer-grade RTX 4090, matching or outperforming substantially larger VLA policies. These results establish TurboVLA as a simple and effective alternative to the prevailing LLM-centric VLA paradigm, offering a new perspective on how vision, language, and action can be connected for efficient robotic manipulation. Code is available at https://github.com/H-EmbodVis/TurboVLA.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2e8e43eb46",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Cocktail-Talker: Multi-Speaker Dialog Modeling in Noisy Social Environments with Turn Action GRPO",
+   "url": "https://arxiv.org/abs/2607.27756v1",
+   "published": "2026-07-30",
+   "found": "2026-08-03T15:01:15.581906+08:00",
+   "score": 5,
+   "tags": [
+    "speech llm"
+   ],
+   "summary_en": "Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and background noise. Each utterance may be directed to the assistant, addressed to another speaker, or completely irrelevant. In such settings, the assistant must decide not only what to say, but also whether to speak at all. In this paper, we introduce Cocktail-Talker, a speech LLM framework for multi-speaker spoken dialog modeling in noisy social environments. We model the assistant's behavior with three action tokens: <|respond|>, <|listen|>, and <|ignore|>, placed before a response or silence. Cocktail-Talker is trained via supervised finetuning and reinforcement learning to generate the appropriate action token and, only in <|respond|> mode, a speech response. To prepare the training data, we develop Cocktail-DialogGen, an LLM-based data pipeline that simulates realistic multi-speaker dialogs with speaker roles across diverse social settings. Together, these components take a step toward spoken dialog systems that interact more naturally and selectively in complex social environments.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "3832c6eae8",
    "kind": "paper",
@@ -40,7 +298,7 @@
    "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
    "summary_zh": "",
    "demo": "",
-   "stars": 82
+   "stars": 85
   },
   {
    "id": "64bb628be2",
@@ -286,7 +544,7 @@
    "summary_en": "Your calls, handled by AI — open-source AI phone agent on a Quectel EC20/EG25 4G modem. Auto-answers calls with realtime voice AI (Qwen/OpenAI/Doubao), dials out, sends SMS, navigates IVR menus. 4g-modem ai ai-agent ec20 macos phone-agent python quectel qwen realtime speech-to-speech telephony voice-ai voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 8
+   "stars": 12
   },
   {
    "id": "1f6cd0317b",
@@ -708,7 +966,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15019
+   "stars": 15024
   },
   {
    "id": "357904a773",
@@ -911,7 +1169,7 @@
    "url": "https://github.com/Big-Guan/jarvis-codex",
    "published": "2026-08-01",
    "found": "2026-08-02T09:32:08.743388+08:00",
-   "score": 8,
+   "score": 11,
    "tags": [
     "full-duplex",
     "duplex"
@@ -919,7 +1177,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 14
+   "stars": 17
   },
   {
    "id": "bd747fc4a6",
@@ -2222,7 +2480,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7674
+   "stars": 7673
   },
   {
    "id": "5b176e49fe",
@@ -2241,7 +2499,7 @@
    "summary_en": "[ICML'26] Toward Human-like Audio-Visual Intelligence of Omni-MLLMs agent audio-visual audio-visual-intelligence avi benchmark icml llm mllm multimodal omnimodal reasoning",
    "summary_zh": "",
    "demo": "",
-   "stars": 16
+   "stars": 17
   },
   {
    "id": "52abb7cd86",
@@ -2315,7 +2573,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5798
+   "stars": 5803
   },
   {
    "id": "293306d628",
@@ -2333,7 +2591,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 708
+   "stars": 712
   },
   {
    "id": "5d6e6e2b0a",
