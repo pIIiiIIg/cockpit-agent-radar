@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>M3-DuplexBench: A Multi-Turn, Multilingual, Multidomain Benchmark for Full-Duplex Spoken Dialogue Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3832c6eae8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3832c6eae8.html</guid>
+<description>Full-duplex spoken dialogue systems (FDSDSs) can listen while speaking, enabling natural behaviors such as smooth turn-taking, backchannel handling, and user barge-in handling. However, fair comparisons in multi-turn conversations remain a challenge. In addition, existing benchmarks provide limited </description>
+</item>
+<item>
+<title>streamcoreai/streamcore-server</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/37a3d22f57.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/37a3d22f57.html</guid>
+<description>Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support &amp; fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realt</description>
+</item>
+<item>
+<title>Beyond Retrieval: Analytic Memory for Multimodal Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/64bb628be2.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/64bb628be2.html</guid>
+<description>Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant </description>
+</item>
+<item>
+<title>cstr/mini-omni2-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cd371ed33f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cd371ed33f.html</guid>
+<description>mini-omni2 gguf asr tts speech-to-speech en base_model:gpt-omni/mini-omni2 base_model:quantized:gpt-omni/mini-omni2 license:mit region:us</description>
+</item>
+<item>
+<title>K5PTB/fldigi</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f041291a15.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f041291a15.html</guid>
+<description>fldigi + native TCI (Transceiver Control Interface): WebSocket CAT &amp; full-duplex RX/TX audio for ExpertSDR/SunSDR/AetherSDR-class SDRs. Windows download in Releases; build from source on Linux/macOS. Tracks the real SourceForge upstream.</description>
+</item>
+<item>
+<title>MulRobBench: A Decision-Level Benchmark for Safe and Security-Policy-Compliant Multimodal UAV Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/88c1d889be.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/88c1d889be.html</guid>
+<description>Smart-city airspace is transforming Uncrewed Aerial Vehicles (UAVs) from passive sensing platforms into cyber-physical decision makers that must follow operational rules under degraded observations and ambiguous language. Existing UAV and multimodal benchmarks evaluate perception, navigation, collab</description>
+</item>
+<item>
+<title>Agentic AI in medicine: architectures, applications, evaluation, and challenges for clinical translation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a7ac14b936.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a7ac14b936.html</guid>
+<description>Large language models and multimodal foundation models are enabling medical artificial intelligence (AI) systems to move beyond isolated prediction and undertake multistep clinical tasks that require planning, tool use, memory, iterative correction, and coordination among specialized agents. However</description>
+</item>
+<item>
+<title>ViSAGE: Constructing Self-Correcting Memories for Long-Form Video Understanding</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1db51afa92.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1db51afa92.html</guid>
+<description>Multimodal agents operating in long-horizon environments must build and continually update multimedia memories to support entity-consistent, temporally grounded reasoning. However, existing agentic memory approaches often discard fine-grained dentity cues under aggressive compression and segment-wis</description>
+</item>
+<item>
+<title>FibVLA: An Efficient Temporal Vision-Language-Action Model with Fibonacci Sampling</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e226d59e8b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e226d59e8b.html</guid>
+<description>Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs&#x27; </description>
+</item>
+<item>
+<title>Fangyuan025/Chaty</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d1ff43bf6f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d1ff43bf6f.html</guid>
+<description>Private, on-device AI desktop app — GGUF (llama.cpp) &amp; MLX models, a local coding agent, RAG knowledge base, Deep Research, vision and voice. 100% offline, no account, no telemetry. Windows &amp; macOS. ai-agent ai-chat apple-silicon coding-agent desktop-app gguf huggingface llama-cpp llm local-llm mcp </description>
+</item>
+<item>
+<title>1of2/jina-v5-omni-nano-coreml</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5e1194698a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5e1194698a.html</guid>
+<description>feature-extraction coreml embeddings feature-extraction jina-embeddings-v5 apple-silicon ane license:cc-by-nc-4.0 region:us</description>
+</item>
+<item>
+<title>1of2/jina-v5-omni-small-coreml</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d44549839e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d44549839e.html</guid>
+<description>feature-extraction coreml embeddings feature-extraction jina-embeddings-v5 apple-silicon ane license:cc-by-nc-4.0 region:us</description>
+</item>
+<item>
+<title>cstr/bidirlm-omni-2.5b-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/434150e707.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/434150e707.html</guid>
+<description>feature-extraction gguf embeddings ggml text-embeddings qwen3-bidirectional crispembed feature-extraction multilingual base_model:BidirLM/BidirLM-Omni-2.5B-Embedding base_model:quantized:BidirLM/BidirLM-Omni-2.5B-Embedding license:apache-2.0 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>cstr/bidirlm-omni-2.5b-textonly-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3a27de697c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3a27de697c.html</guid>
+<description>feature-extraction gguf embeddings ggml text-embeddings qwen3-bidirectional crispembed feature-extraction multilingual base_model:BidirLM/BidirLM-Omni-2.5B-Embedding base_model:quantized:BidirLM/BidirLM-Omni-2.5B-Embedding license:apache-2.0 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>jatshi/Audio-Codec-LLM-Native-Audio-Projector-v3</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/82f2d9b08d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/82f2d9b08d.html</guid>
+<description>feature-extraction pytorch audio speech-enhancement multimodal projector feature-extraction base_model:Qwen/Qwen2.5-1.5B-Instruct base_model:finetune:Qwen/Qwen2.5-1.5B-Instruct license:apache-2.0 region:us</description>
+</item>
+<item>
 <title>tianye1999/callpilot</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/57ed1d21ff.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/57ed1d21ff.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/8f0eb6d836.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8f0eb6d836.html</guid>
 <description>Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe mu</description>
-</item>
-<item>
-<title>Show HN: EdgeSpeech, on-device speech-to-speech for React Native</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/357904a773.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/357904a773.html</guid>
-<description></description>
-</item>
-<item>
-<title>Ramanuj-Sarkar/multimodal-parsing-agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9e466905aa.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9e466905aa.html</guid>
-<description>visual-question-answering visual-question-answering en region:us</description>
-</item>
-<item>
-<title>ariefansclub/humanoid-multimodal-future-agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bd4ac60505.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bd4ac60505.html</guid>
-<description>robotics multimodal futuristic robotics ai agent en license:mit region:us</description>
-</item>
-<item>
-<title>keylazy/Qwen2.5-Omni-3B-bab-tree-sft</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/043116c037.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/043116c037.html</guid>
-<description>transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>CLBench-V: Evaluating Multimodal Context Learning from Grounding to Knowledge Acquisition</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5d81028f3c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5d81028f3c.html</guid>
-<description>Real-world tasks often require models to learn from task-specific context rather than relying only on pre-trained knowledge. While recent work has highlighted this capability as context learning, existing evaluations mainly focus on textual contexts. In many practical settings, however, the context </description>
-</item>
-<item>
-<title>S1-Omni-Image: A Unified Model for Scientific Image Understanding, Generation, and Editing</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/19c4a7588c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/19c4a7588c.html</guid>
-<description>We present S1-Omni-Image, an open-weight unified multimodal model for scientific image understanding, generation, and editing. Unlike general-purpose image generation models, scientific image tasks require not only high-fidelity synthesis, but also robust understanding of scientific semantics, struc</description>
-</item>
-<item>
-<title>iFLYTEK-Embodied-Omni Technical Report</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4004e2f714.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4004e2f714.html</guid>
-<description>General-purpose embodied agents must understand multimodal instructions, anticipate how their environment will evolve, and produce precise control actions over extended horizons. Existing approaches typically specialize in visual-language reasoning, video-based world modeling, or action generation, </description>
-</item>
-<item>
-<title>Omni-Sleep: A Sleep Foundation Model via Hierarchical Contrastive Learning of CNS-ANS Dynamics</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f9f918c1ab.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f9f918c1ab.html</guid>
-<description>Sleep physiology arises from the coordinated dynamics of the central nervous system (CNS) and autonomic nervous system (ANS), as reflected by multimodal polysomnography signals including EEG, EOG, EMG, ECG, and respiration. However, existing sleep foundation models often fuse heterogeneous biosignal</description>
-</item>
-<item>
-<title>ReflectWorld-MM: An Entity-Oriented Multimodal Memory System for Open-Ended Video Streams</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c4b1e6b1f2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c4b1e6b1f2.html</guid>
-<description>Building assistants that can continually watch the world, remember what they see, and reason over their accumulated experience is a long-standing goal, and recently multimodal agents equipped with long-term memory over video streams have attracted increasing interest. Unfortunately, existing systems</description>
-</item>
-<item>
-<title>An Intelligent-Cloud Edge Multimodal Interaction System for Robots</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/78d5d4c1b3.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/78d5d4c1b3.html</guid>
-<description>Robust human-robot interaction in complex environments requires accurate gesture perception, semantic scene understanding, and reliable task planning under limited onboard computing resources. This paper presents a cloud-edge multimodal interaction framework that integrates an enhanced YOLO-based ge</description>
-</item>
-<item>
-<title>ARdena: Scenario-driven control of real-time LLM agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/357d87176e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/357d87176e.html</guid>
-<description>Large language models (LLMs) have enabled increasingly capable conversational agents, but reliably controlling their behavior in real-time interactive environments remains a significant challenge. Existing approaches often rely on model fine-tuning or alignment procedures that are difficult to adapt</description>
-</item>
-<item>
-<title>Big-Guan/jarvis-codex</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e928be3fdb.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e928be3fdb.html</guid>
-<description>Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant</description>
-</item>
-<item>
-<title>Hagwell/NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bd747fc4a6.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bd747fc4a6.html</guid>
-<description>text-generation gguf nvidia unsloth nemotron-3 multimodal text-generation en fr es it de ja zh dataset:nvidia/nemotron-post-training-v3 dataset:nvidia/nemotron-pre-training-datasets base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16 base_model:quantized:nvidia/Nemotron-3-Nano-Omni-30B-A3B</description>
-</item>
-<item>
-<title>Why WebRTC beats WebSockets for realtime voice AI</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5e28716d12.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5e28716d12.html</guid>
-<description></description>
-</item>
-<item>
-<title>Multimodal Object Detection Under Sparse Forest-Canopy Occlusion</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/65ac4167d9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/65ac4167d9.html</guid>
-<description>Reliable detection of humans beneath forest canopy remains a difficult remote-sensing challenge due to sparse, structured, and viewpoint-dependent occlusion. This paper presents a multimodal proof-of-concept pipeline that integrates three complementary approaches: (i) experimental evaluation of LiDA</description>
 </item>
 </channel></rss>

@@ -1,6 +1,275 @@
 {
- "generated": "2026-08-02T19:25:44.238198+08:00",
+ "generated": "2026-08-03T09:32:10.110281+08:00",
  "items": [
+  {
+   "id": "3832c6eae8",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "M3-DuplexBench: A Multi-Turn, Multilingual, Multidomain Benchmark for Full-Duplex Spoken Dialogue Models",
+   "url": "https://arxiv.org/abs/2607.29125v1",
+   "published": "2026-07-31",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 24,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "spoken dialogue",
+    "turn-taking",
+    "barge-in"
+   ],
+   "summary_en": "Full-duplex spoken dialogue systems (FDSDSs) can listen while speaking, enabling natural behaviors such as smooth turn-taking, backchannel handling, and user barge-in handling. However, fair comparisons in multi-turn conversations remain a challenge. In addition, existing benchmarks provide limited coverage of languages and dialogue domains. We propose M3-DuplexBench, a multi-turn, multilingual, multidomain benchmark for FDSDSs. M3-DuplexBench supports English and Japanese and covers both casual conversation and multi-turn question answering. In addition, we evaluate models under multiple dialogue context settings, including single-turn, user-only, and teacher-forced full-context settings, to analyze how dialogue history affects model behavior. Experiments with recent FDSDSs reveal model-specific turn-taking characteristics, clear performance gaps across languages and domains, and mixed effects of dialogue context.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "37a3d22f57",
+   "kind": "repo",
+   "source": "github",
+   "title": "streamcoreai/streamcore-server",
+   "url": "https://github.com/streamcoreai/streamcore-server",
+   "published": "2026-08-03",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 15,
+   "tags": [
+    "realtime voice",
+    "voice agent",
+    "barge-in",
+    "text-to-speech"
+   ],
+   "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 82
+  },
+  {
+   "id": "64bb628be2",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Beyond Retrieval: Analytic Memory for Multimodal Agents",
+   "url": "https://arxiv.org/abs/2607.29440v1",
+   "published": "2026-07-31",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 10,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant information at multiple granularities, from high-level abstractions to underlying records. In this paper, we formulate \\emph{analytic memory} as a complementary abstraction that organizes recurring multimodal observations into queryable structures supporting filtering, aggregation, ranking, and temporal comparison. We present AdaMM, a framework that jointly supports retrieval and analytic memory. Rather than relying on application-defined schemas, AdaMM extracts provenance-linked attribute-value observations from dialogue, images, and contextual metadata, discovers recurring field structures, and materializes them for analytical access. At inference time, a memory-aware planner decomposes queries into retrieval and analytic operations and routes each operation to the appropriate tools. Experiments on two long-term multimodal memory benchmarks, MemEye and MemGallery, show that AdaMM improves performance by up to 11.3\\% and 7.3\\%, respectively.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "cd371ed33f",
+   "kind": "model",
+   "source": "hf",
+   "title": "cstr/mini-omni2-GGUF",
+   "url": "https://huggingface.co/cstr/mini-omni2-GGUF",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 8,
+   "tags": [
+    "speech-to-speech",
+    "omni"
+   ],
+   "summary_en": "mini-omni2 gguf asr tts speech-to-speech en base_model:gpt-omni/mini-omni2 base_model:quantized:gpt-omni/mini-omni2 license:mit region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "f041291a15",
+   "kind": "repo",
+   "source": "github",
+   "title": "K5PTB/fldigi",
+   "url": "https://github.com/K5PTB/fldigi",
+   "published": "2026-08-03",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 7,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "fldigi + native TCI (Transceiver Control Interface): WebSocket CAT & full-duplex RX/TX audio for ExpertSDR/SunSDR/AetherSDR-class SDRs. Windows download in Releases; build from source on Linux/macOS. Tracks the real SourceForge upstream.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "88c1d889be",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "MulRobBench: A Decision-Level Benchmark for Safe and Security-Policy-Compliant Multimodal UAV Agents",
+   "url": "https://arxiv.org/abs/2607.23870v1",
+   "published": "2026-07-26",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal",
+    "vision-language-action"
+   ],
+   "summary_en": "Smart-city airspace is transforming Uncrewed Aerial Vehicles (UAVs) from passive sensing platforms into cyber-physical decision makers that must follow operational rules under degraded observations and ambiguous language. Existing UAV and multimodal benchmarks evaluate perception, navigation, collaboration, and reasoning, but few assess whether physical evidence, protocol constraints, and action risk remain coupled during critical decisions. We introduce MulRobBench, an offline, protocol-conditioned benchmark for Vision-Language-Action (VLA) UAV agents in smart-city environments. MulRobBench integrates real UAV multimodal observations, protocol-level security policies, and action-level cyber-physical safety into a unified evaluation framework. The benchmark contains 3,024 samples spanning 17 task taxonomy nodes and 12 scoring dimensions across four stages: operational context understanding, multimodal evidence arbitration, degradation-aware reasoning, and risk-aware action planning. Evaluation combines semantic scoring with structural diagnostics, including policy compliance, format compliance, unsafe actions, parsing failures, and dimension-level validity. Across 17 multimodal models, the best semantic protocol-decision score reaches only 0.5141, while the best strict mean scoring-dimension accuracy is 0.1599. A controlled 20-anchor modality-ablation study changes 4-15 action selections per model, confirming that both visual and textual inputs influence decisions. Analysis identifies modality-trust selection, constraint extraction, glare, missing data, and operator shorthand as the primary causes of decision instability. MulRobBench provides a reproducible benchmark for trustworthy multimodal UAV decision making under realistic operational constraints.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "a7ac14b936",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Agentic AI in medicine: architectures, applications, evaluation, and challenges for clinical translation",
+   "url": "https://arxiv.org/abs/2607.25489v1",
+   "published": "2026-07-28",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Large language models and multimodal foundation models are enabling medical artificial intelligence (AI) systems to move beyond isolated prediction and undertake multistep clinical tasks that require planning, tool use, memory, iterative correction, and coordination among specialized agents. However, the scope of agentic AI in medicine remains unsettled, and current evaluation practices are not yet aligned with the requirements of clinical use. We conducted a scoping review with systematic evidence mapping across five electronic sources, screened 1,649 exportable records, and provisionally included 557 unique studies that met predefined criteria for goal-directed task execution, tool use, interaction with external resources, feedback-based refinement, or multi-agent collaboration. The included studies describe single agents that use external tools, workflows supported by retrieval and external knowledge, multimodal agents, and multi-agent systems applied to medical question answering, image interpretation, electronic health record analysis, drug safety, and clinical trial prediction. The evidence base remains dominated by public benchmarks, simulated settings, retrospective datasets, and small-scale expert evaluation. Process reliability, evidence traceability, uncertainty, safety, workflow impact, and external validity are evaluated less consistently. Clinical translation will depend on clearer definitions, reproducible evaluation, auditable oversight, interoperable system design, and prospective validation in real-world clinical workflows.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "1db51afa92",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "ViSAGE: Constructing Self-Correcting Memories for Long-Form Video Understanding",
+   "url": "https://arxiv.org/abs/2607.28678v1",
+   "published": "2026-07-29",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal agents operating in long-horizon environments must build and continually update multimedia memories to support entity-consistent, temporally grounded reasoning. However, existing agentic memory approaches often discard fine-grained dentity cues under aggressive compression and segment-wise processing. They also rely heavily on vector similarity retrieval, which can surface semantically related yet identity-mismatched evidence, leading to entity confusion, error propagation, and hallucinated answers. We propose ViSAGE, a multimodal agentic memory framework that constructs self-correcting, entity-centric memories. Specifically, ViSAGE anchors entity identity via cross-modal binding over long temporal ranges. It then applies bidirectional memory refinement to propagate delayed identity evidence, retroactively unifying historical records and improving future reasoning. We also introduce multi-agent cross-verification to assess retrieved evidence under an identity-evidence alignment onstraint, enabling abstention instead of unsupported answers when evidence is missing. Extensive results demonstrate that ViSAGE consistently outperforms the strongest baseline, achieving 5.9% higher accuracy.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e226d59e8b",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "FibVLA: An Efficient Temporal Vision-Language-Action Model with Fibonacci Sampling",
+   "url": "https://arxiv.org/abs/2607.29596v1",
+   "published": "2026-07-31",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal",
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs' reasoning capabilities by capturing temporal information, encoding the long-context history causes an efficiency-decreasing issue. To reconcile the conflict between capturing temporal information and maintaining inference efficiency in VLAs, this paper introduces FibVLA, an efficient framework featuring temporal perception of long-context history. Specifically, we leverage logarithmic hindsight sampling to both proprioceptive states and visual frames to capture long-term temporal dependencies with minimal redundancy. For the action expert, we introduce the flow matching to produce action distributions, and the Fibonacci recurrent inference strategy to generate long-range planning steps based on real-time closed-loop feedback. Experiments demonstrate that FibVLA significantly improves action smoothness and success rates without retraining large-scale visual encoders. Efficiency analysis demonstrates superior real-time responsiveness compared to video-based baselines in real-world evaluations.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "d1ff43bf6f",
+   "kind": "repo",
+   "source": "github",
+   "title": "Fangyuan025/Chaty",
+   "url": "https://github.com/Fangyuan025/Chaty",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Private, on-device AI desktop app — GGUF (llama.cpp) & MLX models, a local coding agent, RAG knowledge base, Deep Research, vision and voice. 100% offline, no account, no telemetry. Windows & macOS. ai-agent ai-chat apple-silicon coding-agent desktop-app gguf huggingface llama-cpp llm local-llm mcp mlx model-context-protocol multimodal offline privacy rag rust tauri voice-assistant",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 21
+  },
+  {
+   "id": "5e1194698a",
+   "kind": "model",
+   "source": "hf",
+   "title": "1of2/jina-v5-omni-nano-coreml",
+   "url": "https://huggingface.co/1of2/jina-v5-omni-nano-coreml",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "feature-extraction coreml embeddings feature-extraction jina-embeddings-v5 apple-silicon ane license:cc-by-nc-4.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "d44549839e",
+   "kind": "model",
+   "source": "hf",
+   "title": "1of2/jina-v5-omni-small-coreml",
+   "url": "https://huggingface.co/1of2/jina-v5-omni-small-coreml",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "feature-extraction coreml embeddings feature-extraction jina-embeddings-v5 apple-silicon ane license:cc-by-nc-4.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "434150e707",
+   "kind": "model",
+   "source": "hf",
+   "title": "cstr/bidirlm-omni-2.5b-GGUF",
+   "url": "https://huggingface.co/cstr/bidirlm-omni-2.5b-GGUF",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "feature-extraction gguf embeddings ggml text-embeddings qwen3-bidirectional crispembed feature-extraction multilingual base_model:BidirLM/BidirLM-Omni-2.5B-Embedding base_model:quantized:BidirLM/BidirLM-Omni-2.5B-Embedding license:apache-2.0 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "3a27de697c",
+   "kind": "model",
+   "source": "hf",
+   "title": "cstr/bidirlm-omni-2.5b-textonly-GGUF",
+   "url": "https://huggingface.co/cstr/bidirlm-omni-2.5b-textonly-GGUF",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "feature-extraction gguf embeddings ggml text-embeddings qwen3-bidirectional crispembed feature-extraction multilingual base_model:BidirLM/BidirLM-Omni-2.5B-Embedding base_model:quantized:BidirLM/BidirLM-Omni-2.5B-Embedding license:apache-2.0 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "82f2d9b08d",
+   "kind": "model",
+   "source": "hf",
+   "title": "jatshi/Audio-Codec-LLM-Native-Audio-Projector-v3",
+   "url": "https://huggingface.co/jatshi/Audio-Codec-LLM-Native-Audio-Projector-v3",
+   "published": "2026-08-02",
+   "found": "2026-08-03T09:32:10.110281+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction pytorch audio speech-enhancement multimodal projector feature-extraction base_model:Qwen/Qwen2.5-1.5B-Instruct base_model:finetune:Qwen/Qwen2.5-1.5B-Instruct license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
   {
    "id": "57ed1d21ff",
    "kind": "repo",
@@ -17,7 +286,7 @@
    "summary_en": "Your calls, handled by AI — open-source AI phone agent on a Quectel EC20/EG25 4G modem. Auto-answers calls with realtime voice AI (Qwen/OpenAI/Doubao), dials out, sends SMS, navigates IVR menus. 4g-modem ai ai-agent ec20 macos phone-agent python quectel qwen realtime speech-to-speech telephony voice-ai voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 3
+   "stars": 8
   },
   {
    "id": "1f6cd0317b",
@@ -421,7 +690,7 @@
    "summary_en": "The open-source profiler for voice agents cost-tracking fastapi livekit llm mcp observability open-source self-hosted stt tts voice-ai voicegateway",
    "summary_zh": "",
    "demo": "",
-   "stars": 14
+   "stars": 15
   },
   {
    "id": "8f0eb6d836",
@@ -439,7 +708,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15018
+   "stars": 15019
   },
   {
    "id": "357904a773",
@@ -650,7 +919,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 12
+   "stars": 14
   },
   {
    "id": "bd747fc4a6",
@@ -1898,7 +2167,7 @@
    "summary_en": "Hermes Live Discord Agent Plugin — full-duplex Discord voice ↔ Google Gemini Multimodal Live API, with function calling, idle hangup, transcripts, and a 3-min oneshot installer. discord-bot gemini-live hermes-agent hermes-plugin multimodal-ai plugin realtime-voice voice-agent voice-bridge",
    "summary_zh": "",
    "demo": "",
-   "stars": 13
+   "stars": 14
   },
   {
    "id": "861d4c5ecd",
@@ -1953,7 +2222,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7663
+   "stars": 7674
   },
   {
    "id": "5b176e49fe",
@@ -2046,7 +2315,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5788
+   "stars": 5798
   },
   {
    "id": "293306d628",
@@ -2064,7 +2333,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 702
+   "stars": 708
   },
   {
    "id": "5d6e6e2b0a",
@@ -2100,7 +2369,7 @@
    "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
    "summary_zh": "",
    "demo": "",
-   "stars": 556
+   "stars": 557
   },
   {
    "id": "b8dde0aed2",
