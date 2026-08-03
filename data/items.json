@@ -1,6 +1,255 @@
 {
- "generated": "2026-08-03T15:01:15.581906+08:00",
+ "generated": "2026-08-03T20:03:53.283892+08:00",
  "items": [
+  {
+   "id": "7520cdd0e3",
+   "kind": "model",
+   "source": "hf",
+   "title": "vanch007/Ming-omni-tts-16.8B-A3B-MLX-bf16",
+   "url": "https://huggingface.co/vanch007/Ming-omni-tts-16.8B-A3B-MLX-bf16",
+   "published": "2026-08-03",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 10,
+   "tags": [
+    "omni",
+    "text-to-speech"
+   ],
+   "summary_en": "text-to-speech mlx onnx bailingmm apple-silicon ming-omni-tts bfloat16 text-to-speech custom_code license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "d1cad98dfe",
+   "kind": "repo",
+   "source": "github",
+   "title": "PhamHuynhAnh16/Vietnamese-RVC",
+   "url": "https://github.com/PhamHuynhAnh16/Vietnamese-RVC",
+   "published": "2026-08-03",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 8,
+   "tags": [
+    "speech-to-speech",
+    "text-to-speech"
+   ],
+   "summary_en": "Dự án công cụ chuyển đổi giọng nói dành cho người Việt ai audio-analysis audio-effect audio-processing fairseq gradio onnx onnxruntime pytorch realtime rvc-project so-vits-svc speech-diarization speech-to-speech text-to-speech transformers tts vits voice-cloning voice-conversion",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 32
+  },
+  {
+   "id": "d973f82355",
+   "kind": "repo",
+   "source": "github",
+   "title": "AlphaAvatar/AlphaAvatar",
+   "url": "https://github.com/AlphaAvatar/AlphaAvatar",
+   "published": "2026-08-03",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "A real-time interactive Omni Avatar built on LiveKit, which allows you to seamlessly integrate with any open source Avatar components (real-time model, visual, voice, memory, search, etc.). agent ai avatar livekit llm memory omni plugin real-time reflection search speech virtual-character visual",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 805
+  },
+  {
+   "id": "8ea1c2d37c",
+   "kind": "repo",
+   "source": "github",
+   "title": "nancyxieyy/ai-medical-assistant",
+   "url": "https://github.com/nancyxieyy/ai-medical-assistant",
+   "published": "2026-08-03",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 6,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "An open-source AI medical voice assistant based on Overhearing LLM Agents",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 7
+  },
+  {
+   "id": "9d416d5e4b",
+   "kind": "model",
+   "source": "hf",
+   "title": "emmilina/waxal-omni-ctc-300m-lug-sna-lin-caps",
+   "url": "https://huggingface.co/emmilina/waxal-omni-ctc-300m-lug-sna-lin-caps",
+   "published": "2026-08-03",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "badca19708",
+   "kind": "paper",
+   "source": "hf",
+   "title": "RL^2-VLA: Adaptive RL Latent Compositional Steering with Test-Time Scaling for Vision-Language-Action Models",
+   "url": "https://huggingface.co/papers/2607.26991",
+   "published": "2026-07-29",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 6,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Despite the impressive visuomotor capabilities enabled by Vision-Language-Action (VLA) models, their performance often degrades on challenging and out-of-domain tasks. Recent test-time steering and scaling methods improve performance without extensive data collection and retraining, but action samples often remain concentrated around similar behaviors and therefore inherit correlated failure modes. Moreover, existing methods apply the same intervention strategy at every timestep, regardless of whether the base policy is already likely to succeed. To address these limitations, we introduce RL^2, an adaptive inference-time steering framework that leverages Reinforcement Learning on VLA Latents. First, we train a lightweight offline RL policy conditioned on expressive latents extracted from the VLA action expert and compose its flow velocity with that of the frozen VLA during inference. This compositional steering strategy combines the behavioral priors of large-scale imitation learning with the action diversity induced by offline RL beyond dominant demonstration modes. We further discover that inference-time steering follows fundamentally different scaling laws under success and failure states, revealing that action diversity is most beneficial when the base VLA is likely to fail, but can unnecessarily perturb already-accurate actions when success is likely. Building on this insight, RL^2 activates compositional steering only when failure is predicted. Across the SIMPLER and PolaRiS benchmarks, RL^2 improves success rates by up to +17.3% in out-of-domain settings, while ablations and scaling studies demonstrate the importance of latent representations and RL training. Finally, real-world experiments demonstrate that these gains transfer beyond simulation, establishing RL^2 as a practical and modular steering framework for VLA deployment.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "89eec763a0",
+   "kind": "model",
+   "source": "hf",
+   "title": "agentic-in/elephant-embeddings-v1-multimodal-large",
+   "url": "https://huggingface.co/agentic-in/elephant-embeddings-v1-multimodal-large",
+   "published": "2026-05-19",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "sentence-similarity pytorch agentic-intelligence-lab elephant embeddings multimodal retrieval rag agents routing image-text audio-text tri-encoder sentence-similarity multilingual license:apache-2.0 model-index region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1
+  },
+  {
+   "id": "bcba8b3515",
+   "kind": "model",
+   "source": "hf",
+   "title": "agentic-in/elephant-embeddings-v1-multimodal-small",
+   "url": "https://huggingface.co/agentic-in/elephant-embeddings-v1-multimodal-small",
+   "published": "2026-05-19",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "sentence-similarity transformers onnx safetensors agentic-intelligence-lab elephant embeddings multimodal retrieval rag agents routing image-text audio-text matryoshka 2dmse sentence-similarity en license:apache-2.0 model-index endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "8334af8315",
+   "kind": "model",
+   "source": "hf",
+   "title": "nvidia/nemotron-labs-audio-visual-flamingo-hf",
+   "url": "https://huggingface.co/nvidia/nemotron-labs-audio-visual-flamingo-hf",
+   "published": "2026-07-20",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "video-text-to-text transformers safetensors audiovisualflamingo text-generation audio video image audio-visual multimodal reasoning video understanding long-video audio understanding ASR timestamp-grounding instruction-tuned dynamic-s2 CRTE TAVIT video-text-to-text en dataset:nvidia/AV-Skills arxiv:2607.16107 license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 12
+  },
+  {
+   "id": "86208ebdef",
+   "kind": "paper",
+   "source": "hf",
+   "title": "AI Tour Meeting: Group Travel Planning by LLM Agents",
+   "url": "https://huggingface.co/papers/2607.18806",
+   "published": "2026-07-20",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "This paper proposes AI Tour Meeting, a group travel planning framework powered by multiple Large Language Model (LLM)-based agents. The agents are instantiated with distinct personas and collaboratively seek an itinerary that satisfies their constraints and preferences through natural language discussion. The framework enables easy and flexible orchestration of such discussions by providing interfaces for configuring agent personas, discussion workflows, monitoring, and LLM deployment. Its primary use case is a simulation tool for analyzing the behavior of multiple LLM agents during tour planning discussions. This paper demonstrates the utility of the framework by presenting system validation and several analytical results obtained by the framework.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "50562914cd",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Is Deep Research Reliable? Misleading Knowledge Induces False Conclusions",
+   "url": "https://huggingface.co/papers/2607.20891",
+   "published": "2026-07-22",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Deep Research agents extend LLM-based assistants into long-horizon workflows involving planning, retrieval, evidence synthesis, and report generation, yet their reliability in open information environments remains underexplored. A key concern is whether apparently credible but factually misleading knowledge encountered in such environments can propagate through these workflows and be adopted as false conclusions in final reports. To study this failure mode, we introduce MisKnow-Agent, a framework for constructing and validating misleading knowledge for Deep Research tasks. MisKnow-Agent generates misleading instances with controllable authority levels and styles, yielding 5,933 quality-controlled instances built on DeepResearch Benchmark tasks. Extensive experiments across open-source and closed-source Deep Research agents show that even limited exposure to misleading knowledge can induce false-conclusion adoption in final reports, revealing a broad reliability vulnerability in current Deep Research agents. Although search-enabled verifier models consistently identify the retained instances as misleading during focused corpus validation, the same instances can still be adopted during long-horizon research, revealing a disconnect between focused verification and workflow-level evidence use. Finally, we evaluate pre- and post-research defenses, both individually and in combination, finding that all three configurations mitigate but do not fully prevent false-conclusion adoption. Our findings suggest that reliable Deep Research requires evidence verification and correction capabilities at both the model and framework levels, beyond improvements in planning, retrieval, evidence integration, or report-generation abilities.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "aee77672c9",
+   "kind": "paper",
+   "source": "hf",
+   "title": "From RLVR to RLSVR: Task Transformation Induces Self-Verifiable Rewards for Open-Ended LLM Self-Improvement",
+   "url": "https://huggingface.co/papers/2607.23802",
+   "published": "2026-07-25",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Reinforcement Learning with Verifiable Rewards (RLVR) has driven recent progress in reasoning-oriented large language models (LLMs) by enabling large-scale optimization. However, its applicability remains largely limited to domains such as mathematics and coding, where correctness can be deterministically verified. Open-ended tasks instead often rely on human preferences, reward models, or LLM-based judges, introducing evaluation bias, judge capability bottlenecks, and additional inference costs.Drawing on the principle of self-supervised learning, which constructs pretext tasks to derive supervision from the data itself, we propose Reinforcement Learning with Self-Verifiable Rewards (RLSVR), a task-transformation-based training paradigm for extending RLVR to open-ended tasks. RLSVR transforms open-ended tasks into verifiable proxy environments whose internal rules and interaction outcomes automatically generate reward signals. We instantiate RLSVR with SpyRL, a multi-agent self-play environment inspired by Who Is the Spy?. Agents receive asymmetric information, complete the same target task, and vote to identify a designated spy. Because the spy identity is predetermined, voting outcomes provide fully verifiable rewards, while successful identification remains closely related to output quality. Experiments on text summarization, creative writing, and mathematical reasoning show that SpyRL outperforms existing self-improvement methods on non-verifiable tasks and yields consistent gains on verifiable reasoning tasks. These results demonstrate that task transformation can extend scalable RLVR-based self-improvement beyond inherently verifiable domains. Models and code have been released at https://github.com/wangqinsi1/SpyRL.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "401cad35ea",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Filesystem-Based Memory for LLM Agents: Organization, Evolution, and Sustainability",
+   "url": "https://huggingface.co/papers/2607.26637",
+   "published": "2026-07-28",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Deployed LLM agents increasingly keep their long-term memory as a filesystem: a directory tree of markdown files that the agent itself reads, writes, and reorganizes through generic file tools. Yet research has largely passed over this medium: prior systems design bespoke memory representations and study retrieval over them, leaving the default's two working assumptions untested: that an agent can keep a growing store organized as memories accumulate, conflict, and go stale, and that this organization pays. We present the first systematic exploration of filesystem-based memory for LLM agents. We formalize the setting as three roles around one memory filesystem: a management agent integrates and organizes incoming content, a search agent answers queries with cited sources, and an execution agent supplies task trajectories that are distilled into skills, unifying declarative memory and skills in a single store. Across long-conversation benchmarks and embodied tasks, we vary memory shape (agent-organized hierarchy, verbatim dump, chunk retrieval), stream scale, tool harness (sandboxed shell, memory-tool-style functions, varied search tooling), and the strengths of the management and search agents, tracking answer quality, cost, and store health as memory grows. What organization reliably buys is search economy: organized stores roughly halve retrieval cost where material is large. Today's agents, however, fall short of the default's promise: in our growth study, organization erodes for all but the strongest management agent, and no agent we measure converts organization itself into better answers. And the model is not the only lever over a store's shape: changing the tool set alone reshapes the store as strongly as swapping the model. The study turns the filesystem default from an assumption into a design space for agent memory.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "c51b7eac63",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Langy, an automated AI engineer (we gave it a robot body) [video]",
+   "url": "https://langwatch.ai/blog/introducing-langy-your-automated-ai-engineer",
+   "published": "2026-07-22",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [
+    "voice agent"
+   ],
+   "summary_en": "Founder here. Langy is an AI engineer that lives inside our platform, LangWatch. It reads your production traces, writes Scenario tests and evaluations for the problems it finds, opens a pull request on your repo, and proves the fix by running those simulations in CI. A human still merges.<p>Reachy robot from Hugging Face arrived on the same week we were planing on launching it, so we wanted to use for the launch. So we it wired to our Langy which actually lives on the platform, and asked it to test our own customer-support voice agent. On the video you can see it writing the agent tests reading traces and everything.<p>LangWatch is an open source platform (github.com&#x2F;langwatch&#x2F;langwatch) and Scenario, the simulation-testing library it drives, is open source too if you want to run that part yourself: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;langwatch&#x2F;scenario\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;langwatch&#x2F;scenario</a>. A full write-up on how Langy works under the hood is coming later this week.<p>Happy to get into how it drives the robot, what is real vs staged, latency, or how the whole harness around it actually works.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "b1ff2359b6",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: On-device transcriber that's 97% accurate at identifying speakers",
+   "url": "https://mimicscribe.app",
+   "published": "2026-06-05",
+   "found": "2026-08-03T20:03:53.283892+08:00",
+   "score": 5,
+   "tags": [
+    "low latency"
+   ],
+   "summary_en": "I’ve spent the last seven months building a tool I wish I’d had in my previous roles. MimicScribe is a macOS menu bar app that fits the &quot;AI notetaker&quot; category. It has accurate on-device speaker identification (a first possibly?), real-time meeting talking points for discovery calls, and a fully keyboard- and voice-driven interface.<p>I believe the accuracy of the speaker ID system is its biggest strength. I used fluid audio’s port of (<a href=\"https:&#x2F;&#x2F;github.com&#x2F;fluidInference&#x2F;FluidAudio\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;fluidInference&#x2F;FluidAudio</a>) Pyannote&#x27;s community-1 as a base. To improve accuracy, the system uses grammar structure cues from the Parakeet STT to mask by sentence. By taking a second set of samples within that mask for cluster assignment, it leverages the fact that most people don’t finish each other&#x27;s… sandwiches in business meetings. It tends to slightly oversegment, as I’ve found it much easier to merge segments or reassign a speaker than it is to untangle an incorrect merge. <a href=\"https:&#x2F;&#x2F;github.com&#x2F;MimicScribe&#x2F;benchmarks&#x2F;blob&#x2F;main&#x2F;diarization&#x2F;results&#x2F;RESULTS.md\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;MimicScribe&#x2F;benchmarks&#x2F;blob&#x2F;main&#x2F;diarizat...</a><p>The app provides in-meeting talking points using a prompt tuned for discovery type calls. It can suggest probing questions to help you extract more detail or helps you refocus on the big picture with “magic wand” type questions (e.g. “how would your ideal system work”). Getting low latency models to provide novel, relevant, and totally not hallucinated information is a bit of a reach and it tends to restate the transcript frequently but little gems do come from it sometimes so it’s best to think of it as a source of inspiration and be a vigilant gatekeeper.<p>It’s set up so recording can be started and ended via holding a keyboard shortcut instead of connec",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 32
+  },
   {
    "id": "47b8659e2a",
    "kind": "paper",
@@ -862,7 +1111,7 @@
    "summary_en": "Real-time simultaneous voice translation for Windows (open-source BYOK build) audio byok gemini gemini-live google-gemini live-translation python pywebview real-time-translation simultaneous-interpretation speech-to-speech vad voice-translation wasapi windows",
    "summary_zh": "",
    "demo": "",
-   "stars": 19
+   "stars": 21
   },
   {
    "id": "9ce532631f",
@@ -966,7 +1215,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15024
+   "stars": 15027
   },
   {
    "id": "357904a773",
@@ -1177,7 +1426,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 17
+   "stars": 21
   },
   {
    "id": "bd747fc4a6",
@@ -2443,7 +2692,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 9986
+   "stars": 10604
   },
   {
    "id": "be7f76beb6",
@@ -2480,7 +2729,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7673
+   "stars": 7674
   },
   {
    "id": "5b176e49fe",
@@ -2573,7 +2822,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5803
+   "stars": 5804
   },
   {
    "id": "293306d628",
@@ -2591,7 +2840,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 712
+   "stars": 715
   },
   {
    "id": "5d6e6e2b0a",
@@ -3698,7 +3947,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5103
+   "stars": 5113
   },
   {
    "id": "a4b6353a38",

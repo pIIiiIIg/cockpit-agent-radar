@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>vanch007/Ming-omni-tts-16.8B-A3B-MLX-bf16</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7520cdd0e3.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7520cdd0e3.html</guid>
+<description>text-to-speech mlx onnx bailingmm apple-silicon ming-omni-tts bfloat16 text-to-speech custom_code license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>PhamHuynhAnh16/Vietnamese-RVC</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d1cad98dfe.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d1cad98dfe.html</guid>
+<description>Dự án công cụ chuyển đổi giọng nói dành cho người Việt ai audio-analysis audio-effect audio-processing fairseq gradio onnx onnxruntime pytorch realtime rvc-project so-vits-svc speech-diarization speech-to-speech text-to-speech transformers tts vits voice-cloning voice-conversion</description>
+</item>
+<item>
+<title>AlphaAvatar/AlphaAvatar</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d973f82355.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d973f82355.html</guid>
+<description>A real-time interactive Omni Avatar built on LiveKit, which allows you to seamlessly integrate with any open source Avatar components (real-time model, visual, voice, memory, search, etc.). agent ai avatar livekit llm memory omni plugin real-time reflection search speech virtual-character visual</description>
+</item>
+<item>
+<title>nancyxieyy/ai-medical-assistant</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8ea1c2d37c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8ea1c2d37c.html</guid>
+<description>An open-source AI medical voice assistant based on Overhearing LLM Agents</description>
+</item>
+<item>
+<title>emmilina/waxal-omni-ctc-300m-lug-sna-lin-caps</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9d416d5e4b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9d416d5e4b.html</guid>
+<description>region:us</description>
+</item>
+<item>
+<title>RL^2-VLA: Adaptive RL Latent Compositional Steering with Test-Time Scaling for Vision-Language-Action Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/badca19708.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/badca19708.html</guid>
+<description>Despite the impressive visuomotor capabilities enabled by Vision-Language-Action (VLA) models, their performance often degrades on challenging and out-of-domain tasks. Recent test-time steering and scaling methods improve performance without extensive data collection and retraining, but action sampl</description>
+</item>
+<item>
+<title>agentic-in/elephant-embeddings-v1-multimodal-large</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/89eec763a0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/89eec763a0.html</guid>
+<description>sentence-similarity pytorch agentic-intelligence-lab elephant embeddings multimodal retrieval rag agents routing image-text audio-text tri-encoder sentence-similarity multilingual license:apache-2.0 model-index region:us</description>
+</item>
+<item>
+<title>agentic-in/elephant-embeddings-v1-multimodal-small</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bcba8b3515.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bcba8b3515.html</guid>
+<description>sentence-similarity transformers onnx safetensors agentic-intelligence-lab elephant embeddings multimodal retrieval rag agents routing image-text audio-text matryoshka 2dmse sentence-similarity en license:apache-2.0 model-index endpoints_compatible region:us</description>
+</item>
+<item>
+<title>nvidia/nemotron-labs-audio-visual-flamingo-hf</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8334af8315.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8334af8315.html</guid>
+<description>video-text-to-text transformers safetensors audiovisualflamingo text-generation audio video image audio-visual multimodal reasoning video understanding long-video audio understanding ASR timestamp-grounding instruction-tuned dynamic-s2 CRTE TAVIT video-text-to-text en dataset:nvidia/AV-Skills arxiv:</description>
+</item>
+<item>
+<title>AI Tour Meeting: Group Travel Planning by LLM Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/86208ebdef.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/86208ebdef.html</guid>
+<description>This paper proposes AI Tour Meeting, a group travel planning framework powered by multiple Large Language Model (LLM)-based agents. The agents are instantiated with distinct personas and collaboratively seek an itinerary that satisfies their constraints and preferences through natural language discu</description>
+</item>
+<item>
+<title>Is Deep Research Reliable? Misleading Knowledge Induces False Conclusions</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/50562914cd.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/50562914cd.html</guid>
+<description>Deep Research agents extend LLM-based assistants into long-horizon workflows involving planning, retrieval, evidence synthesis, and report generation, yet their reliability in open information environments remains underexplored. A key concern is whether apparently credible but factually misleading k</description>
+</item>
+<item>
+<title>From RLVR to RLSVR: Task Transformation Induces Self-Verifiable Rewards for Open-Ended LLM Self-Improvement</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/aee77672c9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/aee77672c9.html</guid>
+<description>Reinforcement Learning with Verifiable Rewards (RLVR) has driven recent progress in reasoning-oriented large language models (LLMs) by enabling large-scale optimization. However, its applicability remains largely limited to domains such as mathematics and coding, where correctness can be determinist</description>
+</item>
+<item>
+<title>Filesystem-Based Memory for LLM Agents: Organization, Evolution, and Sustainability</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/401cad35ea.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/401cad35ea.html</guid>
+<description>Deployed LLM agents increasingly keep their long-term memory as a filesystem: a directory tree of markdown files that the agent itself reads, writes, and reorganizes through generic file tools. Yet research has largely passed over this medium: prior systems design bespoke memory representations and </description>
+</item>
+<item>
+<title>Show HN: Langy, an automated AI engineer (we gave it a robot body) [video]</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c51b7eac63.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c51b7eac63.html</guid>
+<description>Founder here. Langy is an AI engineer that lives inside our platform, LangWatch. It reads your production traces, writes Scenario tests and evaluations for the problems it finds, opens a pull request on your repo, and proves the fix by running those simulations in CI. A human still merges.&lt;p&gt;Reachy </description>
+</item>
+<item>
+<title>Show HN: On-device transcriber that&#x27;s 97% accurate at identifying speakers</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b1ff2359b6.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b1ff2359b6.html</guid>
+<description>I’ve spent the last seven months building a tool I wish I’d had in my previous roles. MimicScribe is a macOS menu bar app that fits the &amp;quot;AI notetaker&amp;quot; category. It has accurate on-device speaker identification (a first possibly?), real-time meeting talking points for discovery calls, and a</description>
+</item>
+<item>
 <title>See2Think: Do Multimodal Models Really Use Intermediate Visual States?</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/47b8659e2a.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/47b8659e2a.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/d1ff43bf6f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d1ff43bf6f.html</guid>
 <description>Private, on-device AI desktop app — GGUF (llama.cpp) &amp; MLX models, a local coding agent, RAG knowledge base, Deep Research, vision and voice. 100% offline, no account, no telemetry. Windows &amp; macOS. ai-agent ai-chat apple-silicon coding-agent desktop-app gguf huggingface llama-cpp llm local-llm mcp </description>
-</item>
-<item>
-<title>1of2/jina-v5-omni-nano-coreml</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5e1194698a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5e1194698a.html</guid>
-<description>feature-extraction coreml embeddings feature-extraction jina-embeddings-v5 apple-silicon ane license:cc-by-nc-4.0 region:us</description>
-</item>
-<item>
-<title>1of2/jina-v5-omni-small-coreml</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d44549839e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d44549839e.html</guid>
-<description>feature-extraction coreml embeddings feature-extraction jina-embeddings-v5 apple-silicon ane license:cc-by-nc-4.0 region:us</description>
-</item>
-<item>
-<title>cstr/bidirlm-omni-2.5b-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/434150e707.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/434150e707.html</guid>
-<description>feature-extraction gguf embeddings ggml text-embeddings qwen3-bidirectional crispembed feature-extraction multilingual base_model:BidirLM/BidirLM-Omni-2.5B-Embedding base_model:quantized:BidirLM/BidirLM-Omni-2.5B-Embedding license:apache-2.0 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>cstr/bidirlm-omni-2.5b-textonly-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3a27de697c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3a27de697c.html</guid>
-<description>feature-extraction gguf embeddings ggml text-embeddings qwen3-bidirectional crispembed feature-extraction multilingual base_model:BidirLM/BidirLM-Omni-2.5B-Embedding base_model:quantized:BidirLM/BidirLM-Omni-2.5B-Embedding license:apache-2.0 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>jatshi/Audio-Codec-LLM-Native-Audio-Projector-v3</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/82f2d9b08d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/82f2d9b08d.html</guid>
-<description>feature-extraction pytorch audio speech-enhancement multimodal projector feature-extraction base_model:Qwen/Qwen2.5-1.5B-Instruct base_model:finetune:Qwen/Qwen2.5-1.5B-Instruct license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>tianye1999/callpilot</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/57ed1d21ff.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/57ed1d21ff.html</guid>
-<description>Your calls, handled by AI — open-source AI phone agent on a Quectel EC20/EG25 4G modem. Auto-answers calls with realtime voice AI (Qwen/OpenAI/Doubao), dials out, sends SMS, navigates IVR menus. 4g-modem ai ai-agent ec20 macos phone-agent python quectel qwen realtime speech-to-speech telephony voice</description>
-</item>
-<item>
-<title>Anil-matcha/gemini-omni-comfyui</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1f6cd0317b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1f6cd0317b.html</guid>
-<description>ComfyUI custom nodes for Google Gemini Omni — text-to-video, image-to-video, and video editing via the Gemini Omni API on muapi.ai ai ai-video ai-video-generation comfyui comfyui-custom-nodes comfyui-nodes gemini gemini-api gemini-omni generative-ai google google-ai google-gemini image-to-video muap</description>
-</item>
-<item>
-<title>RIME: Enabling Large-Scale Agentic Music Post-Production</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/eae2eebc10.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/eae2eebc10.html</guid>
-<description>Almost every piece of recorded music you have ever heard was modified before it reached you; commercial releases rarely spring fully-formed from the mind of a musician. Despite the promise of music generation models for one-shot output, such fine-grained iterative refinement workflows are a compleme</description>
-</item>
-<item>
-<title>Mage-VL: An Efficient Codec-Native Streaming Multimodal Foundation Model</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c90d454b37.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c90d454b37.html</guid>
-<description>Standard vision-language models (VLMs) suffer from Moravec&#x27;s paradox: they excel at complex offline visual reasoning but struggle with simple streaming perception tasks and process them inefficiently. We present Mage-VL, an efficient codec-native streaming foundation model for real-time multimodal u</description>
-</item>
-<item>
-<title>faster-enhancer.c: A Dependency-Free int8 Runtime for Streaming Speech Enhancement on Commodity CPUs</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f0237f934e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f0237f934e.html</guid>
-<description>This is an implementation and measurement study of what it costs to run a streaming speech enhancer on a CPU. We port FastEnhancer-Medium at 48 kHz to faster-enhancer.c, a C runtime with six int8 GEMM tiers selected at initialization, leaving architecture and weights untouched. One Apple M2 core rea</description>
-</item>
-<item>
-<title>Extracting Voice Styles from Frozen TTS Models via Gradient-Based Inverse Optimization</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ce52649c8d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ce52649c8d.html</guid>
-<description>Some text-to-speech systems ship a synthesis model and preset style vectors but not the reference encoder that turns audio into such a vector. The model still accepts a style vector; a user with a voice of their own cannot produce one. We solve for that input directly, inverting the released pipelin</description>
-</item>
-<item>
-<title>Voice Memory for Agentic Speech Recognition</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3bebe83725.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3bebe83725.html</guid>
-<description>We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file</description>
-</item>
-<item>
-<title>radif-ru/ai-multi-agent-system</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/95cd93b454.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/95cd93b454.html</guid>
-<description>Локальная мульти-агентная система на self-hosted LLM (Ollama). 3 канала (Telegram/консоль/MAX), 4 типа моделей (LLM/embed/vision/voice), мультимодальность (текст/PDF/фото/голос), роли Planner/Executor/Critic с рефлексией. Инструменты: почта, Яндекс.Диск, web, OCR, cron-планировщик. Семантическая пам</description>
-</item>
-<item>
-<title>Automatic Labelling of Speech Translation Errors</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0b2a53e6d5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0b2a53e6d5.html</guid>
-<description>Errors in speech translations reduce trustworthiness of Speech Translation (ST) systems and can have serious consequences. Yet currently there is no established methodology for evaluating confidence and quality estimation of speech translations. To initiate progress in this direction, we propose Spe</description>
-</item>
-<item>
-<title>MIRROR: Novelty-Constrained Memory-Guided MCTS Red-Teaming for Agentic RAG</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/60d22dfd12.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/60d22dfd12.html</guid>
-<description>Multimodal agentic retrieval-augmented generation (RAG) systems expand the attack surface beyond prompt injection to include text poisoning, image injection, direct-query attacks, and orchestrator-level tool manipulation. Existing red-teaming approaches are typically surface-specific and often recyc</description>
 </item>
 </channel></rss>
