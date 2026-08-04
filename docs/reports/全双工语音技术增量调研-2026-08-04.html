@@ -138,6 +138,23 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>Cockpit Agent Radar</li>
 <li>视觉、音频、文本与车控融合的智能座舱助手</li>
 </ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<p>项目在最近一轮提交中已经从“讨论A/B差异”推进到可重复的候选校验：</p>
+<ul>
+<li>clean口径已扩展到400条双版基准，并支持A、B预取、B纯自主三方比较。</li>
+<li>B版实测约79%严格工具能力；持久KV累积会损失约22个百分点。</li>
+<li>Harness已修复模型编造工具且失败后不重试的问题。</li>
+<li>新增候选校验门，可拦截约45%的候选外工具失配。</li>
+<li>主模型自身 <code>probe_turn_end</code> 被实验证伪，不能依赖Qwen原生logits代替判停模型。</li>
+<li>投机预取和工具清单压缩都出现负优化，已回退或关闭。</li>
+</ul>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>长尾车控仍不够准</td><td>A/B严格工具成功率约80%，候选外调用是主要错误源</td><td>Qwen-UI-Agent</td><td>将统一Action schema、候选授权、参数校验和高风险确认加入Harness C</td><td>400条任务成功率提升且聊天误车控≤1%</td></tr>
+<tr><td>多人语音是否该响应</td><td>现有VAD只判断“有声/无声”，无法判断是否对助手说</td><td>Cocktail-Talker</td><td>增加RESPOND/LISTEN/IGNORE旁路头，结合座位/声纹回放</td><td>漏响应、误响应和首动作时延同时改善</td></tr>
+<tr><td>TTS错读与首包慢</td><td>Edge TTS首音频约3秒；本地TTS仍需准确性回归</td><td>ECCD、SpeechParaling-Bench</td><td>CosyVoice2原生/ECCD A/B，并加入座舱语气与动态变化测试</td><td>CER下降且首音频P95不退化</td></tr>
+<tr><td>持久KV产生上下文引力</td><td>B版KV累积损失约22个百分点，压缩方案曾出现负优化</td><td>StreamingClaw v2</td><td>区分短窗KV、长期事件记忆和可丢弃工具回执</td><td>长会话准确率稳定，KV占用有界</td></tr>
+<tr><td>视觉尚未进入在线Harness</td><td>当前3D界面是工具可视化，不是持续视觉理解</td><td>Audio-Visual Flamingo</td><td>先做离线教师/评测，再实现事件门控视觉流</td><td>音视频联合任务提升且不破坏音频deadline</td></tr>
+</tbody></table>
 <h2>一、先说结论</h2>
 <p>本报告比较 <code>2026-08-03</code> 日报，候选来自 Radar 在前一日报告之后收录、或虽已收录但尚未进入前一日报告的条目。只核验论文正文、arXiv/Hugging Face 论文页、作者项目页、官方代码仓库和模型页。下文的“论文结果”只复述来源可核验内容；面向 StreamingModelHarness 的建议是工程判断，不代表论文结论。</p>
 <p>今天有六项值得跟进的增量，但没有新的 AEC/降噪、空间听觉或 KV-cache 定量工作。</p>
