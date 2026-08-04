@@ -11,6 +11,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--since", default="")
     parser.add_argument("--missing-only", action="store_true")
+    parser.add_argument("--count-only", action="store_true")
     args = parser.parse_args()
     with open(os.path.join(ROOT, "data", "items.json"), encoding="utf-8") as stream:
         items = json.load(stream)["items"]
@@ -26,8 +27,12 @@ def main():
             pending.append((item, status))
     pending.sort(key=lambda row: (row[0].get("found", ""), row[0].get("score", 0)),
                  reverse=True)
+    total = len(pending)
     if args.limit:
         pending = pending[:args.limit]
+    if args.count_only:
+        print(total)
+        return
     for item, status in pending:
         print(f"{item['id']}\t{item['found'][:10]}\t{item['score']}\t{status}"
               f"\t{item['title']}\t{item['url']}")

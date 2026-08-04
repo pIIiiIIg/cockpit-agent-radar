@@ -1,13 +1,12 @@
 param(
-    [string]$RepoPath = "C:\Users\Administrator\Projects\cockpit-agent-radar",
-    [string]$HarnessPath = "C:\Users\Administrator\Projects\StreamingModelHarness"
+    [string]$RepoPath = "C:\Users\Administrator\Projects\cockpit-agent-radar"
 )
 
 $ErrorActionPreference = "Stop"
 $Git = "C:\Program Files\Git\cmd\git.exe"
 $Python = "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\Python\python.exe"
 $Agent = Join-Path $env:LOCALAPPDATA "cursor-agent\cursor-agent.cmd"
-$Log = Join-Path $RepoPath "daily-report-agent.log"
+$Log = Join-Path $RepoPath "deep-review-agent.log"
 $Lock = Join-Path $RepoPath ".radar-agent.lock"
 
 function Write-Log([string]$Message) {
@@ -26,7 +25,7 @@ function Run-Native([scriptblock]$Command) {
 }
 
 if (Test-Path $Lock) {
-    Write-Log "SKIP: another daily report run owns the lock"
+    Write-Log "SKIP: another radar agent owns the lock"
     exit 0
 }
 New-Item -ItemType File -Path $Lock -Force | Out-Null
@@ -36,42 +35,42 @@ try {
         if (-not (Test-Path $required)) { throw "required executable missing: $required" }
     }
     Run-Native { & $Git -C $RepoPath pull --ff-only origin main }
-    Run-Native {
-        & $Python (Join-Path $RepoPath "scripts\build_project_status.py") `
-            --source $HarnessPath
+    $pendingScript = Join-Path $RepoPath "scripts\pending_explanations.py"
+    $before = [int]((& $Python $pendingScript --count-only).Trim())
+    Write-Log "PENDING_BEFORE: $before"
+    if ($before -eq 0) {
+        Write-Log "SUCCESS: no pending papers"
+        exit 0
     }
-    $prompt = "Read DAILY_REPORT_AGENT.md in this workspace and execute every instruction now. Do not ask clarifying questions; infer the date and scope from the repository. Finish with REPORT_TASK_COMPLETE."
+    $prompt = "Read DEEP_REVIEW_AGENT.md in this workspace and execute every instruction now. Do not ask clarifying questions. Finish with DEEP_REVIEW_COMPLETE."
     $agentOutput = Run-Native {
         & $Agent --print --force --trust --workspace $RepoPath `
             --model "gpt-5.6-sol-xhigh" --output-format text $prompt
     }
-    if (($agentOutput -join "`n") -notmatch "REPORT_TASK_COMPLETE") {
-        throw "agent did not emit REPORT_TASK_COMPLETE"
+    if (($agentOutput -join "`n") -notmatch "DEEP_REVIEW_COMPLETE") {
+        throw "agent did not emit DEEP_REVIEW_COMPLETE"
     }
-    $today = Get-Date -Format "yyyy-MM-dd"
-    $todayReports = @(Get-ChildItem (Join-Path $RepoPath "reports") `
-        -Filter "*-$today.md" -File)
-    if ($todayReports.Count -lt 2) {
-        throw "agent did not create both reports for $today"
+    $after = [int]((& $Python $pendingScript --count-only).Trim())
+    Write-Log "PENDING_AFTER: $after"
+    if ($after -ge $before) {
+        throw "full-text backlog did not decrease"
     }
     Run-Native { & $Python (Join-Path $RepoPath "scripts\test_explanations.py") }
     Run-Native { & $Python (Join-Path $RepoPath "scripts\build_site.py") }
     Run-Native { & $Git -C $RepoPath diff --check }
-    Run-Native { & $Git -C $RepoPath add reports project_status docs }
+    Run-Native {
+        & $Git -C $RepoPath add data/explanations.json data/items.json docs
+    }
     $staged = & $Git -C $RepoPath diff --cached --name-only
     if ($LASTEXITCODE -ne 0) { throw "could not inspect staged files" }
-    if ($staged) {
-        $date = Get-Date -Format "yyyy-MM-dd"
-        Run-Native {
-            & $Git -C $RepoPath -c user.name="radar-report-agent" `
-                -c user.email="radar-report-agent@users.noreply.github.com" `
-                commit -m "reports: $date problem-driven research"
-        }
-        Run-Native { & $Git -C $RepoPath push origin main }
+    if (-not $staged) { throw "agent produced no publishable changes" }
+    $date = Get-Date -Format "yyyy-MM-dd"
+    Run-Native {
+        & $Git -C $RepoPath -c user.name="radar-review-agent" `
+            -c user.email="radar-review-agent@users.noreply.github.com" `
+            commit -m "enhance: $date full-text review batch"
     }
-    else {
-        Write-Log "NO_CHANGES"
-    }
+    Run-Native { & $Git -C $RepoPath push origin main }
     Write-Log "SUCCESS"
     exit 0
 }

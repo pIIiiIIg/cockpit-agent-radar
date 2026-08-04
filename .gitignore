@@ -2,4 +2,5 @@ __pycache__/
 *.pyc
 .claude/
 daily-report-agent.log
-.daily-report-agent.lock
+deep-review-agent.log
+.radar-agent.lock
