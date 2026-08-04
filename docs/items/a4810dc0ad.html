@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-27 · ◈ 4
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this work, we organize the embodied data ecosystem as a &quot;pyramid&quot; spanning five complementary sources: real-robot data, UMI-style data, egocentric and exocentric data, simulation data, and general vision-language data. We organize the pyramid around the tension between scalability and robot alignment, and further characterize each source in terms of data quality, diversity, reusability, and physical fidelity. We then analyze recent embodied foundation models through the lens of their data recipes, examining how different sources are selected, aligned, and mixed during pretraining. For embodied brain models, vision-language-action models, and world-action models alike, we relate data composition to capabilities in perception, reasoning, planning, action generation, and world prediction. We close by discussing six open challenges: building large-scale tactile datasets, collecting failure and recovery data, developing scalable data-collection pipelines, aligning actions across embodiments, leveraging egocentric data for dexterous manipulation, and designing principled data recipes for robot learning. We hope this work paves the foundation for the design of next-generation embodied systems. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">该综述将具身数据分为真实机器人、UMI、人类视角、仿真和通用视觉语言五层，并分析规模与机器人对齐之间的配方取舍。StreamingModelHarness 可借鉴动作回执 schema 和失败/恢复数据采集，但论文没有流式推理、语音判停或 TTS 实现。</span>
     <span class="l-en">Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this work, we organize the embodied data ecosystem as a &quot;pyramid&quot; spanning five complementary sources: real-robot data, UMI-style data, egocentric and exocentric data, simulation data, and general vision-language data. We organize the pyramid around the tension between scalability and robot alignment, and further characterize each source in terms of data quality, diversity, reusability, and physical fidelity. We then analyze recent embodied foundation models through the lens of their data recipes, examining how different sources are selected, aligned, and mixed during pretraining. For embodied brain models, vision-language-action models, and world-action models alike, we relate data composition to capabilities in perception, reasoning, planning, action generation, and world prediction. We close by discussing six open challenges: building large-scale tactile datasets, collecting failure and recovery data, developing scalable data-collection pipelines, aligning actions across embodiments, leveraging egocentric data for dexterous manipulation, and designing principled data recipes for robot learning. We hope this work paves the foundation for the design of next-generation embodied systems.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provid</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">这篇综述把具身数据分为真实机器人、UMI、人类视角、仿真和通用视觉语言五层，用规模与机器人对齐等维度分析数据配方。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>具身模型需要同时学习语义、物理状态和动作，但不同数据源在规模、真实度和机器人适配性上差异巨大，既有工作缺少统一的数据中心分类和配方分析。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this work, we organize the embodied data ecosystem as a &quot;pyramid&quot; spanning five complementary sources: real-robot data, UMI-style data, egocentric and exocentric data, simulation data, and general vision-language data. We organize the pyramid around the tension between scalability and robot alignment, and further characterize each source in terms of data quality, diversity, reusability, and physical fidelity. We then analyze recent embodied foundation models through the lens of their data recipes, examining how different sources are selected, aligned, and mixed during pretraining. For embodied brain models, vision-language-action models, and world-action models alike, we relate data composition to capabilities in perception, reasoning, planning, action generation, and world prediction. We close by discussing six open challenges: building large-scale tactile datasets, collecting failure and recovery data, developing scalable data-collection pipelines, aligning actions across embodiments, leveraging egocentric data for dexterous manipulation, and designing principled data recipes for robot learning. We hope this work paves the foundation for the design of next-generation embodied systems.</p>
-
-
+  <p>论文提出五层数据金字塔，以可扩展性和机器人对齐为主轴，并从质量、多样性、复用性和物理保真度补充比较。它梳理真实机器人、UMI、第一/第三视角人类数据、仿真和通用视觉语言数据的采集、传感器、动作监督与跨 embodiment 对齐方式，再按 embodied brain、VLA 和 world-action model 分析数据混合用途。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>按五层来源归类数据并检查规模、对齐、质量、多样性、复用性和物理保真度。</li><li>记录传感器、坐标系、动作单位、控制模式和校准元数据。</li><li>把异构动作映射到共享或 embodiment-specific 接口。</li><li>按模型类型和训练阶段混合 action-free 与 action-labeled 数据。</li><li>用真实执行结果校准仿真与人类先验，并保留失败、恢复和触觉轨迹。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>综述表格汇总 Open X-Embodiment 的 240 万条轨迹、22 种 embodiment 和 527 个任务，以及 AgiBot World Beta 的 100 万条轨迹、2,976.4 小时和 217 个任务。</li><li>FastUMI-100K 汇总 10 万个示范、32 个任务；Egocentric-100K 汇总 100,405 小时和 201 万个 clips。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>可为 Harness 建立通用语义、真实座舱、CarSim 合成工具轨迹和真实车辆日志的数据分层，并重点保存误判停、错工具、取消与恢复。</li><li>动作回执应携带规范 action slot、单位、时间戳、前置状态、最终车态和来源；论文不提供流式推理、判停或 TTS 实现。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>这是 taxonomy/survey，没有新模型、控制实验或因果证明；六个维度也没有统一数值指标。</li><li>表格混用轨迹、小时、clips 和 QA 对，规模不能直接比较；最佳数据比例与跨 embodiment 标准仍未知。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-04 09:31</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 官方仓库为 Apache-2.0 的资源索引，不是可执行训练框架，也没有论文专属权重或数据；外链第三方数据许可需逐项核验。</p>
+  <p><a class="btn" href="https://github.com/worldbench/awesome-embodied-data-pyramid" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:22</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.24744v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

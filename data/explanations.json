@@ -3503,73 +3503,105 @@
   "review_status": "abstract_backfill"
  },
  "54e4301e1f": {
-  "tl_dr": "Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly because meaningful content and relationship",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly because meaningful content and relationships are flattened into pixels, preventing users from inspecting, modifying, rearranging, or reusing individual components. We formulate image-to-editable reconstruction, which recovers a structured, directly manipulable artifact from a raster image while preserving its visual and semantic content. The central challenge is to jointly satisfy Fidelity and Editability, which often trade off in practice. To study this task, we introduce DrawAI, comprising an agentic benchmark, DrawAI-Bench, and a reconstruction workflow, DrawAI-Flow. DrawAI-Bench spans scientific figures, presentation slides, posters, and diagrams, combining real and AI-generated images to reflect practical visual-creation scenarios. It evaluates Fidelity and Editability through a hybrid protocol of 39 criteria: deterministic rule-based metrics measure properties with direct correspondences, while asset-specific vision-language rubrics capture semantic and perceptual qualities for which exact matching is misleading. Besides, we propose DrawAI-Flow, a two-stage agentic workflow in which a Parser Agent turns extracted elements evidence into an explicit reconstruction plan, and a Reconstruction Agent realizes the plan as executable graphics code through an iterative code-render-validate-revise loop. On DrawAI-Bench, we systematically evaluate thirteen models across five agent harnesses to study the effects of model capability, harness choice, and workflow design. The results show that reconstruction quality and costs vary substantially across model-harness configurations, whil",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DrawAI 用显式解析计划和代码—渲染—验证—修订循环，把位图重建为可编辑 SVG/PPTX，并用 39 项指标同时衡量保真与可编辑性。",
+  "problem": "位图把文字、对象和关系压平到像素，整图嵌入不可编辑，过度拆分又破坏布局与语义；现有方法也缺少同时评估视觉保真和结构可编辑性的统一基准。",
+  "method": "DrawAI-Bench 收集四个领域共 80 张图，以 9 项确定性指标和 30 项 VLM rubric 评估。DrawAI-Flow 先合并 SAM3 区域和 OCR 文本，由 Parser Agent 生成元素级重建计划，再由 Reconstruction Agent 写成带语义 registry 的 SVG 程序，最多执行五轮 render–validate–revise，最后导出 PPTX。",
+  "workflow": [
+   "SAM3 与 OCR 生成候选元素和文字。",
+   "Parser Agent 对照整图去重、补漏、纠错并选择元素表示。",
+   "按计划生成原生文本、矢量、公式或局部位图素材。",
+   "Reconstruction Agent 生成 SVG，并通过渲染比较做局部修复。",
+   "验证 SVG 后转换为可编辑 PPTX。"
+  ],
+  "findings": [
+   "配对样本的 Fidelity 由 75.7 升至 78.7，Editability 由 56.4 升至 74.0；完整流程 Overall 达到 90.95。",
+   "同一 80 图面板上 DrawAI Overall 为 91.0，Crafter 为 73.7，AutoFigure-Edit 为 73.4，Edit-Banana 为 41.0。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可借鉴“感知结果→typed plan→执行→验证→局部修复”，让车控回执成为结构化状态而不是自由文本。",
+   "该流程是离线分钟级到小时级任务，不涉及流式输入、语音判停或 TTS；若落到车控必须压缩为低延迟确定性状态机。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "基准只有 80 张人工筛选图，30/39 项指标依赖 VLM rubric，且多数配置仍存在单图退化。",
+   "可编辑性提升伴随公式、形状和连接线保真下降；精确位置、原生表格和实际 API 成本仍未解决。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Renaissance-Mind/DrawAI",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "代码为 Apache-2.0，含 CLI、Workbench、pipeline、测试和示例；完整 80 图基准及标注未找到正式下载页，依赖还包含 gated、非商用或闭源模型。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651517+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "9703f0e5a6": {
-  "tl_dr": "We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric primitives. A system enabling determini",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric primitives. A system enabling deterministic visual verification renders evaluation asymmetrically cheaper than the generation attempt. While models using multi-seed sampling and iterative revision reach a mean best-turn IoU of only 0.416, multimodal agents through PixCell's interface and verifier consistently exceed 0.9 mean IoU, with scores reaching 0.974 and 0.955 across eight component targets while also satisfying source contracts. These results demonstrate that frontier multimodal agents can reliably understand and render executable parametric representations from visual targets. Using these live parameters, cross-stack studies on an interferometer reconstruct primitive programs that satisfy an 8.0 nm free spectral range target and the original footprint constraint on modeled 220-nm SOI, 400-nm SiN, and 400-nm TFLN stacks. PixCell further carries a paper-derived splitter from visual reconstruction through SOI full-wave simulation, producing symmetric propagation and balanced outputs. Finally, the same executable verifier supplies a training reward and dataset used to train a Qwen3.6-35B-A3B model with LoRA and GRPO without supervised demonstrations. On eight training-excluded paper figures, its mean champion IoU rises from 0.422 after eight initial attempts to 0.491 after three verifier-guided revision rounds. These results therefore establish a controlled framework for measuring, retargeting, and improving visual-to-parametric photonic component design.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "PixCell 把光子器件轮廓转换为受限 GDSFactory DSL 的可执行参数程序，并用确定性渲染验证器驱动多轮修订。",
+  "problem": "像素描摹不能保留可编辑参数，预制 PCell 又局限于作者预设空间；目标是从图像恢复可执行、可审计且尺寸可独立修改的参数化器件表示。",
+  "method": "PixCell 接收二值轮廓和物理尺寸，让多模态 Agent 在禁止原始多边形和未许可预制器件的受限 DSL 中生成 Python 程序。验证器固定像素/微米标定，执行、栅格化并计算 IoU 和源码合规性；候选可经外部 harness 或编码 Agent 反复修订，之后再进入分层物理仿真。验证器还被用作 GRPO 奖励训练 LoRA。",
+  "workflow": [
+   "提取目标轮廓与物理 footprint 并冻结标定。",
+   "Agent 用许可几何原语生成参数化程序。",
+   "执行程序并计算 IoU、边界残差和源码合规性。",
+   "根据差异反馈选择并修订候选。",
+   "对活参数做跨材料栈重定向或分层物理验证。"
+  ],
+  "findings": [
+   "26 个配置在 8 个目标上生成 208 个程序，最高平均 IoU 为 0.974，第二名为 0.955，且均通过源码门。",
+   "640 条普通修订轨迹的首轮平均 IoU 为 0.369，最佳轮平均仅 0.416；训练后策略经三轮验证反馈的 champion 平均为 0.491。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可把受限 DSL 映射为 typed 车控工具，把几何验证器映射为前置条件、幂等性和最终车态验证，形成候选—执行—反馈闭环。",
+   "论文输入是静态图像且反馈发生在轮次间，不支持音频判停、解码中异步注入或 TTS；验证循环应保护实际动作而非阻塞口播。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "仅八个合成单层目标，每个配置—目标只运行一次；IoU 只验证二维几何，不证明参数独立性或器件功能。",
+   "物理模型和 foundry 规则不完整，方向耦合器的简化估算对全波结果高估 5.5 倍，最终未见表示探针也全部失败。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://github.com/QPG-MIT/PixCell",
+   "model_url": "https://huggingface.co/qpaig-mit/pixcell",
+   "note": "代码、验证器、208 个重建程序、LoRA 和 PixCell 数据已公开并标注 MIT；大型 FDTD bundle 的完整可得性未独立确认。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651542+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "ccb83c7e65": {
-  "tl_dr": "Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance of pretrained ASR systems, and convention",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance of pretrained ASR systems, and conventional fine-tuning may not generalize well under low-resource, heterogeneous CLP conditions. This work proposes Normal-Anchored First-Order Model-Agnostic Meta-Learning (NA-FOMAML) for adapting Whisper to CLP speech. The method uses a first-order bilevel meta-learning framework in which normal speech is used in the inner loop as a stable support condition, while CLP severity groups are used in the outer loop to improve post-adaptation robustness. This design aims to reduce the performance gap between normal and pathological speech. Experiments are conducted on the NMCPC and AIISH datasets using four normal-anchored training configurations. Frozen encoder, full encoder, and selected Whisper encoder-layer tuning strategies are evaluated, including layers 0--5, 4--11, 6--11, and 8--11, with decoder and projection-head adaptation. Results show that outer-loop training with only normal speech is insufficient. For NMCPC, full encoder tuning with Normal to Normal+Mild+Moderate gives WERs of 4.40%, 5.53%, 16.14%, and 52.07% for normal, mild, moderate, and severe speech. For AIISH, full encoder tuning with Normal to Normal+Mild+Moderate+Severe gives WERs of 2.48%, 19.66%, 14.05%, and 57.50%. A transcription-based phoneme-category analysis shows that severe CLP speech has high error rates across fricatives, affricates, nasals, liquids, plosives, and vowels. Overall, NA-FOMAML improves cross-severity robustness, but severe speech still requires severity-aware sampling, phoneme-aware loss functions, and augmentation targeting pressure consonant and r",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "NA-FOMAML 用正常语音作内循环锚点、不同腭裂严重度作外循环任务来微调 Whisper，但重度语音 WER 仍超过 52%。",
+  "problem": "腭裂语音样本少且严重度差异大，普通微调容易偏向清晰或多数语音，导致正常、轻度、中度和重度说话者之间存在显著识别差距。",
+  "method": "方法以 Whisper-small 为基座，内循环 support 始终使用正常语音做一次临时梯度更新，外循环 query 比较从仅正常到包含全部严重度的四种组合，并采用不反传二阶导数的一阶 MAML。论文比较冻结、全量和不同 encoder 层段的调优方式，每 fold 训练 300 episodes，并以五折模型集成评估未见说话者。",
+  "workflow": [
+   "从正常语音 support batch 计算一次内循环更新。",
+   "用临时参数在指定严重度组合的 query batch 上计算损失。",
+   "以一阶 query 梯度更新原始 Whisper 参数。",
+   "在未见说话者上分别统计各严重度 WER 和音素类别错误。"
+  ],
+  "findings": [
+   "NMCPC 最佳配置的正常/轻度/中度/重度 WER 为 4.40/5.53/16.14/52.07%，CLP Macro 为 24.58%。",
+   "AIISH 最佳配置对应 2.48/19.66/14.05/57.50%，CLP Macro 为 30.40%；相对仅正常外循环的 75.11% 明显下降。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "只有在病理语音可访问性目标明确时，才值得在 Harness A/C 的并行 ASR 支路试验，并用真实座舱 CLP 语音复测工具成功率。",
+   "论文按整段 utterance 评测，不支持 partial transcript、endpointing 或边说边更新，也不影响晚工具注入和外挂 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "缺少数据组成相同的普通微调对照，无法完全区分收益来自 FOMAML 还是加入更多病理语音。",
+   "临床数据小且不公开，重度 WER 仍很高；超参数和预训练基线表格还存在不一致，削弱可复现性。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "未找到 NA-FOMAML 官方代码或微调权重；NMCPC 和 AIISH 无公开下载页，数据与微调权重许可均未知。Whisper 基座 MIT 不代表本文工件许可。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651560+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "4045088edf": {
   "tl_dr": "ECCD 在同一语音 LM 每步对比有、无文本条件的预测，只增强文本对齐支持为正的可信候选，无需再训练即可减少 TTS 错读、漏读和重复。",
@@ -3608,27 +3640,37 @@
   "review_status": "editorial"
  },
  "af4dae27c7": {
-  "tl_dr": "Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems li",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like 'Smart Eye.' We propose and benchmark three independent sensing modules: a Convolutional Neural Network (CNN) for eye state detection (drowsiness/attention), a deep CNN for facial expression recognition, and a Long Short-Term Memory (LSTM) network for voice-based speaker identification. Utilizing the Eyes Image, FER2013, and customized audio datasets, our models achieved accuracies of 93.0%, 97.8%, and 96.89%, respectively. This study demonstrates that lightweight, domain-specific models can achieve high fidelity on discrete tasks, establishing a validated foundation for future real-time, multimodal integration in resource-constrained assistive devices.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "该工作分别训练眼睛状态、七类表情和五人封闭集说话人分类器，但尚未把三个模块集成为实时多模态系统。",
+  "problem": "辅助感知设备希望同时判断注意/疲劳、表情和说话人身份，但在资源受限设备上是否能以多个轻量专用模型完成这些离散任务仍需验证。",
+  "method": "论文分别训练眼睛开闭 CNN、FER2013 表情 CNN 和基于 MFCC 的 128 单元 LSTM 说话人分类器。音频实验包含五人、每人约 1,500 个一秒片段，并按 70/15/15 划分；设想的系统会先做说话人认证，再监测眼睛状态和表情，但正文没有实现联合管线。",
+  "workflow": [
+   "分别预处理眼睛图像、表情图像和一秒音频片段。",
+   "独立训练三个分类器。",
+   "在各自测试或验证集计算准确率、F1 和混淆矩阵。",
+   "未来再串成实时级联；该步骤尚未完成。"
+  ],
+  "findings": [
+   "眼睛开闭准确率为 93.0%，两类 F1 均为 0.93；FER2013 七类表情准确率报告为 97.8%。",
+   "五人封闭集说话人识别准确率为 96.89%，weighted F1 为 0.96。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "眼睛和表情可作为带时间戳的旁路事件，在下一轮进入安全策略或上下文，而不是直接污染主音频 KV。",
+   "五人封闭集分类不能当作车控身份认证；论文没有连续收音、时延、遮挡、车内噪声、endpoint 或 TTS 证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "三模块从未联合运行，也未报告参数量、FLOPs、内存或推理时延，因此“轻量”和“实时”没有实测支持。",
+   "FER2013 的异常高结果缺少跨数据集与重复实验；说话人随机切片可能共享同一原始录音条件，且不能拒绝未知说话者。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文未链接官方项目、代码或权重，只称可向作者索取；具体 Kaggle 镜像和数据许可也未明确。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651604+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "1d9deafed8": {
   "tl_dr": "StreamingClaw 用短窗增量 KV、外部层次记忆、主动事件 Agent 和工具/技能闭环，把连续视频流组织成感知—决策—动作框架。",
@@ -3711,50 +3753,71 @@
   "review_status": "abstract_backfill"
  },
  "a4810dc0ad": {
-  "tl_dr": "Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provid",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this work, we organize the embodied data ecosystem as a \"pyramid\" spanning five complementary sources: real-robot data, UMI-style data, egocentric and exocentric data, simulation data, and general vision-language data. We organize the pyramid around the tension between scalability and robot alignment, and further characterize each source in terms of data quality, diversity, reusability, and physical fidelity. We then analyze recent embodied foundation models through the lens of their data recipes, examining how different sources are selected, aligned, and mixed during pretraining. For embodied brain models, vision-language-action models, and world-action models alike, we relate data composition to capabilities in perception, reasoning, planning, action generation, and world prediction. We close by discussing six open challenges: building large-scale tactile datasets, collecting failure and recovery data, developing scalable data-collection pipelines, aligning actions across embodiments, leveraging egocentric data for dexterous manipulation, and designing principled data recipes for robot learning. We hope this work paves the foundation for the design of next-generation embodied systems.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "这篇综述把具身数据分为真实机器人、UMI、人类视角、仿真和通用视觉语言五层，用规模与机器人对齐等维度分析数据配方。",
+  "problem": "具身模型需要同时学习语义、物理状态和动作，但不同数据源在规模、真实度和机器人适配性上差异巨大，既有工作缺少统一的数据中心分类和配方分析。",
+  "method": "论文提出五层数据金字塔，以可扩展性和机器人对齐为主轴，并从质量、多样性、复用性和物理保真度补充比较。它梳理真实机器人、UMI、第一/第三视角人类数据、仿真和通用视觉语言数据的采集、传感器、动作监督与跨 embodiment 对齐方式，再按 embodied brain、VLA 和 world-action model 分析数据混合用途。",
+  "workflow": [
+   "按五层来源归类数据并检查规模、对齐、质量、多样性、复用性和物理保真度。",
+   "记录传感器、坐标系、动作单位、控制模式和校准元数据。",
+   "把异构动作映射到共享或 embodiment-specific 接口。",
+   "按模型类型和训练阶段混合 action-free 与 action-labeled 数据。",
+   "用真实执行结果校准仿真与人类先验，并保留失败、恢复和触觉轨迹。"
+  ],
+  "findings": [
+   "综述表格汇总 Open X-Embodiment 的 240 万条轨迹、22 种 embodiment 和 527 个任务，以及 AgiBot World Beta 的 100 万条轨迹、2,976.4 小时和 217 个任务。",
+   "FastUMI-100K 汇总 10 万个示范、32 个任务；Egocentric-100K 汇总 100,405 小时和 201 万个 clips。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可为 Harness 建立通用语义、真实座舱、CarSim 合成工具轨迹和真实车辆日志的数据分层，并重点保存误判停、错工具、取消与恢复。",
+   "动作回执应携带规范 action slot、单位、时间戳、前置状态、最终车态和来源；论文不提供流式推理、判停或 TTS 实现。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "这是 taxonomy/survey，没有新模型、控制实验或因果证明；六个维度也没有统一数值指标。",
+   "表格混用轨迹、小时、clips 和 QA 对，规模不能直接比较；最佳数据比例与跨 embodiment 标准仍未知。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/worldbench/awesome-embodied-data-pyramid",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库为 Apache-2.0 的资源索引，不是可执行训练框架，也没有论文专属权重或数据；外链第三方数据许可需逐项核验。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651656+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "2ddbd4fd07": {
-  "tl_dr": "Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter backbones whose memory demands can exceed",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter backbones whose memory demands can exceed embedded robotic budgets. We present CoTinyVLA, a 0.9B-parameter action model on a Qwen3.5-0.8B backbone that obtains that robustness by structuring supervision instead of enlarging the model. Three components target different axes of the problem: dual-view temporal input of 16 history frames per step with textual camera and time markers; hierarchical chain-of-thought (CoT) distillation from a 35B teacher into an episode-level Plan and a chunk-level Think span over task phase, gripper state and next subaction; and paraphrase augmentation expanding 40 base commands into 800 variants. On LIBERO-Plus, spanning 10,030 perturbed tasks across seven perturbation dimensions, CoTinyVLA reaches 90.8% on Spatial, 87.3% on Object, 86.6% on Goal and 80.7% on Long, leading the strongest 7B baseline on all four suites by 4.7, 2.8, 15.9 and 3.0 points, with every margin interval excluding zero. The gains concentrate on the hardest axes of the benchmark: across the eleven published baselines none exceeds 53.2% on Robot Initial States in any suite, whereas CoTinyVLA reaches 73.6% on Goal against 39.9% for the strongest baseline. Ablations show the three components to be separable by perturbation axis, and at a matched image budget how frames are divided between the two cameras and across time accounts for 8.6 points on its own. Closed-loop inference peaks at 2.25 GiB of allocated GPU memory, and paired interventions show the episode Plan to be load-bearing: replacing it with an empty or contradictory span costs 40 to 45 points of success. Structured s",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "CoTinyVLA 用 16 帧双视角输入、分层 CoT 蒸馏和指令改写，让 0.9B VLA 在 LIBERO-Plus 上超过多款 7B 基线。",
+  "problem": "LIBERO-Plus 强基线依赖 3–7B 模型，显存和计算成本不适合嵌入式机器人；论文尝试用结构化时序输入和监督替代扩参。",
+  "method": "每步输入八张第三视角、八张腕部图像、本体状态和指令。35B 教师为整段生成一次 Plan，并为每个 action chunk 生成含 Phase、Gripper、Next 的固定槽位 Think；学生联合预测 reasoning token 和示范中的 8×7 动作块。40 条基础指令扩展为 800 条改写，推理时缓存 Plan，只生成当前 Think 和动作。",
+  "workflow": [
+   "读取双相机 16 帧历史、本体状态和自然语言指令。",
+   "首次生成并缓存 episode-level Plan。",
+   "每个 chunk 生成固定槽位 Think。",
+   "输出八步、每步七维的 typed action chunk 并闭环执行。"
+  ],
+  "findings": [
+   "LIBERO-Plus Spatial/Object/Goal/Long 成功率为 90.8/87.3/86.6/80.7%，分别领先最强 7B 基线 4.7/2.8/15.9/3.0 点。",
+   "闭环峰值分配显存 2.25 GiB，缓存 Plan 将延迟由 2.653 秒降至 1.366 秒；空或矛盾 Plan 使成功率下降 40/45 点。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "Plan 缓存、固定槽位状态和 typed action chunk 可启发 Harness 的“持久意图 + 每步工具状态”接口。",
+   "16 帧是滑窗批输入且推理同步，所有上下文都在生成前就绪；它不解决音频判停、晚回执写入或外挂 TTS 瓶颈。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只在 Franka Panda 的 LIBERO 仿真验证，无 sim-to-real、跨 embodiment 或多训练种子结果。",
+   "稳态 chunk 中位延迟 1.37 秒且 76.4% 来自 reasoning 解码；Long 的 Language Instructions 也明显弱于最强基线。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/BrainJellyPie/CoTinyVLA",
+   "model_url": "https://huggingface.co/euphoria-64/CoTinyVLA-Qwen3.5-0.8B",
+   "note": "代码和完整 checkpoint 已公开，但代码仓库无 LICENSE，模型卡称最终 checkpoint 许可尚待指定；训练 CoT 标签、改写指令和完整数据未发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651666+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "6926d5f3f7": {
   "tl_dr": "JoyAI-Talker 用外置 Joy-Duplex 语义门控、MoE Thinker 和可控 Talker 组成语音代理，在保留文本推理的同时处理打断、共情和副语言表达；它不是单模型内部的双音频流架构。",
@@ -3793,164 +3856,235 @@
   "review_status": "editorial"
  },
  "386ec68e80": {
-  "tl_dr": "Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study s",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop SpeechAgent-R, an audio agent that coordinates its intrinsic multimodal understanding with external skills and tools. To support this capability, we construct HIU-Corpus, comprising 65,492 interaction trajectories and 507.6 hours of audio across 24 tasks, 8 skills and 9 tools. SpeechAgent-R first learns structured interaction behaviors through trajectory-based supervised fine-tuning and then improves its decisions through multi-turn reinforcement learning. We further introduce HIU-Bench to jointly evaluate task performance, interaction quality and generalization to diverse task settings. It contains 1,395 samples across 56 tasks, including in-distribution (ID) and out-of-distribution (OOD) splits with substantial shifts in tool usage and workflow composition. SpeechAgent-R achieves 84.17 on ID tasks and 70.94 on OOD tasks, improving over the base model under the same agent harness by 15.40 and 14.23 points. These results demonstrate that learning skill and tool coordination improves audio agents' ability to handle diverse task settings and adaptive tool interactions.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SpeechAgent-R 学会在听完整段音频后检索技能、调用声学工具，并把文本或处理后音频结果继续写入推理循环。",
+  "problem": "大型音频语言模型通常只能对固定音频直接作答，遇到需要分离、识别、检索或计算的复杂声学任务时，缺少按中间结果动态选择技能和组合工具的能力。",
+  "method": "SpeechAgent-R 从 Qwen3-Omni-Thinking 初始化，以 65,492 条 Hear–Invoke–Understand 轨迹做加权 SFT，再用多轮 GRPO 优化格式、工具交互和答案质量。Agent 的动作包括检索技能文档、生成结构化工具调用和最终回答；工具返回的文本或处理后音频会追加到上下文，模型可据此继续调用。",
+  "workflow": [
+   "模型听取完整音频并判断能否直接回答。",
+   "需要外部能力时，按自然语言描述检索技能文档。",
+   "从技能允许的工具中生成结构化调用。",
+   "将文本或处理后音频结果追加到上下文，继续推理或调用下一工具。",
+   "汇总原音频和工具证据，生成最终文本答案。"
+  ],
+  "findings": [
+   "同一 Agent harness 下，基座模型 ID/OOD/总体为 68.77/56.71/65.01，SpeechAgent-R 达到 84.17/70.94/80.05。",
+   "完整轨迹 SFT 得分 75.20，加入多轮 RL 后升至 80.05；用真值工具输出替换真实结果时 ID 总分又由 84.2 升到 91.4。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "与当前 endpoint 后生成、晚注入工具结果的 Harness 高度契合，可借鉴技能文档、typed call 状态机和工具过程/答案分开计分。",
+   "论文未评测流式判停、打断或边听边调用，多轮工具循环还可能推迟外挂 TTS 的首音频。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "训练数据大量由模板、音频混合和大模型生成，SFT 中错误工具输出还会被真值纠正，反馈比真实部署更干净。",
+   "HIU-Bench 不覆盖流式交互；论文结论把总体提升写成 15.40 点，但表 1 的总体差值实际为 15.04 点。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04，SpeechAgent-R 代码、权重、HIU-Corpus 和 HIU-Bench 均仅承诺发表后发布，许可证未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927721+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "9f038dec19": {
-  "tl_dr": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyon",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a key direction for open-world information access, evolving from single-turn factual retrieval toward long-horizon, multi-turn search guided by visual evidence. However, existing methods typically confine vision to the input or answer stage, overlooking its role in intermediate reasoning, and lack designs tailored to long-horizon interaction. Consequently, visual evidence rarely drives continued retrieval, constraining both interaction depth and reasoning span. To address these limitations, we propose DeepVoyager-VL, a long-horizon multimodal deep-search framework for vision-in-the-loop search. Specifically, we construct a multimodal event graph to drive data synthesis, yielding problems with intermediate visual dependencies and long reasoning chains. We then design an agent framework for active visual acquisition and on-demand image loading. Finally, we fine-tune models on the synthesized data without reinforcement learning. Extensive experiments across ten multimodal search benchmarks demonstrate the effectiveness of our method.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DeepVoyager-VL 把图像发现与图像加载分开，让搜索 Agent 按需取图、裁剪并用视觉观察驱动后续多跳检索，而不是只在输入或答案阶段看图。",
+  "problem": "现有多模态搜索常把视觉当作一次性输入或答案补充，新检索到的图像很少真正决定下一步动作，因而难以形成长链、视觉在环的开放世界搜索。",
+  "method": "论文先从事件图构造必须依赖中间视觉证据的问题，再用包含网页、图像搜索、反向搜图、加载和裁剪工具的统一 Agent 生成轨迹。搜索只返回轻量图像引用，FetchImage/CropImage 才把视觉 token 写入轨迹；工具结果还经目标条件化摘要。最终用 27,180 条交错轨迹做 SFT，只训练语言骨干并冻结视觉编码器和多模态 merger，不使用额外 RL。",
+  "workflow": [
+   "从约 378 万条原子事件聚合 30,337 个 macro-events，并构造约 7K 个视觉依赖任务。",
+   "用无工具作答和多次工具 rollout 过滤可直接回答或过易样本。",
+   "强教师生成可重放的多轮工具轨迹，并由 judge 检查答案和动作合法性。",
+   "推理时先发现图像引用，再按需加载、裁剪和保留视觉证据，继续搜索直至回答。"
+  ],
+  "findings": [
+   "在相同 Agent workflow 下，8B 模型总分由 35.3 提升到 54.8，30B-A3B 由 40.7 提升到 58.6。",
+   "加入 7K 视觉在环数据后，三个相关基准平均分在 8B 上由 40.6 升至 46.0，在 30B-A3B 上由 44.5 升至 51.0。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "最适合借鉴“轻量引用先进入、内容按需物化”和“工具结果→下一工具→最终回答”的训练协议，可扩展 Harness B/C 的晚注入多跳工具循环。",
+   "它不处理音频判停、边听边生成、打断或 TTS；目标条件化摘要还位于动作关键路径，必须单独评估时延。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "评测面向答案导向搜索，不覆盖开放任务分解、冲突来源处理、长报告或完整引用组织。",
+   "视觉工作记忆只在轨迹内累积，没有学习式压缩、置信度组织或淘汰策略；训练也未设置独立验证集。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Halcyon-Zhang/DeepVoyager-VL",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "代码仓库为 MIT，已含 SFT 配置和脚本；训练数据、checkpoint、缓存及部分 Agent 组件尚未发布，权重和数据许可未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927732+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "9f9870137b": {
-  "tl_dr": "Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimod",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimodal conversations still fail on vision-related questions. We trace this failure to an assumption behind the similarity search they rely on: in the index space, a query lies close to the relevant evidence that answers it. In multimodal settings, two gaps break it. By the modality gap, a query lies closer to memory content of its own modality than to evidence in another, even in a trained joint embedding space. By the similarity-relevance gap, the content most similar to a query is often not the evidence that answers it, most acutely when a query carries both text and image and its evidence resembles neither part alone. We present V-Mem, a multimodal agentic memory system that routes retrieval by the modality of the query and that of the target evidence, both recognized from the query alone. To cross the modality gap, V-Mem organizes the conversation into rounds and returns the target-modality content from the same round as the match, without comparing across modalities. To close the similarity-relevance gap, it searches with an LLM-generated anchor that sits closer to the relevant evidence than the query does: a hypothetical caption for a text-only query seeking an image, and an enriched search anchor, the query text plus relevant keywords extracted from the query image, when the evidence is reachable only by combining the two. On Mem-Gallery, V-Mem reaches an LLM-judge score of 0.82 versus 0.56 for the second best, with the largest margin on questions carrying an image (0.87, no baseline above 0.47); on LoCoMo it scores 0.69 versus 0.5",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "V-Mem 按查询与目标证据的模态路由记忆检索，并通过同轮绑定和生成式搜索锚跨越图文模态差距。",
+  "problem": "多模态对话记忆中，查询往往更接近同模态内容而非真正证据；同时最相似的内容也未必回答问题，普通统一向量检索因此在图像相关问题上失效。",
+  "method": "V-Mem 把每次用户—助手交换保存为 round，文本与原图进入独立 lane 并保留 round 绑定。规则识别 text→text、text→image、image+text→image、image+text→text 四种路由；跨模态时先在查询模态检索，再返回同一 round 的目标模态。text→image 使用假想 caption，image+text→text 则把视觉关键词加入搜索锚，最后以 RRF 合并排名。",
+  "workflow": [
+   "新 round 到来时本地编码文本和图像并追加，不重写既有记忆。",
+   "根据查询是否带图和目标关键词判断查询/目标模态。",
+   "激活所需 lane，必要时生成假想 caption 或视觉关键词增强锚。",
+   "对 unit 排名后折叠为 round，注入 top round 和邻轮供主干回答。"
+  ],
+  "findings": [
+   "使用 gpt-4o-mini 时，Mem-Gallery Overall 为 0.825，最强基线 Omni 为 0.561；本地 Qwen2.5-VL-32B 下为 0.829 对 0.628。",
+   "LoCoMo Overall 为 0.690，Omni 为 0.583；但开放域类别只有 0.375，低于 M2A 的 0.477。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "增量、无需 LLM 重建的外部记忆可缓解 Harness 多轮 KV 累积，并按模态选择需要注入的历史证据。",
+   "其写入单元是已完成 round，音频也只按转写文本处理；生成搜索锚增加约束前查询时延，不能消除判停或外挂 TTS 瓶颈。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只验证文本和图像，未建立音频 lane，也未测试视频或 100ms 级连续流。",
+   "效果依赖回答主干利用检索上下文的能力；Qwen2.5-VL-7B 下 V-Mem 反而低于 Omni，且生成锚显著增加每题 token 与时延。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/Dingyi-Kang/V-Mem",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "V-Mem 代码为 MIT 且无需专属权重；依赖模型为 Apache-2.0。Mem-Gallery 为 MIT，LoCoMo 为 CC BY-NC 4.0。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927746+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "dc6dfec67d": {
-  "tl_dr": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyon",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a key direction for open-world information access, evolving from single-turn factual retrieval toward long-horizon, multi-turn search guided by visual evidence. However, existing methods typically confine vision to the input or answer stage, overlooking its role in intermediate reasoning, and lack designs tailored to long-horizon interaction. Consequently, visual evidence rarely drives continued retrieval, constraining both interaction depth and reasoning span. To address these limitations, we propose DeepVoyager-VL, a long-horizon multimodal deep-search framework for vision-in-the-loop search. Specifically, we construct a multimodal event graph to drive data synthesis, yielding problems with intermediate visual dependencies and long reasoning chains. We then design an agent framework for active visual acquisition and on-demand image loading. Finally, we fine-tune models on the synthesized data without reinforcement learning. Extensive experiments across ten multimodal search benchmarks demonstrate the effectiveness of our method.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DeepVoyager-VL 把图像发现与图像加载分开，让搜索 Agent 按需取图、裁剪并用视觉观察驱动后续多跳检索，而不是只在输入或答案阶段看图。",
+  "problem": "现有多模态搜索常把视觉当作一次性输入或答案补充，新检索到的图像很少真正决定下一步动作，因而难以形成长链、视觉在环的开放世界搜索。",
+  "method": "论文先从事件图构造必须依赖中间视觉证据的问题，再用包含网页、图像搜索、反向搜图、加载和裁剪工具的统一 Agent 生成轨迹。搜索只返回轻量图像引用，FetchImage/CropImage 才把视觉 token 写入轨迹；工具结果还经目标条件化摘要。最终用 27,180 条交错轨迹做 SFT，只训练语言骨干并冻结视觉编码器和多模态 merger，不使用额外 RL。",
+  "workflow": [
+   "从约 378 万条原子事件聚合 30,337 个 macro-events，并构造约 7K 个视觉依赖任务。",
+   "用无工具作答和多次工具 rollout 过滤可直接回答或过易样本。",
+   "强教师生成可重放的多轮工具轨迹，并由 judge 检查答案和动作合法性。",
+   "推理时先发现图像引用，再按需加载、裁剪和保留视觉证据，继续搜索直至回答。"
+  ],
+  "findings": [
+   "在相同 Agent workflow 下，8B 模型总分由 35.3 提升到 54.8，30B-A3B 由 40.7 提升到 58.6。",
+   "加入 7K 视觉在环数据后，三个相关基准平均分在 8B 上由 40.6 升至 46.0，在 30B-A3B 上由 44.5 升至 51.0。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "最适合借鉴“轻量引用先进入、内容按需物化”和“工具结果→下一工具→最终回答”的训练协议，可扩展 Harness B/C 的晚注入多跳工具循环。",
+   "它不处理音频判停、边听边生成、打断或 TTS；目标条件化摘要还位于动作关键路径，必须单独评估时延。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "评测面向答案导向搜索，不覆盖开放任务分解、冲突来源处理、长报告或完整引用组织。",
+   "视觉工作记忆只在轨迹内累积，没有学习式压缩、置信度组织或淘汰策略；训练也未设置独立验证集。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Halcyon-Zhang/DeepVoyager-VL",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "代码仓库为 MIT，已含 SFT 配置和脚本；训练数据、checkpoint、缓存及部分 Agent 组件尚未发布，权重和数据许可未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927755+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "f3f1d830b7": {
-  "tl_dr": "Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with lin",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with linguistic priors and teacher-specific effects. The key challenge is to estimate which corrections are supported by visual evidence, not merely where or how strongly to distill. We introduce Visual Attribution Distillation (VAD), a counterfactual target-reconstruction algorithm that estimates the visually attributable part of a teacher correction. At each student-generated prefix, VAD evaluates the same fixed teacher with the relevant evidence present and removed. The corresponding change in centered log-probabilities defines ut, a signed proxy for the visual evidence direction that estimates how revealing the evidence supports or refutes candidate tokens. VAD projects the original correction onto this proxy to obtain an intervention-aligned component and a proxy-unexplained residual, then reconstructs a student-anchored target from the former. During training, this reconstructed target supplies the primary supervision signal, while the privileged teacher contributes a weak regularizer. Across six fine-grained visual benchmarks at 4B and 9B scales, VAD outperforms direct privileged-view distillation and visual-advantage weighting. Token- level and controlled-target analyses show that the proxy-aligned component is enriched in task-relevant visual corrections and yields stronger target shifts, especially when evidence refutes a mistaken answer. These results support counterfactual target reconstruction as an effective alternative to source-mixed supervision.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "VAD 通过同一教师看有、无视觉证据的反事实差分，只蒸馏可归因于图像的 token 修正，减少语言先验和教师偏好的混入。",
+  "problem": "多模态 on-policy distillation 的教师修正同时包含视觉证据、语言先验和教师特有偏好；仅按教师—学生分歧加权，无法判断修正是否真的由图像支持。",
+  "method": "学生先基于完整图像生成轨迹；固定教师在同一前缀下分别观察证据裁剪和退化裁剪，以中心化 log-prob 差构造带符号视觉方向。VAD 将教师修正投影到该方向，围绕学生分布重建目标，并以 JSD 为主损失、弱教师匹配项为正则。该过程只用于训练，推理仍是单个完整图像学生。",
+  "workflow": [
+   "学生在完整图像上生成 on-policy response。",
+   "教师对同一前缀分别读取有证据和退化证据的视图。",
+   "用两次预测差估计视觉归因方向并分解教师修正。",
+   "围绕学生分布重建目标并训练；部署时移除教师和反事实分支。"
+  ],
+  "findings": [
+   "六个基准平均分达到 78.32（4B）和 79.93（9B），分别领先同规模最佳替代方法 2.40 和 2.80 点。",
+   "强教师修正中仅 23.2%（4B）和 22.8%（9B）同时具有强视觉对齐；视觉属性、对象和决策 token 在归因分量中的占比为 42.0%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可把有、无工具回执视作离线反事实干预，研究只蒸馏真正由回执支持的 token，但这是超出论文视觉实验的编辑推演。",
+   "它不提供流式音频、增量 KV、判停、晚注入接口或 TTS 优化，应视为未来训练目标而非运行时组件。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "单一视图对只提供一个对比方向，归因与残差都不是可识别的因果分离。",
+   "实验限于静态细粒度视觉问答，并依赖大模型 judge，未验证语音、工具或流式场景。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://github.com/DeepExperience/VAD_Multimodal_OPD",
+   "model_url": "https://huggingface.co/zhangkangning/VAD_for_Qwen3.5-4b",
+   "note": "代码、4B/9B 权重和 Vision-OPD-6K 数据均已公开并标注 Apache-2.0；数据集含 6,241 条、约 37.5 GB。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927765+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "10ea6cf694": {
-  "tl_dr": "Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how much retained capacity each modality receives, and which tokens within a modality are kept. A shared top-K rule therefore inherits this audio-favoring allocation prior, spending retained capacity on audio before video tokens have a chance to compete. We propose Macer, a training-free compressor that first assigns explicit audio and video budgets, then performs allocation-normalized ranking within each modality at modality-specific shallow layers. Macer significantly reduces token cost while preserving accuracy across audio-grounded, audio--video joint, visual-dominant, and video-centric benchmarks. At 25 % retention, Macer preserves 98.7 % of full-token performance on Qwen2.5-Omni-7B and 97.3 % on Qwen2.5-Omni-3B. On Qwen2.5-Omni-7B, this 25 % setting reaches OmniZip-level performance at 45 % retention while using lower FLOPs. On OmniVinci-9B, the same allocation-before-ranking principle improves over shared top-K ranking by up to 12.9 points.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Macer 先显式分配音频和视频 token 预算，再在各模态内部排序，避免共享 top-K 的音频偏置挤占视频容量。",
+  "problem": "OmniLLM 的全局 top-K 同时决定模态间容量和模态内 token 选择；共享注意力偏向音频时，视频 token 可能在真正参与竞争前就失去预算。",
+  "method": "Macer 按总保留率和固定音频份额 α 分配音视频预算，用模态内归一化注意力分别排序，并在单次 prefill 的不同浅层先剪音频、后剪视频。视频选择加入递减时间覆盖奖励，文本 token 始终保留；方法无需训练、改权重或第二次前向。",
+  "workflow": [
+   "由保留率计算总多模态预算并按 α 分给音频和视频。",
+   "在浅层读取并模态内归一化音频注意力，剪除音频 token。",
+   "继续同一次前向，在后续浅层选择视频 token。",
+   "施加时间覆盖奖励后按原顺序合并保留 token，完成剩余 decoder 层。"
+  ],
+  "findings": [
+   "25% 保留率下，7B/3B 分别保留全 token 归一化性能的 98.7%/97.3%，OmniZip 为 91.6%/95.5%。",
+   "WorldSense 上 Macer 25% 得分 44.80、耗时 9.17 秒、显存 25 GB；全 token 为 46.80、10.5 秒、41 GB。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "当前 Harness 以流式音频为主，没有音视频模态预算竞争；Macer 还依赖 endpoint 后 query attention，难直接压缩已经形成的流式 KV。",
+   "未来摄像头+麦克风版本可采用“先分模态容量、再模态内选择”的原则，但它不改善晚工具注入或外挂 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "音频份额、读取层和覆盖权重按模型规模固定校准，不能按查询动态分配。",
+   "仅适用于音频和视频进入同一 decoder 的架构；在同为 25% 保留率时其 FLOPs 也高于 OmniZip，优势不是所有成本口径都成立。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Macer 为 training-free 且无需自研权重，但截至 2026-08-04 实现和配置仅承诺发表后发布，许可证未知；实验使用公开基座和外部基准。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927776+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "c7f7e6f314": {
-  "tl_dr": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-fr",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "WCM 让 VLA critic 同时预测未来视觉 latent 和价值，以显式世界建模监督学习部分可观测控制中的跨时间状态。",
+  "problem": "机器人控制是 POMDP，而常见 VLA critic 主要看单帧；简单堆叠历史仍只受稀疏标量回报监督，难以学到决定价值估计的时序动力学。",
+  "method": "WCM 编码最近若干帧和语言指令，经语言交叉注意力与因果 history trunk 得到预测状态，再用双头同时估计价值并预测动作条件下的下一视觉 latent，联合优化 value、prediction 和 SIGReg 损失。它可替换 on-policy critic，也可配合 SFT、失败 rollout 和修正轨迹做 off-policy AWR/RECAP；部署时执行改进后的 VLA policy。",
+  "workflow": [
+   "编码最近 K 帧、语言指令和候选动作。",
+   "因果 history trunk 汇总部分可观测历史。",
+   "联合预测下一视觉 latent 与当前价值。",
+   "用 critic 训练或重加权 VLA policy，部署时移除在线 critic 路径。"
+  ],
+  "findings": [
+   "ManiSkill 上 π0+WCM 达到 84.4 IND/51.5 OOD，Flow-SDE 为 78.8/39.3；π0.5+WCM 为 91.9/64.4，Flow-SDE 为 90.9/49.3。",
+   "LIBERO-Plus 从 One-SFT 出发，π0、π0.5、OpenVLA-OFT 总分升至 72.8、73.7、74.0，均超过各自 Full-SFT。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可研究为 Harness B/C 的离线 critic，评价搜索、状态、工具调用和回执后的未来价值，或训练“继续听/开始答”策略。",
+   "论文使用离散帧窗口，不提供增量 KV、端点或晚回执注入机制；不应把 WCM 放进在线语音关键路径。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "最佳历史长度平均只有三帧，更长历史并非持续有益；on-policy 实现还因计算开销省略 SIGReg。",
+   "实机仅验证一类机械臂的七项任务，WCM 按任务分别训练，仿真到实机仍有视野边缘偏差。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/sylvestf/WCM",
+   "model_url": "https://huggingface.co/collections/Sylvest/wcm",
+   "note": "代码为 MIT，LIBERO+ 权重公开且为 MIT；实机权重未声明许可，公开数据只有 4 行，无法覆盖论文所述完整训练数据。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927792+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:22:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  }
 }

@@ -13,25 +13,25 @@
 <title>Hear, Invoke, and Understand: A Skill-Calling Multimodal Agent for Large Audio Language Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/386ec68e80.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/386ec68e80.html</guid>
-<description>Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop</description>
+<description>SpeechAgent-R 通过轨迹 SFT 和多轮 RL 学会从完整音频检索技能、调用声学工具，并继续利用文本或处理后音频结果，HIU-Bench 总分由同一 Harness 下基座的 65.01 升至 80.05。它直接启发 StreamingModelHarness 的 typed 工具循环和过程评测，但不改善流式判停、打断或外挂 TTS 首包。</description>
 </item>
 <item>
 <title>DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/9f038dec19.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9f038dec19.html</guid>
-<description>Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a k</description>
+<description>DeepVoyager-VL 将图像发现与加载分开，用按需取图、裁剪和视觉寄存器支持长链多模态搜索，8B 在相同 Agent workflow 下由 35.3 升至 54.8。它适合扩展 StreamingModelHarness 的晚注入多跳工具循环，但不涉及音频判停、全双工或 TTS。</description>
 </item>
 <item>
 <title>V-Mem: Modality-Routed Retrieval for Long-Term Multimodal Agentic Memory</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/9f9870137b.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9f9870137b.html</guid>
-<description>Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimodal conversations still fail on vision-related questions. We </description>
+<description>V-Mem 把多模态对话按 round 保存，并按查询与目标模态路由检索，用同轮绑定和生成式搜索锚跨越图文差距；Mem-Gallery Overall 达到 0.825。其增量外部记忆可缓解 Harness 多轮 KV 累积，但已验证路径仍需完整轮次和文本转写，不能消除判停或 TTS 延迟。</description>
 </item>
 <item>
 <title>DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/dc6dfec67d.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dc6dfec67d.html</guid>
-<description>Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a k</description>
+<description>DeepVoyager-VL 将图像发现与加载分开，用按需取图、裁剪和视觉寄存器支持长链多模态搜索，8B 在相同 Agent workflow 下由 35.3 升至 54.8。它适合扩展 StreamingModelHarness 的晚注入多跳工具循环，但不涉及音频判停、全双工或 TTS。</description>
 </item>
 <item>
 <title>OpenBMB/UltraEval-Audio</title>
@@ -49,7 +49,7 @@
 <title>VAD: Attributing Visual Evidence for Target Reconstruction in Multimodal On-Policy Distillation</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/f3f1d830b7.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f3f1d830b7.html</guid>
-<description>Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with linguistic priors and teacher-specific effects. The key challen</description>
+<description>VAD 用同一教师在有、无视觉证据下的反事实差分重建蒸馏目标，六个基准平均分达到 78.32（4B）和 79.93（9B）。它可启发离线学习“哪些 token 真由工具回执支持”，但不是 StreamingModelHarness 的运行时流式、判停或 TTS 组件。</description>
 </item>
 <item>
 <title>Tung111/OPOD-Qwen3-Omni-30B-A3B</title>
@@ -73,7 +73,7 @@
 <title>Allocation Before Ranking: Decoupled Token Compression for OmniLLMs</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/10ea6cf694.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/10ea6cf694.html</guid>
-<description>Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how much retained capacity each modality receives, and which tok</description>
+<description>Macer 先显式分配音视频 token 预算，再在模态内排序，25% 保留率下保留 Qwen2.5-Omni-7B 全 token 性能的 98.7%。当前 StreamingModelHarness 以音频为主且已有流式 KV，不宜直接集成；更适合作为未来摄像头+麦克风版本的容量分配原则。</description>
 </item>
 <item>
 <title>keylazy/Qwen2.5-Omni-3B-bab-beam-rpt400</title>
@@ -91,13 +91,13 @@
 <title>WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c7f7e6f314.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c7f7e6f314.html</guid>
-<description>Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which</description>
+<description>WCM 让 VLA critic 联合预测未来视觉 latent 和价值，在 ManiSkill 上将 π0 的 OOD 成绩由 Flow-SDE 的 39.3 提升至 51.5。它适合作为 Harness 工具轨迹和判停策略的离线 critic 研究，不提供在线增量 KV、晚注入或 TTS 机制。</description>
 </item>
 <item>
 <title>DrawAI: Agentic Benchmark and Workflow for Making Raster Images Editable</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html</guid>
-<description>Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly because meaningful content and relationships are flattened into pixels, preventing users from inspectin</description>
+<description>DrawAI 用解析计划和代码—渲染—验证—修订循环把位图重建为可编辑 SVG/PPTX，完整流程 Overall 达到 90.95。其 typed plan 与确定性验证可启发车控工具闭环，但离线多轮工作流不适合语音关键路径。</description>
 </item>
 <item>
 <title>LCO-Embedding/LCO-Embedding-Omni-3B-2605</title>
@@ -127,13 +127,13 @@
 <title>From Pixels to PCells: A Neurosymbolic Approach to Photonic Component Creation</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/9703f0e5a6.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9703f0e5a6.html</guid>
-<description>We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric primitives. A system enabling deterministic visual verification renders evaluation asymmetrically c</description>
+<description>PixCell 把静态器件轮廓转换为受限 DSL 的参数程序，并用确定性执行与 IoU 验证驱动修订，最佳 Agent 配置平均 IoU 达 0.974。对 Harness 的价值是 typed 工具和最终状态验证闭环，而非流式语音、判停或 TTS。</description>
 </item>
 <item>
 <title>Normal-Anchored First-Order Model-Agnostic Meta-Learning based Whisper Fine-Tuning for Enhancing Fairness of Cleft Lip and Palate Speech Recognition</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/ccb83c7e65.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ccb83c7e65.html</guid>
-<description>Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance of pretrained ASR systems, and conventional fine-tuning may not generalize well under low-resource, h</description>
+<description>NA-FOMAML 用正常语音作内循环锚点、不同腭裂严重度作外循环任务微调 Whisper，使两个数据集的 CLP Macro WER 降至 24.58% 和 30.40%，但重度 WER 仍超过 52%。仅在可访问性目标明确时适合 Harness A/C 的并行 ASR 支路，不能据此声称解决流式判停或公平性。</description>
 </item>
 <item>
 <title>Experience-Calibrated Contrastive Decoding for Mitigating Hallucinations in LM-Based Text-to-Speech</title>
@@ -151,7 +151,7 @@
 <title>Modular Deep Learning Framework for Assistive Perception: Gaze, Affect, and Speaker Identification</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/af4dae27c7.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/af4dae27c7.html</guid>
-<description>Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like &#x27;Smart Eye.&#x27; We propose and benchmark three independent s</description>
+<description>该工作分别训练眼睛状态、表情和五人封闭集说话人分类器，报告 93.0%、97.8% 和 96.89% 准确率，但三模块尚未集成或测量实时延迟。它最多是座舱旁路感知候选，不能把五人分类结果当作车控身份认证。</description>
 </item>
 <item>
 <title>StreamingClaw Technical Report</title>
@@ -175,13 +175,13 @@
 <title>Data Pyramid for Embodied Manipulation</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/a4810dc0ad.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a4810dc0ad.html</guid>
-<description>Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this wo</description>
+<description>该综述将具身数据分为真实机器人、UMI、人类视角、仿真和通用视觉语言五层，并分析规模与机器人对齐之间的配方取舍。StreamingModelHarness 可借鉴动作回执 schema 和失败/恢复数据采集，但论文没有流式推理、语音判停或 TTS 实现。</description>
 </item>
 <item>
 <title>CoTinyVLA: Chain-of-Thought Distillation for a Sub-Billion-Parameter Vision-Language-Action Model</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/2ddbd4fd07.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2ddbd4fd07.html</guid>
-<description>Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter backbones whose memory demands can exceed embedded robotic budgets. We present CoTinyVLA, a 0.9B-para</description>
+<description>CoTinyVLA 以 16 帧双视角输入、分层 CoT 蒸馏和指令改写，让 0.9B 模型在 LIBERO-Plus 四套任务上均超过最强 7B 基线。Plan 缓存和 typed action chunk 可启发 Harness 工具状态设计，但同步推理不解决音频判停、晚回执或外挂 TTS。</description>
 </item>
 <item>
 <title>vanch007/Ming-omni-tts-16.8B-A3B-MLX-bf16</title>

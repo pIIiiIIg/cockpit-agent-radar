@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-03 · ◈ 16
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop SpeechAgent-R, an audio agent that coordinates its intrinsic multimodal understanding with external skills and tools. To support this capability, we construct HIU-Corpus, comprising 65,492 interaction trajectories and 507.6 hours of audio across 24 tasks, 8 skills and 9 tools. SpeechAgent-R first learns structured interaction behaviors through trajectory-based supervised fine-tuning and then improves its decisions through multi-turn reinforcement learning. We further introduce HIU-Bench to jointly evaluate task performance, interaction quality and generalization to diverse task settings. It contains 1,395 samples across 56 tasks, including in-distribution (ID) and out-of-distribution (OOD) splits with substantial shifts in tool usage and workflow composition. SpeechAgent-R achieves 84.17 on ID tasks and 70.94 on OOD tasks, improving over the base model under the same agent harness by 15.40 and 14.23 points. These results demonstrate that learning skill and tool coordination improves audio agents&#x27; ability to handle diverse task settings and adaptive tool interactions. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">SpeechAgent-R 通过轨迹 SFT 和多轮 RL 学会从完整音频检索技能、调用声学工具，并继续利用文本或处理后音频结果，HIU-Bench 总分由同一 Harness 下基座的 65.01 升至 80.05。它直接启发 StreamingModelHarness 的 typed 工具循环和过程评测，但不改善流式判停、打断或外挂 TTS 首包。</span>
     <span class="l-en">Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop SpeechAgent-R, an audio agent that coordinates its intrinsic multimodal understanding with external skills and tools. To support this capability, we construct HIU-Corpus, comprising 65,492 interaction trajectories and 507.6 hours of audio across 24 tasks, 8 skills and 9 tools. SpeechAgent-R first learns structured interaction behaviors through trajectory-based supervised fine-tuning and then improves its decisions through multi-turn reinforcement learning. We further introduce HIU-Bench to jointly evaluate task performance, interaction quality and generalization to diverse task settings. It contains 1,395 samples across 56 tasks, including in-distribution (ID) and out-of-distribution (OOD) splits with substantial shifts in tool usage and workflow composition. SpeechAgent-R achieves 84.17 on ID tasks and 70.94 on OOD tasks, improving over the base model under the same agent harness by 15.40 and 14.23 points. These results demonstrate that learning skill and tool coordination improves audio agents&#x27; ability to handle diverse task settings and adaptive tool interactions.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study s</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">SpeechAgent-R 学会在听完整段音频后检索技能、调用声学工具，并把文本或处理后音频结果继续写入推理循环。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>大型音频语言模型通常只能对固定音频直接作答，遇到需要分离、识别、检索或计算的复杂声学任务时，缺少按中间结果动态选择技能和组合工具的能力。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop SpeechAgent-R, an audio agent that coordinates its intrinsic multimodal understanding with external skills and tools. To support this capability, we construct HIU-Corpus, comprising 65,492 interaction trajectories and 507.6 hours of audio across 24 tasks, 8 skills and 9 tools. SpeechAgent-R first learns structured interaction behaviors through trajectory-based supervised fine-tuning and then improves its decisions through multi-turn reinforcement learning. We further introduce HIU-Bench to jointly evaluate task performance, interaction quality and generalization to diverse task settings. It contains 1,395 samples across 56 tasks, including in-distribution (ID) and out-of-distribution (OOD) splits with substantial shifts in tool usage and workflow composition. SpeechAgent-R achieves 84.17 on ID tasks and 70.94 on OOD tasks, improving over the base model under the same agent harness by 15.40 and 14.23 points. These results demonstrate that learning skill and tool coordination improves audio agents&#x27; ability to handle diverse task settings and adaptive tool interactions.</p>
-
-
+  <p>SpeechAgent-R 从 Qwen3-Omni-Thinking 初始化，以 65,492 条 Hear–Invoke–Understand 轨迹做加权 SFT，再用多轮 GRPO 优化格式、工具交互和答案质量。Agent 的动作包括检索技能文档、生成结构化工具调用和最终回答；工具返回的文本或处理后音频会追加到上下文，模型可据此继续调用。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>模型听取完整音频并判断能否直接回答。</li><li>需要外部能力时，按自然语言描述检索技能文档。</li><li>从技能允许的工具中生成结构化调用。</li><li>将文本或处理后音频结果追加到上下文，继续推理或调用下一工具。</li><li>汇总原音频和工具证据，生成最终文本答案。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>同一 Agent harness 下，基座模型 ID/OOD/总体为 68.77/56.71/65.01，SpeechAgent-R 达到 84.17/70.94/80.05。</li><li>完整轨迹 SFT 得分 75.20，加入多轮 RL 后升至 80.05；用真值工具输出替换真实结果时 ID 总分又由 84.2 升到 91.4。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>与当前 endpoint 后生成、晚注入工具结果的 Harness 高度契合，可借鉴技能文档、typed call 状态机和工具过程/答案分开计分。</li><li>论文未评测流式判停、打断或边听边调用，多轮工具循环还可能推迟外挂 TTS 的首音频。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>训练数据大量由模板、音频混合和大模型生成，SFT 中错误工具输出还会被真值纠正，反馈比真实部署更干净。</li><li>HIU-Bench 不覆盖流式交互；论文结论把总体提升写成 15.40 点，但表 1 的总体差值实际为 15.04 点。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-08-04，SpeechAgent-R 代码、权重、HIU-Corpus 和 HIU-Bench 均仅承诺发表后发布，许可证未知。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-04 14:48</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:22</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.01881v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2025-11-25 · ◈ 4
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like &#x27;Smart Eye.&#x27; We propose and benchmark three independent sensing modules: a Convolutional Neural Network (CNN) for eye state detection (drowsiness/attention), a deep CNN for facial expression recognition, and a Long Short-Term Memory (LSTM) network for voice-based speaker identification. Utilizing the Eyes Image, FER2013, and customized audio datasets, our models achieved accuracies of 93.0%, 97.8%, and 96.89%, respectively. This study demonstrates that lightweight, domain-specific models can achieve high fidelity on discrete tasks, establishing a validated foundation for future real-time, multimodal integration in resource-constrained assistive devices. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">该工作分别训练眼睛状态、表情和五人封闭集说话人分类器，报告 93.0%、97.8% 和 96.89% 准确率，但三模块尚未集成或测量实时延迟。它最多是座舱旁路感知候选，不能把五人分类结果当作车控身份认证。</span>
     <span class="l-en">Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like &#x27;Smart Eye.&#x27; We propose and benchmark three independent sensing modules: a Convolutional Neural Network (CNN) for eye state detection (drowsiness/attention), a deep CNN for facial expression recognition, and a Long Short-Term Memory (LSTM) network for voice-based speaker identification. Utilizing the Eyes Image, FER2013, and customized audio datasets, our models achieved accuracies of 93.0%, 97.8%, and 96.89%, respectively. This study demonstrates that lightweight, domain-specific models can achieve high fidelity on discrete tasks, establishing a validated foundation for future real-time, multimodal integration in resource-constrained assistive devices.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems li</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">该工作分别训练眼睛状态、七类表情和五人封闭集说话人分类器，但尚未把三个模块集成为实时多模态系统。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>辅助感知设备希望同时判断注意/疲劳、表情和说话人身份，但在资源受限设备上是否能以多个轻量专用模型完成这些离散任务仍需验证。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like &#x27;Smart Eye.&#x27; We propose and benchmark three independent sensing modules: a Convolutional Neural Network (CNN) for eye state detection (drowsiness/attention), a deep CNN for facial expression recognition, and a Long Short-Term Memory (LSTM) network for voice-based speaker identification. Utilizing the Eyes Image, FER2013, and customized audio datasets, our models achieved accuracies of 93.0%, 97.8%, and 96.89%, respectively. This study demonstrates that lightweight, domain-specific models can achieve high fidelity on discrete tasks, establishing a validated foundation for future real-time, multimodal integration in resource-constrained assistive devices.</p>
-
-
+  <p>论文分别训练眼睛开闭 CNN、FER2013 表情 CNN 和基于 MFCC 的 128 单元 LSTM 说话人分类器。音频实验包含五人、每人约 1,500 个一秒片段，并按 70/15/15 划分；设想的系统会先做说话人认证，再监测眼睛状态和表情，但正文没有实现联合管线。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>分别预处理眼睛图像、表情图像和一秒音频片段。</li><li>独立训练三个分类器。</li><li>在各自测试或验证集计算准确率、F1 和混淆矩阵。</li><li>未来再串成实时级联；该步骤尚未完成。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>眼睛开闭准确率为 93.0%，两类 F1 均为 0.93；FER2013 七类表情准确率报告为 97.8%。</li><li>五人封闭集说话人识别准确率为 96.89%，weighted F1 为 0.96。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>眼睛和表情可作为带时间戳的旁路事件，在下一轮进入安全策略或上下文，而不是直接污染主音频 KV。</li><li>五人封闭集分类不能当作车控身份认证；论文没有连续收音、时延、遮挡、车内噪声、endpoint 或 TTS 证据。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>三模块从未联合运行，也未报告参数量、FLOPs、内存或推理时延，因此“轻量”和“实时”没有实测支持。</li><li>FER2013 的异常高结果缺少跨数据集与重复实验；说话人随机切片可能共享同一原始录音条件，且不能拒绝未知说话者。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 论文未链接官方项目、代码或权重，只称可向作者索取；具体 Kaggle 镜像和数据许可也未明确。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-04 09:31</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:22</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2511.20474v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
