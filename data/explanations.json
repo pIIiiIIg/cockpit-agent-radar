@@ -3612,5 +3612,189 @@
   "generated_at": "2026-08-04T09:31:39.651666+08:00",
   "generated_by": "deterministic abstract backfill",
   "review_status": "abstract_backfill"
+ },
+ "6926d5f3f7": {
+  "tl_dr": "We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture and further implements a unified speech-text joint training pipeline to mitigate the common \"cognitive degradation\" bottleneck, thereby largely preserving the model's core textual reasoning, STEM, and logical capabilities while extending them to speech-based interaction. For expressive speech synthesis, the Talker module employs a text-controllable generation paradigm that enables natural-language instructions to flexibly control vocal attributes and localized paralinguistic events, such as laughter and sighs, supporting more expressive and fine-grained speech responses. To enhance conversational empathy, we introduce the Persona-Adaptive Empathetic Response (PAER) framework. PAER employs a hierarchical cognitive pipeline to extract non-verbal speaker cues, such as gender, age, and emotional state, from raw input audio, incorporate them into the Thinker's CoT reasoning, and generate context-adaptive responses that align semantically appropriate text with fine-grained control over utterance-level expressiveness and localized paralinguistic events, including sighs, speaking rate, and volume. We further integrate Joy-Duplex, a state-driven, plug-and-play full-duplex framework that functions as an efficient gating engine for real-time turn control. Extensive evaluations show that JoyAI-Talker achieves highly competitive performance on foundational T2T and S2T benchmarks. In full-duplex evaluation, the system reaches a high response rate of 0.88 under user interruptions while maintaining an extremely low false-trigger rate under backgroun",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927697+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "386ec68e80": {
+  "tl_dr": "Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study s",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop SpeechAgent-R, an audio agent that coordinates its intrinsic multimodal understanding with external skills and tools. To support this capability, we construct HIU-Corpus, comprising 65,492 interaction trajectories and 507.6 hours of audio across 24 tasks, 8 skills and 9 tools. SpeechAgent-R first learns structured interaction behaviors through trajectory-based supervised fine-tuning and then improves its decisions through multi-turn reinforcement learning. We further introduce HIU-Bench to jointly evaluate task performance, interaction quality and generalization to diverse task settings. It contains 1,395 samples across 56 tasks, including in-distribution (ID) and out-of-distribution (OOD) splits with substantial shifts in tool usage and workflow composition. SpeechAgent-R achieves 84.17 on ID tasks and 70.94 on OOD tasks, improving over the base model under the same agent harness by 15.40 and 14.23 points. These results demonstrate that learning skill and tool coordination improves audio agents' ability to handle diverse task settings and adaptive tool interactions.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927721+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "9f038dec19": {
+  "tl_dr": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyon",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a key direction for open-world information access, evolving from single-turn factual retrieval toward long-horizon, multi-turn search guided by visual evidence. However, existing methods typically confine vision to the input or answer stage, overlooking its role in intermediate reasoning, and lack designs tailored to long-horizon interaction. Consequently, visual evidence rarely drives continued retrieval, constraining both interaction depth and reasoning span. To address these limitations, we propose DeepVoyager-VL, a long-horizon multimodal deep-search framework for vision-in-the-loop search. Specifically, we construct a multimodal event graph to drive data synthesis, yielding problems with intermediate visual dependencies and long reasoning chains. We then design an agent framework for active visual acquisition and on-demand image loading. Finally, we fine-tune models on the synthesized data without reinforcement learning. Extensive experiments across ten multimodal search benchmarks demonstrate the effectiveness of our method.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927732+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "9f9870137b": {
+  "tl_dr": "Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimod",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimodal conversations still fail on vision-related questions. We trace this failure to an assumption behind the similarity search they rely on: in the index space, a query lies close to the relevant evidence that answers it. In multimodal settings, two gaps break it. By the modality gap, a query lies closer to memory content of its own modality than to evidence in another, even in a trained joint embedding space. By the similarity-relevance gap, the content most similar to a query is often not the evidence that answers it, most acutely when a query carries both text and image and its evidence resembles neither part alone. We present V-Mem, a multimodal agentic memory system that routes retrieval by the modality of the query and that of the target evidence, both recognized from the query alone. To cross the modality gap, V-Mem organizes the conversation into rounds and returns the target-modality content from the same round as the match, without comparing across modalities. To close the similarity-relevance gap, it searches with an LLM-generated anchor that sits closer to the relevant evidence than the query does: a hypothetical caption for a text-only query seeking an image, and an enriched search anchor, the query text plus relevant keywords extracted from the query image, when the evidence is reachable only by combining the two. On Mem-Gallery, V-Mem reaches an LLM-judge score of 0.82 versus 0.56 for the second best, with the largest margin on questions carrying an image (0.87, no baseline above 0.47); on LoCoMo it scores 0.69 versus 0.5",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927746+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "dc6dfec67d": {
+  "tl_dr": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyon",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a key direction for open-world information access, evolving from single-turn factual retrieval toward long-horizon, multi-turn search guided by visual evidence. However, existing methods typically confine vision to the input or answer stage, overlooking its role in intermediate reasoning, and lack designs tailored to long-horizon interaction. Consequently, visual evidence rarely drives continued retrieval, constraining both interaction depth and reasoning span. To address these limitations, we propose DeepVoyager-VL, a long-horizon multimodal deep-search framework for vision-in-the-loop search. Specifically, we construct a multimodal event graph to drive data synthesis, yielding problems with intermediate visual dependencies and long reasoning chains. We then design an agent framework for active visual acquisition and on-demand image loading. Finally, we fine-tune models on the synthesized data without reinforcement learning. Extensive experiments across ten multimodal search benchmarks demonstrate the effectiveness of our method.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927755+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "f3f1d830b7": {
+  "tl_dr": "Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with lin",
+  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
+  "method": "Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with linguistic priors and teacher-specific effects. The key challenge is to estimate which corrections are supported by visual evidence, not merely where or how strongly to distill. We introduce Visual Attribution Distillation (VAD), a counterfactual target-reconstruction algorithm that estimates the visually attributable part of a teacher correction. At each student-generated prefix, VAD evaluates the same fixed teacher with the relevant evidence present and removed. The corresponding change in centered log-probabilities defines ut, a signed proxy for the visual evidence direction that estimates how revealing the evidence supports or refutes candidate tokens. VAD projects the original correction onto this proxy to obtain an intervention-aligned component and a proxy-unexplained residual, then reconstructs a student-anchored target from the former. During training, this reconstructed target supplies the primary supervision signal, while the privileged teacher contributes a weak regularizer. Across six fine-grained visual benchmarks at 4B and 9B scales, VAD outperforms direct privileged-view distillation and visual-advantage weighting. Token- level and controlled-target analyses show that the proxy-aligned component is enriched in task-relevant visual corrections and yields stronger target shifts, especially when evidence refutes a mistaken answer. These results support counterfactual target reconstruction as an effective alternative to source-mixed supervision.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927765+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "10ea6cf694": {
+  "tl_dr": "Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how ",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how much retained capacity each modality receives, and which tokens within a modality are kept. A shared top-K rule therefore inherits this audio-favoring allocation prior, spending retained capacity on audio before video tokens have a chance to compete. We propose Macer, a training-free compressor that first assigns explicit audio and video budgets, then performs allocation-normalized ranking within each modality at modality-specific shallow layers. Macer significantly reduces token cost while preserving accuracy across audio-grounded, audio--video joint, visual-dominant, and video-centric benchmarks. At 25 % retention, Macer preserves 98.7 % of full-token performance on Qwen2.5-Omni-7B and 97.3 % on Qwen2.5-Omni-3B. On Qwen2.5-Omni-7B, this 25 % setting reaches OmniZip-level performance at 45 % retention while using lower FLOPs. On OmniVinci-9B, the same allocation-before-ranking principle improves over shared top-K ranking by up to 12.9 points.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927776+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "c7f7e6f314": {
+  "tl_dr": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-fr",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-04T14:48:38.927792+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
  }
 }

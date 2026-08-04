@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>JoyAI-Talker: Full-Duplex Speech Interactive Large Model Built for Empathetic Voice Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6926d5f3f7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6926d5f3f7.html</guid>
+<description>We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture and further implements a unified speech-text joint training</description>
+</item>
+<item>
+<title>Hear, Invoke, and Understand: A Skill-Calling Multimodal Agent for Large Audio Language Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/386ec68e80.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/386ec68e80.html</guid>
+<description>Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop</description>
+</item>
+<item>
+<title>DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9f038dec19.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9f038dec19.html</guid>
+<description>Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a k</description>
+</item>
+<item>
+<title>V-Mem: Modality-Routed Retrieval for Long-Term Multimodal Agentic Memory</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9f9870137b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9f9870137b.html</guid>
+<description>Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimodal conversations still fail on vision-related questions. We </description>
+</item>
+<item>
+<title>DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dc6dfec67d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dc6dfec67d.html</guid>
+<description>Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a k</description>
+</item>
+<item>
+<title>OpenBMB/UltraEval-Audio</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/61e62e341a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/61e62e341a.html</guid>
+<description>Your faithful, impartial partner for audio evaluation — know yourself, know your rivals. 真实评测，知己知彼。A unified benchmark framework for ASR/TTS/Audio Codec/audio LLM evaluation asr audio-codec benchmark evaluation llm-evaluation speech-recognition speech-to-speech speech-to-text tts voice-cloning</description>
+</item>
+<item>
+<title>quangdang46/livekit_agent_simulator</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ba573b6842.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ba573b6842.html</guid>
+<description>Black-box LiveKit voice agent testing: real WebRTC/SIP calls with an AI caller. Catch barge-in, noise, quiet-mic, and latency failures that text pytest misses. Forensic reports + MCP + lks CLI — no agent code changes. ai-agents black-box-testing ci-cd cli conversation-ai gemini livekit livekit-agent</description>
+</item>
+<item>
+<title>VAD: Attributing Visual Evidence for Target Reconstruction in Multimodal On-Policy Distillation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f3f1d830b7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f3f1d830b7.html</guid>
+<description>Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with linguistic priors and teacher-specific effects. The key challen</description>
+</item>
+<item>
+<title>Tung111/OPOD-Qwen3-Omni-30B-A3B</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6865ae6383.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6865ae6383.html</guid>
+<description>any-to-any transformers safetensors qwen3_omni_moe text-to-audio omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni any-to-any en zh arxiv:2607.20918 base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct base_model:finetune:Qwen/Qwen3-Omni-30B-A3B-Instruct license:other e</description>
+</item>
+<item>
+<title>Tung111/OPOD-Qwen2.5-Omni-3B</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1cbe9cdd86.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1cbe9cdd86.html</guid>
+<description>any-to-any transformers safetensors qwen2_5_omni omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen2.5-omni any-to-any en zh arxiv:2607.20918 base_model:Qwen/Qwen2.5-Omni-3B base_model:finetune:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us</description>
+</item>
+<item>
+<title>Tung111/OPOD-Qwen2.5-Omni-7B</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/68425f23e7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/68425f23e7.html</guid>
+<description>any-to-any transformers safetensors qwen2_5_omni omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen2.5-omni any-to-any en zh arxiv:2607.20918 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us</description>
+</item>
+<item>
+<title>Allocation Before Ranking: Decoupled Token Compression for OmniLLMs</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/10ea6cf694.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/10ea6cf694.html</guid>
+<description>Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how much retained capacity each modality receives, and which tok</description>
+</item>
+<item>
+<title>keylazy/Qwen2.5-Omni-3B-bab-beam-rpt400</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f4b7ed5ad0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f4b7ed5ad0.html</guid>
+<description>transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>keylazy/Qwen2.5-Omni-3B-bab-beam-sft</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/72c6e8ac56.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/72c6e8ac56.html</guid>
+<description>transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c7f7e6f314.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c7f7e6f314.html</guid>
+<description>Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which</description>
+</item>
+<item>
 <title>DrawAI: Agentic Benchmark and Workflow for Making Raster Images Editable</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/86208ebdef.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/86208ebdef.html</guid>
 <description>This paper proposes AI Tour Meeting, a group travel planning framework powered by multiple Large Language Model (LLM)-based agents. The agents are instantiated with distinct personas and collaboratively seek an itinerary that satisfies their constraints and preferences through natural language discu</description>
-</item>
-<item>
-<title>Is Deep Research Reliable? Misleading Knowledge Induces False Conclusions</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/50562914cd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/50562914cd.html</guid>
-<description>Deep Research agents extend LLM-based assistants into long-horizon workflows involving planning, retrieval, evidence synthesis, and report generation, yet their reliability in open information environments remains underexplored. A key concern is whether apparently credible but factually misleading k</description>
-</item>
-<item>
-<title>From RLVR to RLSVR: Task Transformation Induces Self-Verifiable Rewards for Open-Ended LLM Self-Improvement</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/aee77672c9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/aee77672c9.html</guid>
-<description>Reinforcement Learning with Verifiable Rewards (RLVR) has driven recent progress in reasoning-oriented large language models (LLMs) by enabling large-scale optimization. However, its applicability remains largely limited to domains such as mathematics and coding, where correctness can be determinist</description>
-</item>
-<item>
-<title>Filesystem-Based Memory for LLM Agents: Organization, Evolution, and Sustainability</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/401cad35ea.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/401cad35ea.html</guid>
-<description>Deployed LLM agents increasingly keep their long-term memory as a filesystem: a directory tree of markdown files that the agent itself reads, writes, and reorganizes through generic file tools. Yet research has largely passed over this medium: prior systems design bespoke memory representations and </description>
-</item>
-<item>
-<title>Show HN: Langy, an automated AI engineer (we gave it a robot body) [video]</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c51b7eac63.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c51b7eac63.html</guid>
-<description>Founder here. Langy is an AI engineer that lives inside our platform, LangWatch. It reads your production traces, writes Scenario tests and evaluations for the problems it finds, opens a pull request on your repo, and proves the fix by running those simulations in CI. A human still merges.&lt;p&gt;Reachy </description>
-</item>
-<item>
-<title>Show HN: On-device transcriber that&#x27;s 97% accurate at identifying speakers</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b1ff2359b6.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b1ff2359b6.html</guid>
-<description>I’ve spent the last seven months building a tool I wish I’d had in my previous roles. MimicScribe is a macOS menu bar app that fits the &amp;quot;AI notetaker&amp;quot; category. It has accurate on-device speaker identification (a first possibly?), real-time meeting talking points for discovery calls, and a</description>
-</item>
-<item>
-<title>See2Think: Do Multimodal Models Really Use Intermediate Visual States?</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/47b8659e2a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/47b8659e2a.html</guid>
-<description>Multimodal large language models increasingly use sketches, annotations, tools, and intermediate images during reasoning, but it remains unclear whether they truly rely on these visual states. Existing benchmarks are limited both by task collections with narrow coverage or partially text-solvable sa</description>
-</item>
-<item>
-<title>Σ-Mem: An Online Reliability Memory for LLM-based Multi-Agent Systems</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ea5ecf3351.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ea5ecf3351.html</guid>
-<description>Memory is central to long-horizon LLM agents, yet existing memory systems primarily preserve interaction content rather than modeling which agents can be trusted and under what conditions. This limitation is particularly important in multi-agent systems, where a central model may be unable to direct</description>
-</item>
-<item>
-<title>Qwen-UI-Agent Technical Report: Toward Next-Generation Real-World Centric Foundation GUI Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c8d10ef1c8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c8d10ef1c8.html</guid>
-<description>Qwen-UI-Agent 把 GUI、CLI、API、用户确认和终止统一成可批处理 Action，并以持久 Harness 支持真实设备、跨平台长流程和主动服务。对 StreamingModelHarness 最直接的启发是把晚注入工具升级为 typed Action batch，加上权限、幂等、高风险确认和执行后验证；论文没有语音流或座舱全双工证据。</description>
-</item>
-<item>
-<title>vokra/qwen2-5-omni-7b</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b84cddd6ba.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b84cddd6ba.html</guid>
-<description>vokra gguf license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>zaid646/multimodal-vision-agent-lora</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e792841f4f.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e792841f4f.html</guid>
-<description>text-generation peft safetensors qwen2.5 lora ui-agent qlora desktop-automation playwright langgraph instruction-finetuned text-generation conversational arxiv:2106.09685 base_model:Qwen/Qwen2.5-7B-Instruct base_model:adapter:Qwen/Qwen2.5-7B-Instruct license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>Ask HN: Best “Reference” WebRTC Implementation?</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a57c74899e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a57c74899e.html</guid>
-<description>Would anyone disagree that Chromium-based browsers might have the best WebRTC-reference implementation?&lt;p&gt;For years, I&amp;#x27;ve been running Chromium-based browsers on a server as a WebRTC peer, not because it&amp;#x27;s more efficient to do so, but because of the flexibility.&lt;p&gt;I&amp;#x27;ve recently starte</description>
-</item>
-<item>
-<title>Show HN: Feem – Transfer Files Offline</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6bc046fb81.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6bc046fb81.html</guid>
-<description>Hello HN.&lt;p&gt;I live in a third-world country where Internet speeds have historically been very poor and generally expensive.&lt;p&gt;So I built an offline file transfer tool called Feem, that helps you transfer text, files and folders between your devices without passing through the Internet.&lt;p&gt;Like other </description>
-</item>
-<item>
-<title>Probing neural audio codecs for distinctions among English nuclear tunes</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ceea0ea38b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ceea0ea38b.html</guid>
-<description>State-of-the-art spoken dialogue models (Défossez et al. 2024; Schalkwyk et al. 2025) use neural audio codecs to &quot;tokenize&quot; audio signals into a lower-frequency stream of vectorial latent representations, each quantized using a hierarchy of vector codebooks. A transformer layer allows these represen</description>
-</item>
-<item>
-<title>First Logit Boosting: Visual Grounding Method to Mitigate Object Hallucination in Large Vision-Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dc028051f2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dc028051f2.html</guid>
-<description>Recent Large Vision-Language Models (LVLMs) have demonstrated remarkable performance across various multimodal tasks that require understanding both visual and linguistic inputs. However, object hallucination -- the generation of nonexistent objects in answers -- remains a persistent challenge. Alth</description>
-</item>
-<item>
-<title>SpeechParaling-Bench: A Comprehensive Benchmark for Paralinguistic-Aware Speech Generation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html</guid>
-<description>SpeechParaling-Bench 用 1,001 组中英平行语音查询评测百余种副语言特征，覆盖显式控制、句内动态变化和情境适配，并以音频裁判做成对比较。它适合补充 StreamingModelHarness 外挂 TTS 的表达层回归，但不评输入流式、判停、打断或首包时延，不能替代全双工交互测试。</description>
 </item>
 </channel></rss>

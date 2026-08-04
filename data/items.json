@@ -1,6 +1,277 @@
 {
- "generated": "2026-08-04T09:31:26.689914+08:00",
+ "generated": "2026-08-04T14:48:25.333183+08:00",
  "items": [
+  {
+   "id": "6926d5f3f7",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "JoyAI-Talker: Full-Duplex Speech Interactive Large Model Built for Empathetic Voice Agents",
+   "url": "https://arxiv.org/abs/2608.01119v1",
+   "published": "2026-08-02",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 24,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "voice agent",
+    "speech synthesis"
+   ],
+   "summary_en": "We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture and further implements a unified speech-text joint training pipeline to mitigate the common \"cognitive degradation\" bottleneck, thereby largely preserving the model's core textual reasoning, STEM, and logical capabilities while extending them to speech-based interaction. For expressive speech synthesis, the Talker module employs a text-controllable generation paradigm that enables natural-language instructions to flexibly control vocal attributes and localized paralinguistic events, such as laughter and sighs, supporting more expressive and fine-grained speech responses. To enhance conversational empathy, we introduce the Persona-Adaptive Empathetic Response (PAER) framework. PAER employs a hierarchical cognitive pipeline to extract non-verbal speaker cues, such as gender, age, and emotional state, from raw input audio, incorporate them into the Thinker's CoT reasoning, and generate context-adaptive responses that align semantically appropriate text with fine-grained control over utterance-level expressiveness and localized paralinguistic events, including sighs, speaking rate, and volume. We further integrate Joy-Duplex, a state-driven, plug-and-play full-duplex framework that functions as an efficient gating engine for real-time turn control. Extensive evaluations show that JoyAI-Talker achieves highly competitive performance on foundational T2T and S2T benchmarks. In full-duplex evaluation, the system reaches a high response rate of 0.88 under user interruptions while maintaining an extremely low false-trigger rate under background speech, demonstrating its readiness for fluid and natural speech dialogue.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "386ec68e80",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Hear, Invoke, and Understand: A Skill-Calling Multimodal Agent for Large Audio Language Models",
+   "url": "https://arxiv.org/abs/2608.01881v1",
+   "published": "2026-08-03",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 16,
+   "tags": [
+    "multimodal agent",
+    "multimodal",
+    "agent harness"
+   ],
+   "summary_en": "Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study such problems as tool-interactive audio reasoning and develop SpeechAgent-R, an audio agent that coordinates its intrinsic multimodal understanding with external skills and tools. To support this capability, we construct HIU-Corpus, comprising 65,492 interaction trajectories and 507.6 hours of audio across 24 tasks, 8 skills and 9 tools. SpeechAgent-R first learns structured interaction behaviors through trajectory-based supervised fine-tuning and then improves its decisions through multi-turn reinforcement learning. We further introduce HIU-Bench to jointly evaluate task performance, interaction quality and generalization to diverse task settings. It contains 1,395 samples across 56 tasks, including in-distribution (ID) and out-of-distribution (OOD) splits with substantial shifts in tool usage and workflow composition. SpeechAgent-R achieves 84.17 on ID tasks and 70.94 on OOD tasks, improving over the base model under the same agent harness by 15.40 and 14.23 points. These results demonstrate that learning skill and tool coordination improves audio agents' ability to handle diverse task settings and adaptive tool interactions.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "9f038dec19",
+   "kind": "paper",
+   "source": "hf",
+   "title": "DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents",
+   "url": "https://huggingface.co/papers/2608.01827",
+   "published": "2026-08-02",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 13,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a key direction for open-world information access, evolving from single-turn factual retrieval toward long-horizon, multi-turn search guided by visual evidence. However, existing methods typically confine vision to the input or answer stage, overlooking its role in intermediate reasoning, and lack designs tailored to long-horizon interaction. Consequently, visual evidence rarely drives continued retrieval, constraining both interaction depth and reasoning span. To address these limitations, we propose DeepVoyager-VL, a long-horizon multimodal deep-search framework for vision-in-the-loop search. Specifically, we construct a multimodal event graph to drive data synthesis, yielding problems with intermediate visual dependencies and long reasoning chains. We then design an agent framework for active visual acquisition and on-demand image loading. Finally, we fine-tune models on the synthesized data without reinforcement learning. Extensive experiments across ten multimodal search benchmarks demonstrate the effectiveness of our method.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "9f9870137b",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "V-Mem: Modality-Routed Retrieval for Long-Term Multimodal Agentic Memory",
+   "url": "https://arxiv.org/abs/2608.01543v1",
+   "published": "2026-08-02",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 12,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Interaction between users and LLM agents is increasingly multimodal: conversations interleave text with images, and a later question may target either. Yet most agent memories are designed around text, and even the few that support multimodal conversations still fail on vision-related questions. We trace this failure to an assumption behind the similarity search they rely on: in the index space, a query lies close to the relevant evidence that answers it. In multimodal settings, two gaps break it. By the modality gap, a query lies closer to memory content of its own modality than to evidence in another, even in a trained joint embedding space. By the similarity-relevance gap, the content most similar to a query is often not the evidence that answers it, most acutely when a query carries both text and image and its evidence resembles neither part alone. We present V-Mem, a multimodal agentic memory system that routes retrieval by the modality of the query and that of the target evidence, both recognized from the query alone. To cross the modality gap, V-Mem organizes the conversation into rounds and returns the target-modality content from the same round as the match, without comparing across modalities. To close the similarity-relevance gap, it searches with an LLM-generated anchor that sits closer to the relevant evidence than the query does: a hypothetical caption for a text-only query seeking an image, and an enriched search anchor, the query text plus relevant keywords extracted from the query image, when the evidence is reachable only by combining the two. On Mem-Gallery, V-Mem reaches an LLM-judge score of 0.82 versus 0.56 for the second best, with the largest margin on questions carrying an image (0.87, no baseline above 0.47); on LoCoMo it scores 0.69 versus 0.58.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dc6dfec67d",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents",
+   "url": "https://arxiv.org/abs/2608.01827v1",
+   "published": "2026-08-03",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Multimodal large language models (MLLMs) have advanced visual understanding and reasoning, yet their static parametric knowledge limits their ability to address knowledge-intensive and dynamically evolving open-world problems. To move beyond this limitation, multimodal deep search has emerged as a key direction for open-world information access, evolving from single-turn factual retrieval toward long-horizon, multi-turn search guided by visual evidence. However, existing methods typically confine vision to the input or answer stage, overlooking its role in intermediate reasoning, and lack designs tailored to long-horizon interaction. Consequently, visual evidence rarely drives continued retrieval, constraining both interaction depth and reasoning span. To address these limitations, we propose DeepVoyager-VL, a long-horizon multimodal deep-search framework for vision-in-the-loop search. Specifically, we construct a multimodal event graph to drive data synthesis, yielding problems with intermediate visual dependencies and long reasoning chains. We then design an agent framework for active visual acquisition and on-demand image loading. Finally, we fine-tune models on the synthesized data without reinforcement learning. Extensive experiments across ten multimodal search benchmarks demonstrate the effectiveness of our method.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "61e62e341a",
+   "kind": "repo",
+   "source": "github",
+   "title": "OpenBMB/UltraEval-Audio",
+   "url": "https://github.com/OpenBMB/UltraEval-Audio",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 11,
+   "tags": [
+    "speech-to-speech",
+    "audio llm"
+   ],
+   "summary_en": "Your faithful, impartial partner for audio evaluation — know yourself, know your rivals. 真实评测，知己知彼。A unified benchmark framework for ASR/TTS/Audio Codec/audio LLM evaluation asr audio-codec benchmark evaluation llm-evaluation speech-recognition speech-to-speech speech-to-text tts voice-cloning",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 312
+  },
+  {
+   "id": "ba573b6842",
+   "kind": "repo",
+   "source": "github",
+   "title": "quangdang46/livekit_agent_simulator",
+   "url": "https://github.com/quangdang46/livekit_agent_simulator",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 11,
+   "tags": [
+    "speech-to-speech",
+    "voice agent",
+    "barge-in"
+   ],
+   "summary_en": "Black-box LiveKit voice agent testing: real WebRTC/SIP calls with an AI caller. Catch barge-in, noise, quiet-mic, and latency failures that text pytest misses. Forensic reports + MCP + lks CLI — no agent code changes. ai-agents black-box-testing ci-cd cli conversation-ai gemini livekit livekit-agents mcp open-source python realtime regression-testing sip speech-to-speech telephony testing voice-agent voice-ai webrtc",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 4
+  },
+  {
+   "id": "f3f1d830b7",
+   "kind": "paper",
+   "source": "hf",
+   "title": "VAD: Attributing Visual Evidence for Target Reconstruction in Multimodal On-Policy Distillation",
+   "url": "https://huggingface.co/papers/2607.28590",
+   "published": "2026-07-29",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 10,
+   "tags": [
+    "multimodal",
+    "vad"
+   ],
+   "summary_en": "Multimodal on-policy distillation (OPD) transfers fine-grained visual knowledge by supervising student-generated trajectories with a privileged-view teacher. Yet its next-token corrections are source-mixed, combining visual signals with linguistic priors and teacher-specific effects. The key challenge is to estimate which corrections are supported by visual evidence, not merely where or how strongly to distill. We introduce Visual Attribution Distillation (VAD), a counterfactual target-reconstruction algorithm that estimates the visually attributable part of a teacher correction. At each student-generated prefix, VAD evaluates the same fixed teacher with the relevant evidence present and removed. The corresponding change in centered log-probabilities defines ut, a signed proxy for the visual evidence direction that estimates how revealing the evidence supports or refutes candidate tokens. VAD projects the original correction onto this proxy to obtain an intervention-aligned component and a proxy-unexplained residual, then reconstructs a student-anchored target from the former. During training, this reconstructed target supplies the primary supervision signal, while the privileged teacher contributes a weak regularizer. Across six fine-grained visual benchmarks at 4B and 9B scales, VAD outperforms direct privileged-view distillation and visual-advantage weighting. Token- level and controlled-target analyses show that the proxy-aligned component is enriched in task-relevant visual corrections and yields stronger target shifts, especially when evidence refutes a mistaken answer. These results support counterfactual target reconstruction as an effective alternative to source-mixed supervision.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6865ae6383",
+   "kind": "model",
+   "source": "hf",
+   "title": "Tung111/OPOD-Qwen3-Omni-30B-A3B",
+   "url": "https://huggingface.co/Tung111/OPOD-Qwen3-Omni-30B-A3B",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers safetensors qwen3_omni_moe text-to-audio omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni any-to-any en zh arxiv:2607.20918 base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct base_model:finetune:Qwen/Qwen3-Omni-30B-A3B-Instruct license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "1cbe9cdd86",
+   "kind": "model",
+   "source": "hf",
+   "title": "Tung111/OPOD-Qwen2.5-Omni-3B",
+   "url": "https://huggingface.co/Tung111/OPOD-Qwen2.5-Omni-3B",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers safetensors qwen2_5_omni omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen2.5-omni any-to-any en zh arxiv:2607.20918 base_model:Qwen/Qwen2.5-Omni-3B base_model:finetune:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "68425f23e7",
+   "kind": "model",
+   "source": "hf",
+   "title": "Tung111/OPOD-Qwen2.5-Omni-7B",
+   "url": "https://huggingface.co/Tung111/OPOD-Qwen2.5-Omni-7B",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers safetensors qwen2_5_omni omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen2.5-omni any-to-any en zh arxiv:2607.20918 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "10ea6cf694",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Allocation Before Ranking: Decoupled Token Compression for OmniLLMs",
+   "url": "https://arxiv.org/abs/2608.01665v1",
+   "published": "2026-08-03",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 6,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Token compression in OmniLLMs is typically posed as a single saliency-ranking problem: score each multimodal token, keep the top-K. We argue this abstraction is mis-specified. The same attention score simultaneously decides two things: how much retained capacity each modality receives, and which tokens within a modality are kept. A shared top-K rule therefore inherits this audio-favoring allocation prior, spending retained capacity on audio before video tokens have a chance to compete. We propose Macer, a training-free compressor that first assigns explicit audio and video budgets, then performs allocation-normalized ranking within each modality at modality-specific shallow layers. Macer significantly reduces token cost while preserving accuracy across audio-grounded, audio--video joint, visual-dominant, and video-centric benchmarks. At 25 % retention, Macer preserves 98.7 % of full-token performance on Qwen2.5-Omni-7B and 97.3 % on Qwen2.5-Omni-3B. On Qwen2.5-Omni-7B, this 25 % setting reaches OmniZip-level performance at 45 % retention while using lower FLOPs. On OmniVinci-9B, the same allocation-before-ranking principle improves over shared top-K ranking by up to 12.9 points.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f4b7ed5ad0",
+   "kind": "model",
+   "source": "hf",
+   "title": "keylazy/Qwen2.5-Omni-3B-bab-beam-rpt400",
+   "url": "https://huggingface.co/keylazy/Qwen2.5-Omni-3B-bab-beam-rpt400",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "72c6e8ac56",
+   "kind": "model",
+   "source": "hf",
+   "title": "keylazy/Qwen2.5-Omni-3B-bab-beam-sft",
+   "url": "https://huggingface.co/keylazy/Qwen2.5-Omni-3B-bab-beam-sft",
+   "published": "2026-08-04",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "c7f7e6f314",
+   "kind": "paper",
+   "source": "hf",
+   "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
+   "url": "https://huggingface.co/papers/2607.29613",
+   "published": "2026-07-30",
+   "found": "2026-08-04T14:48:25.333183+08:00",
+   "score": 6,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "54e4301e1f",
    "kind": "paper",
@@ -139,7 +410,7 @@
     "text-to-speech"
    ],
    "summary_en": "Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or additional training, while decoding-time control remains underexplored. We present a conditional information view that distinguishes text-derived alignment information from experience information supplied by acoustic context and learned speech regularities. We hypothesize that an important class of hallucinations begins when alignment support is insufficiently reflected in the selected token at a vulnerable transition. Using predictions from the same speech LM with and without text conditions, we propose Experience-Calibrated Contrastive Decoding (ECCD), a training-free method that strengthens alignment support while preserving useful experience information. ECCD preserves the original expert distribution, applies only positive alignment enhancement, and calibrates its strength using set-level experience compatibility. Across four models, ECCD reduces WER/CER by up to 55.6% in all SeedTTS-Eval settings and 24 of 25 multilingual CV3-Eval settings. A listening test yields a CMOS gain of $+0.644$ while retaining strong speaker similarity. Further analysis shows that alignment influence and decision-level gain vary within linguistic units and are lower at first-error boundaries than at matched correct boundaries. Overall, these extensive experiments and analyses identify conditional information control as a promising decoding-time direction for mitigating speech hallucination.",
-  "summary_zh": "ECCD 是一种无需再训练的语音 LM 解码方法，通过对比同一模型有、无文本条件的预测，只增强正向文本对齐证据，以减少 TTS 的错读、漏读和重复。它适合评估为 StreamingModelHarness 外挂 TTS 的解码插件，但论文未报告双分支带来的首包时延、RTF、吞吐或显存成本。",
+   "summary_zh": "ECCD 是一种无需再训练的语音 LM 解码方法，通过对比同一模型有、无文本条件的预测，只增强正向文本对齐证据，以减少 TTS 的错读、漏读和重复。它适合评估为 StreamingModelHarness 外挂 TTS 的解码插件，但论文未报告双分支带来的首包时延、RTF、吞吐或显存成本。",
    "demo": "",
    "stars": null
   },
@@ -188,7 +459,7 @@
     "multimodal"
    ],
    "summary_en": "Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges for streaming video understanding. However, current agents mostly suffer from fragmented capabilities, such as supporting only offline video understanding, lacking long-term multimodal memory mechanisms, or struggling to achieve real-time reasoning and proactive interaction under streaming input. These shortcomings have become a key bottleneck for preventing agents from sustaining perception, making real-time decisions, and executing closed-loop actions in complex real-world environments, constraining their deployment and potential in dynamic, open physical worlds. To alleviate these issues, we propose StreamingClaw, a unified agent framework for streaming video understanding and embodied intelligence. Beyond maintaining full compatibility with the OpenClaw framework, it natively supports real-time, multimodal streaming interactions. StreamingClaw integrates five core capabilities: (1) It supports real-time streaming reasoning. (2) It supports reasoning about future events and proactive interaction under the online evolution of interaction objectives. (3) It supports multimodal long-term memory storage, hierarchical memory evolution, efficient memory retrieval, and memory sharing across multiple agents. (4) It supports a closed loop of perception-decision-action. In addition to conventional tools and skills, it also provides streaming tools and action-centric skills tailored for real-world physical environments. (5) It is compatible with the OpenClaw framework, allowing it to leverage the resources and support of the open-source community.",
-  "summary_zh": "StreamingClaw 是面向连续视频的 Agent 框架，用增量 KV、动态滑窗、外部层次记忆、主动事件 Agent 和工具/技能构成感知—决策—动作闭环。其接口设计可启发座舱持续视觉与事件记忆，但正文没有准确率、时延、吞吐或 KV 保留率，且不能把当前判停后生成、外挂 TTS 的 StreamingModelHarness 视为原生全双工。",
+   "summary_zh": "StreamingClaw 是面向连续视频的 Agent 框架，用增量 KV、动态滑窗、外部层次记忆、主动事件 Agent 和工具/技能构成感知—决策—动作闭环。其接口设计可启发座舱持续视觉与事件记忆，但正文没有准确率、时延、吞吐或 KV 保留率，且不能把当前判停后生成、外挂 TTS 的 StreamingModelHarness 视为原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -555,7 +826,7 @@
     "computer use"
    ],
    "summary_en": "GUI agents have the potential to become a general purpose executor over existing digital devices. To advance them toward real-world use, we envision agents that operate reliably on real devices, execute workflows across platforms, combine GUI interaction with CLI execution, complete long-horizon tasks, proactively initiate useful services, and autonomously improve their capabilities with minimal human effort. Guided by this vision, we present Qwen-UI-Agent, a real-world centric foundation GUI agent spanning mobile, computer-use, web, and DeepSearch environments. Qwen-UI-Agent combines diverse sandbox environments with a large-scale real-device mobile runtime. Its unified action space interleaves GUI operations with CLI execution and generates batched actions in a single model turn. An AutoResearch-style data flywheel uses agents to construct tasks and environments, diagnose failures, and plan subsequent iterations. Online RL supports training on trajectories exceeding 100 turns, with over 10,000 concurrent environments accelerating rollout. A lightweight harness layer supports proactive service initiation and stateful workflows across mobile and computer. Across a broad suite of evaluations, Qwen-UI-Agent sets state-of-the-art performance on mobile-use benchmarks while delivering competitive performance on computer- and browser-use tasks against frontier models, including Opus 4.8, Gemini 3.1 Pro, and GPT-5.6 Sol. On mobile use, it achieves 82.1% on MobileWorld, 92.2% on MobileWorld-Real, and 97.5% on AndroidDaily. On computer use, it achieves 79.5% on OSWorld-Verified and a 40.0% partial-progress score on OSWorld-v2. On browser use and GUI grounding, it achieves 73.6% on WebArena and 81.5% on ScreenSpot-Pro, respectively.",
-  "summary_zh": "Qwen-UI-Agent 把 GUI、CLI、API、用户确认和终止统一成可批处理 Action，并以持久 Harness 支持真实设备、跨平台长流程和主动服务。对 StreamingModelHarness 最直接的启发是把晚注入工具升级为 typed Action batch，加上权限、幂等、高风险确认和执行后验证；论文没有语音流或座舱全双工证据。",
+   "summary_zh": "Qwen-UI-Agent 把 GUI、CLI、API、用户确认和终止统一成可批处理 Action，并以持久 Harness 支持真实设备、跨平台长流程和主动服务。对 StreamingModelHarness 最直接的启发是把晚注入工具升级为 typed Action batch，加上权限、幂等、高风险确认和执行后验证；论文没有语音流或座舱全双工证据。",
    "demo": "",
    "stars": null
   },
@@ -677,7 +948,7 @@
     "voice assistant"
    ],
    "summary_en": "Paralinguistic cues are essential for natural human-computer interaction, yet their evaluation in Large Audio-Language Models (LALMs) remains limited by coarse feature coverage and the inherent subjectivity of assessment. To address these challenges, we introduce SpeechParaling-Bench, a comprehensive benchmark for paralinguistic-aware speech generation. It expands existing coverage from fewer than 50 to over 100 fine-grained features, supported by more than 1,000 English-Chinese parallel speech queries, and is organized into three progressively challenging tasks: fine-grained control, intra-utterance variation, and context-aware adaptation. To enable reliable evaluation, we further develop a pairwise comparison pipeline, in which candidate responses are evaluated against a fixed baseline by an LALM-based judge. By framing evaluation as relative preference rather than absolute scoring, this approach mitigates subjectivity and yields more stable and scalable assessments without costly human annotation. Extensive experiments reveal substantial limitations in current LALMs. Even leading proprietary models struggle with comprehensive static control and dynamic modulation of paralinguistic features, while failure to correctly interpret paralinguistic cues accounts for 43.3% of errors in situational dialogue. These findings underscore the need for more robust paralinguistic modeling toward human-aligned voice assistants.",
-  "summary_zh": "SpeechParaling-Bench 用 1,001 组中英平行语音查询评测百余种副语言特征，覆盖显式控制、句内动态变化和情境适配，并以音频裁判做成对比较。它适合补充 StreamingModelHarness 外挂 TTS 的表达层回归，但不评输入流式、判停、打断或首包时延，不能替代全双工交互测试。",
+   "summary_zh": "SpeechParaling-Bench 用 1,001 组中英平行语音查询评测百余种副语言特征，覆盖显式控制、句内动态变化和情境适配，并以音频裁判做成对比较。它适合补充 StreamingModelHarness 外挂 TTS 的表达层回归，但不评输入流式、判停、打断或首包时延，不能替代全双工交互测试。",
    "demo": "",
    "stars": null
   },
@@ -764,7 +1035,7 @@
     "speech llm"
    ],
    "summary_en": "Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and background noise. Each utterance may be directed to the assistant, addressed to another speaker, or completely irrelevant. In such settings, the assistant must decide not only what to say, but also whether to speak at all. In this paper, we introduce Cocktail-Talker, a speech LLM framework for multi-speaker spoken dialog modeling in noisy social environments. We model the assistant's behavior with three action tokens: <|respond|>, <|listen|>, and <|ignore|>, placed before a response or silence. Cocktail-Talker is trained via supervised finetuning and reinforcement learning to generate the appropriate action token and, only in <|respond|> mode, a speech response. To prepare the training data, we develop Cocktail-DialogGen, an LLM-based data pipeline that simulates realistic multi-speaker dialogs with speaker roles across diverse social settings. Together, these components take a step toward spoken dialog systems that interact more naturally and selectively in complex social environments.",
-  "summary_zh": "Cocktail-Talker 在多人噪声对话的固定话轮末输出 RESPOND、LISTEN 或 IGNORE，先判断是否该回答，再仅在 RESPOND 时生成文本和语音。它可作为 StreamingModelHarness 判停后的受话对象门，并让只有 RESPOND 进入晚注入工具和外挂 TTS；作者明确说明系统不是流式判停器。",
+   "summary_zh": "Cocktail-Talker 在多人噪声对话的固定话轮末输出 RESPOND、LISTEN 或 IGNORE，先判断是否该回答，再仅在 RESPOND 时生成文本和语音。它可作为 StreamingModelHarness 判停后的受话对象门，并让只有 RESPOND 进入晚注入工具和外挂 TTS；作者明确说明系统不是流式判停器。",
    "demo": "",
    "stars": null
   },
@@ -807,7 +1078,7 @@
    "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
    "summary_zh": "",
    "demo": "",
-   "stars": 91
+   "stars": 94
   },
   {
    "id": "64bb628be2",
@@ -1475,7 +1746,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15031
+   "stars": 15037
   },
   {
    "id": "357904a773",
@@ -3082,7 +3353,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5818
+   "stars": 5828
   },
   {
    "id": "293306d628",
@@ -3100,7 +3371,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 718
+   "stars": 721
   },
   {
    "id": "5d6e6e2b0a",
