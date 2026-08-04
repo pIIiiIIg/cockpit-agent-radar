@@ -129,6 +129,17 @@ class ExplanationTests(unittest.TestCase):
         self.assertIn("本日扫描已完成", rendered)
         self.assertIn("Scan completed", rendered)
 
+    def test_report_markdown_is_escaped_and_structured(self):
+        rendered = build_site.markdown_to_html(
+            "# 标题\n\n- **重点** `code`\n\n"
+            "| 指标 | 值 |\n|---|---|\n| recall | 99% |\n\n"
+            "<script>alert(1)</script>")
+        self.assertIn("<h1>标题</h1>", rendered)
+        self.assertIn("<strong>重点</strong>", rendered)
+        self.assertIn("<table>", rendered)
+        self.assertNotIn("<script>", rendered)
+        self.assertIn("&lt;script&gt;", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()

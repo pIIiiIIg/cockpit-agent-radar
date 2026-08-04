@@ -2999,27 +2999,40 @@
   "review_status": "abstract_backfill"
  },
  "c8d10ef1c8": {
-  "tl_dr": "GUI agents have the potential to become a general purpose executor over existing digital devices. To advance them toward real-world use, we envision agents that operate reliably on real devices, execute workflows across platforms, combine G",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "GUI agents have the potential to become a general purpose executor over existing digital devices. To advance them toward real-world use, we envision agents that operate reliably on real devices, execute workflows across platforms, combine GUI interaction with CLI execution, complete long-horizon tasks, proactively initiate useful services, and autonomously improve their capabilities with minimal human effort. Guided by this vision, we present Qwen-UI-Agent, a real-world centric foundation GUI agent spanning mobile, computer-use, web, and DeepSearch environments. Qwen-UI-Agent combines diverse sandbox environments with a large-scale real-device mobile runtime. Its unified action space interleaves GUI operations with CLI execution and generates batched actions in a single model turn. An AutoResearch-style data flywheel uses agents to construct tasks and environments, diagnose failures, and plan subsequent iterations. Online RL supports training on trajectories exceeding 100 turns, with over 10,000 concurrent environments accelerating rollout. A lightweight harness layer supports proactive service initiation and stateful workflows across mobile and computer. Across a broad suite of evaluations, Qwen-UI-Agent sets state-of-the-art performance on mobile-use benchmarks while delivering competitive performance on computer- and browser-use tasks against frontier models, including Opus 4.8, Gemini 3.1 Pro, and GPT-5.6 Sol. On mobile use, it achieves 82.1% on MobileWorld, 92.2% on MobileWorld-Real, and 97.5% on AndroidDaily. On computer use, it achieves 79.5% on OSWorld-Verified and a 40.0% partial-progress score on OSWorld-v2. On browser use and GUI grounding, it achieves 73.6% on WebArena and 81.5% on ScreenSpot-Pro, respectively.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Qwen-UI-Agent 把 GUI、CLI、API、用户确认和终止统一成可批处理的 Action 空间，并用持久 Harness 跨设备编排长流程。",
+  "problem": "GUI Agent 从沙箱走向真实设备时，会遇到跨应用状态、权限确认、长流程遗忘和执行后未验证等问题；只会逐步点击的模型难以可靠完成真实工作流。",
+  "method": "系统统一接收 GUI 截图、CLI 输出和 API 结构化响应，并在同一轨迹中选择 GUI 操作、cli_command、api_call、ask_user 或 terminate；一次决策可以发出有序 Action 批。训练侧结合超过 100 步的在线强化学习、约 10,000 个并发沙箱和自动数据飞轮；部署侧由 Harness 保存事项、会话、工作区、工具注册表及跨设备产物。",
+  "workflow": [
+   "从当前设备状态、通知、历史事项和用户上下文构造任务状态。",
+   "模型生成单个 Action 或无需新观察即可连续执行的 Action 批。",
+   "支付、敏感数据、权限和其他高风险步骤通过 ask_user 请求确认或接管。",
+   "执行结果回写轨迹，terminate 前可再次观察并验证最终状态。"
+  ],
+  "findings": [
+   "27B 模型在 MobileWorld、MobileWorld-Real 和 AndroidDaily 上的成功率分别为 82.1%、92.2% 和 97.5%。",
+   "OSWorld-Verified 得分为 79.5%；OSWorld-v2 的部分进度和二元完成率分别为 40.0% 和 13.9%。",
+   "Action RL 使总体成功率提高超过 7%，推理 token 减少 21.3%，交互步数增加 8.4%；在线 RL 后含验证动作的轨迹比例提高 14.7%，false-stop 率下降 11.2%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可在 StreamingModelHarness 判停并完成文本生成后，把晚注入工具清单约束成 typed Action batch，再串接 schema、权限、前置条件、幂等和高风险确认门。",
+   "编辑判断：模型发出 Action 不等于车控可直接执行；应保留确定性 Policy Gate，并在口播前后把工具结果和最终车态回写、验证。",
+   "编辑判断：这套工作研究的是数字界面执行，不应据此把当前外挂 TTS、判停后生成的 Harness 描述成原生全双工模型。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "MobileWorld-Real 依赖五个 VLM 投票的 AutoJudge；其与专家标注的 exact-match accuracy 为 92.8%，且环境错误被排除在成功率分母外。",
+   "主动服务和跨平台 Harness 主要以案例展示，正文没有给出对应的成功率、端到端时延或用户研究。",
+   "论文没有语音流、判停、打断、车内噪声或实时座舱评测。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Tongyi-MAI/MAI-UI",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方发布仓库、论文和项目页已公开，仓库声明 Apache-2.0；但 Qwen-UI-Agent 专用运行代码、Harness、评测集和模型 checkpoint 仍标为 coming soon，不能按完整开源发布处理。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T15:01:28.340820+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T11:34:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "ceea0ea38b": {
   "tl_dr": "State-of-the-art spoken dialogue models (Défossez et al. 2024; Schalkwyk et al. 2025) use neural audio codecs to \"tokenize\" audio signals into a lower-frequency stream of vectorial latent representations, each quantized using a hierarchy of",
@@ -3068,27 +3081,40 @@
   "review_status": "abstract_backfill"
  },
  "8c2e128113": {
-  "tl_dr": "Paralinguistic cues are essential for natural human-computer interaction, yet their evaluation in Large Audio-Language Models (LALMs) remains limited by coarse feature coverage and the inherent subjectivity of assessment. To address these c",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Paralinguistic cues are essential for natural human-computer interaction, yet their evaluation in Large Audio-Language Models (LALMs) remains limited by coarse feature coverage and the inherent subjectivity of assessment. To address these challenges, we introduce SpeechParaling-Bench, a comprehensive benchmark for paralinguistic-aware speech generation. It expands existing coverage from fewer than 50 to over 100 fine-grained features, supported by more than 1,000 English-Chinese parallel speech queries, and is organized into three progressively challenging tasks: fine-grained control, intra-utterance variation, and context-aware adaptation. To enable reliable evaluation, we further develop a pairwise comparison pipeline, in which candidate responses are evaluated against a fixed baseline by an LALM-based judge. By framing evaluation as relative preference rather than absolute scoring, this approach mitigates subjectivity and yields more stable and scalable assessments without costly human annotation. Extensive experiments reveal substantial limitations in current LALMs. Even leading proprietary models struggle with comprehensive static control and dynamic modulation of paralinguistic features, while failure to correctly interpret paralinguistic cues accounts for 43.3% of errors in situational dialogue. These findings underscore the need for more robust paralinguistic modeling toward human-aligned voice assistants.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SpeechParaling-Bench 用 1,001 组中英平行语音查询评测音色、情绪、韵律、句内变化和情境适配，专门检查语音输出“怎么说”是否合适。",
+  "problem": "现有语音生成评测通常只覆盖少量情绪、性别或年龄标签，且绝对打分主观性强，难以系统比较细粒度控制、句内动态变化和对用户副语言线索的适配。",
+  "method": "基准覆盖 13 个维度和百余种副语言特征，分为显式副语言控制、单句内动态变化和情境适配三类任务。每个候选输出与固定基线成对比较，由 Gemini 3 Pro 音频裁判结合查询文本、目标维度和时间戳证据给出 0–3 分及胜负；中文和英文基线分别为 Doubao Realtime Voice 与 Gemini Audio。",
+  "workflow": [
+   "Gemini 2.5 Flash 生成覆盖校园、职场、日常、家庭和娱乐的文本指令。",
+   "IndexTTS 将指令合成为带副语言条件的中英语音查询，并经人工质检。",
+   "待测模型直接听查询并生成语音回答。",
+   "音频裁判把候选与固定基线成对比较，再归一化为榜单分数。"
+  ],
+  "findings": [
+   "中文总分最高的是 Doubao Realtime Voice 70.84，英文最高的是 Gemini Audio 64.97。",
+   "所有模型的 Dynamic Variation 平均分为 56.51/100，低于 Paralanguage Control 的 66.01 和 Situational Adaptation 的 68.64。",
+   "人工复核覆盖 5%、共 416 对响应；自动裁判与人工偏好的 Spearman 相关在中文和英文分别为 0.90 和 1.00。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：适合改造成 StreamingModelHarness 外挂 TTS 的表达层回归集，优先覆盖儿童安抚、驾驶告警、导航、耳语和高噪声补偿。",
+   "编辑判断：还必须另测文本正确率、首音频 P50/P95、可打断性和残留音频；该榜单不评输入流式、语义判停或晚注入工具。",
+   "编辑判断：不能用副语言总分替代全双工交互基准，当前 Harness 仍是判停后生成再交给外挂 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "正文 Table 1 和附录称 104 个特征，Table 2 写 101 个，论文内部数字不一致。",
+   "查询主要由模型生成文本并用 TTS 合成，虽经人工检查，仍不等同于自然用户语音分布。",
+   "主结果依赖单一 LALM 裁判、固定基线和默认 API 参数；没有流式首包、判停、打断或实时稳定性指标。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/Northern-byte-bit/SpeechParaling-Bench",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "评测代码和 Hugging Face 数据集 https://huggingface.co/datasets/Ruohan2/SpeechParaling-Bench 已公开，仓库和数据卡均标 Apache-2.0；该工作是 benchmark，没有独立模型权重。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T15:01:28.340855+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T11:34:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "46fcb251fd": {
   "tl_dr": "The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reduc",
@@ -3183,27 +3209,40 @@
   "review_status": "abstract_backfill"
  },
  "2e8e43eb46": {
-  "tl_dr": "Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate i",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and background noise. Each utterance may be directed to the assistant, addressed to another speaker, or completely irrelevant. In such settings, the assistant must decide not only what to say, but also whether to speak at all. In this paper, we introduce Cocktail-Talker, a speech LLM framework for multi-speaker spoken dialog modeling in noisy social environments. We model the assistant's behavior with three action tokens: <|respond|>, <|listen|>, and <|ignore|>, placed before a response or silence. Cocktail-Talker is trained via supervised finetuning and reinforcement learning to generate the appropriate action token and, only in <|respond|> mode, a speech response. To prepare the training data, we develop Cocktail-DialogGen, an LLM-based data pipeline that simulates realistic multi-speaker dialogs with speaker roles across diverse social settings. Together, these components take a step toward spoken dialog systems that interact more naturally and selectively in complex social environments.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Cocktail-Talker 在多人噪声对话的固定话轮末输出 RESPOND、LISTEN 或 IGNORE，先决定“该不该答”，再在 RESPOND 时生成回答文本。",
+  "problem": "多人环境中的当前语音可能对助手说、对其他人说或完全无关；普通单用户语音助手缺少显式受话对象和相关性决策，容易误答或漏答。",
+  "method": "模型基于 Qwen2.5-Omni-7B，冻结音频编码器和 talker，以 rank 128、α=256 的 LoRA 微调 thinker，并新增三个动作 token。Cocktail-DialogGen 用合成多方对话、Qwen3-TTS 和多档背景噪声构造训练数据；模型先在 580,100 个话轮上 SFT，再用动作正确性和格式完整性奖励做 2,000 步 GRPO。",
+  "workflow": [
+   "输入截至当前固定话轮末的完整混合音频前缀和可选说话人角色元数据。",
+   "thinker 生成 RESPOND、LISTEN 或 IGNORE 动作。",
+   "仅 RESPOND 继续生成文本；另外两种动作保持静默。",
+   "官方示例把回答文本交给独立 Qwen3-TTS 阶段合成语音。"
+  ],
+  "findings": [
+   "在已见和未见环境中，SFT+GRPO 的 Respond/Silent macro-F1 分别为 0.928 和 0.930，准确率分别为 0.931 和 0.933。",
+   "训练集含 14,400 个独立对话，经五种噪声条件形成 72,000 个混合音频，约 1,280 小时。",
+   "GRPO 主要改善该回答时确实回答的惩罚分；只统计模型已经回答的样本时，回答内容条件分基本持平或略降。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：它更适合作为 StreamingModelHarness 判停后的“是否对助手说”动作门，不能替代现有流式 VAD/语义判停；只有 RESPOND 才进入 ASR、晚注入工具和回答生成。",
+   "编辑判断：当前 Harness 的判停后生成和外挂 TTS 与官方两阶段示例在接口上接近，但这不等于模型具备原生边听边说或打断能力。",
+   "编辑判断：应先用驾驶员、副驾、后排、助手回声和广播声的真实回放测误响应、漏响应及动作首包时延。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "作者明确说明当前系统不是流式系统，并假设固定话轮边界。",
+   "训练和测试来自模拟对话及合成/混合音频，没有真实座舱、空间座位、视线或唇动证据。",
+   "其他基线不区分 LISTEN 与 IGNORE，因此横向主表只支持 Respond/Silent 二分类比较。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/xi-j/Cocktail-Talker",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库公开推理脚本、数据生成管线和处理器配置；README 声称发布 LoRA adapter，但公开目录中未能核实适配器文件，完整训练数据、独立模型页及代码/权重许可证均为 unknown。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T15:01:28.340907+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T11:34:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "badca19708": {
   "tl_dr": "Despite the impressive visuomotor capabilities enabled by Vision-Language-Action (VLA) models, their performance often degrades on challenging and out-of-domain tasks. Recent test-time steering and scaling methods improve performance withou",
@@ -3390,27 +3429,40 @@
   "review_status": "abstract_backfill"
  },
  "4045088edf": {
-  "tl_dr": "Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or additional training, while decoding-time control",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or additional training, while decoding-time control remains underexplored. We present a conditional information view that distinguishes text-derived alignment information from experience information supplied by acoustic context and learned speech regularities. We hypothesize that an important class of hallucinations begins when alignment support is insufficiently reflected in the selected token at a vulnerable transition. Using predictions from the same speech LM with and without text conditions, we propose Experience-Calibrated Contrastive Decoding (ECCD), a training-free method that strengthens alignment support while preserving useful experience information. ECCD preserves the original expert distribution, applies only positive alignment enhancement, and calibrates its strength using set-level experience compatibility. Across four models, ECCD reduces WER/CER by up to 55.6% in all SeedTTS-Eval settings and 24 of 25 multilingual CV3-Eval settings. A listening test yields a CMOS gain of $+0.644$ while retaining strong speaker similarity. Further analysis shows that alignment influence and decision-level gain vary within linguistic units and are lower at first-error boundaries than at matched correct boundaries. Overall, these extensive experiments and analyses identify conditional information control as a promising decoding-time direction for mitigating speech hallucination.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ECCD 在同一语音 LM 每步对比有、无文本条件的预测，只增强文本对齐支持为正的可信候选，无需再训练即可减少 TTS 错读、漏读和重复。",
+  "problem": "自回归语音 LM 会在文本到声学 token 的脆弱转换点偏离目标文本；常规降温或对比解码可能压缩语音时序、损害说话人相似度，且现有修复多依赖重训。",
+  "method": "每个声学 token 解码步运行共享参数和同一已生成历史的两个分支：expert 保留声学提示、历史和文本条件，amateur 移除文本条件。ECCD 只在 expert 的 top-k 可信集合中增强 expert 相对 amateur 概率上升的 token，并用 amateur 在该集合中的概率质量校准增强强度；默认 α=1、k=25。",
+  "workflow": [
+   "expert 在完整条件下给出下一声学 token 分布。",
+   "amateur 在相同声学上下文和已生成历史下移除文本条件再预测。",
+   "保留 expert 的可信候选，只对正向文本对齐增益做经验校准后的增强。",
+   "经模型原生过滤和惩罚规则采样，并把已选 token 同步写入两个分支历史。"
+  ],
+  "findings": [
+   "SeedTTS-Eval 的四个基础模型、三个子集共 12 个组合全部降低 WER/CER；CosyVoice2 的 test-zh、test-en、test-hard 分别由 1.34→0.95、2.98→2.08、8.10→6.91。",
+   "CV3-Eval 的 25 个模型/语言组合中有 24 个改善；唯一例外是 CosyVoice2 日语由 9.46% 升到 9.71%。",
+   "CosyVoice2 test-hard 的 25 位母语听者实验中，ECCD 相对原生解码的 CMOS 为 +0.644±0.091。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：StreamingModelHarness 当前在判停和文本生成后调用外挂 TTS，ECCD 只能作为可暴露 logits 的本地语音 LM 解码插件，不改变输入流式、判停或晚注入工具。",
+   "编辑判断：应在 CosyVoice2/3 候选上同时 A/B CER、重复/漏词率、首音频 P50/P95、RTF、显存和被打断后的残留音频。",
+   "编辑判断：若双分支成本使首包不可接受，可研究按置信度稀疏触发，但该优化不是论文结论。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "正文没有报告双分支解码的首包时延、RTF、吞吐或显存开销。",
+   "主观实验只覆盖 CosyVoice2 的 test-hard；跨语言结果仍有一个日语组合退化。",
+   "α=4 时 CER 和说话人相似度均退化；论文的错误边界分析依赖 ASR 时间戳近似，不能建立因果关系。"
   ],
   "open_source": {
    "status": "unknown",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文未给官方代码、项目页或独立模型权重；ECCD 本身无需训练，但实现和许可证截至 2026-08-04 均为 unknown。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651574+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T11:34:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "af4dae27c7": {
   "tl_dr": "Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems li",
@@ -3436,27 +3488,38 @@
   "review_status": "abstract_backfill"
  },
  "1d9deafed8": {
-  "tl_dr": "Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges for streaming video understanding. Howeve",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges for streaming video understanding. However, current agents mostly suffer from fragmented capabilities, such as supporting only offline video understanding, lacking long-term multimodal memory mechanisms, or struggling to achieve real-time reasoning and proactive interaction under streaming input. These shortcomings have become a key bottleneck for preventing agents from sustaining perception, making real-time decisions, and executing closed-loop actions in complex real-world environments, constraining their deployment and potential in dynamic, open physical worlds. To alleviate these issues, we propose StreamingClaw, a unified agent framework for streaming video understanding and embodied intelligence. Beyond maintaining full compatibility with the OpenClaw framework, it natively supports real-time, multimodal streaming interactions. StreamingClaw integrates five core capabilities: (1) It supports real-time streaming reasoning. (2) It supports reasoning about future events and proactive interaction under the online evolution of interaction objectives. (3) It supports multimodal long-term memory storage, hierarchical memory evolution, efficient memory retrieval, and memory sharing across multiple agents. (4) It supports a closed loop of perception-decision-action. In addition to conventional tools and skills, it also provides streaming tools and action-centric skills tailored for real-world physical environments. (5) It is compatible with the OpenClaw framework, allowing it to leverage the resources and support of the open-source community.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "StreamingClaw 用短窗增量 KV、外部层次记忆、主动事件 Agent 和工具/技能闭环，把连续视频流组织成感知—决策—动作框架。",
+  "problem": "离线视频 Agent 无法持续接收不断到达的画面；把全部历史留在上下文又会导致 KV 和计算持续增长，同时难以兼顾长时记忆、主动提醒和物理动作执行。",
+  "method": "主 Agent StreamingReasoning 对新视频块增量编码，复用 KV cache，以动态滑窗限制上下文并按注意力贡献裁剪 token；它可直接推理，也可调度 StreamingMemory 检索分层事件记忆或让 StreamingProactivity 监测并触发事件。工具和技能执行结果再回写 Agent 上下文，形成闭环。",
+  "workflow": [
+   "多端视频及查询被标准化，并带绝对时间戳写入共享流式缓存。",
+   "新视频块到达后仅编码增量内容，滑动窗口和 KV 裁剪限制在线上下文。",
+   "主 Agent 按任务选择直接推理、历史记忆检索、主动事件判断或工具/技能调用。",
+   "动作执行结果回写主、子 Agent，记忆片段逐步演化为动作和事件节点。"
+  ],
+  "findings": [
+   "正文是架构技术报告，没有报告数据集、基线、准确率、消融、硬件、帧率、端到端时延、吞吐或 KV 保留率。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可借鉴“短窗 KV + 外部层次记忆 + 主动事件 + skill”四层接口，尤其适合持续视觉输入和驾驶员监测。",
+   "编辑判断：StreamingModelHarness 当前语音侧仍是流式收音、判停后生成、晚注入工具和外挂 TTS；StreamingClaw 的视觉 Agent 框架不能证明它已获得原生音频全双工能力。",
+   "编辑判断：采用前需在真实座舱视频上测帧吞吐、事件误报/漏报、KV 增长、记忆检索和工具闭环成功率。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文只描述设计，没有定量证据支持其 real-time、low-latency 或稳定吞吐主张。",
+   "作者说明当前主要处理视觉和文本；音频输入、精细音视频对齐及端到端联合生成仍不充分。",
+   "裁剪阈值、窗口大小、冗余判定和长期运行资源上界均未给出可复现配置。"
   ],
   "open_source": {
    "status": "unknown",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方项目页和 Li Auto Hugging Face collection 仅提供论文与演示信息；未找到 StreamingClaw 自身代码、模型权重或许可证，开放状态为 unknown。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T09:31:39.651618+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T11:34:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "893ae9f4fa": {
   "tl_dr": "Domestic voice assistants and smart-home devices are increasingly embedded in everyday routines, yet their ethics are often treated as an afterthought or delegated to compliance teams. To explore how expectations about smart-home AI are con",

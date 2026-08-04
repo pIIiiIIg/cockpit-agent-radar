@@ -11,6 +11,7 @@ CSS 按 <html data-lang> 只显示一种；切换按钮改属性并存 localStor
 import html
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 
@@ -97,6 +98,18 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
 footer { margin-top:40px; color:var(--dim); font-size:12.5px;
          border-top:1px solid var(--line); padding-top:12px; }
 """
@@ -150,6 +163,7 @@ SHELL = """<!DOCTYPE html>
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="__BASE__/feed.xml">RSS</a>
+    <a class="btn" href="__BASE__/reports/">__REPORTS_LABEL__</a>
     <a class="btn" href="__BASE__/archive.html">__ARCHIVE_LABEL__</a>
   </span>
 </header>
@@ -171,6 +185,7 @@ def shell(title, body, page=""):
             .replace("__BASE__", BASE)
             .replace("__STYLE__", STYLE).replace("__JS__", JS)
             .replace("__SUB__", sub).replace("__FOOTER__", foot)
+            .replace("__REPORTS_LABEL__", pair("日报", "Reports"))
             .replace("__ARCHIVE_LABEL__", pair("存档", "Archive"))
             .replace("__BODY__", body))
 
@@ -383,6 +398,141 @@ document.getElementById("dp").onchange = function () {{
 </script>"""
 
 
+def md_inline(text):
+    """Render a deliberately small, escaped Markdown inline subset."""
+    value = esc(text)
+    value = re.sub(r"`([^`]+)`", r"<code>\1</code>", value)
+    value = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", value)
+    value = re.sub(
+        r"\[([^\]]+)\]\((https?://[^)\s]+)\)",
+        r'<a href="\2" rel="noopener noreferrer">\1</a>',
+        value)
+    return value
+
+
+def markdown_to_html(text):
+    """Zero-dependency report renderer; raw HTML is always escaped."""
+    lines = text.replace("\r\n", "\n").splitlines()
+    out, paragraph, code = [], [], None
+    list_kind = None
+
+    def flush_paragraph():
+        if paragraph:
+            out.append("<p>" + " ".join(md_inline(x.strip()) for x in paragraph) + "</p>")
+            paragraph.clear()
+
+    def close_list():
+        nonlocal list_kind
+        if list_kind:
+            out.append(f"</{list_kind}>")
+            list_kind = None
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if code is not None:
+            if line.strip().startswith("```"):
+                out.append("<pre><code>" + esc("\n".join(code)) + "</code></pre>")
+                code = None
+            else:
+                code.append(line)
+            i += 1
+            continue
+        if line.strip().startswith("```"):
+            flush_paragraph(); close_list(); code = []
+            i += 1; continue
+        if not line.strip():
+            flush_paragraph(); close_list(); i += 1; continue
+
+        heading = re.match(r"^(#{1,4})\s+(.+)$", line)
+        if heading:
+            flush_paragraph(); close_list()
+            level = len(heading.group(1))
+            out.append(f"<h{level}>{md_inline(heading.group(2))}</h{level}>")
+            i += 1; continue
+
+        # GitHub-style pipe tables.
+        if (line.strip().startswith("|") and i + 1 < len(lines)
+                and re.match(r"^\s*\|?(?:\s*:?-{3,}:?\s*\|)+\s*$", lines[i + 1])):
+            flush_paragraph(); close_list()
+            headers = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            out.append("<table><thead><tr>" + "".join(
+                f"<th>{md_inline(cell)}</th>" for cell in headers) + "</tr></thead><tbody>")
+            i += 2
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                cells = [cell.strip() for cell in lines[i].strip().strip("|").split("|")]
+                out.append("<tr>" + "".join(
+                    f"<td>{md_inline(cell)}</td>" for cell in cells) + "</tr>")
+                i += 1
+            out.append("</tbody></table>")
+            continue
+
+        bullet = re.match(r"^\s*[-*]\s+(.+)$", line)
+        numbered = re.match(r"^\s*\d+[.)]\s+(.+)$", line)
+        if bullet or numbered:
+            flush_paragraph()
+            wanted = "ul" if bullet else "ol"
+            if list_kind != wanted:
+                close_list(); out.append(f"<{wanted}>"); list_kind = wanted
+            out.append("<li>" + md_inline((bullet or numbered).group(1)) + "</li>")
+            i += 1; continue
+
+        quote = re.match(r"^\s*>\s?(.*)$", line)
+        if quote:
+            flush_paragraph(); close_list()
+            out.append("<blockquote>" + md_inline(quote.group(1)) + "</blockquote>")
+            i += 1; continue
+
+        paragraph.append(line)
+        i += 1
+
+    flush_paragraph(); close_list()
+    if code is not None:
+        out.append("<pre><code>" + esc("\n".join(code)) + "</code></pre>")
+    return "\n".join(out)
+
+
+def build_reports():
+    source = os.path.join(ROOT, "reports")
+    target = os.path.join(DOCS, "reports")
+    os.makedirs(target, exist_ok=True)
+    rows = []
+    if os.path.isdir(source):
+        for name in os.listdir(source):
+            if not name.endswith(".md"):
+                continue
+            path = os.path.join(source, name)
+            stem = name[:-3]
+            match = re.search(r"(\d{4}-\d{2}-\d{2})$", stem)
+            date = match.group(1) if match else ""
+            kind = "daily" if stem.startswith("每日调研日报") else "detail"
+            title = ("每日调研日报" if kind == "daily" else "全双工语音技术增量调研")
+            text = open(path, encoding="utf-8").read()
+            body = (f'<div class="item-page"><h2>{esc(title)} · {esc(date)}</h2>'
+                    f'<div class="report-body">{markdown_to_html(text)}</div>'
+                    f'<p><a class="btn" href="{BASE}/reports/">'
+                    + pair("← 返回日报", "← reports") + "</a></p></div>")
+            output_name = stem + ".html"
+            open(os.path.join(target, output_name), "w", encoding="utf-8").write(
+                shell(f"{title} · {date}", body))
+            rows.append({"date": date, "kind": kind, "title": title,
+                         "href": f"{BASE}/reports/{output_name}"})
+    rows.sort(key=lambda row: (row["date"], row["kind"]), reverse=True)
+    cards = []
+    for row in rows:
+        label = pair("精简日报", "Daily brief") if row["kind"] == "daily" else pair(
+            "详细调研", "Deep report")
+        cards.append(
+            f'<div class="card"><div class="t"><a href="{row["href"]}">'
+            f'{esc(row["title"])} · {esc(row["date"])}</a></div>'
+            f'<div class="meta"><span class="badge hi">{label}</span></div></div>')
+    body = (f'<h2 class="day">{pair("每日调研", "Research reports")}</h2>'
+            + ("".join(cards) if cards else no_updates()))
+    open(os.path.join(target, "index.html"), "w", encoding="utf-8").write(
+        shell("Reports · cockpit-agent-radar", body))
+    return rows
+
+
 def rss(items):
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<rss version="2.0"><channel>',
@@ -416,6 +566,7 @@ def main():
     os.makedirs(os.path.join(DOCS, "items"), exist_ok=True)
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
+    reports = build_reports()
 
     # 按发现日期分组；首页放最近 6 天，每天另出独立子页 days/<date>.html
     by_day = {}
@@ -447,6 +598,12 @@ def main():
                      + '/demos/full-duplex-primer.html">'
                      + pair("▶ 什么是全双工语音助手？（交互演示）",
                             "▶ What is a full-duplex voice assistant? (interactive)")
+                     + "</a></p>")
+    if reports:
+        latest_date = reports[0]["date"]
+        parts.append('<p><a class="demo-link" href="' + BASE + '/reports/">'
+                     + pair(f"◆ 最新每日调研：{latest_date}",
+                            f"◆ Latest research report: {latest_date}")
                      + "</a></p>")
     parts.append(datebar(all_days[0], all_days))
     for d in days:
@@ -482,7 +639,7 @@ def main():
                     if item.get("kind") == "paper")
     papers = sum(item.get("kind") == "paper" for item in items)
     print(f"site built: {len(items)} items, {len(days)} days on index, "
-          f"paper deep dives {explained}/{papers}")
+          f"paper deep dives {explained}/{papers}, reports {len(reports)}")
 
 
 if __name__ == "__main__":

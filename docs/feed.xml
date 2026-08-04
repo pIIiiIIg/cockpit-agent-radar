@@ -49,7 +49,7 @@
 <title>Experience-Calibrated Contrastive Decoding for Mitigating Hallucinations in LM-Based Text-to-Speech</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/4045088edf.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4045088edf.html</guid>
-<description>Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or additional training, while decoding-time control remains underexplored. We present a conditional information</description>
+<description>ECCD 是一种无需再训练的语音 LM 解码方法，通过对比同一模型有、无文本条件的预测，只增强正向文本对齐证据，以减少 TTS 的错读、漏读和重复。它适合评估为 StreamingModelHarness 外挂 TTS 的解码插件，但论文未报告双分支带来的首包时延、RTF、吞吐或显存成本。</description>
 </item>
 <item>
 <title>Show HN: Real-time avatars that change emotions as you talk</title>
@@ -67,7 +67,7 @@
 <title>StreamingClaw Technical Report</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/1d9deafed8.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1d9deafed8.html</guid>
-<description>Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges for streaming video understanding. However, current agents mostly suffer from fragmented capabilities</description>
+<description>StreamingClaw 是面向连续视频的 Agent 框架，用增量 KV、动态滑窗、外部层次记忆、主动事件 Agent 和工具/技能构成感知—决策—动作闭环。其接口设计可启发座舱持续视觉与事件记忆，但正文没有准确率、时延、吞吐或 KV 保留率，且不能把当前判停后生成、外挂 TTS 的 StreamingModelHarness 视为原生全双工。</description>
 </item>
 <item>
 <title>From Rights to Rites: Expectations Management in Smart-Home AI</title>
@@ -199,7 +199,7 @@
 <title>Qwen-UI-Agent Technical Report: Toward Next-Generation Real-World Centric Foundation GUI Agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c8d10ef1c8.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c8d10ef1c8.html</guid>
-<description>GUI agents have the potential to become a general purpose executor over existing digital devices. To advance them toward real-world use, we envision agents that operate reliably on real devices, execute workflows across platforms, combine GUI interaction with CLI execution, complete long-horizon tas</description>
+<description>Qwen-UI-Agent 把 GUI、CLI、API、用户确认和终止统一成可批处理 Action，并以持久 Harness 支持真实设备、跨平台长流程和主动服务。对 StreamingModelHarness 最直接的启发是把晚注入工具升级为 typed Action batch，加上权限、幂等、高风险确认和执行后验证；论文没有语音流或座舱全双工证据。</description>
 </item>
 <item>
 <title>vokra/qwen2-5-omni-7b</title>
@@ -241,6 +241,6 @@
 <title>SpeechParaling-Bench: A Comprehensive Benchmark for Paralinguistic-Aware Speech Generation</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html</guid>
-<description>Paralinguistic cues are essential for natural human-computer interaction, yet their evaluation in Large Audio-Language Models (LALMs) remains limited by coarse feature coverage and the inherent subjectivity of assessment. To address these challenges, we introduce SpeechParaling-Bench, a comprehensiv</description>
+<description>SpeechParaling-Bench 用 1,001 组中英平行语音查询评测百余种副语言特征，覆盖显式控制、句内动态变化和情境适配，并以音频裁判做成对比较。它适合补充 StreamingModelHarness 外挂 TTS 的表达层回归，但不评输入流式、判停、打断或首包时延，不能替代全双工交互测试。</description>
 </item>
 </channel></rss>

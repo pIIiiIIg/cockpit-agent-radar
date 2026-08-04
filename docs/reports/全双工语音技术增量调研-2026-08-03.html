@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-03</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-03</h2><div class="report-body"><h1>全双工语音技术增量调研 · 2026-08-03</h1>
+<h2>核心判断</h2>
+<p>最近三天最值得进入工程队列的不是又一个通用聊天模型，而是四类基础能力：</p>
+<ol>
+<li><strong>评测</strong>：M3-DuplexBench补多轮、多语言、多领域和固定上下文公平比较。</li>
+<li><strong>流式视觉</strong>：Mage-VL利用codec事件稀疏化持续视频，适合作为视觉事件门。</li>
+<li><strong>音频前端</strong>：faster-enhancer.c提供可落车CPU的常开降噪运行时。</li>
+<li><strong>外部记忆</strong>：Voice Memory、AdaMM、ReflectWorld-MM分别处理ASR规则、结构化分析和实体视频记忆。</li>
+</ol>
+<h2>M3-DuplexBench</h2>
+<p>M3-DuplexBench从连续对话中提取SHIFT、PAUSE、BACKCHANNEL和BARGE_IN事件， 覆盖英语/日语、闲聊/多轮QA，并比较三种历史条件：</p>
+<ul>
+<li>无上下文</li>
+<li>只有用户历史</li>
+<li>用户与系统完整teacher-forced历史</li>
+</ul>
+<p>完整历史通常降低轮替延迟，但对领域和模型的效果并不一致。这说明全双工模型的 “什么时候说”不仅由当前音频决定，也会模仿历史对话节奏。</p>
+<p>对StreamingModelHarness的落点：</p>
+<ul>
+<li>将现有8轮测试扩展为固定完整上下文；</li>
+<li>分别测跟随指令、指代、打断后恢复、KV裁剪和逐轮延迟；</li>
+<li>为Qwen流式KV实现M3 adapter，而不是直接照搬Moshi输入格式。</li>
+</ul>
+<h2>Mage-VL</h2>
+<p>Mage-VL不均匀抽取完整视频帧，而是复用H.264/HEVC等codec的信息：</p>
+<ul>
+<li>I帧保留完整patch；</li>
+<li>P帧只保留运动向量/残差表明真正变化的区域；</li>
+<li>System 1轻量事件闸门决定何时唤醒System 2的Qwen3-4B推理。</li>
+</ul>
+<p>论文报告视觉token减少超过75%，最高获得3.5倍墙钟加速。</p>
+<p>对座舱：</p>
+<pre><code>摄像头持续流
+  → codec动态区域/事件门
+  → 只有乘员手势、视线、上下车、危险事件才写入视觉KV</code></pre>
+<p>这比固定每秒抽帧更适合长期在线助手。</p>
+<h2>faster-enhancer.c</h2>
+<p>这是FastEnhancer-Medium的固定模型专用C/int8运行时：</p>
+<ul>
+<li>48kHz，320样本一帧，6.67ms deadline；</li>
+<li>无look-ahead，固定约14.67ms STFT对齐延迟；</li>
+<li>启动后无堆内存分配；</li>
+<li>Apple M2单核RTF 0.069，Galaxy S23+ RTF 0.096；</li>
+<li>相对fp32仅损失约0.006 PESQ。</li>
+</ul>
+<p>建议链路：</p>
+<pre><code>扬声器参考+麦克风 → AEC/LMPAN → faster-enhancer NS
+→ RMS/FastTurn/SoulX → ASR/Qwen</code></pre>
+<p>它负责噪声增强，不负责消除助手扬声器回声，因此不能替代AEC。</p>
+<h2>Voice Memory</h2>
+<p>Voice Memory不训练新权重，而是维护每个领域的可审计<code>memory.md</code>：</p>
+<ul>
+<li>Listener按记忆判断应纠正ASR还是保留1-best；</li>
+<li>Thinker异步提出有限规则修改；</li>
+<li>只有保留集分数严格改善才接受修改。</li>
+</ul>
+<p>结果：十个领域加权WER从8.36%降到7.52%，ATIS命令域从8.40%降至约3.4%， 同时显著减少过度纠错。</p>
+<p>适合把车控反复错误沉淀为受门控规则：</p>
+<ul>
+<li>副驾屏→副甲品</li>
+<li>吸顶屏/顶屏同义</li>
+<li>车型专有功能名</li>
+<li>座位与部件简称</li>
+</ul>
+<h2>AdaMM与ReflectWorld-MM</h2>
+<p>AdaMM认为相似度检索不适合回答“最近一周出现几次、趋势如何、谁最常做”。 它自动归纳重复属性并物化为表，同时保留topic→episode→event语义图。</p>
+<p>ReflectWorld-MM围绕长期实体而非帧组织视频记忆：</p>
+<ul>
+<li>有界短期感知；</li>
+<li>多尺度情节记忆；</li>
+<li>演化的实体语义记忆；</li>
+<li>程序记忆；</li>
+<li>持久数据库与证据回溯。</li>
+</ul>
+<p>二者可共同解决座舱KV无限增长：</p>
+<pre><code>短期语音/视觉 → 当前KV
+重复偏好/车况 → AdaMM分析表
+乘员/物品/事件 → ReflectWorld实体记忆</code></pre>
+<h2>iFLYTEK-Embodied-Omni</h2>
+<p>该模型把VLM和视频生成作为高层“脑”，把Action Generation Model作为“小脑”， 通过共享注意力协作。其机器人动作空间不能直接用于车控，但分层思想适用：</p>
+<pre><code>Qwen/Omni：理解、规划、未来状态预测
+确定性VAL/Executor：schema、权限、前置条件、幂等、状态提交</code></pre>
+<p>模型报告LIBERO-Plus零样本平均成功率89.6%，RoboTwin 2.0约93%。</p>
+<h2>OmniVideo-100K</h2>
+<p>数据引擎先生成主实体、全局摘要和分段音视频脚本，再从跨段线索生成QA与证据链， 避免声音与画面分开caption后失去对应关系。</p>
+<ul>
+<li>5,214个视频；</li>
+<li>100K音视频QA；</li>
+<li>505条人工核验测试；</li>
+<li>Qwen3-Omni-30B微调后OmniVideo-Test提升约13.86%。</li>
+</ul>
+<p>可用于构建“乘员说话+手势+车外事件+车辆状态”的座舱联合数据。</p>
+<h2>ARDena</h2>
+<p>ARDena用Prompt Construction Engine组合：</p>
+<ul>
+<li>持久用户上下文；</li>
+<li>当前场景约束；</li>
+<li>交互状态；</li>
+<li>当前允许工具。</li>
+</ul>
+<p>适合定义驾驶、驻车、儿童在车、充电、休息等模式。需要强调：prompt控制不是安全 证明，真实车控仍需确定性Policy Gate。</p>
+<h2>H20 A/B结果</h2>
+<p>同批100条语音：</p>
+<table><thead><tr><th>指标</th><th>main(A)</th><th>harness_b(B)</th></tr></thead><tbody>
+<tr><td>车控严格成功</td><td>80.49%</td><td>79.27%</td></tr>
+<tr><td>RAG Recall@24</td><td>98.78%</td><td>不适用</td></tr>
+<tr><td>ASR CER</td><td>6.39%</td><td>无ASR</td></tr>
+<tr><td>日常对话误车控</td><td>0%</td><td>0%</td></tr>
+<tr><td>首文本P50</td><td>758ms</td><td>131ms</td></tr>
+<tr><td>首动作P50</td><td>1,094ms</td><td>700ms</td></tr>
+<tr><td>首音频P50</td><td>2,918ms</td><td>3,491ms</td></tr>
+</tbody></table>
+<p>二者没有全面支配关系，均保留。Harness C建议并行运行音频KV和ASR/RAG： B负责快速判断，A提供高覆盖候选，模型只能从候选中发typed call。</p>
+<h2>优先级</h2>
+<h3>P0</h3>
+<ul>
+<li>A/B失败样本语义复核和参数/最终车态评分；</li>
+<li>本地TTS替换Edge TTS；</li>
+<li>M3多轮评测适配；</li>
+<li>AEC+NS真实车内双讲数据。</li>
+</ul>
+<h3>P1</h3>
+<ul>
+<li>Harness C并行候选约束；</li>
+<li>Voice Memory车控ASR纠错；</li>
+<li>Mage-VL视觉事件门；</li>
+<li>外部实体/分析记忆。</li>
+</ul>
+<h3>P2</h3>
+<ul>
+<li>OmniVideo座舱音视频数据构建；</li>
+<li>iFLYTEK式脑-执行器协作；</li>
+<li>ARDena场景策略。</li>
+</ul></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>

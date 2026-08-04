@@ -69,6 +69,18 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
 footer { margin-top:40px; color:var(--dim); font-size:12.5px;
          border-top:1px solid var(--line); padding-top:12px; }
 </style>
@@ -110,6 +122,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
@@ -121,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-30 · ◈ 5
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and background noise. Each utterance may be directed to the assistant, addressed to another speaker, or completely irrelevant. In such settings, the assistant must decide not only what to say, but also whether to speak at all. In this paper, we introduce Cocktail-Talker, a speech LLM framework for multi-speaker spoken dialog modeling in noisy social environments. We model the assistant&#x27;s behavior with three action tokens: &lt;|respond|&gt;, &lt;|listen|&gt;, and &lt;|ignore|&gt;, placed before a response or silence. Cocktail-Talker is trained via supervised finetuning and reinforcement learning to generate the appropriate action token and, only in &lt;|respond|&gt; mode, a speech response. To prepare the training data, we develop Cocktail-DialogGen, an LLM-based data pipeline that simulates realistic multi-speaker dialogs with speaker roles across diverse social settings. Together, these components take a step toward spoken dialog systems that interact more naturally and selectively in complex social environments. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Cocktail-Talker 在多人噪声对话的固定话轮末输出 RESPOND、LISTEN 或 IGNORE，先判断是否该回答，再仅在 RESPOND 时生成文本和语音。它可作为 StreamingModelHarness 判停后的受话对象门，并让只有 RESPOND 进入晚注入工具和外挂 TTS；作者明确说明系统不是流式判停器。</span>
     <span class="l-en">Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and background noise. Each utterance may be directed to the assistant, addressed to another speaker, or completely irrelevant. In such settings, the assistant must decide not only what to say, but also whether to speak at all. In this paper, we introduce Cocktail-Talker, a speech LLM framework for multi-speaker spoken dialog modeling in noisy social environments. We model the assistant&#x27;s behavior with three action tokens: &lt;|respond|&gt;, &lt;|listen|&gt;, and &lt;|ignore|&gt;, placed before a response or silence. Cocktail-Talker is trained via supervised finetuning and reinforcement learning to generate the appropriate action token and, only in &lt;|respond|&gt; mode, a speech response. To prepare the training data, we develop Cocktail-DialogGen, an LLM-based data pipeline that simulates realistic multi-speaker dialogs with speaker roles across diverse social settings. Together, these components take a step toward spoken dialog systems that interact more naturally and selectively in complex social environments.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate i</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Cocktail-Talker 在多人噪声对话的固定话轮末输出 RESPOND、LISTEN 或 IGNORE，先决定“该不该答”，再在 RESPOND 时生成回答文本。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。</p>
+  <p>多人环境中的当前语音可能对助手说、对其他人说或完全无关；普通单用户语音助手缺少显式受话对象和相关性决策，容易误答或漏答。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and background noise. Each utterance may be directed to the assistant, addressed to another speaker, or completely irrelevant. In such settings, the assistant must decide not only what to say, but also whether to speak at all. In this paper, we introduce Cocktail-Talker, a speech LLM framework for multi-speaker spoken dialog modeling in noisy social environments. We model the assistant&#x27;s behavior with three action tokens: &lt;|respond|&gt;, &lt;|listen|&gt;, and &lt;|ignore|&gt;, placed before a response or silence. Cocktail-Talker is trained via supervised finetuning and reinforcement learning to generate the appropriate action token and, only in &lt;|respond|&gt; mode, a speech response. To prepare the training data, we develop Cocktail-DialogGen, an LLM-based data pipeline that simulates realistic multi-speaker dialogs with speaker roles across diverse social settings. Together, these components take a step toward spoken dialog systems that interact more naturally and selectively in complex social environments.</p>
-
-
+  <p>模型基于 Qwen2.5-Omni-7B，冻结音频编码器和 talker，以 rank 128、α=256 的 LoRA 微调 thinker，并新增三个动作 token。Cocktail-DialogGen 用合成多方对话、Qwen3-TTS 和多档背景噪声构造训练数据；模型先在 580,100 个话轮上 SFT，再用动作正确性和格式完整性奖励做 2,000 步 GRPO。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>输入截至当前固定话轮末的完整混合音频前缀和可选说话人角色元数据。</li><li>thinker 生成 RESPOND、LISTEN 或 IGNORE 动作。</li><li>仅 RESPOND 继续生成文本；另外两种动作保持静默。</li><li>官方示例把回答文本交给独立 Qwen3-TTS 阶段合成语音。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>在已见和未见环境中，SFT+GRPO 的 Respond/Silent macro-F1 分别为 0.928 和 0.930，准确率分别为 0.931 和 0.933。</li><li>训练集含 14,400 个独立对话，经五种噪声条件形成 72,000 个混合音频，约 1,280 小时。</li><li>GRPO 主要改善该回答时确实回答的惩罚分；只统计模型已经回答的样本时，回答内容条件分基本持平或略降。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：它更适合作为 StreamingModelHarness 判停后的“是否对助手说”动作门，不能替代现有流式 VAD/语义判停；只有 RESPOND 才进入 ASR、晚注入工具和回答生成。</li><li>编辑判断：当前 Harness 的判停后生成和外挂 TTS 与官方两阶段示例在接口上接近，但这不等于模型具备原生边听边说或打断能力。</li><li>编辑判断：应先用驾驶员、副驾、后排、助手回声和广播声的真实回放测误响应、漏响应及动作首包时延。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>作者明确说明当前系统不是流式系统，并假设固定话轮边界。</li><li>训练和测试来自模拟对话及合成/混合音频，没有真实座舱、空间座位、视线或唇动证据。</li><li>其他基线不区分 LISTEN 与 IGNORE，因此横向主表只支持 Respond/Silent 二分类比较。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-03 15:01</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 官方仓库公开推理脚本、数据生成管线和处理器配置；README 声称发布 LoRA adapter，但公开目录中未能核实适配器文件，完整训练数据、独立模型页及代码/权重许可证均为 unknown。</p>
+  <p><a class="btn" href="https://github.com/xi-j/Cocktail-Talker" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 11:34</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.27756v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
