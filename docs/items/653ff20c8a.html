@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-06-09 · ◈ 24
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。对做&quot;边说边听&quot;座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。</span>
+    <span class="l-zh">该工作用 GRPO 分别优化原生双流模型的停顿、接话、附和和打断，并加入 LLM 语义奖励避免只追求低延迟而损伤内容。四轴事件定义适合改造成 StreamingModelHarness 的 endpoint、打断取消和 TTS 停声回归，但当前 Harness 并非统一时间轴的模型级全双工。</span>
     <span class="l-en">Full-duplex spoken dialogue models can listen and speak simultaneously, making them a promising architecture for natural conversation. However, current models are trained solely with supervised learning through token-level likelihood maximization, which does not directly optimize interaction-level behaviors, causing interactivity issues such as excessive silence and ill-timed turn-taking. Recent work has applied rein</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">该工作用 GRPO 分别优化原生双音频流模型的停顿、接话、附和和用户打断，并叠加语义奖励，避免只追求低延迟而损伤回答内容。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。</p>
+  <p>逐 token 的监督学习不直接优化何时说、何时沉默和何时让权；现有强化学习又常只处理单一行为，出现时序变快但语义质量下降。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。对做&quot;边说边听&quot;座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。</p>
-
-
+  <p>论文从 Fisher 和 Seamless 双声道语料按 pause、turn、backchannel、interruption 四类事件抽取短片段。每片段由 Moshi 或 PersonaPlex 采样 16 个完成，分别计算沉默违规、负响应延迟、附和位置 F1 和打断延迟；接话与打断再加入 Qwen3-235B-A22B 语义奖励，以 clipped GRPO 和 KL 约束更新并行文本控制流。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>对双声道人类对话执行 VAD，并按四类交互规则抽取片段。</li><li>随机附加最多 30 秒前置上下文，为每片段采样 16 个完成。</li><li>计算轴特定时序奖励，接话与打断再加入语义自然度奖励。</li><li>组内归一化优势，只更新文本控制 token，并以冻结参考模型做 KL 约束。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Table 1 中 Moshi 经 Seamless RL 后，Synthetic Pause TOR 从 0.445 降至 0.307，用户打断延迟从 1.377 秒降至 0.409 秒。</li><li>Table 1 中 PersonaPlex 经 Seamless RL 后，Backchannel TOR 从 0.182 降至 0.073，平滑接话延迟从 0.219 秒降至 0.086 秒。</li><li>Table 2 中 PersonaPlex+RL 的 Correction Turn/Instruct/Task 从 3.803/2.945/3.080 提升至 4.501/3.369/3.620。</li><li>Table 3 中移除 LLM 奖励后，打断语义分从 3.58 降至 3.05，说明纯时序奖励不足以保住内容质量。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>对做&quot;边说边听&quot;座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。</li></ul>
+    <ul><li>编辑判断：四轴事件定义和“时序+语义”组合奖励可直接用于 Harness 的 endpoint、打断取消、首音频和 TTS 停声回归。</li><li>编辑判断：论文模型在统一时间轴同时处理用户与助手音频；当前 Harness 是流式输入、判停后生成、晚注入工具和外挂 TTS，不能称为原生全双工。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>奖励依赖人工规则，且训练目标要求模型具有并行文本控制流。</li><li>没有真人交互评价；动态评测还因 GPT-Realtime 的 VAD 行为限制被测模型音频，不能视为完全无约束双工。</li><li>训练语料会改变安全行为；正文与附录对 LLM 奖励量表还存在 1–3 与 0–2 的不一致。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; Moshika 与 PersonaPlex 的 Seamless RL 权重已公开，另有 https://huggingface.co/kyutai/personaplex-rl-seamless；权重为 CC BY-NC 4.0，未找到本文 GRPO 数据抽取和训练代码，Fisher 版本也未发布。</p>
+  <p><a class="btn" href="https://github.com/kyutai-labs/moshi" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a> <a class="btn" href="https://huggingface.co/kyutai/moshika-rl-seamless" rel="noopener noreferrer"><span class="l-zh">模型</span><span class="l-en">model</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2606.11167v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

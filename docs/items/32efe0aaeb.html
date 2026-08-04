@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-08 · ◈ 23
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">该研究实证评估了 Gemini 系列模型作为&quot;音频裁判&quot;的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化&quot;像不像人&quot;，用 LALM 当 judge 是低成本的回归测试手段。</span>
+    <span class="l-zh">该研究让 Gemini 直接读取完整双声道 WAV 做八维评分，发现口音和清晰度等部分维度可辅助人工，但整体保真度相关性接近零，若干 DSP 缺陷也会漏检。它适合做 StreamingModelHarness 的第四评分者，不验证流式判停、晚注入工具或原生全双工。</span>
     <span class="l-en">We report the empirical reliability of Gemini models as audio judges that score full-duplex agent conversations directly from the raw stereo waveform, tested across three models in the Gemini family: 2.5 Flash, 3.5 Flash, and 3.1 Pro. Our primary evidence base uses Gemini 2.5 Flash as the ground-truth model, validated against three calibrated human raters on 209 stereo sessions, scored on 8 production dimensions: 152</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">该研究实证评估了 Gemini 系列模型作为&quot;音频裁判&quot;的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">论文让 Gemini 直接读取完整双声道 WAV，对全双工代理做八维离线评分；部分维度可作为第四评分者，但天花板效应、低人类一致性和 DSP 盲点要求人工或程序兜底。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。</p>
+  <p>现有音频裁判研究多评孤立 TTS 句子，缺少对完整双声道、重叠和插话会话的多人类验证，也常把排序相关、绝对校准与缺陷敏感度混为一谈。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>该研究实证评估了 Gemini 系列模型作为&quot;音频裁判&quot;的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化&quot;像不像人&quot;，用 LALM 当 judge 是低成本的回归测试手段。</p>
-
-
+  <p>数据含 152 个自然客服会话和 57 个成功渲染的对抗缺陷片段。三名校准评分者按八个 1–5 维度给出 5,016 条评分；Gemini 直接读取代理左声道、用户右声道的原始 WAV。分析同时计算 Spearman 相关、与三人均值相差不超过 1 分的比例、ordinal Krippendorff α 和缺陷检测 recall。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>抽取生产双声道会话，并构造六类 DSP 缺陷。</li><li>三名盲评者独立评分，Gemini 读取同一完整 WAV 返回八维结构化分数。</li><li>分别评估排序、绝对校准、机会校正一致性和缺陷敏感度。</li><li>保持提示不变替换 Gemini 型号，检查跨模型校准漂移。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Table 1 中与三人均值相差不超过 1 分的比例从口音 92.3%、音频清晰度 89.0%，到语速适配 48.8%、整体保真度 43.5%，维度差异很大。</li><li>Table 1 中 audio_clarity 的人类间/LALM-人类 Spearman ρ 为 0.47/0.25，overall_fidelity 为 0.11/−0.01。</li><li>配对 McNemar 复核后，48 个缺陷×维度单元仅 2 个显著：clipping×audio_clarity 与 SNR noise×entity_pronunciation，均为人类 8/8、LALM 0/8。</li><li>Table 3 中 Gemini 2.5 Flash、3.5 Flash、3.1 Pro 的排序 headline 分别为 5/8、4/8、5/8，绝对一致 headline 为 6/8、8/8、5/8。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化&quot;像不像人&quot;，用 LALM 当 judge 是低成本的回归测试手段。</li></ul>
+    <ul><li>编辑判断：应保存用户/助手分声道录音，把音频模型当第四评分者，并用人工校准、绝对一致和受控缺陷共同验证。</li><li>编辑判断：该离线裁判不验证 Harness 的流式输入、endpoint、晚注入工具或外挂 TTS 架构；还需另测首音频、TTS 截断、工具结果回注和打断后取消。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>证据来自单一客服代理和三名评分者，缺陷单元仅 7–8 个且未做多重比较校正。</li><li>自然会话集中于高分区，高绝对一致不代表有强区分力；temperature=1 下也未测同一音频重复评分稳定性。</li><li>生产代理、完整 judge prompt 和 209 个原始 WAV 未公开，当前仓库无法端到端复现论文分数。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 官方仓库公开统计脚本和匿名评分 CSV：脚本 Apache-2.0，CSV/图 CC BY 4.0；完整提示、生产 judge、原始 WAV 与 Gemini 权重未公开，README 的额外用途限制还需发布方澄清。</p>
+  <p><a class="btn" href="https://huggingface.co/datasets/Salesforce/lalm-judge-validation-full-duplex" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.07985v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

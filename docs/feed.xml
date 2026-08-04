@@ -7,7 +7,7 @@
 <title>JoyAI-Talker: Full-Duplex Speech Interactive Large Model Built for Empathetic Voice Agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/6926d5f3f7.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6926d5f3f7.html</guid>
-<description>We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture and further implements a unified speech-text joint training</description>
+<description>JoyAI-Talker 由外置 160ms 语义门控、MoE Thinker 和可控 Talker 组成，在用户打断时响应率为 0.88，并能按说话人属性与情绪控制内容和副语言表达。其多状态判停可启发 StreamingModelHarness，但当前 Harness 仍是判停后生成、晚注入工具和外挂 TTS，不能称为原生模型级全双工。</description>
 </item>
 <item>
 <title>Hear, Invoke, and Understand: A Skill-Calling Multimodal Agent for Large Audio Language Models</title>

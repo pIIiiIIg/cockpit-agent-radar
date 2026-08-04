@@ -265,165 +265,256 @@
   "review_status": "editorial"
  },
  "b58c7fb4b6": {
-  "tl_dr": "该论文指出全双工模型在追求低延迟、回话(backchannel)、barge-in 等交互动态时往往牺牲推理与指令遵循能力，并通过强化学习将对话动态与智能能力解耦。",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "该论文指出全双工模型在追求低延迟、回话(backchannel)、barge-in 等交互动态时往往牺牲推理与指令遵循能力，并通过强化学习将对话动态与智能能力解耦。对本站项目的警示意义直接：外挂 TTS、晚注入工具清单的座舱助手既要会听会抢话，又不能变\"笨\"，其解耦训练思路可用于平衡交互性与工具调用准确性。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DuplexPO 只在接话、附和和打断附近的小窗口用强化学习优化“何时说”，再以 KL 约束保留 SFT 模型“说什么”的能力。",
+  "problem": "自然对话 SFT 把内容与时序一起模仿，既可能带入不合适的闲聊风格，也可能削弱推理；整段对话奖励又很难归因到具体开口、停声和附和时刻。",
+  "method": "模型以 Qwen2.5-7B-Instruct 为语言骨干，配流式 Parakeet 编码器、语音 codec 和流匹配生成器。训练从 Fisher 与 Seamless 对话截取 dynamics-critical windows，用 FCDR 分别奖励起始时机、附和、打断后让权和参与模式；每窗采样四条轨迹，以 GRPO 式组内优势和 KL 项更新。",
+  "workflow": [
+   "从双声道对话中定位轮次转换、附和和 barge-in 事件。",
+   "围绕事件构造带前置上下文与后置缓冲的小窗口。",
+   "固定窗口外历史，在窗口内采样多条实时动作轨迹。",
+   "用 FCDR 分项评价开始、附和、停止和参与模式，再执行 GRPO 更新。"
+  ],
+  "findings": [
+   "Table 2 中 Fisher onset MAE 为 0.69 秒，完整轮次 initiation/yield 为 100.0%/98.7%；SFT 基线为 0.98 秒和 97.8%/92.1%。",
+   "Table 3 中 FDB-v3 的 turn-take 为 100.0%、延迟 0.24 秒、VIR 5.0%、yield 100.0%；Moshi 延迟 0.44 秒、VIR 12.0%、yield 71.9%。",
+   "Table 4 中 SFT→DuplexPO 的 LlamaQ 为 72.0→75.3，AlpacaEval 为 3.43→3.68，OpenBookQA 为 72.2→73.7。",
+   "Gemini 3.0 Pro 配对评审中，Fisher 总体胜率为 76.9%（20/26，p=0.009）。"
+  ],
   "project_fit": [
-   "对本站项目的警示意义直接：外挂 TTS、晚注入工具清单的座舱助手既要会听会抢话，又不能变\"笨\"，其解耦训练思路可用于平衡交互性与工具调用准确性。"
+   "编辑判断：可借用 FCDR 的分项奖励训练或评测 Harness 的判停、附和、让权和 TTS 停声控制器。",
+   "编辑判断：DuplexPO 优化原生持续监听与发声策略，不能把其 0.24 秒延迟或模型级全双工结论外推到判停后才生成、晚注入工具且外挂 TTS 的 Harness。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "FCDR 未覆盖用户意图、内容、说话风格和文化相关时序偏好，人工时序也不是唯一真值。",
+   "局部窗口训练可能忽略跨多轮连贯性；体验改善主要由 Gemini 配对评审支持，并非真实用户研究。",
+   "Fisher 受 LDC 许可约束，论文专属训练窗口、实现和权重未发布。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "partial",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方项目页 https://liyuxin44.github.io/DuplexPO/ 提供方法与音频演示；未找到 DuplexPO 代码或 checkpoint。Seamless Interaction 数据公开为 CC BY-NC 4.0，Fisher 需 LDC 许可。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "653ff20c8a": {
-  "tl_dr": "论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。对做\"边说边听\"座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "该工作用 GRPO 分别优化原生双音频流模型的停顿、接话、附和和用户打断，并叠加语义奖励，避免只追求低延迟而损伤回答内容。",
+  "problem": "逐 token 的监督学习不直接优化何时说、何时沉默和何时让权；现有强化学习又常只处理单一行为，出现时序变快但语义质量下降。",
+  "method": "论文从 Fisher 和 Seamless 双声道语料按 pause、turn、backchannel、interruption 四类事件抽取短片段。每片段由 Moshi 或 PersonaPlex 采样 16 个完成，分别计算沉默违规、负响应延迟、附和位置 F1 和打断延迟；接话与打断再加入 Qwen3-235B-A22B 语义奖励，以 clipped GRPO 和 KL 约束更新并行文本控制流。",
+  "workflow": [
+   "对双声道人类对话执行 VAD，并按四类交互规则抽取片段。",
+   "随机附加最多 30 秒前置上下文，为每片段采样 16 个完成。",
+   "计算轴特定时序奖励，接话与打断再加入语义自然度奖励。",
+   "组内归一化优势，只更新文本控制 token，并以冻结参考模型做 KL 约束。"
+  ],
+  "findings": [
+   "Table 1 中 Moshi 经 Seamless RL 后，Synthetic Pause TOR 从 0.445 降至 0.307，用户打断延迟从 1.377 秒降至 0.409 秒。",
+   "Table 1 中 PersonaPlex 经 Seamless RL 后，Backchannel TOR 从 0.182 降至 0.073，平滑接话延迟从 0.219 秒降至 0.086 秒。",
+   "Table 2 中 PersonaPlex+RL 的 Correction Turn/Instruct/Task 从 3.803/2.945/3.080 提升至 4.501/3.369/3.620。",
+   "Table 3 中移除 LLM 奖励后，打断语义分从 3.58 降至 3.05，说明纯时序奖励不足以保住内容质量。"
+  ],
   "project_fit": [
-   "对做\"边说边听\"座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。"
+   "编辑判断：四轴事件定义和“时序+语义”组合奖励可直接用于 Harness 的 endpoint、打断取消、首音频和 TTS 停声回归。",
+   "编辑判断：论文模型在统一时间轴同时处理用户与助手音频；当前 Harness 是流式输入、判停后生成、晚注入工具和外挂 TTS，不能称为原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "奖励依赖人工规则，且训练目标要求模型具有并行文本控制流。",
+   "没有真人交互评价；动态评测还因 GPT-Realtime 的 VAD 行为限制被测模型音频，不能视为完全无约束双工。",
+   "训练语料会改变安全行为；正文与附录对 LLM 奖励量表还存在 1–3 与 0–2 的不一致。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/kyutai-labs/moshi",
+   "model_url": "https://huggingface.co/kyutai/moshika-rl-seamless",
+   "note": "Moshika 与 PersonaPlex 的 Seamless RL 权重已公开，另有 https://huggingface.co/kyutai/personaplex-rl-seamless；权重为 CC BY-NC 4.0，未找到本文 GRPO 数据抽取和训练代码，Fisher 版本也未发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "d36cd9bda6": {
-  "tl_dr": "该工作在流式全双工端到端对话系统中引入思维链(CoT)推理，针对双通道 duplex 模型架构复杂、语义推理落后于级联方案的短板做补强。",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "该工作在流式全双工端到端对话系统中引入思维链(CoT)推理，针对双通道 duplex 模型架构复杂、语义推理落后于级联方案的短板做补强。与站内\"晚注入工具清单\"的诉求呼应：座舱助手需要在保持边说边听的同时完成复杂推理与工具决策，CoT 融入流式 duplex 的路径值得借鉴。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SCoT 把单通道 SpeechLM 切成固定时长块，在每块语音前预测局部 ASR 或文本响应，以结构化中间监督改善语义；它是块级时分复用，不是双音频流逐帧并行。",
+  "problem": "VAD 难区分句中停顿和话轮结束，双通道架构训练复杂；简单块级时分复用虽然允许重叠，却常产生语义不连贯的回答。",
+  "method": "系统用 CTC 强制对齐把完整转写和系统响应切成块级目标，比较 SCoT-ASR、SCoT-Response 与先转写再响应的 SCoT-Full。骨干是 SmolLM2-1.7B 初始化的 ESPnet SpeechLM，每帧联合 ESPnet-Codec 与 XEUS 聚类 token，默认以 2 秒块交替处理用户输入和生成助手输出。",
+  "workflow": [
+   "将双人电话对话切成固定 2 秒输入/输出块。",
+   "用 CTC 强制对齐生成每块的转写与响应文本目标。",
+   "按 ASR、Response 或 Full 路径预测块级中间 token。",
+   "条件于当前和历史块生成不超过块长的语音，再聚合为完整对话。"
+  ],
+  "findings": [
+   "Table 1 中 SCoT-Response 相对普通 Duplex E2E 的 ROUGE-1/2/L 从 14.4/1.4/10.3 提升至 27.9/6.8/19.8，perplexity 从 313.8 降至 42.3。",
+   "Table 2 中 SCoT-Response 的重叠块占比为 63.0%、precision/recall 为 59.5/66.8；SCoT-Full recall 为 71.5。",
+   "Tables 3–4 中 SCoT-Response 的 Emotion Rank 为 2.32、UTMOS 为 2.46，优于普通 Duplex E2E 的 5.60 和 1.95。",
+   "Table 5 中块长由 2 秒缩至 1 秒，RTF 从 0.85 降至 0.30，但 ROUGE-L 从 15.8 降至 7.1。"
+  ],
   "project_fit": [
-   "与站内\"晚注入工具清单\"的诉求呼应：座舱助手需要在保持边说边听的同时完成复杂推理与工具决策，CoT 融入流式 duplex 的路径值得借鉴。"
+   "编辑判断：可借鉴“流式块输入→局部转写/计划→累积上下文”，在 endpoint 前做 partial prefill 或可撤销规划。",
+   "编辑判断：Harness 仍在判停后才生成并晚注入工具、交给外挂 TTS；不能把局部预处理描述成论文的端到端 SCoT 或模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只在英语电话对话上用自动指标评测，没有真人实时多轮研究，且推理使用 ground-truth 历史块。",
+   "固定块长存在延迟与语义冲突，推理还从 10 个语音候选中重排，削弱实时工程说服力。",
+   "Table 5 正文对 2 秒 ROUGE-L 的描述与表格数值不一致。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/espnet/espnet/tree/speechlm",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "ESPnet SpeechLM 基础代码公开为 Apache-2.0，但未找到 SCoT 专属实现、训练 recipe 或 checkpoint；Switchboard/Fisher 受 LDC 协议限制。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "da29dadcff": {
-  "tl_dr": "论文提出在全双工语音对话语言模型中引入\"时序思维\"(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "论文提出在全双工语音对话语言模型中引入\"时序思维\"(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。摘要信息有限，保守地说，其对\"聆听阶段该想什么\"的建模与站内流式 KV 注入时机的工程问题直接相关。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "CT-Duplex 在原生全双工模型的监听静音区生成可抢占的 Entity、Intent、Action、Knowledge、Logic 节点，用“用户说话时先想”改善推理型对话。",
+  "problem": "全双工 SDLM 在用户说话时反复预测静音 token，既浪费监听窗口又可能强化重复退化；传统 CoT 要等完整输入后执行，过长且无法随未知 endpoint 抢占。",
+  "method": "约 1.7B 的 CT-Duplex 由 12.5Hz 流式语音编码器、Qwen2.5-1.5B 初始化的 LLM 和自回归语音解码器组成。离线教师生成五类思考节点，训练时将完整节点尽量靠后填入助手静音区，空间不足则按节点截断，不挤占正式回答；用户停下后模型从思考切到文本与语音回答。",
+  "workflow": [
+   "生成对话文本，并由教师产生五类结构化思考节点。",
+   "用多说话人 TTS 合成双通道语音，并随机加入 barge-in。",
+   "按语音时间轴把完整思考节点写入助手静音区。",
+   "联合训练语音编码、文本 LLM 和语音解码，推理时持续思考并可被用户插话抢占。"
+  ],
+  "findings": [
+   "Table 3 中 SpokenWOZ 的 GPT 分数从 2.40 升至 2.61，BLEU 从 12.92 升至 16.30，Sentence-BERT 从 0.52 升至 0.59。",
+   "Table 4 中事实问答提升很小：Llama Questions 30.4%→31.4%，Web Questions 13.2%→13.3%。",
+   "Table 5 中无思考/有思考的轮次启动延迟为 0.45/0.68 秒，barge-in 成功率为 88.63%/94.05%。",
+   "Appendix Table 6 中思考链能完整容纳于用户时长的比例为 GenConv 98.91%、SpokenWOZ-G 96.78%、Llamaq-G 94.69%。"
+  ],
   "project_fit": [
-   "摘要信息有限，保守地说，其对\"聆听阶段该想什么\"的建模与站内流式 KV 注入时机的工程问题直接相关。"
+   "编辑判断：可在 Harness 的流式输入阶段维护可撤销的实体、意图和动作草稿，endpoint 后再与晚注入工具一起交给生成模型。",
+   "编辑判断：论文把思考和语音解码训练在统一时间轴；当前 Harness 判停后生成并用外挂 TTS，不能据此声称原生监听时思考或模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "评测主要依赖 Whisper 转写和 GPT-4o-mini，未报告多随机种子、置信区间或充分的真人研究。",
+   "训练大量依赖合成对话、合成语音和固定时序增强，且未公开思考标签生成提示或未来信息泄漏审计。",
+   "论文称无额外延迟，但 Table 5 中有思考版轮次启动延迟高 0.23 秒，正文叙述与表格还存在冲突。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/NVIDIA-NeMo/NeMo/tree/main/nemo/collections/speechlm2",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "只找到 Apache-2.0 的通用 NeMo speechlm2 代码；CT-Duplex 专用实现、配置、联合微调权重、三套训练数据和许可证均未发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "32efe0aaeb": {
-  "tl_dr": "该研究实证评估了 Gemini 系列模型作为\"音频裁判\"的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "该研究实证评估了 Gemini 系列模型作为\"音频裁判\"的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化\"像不像人\"，用 LALM 当 judge 是低成本的回归测试手段。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "论文让 Gemini 直接读取完整双声道 WAV，对全双工代理做八维离线评分；部分维度可作为第四评分者，但天花板效应、低人类一致性和 DSP 盲点要求人工或程序兜底。",
+  "problem": "现有音频裁判研究多评孤立 TTS 句子，缺少对完整双声道、重叠和插话会话的多人类验证，也常把排序相关、绝对校准与缺陷敏感度混为一谈。",
+  "method": "数据含 152 个自然客服会话和 57 个成功渲染的对抗缺陷片段。三名校准评分者按八个 1–5 维度给出 5,016 条评分；Gemini 直接读取代理左声道、用户右声道的原始 WAV。分析同时计算 Spearman 相关、与三人均值相差不超过 1 分的比例、ordinal Krippendorff α 和缺陷检测 recall。",
+  "workflow": [
+   "抽取生产双声道会话，并构造六类 DSP 缺陷。",
+   "三名盲评者独立评分，Gemini 读取同一完整 WAV 返回八维结构化分数。",
+   "分别评估排序、绝对校准、机会校正一致性和缺陷敏感度。",
+   "保持提示不变替换 Gemini 型号，检查跨模型校准漂移。"
+  ],
+  "findings": [
+   "Table 1 中与三人均值相差不超过 1 分的比例从口音 92.3%、音频清晰度 89.0%，到语速适配 48.8%、整体保真度 43.5%，维度差异很大。",
+   "Table 1 中 audio_clarity 的人类间/LALM-人类 Spearman ρ 为 0.47/0.25，overall_fidelity 为 0.11/−0.01。",
+   "配对 McNemar 复核后，48 个缺陷×维度单元仅 2 个显著：clipping×audio_clarity 与 SNR noise×entity_pronunciation，均为人类 8/8、LALM 0/8。",
+   "Table 3 中 Gemini 2.5 Flash、3.5 Flash、3.1 Pro 的排序 headline 分别为 5/8、4/8、5/8，绝对一致 headline 为 6/8、8/8、5/8。"
+  ],
   "project_fit": [
-   "对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化\"像不像人\"，用 LALM 当 judge 是低成本的回归测试手段。"
+   "编辑判断：应保存用户/助手分声道录音，把音频模型当第四评分者，并用人工校准、绝对一致和受控缺陷共同验证。",
+   "编辑判断：该离线裁判不验证 Harness 的流式输入、endpoint、晚注入工具或外挂 TTS 架构；还需另测首音频、TTS 截断、工具结果回注和打断后取消。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "证据来自单一客服代理和三名评分者，缺陷单元仅 7–8 个且未做多重比较校正。",
+   "自然会话集中于高分区，高绝对一致不代表有强区分力；temperature=1 下也未测同一音频重复评分稳定性。",
+   "生产代理、完整 judge prompt 和 209 个原始 WAV 未公开，当前仓库无法端到端复现论文分数。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://huggingface.co/datasets/Salesforce/lalm-judge-validation-full-duplex",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库公开统计脚本和匿名评分 CSV：脚本 Apache-2.0，CSV/图 CC BY 4.0；完整提示、生产 judge、原始 WAV 与 Gemini 权重未公开，README 的额外用途限制还需发布方澄清。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "7369317a9f": {
-  "tl_dr": "TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "TurnGuide 按自然停顿动态切分助手话轮，并在每个语音块前生成短文本块，以改善端到端双工语音模型的语义连贯性；公开推理仍是整段 WAV 离线处理。",
+  "problem": "全双工模型既要保持双声道时间对齐，又要避免纯语音 token 长序列的语义退化；文本指导插得过早缺上下文，过晚则语音先行，长度也会影响发言边界。",
+  "method": "系统用 VAD、Whisper 逐词时间戳和 0.6 秒容差建立 turn 级文本—语音对齐。以 GLM-4-Voice 为骨干，把两路语音按 5 个 token、约 400ms 分块交错；助手文本也按 5 token 分块并加 EOC，再按首词时间戳放到对应助手语音块之前，比较 1:1、2:1、3:1 文本/语音损失权重。",
+  "workflow": [
+   "双通道录音经 VAD 合并为 IPU，并获取逐词转写和时间戳。",
+   "把用户与助手语音离散化并按约 400ms 块交错排列。",
+   "将助手 turn 文本切块，在对应语音块之前插入。",
+   "微调 GLM-4-Voice，按用户输入块生成文本与助手语音 token。"
+  ],
+  "findings": [
+   "Table 2 的语义总分中，SCI、Moshi TS 为 5.91、5.58，TurnGuide 1:1、2:1、3:1 分别为 7.27、7.70、7.79。",
+   "Table 5 中标准文本插入的 Conditional-All 为 6.76；提前 4 秒和延后 4 秒分别降至 5.61、5.94。",
+   "Tables 7–8 中 GPT 与人工成对判断匹配 25/30；TurnGuide 的 M-MOS/N-MOS 为 3.26/3.23，高于 Moshi 的 2.69/2.75。",
+   "论文只给出 0.69 秒理论首块延迟，未提供真实端到端流式延迟。"
+  ],
   "project_fit": [
-   "对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。"
+   "编辑判断：可借鉴 turn 级短文本规划，但应在 Harness endpoint 后、晚注入工具完成后确定最终文本，再交给外挂 TTS。",
+   "编辑判断：官方脚本先读取完整 WAV 再统一解码，不得把 checkpoint 或 0.69 秒理论值写成当前 Harness 的在线全双工能力。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主要只在 Fisher 英语电话对话上验证，主语义评测依赖 GPT-4o，人工实验样本很小。",
+   "模型每个训练配置只跑一次，没有随机种子方差；Speech-QA 还只使用半双工模式。",
+   "未做 RLHF 或安全对齐，附录明确不建议直接用于生产。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/dreamtheater123/TurnGuide",
+   "model_url": "https://huggingface.co/qqjz/turnguide_loss_2_1",
+   "note": "公开离线推理代码、演示和 2:1/3:1 两个 checkpoint，但未公开训练、对齐预处理和完整评测流水线。权重无独立许可证并受 GLM-4-Voice 自定义许可约束；Fisher 音频受 LDC 协议限制。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "602fa5c48a": {
-  "tl_dr": "DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DuplexChat-Pipe 从播客抓取、筛选并分离双人语音，构建约 41.5 万小时英日双通道对话；公开的 792MB 资源是 URL/时间戳清单，不是可直接下载的音频。",
+  "problem": "全双工模型训练需要每位说话人独立、同步的音轨来保留 overlap、backchannel 和快速换轮，但现有大规模公开语音多是多人混合单声道。",
+  "method": "管线从 PodcastIndex/RSS 收集节目，过滤音乐与超长音频后转为 16kHz。pyannote diarization 在长静音处分段，只保留恰好两名活跃说话人的区间，并按时长和说话占比过滤；DialogueSidon 再联合执行说话人分离、降噪和去混响，输出左右声道。",
+  "workflow": [
+   "PodcastIndex/RSS 经语言、音乐和重复 feed 过滤后下载节目。",
+   "执行 diarization，只保留满足时长与说话占比规则的双人区间。",
+   "DialogueSidon 分离、降噪和去混响，输出双声道 WebDataset。",
+   "发布 URL、时间区间和说话人清单，由使用者从源站本地重建音频。"
+  ],
+  "findings": [
+   "Tables I–II 中英语含 15,304,412 段、282,634 小时，日语含 7,329,011 段、132,723 小时，总计约 415k 小时。",
+   "Table III 中英语/日语 DNSMOS 为 2.92/3.11、SQ-STOI 为 0.96/0.98；日语 ITC 为 0.320，低于英语和 Fisher 的 0.383。",
+   "Table IV 中日语 turn exchange 为 10.5 次/分钟、平均 turn 4.0 秒，英语为 6.2 次/分钟、7.9 秒；同时发言占比为 21% 对 10%。",
+   "论文没有训练或评估任何下游 SDLM，不能据此断言这些数据提升全双工模型。"
+  ],
   "project_fit": [
-   "如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。"
+   "编辑判断：更适合训练或评测 Harness 输入侧的 endpoint、overlap、barge-in 与 backchannel 检测器，而不是生成组件。",
+   "编辑判断：当前 Harness 判停后才生成，无法直接利用真实同时说话来产出回复；数据也不含晚注入工具轨迹，输出仍应交给外挂 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "生成式分离、diarization 和启发式阈值会带来串音、说话人交换与修复伪影，日语 speaker consistency 尤其偏低。",
+   "英语只处理约 2% 可用 feed，公开 URL 会失效，本地重建预计需要约 20.7TB 存储及 GPU。",
+   "源播客版权与节目条款各异；MIT 只覆盖代码和重建元数据，不授予底层音频权利。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://github.com/sarulab-speech/DuplexChat",
+   "model_url": "https://huggingface.co/sarulab-speech/DialogueSidon",
+   "note": "管线与 792MB manifest 公开，数据页为 https://huggingface.co/datasets/sarulab-speech/DuplexChat；音频不分发。DialogueSidon 为 CC BY-NC 4.0，pyannote 模型需接受访问条件，未发布用该语料训练的 SDLM。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "3327bbf388": {
   "tl_dr": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。",
@@ -472,50 +563,76 @@
   "review_status": "abstract_backfill"
  },
  "f65775c8d2": {
-  "tl_dr": "这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。它直指本站'边说边听、流式进 KV'的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "论文对比用户流直接融合进生成序列的 CF-Duplex 与独立 cross-attention memory 的 XA-Duplex：前者问答和打断更强，后者在漏停后更能隔离重叠语音污染。",
+  "problem": "普通 LLM 只延展单一序列，而原生全双工模型生成时仍要接收用户音频并决定继续、停说、响应或忽略附和；不同路由会在语义耦合和上下文隔离间取舍。",
+  "method": "共同骨架由冻结 Qwen3-1.7B、LoRA、流式 Whisper 编码器、CosyVoice2 tokenizer 和轻量 audio head 构成。CF 将用户语音、助手文本和助手音频按时间轴门控融合；XA 在偶数层插入 14 层 cross-attention，将用户流保留为独立 KV memory。WAIT 与 INT token 显式监督等待和打断。",
+  "workflow": [
+   "用大规模 ASR/TTS 和约 190 万合成轮次样本训练基础流式能力。",
+   "动态插入相关/无关打断和 backchannel，随机化反应延迟。",
+   "用户音频持续分块编码，经 CF 融合或 XA memory 注入。",
+   "主干同时预测等待/打断、文本和本地音频 token。"
+  ],
+  "findings": [
+   "Table 1 中 CF/XA 的 LLaMAQ speech 分别为 50.7/38.3，WebQ 为 28.0/18.4，说明独立 memory 的语义能力明显更弱。",
+   "FDB v1.5 中 CF/XA 对 interruption 的 Respond 比例为 0.72/0.32，stop latency 为 0.74/1.18 秒。",
+   "FDB v1.5 backchannel 中 CF/XA 的 Resume 比例为 0.96/0.86，stop latency 为 0.60/0.62 秒。",
+   "Table 5 中去掉 interrupt token 后 Respond 从 0.72 降至 0.56，stop latency 从 0.74 秒升至 1.90 秒。"
+  ],
   "project_fit": [
-   "它直指本站'边说边听、流式进 KV'的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。"
+   "编辑判断：这项权衡只在“生成期间持续把用户流送进模型”时直接成立；可作为 Harness 未来升级原生并行输入的架构依据。",
+   "编辑判断：当前 Harness 在 endpoint 后才生成，用户流不会以相同方式污染生成序列；打断主要是取消生成和外挂 TTS 队列控制，晚注入工具也不在论文范围。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只比较两种路由、单一 1.7B 尺度和固定训练配方，CF/XA 参数量也不严格匹配。",
+   "训练大量依赖合成 TTS、拼接和插入行为，没有端到端 RTF、显存或目标设备首音频实测。",
+   "XA 漏停后更连贯主要是少量定性案例，未报告完整失败样本数和量化连贯率。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方 https://light1726.github.io/duplex-demo/ 只提供静态演示与音频；未找到训练/推理代码、CF/XA 权重、专属数据或发布许可证，论文附录明确投稿时不公开模型。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "0483feb407": {
-  "tl_dr": "LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。",
-  "problem": "助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。",
-  "method": "LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱'边说边听'的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "LMPAN 是 480K 参数的 DSP+神经网络声学前端，通过三路软时延/能量对齐、双分支增强和动态目标联合做 AEC 与降噪，重点保住强回声下的近端用户语音。",
+  "problem": "扬声器非线性、房间变化和硬件时延会让播放参考、麦克风与线性 AEC 残差信号错位；过强抑制又会误删近端语音，破坏 VAD、ASR 和真实打断。",
+  "method": "系统先用子带互相关和 NLMS 得到线性 AEC 输出，再对 ref-mic、mic-LAEC、ref-LAEC 三条路径做最大 1 秒的概率时延对齐与可学习能量缩放。两个 GTCRN 分支分别细化 LAEC 与麦克风频谱，注意力融合复数 mask；Dynamic Target Adaptation 有意保留少量噪声/回声，训练再结合 WavLM 表示损失。",
+  "workflow": [
+   "采集麦克风与外部播放 reference，执行线性 AEC。",
+   "对三对频谱估计软时延分布并补偿能量失配。",
+   "双 GTCRN 分支增强 LAEC 与麦克风信号，再由注意力 mask 融合。",
+   "输出增强音频，交给下游 VAD、ASR、endpoint 和对话管理。"
+  ],
+  "findings": [
+   "Table 1 中不含 DTA 的两阶段模型为 0.48M 参数、126M MACs，MOS_avg 4.49；加入 DTA 后为 4.44。",
+   "Table 2 在 SER −20…−15dB 时，一阶段基线 DCF/WER/TIR 为 9.38/24.25/85.17%，完整 STL+DTA 为 3.75/14.38/93.85%。",
+   "Table 3 中目标 SER 25dB 得到最低 WER 10.24%，而最高 ERLE 45.11dB 出现在 35dB，说明 ASR 最优不等于回声抑制最强。",
+   "论文没有报告手机上的端到端延迟、RTF、内存或功耗，不能仅凭参数量认定可实时上车。"
+  ],
   "project_fit": [
-   "这正命中座舱'边说边听'的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。"
+   "编辑判断：可放在 Harness 的 VAD/endpoint/ASR 前，直接把外挂 TTS 的真实播放波形作为 far-end reference，提升回声下插话保留率。",
+   "编辑判断：它不让 LLM 边听边生成，也不处理取消生成、TTS 队列、状态恢复或晚注入工具；应定位为 AEC/NS 候选而非全双工模型。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "40 部手机数据和 4,000 条真实测试音频未公开，设备、房间、语言与说话人构成也不充分。",
+   "最大对齐范围为 1 秒，但模拟训练只明确注入 0–80ms 平移，对更长动态时延的覆盖未知。",
+   "真实测试只覆盖两个极低 SER 区间，TIR 还依赖特定 LLM-enhanced dialogue management。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 未找到官方项目页、LMPAN 代码、权重或专属数据许可证；上游 AEC/DNS Challenge 和 WavLM 的开放状态不能替代本方法发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "0cfb27f5b9": {
   "tl_dr": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。",
@@ -840,27 +957,40 @@
   "review_status": "abstract_backfill"
  },
  "568f96feb9": {
-  "tl_dr": "Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Metronome 用“最近 W 个 token 加固定 attention sinks”的有界 KV 和逐帧延迟驱动的 AIMD 准入控制，避免实时交互模型长期驻留时突然耗尽 KV block pool。",
+  "problem": "逐帧接收音频并持续 prefill/decode 的会话会让 KV 单调增长并长期驻留；block pool 饱和后所有请求会一起等待，而空帧仍按时返回，使常规延迟指标看不见服务已失活。",
+  "method": "系统在 vLLM decoder 启用滑动窗口，只保留最近 W 个 token，并固定最前 S 个 attention-sink token 以减轻窗口滑动后的生成退化。Gateway 按 frame budget 批量 Step，再依据逐帧实际延迟运行 AIMD admission controller；负载有余量时加性提高并发，接近目标时乘性降低。",
+  "workflow": [
+   "客户端持续发送小音频块，Gateway 按帧预算合并到期会话。",
+   "GPU worker 对长期 resumable request 做小段 prefill 和有限 decode。",
+   "KV manager 释放窗口前 block，同时保留 sink block。",
+   "Gateway 用逐帧延迟更新准入上限，超过容量的会话直接拒绝。"
+  ],
+  "findings": [
+   "Figure 4 与 Appendix Table 1 中，5 分钟测试的无界 KV 共 14/20 次撞墙，窗口 KV 为 0/20。",
+   "Figure 6 中 Qwen3-Omni-30B 饱和时间预测 145 秒、实测 148 秒；MiniCPM-o 预测 99 秒、实测 114 秒。",
+   "Figure 7 中以 8 sessions/s 提供 512 个会话时，控制器收敛到约 209 个并发，稳态 p99 为 12ms。",
+   "Appendix Table 2 中两种策略的 turn-based QA 均为 96/96 会话答对，但 W=512、S=32 的连续生成质量会退化到 0%，窗口过小不能靠 sink 补救。"
+  ],
   "project_fit": [
-   "这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。"
+   "编辑判断：当前 Harness 在 endpoint 后才生成，通常没有论文所述每帧自回归 KV 无限增长；仍应对长历史和晚注入工具后的上下文设置上限，并做分钟级压力测试。",
+   "编辑判断：若未来改为长期 resumable generation，再引入 per-session KV window、活性指标和 admission control；不能直接套用论文的 209 会话容量。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "实验只用一张 RTX PRO 6000 Blackwell，admission 与质量实验主要只覆盖 Qwen3-Omni-30B。",
+   "多数容量和 MiniCPM 长时实验是单次 fresh run，主要服务实验实际只启用 window、没有完整 sink kernel。",
+   "论文不评真实 turn-taking、barge-in 或工具调用，固定窗口也无法回忆窗口外内容。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/19PINE-AI/metronome",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "完整服务、gateway、worker、benchmark、tests、vLLM patch 和结果文件按 Apache-2.0 公开；无专用模型权重，原始音频需按 LibriSpeech、CANDOR 等上游许可另行获取。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "fd2cfdf072": {
   "tl_dr": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。",
@@ -886,27 +1016,40 @@
   "review_status": "abstract_backfill"
  },
  "cfbb41def0": {
-  "tl_dr": "一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。",
-  "problem": "助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。",
-  "method": "一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。这正是本站全双工座舱助手'边说边听'的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "FastTurn 融合 streaming CTC 部分转写、Conformer 声学表示和 Qwen3-0.6B 语义状态，判断 Complete、Incomplete、Backchannel、Wait；它是判停器，不是语音生成模型。",
+  "problem": "纯 VAD 不懂停顿与语义，完整 ASR→文本模型级联又增加延迟并在重叠和噪声下退化；判停器需要同时利用尽早出现的转写前缀和韵律声学线索。",
+  "method": "约 80M 的 12 层 Conformer 运行流式 CTC，部分转写被包装为 prompt 送入 Qwen3-0.6B。四层 LLM adapter 将声学表示映射到语言 embedding，另一个 acoustic adapter 保留细粒度声学状态，两路融合后由三层 MLP 分类；训练依次进行语义预训练、模态对齐、联合训练和模态融合。",
+  "workflow": [
+   "对流式音频运行 Conformer 和 greedy CTC，尽早产生部分转写。",
+   "将 CTC prompt 与映射后的声学 embedding 输入 Qwen3-0.6B。",
+   "用 prompt dropout 降低模型对错误转写的依赖。",
+   "融合声学与语言隐藏状态，输出 Complete、Incomplete、Backchannel 或 Wait。"
+  ],
+  "findings": [
+   "Table 1 中测试集共 22,432 条、12.92 小时，其中 Complete 14,709 条、Incomplete 3,643、Backchannel 3,080、合成 Wait 1,000。",
+   "Table 3 中 Unified 为 700M 参数、79.62% overall accuracy、120.1ms 平均延迟；Easy Turn 为 78.05%、297.1ms。",
+   "Unified 在 Smart Turn 中文集仅 76.58%/139.0ms，低于 Smart Turn 的 90.53%/70.22ms，显示明显数据域依赖。",
+   "Table 2 并不支持正文“所有类别均最佳”的宽泛表述：Easy Turn 在 Incomplete 的 accuracy/miss/FA 均更好。"
+  ],
   "project_fit": [
-   "这正是本站全双工座舱助手'边说边听'的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。"
+   "编辑判断：与 Harness 的生成前 endpoint 最匹配，可把二元 speech/silence 扩为四状态，仅 Complete 触发生成，late tool injection 仍留在下游。",
+   "编辑判断：无代码和权重，120.1ms 的计时定义与硬件也不完整；采用其思路不会让判停后生成、外挂 TTS 的 Harness 变成原生模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "训练混入内部会话数据；Wait 类全由 DeepSeek V3 与 IndexTTS2 合成，且类别和时长高度不均衡。",
+   "平均延迟没有定义计时起止、batch、音频长度或推理硬件，正文也没有噪声强度和 overlap 分层结果。",
+   "未报告标注者一致性、置信区间或多次运行方差，英文子集也没有稳定超过基线。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/ASLP-lab/FastTurn",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仓库只有 README 和架构图，无实现、权重或代码许可证；测试集 https://huggingface.co/datasets/ASLP-lab/FastTurn-Testset 已发布，但其 Apache-2.0 元数据与上游 SmoothConv 的 CC BY-NC 4.0 存在许可链疑点。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "694f3be77a": {
   "tl_dr": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。",
@@ -3614,27 +3757,40 @@
   "review_status": "abstract_backfill"
  },
  "6926d5f3f7": {
-  "tl_dr": "We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture and further implements a unified speech-text joint training pipeline to mitigate the common \"cognitive degradation\" bottleneck, thereby largely preserving the model's core textual reasoning, STEM, and logical capabilities while extending them to speech-based interaction. For expressive speech synthesis, the Talker module employs a text-controllable generation paradigm that enables natural-language instructions to flexibly control vocal attributes and localized paralinguistic events, such as laughter and sighs, supporting more expressive and fine-grained speech responses. To enhance conversational empathy, we introduce the Persona-Adaptive Empathetic Response (PAER) framework. PAER employs a hierarchical cognitive pipeline to extract non-verbal speaker cues, such as gender, age, and emotional state, from raw input audio, incorporate them into the Thinker's CoT reasoning, and generate context-adaptive responses that align semantically appropriate text with fine-grained control over utterance-level expressiveness and localized paralinguistic events, including sighs, speaking rate, and volume. We further integrate Joy-Duplex, a state-driven, plug-and-play full-duplex framework that functions as an efficient gating engine for real-time turn control. Extensive evaluations show that JoyAI-Talker achieves highly competitive performance on foundational T2T and S2T benchmarks. In full-duplex evaluation, the system reaches a high response rate of 0.88 under user interruptions while maintaining an extremely low false-trigger rate under backgroun",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "JoyAI-Talker 用外置 Joy-Duplex 语义门控、MoE Thinker 和可控 Talker 组成语音代理，在保留文本推理的同时处理打断、共情和副语言表达；它不是单模型内部的双音频流架构。",
+  "problem": "语音联合训练常损伤原有推理与指令能力，简单 VAD 又难区分真实打断、附和和背景人声；系统还需要把年龄、情绪等非语言线索转成合适的内容与表达。",
+  "method": "48.9B 总参数、约 3.28B 激活参数的 JoyAI-LLM Flash MoE 充当 Thinker，语音编码器输出 12.5Hz 表示。PAER 将说话人属性和情绪写入推理与表达控制；Talker 以自回归 Transformer 加因果 Diffusion Transformer 流式合成。独立的 1.7B Joy-Duplex 每 160ms 预测 partial、complete、accept 等状态，只有 accept 才触发后续回答。",
+  "workflow": [
+   "流式编码用户音频，每 160ms 更新转写和语义状态。",
+   "Joy-Duplex 判断继续等待、附和、接受查询或拒绝背景语音。",
+   "收到 accept 后，Thinker 执行语义推理、工具决策和响应规划。",
+   "PAER 产生正文、表达指令和局部叹息/笑声标记，再由 Talker 流式合成。"
+  ],
+  "findings": [
+   "Table 1 中 DPO 模型在 MATH、MATH-500、MMLU-Redux、RULER-64K 上分别为 94.62、94.58、90.80、76.88。",
+   "Table 4 中 EchoMind-Emotion 的加权分/共情分为 9.38/8.28，高于 Qwen3-Omni 的 8.91/7.71；该结果依赖 LLM 裁判。",
+   "Table 5 中用户打断响应率为 0.88；背景语音误响应率 0.10、继续率 0.85，用户附和误响应率 0.01、继续率 0.96。",
+   "Table 6 中 Speech-ACEBench Single 为 98.56，但 Parallel 为 44.32，低于文本 Qwen3.6 的 61.36。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：Joy-Duplex 的多状态语义门可映射到 StreamingModelHarness 的判停与背景语音拒绝层，accept 后再晚注入工具并生成。",
+   "编辑判断：当前 Harness 是流式输入、判停后生成和外挂 TTS，不应据此宣称原生模型级全双工；论文也未证明其工具列表支持晚注入。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文称系统缺乏对警报、音乐等一般环境声音的理解，复杂多约束指令与代理调用仍受限。",
+   "模块边界会带来额外时延、声学细节损失和异步服务复杂度，正文没有把这些成本完整量化。",
+   "截至 2026-08-04 未找到 JoyAI-Talker 专属代码、权重、训练数据或许可证。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文全文公开；未找到专属官方项目页、实现仓库、模型页或论文训练集，JD 其他 JoyAI 项目不能视为本模型发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T14:48:38.927697+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "386ec68e80": {
   "tl_dr": "Complex acoustic problems may require models to perform acoustic operations, interact with external tools and reason over the resulting textual or processed-audio observations rather than answer directly from a fixed audio input. We study s",

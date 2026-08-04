@@ -17,7 +17,7 @@
     "speech synthesis"
    ],
    "summary_en": "We present JoyAI-Talker, a full-duplex speech dialogue system that delivers robust foundation model capabilities while empowering empathetic interaction and voice agent intelligence. JoyAI-Talker adopts a modular Thinker-Talker architecture and further implements a unified speech-text joint training pipeline to mitigate the common \"cognitive degradation\" bottleneck, thereby largely preserving the model's core textual reasoning, STEM, and logical capabilities while extending them to speech-based interaction. For expressive speech synthesis, the Talker module employs a text-controllable generation paradigm that enables natural-language instructions to flexibly control vocal attributes and localized paralinguistic events, such as laughter and sighs, supporting more expressive and fine-grained speech responses. To enhance conversational empathy, we introduce the Persona-Adaptive Empathetic Response (PAER) framework. PAER employs a hierarchical cognitive pipeline to extract non-verbal speaker cues, such as gender, age, and emotional state, from raw input audio, incorporate them into the Thinker's CoT reasoning, and generate context-adaptive responses that align semantically appropriate text with fine-grained control over utterance-level expressiveness and localized paralinguistic events, including sighs, speaking rate, and volume. We further integrate Joy-Duplex, a state-driven, plug-and-play full-duplex framework that functions as an efficient gating engine for real-time turn control. Extensive evaluations show that JoyAI-Talker achieves highly competitive performance on foundational T2T and S2T benchmarks. In full-duplex evaluation, the system reaches a high response rate of 0.88 under user interruptions while maintaining an extremely low false-trigger rate under background speech, demonstrating its readiness for fluid and natural speech dialogue.",
-   "summary_zh": "",
+   "summary_zh": "JoyAI-Talker 由外置 160ms 语义门控、MoE Thinker 和可控 Talker 组成，在用户打断时响应率为 0.88，并能按说话人属性与情绪控制内容和副语言表达。其多状态判停可启发 StreamingModelHarness，但当前 Harness 仍是判停后生成、晚注入工具和外挂 TTS，不能称为原生模型级全双工。",
    "demo": "",
    "stars": null
   },
@@ -3545,7 +3545,7 @@
     "low latency"
    ],
    "summary_en": "Recent full-duplex spoken dialogue models have demonstrated compelling progress toward human-like interaction, enabling agents to respond with low latency, produce backchannels, and handle user barge-ins. Yet these improvements in conversational dynamics often come with weaker reasoning and instruction-following abilities, revealing a potential tension between interactive dynamics and intelligence capability. In this",
-   "summary_zh": "该论文指出全双工模型在追求低延迟、回话(backchannel)、barge-in 等交互动态时往往牺牲推理与指令遵循能力，并通过强化学习将对话动态与智能能力解耦。对本站项目的警示意义直接：外挂 TTS、晚注入工具清单的座舱助手既要会听会抢话，又不能变\"笨\"，其解耦训练思路可用于平衡交互性与工具调用准确性。",
+   "summary_zh": "DuplexPO 只在接话、附和和打断附近的小窗口用强化学习优化对话时序，并以 KL 约束保留回答能力；FDB-v3 报告 0.24 秒接话延迟和 100% yield。StreamingModelHarness 可借其分项奖励训练判停与让权控制器，但不能把原生双工模型指标外推到判停后生成和外挂 TTS。",
    "demo": "",
    "stars": null
   },
@@ -3566,7 +3566,7 @@
     "speech model"
    ],
    "summary_en": "Full-duplex spoken dialogue models can listen and speak simultaneously, making them a promising architecture for natural conversation. However, current models are trained solely with supervised learning through token-level likelihood maximization, which does not directly optimize interaction-level behaviors, causing interactivity issues such as excessive silence and ill-timed turn-taking. Recent work has applied rein",
-   "summary_zh": "论文指出当前全双工语音模型仅靠 token 级似然最大化的监督训练，无法直接优化交互层行为，导致过度沉默、话轮转换时机不当等问题，并提出多维度交互对齐(强化学习方向)的方案。对做\"边说边听\"座舱助手的人来说，话轮时机与沉默控制正是体验成败点，其交互级对齐目标为 harness 的行为调优提供了可操作的指标框架。",
+   "summary_zh": "该工作用 GRPO 分别优化原生双流模型的停顿、接话、附和和打断，并加入 LLM 语义奖励避免只追求低延迟而损伤内容。四轴事件定义适合改造成 StreamingModelHarness 的 endpoint、打断取消和 TTS 停声回归，但当前 Harness 并非统一时间轴的模型级全双工。",
    "demo": "",
    "stars": null
   },
@@ -3587,7 +3587,7 @@
     "vad"
    ],
    "summary_en": "Most end-to-end (E2E) spoken dialogue systems (SDS) rely on voice activity detection (VAD) for turn-taking, but VAD fails to distinguish between pauses and turn completions. Duplex SDS models address this by predicting output continuously, including silence tokens, thus removing the need for explicit VAD. However, they often have complex dual-channel architecture and lag behind cascaded models in semantic reasoning. ",
-   "summary_zh": "该工作在流式全双工端到端对话系统中引入思维链(CoT)推理，针对双通道 duplex 模型架构复杂、语义推理落后于级联方案的短板做补强。与站内\"晚注入工具清单\"的诉求呼应：座舱助手需要在保持边说边听的同时完成复杂推理与工具决策，CoT 融入流式 duplex 的路径值得借鉴。",
+   "summary_zh": "SCoT 在固定语音块前预测局部转写或文本响应，显著改善块级时分复用 SpeechLM 的语义，但 1 秒块会换来明显质量下降，推理还需候选重排。Harness 可借鉴 endpoint 前的局部转写与可撤销规划，不能把它描述成晚注入工具或外挂 TTS 已获得端到端全双工。",
    "demo": "",
    "stars": null
   },
@@ -3607,7 +3607,7 @@
     "barge-in"
    ],
    "summary_en": "Recent advances in spoken dialogue language models (SDLMs) reflect growing interest in shifting from turn-based to full-duplex systems, where the models continuously perceive user speech streams while generating responses. This simultaneous listening and speaking design enables real-time interaction and the agent can handle dynamic conversational behaviors like user barge-in. However, during the listening phase, exis",
-   "summary_zh": "论文提出在全双工语音对话语言模型中引入\"时序思维\"(chronological thinking)，针对模型在聆听阶段的处理机制做改进，使其在持续感知用户语音流的同时更好地生成回应并处理 barge-in。摘要信息有限，保守地说，其对\"聆听阶段该想什么\"的建模与站内流式 KV 注入时机的工程问题直接相关。",
+   "summary_zh": "CT-Duplex 在助手静音区生成可抢占的实体、意图、动作、知识和逻辑节点，提升推理型对话与 barge-in 成功率，但事实问答增益很小且轮次启动延迟由 0.45 升至 0.68 秒。Harness 可在流式输入期维护可撤销草稿，回答仍应在 endpoint 与工具注入后生成。",
    "demo": "",
    "stars": null
   },
@@ -3626,7 +3626,7 @@
     "voice agent"
    ],
    "summary_en": "We report the empirical reliability of Gemini models as audio judges that score full-duplex agent conversations directly from the raw stereo waveform, tested across three models in the Gemini family: 2.5 Flash, 3.5 Flash, and 3.1 Pro. Our primary evidence base uses Gemini 2.5 Flash as the ground-truth model, validated against three calibrated human raters on 209 stereo sessions, scored on 8 production dimensions: 152",
-   "summary_zh": "该研究实证评估了 Gemini 系列模型作为\"音频裁判\"的可靠性：直接从原始立体声波形给全双工语音 agent 对话打分，覆盖 8 个生产维度并与人类标注校准。对本站项目是评测方法论的及时参考——自研 harness 做出全双工后如何量化\"像不像人\"，用 LALM 当 judge 是低成本的回归测试手段。",
+   "summary_zh": "该研究让 Gemini 直接读取完整双声道 WAV 做八维评分，发现口音和清晰度等部分维度可辅助人工，但整体保真度相关性接近零，若干 DSP 缺陷也会漏检。它适合做 StreamingModelHarness 的第四评分者，不验证流式判停、晚注入工具或原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -3668,7 +3668,7 @@
     "turn-taking"
    ],
    "summary_en": "Full-Duplex Speech Language Models (FD-SLMs) are specialized foundation models designed to enable natural, real-time spoken interactions by modeling complex conversational turn-taking such as interruptions, backchannels, and overlapping speech. End-to-end (e2e) FD-SLMs leverage real-world double-channel conversational data to capture nuanced two-speaker dialogue patterns for human-like interactions, but their convers",
-   "summary_zh": "TurnGuide 针对全双工语音语言模型提出动态的轮次级文本-语音交错生成机制，让模型在边听边说中产出更有意义的轮替行为（覆盖打断、附和、重叠语音等场景）。对自研 harness 的启示在于：可以用文本侧的轮次信号来引导语音流的生成与打断管理，而不是完全依赖端到端双声道数据训练。",
+   "summary_zh": "TurnGuide 按自然停顿切分助手话轮，并在每个语音块前插入短文本块，Fisher 语义总分由基线约 5.6–5.9 提升到最高 7.79。公开脚本仍先读取完整 WAV，0.69 秒也只是理论首块延迟；Harness 只能借鉴 endpoint 后的短段规划。",
    "demo": "",
    "stars": null
   },
@@ -3688,7 +3688,7 @@
     "turn-taking"
    ],
    "summary_en": "Full-duplex spoken dialogue models are trained on conversational speech in which each speaker is represented as a separate stream, but existing large-scale public speech corpora are mostly monaural, making them unsuited for SDLM training. We present DuplexChat, an open-source corpus for full-duplex spoken dialogue models, and DuplexChat-Pipe, a pipeline for constructing speaker-separated full-duplex dialogue speech f",
-   "summary_zh": "DuplexChat 是一个开源的全双工对话语料及构建管线 DuplexChat-Pipe，能把现有单声道语音语料转换成分说话人双流的全双工对话数据，解决 SDLM 训练数据稀缺问题。如果要在 Qwen3-Omni 之上微调出全双工能力而非纯外挂 harness，这条数据管线可以直接借鉴来低成本造训练语料。",
+   "summary_zh": "DuplexChat-Pipe 从播客筛选并分离出约 41.5 万小时英日双通道对话，保留 overlap、backchannel 和快速换轮；公开资源只是 792MB URL/时间戳清单，不含音频。它更适合训练 Harness 的判停与重叠检测，且使用前必须审计源播客版权和分离伪影。",
    "demo": "",
    "stars": null
   },
@@ -3851,7 +3851,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Full-duplex spoken dialogue requires a model to keep listening while generating its own spoken response. This is challenging for large language models (LLMs), which are designed to extend a single coherent sequence and do not naturally support user input arriving during generation. We argue that how the user stream is routed into the LLM is therefore a key architectural question for full-duplex modeling. To study thi",
-   "summary_zh": "这篇论文系统研究全双工口语对话中的核心架构问题：当 LLM 正在生成回复时，用户音频流应以何种方式路由进模型（因为 LLM 天然只支持延续单一线索序列）。它直指本站'边说边听、流式进 KV'的技术要害，其关于用户流注入位置的对比分析可直接指导自研 harness 中晚注入/中断处理的设计取舍。",
+   "summary_zh": "论文比较把用户流直接融合进生成序列的 CF-Duplex 与独立 cross-attention memory 的 XA-Duplex：前者问答和打断更强，后者在漏停时更能隔离重叠输入污染。该权衡只在生成期间持续接收用户流时成立，当前判停后生成的 Harness 不会以同样方式遇到它。",
    "demo": "",
    "stars": null
   },
@@ -3891,7 +3891,7 @@
     "vad"
    ],
    "summary_en": "We propose a lightweight multi-path alignment network (LMPAN) for on-device joint acoustic echo cancellation (AEC) and noise suppression (NS) in full-duplex spoken dialogue systems. To address hardware-induced distortions and dynamic acoustic conditions, we introduce three core innovations: (1) a multi-path alignment stage correcting temporal and energy mismatches across reference, linear AEC (LAEC) output, and micro",
-   "summary_zh": "LMPAN 提出一个轻量级多路对齐网络，在端侧联合完成全双工对话所需的声学回声消除(AEC)与噪声抑制，通过对参考信号、线性 AEC 输出与麦克风信号做时延与能量对齐来应对硬件失真和动态声学环境。这正命中座舱'边说边听'的核心痛点：外挂 TTS 播报会回灌进麦克风，车载噪声又大，一个可上车的轻量 AEC+NS 前端是全双工 harness 能跑起来的前提。",
+   "summary_zh": "LMPAN 用三路软时延/能量对齐、双 GTCRN 和动态目标联合做 AEC 与降噪；强回声区 WER 从 24.25% 降到 14.38%，真实打断率从 85.17% 升到 93.85%。它可放在 Harness 判停前并使用外挂 TTS 播放 reference，但论文未给设备端 RTF、延迟和功耗。",
    "demo": "",
    "stars": null
   },
@@ -4383,7 +4383,7 @@
     "kv cache"
    ],
    "summary_en": "Real-time interaction models -- Moshi, MiniCPM-o, Qwen-Omni -- turn serving into a periodic real-time task: on every frame a session ingests streaming audio and must respond by a recurring wall-clock deadline, while its KV cache grows monotonically and stays pinned for the whole conversation. This regime hides a dangerous failure mode. On a real full-duplex stack, sustained load does not degrade serving gracefully: i",
-   "summary_zh": "Metronome 把 Moshi、MiniCPM-o、Qwen-Omni 这类实时交互模型的服务抽象为周期性实时任务：每帧都有墙钟截止期，而 KV cache 单调增长并全程驻留，持续高负载下系统不是优雅降级而是崩溃；论文给出缓存上界与节拍保障方案。这是本站服务化环节最直接相关的一条：流式进 KV 的座舱助手必须面对同样的 KV 膨胀与实时调度问题。",
+   "summary_zh": "Metronome 用有界滑窗 KV、attention sinks 和 AIMD 准入控制防止长期实时会话突然耗尽缓存；5 分钟测试把无界 KV 的 14/20 次崩溃降为 0/20。当前 Harness 判停后才生成，主要应借鉴长会话上限、活性监控和分钟级压力测试，而非直接套用 209 会话容量。",
    "demo": "",
    "stars": null
   },
@@ -4420,7 +4420,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Recent advances in AudioLLMs have enabled spoken dialogue systems to move beyond turn-based interaction toward real-time full-duplex communication, where the agent must decide when to speak, yield, or interrupt while the user is still talking. Existing full-duplex approaches either rely on voice activity cues, which lack semantic understanding, or on ASR-based modules, which introduce latency and degrade under overla",
-   "summary_zh": "一篇全双工轮次检测(turn detection)论文，提出FastTurn，把声学线索与流式语义线索统一起来，实现低延迟且鲁棒的说话/让渡/打断决策。这正是本站全双工座舱助手'边说边听'的核心痛点：纯VAD缺语义、ASR方案有延迟且在重叠语音下退化，FastTurn的声学与流式语义融合路线可直接借鉴到harness的轮次控制模块。",
+   "summary_zh": "FastTurn 融合 streaming CTC、Conformer 声学表示和 Qwen3-0.6B，判断 Complete、Incomplete、Backchannel、Wait，在自建集上为 79.62% accuracy、120.1ms 平均延迟。它与 Harness 生成前判停最匹配，但没有代码和权重，延迟定义与数据许可链也需先核验。",
    "demo": "",
    "stars": null
   },
