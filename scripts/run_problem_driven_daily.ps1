@@ -22,6 +22,7 @@ function Run-Native([scriptblock]$Command) {
     $ErrorActionPreference = $old
     $output | ForEach-Object { Write-Log "$_" }
     if ($code -ne 0) { throw "native command failed with exit code $code" }
+    return $output
 }
 
 if (Test-Path $Lock) {
@@ -39,11 +40,19 @@ try {
         & $Python (Join-Path $RepoPath "scripts\build_project_status.py") `
             --source $HarnessPath
     }
-    $prompt = Get-Content (Join-Path $RepoPath "DAILY_REPORT_AGENT.md") `
-        -Raw -Encoding UTF8
-    Run-Native {
+    $prompt = "Read DAILY_REPORT_AGENT.md in this workspace and execute every instruction now. Do not ask clarifying questions; infer the date and scope from the repository. Finish with REPORT_TASK_COMPLETE."
+    $agentOutput = Run-Native {
         & $Agent --print --force --trust --workspace $RepoPath `
             --model "gpt-5.6-sol-xhigh" --output-format text $prompt
+    }
+    if (($agentOutput -join "`n") -notmatch "REPORT_TASK_COMPLETE") {
+        throw "agent did not emit REPORT_TASK_COMPLETE"
+    }
+    $today = Get-Date -Format "yyyy-MM-dd"
+    $todayReports = @(Get-ChildItem (Join-Path $RepoPath "reports") `
+        -Filter "*-$today.md" -File)
+    if ($todayReports.Count -lt 2) {
+        throw "agent did not create both reports for $today"
     }
     Run-Native { & $Python (Join-Path $RepoPath "scripts\test_explanations.py") }
     Run-Native { & $Python (Join-Path $RepoPath "scripts\build_site.py") }
