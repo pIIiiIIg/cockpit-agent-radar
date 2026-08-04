@@ -139,17 +139,21 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>视觉、音频、文本与车控融合的智能座舱助手</li>
 </ul>
 <h2>StreamingModelHarness 当前进展与问题</h2>
-<p>项目在最近一轮提交中已经从“讨论A/B差异”推进到可重复的候选校验：</p>
+<p>项目在最近一轮提交中已经从“讨论A/B差异”推进到可重复的候选校验和近义工具判别：</p>
 <ul>
-<li>clean口径已扩展到400条双版基准，并支持A、B预取、B纯自主三方比较。</li>
-<li>B版实测约79%严格工具能力；持久KV累积会损失约22个百分点。</li>
-<li>Harness已修复模型编造工具且失败后不重试的问题。</li>
-<li>新增候选校验门，可拦截约45%的候选外工具失配。</li>
-<li>主模型自身 <code>probe_turn_end</code> 被实验证伪，不能依赖Qwen原生logits代替判停模型。</li>
-<li>投机预取和工具清单压缩都出现负优化，已回退或关闭。</li>
+<li><code>3e34c2a</code> 将 clean 口径扩展到 400 条双版基准；当前还支持 A、B预取、B纯自主三方比较。</li>
+<li><code>a1d4246</code> 实测 B 版严格工具能力约 79%；持久 KV 累积会损失约 22 个百分点。</li>
+<li><code>fcb016d</code> 修复模型编造工具名且失败后从不重试的问题。</li>
+<li><code>770ee7a</code> 新增候选校验门，可拦截约 45% 的“调用候选集外工具”失配；<code>b4a3491</code> 又整理了 52 组近义工具区分判据，说明剩余问题已从候选覆盖进一步收敛到候选内消歧。</li>
+<li><code>0a80a52</code> 实证主模型自身 <code>probe_turn_end</code> 不可行，不能依赖 Qwen 原生 logits 代替判停模型。</li>
+<li><code>791436c</code> 的 60 条实验表明投机预取是负优化；<code>c419e93</code> 也已回滚比原问题更差的工具清单压缩。</li>
+<li>当前单 token 解码约 110ms。项目剖析表明速度不随 KV 长度变化，HF MoE 每层的 <code>.nonzero()</code>、GPU 标量比较和 <code>torch.where</code> 合计约造成 816 次 GPU→CPU 同步/token；这是项目根因判断，尚未由今日论文验证。</li>
+<li>闲聊工具注入的阈值实验也为负面结果：若用分数门槛滤掉全部闲聊需 <code>T=5</code>，会误伤 6.25% 的真实车控，因此暂不采用。</li>
 </ul>
 <table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
-<tr><td>长尾车控仍不够准</td><td>A/B严格工具成功率约80%，候选外调用是主要错误源</td><td>Qwen-UI-Agent</td><td>将统一Action schema、候选授权、参数校验和高风险确认加入Harness C</td><td>400条任务成功率提升且聊天误车控≤1%</td></tr>
+<tr><td>长尾车控、近义工具与聚合意图仍不够准</td><td>A/B严格工具成功率约80%；候选门已拦住约45%的候选外失配，但仍需52组近义工具判据，聚合意图也有展开不全</td><td>Qwen-UI-Agent</td><td>将统一Action schema、候选授权、近义判据、参数校验、聚合展开和高风险确认加入Harness C</td><td>400条“参数+最终车态”成功率提升且聊天误车控≤1%</td></tr>
+<tr><td>MoE单token解码慢</td><td>约110ms/token；速度不随KV长度变化，项目剖析估算约816次GPU→CPU同步/token</td><td>今日Radar无直接且有定量证据的新候选；采用项目提出的无同步 <code>index_select</code>+<code>bmm</code> 快路径</td><td>在5090与H200分别跑 <code>tests/stress_multiturn.py</code>，对比原HF实现和monkeypatch</td><td>ms/token显著下降、输出一致；若换H200几乎不变则进一步支持同步瓶颈判断</td></tr>
+<tr><td>闲聊仍注入工具</td><td>阈值要滤尽闲聊需T=5，但误伤6.25%真实指令；100条语音中的18条日常对话尚未出现误车控</td><td>Qwen-UI-Agent的typed Action与确认/验证门，只能约束执行，不能证明可安全取消注入</td><td>保留召回，分别记录“工具注入、Action生成、Action执行”三级误触发</td><td>真指令召回不下降，日常对话Action执行保持0%，注入率单独报告</td></tr>
 <tr><td>多人语音是否该响应</td><td>现有VAD只判断“有声/无声”，无法判断是否对助手说</td><td>Cocktail-Talker</td><td>增加RESPOND/LISTEN/IGNORE旁路头，结合座位/声纹回放</td><td>漏响应、误响应和首动作时延同时改善</td></tr>
 <tr><td>TTS错读与首包慢</td><td>Edge TTS首音频约3秒；本地TTS仍需准确性回归</td><td>ECCD、SpeechParaling-Bench</td><td>CosyVoice2原生/ECCD A/B，并加入座舱语气与动态变化测试</td><td>CER下降且首音频P95不退化</td></tr>
 <tr><td>持久KV产生上下文引力</td><td>B版KV累积损失约22个百分点，压缩方案曾出现负优化</td><td>StreamingClaw v2</td><td>区分短窗KV、长期事件记忆和可丢弃工具回执</td><td>长会话准确率稳定，KV占用有界</td></tr>
@@ -157,17 +161,17 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </tbody></table>
 <h2>一、先说结论</h2>
 <p>本报告比较 <code>2026-08-03</code> 日报，候选来自 Radar 在前一日报告之后收录、或虽已收录但尚未进入前一日报告的条目。只核验论文正文、arXiv/Hugging Face 论文页、作者项目页、官方代码仓库和模型页。下文的“论文结果”只复述来源可核验内容；面向 StreamingModelHarness 的建议是工程判断，不代表论文结论。</p>
-<p>今天有六项值得跟进的增量，但没有新的 AEC/降噪、空间听觉或 KV-cache 定量工作。</p>
+<p>今天有六项值得跟进的增量，但没有新的 AEC/降噪、空间听觉、MoE 解码内核或 KV-cache 定量工作。</p>
 <h3>P0：直接命中当前工程短板</h3>
 <ol>
 <li><strong>Cocktail-Talker</strong>：把多人噪声环境中的“回答、继续听、忽略”显式建模为动作，适合补充“是否对助手说”的动作头；但它依赖固定话轮边界，不是流式判停器。</li>
 <li><strong>ECCD</strong>：无需训练即可降低多种语音 LM 的错读、漏读和重复，适合成为本地 CosyVoice2/3 的解码 A/B 插件；正文没有报告双分支解码开销。</li>
-<li>今日没有新的 AEC/NS 工作；前一日报告的 <code>faster-enhancer.c</code> 因果降噪结论不变，也不改变“AEC/LMPAN → NS → 判停”的前端优先级。H20 Harness A/B 的已有数字继续有效，仍须延续真实双讲回放和 M3 多轮评测。</li>
+<li><strong>Qwen-UI-Agent</strong>：统一 Action、批动作、持久工作流和高风险确认直接命中候选授权、52组近义工具、聚合意图与最终车态验证；迁移到座舱仍是编辑判断，论文没有语音流或实时车控结果。</li>
+<li>今日没有新的 AEC/NS 或 MoE 内核工作；前一日报告的 <code>faster-enhancer.c</code> 因果降噪结论不变，也不改变“AEC/LMPAN → NS → 判停”的前端优先级。MoE 快路径应按项目剖析先做本地判别实验，不能借论文数字证明。H20 Harness A/B 的已有数字继续有效，仍须延续真实双讲回放和 M3 多轮评测。</li>
 </ol>
 <h3>P1：适合形成下一阶段架构</h3>
 <ol>
 <li><strong>SpeechParaling-Bench</strong>：补齐 TTS 的语气、音量变化和情境适配评测，可转成座舱表达层回归集；它不是流式时延、判停或打断基准。</li>
-<li><strong>Qwen-UI-Agent</strong>：其 GUI/CLI/API 统一 Action、批动作、持久工作流和高风险确认机制可直接启发 Harness C 的座舱 Action 通道；它没有语音流或实时座舱结果。</li>
 </ol>
 <h3>P2：长期模型研究</h3>
 <ol>
@@ -308,7 +312,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
          → 低风险并行准备，高风险 ask_user
          → 执行结果与最终车态回写
          → terminate 前强制验证</code></pre>
-<p>车控不需要复刻 GUI Agent；最有价值的是批动作、显式确认、持久事项和执行后验证。</p>
+<p>车控不需要复刻 GUI Agent；最有价值的是批动作、显式确认、持久事项和执行后验证。 结合今天的项目提交，52 组近义工具应被建模成可混淆 Action family：候选检索不仅返回名称和 schema，还应返回成组区分判据；聚合意图先确定性展开，再逐项校验参数和最终车态。这里是面向项目的编辑判断，不是 Qwen-UI-Agent 已报告的车控方案。</p>
 <h3>局限与开放状态</h3>
 <ul>
 <li>真实设备结果依赖准确率为 92.8% 的 AutoJudge，仍有判断误差。</li>
@@ -378,6 +382,8 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <h2>今日建议路线</h2>
 <h3>第一阶段</h3>
 <ol>
+<li>先用 <code>tests/stress_multiturn.py</code> 对比原 HF MoE 与无同步 <code>index_select</code>+<code>bmm</code> 快路径，并在 5090/H200 上做带宽—同步判别；这是项目实验，不运行任何陌生论文仓库代码。</li>
+<li>将 52 组近义工具判据接入 Harness C 候选元数据，增加参数与最终车态评分，并单列聚合意图完整率。</li>
 <li>将 Cocktail-Talker 的 <code>RESPOND</code>/<code>LISTEN</code>/<code>IGNORE</code> 标签改造成真实座舱多乘员回放集，不直接采用其固定边界模型。</li>
 <li>在 CosyVoice2/3 本地 TTS 上实现 ECCD 小规模 A/B，首包延迟和 RTF 必须与 CER 同时过门。</li>
 <li>延续前一日 AEC+NS 真实双讲数据及 M3 多轮评测，不因今日无新论文而降级。</li>
@@ -394,12 +400,12 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ol>
 <h2>风险提醒</h2>
 <ul>
-<li>今日没有新的项目实测。前一日 H20 Harness A/B 与 Harness C 的建议继续有效，论文数字不能替代真实车内回放。</li>
+<li>今日项目新增了候选校验约拦截45%失配、52组近义工具判据和MoE同步根因剖析，但尚未给出Harness C完整400条回归或MoE快路径加速结果。前一日H20 Harness A/B与Harness C的建议继续有效，论文数字不能替代真实车内回放。</li>
 <li>Cocktail-Talker 依赖固定话轮边界，不能替换真正在线的语义判停；ECCD 缺少双分支时延和资源开销；StreamingClaw 缺少全部定量结果；AVF 缺少在线流式和端侧实时证据。</li>
 <li><code>StreamingClaw v2</code> 是同一 arXiv ID 的修订版，不建立第二条技术记录；Qwen-UI-Agent 是 MAI-UI 的后续工作，只记其新增的真实设备、统一 Action、主动服务和跨平台 harness；AVF-Instruct 与 AVF-Think 是同一工作中的阶段模型，不拆成两项。</li>
 <li>Ming-omni-tts 的社区 MLX 转换、RVC/Applio、Waxal 模型、通用 embedding、头像与 HN 条目没有提供足够的论文级增量或与当前问题的直接证据，本日不进入主清单。</li>
 <li>CoTinyVLA、TurboVLA、RL²-VLA 的动作结果来自机器人任务，未证明可迁移到车控 Action 安全与流式语音；保留为低优先级观察项。</li>
-<li>今日未发现新的 AEC/降噪、空间听觉、真正在线的语义判停、全双工基础模型或实时服务/KV cache 定量结果。</li>
+<li>今日未发现新的 AEC/降噪、空间听觉、真正在线的语义判停、全双工基础模型、MoE解码内核或实时服务/KV cache 定量结果。</li>
 </ul></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>
