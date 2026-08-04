@@ -1,6 +1,261 @@
 {
- "generated": "2026-08-04T14:48:25.333183+08:00",
+ "generated": "2026-08-04T19:42:27.465718+08:00",
  "items": [
+  {
+   "id": "ebe69abc97",
+   "kind": "repo",
+   "source": "github",
+   "title": "modelscope/mcore-bridge",
+   "url": "https://github.com/modelscope/mcore-bridge",
+   "published": "2026-08-04",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 6,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "MCore-Bridge: Providing Megatron-Core model definitions for state-of-the-art large models and making Megatron training as simple as Transformers — with support for 300+ large language models (Qwen3-Next, GLM-5.2, Deepseek-V4, MiniMax-2.7, ...) and 200+ multimodal large models (Qwen3.5, Qwen3-Omni, Gemma4, ...). deepseek-r1 deepseek-v4 gemma4 glm-5 gpt-oss llama4 llm lora megatron minimax ms-swift peft qwen3-5 qwen3-omni qwen3-vl transformers",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 89
+  },
+  {
+   "id": "6c381be0cf",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Deferred Exposure of Future Trajectories for Verifiable Reasoning in Autonomous Driving VLMs",
+   "url": "https://huggingface.co/papers/2608.01755",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 6,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged ground-truth (GT) future trajectory. We empirically show that this induces trajectory anchoring bias: teacher models rationalize the revealed outcome rather than infer a decision from scene evidence, producing less causally faithful CoTs and substantially more severe hallucinations, especially in causally challenging scenes. Removing the GT trajectory eliminates this shortcut, but open-ended trajectory generation entangles high-level decision-making with precise geometric synthesis and low-level dynamics. To make trajectory-level driving decisions verifiable without requiring open-ended trajectory synthesis, we introduce Autonomous-Driving Multiple-Choice Question (AD-MCQ), which casts planning as selection among explicit trajectory candidates. Taking this a step further, we propose Deferred Exposure of Future Trajectories for RLVR (DEFT-RLVR) to transform future trajectories from pre-decision anchors into post-decision verification targets. Experimental results show that DEFT-RLVR improves AD reasoning while preserving or even enhancing general visual capabilities. With VLM-only inference and controllable difficulty through candidate construction, AD-MCQ provides a flexible, scalable, and extensible foundation for future research on verifiable AD reasoning.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2633e8f341",
+   "kind": "paper",
+   "source": "hf",
+   "title": "LongHorizon-Harness: Advancing Long-Horizon Agents for Real-World Tasks",
+   "url": "https://huggingface.co/papers/2608.01964",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 6,
+   "tags": [
+    "agent harness"
+   ],
+   "summary_en": "Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, and completion assessment within a growing context, making the state difficult to track and allowing incorrect self-assessments to propagate into later decisions. We reformulate long-horizon execution as a task-state management problem and propose LongHorizon-Harness, which maintains the task state explicitly outside execution and updates it only with facts independently verified from the environment. Its Manage-Execute-Audit(MEA) loop uses a manager to maintain the task state and determine the next subtask, a fresh-context executor to perform it, and a read-only auditor to verify the resulting environment state before the next round. A lightweight AgentAdapter supports interchangeable model and harness backends without modifying their native agent loops. LongHorizon-Harness improves Qwen~3.7-Plus from 51.8% to 80.7% on WeaveBench, from 69.7% to 77.2% on Terminal-Bench~2.1, and from 2.8% to 8.3% on OSWorld~2.0. It also raises Claude Opus~4.7 from 20.0% to 34.3% on an OSWorld2.0 subset, demonstrating consistent gains across models, harnesses, and interaction domains.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8b7e72d84e",
+   "kind": "paper",
+   "source": "hf",
+   "title": "UEmbed: Unified Sparse and Dense Multimodal Embeddings",
+   "url": "https://huggingface.co/papers/2608.02583",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Sparse retrieval underpins modern search systems, from web search to retrieval-augmented generation. Existing work has introduced Learned Sparse Retrieval (LSR) to push beyond exact lexical matching toward richer semantics. Yet LSR has so far remained tied to encoder-style bidirectional architectures, and its extension to multimodal settings still relies heavily on auxiliary cross-modal modules. To address these limitations, we introduce UEmbed (Unified Embedding), a decoder-only multimodal embedding model that produces both sparse lexical and dense representations in one causal forward pass. UEmbed appends N learnable special tokens to the input and partitions the vocabulary into N disjoint subsets. Each token's causal hidden state predicts sparse weights over its assigned subset, and the N subsets are concatenated into the full sparse vector. Trained on public data, we release UEmbed at 2B, 4B, and 9B scales. UEmbed-9B reaches 71.8 (dense) and 71.0 (sparse) on MMEB-v2, outperforming multimodal embedding models trained on publicly available data (e.g., RzenEmbed). On BEIR, UEmbed also remains competitive with strong dense and sparse baselines. Furthermore, we demonstrate the practical utility of UEmbed across three dimensions: effectiveness, efficiency, and agentic applications. Overall, UEmbed offers a new paradigm: it unifies dense and sparse embeddings in one model, while further extending sparse retrieval to unify text and multimodal inputs.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b53cfd0acb",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Model or Harness? An Interaction-Centric Taxonomy for Localizing Agent Failures",
+   "url": "https://huggingface.co/papers/2607.28802",
+   "published": "2026-07-29",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Existing evaluations often reduce agent failures to system-level outcomes, obscuring where the fault originated and which intervention would improve the agent system. This creates a repair-assignment problem: the same visible failure may call for model post-training, harness engineering, environment redesign, or benchmark repair depending on its source. Because agent behavior emerges from interactions among models, harnesses, users, tools, memory, and environments, outcome-level labels are often insufficient for improvement. Most failure taxonomies do little to resolve this problem because they are benchmark-specific and lack a shared structure. We introduce an interaction-centric taxonomy that localizes failures to the interactions in which they originate and identifies the responsible component. It organizes 41 failure modes by assigning each to an edge between two components and a fault side indicating where the repair belongs. This makes the taxonomy actionable: model-side failures identify targets for post-training, harness-side failures point to scaffolding and tool-integration fixes, and environment or grader failures reveal evaluation conditions requiring redesign. The schema applies across agent architectures, from coding assistants to long-horizon personal assistants and multi-agent systems. We ground the taxonomy in worked examples from public benchmarks, model system cards, published reports, and logged agent trajectories, and evaluate its reproducibility using independent reasoning agents as judges. Across four frontier models, the strongest judge reaches Cohen's κ=0.76 against human category labels, suggesting that the categories capture shared structure rather than annotator-specific preferences.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3306ffc2ed",
+   "kind": "paper",
+   "source": "hf",
+   "title": "SKT: Skill-Use Training at Scale via Verified Synthetic Data Generation",
+   "url": "https://huggingface.co/papers/2608.02287",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 5,
+   "tags": [
+    "agent harness"
+   ],
+   "summary_en": "Agent skills have become an important mechanism for equipping language-model agents with reusable procedural knowledge. However, providing skills alone does not guarantee that current models can effectively identify, apply, and coordinate them. To improve skill-use capabilities, we introduce SKT, a verified data synthesis pipeline that constructs skill-grounded tasks and executable trajectories from large collections of agent skills. SKT selects suitable single-skill and multi-skill configurations, synthesizes tasks through rule-based and agent-based verification with feedback-guided repair, and retains only successful trajectories that substantially use every required skill. Using 2,000 public skills, SKT produces 4,000 task packages and 27,164 verified trajectories. Based on the same pipeline and a disjoint test pool, we further construct SkillEval, a held-out executable benchmark for evaluating skill use. Experiments across diverse models, benchmarks, and agent harnesses show that supervised fine-tuning on SKT-generated trajectories consistently improves skill-use performance. Verification ablations, cross-harness evaluation, and scaling experiments further demonstrate that these gains depend on high-quality supervision, extend beyond a single agent interface, and increase with broader skill coverage. Together, these results establish verified data synthesis as an effective and scalable approach for skill-use training.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6402f4706a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "SAM3D-Guided Object-Centric Representation Alignment for Vision-Language-Action Models",
+   "url": "https://arxiv.org/abs/2607.25912v1",
+   "published": "2026-07-28",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) models have shown strong potential for general robot manipulation, but most existing models rely on 2D visual-language backbones and lack fine-grained 3D understanding of target objects, especially under occlusion, pose variation, scale changes, and precise spatial interaction. We propose an object-centric 3D representation alignment framework built upon $π_0$, using SAM3D as a frozen 3D teacher to provide target-object 3D priors during training. Specifically, we localize task-relevant objects with object recognition models, generate corresponding object masks, and use SAM3D to extract dense object-level 3D representations, which are aligned with intermediate visual features of $π_0$. This enables the policy to internalize target-object 3D information while preserving the original RGB-language-to-action inference pipeline without requiring depth, point clouds, masks, SAM3D, or additional 3D modules at test time. Simulation experiments show consistent improvements, achieving 99.1\\% on LIBERO and an average length of 4.11 on CALVIN. Real-world experiments further demonstrate that our method is particularly effective in long-horizon manipulation scenarios where the robot must focus on different target objects across multiple subtasks.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f60acec12a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "CG-World: A Large-Scale World-State Dataset and Protocol for World Models",
+   "url": "https://arxiv.org/abs/2607.26452v1",
+   "published": "2026-07-29",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal",
+    "vision-language-action"
+   ],
+   "summary_en": "World models must learn the joint dynamics of states, actions, events, and observations, yet existing video, robotics, and simulation datasets usually capture only part of this structure. We introduce CG-World, a large-scale world-state dataset and protocol derived from industrial computer graphics production pipelines. CG-World explicitly records intermediate states, including multimodal semantics, spatial structure, skeletal and controller states, motion curves, camera and lighting parameters, physics caches, contact events, and multi-pass renderings. CG-World v1 contains approximately 850,000 temporally aligned segments of 1-5 seconds. It separates latent states, observations, relations, events, and branch metadata, and organizes them into unified spatiotemporal samples. To support intervention learning and counterfactual reasoning, CG-World defines a branch lineage covering factual trajectories, observation interventions, action interventions, mechanism interventions, and strict counterfactual branches, with intervention targets, invariants, and alternative outcomes explicitly recorded. We evaluate the dataset on geometry-conditioned video generation, action prediction, and closed-loop vision-language-action policy transfer. Results show that CG-World provides reusable structured supervision for controlled generation, action modeling, and embodied policy transfer. We plan to expand CG-World through continued data collection and community collaboration toward a shared data infrastructure for world models, Physical AI, and embodied intelligence.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2f896129ea",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Cloned Voices, Real Consequences: Evaluating Bias in Political Deepfake Detection for Electoral Integrity in Brazil",
+   "url": "https://arxiv.org/abs/2607.28770v1",
+   "published": "2026-07-30",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "Recent advances in generative artificial intelligence have made it easier to fabricate statements and amplify political disinformation during elections. We introduce ParlaSpoof-BR, an audio deepfake dataset derived from recordings of the Brazilian Chamber of Deputies and expanded with synthetic utterances from diverse text-to-speech and voice conversion models. Using ParlaSpoof-BR, we benchmark state-of-the-art audio deepfake detectors, examine their ability to generalize to Brazilian Portuguese political speech, and investigate potential biases in their predictions. Our analysis reveals that current systems struggle to provide consistent decisions across the diversity represented in the dataset, with methodological factors (synthesis model choice, manipulation extent) dominating over demographic disparities. ParlaSpoof-BR provides a domain-specific benchmark for studying audio deepfake detection in a socially consequential and underrepresented setting, supporting the development of more robust detection systems for electoral integrity in Brazil.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8c85d4ceba",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Leveraging Beam Search Information for Confidence Estimation in E2E ASR",
+   "url": "https://arxiv.org/abs/2607.29299v1",
+   "published": "2026-07-31",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "speech recognition"
+   ],
+   "summary_en": "To estimate confidence for end-to-end Automatic Speech Recognition (ASR) systems, recent research has proposed Confidence Estimation Modules that incorporate features from the backbone ASR model. Most existing approaches, however, are architecture-dependent. In this paper, we propose the Score-Rank Confidence Estimation Module (SR-CEM), a lightweight module that leverages beam search information to generate token- and word-level confidence scores. Specifically, SR-CEM constructs features by combining the scores and ranks of tokens within a hypothesis. Experiments show that SR-CEM achieves effective calibration on both in-domain and out-of-domain English data. On the in-domain testset, it attains a Maximum Calibration Error of 4.50% and an Expected Calibration Error of 0.30% at the token level, significantly outperforming softmax confidence (20.04% and 1.75%, respectively). At the word level, SR-CEM achieves 8.17% and 0.35%, compared to 17.91% and 1.67% from softmax confidence. Furthermore, we demonstrate its robustness across hybrid and transducer ASR architectures with different decoding strategies, as well as on Dutch, noisy and conversational speech conditions. Our main finding is that SR-CEM is particularly effective in reducing Maximum Calibration Error, which is critical for reliable downstream use of ASR outputs, while maintaining architecture independence and generality across diverse evaluation conditions.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7c99d38f8d",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
+   "url": "https://arxiv.org/abs/2607.29613v1",
+   "published": "2026-07-31",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ec978c587a",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models via Emergent Representational Specialization",
+   "url": "https://arxiv.org/abs/2608.00569v1",
+   "published": "2026-08-01",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Deploying billion-parameter Vision-Language-Action (VLA) policies on mobile robots creates a systems conflict: semantic reasoning benefits from cloud GPUs, whereas closed-loop control must respond locally despite network delay and jitter. Existing hierarchical and asynchronous policies improve throughput, but their slow-path representations can still arrive stale or require explicit scheduling and delay cues. We introduce CloudEdgeVLA, a cloud-edge policy that treats temporal misalignment as a representation-learning problem. A cloud VLA encodes delayed observations into slowly varying task features, while a lightweight edge head combines the latest available cloud feature with current local vision. During training, current and randomly delayed frames are paired with the same current action target in fresh and stale paths. This objective encourages the cloud representation to preserve task-level information while the edge path supplies state-sensitive corrections. Across four LIBERO suites, CloudEdgeVLA retains 63.8--78.0% success with a 40-step uniform-delay window, whereas VLASH reaches at most 6.4% and the evaluated single-path baselines at most 3.0%. By removing blocking synchronization from the control loop, the design offers a practical route to scalable VLA deployment in which cloud models can grow while edge computation remains lightweight and responsive.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "1d2ed2131c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Beyond One-Size-Fits-All: Personalized and Culturally Adaptive Emotional TTS via Interactive Optimization of Individual Emotion Perception Spaces",
+   "url": "https://arxiv.org/abs/2608.00998v1",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "The rise of conversational AI has increased interest in emotional Text-to-Speech (TTS). Most systems rely on discrete emotion labels, which fail to capture the nuanced nature of human affect. Recent models employ dimensional representations such as Russell's arousal-valence (A-V) model, offering finer control. However, emotional perception varies across individuals and cultures, which may cause mismatches between modeled and perceived emotions. We propose a personalized and culturally adaptive emotional TTS framework that performs interactive optimization of individualized A-V perception spaces using an Interactive Genetic Algorithm. By adapting emotion representations to each listener, the system produces speech with more perceptually aligned emotional expression than models using averaged A-V values. Evaluations with Japanese, Chinese, and Indonesian participants highlight the importance of personalization and cultural adaptation for moving beyond one-size-fits-all emotional TTS.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "a63d9de99f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "VLAGuard: A Framework for Evaluating and Mitigating Physical Attention Hijacking in Vision-Language-Action Robots within Wireless Sensor Networks",
+   "url": "https://arxiv.org/abs/2608.01028v1",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Deploying Vision-Language-Action (VLA) robots as mobile edge nodes within wireless sensor networks (WSNs) requires robust protection against physical adversarial threats. We present VLAGuard, a framework to assess and mitigate a critical vulnerability: policy-critical action-to-vision attention hijacking. We first introduce a stress-test module, Visuomotor Attention-guided Semantic Attack (VASA), using printable patches to severely distract the robot's action-conditioned cross-attention. To counter this, we propose Attention-Protective Fine-Tuning (APFT), a defense that stabilizes spatiotemporal attention and enforces geometric consistency with zero inference overhead. Evaluations across simulated and physical WSN-assisted smart environments demonstrate significant robustness gains. APFT reduces the OpenVLA failure rate from 100.0% to 25.9% in LIBERO simulations. Furthermore, across 2,000 real-world trials, APFT improves the average success rate from 23.0% to 67.4% under severe patch attacks. This highlights that protecting attention pathways is important for improving the robustness of VLA-driven edge nodes in sensor networks.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "445eca4e31",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA",
+   "url": "https://arxiv.org/abs/2608.01035v1",
+   "published": "2026-08-02",
+   "found": "2026-08-04T19:42:27.465718+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) models have emerged as a prominent paradigm for end-to-end autonomous driving; however, their efficient deployment is severely constrained by high computational latency and exposure bias arising from sequential autoregressive decoding. Conversely, while specialized diffusion policies enable low-latency, parallel execution, training them from scratch typically yields narrow, single-task architectures that lack holistic visual-linguistic reasoning. Successfully transforming pre-trained autoregressive generalists into parallel diffusion models could combine multi-task cognitive intelligence with execution efficiency, yet this transition presents a formidable architectural challenge due to mismatched attention patterns (causal versus bidirectional) and divergent optimization objectives. To bridge this divide, we introduce WAM-Diff2, a multi-task discrete diffusion VLA framework powered by a three-stage hierarchical distillation strategy. By structuring the architectural shift through progressive block-wise adaptation, block-wise distillation, and model-wise cross-scale distillation, WAM-Diff2 preserves the underlying semantic foundations of the base model while accelerating inference. Extensive evaluations across driving understanding, perception, and planning benchmarks demonstrate that WAM-Diff2 effectively mitigates exposure bias and achieves performance parity with autoregressive baselines. Crucially, the autoregressive-to-diffusion transition yields a 2.8x decoding speedup, which scales to an ultimate 15.1x acceleration when combined with system-level optimizations including FlashInfer and CUDA Graphs.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "6926d5f3f7",
    "kind": "paper",
@@ -110,7 +365,7 @@
    "summary_en": "Your faithful, impartial partner for audio evaluation — know yourself, know your rivals. 真实评测，知己知彼。A unified benchmark framework for ASR/TTS/Audio Codec/audio LLM evaluation asr audio-codec benchmark evaluation llm-evaluation speech-recognition speech-to-speech speech-to-text tts voice-cloning",
    "summary_zh": "",
    "demo": "",
-   "stars": 312
+   "stars": 310
   },
   {
    "id": "ba573b6842",
@@ -1746,7 +2001,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15037
+   "stars": 15041
   },
   {
    "id": "357904a773",
@@ -1957,7 +2212,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 37
+   "stars": 49
   },
   {
    "id": "bd747fc4a6",
@@ -3223,7 +3478,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 10604
+   "stars": 10845
   },
   {
    "id": "be7f76beb6",
@@ -3298,7 +3553,7 @@
    "summary_en": "The Virtual Human Toolkit enables researchers and developers to rapidly create embodied conversational agents using speech recognition, audio-visual sensing, natural language processing, text-to-speech synthesis, and nonverbal behavior generation. ai avatars cloud conversational-agents conversational-ai embodied-agent llm nlp sensing simulation socially-intelligent-agents tts unity virtual-humans",
    "summary_zh": "",
    "demo": "",
-   "stars": 11
+   "stars": 10
   },
   {
    "id": "47d9062193",
@@ -3353,7 +3608,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5828
+   "stars": 5838
   },
   {
    "id": "293306d628",
@@ -3371,7 +3626,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 721
+   "stars": 723
   },
   {
    "id": "5d6e6e2b0a",
@@ -4478,7 +4733,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5113
+   "stars": 5123
   },
   {
    "id": "a4b6353a38",
