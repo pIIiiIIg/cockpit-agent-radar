@@ -525,7 +525,7 @@
     "barge-in"
    ],
    "summary_en": "Full-duplex spoken dialogue systems (FDSDSs) can listen while speaking, enabling natural behaviors such as smooth turn-taking, backchannel handling, and user barge-in handling. However, fair comparisons in multi-turn conversations remain a challenge. In addition, existing benchmarks provide limited coverage of languages and dialogue domains. We propose M3-DuplexBench, a multi-turn, multilingual, multidomain benchmark for FDSDSs. M3-DuplexBench supports English and Japanese and covers both casual conversation and multi-turn question answering. In addition, we evaluate models under multiple dialogue context settings, including single-turn, user-only, and teacher-forced full-context settings, to analyze how dialogue history affects model behavior. Experiments with recent FDSDSs reveal model-specific turn-taking characteristics, clear performance gaps across languages and domains, and mixed effects of dialogue context.",
-   "summary_zh": "",
+   "summary_zh": "M3-DuplexBench 用英日双语、闲聊与多轮问答，在固定历史条件下公平评测全双工模型的轮替和内容。 可把现有8轮车控压力测试升级为固定完整上下文的多轮基准",
    "demo": "",
    "stars": null
   },
@@ -563,7 +563,7 @@
     "multimodal"
    ],
    "summary_en": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant information at multiple granularities, from high-level abstractions to underlying records. In this paper, we formulate \\emph{analytic memory} as a complementary abstraction that organizes recurring multimodal observations into queryable structures supporting filtering, aggregation, ranking, and temporal comparison. We present AdaMM, a framework that jointly supports retrieval and analytic memory. Rather than relying on application-defined schemas, AdaMM extracts provenance-linked attribute-value observations from dialogue, images, and contextual metadata, discovers recurring field structures, and materializes them for analytical access. At inference time, a memory-aware planner decomposes queries into retrieval and analytic operations and routes each operation to the appropriate tools. Experiments on two long-term multimodal memory benchmarks, MemEye and MemGallery, show that AdaMM improves performance by up to 11.3\\% and 7.3\\%, respectively.",
-   "summary_zh": "",
+   "summary_zh": "AdaMM把多模态长期记忆拆成语义检索和可执行分析两部分，支持跨时间过滤、聚合与比较。 可把乘员偏好、车况和历次车控从纯对话KV迁移到可审计表",
    "demo": "",
    "stars": null
   },
@@ -845,7 +845,7 @@
     "multimodal"
    ],
    "summary_en": "Standard vision-language models (VLMs) suffer from Moravec's paradox: they excel at complex offline visual reasoning but struggle with simple streaming perception tasks and process them inefficiently. We present Mage-VL, an efficient codec-native streaming foundation model for real-time multimodal understanding and interaction. At its core, our custom tokenizer, Mage-ViT, replaces uniform frame sampling by selectively encoding dynamic, entropy-rich regions using motion vectors and residual energy across sparse anchor (I) and predicted (P) frames. Operating at a 16 x 16 patch level, this reduces visual token consumption by over 75% while preserving spatiotemporal context. Trained from scratch on approximately 560M unlabeled images and 100M unlabeled video frames, Mage-ViT matches or outperforms flagship encoders trained on billions of image-text pairs. We establish AI4AI data pipelines encompassing prompt-code joint optimization for multimodal captioning and AI-driven performance diagnosis to guide training recipes. Furthermore, through a bio-inspired dual-system architecture - a lightweight System 1 event gate and a causal System 2 decoder - Mage-VL enables proactive streaming perception. Extensive evaluations show that Mage-VL-4B matches Qwen3-VL-4B on static tasks while achieving strong gains in video understanding and 2D/3D spatial reasoning, with up to a 3.5x wall-clock inference speedup, and comprehensively surpasses the 15B Phi-4-reasoning-vision baseline. Beyond model artifacts, we deliver seven key empirical findings covering pre-training data efficiency, variable-resolution scaling, codec system acceleration, VideoQA SFT redundancy, motion-spatial synergy, AI4AI data pipelines, and Zero-Vision SFT for multimodal RL.",
-   "summary_zh": "",
+   "summary_zh": "Mage-VL利用视频编码器已有的I/P帧、运动向量和残差，只编码真正变化的区域，实现主动式流视频理解。 可作为座舱摄像头流的视觉前端，只有乘员动作或场景变化时写KV",
    "demo": "",
    "stars": null
   },
@@ -862,7 +862,7 @@
     "streaming speech"
    ],
    "summary_en": "This is an implementation and measurement study of what it costs to run a streaming speech enhancer on a CPU. We port FastEnhancer-Medium at 48 kHz to faster-enhancer.c, a C runtime with six int8 GEMM tiers selected at initialization, leaving architecture and weights untouched. One Apple M2 core reaches 0.069 real-time factor, against 0.230 for the fp32 ONNX Runtime graph on the same machine, a 3.3x speedup. A Galaxy S23+ (Snapdragon 8 Gen 2) reaches 0.096. The speedup comes from specializing every layer of the runtime around one fixed model. Activation ranges are recomputed per frame, so no calibration set is needed; the k=3 convolutions use Winograd F(2,3); cross-stage state is fp16; the GRU and the dequantization epilogues are fused; and nothing is allocated after startup. Over 824 VoiceBank-DEMAND utterances the engine tracks fp32 to within -0.006 PESQ and -0.08 dB SNR. Speed alone does not settle deployment cost. The enhancer holds a fraction of a core for as long as the microphone is open, so its real-time factor is a duty cycle. A benchmark races through a file; an audio callback does not. Pacing to the 6.67 ms deadline costs 4.2x per frame, saves 49% of the energy, and leaves the cheapest core placement missing 96% of its deadlines. All SIMD tiers within an architecture family emit byte-identical output. The runtime is released as a dependency-free library.",
-   "summary_zh": "",
+   "summary_zh": "faster-enhancer.c把FastEnhancer-Medium固化成无依赖C/int8流式运行时，可在普通CPU持续降噪。 可作为AEC之后、VAD/Qwen之前的端侧NS候选",
    "demo": "",
    "stars": null
   },
@@ -896,7 +896,7 @@
     "speech recognition"
    ],
    "summary_en": "We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file through bounded edits, accepting an edit only when it strictly improves a held-out score. Extended from classical ASR-LM framework, we refer this split the listener-thinker architecture; the two roles are coupled only through the memory, so no weights change and the learned skill stays auditable and portable. Restraint turns out to be the operative skill this loop discovers: unconstrained generative error correction (GER) over-corrects, breaking correct tokens on up to 64% of its edits on financial news, and Voice Memory, reduces this rate to 35%. Across ten HyPoradise domains with an open corrector, Voice Memory, lowers weighted word error rate from 8.36% to 7.52% (7.47% with three added in-context examples) without regressing any dataset below its 1-best baseline; gains concentrate where recoverable headroom is largest, including air-travel commands (8.40% to 3.40%) and noisy far-field speech (CHiME-4, 12.69% to 10.46%). The memory transfers across corrector families and adds zero parameters to the inference path. A demo and example code are provided for future studies.",
-   "summary_zh": "",
+   "summary_zh": "Voice Memory用可审计memory.md指导冻结的ASR纠错器，并只接受能改善保留集分数的记忆更新。 可让车控热词和同音错误通过可审计规则持续学习",
    "demo": "",
    "stars": null
   },
@@ -1334,7 +1334,7 @@
     "multimodal"
    ],
    "summary_en": "General-purpose embodied agents must understand multimodal instructions, anticipate how their environment will evolve, and produce precise control actions over extended horizons. Existing approaches typically specialize in visual-language reasoning, video-based world modeling, or action generation, while cascaded pipelines that first synthesize future observations and then infer actions can introduce interface bottlenecks and compound prediction errors. We present iFLYTEK-Embodied-Omni, a unified multimodal foundation model that jointly models vision(videos and images), language, and action within a single Omni framework. Its modality-specific visual-language, video-generation, and action-generation components communicate through shared multimodal self-attention. This design establishes brain-cerebellum collaboration: the vision-language modeland video generation model form a high-level brain for instruction understanding, task planning, progress tracking, and future visual-state prediction, whereas the action generation modelserves as a low-level cerebellum that directly converts planned subgoals and shared multimodal context into executable action chunks. To develop these capabilities, we combine action-annotated and action-free embodied videos from human demonstrations and robot interactions with embodied reasoning, embodied perception, and general-purpose image-text data to construct a comprehensive dataset. We further adopt a four-stage strategy that progressively trains the VLM, VGM, and AGM before jointly fine-tuning the complete model.",
-   "summary_zh": "",
+   "summary_zh": "iFLYTEK-Embodied-Omni统一视觉语言、未来视频和动作生成，以共享注意力形成高层脑与低层小脑协作。 其脑-小脑分层可映射为Qwen规划+确定性车控执行器",
    "demo": "",
    "stars": null
   },
@@ -1370,7 +1370,7 @@
     "multimodal"
    ],
    "summary_en": "Building assistants that can continually watch the world, remember what they see, and reason over their accumulated experience is a long-standing goal, and recently multimodal agents equipped with long-term memory over video streams have attracted increasing interest. Unfortunately, existing systems either keep their memory inside the model context or in a flat feature store, and organize it around frames rather than around the persistent entities a stream is really about, which confines them to bounded videos and weakens their ability to track who and what reappears over time. In this paper, we propose ReflectWorld-MM, an entity-oriented multimodal memory system for open-ended video streams. It consists of three parts. The first is a perception front-end that turns an audiovisual stream into entity-resolved observations under a bounded short-term memory. The second is a hierarchical long-term memory, grounded in human memory theory, that couples a multi-scale episodic memory, an evolving entity-centric semantic memory, and a procedural memory. The third is a complete realization, built for real-world operation, that ingests arbitrary streams and plugs into off-the-shelf assistants. Across six long-video and lifelong-memory benchmarks, ReflectWorld-MM achieves the best accuracy on all six, outperforming strong memory agents and a frontier model.",
-   "summary_zh": "",
+   "summary_zh": "ReflectWorld-MM把开放视频流组织成实体中心的情节、语义和程序记忆，而不是把所有帧塞进上下文。 适合长期记住乘员、物品位置和座舱事件，同时避免视觉KV无限增长",
    "demo": "",
    "stars": null
   },
@@ -1406,7 +1406,7 @@
     "multimodal"
    ],
    "summary_en": "Large language models (LLMs) have enabled increasingly capable conversational agents, but reliably controlling their behavior in real-time interactive environments remains a significant challenge. Existing approaches often rely on model fine-tuning or alignment procedures that are difficult to adapt to changing interaction requirements. This paper introduces layered scenario-driven LLM control, a framework that enables runtime behavior control through structured prompting. By combining persistent context with scenario-specific constraints, the approach allows agent behavior to be modified during interaction without changing the underlying model. The framework is implemented in ARDena, a real-time multimodal embodied agent that integrates speech interaction, visual perception, tool use, and avatar-based response generation. The proposed approach is evaluated with respect to control effectiveness, response latency, and operational stability. The results demonstrate that scenario definitions alone can produce substantially different interaction behaviors while maintaining stable real-time operation, highlighting the effectiveness of scenario-driven prompting for controlling LLM agents.",
-   "summary_zh": "",
+   "summary_zh": "ARDena通过持久用户上下文与动态场景约束分层拼装prompt，在不微调模型时控制实时多模态Agent行为。 可把驾驶、驻车、儿童在车等模式做成独立场景策略层",
    "demo": "",
    "stars": null
   },
@@ -1513,7 +1513,7 @@
     "multimodal"
    ],
    "summary_en": "Current automated pipelines for audio-visual Question Answering (QA) generally adopt a ``video-caption-QA'' paradigm. However, these methods typically segment videos into short clips and generate separate descriptions for audio and visual modalities. This decoupled processing severs inherent associations between sounds and their visual sources, while independent clip processing often causes inconsistent descriptions of the same entity across segments. Furthermore, coupling long-text comprehension and QA synthesis into a single step often restricts models to localized events, yielding questions lacking long-term temporal connections and deep cross-modal reasoning. To address these issues, we propose an automated data engine featuring two mechanisms: (1) \\textbf{Entity-Anchored Video Scripting} transforms videos into structured scripts, comprising summaries, main entity lists, and segment-wise audio-visual descriptions. The entity list serves as a global prior to ensure cross-segment referential consistency and reconstruct audio-visual associations. (2) \\textbf{Clue-Guided QA Generation} prompts models to first mine cross-segment, multimodal clues from the script, and subsequently generate QA pairs based on these high-value clues. Leveraging this pipeline, we construct the instruction-tuning dataset \\textbf{OmniVideo-100K} and a human-verified test set, \\textbf{OmniVideo-Test}. Fine-tuning VITA-1.5, Qwen2.5-Omni-7B and Qwen3-Omni-30B on OmniVideo-100K yields performance gains of up to 20.59% on OmniVideo-Test, demonstrating strong generalization (up to 12.64% improvements) across established benchmarks like Daily-Omni and JointAVBench.",
-   "summary_zh": "",
+   "summary_zh": "OmniVideo-100K用实体锚定脚本和证据链生成10万音视频QA，强化跨片段、跨模态推理。 可用于构造座舱音视频联合测试，防止视觉和语音各自理解却不建立关系",
    "demo": "",
    "stars": null
   },
