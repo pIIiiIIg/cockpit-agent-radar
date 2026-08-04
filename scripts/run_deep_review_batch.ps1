@@ -1,5 +1,6 @@
 param(
-    [string]$RepoPath = "C:\Users\Administrator\Projects\cockpit-agent-radar"
+    [string]$RepoPath = "C:\Users\Administrator\Projects\cockpit-agent-radar",
+    [string]$Since = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,13 +37,20 @@ try {
     }
     Run-Native { & $Git -C $RepoPath pull --ff-only origin main }
     $pendingScript = Join-Path $RepoPath "scripts\pending_explanations.py"
-    $before = [int]((& $Python $pendingScript --count-only).Trim())
+    $countArgs = @($pendingScript, "--count-only")
+    if ($Since) { $countArgs += @("--since", $Since) }
+    $before = [int]((& $Python @countArgs).Trim())
     Write-Log "PENDING_BEFORE: $before"
     if ($before -eq 0) {
         Write-Log "SUCCESS: no pending papers"
         exit 0
     }
-    $prompt = "Read DEEP_REVIEW_AGENT.md in this workspace and execute every instruction now. Do not ask clarifying questions. Finish with DEEP_REVIEW_COMPLETE."
+    $scope = if ($Since) {
+        "For this run, only process pending papers whose found date is on or after $Since."
+    } else {
+        "Use the normal priority order."
+    }
+    $prompt = "Read DEEP_REVIEW_AGENT.md in this workspace and execute every instruction now. $scope Do not ask clarifying questions. Finish with DEEP_REVIEW_COMPLETE."
     $agentOutput = Run-Native {
         & $Agent --print --force --trust --workspace $RepoPath `
             --model "gpt-5.6-sol-xhigh" --output-format text $prompt
@@ -50,7 +58,7 @@ try {
     if (($agentOutput -join "`n") -notmatch "DEEP_REVIEW_COMPLETE") {
         throw "agent did not emit DEEP_REVIEW_COMPLETE"
     }
-    $after = [int]((& $Python $pendingScript --count-only).Trim())
+    $after = [int]((& $Python @countArgs).Trim())
     Write-Log "PENDING_AFTER: $after"
     if ($after -ge $before) {
         throw "full-text backlog did not decrease"
