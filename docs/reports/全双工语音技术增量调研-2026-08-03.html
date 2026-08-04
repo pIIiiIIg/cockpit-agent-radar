@@ -126,14 +126,48 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-03</h2><div class="report-body"><h1>全双工语音技术增量调研 · 2026-08-03</h1>
-<h2>核心判断</h2>
-<p>最近三天最值得进入工程队列的不是又一个通用聊天模型，而是四类基础能力：</p>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-03</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-03（按当日结束时的项目状态回溯更新）</p>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<p>截至8月3日结束，项目已经从架构讨论进入同口径实测和负面方案淘汰：</p>
+<ul>
+<li>clean口径扩展到400条A/B基准，并加入A、B预取、B纯自主三方比较。</li>
+<li>H20同批100条语音中，A严格工具成功率80.49%，B为79.27%；A的RAG Recall@24为98.78%。</li>
+<li>B纯自主模式约79%，持久KV累积损失约22个百分点，说明长会话上下文引力已是实测问题。</li>
+<li>已修复B版编造工具名且失败后不重试的问题。</li>
+<li><code>probe_turn_end</code>实验证伪，Qwen原生logits不能直接承担在线判停。</li>
+<li>投机预取和工具清单压缩均出现负优化，已回退或默认关闭。</li>
+</ul>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>8月3日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>长会话KV导致能力下降</td><td>B版KV累积损失约22个百分点</td><td>M3-DuplexBench、Voice Memory、AdaMM、ReflectWorld-MM</td><td>固定完整历史下测逐轮准确率，再把规则、实体和事件迁出模型KV</td><td>8轮后任务成功率下降≤3个百分点</td></tr>
+<tr><td>轮替和打断缺少可靠判停</td><td><code>probe_turn_end</code>负面结果；现有脚本不能覆盖自然轮替</td><td>M3-DuplexBench</td><td>增加SHIFT/PAUSE/BACKCHANNEL/BARGE_IN回放和独立判停器</td><td>不牺牲漏响应率的前提下降低误判停与打断延迟</td></tr>
+<tr><td>音频前端缺少真实双讲鲁棒性</td><td>clean/20dB已有数据，但没有AEC+NS双讲闭环</td><td>faster-enhancer.c</td><td>AEC/LMPAN后接因果NS，对干净、噪声、回声分别分桶</td><td>ASR CER和车控成功率改善且前端新增P95≤30ms</td></tr>
+<tr><td>视觉尚未进入在线Harness</td><td>当前在线链路以音频和车控为主</td><td>Mage-VL</td><td>用codec变化区域作为视觉事件门，仅将关键事件写入KV</td><td>视觉token下降≥70%，音频deadline不退化</td></tr>
+<tr><td>车控错误缺少可审计持续修复</td><td>A/B严格成功率约80%，仅靠扩大候选不能解决选错</td><td>Voice Memory、ARDena</td><td>建立受保留集约束的ASR/近义工具规则与独立Policy层</td><td>修复目标错误且全量回归不下降</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：直接命中当前工程短板</h3>
 <ol>
-<li><strong>评测</strong>：M3-DuplexBench补多轮、多语言、多领域和固定上下文公平比较。</li>
-<li><strong>流式视觉</strong>：Mage-VL利用codec事件稀疏化持续视频，适合作为视觉事件门。</li>
-<li><strong>音频前端</strong>：faster-enhancer.c提供可落车CPU的常开降噪运行时。</li>
-<li><strong>外部记忆</strong>：Voice Memory、AdaMM、ReflectWorld-MM分别处理ASR规则、结构化分析和实体视频记忆。</li>
+<li><strong>M3-DuplexBench</strong>：直接补多轮、打断和固定上下文公平评测，用于量化B版KV累积和轮替问题；它是基准，不是判停模型。</li>
+<li><strong>faster-enhancer.c</strong>：可作为AEC后的常开因果降噪候选，但不能消除助手扬声器回声。</li>
+<li><strong>Voice Memory</strong>：适合把重复ASR和近义工具错误沉淀为可审计规则，必须通过保留集门控，不能直接改模型行为。</li>
+</ol>
+<h3>P1：适合形成下一阶段架构</h3>
+<ol>
+<li><strong>Mage-VL</strong>：用codec事件稀疏化持续视频，适合作为座舱“视觉VAD”。</li>
+<li><strong>AdaMM / ReflectWorld-MM</strong>：把分析结果、实体和事件迁移到外部记忆，可能缓解无限KV，但需要座舱数据验证。</li>
+<li><strong>ARDena</strong>：将动态场景规则独立成Policy层，车控执行仍须经过typed call和确定性安全门。</li>
+</ol>
+<h3>P2：长期模型与数据建设</h3>
+<ol>
+<li><strong>iFLYTEK-Embodied-Omni</strong>：可借鉴“规划脑+动作小脑”分层，不应直接套用机器人动作模型。</li>
+<li><strong>OmniVideo-100K</strong>：适合借鉴实体锚定和跨段证据链来构造座舱音视频评测集。</li>
 </ol>
 <h2>M3-DuplexBench</h2>
 <p>M3-DuplexBench从连续对话中提取SHIFT、PAUSE、BACKCHANNEL和BARGE_IN事件， 覆盖英语/日语、闲聊/多轮QA，并比较三种历史条件：</p>
