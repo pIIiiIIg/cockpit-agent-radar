@@ -126,34 +126,43 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-04</h2><div class="report-body"><h1>全双工语音技术增量调研 · 2026-08-04</h1>
-<h2>调研范围与结论</h2>
-<p>本报告比较 <code>2026-08-03</code> 日报，候选来自 Radar 在前一日报告之后收录、或虽已收录但尚未进入前一日报告的条目。只核验论文正文、arXiv/Hugging Face 论文页、作者项目页、官方代码仓库和模型页。</p>
-<p>今天有六项值得跟进的增量，但没有新的 AEC/降噪、空间听觉或 KV-cache 定量工作：</p>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-04</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-04</p>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-03.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>一、先说结论</h2>
+<p>本报告比较 <code>2026-08-03</code> 日报，候选来自 Radar 在前一日报告之后收录、或虽已收录但尚未进入前一日报告的条目。只核验论文正文、arXiv/Hugging Face 论文页、作者项目页、官方代码仓库和模型页。下文的“论文结果”只复述来源可核验内容；面向 StreamingModelHarness 的建议是工程判断，不代表论文结论。</p>
+<p>今天有六项值得跟进的增量，但没有新的 AEC/降噪、空间听觉或 KV-cache 定量工作。</p>
+<h3>P0：直接命中当前工程短板</h3>
 <ol>
-<li><strong>P0：Cocktail-Talker</strong>——把多人噪声环境中的“回答、继续听、忽略”显式建模为动作，但仍依赖固定话轮边界，不是流式判停器。</li>
-<li><strong>P0：ECCD</strong>——无需训练即可降低多种语音 LM 的错读、漏读和重复，适合本地 TTS 候选；正文没有报告双分支解码开销。</li>
-<li><strong>P1：SpeechParaling-Bench</strong>——补齐 TTS 的语气、音量变化和情境适配评测，但不是流式时延或打断基准。</li>
-<li><strong>P1：Qwen-UI-Agent</strong>——其 GUI/CLI/API 统一 Action、批动作、持久工作流和高风险确认机制可直接启发座舱 Action 通道。</li>
-<li><strong>P2：StreamingClaw v2</strong>——框架设计高度贴合流式座舱，但正文没有任何准确率、时延、吞吐或硬件结果。</li>
-<li><strong>P2：Audio-Visual Flamingo</strong>——提供长音视频联合理解和时间戳推理模型，尚无在线流式输入或端侧实时证据。</li>
+<li><strong>Cocktail-Talker</strong>：把多人噪声环境中的“回答、继续听、忽略”显式建模为动作，适合补充“是否对助手说”的动作头；但它依赖固定话轮边界，不是流式判停器。</li>
+<li><strong>ECCD</strong>：无需训练即可降低多种语音 LM 的错读、漏读和重复，适合成为本地 CosyVoice2/3 的解码 A/B 插件；正文没有报告双分支解码开销。</li>
+<li>今日没有新的 AEC/NS 工作；前一日报告的 <code>faster-enhancer.c</code> 因果降噪结论不变，也不改变“AEC/LMPAN → NS → 判停”的前端优先级。H20 Harness A/B 的已有数字继续有效，仍须延续真实双讲回放和 M3 多轮评测。</li>
 </ol>
-<blockquote>标注规则：下文“论文/官方页面事实”只复述来源可核验内容；“编辑判断”是结合 StreamingModelHarness 的工程分析，不代表论文结论。</blockquote>
-<h2>与 2026-08-03 的明确差异</h2>
-<table><thead><tr><th>前一日重点</th><th>今日增量</th><th>关系与边界</th></tr></thead><tbody>
-<tr><td>M3-DuplexBench：多轮 SHIFT、PAUSE、BACKCHANNEL、BARGE_IN 评测</td><td>Cocktail-Talker：多人混合音频中的 RESPOND/LISTEN/IGNORE</td><td>前者测连续对话事件，后者在固定话轮末做受话对象/响应动作决策；不能互相替代</td></tr>
-<tr><td>faster-enhancer.c：因果降噪</td><td>无新的 AEC/NS 工作</td><td>今日没有改变“AEC/LMPAN → NS → 判停”的前端优先级</td></tr>
-<tr><td>Mage-VL：codec 事件稀疏化</td><td>StreamingClaw、Audio-Visual Flamingo</td><td>StreamingClaw补 Agent/记忆/工具框架但无定量结果；AVF补长音视频理解但未证明在线流式</td></tr>
-<tr><td>Voice Memory、AdaMM、ReflectWorld-MM：外部记忆</td><td>StreamingClaw 层次流式记忆</td><td>今日是架构性补充，没有证明优于前一日方案的实验</td></tr>
-<tr><td>iFLYTEK-Embodied-Omni、ARDena：脑/执行器和动态场景策略</td><td>Qwen-UI-Agent</td><td>今日新增更具体的统一 Action schema、批动作、确认门和跨端状态编排</td></tr>
-<tr><td>OmniVideo-100K：音视频联合数据</td><td>AVF、SpeechParaling-Bench</td><td>AVF面向长视频联合理解；SpeechParaling面向语音输出风格；任务不同，不作重复项</td></tr>
-<tr><td>H20 Harness A/B 与 Harness C 建议</td><td>无新的项目实测</td><td>前一日 A/B 数字继续有效，今日论文不能替代真实车内回放</td></tr>
-</tbody></table>
+<h3>P1：适合形成下一阶段架构</h3>
+<ol>
+<li><strong>SpeechParaling-Bench</strong>：补齐 TTS 的语气、音量变化和情境适配评测，可转成座舱表达层回归集；它不是流式时延、判停或打断基准。</li>
+<li><strong>Qwen-UI-Agent</strong>：其 GUI/CLI/API 统一 Action、批动作、持久工作流和高风险确认机制可直接启发 Harness C 的座舱 Action 通道；它没有语音流或实时座舱结果。</li>
+</ol>
+<h3>P2：长期模型研究</h3>
+<ol>
+<li><strong>StreamingClaw v2</strong>：短窗 KV、层次记忆、主动事件和 skill 的框架设计高度贴合流式座舱，但正文没有任何准确率、时延、吞吐或硬件结果。</li>
+<li><strong>Audio-Visual Flamingo</strong>：提供长音视频联合理解和时间戳推理模型，适合作为离线教师或评测基线；尚无在线流式输入或端侧实时证据。</li>
+</ol>
 <h2>1. Cocktail-Talker：多人环境中的“是否该说”</h2>
 <p>来源：<a href="https://arxiv.org/abs/2607.27756" rel="noopener noreferrer">论文正文 / arXiv:2607.27756</a>；<a href="https://github.com/xi-j/Cocktail-Talker" rel="noopener noreferrer">作者官方代码仓库</a>。</p>
-<h3>论文事实：问题</h3>
-<p>普通语音助手通常假设单用户、干净环境和轮流说话。Cocktail-Talker面向多人及背景噪声并存的场景：当前语音可能对助手说、对其他乘员说，或完全无关，因此模型需要同时决定“是否响应”和“响应什么”。</p>
-<h3>论文事实：方法</h3>
+<h3>它是什么</h3>
+<p>普通语音助手通常假设单用户、干净环境和轮流说话。Cocktail-Talker 面向多人及背景噪声并存的场景：当前语音可能对助手说、对其他乘员说，或完全无关，因此模型需要同时决定“是否响应”和“响应什么”。</p>
+<p>它与前一日报告的 M3-DuplexBench 不重复：M3-DuplexBench 评测多轮 <code>SHIFT</code>、<code>PAUSE</code>、<code>BACKCHANNEL</code>、<code>BARGE_IN</code> 等连续对话事件；Cocktail-Talker 在固定话轮末做受话对象和响应动作决策，两者不能互相替代。</p>
+<h3>核心方法</h3>
 <ul>
 <li>在回答前生成三个动作之一：<code>&lt;|respond|&gt;</code>、<code>&lt;|listen|&gt;</code>、<code>&lt;|ignore|&gt;</code>。</li>
 <li>基于 Qwen2.5-Omni-7B thinker–talker；冻结音频编码器和 talker，以 LoRA 微调 thinker。</li>
@@ -161,46 +170,43 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>Cocktail-DialogGen 生成 3/4 人对话，由 Qwen3-TTS 合成不同说话人的语音，再与不同 SNR 背景声混合。</li>
 <li>训练包含 14,400 个独立对话，经五种噪声条件得到 72,000 个混合音频，约 1,280 小时；先对 580,100 个话轮做 SFT，再做 2,000 步 GRPO。</li>
 </ul>
-<h3>论文事实：结果</h3>
-<p>由于其他模型没有 LISTEN/IGNORE 区分，横向比较将二者合并为 Silent：</p>
+<h3>论文结果</h3>
+<p>由于其他模型没有 <code>LISTEN</code>/<code>IGNORE</code> 区分，横向比较将二者合并为 Silent：</p>
 <table><thead><tr><th>模型</th><th>已见环境 macro-F1</th><th>未见环境 macro-F1</th></tr></thead><tbody>
 <tr><td>Qwen2.5-Omni</td><td>0.512</td><td>0.504</td></tr>
 <tr><td>Cocktail-Talker SFT</td><td>0.903</td><td>0.907</td></tr>
 <tr><td>Cocktail-Talker SFT + GRPO</td><td><strong>0.928</strong></td><td><strong>0.930</strong></td></tr>
 </tbody></table>
-<p>SFT+GRPO 的 Respond/Silent 准确率在已见、未见环境分别为 0.931、0.933。回答内容指标显示，GRPO主要提高“该回答时确实回答”的惩罚分；只在已经回答的样本上，条件分基本持平或略降。因此论文支持的是动作决策改善，不是回答内容全面改善。</p>
-<h3>开放状态</h3>
-<ul>
-<li>代码：作者仓库已存在。</li>
-<li>Cocktail-Talker 权重：<strong>未知</strong>。</li>
-<li>生成数据：<strong>未知</strong>。</li>
-<li>代码、模型和数据许可证：<strong>未知</strong>。</li>
-</ul>
-<h3>局限</h3>
+<p>SFT+GRPO 的 Respond/Silent 准确率在已见、未见环境分别为 0.931、0.933。回答内容指标显示，GRPO 主要提高“该回答时确实回答”的惩罚分；只在已经回答的样本上，条件分基本持平或略降。因此论文支持的是动作决策改善，不是回答内容全面改善。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>不要用它替换现有 FastTurn/SoulX 判停。更合适的接法是增加一个独立的“是否对助手说”动作头：</p>
+<pre><code>AEC/NS → 说话人/座位线索 → 流式语义判停
+                           → RESPOND / LISTEN / IGNORE
+                           → 仅 RESPOND 进入 ASR/RAG/Action</code></pre>
+<p>应先构造驾驶员、副驾、后排、助手回声和广播声混合的回放集，测误唤醒、漏响应、打断恢复及动作首包时延。</p>
+<h3>局限与开放状态</h3>
 <ul>
 <li>作者明确说明当前系统<strong>不是流式系统，并假设固定话轮边界</strong>。</li>
 <li>只有音频；没有利用座位、视线和唇动判断受话对象。</li>
 <li>数据和测试来自模拟对话及合成/混合音频，没有真实座舱结果。</li>
 <li>公开横向表只支持 Respond/Silent 二分类结论，不能证明三动作完整分类优于基线。</li>
+<li>代码：作者仓库已存在。</li>
+<li>Cocktail-Talker 权重：<strong>未知</strong>。</li>
+<li>生成数据：<strong>未知</strong>。</li>
+<li>代码、模型和数据许可证：<strong>未知</strong>。</li>
 </ul>
-<h3>对当前项目的帮助（编辑判断）</h3>
-<p>不要把它替换现有 FastTurn/SoulX 判停。更合适的接法是增加一个独立的“是否对助手说”动作头：</p>
-<pre><code>AEC/NS → 说话人/座位线索 → 流式语义判停
-                           → RESPOND / LISTEN / IGNORE
-                           → 仅 RESPOND 进入 ASR/RAG/Action</code></pre>
-<p>应先构造驾驶员、副驾、后排、助手回声和广播声混合的回放集，测误唤醒、漏响应、打断恢复及动作首包时延。建议优先级：<strong>P0</strong>。</p>
 <h2>2. ECCD：TTS 幻觉的训练自由解码控制</h2>
 <p>来源：<a href="https://arxiv.org/abs/2608.00722" rel="noopener noreferrer">论文正文 / arXiv:2608.00722</a>。</p>
-<h3>论文事实：问题</h3>
-<p>自回归语音 LM 会出现偏离目标文本的误读、替换、遗漏、重复和意外续说。论文将其中一类错误归因于脆弱转换点上文本对齐支持不足。</p>
-<h3>论文事实：方法</h3>
+<h3>它是什么</h3>
+<p>自回归语音 LM 会出现偏离目标文本的误读、替换、遗漏、重复和意外续说。论文将其中一类错误归因于脆弱转换点上文本对齐支持不足。ECCD 是一种不需要再训练、在解码时增强文本对齐证据的方法；它应作为本地 TTS 的解码插件，而不是独立 TTS 候选。</p>
+<h3>核心方法</h3>
 <p>每个 acoustic-token 解码步运行同一模型的两个分支：</p>
 <ul>
 <li>expert：保留声学提示、历史、提示文本和目标文本；</li>
 <li>amateur：保留相同声学上下文和历史，但移除文本条件。</li>
 </ul>
-<p>ECCD只在 expert 的 top-k 可信候选中增强 <code>log p_expert - log p_amateur &gt; 0</code> 的 token，并用 amateur 在该候选集中的概率质量动态校准增强强度。默认 <code>α=1, k=25</code>。方法不需要再训练，但需要模型暴露 logits，并在每步完成两个条件分支。</p>
-<h3>论文事实：结果</h3>
+<p>ECCD 只在 expert 的 top-k 可信候选中增强 <code>log p_expert - log p_amateur &gt; 0</code> 的 token，并用 amateur 在该候选集中的概率质量动态校准增强强度。默认 <code>α=1, k=25</code>。方法不需要再训练，但需要模型暴露 logits，并在每步完成两个条件分支。</p>
+<h3>论文结果</h3>
 <p>SeedTTS-Eval 上，原生解码到 ECCD 的错误率变化如下：</p>
 <table><thead><tr><th>模型</th><th>test-zh CER</th><th>test-en WER</th><th>test-hard CER</th></tr></thead><tbody>
 <tr><td>CosyVoice2</td><td>1.34 → <strong>0.95</strong></td><td>2.98 → <strong>2.08</strong></td><td>8.10 → <strong>6.91</strong></td></tr>
@@ -212,41 +218,42 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>12 个模型/子集组合全部改善；最大相对降幅是 Llasa test-en 的约 55.6%。</li>
 <li>CV3-Eval 的 25 个模型/语言组合中改善 24 个；例外是 CosyVoice2 日语 WER 9.46% → 9.71%。</li>
 <li>CosyVoice2 的 test-hard 主观测试由 25 位母语听者评价、每种方法 30 条：ECCD 的 CMOS 为 <code>+0.644±0.091</code>，原生解码为 0。</li>
-<li>常规 contrastive decoding 将 test-hard CER 从 8.10%恶化到8.72%；完整 ECCD 为6.91%，说明“只做正向对齐增强”和动态校准是必要组成。</li>
+<li>常规 contrastive decoding 将 test-hard CER 从 8.10% 恶化到 8.72%；完整 ECCD 为 6.91%，说明“只做正向对齐增强”和动态校准是必要组成。</li>
 </ul>
-<h3>开放状态</h3>
-<ul>
-<li>ECCD 实现：<strong>未知</strong>，正文未给代码链接。</li>
-<li>独立模型权重：不适用；方法无需训练。</li>
-<li>许可证：<strong>未知</strong>。</li>
-</ul>
-<h3>局限</h3>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>前一日报告将本地 TTS 列为 P0。应在 CosyVoice2/3 本地 TTS 上实现 ECCD 小规模 A/B，同时记录首音频 P50/P95、RTF、峰值显存、CER、重复/漏词率和中断后的残留音频。若双分支使首包延迟不可接受，可以实验只在低置信转换点触发，但这一优化尚无论文证据。</p>
+<h3>局限与开放状态</h3>
 <ul>
 <li>正文没有报告双分支带来的首包时延、RTF、显存或吞吐。</li>
 <li>主观实验只覆盖 CosyVoice2 的 test-hard。</li>
 <li>一个日语组合退化；较大的 <code>α=4</code> 同时损害 CER 和说话人相似度。</li>
 <li>错误边界定位依赖 ASR 时间戳近似，论文明确表示相关分析不能建立因果关系。</li>
+<li>ECCD 实现：<strong>未知</strong>，正文未给代码链接。</li>
+<li>独立模型权重：不适用；方法无需训练。</li>
+<li>许可证：<strong>未知</strong>。</li>
 </ul>
-<h3>对当前项目的帮助（编辑判断）</h3>
-<p>前一日报告将本地 TTS 列为 P0。ECCD应作为 CosyVoice2/3 本地解码的 A/B 插件，而不是独立 TTS 候选。必须同时记录首音频 P50/P95、RTF、峰值显存、CER、重复/漏词率和中断后的残留音频。若双分支使首包延迟不可接受，应只在低置信转换点触发；这一优化尚无论文证据。建议优先级：<strong>P0</strong>。</p>
 <h2>3. SpeechParaling-Bench：副语言语音生成评测</h2>
 <p>来源：<a href="https://arxiv.org/abs/2604.20842" rel="noopener noreferrer">论文正文 / arXiv:2604.20842</a>；<a href="https://speechparaling-bench.github.io/" rel="noopener noreferrer">作者官方项目页</a>。</p>
-<h3>论文/项目页事实：问题与方法</h3>
-<p>基准评测三种能力：</p>
+<h3>它是什么</h3>
+<p>SpeechParaling-Bench 是副语言语音生成基准，评测三种能力：</p>
 <ol>
 <li>指定音色、情绪、语速、音量等细粒度特征；</li>
 <li>在一句话内完成渐变或切换；</li>
 <li>从用户年龄、情绪、态度和非语言发声中推断合适的回答风格。</li>
 </ol>
+<p>它补的是语音输出风格，与前一日报告的 OmniVideo-100K 音视频联合数据任务不同，不作重复项；也不能替代 M3-DuplexBench 的连续对话评测。</p>
+<h3>核心方法</h3>
 <p>数据含 1,001 个中英平行样本、13 个维度。正文 Table 1 和附录写 104 个特征，但 Table 2 写 101 个，数字存在内部不一致。评测用 Gemini 3 Pro 作为音频 judge，将候选与固定基线成对比较；中文基线是 Doubao Realtime Voice，英文基线是 Gemini Audio。</p>
-<h3>论文事实：结果</h3>
+<h3>论文结果</h3>
 <ul>
 <li>中文总分最高是 Doubao Realtime Voice 70.84；英文最高是 Gemini Audio 64.97。</li>
 <li>所有受测模型的 Dynamic Variation 初始平均分为 56.51/100，低于 Situational Adaptation 的 68.64 和静态控制的 66.01。</li>
 <li>人工验证覆盖 5%、共 416 对响应；自动 judge 与人工偏好的 Spearman 相关在中文、英文分别为 0.90、1.00。</li>
 <li>Gemini Audio 在中文情境适配的 190 个样本中失败 67 个，其中 43.3% 被归因于忽略用户语音中的副语言信息。</li>
 </ul>
-<h3>开放状态与局限</h3>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>将其转成外挂 TTS 的“表达层”回归集，重点保留儿童安抚、驾驶告警、导航播报、后排娱乐和耳语/高噪声补偿；把文本正确率、音频首包和可打断性作为额外硬门槛。不要用其总分替代 M3-DuplexBench。</p>
+<h3>局限与开放状态</h3>
 <ul>
 <li>官方项目页提供数据集下载入口；数据许可证：<strong>未知</strong>。</li>
 <li>评测代码和 judge pipeline 是否开放：<strong>未知</strong>。</li>
@@ -254,11 +261,12 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>主结果依赖单一 LALM judge、固定基线和默认 API 解码参数。</li>
 <li>没有流式首包、判停、打断或实时稳定性指标。</li>
 </ul>
-<h3>对当前项目的帮助（编辑判断）</h3>
-<p>将其转成外挂 TTS 的“表达层”回归集，重点保留儿童安抚、驾驶告警、导航播报、后排娱乐和耳语/高噪声补偿；把文本正确率、音频首包和可打断性作为额外硬门槛。不要用其总分替代 M3-DuplexBench。建议优先级：<strong>P1</strong>。</p>
 <h2>4. Qwen-UI-Agent：统一 Action 与持久 Harness</h2>
 <p>来源：<a href="https://arxiv.org/abs/2607.28227" rel="noopener noreferrer">论文正文 / arXiv:2607.28227</a>；<a href="https://tongyi-mai.github.io/Qwen-UI-Agent/" rel="noopener noreferrer">作者官方项目页</a>。</p>
-<h3>论文事实：方法</h3>
+<h3>它是什么</h3>
+<p>Qwen-UI-Agent 是统一操作 GUI、CLI 和 API 的跨平台 Agent。论文明确称其是 MAI-UI 的延续，应按同一技术谱系记录；本次只记录真实设备、统一 Action、主动服务和跨平台 harness 等新增内容，而不是把所有结果视为全新独立系统。</p>
+<p>相较前一日报告中的 iFLYTEK-Embodied-Omni 和 ARDena，它新增了更具体的统一 Action schema、批动作、确认门和跨端状态编排；机器人或动态场景策略不能替代这些座舱执行安全机制。</p>
+<h3>核心方法</h3>
 <ul>
 <li>统一观察 GUI 截图、CLI 输出和 API 结构化响应，并保留完整交互历史。</li>
 <li>统一动作含 GUI 操作、<code>cli_command</code>、<code>api_call</code>、<code>ask_user</code> 和 <code>terminate</code>；单次决策可发有序批动作。</li>
@@ -267,39 +275,37 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>跨平台 harness 维护持久 planner、session、workspace 和 tool registry，并支持依赖感知子任务与设备间 artifact transfer。</li>
 <li>训练环境支持超过 10,000 个并发 sandbox；真实移动集群超过 100 台设备、150 个应用。</li>
 </ul>
-<h3>论文事实：结果</h3>
+<h3>论文结果</h3>
 <ul>
 <li>Qwen-UI-Agent-27B：MobileWorld 82.1%、MobileWorld-Real 92.2%、AndroidDaily 97.5%。</li>
-<li>OSWorld-Verified 为79.5%，低于 Claude Opus 4.8 的83.4%。</li>
-<li>OSWorld-v2 partial progress 为40.0%、binary completion 为13.9%；对应 Claude Opus 4.8 为54.8%、20.6%。</li>
-<li>Action RL 使总体任务成功率提高超过7%，推理 token 减少21.3%，但交互步数增加8.4%。</li>
-<li>Online RL 后，含验证动作的轨迹比例提高14.7%，false-stop 降低11.2%。</li>
+<li>OSWorld-Verified 为 79.5%，低于 Claude Opus 4.8 的 83.4%。</li>
+<li>OSWorld-v2 partial progress 为 40.0%、binary completion 为 13.9%；对应 Claude Opus 4.8 为 54.8%、20.6%。</li>
+<li>Action RL 使总体任务成功率提高超过 7%，推理 token 减少 21.3%，但交互步数增加 8.4%。</li>
+<li>Online RL 后，含验证动作的轨迹比例提高 14.7%，false-stop 降低 11.2%。</li>
 <li>主动服务和跨平台 harness 只有案例，没有成功率、延迟或用户研究。</li>
 </ul>
-<h3>开放状态与重复关系</h3>
-<ul>
-<li>Qwen-UI-Agent 专用代码、权重、MobileWorld-Real 和 harness 许可证：<strong>未知</strong>。</li>
-<li>官方页面提供演示，但不能据此标记为已开源。</li>
-<li>论文明确称其是 MAI-UI 的延续；应按同一技术谱系记录，而不是把所有结果视为全新独立系统。</li>
-</ul>
-<h3>局限</h3>
-<ul>
-<li>真实设备结果依赖准确率为92.8%的 AutoJudge，仍有判断误差。</li>
-<li>数据飞轮仍需大量人工监督；长流程逐步观察、推理和执行的延迟仍是部署障碍。</li>
-<li>需要更系统的安全评测、可解释性和用户记忆控制。</li>
-<li>没有语音流、音频打断或实时座舱结果。</li>
-</ul>
-<h3>对当前项目的帮助（编辑判断）</h3>
+<h3>对 StreamingModelHarness 的帮助</h3>
 <p>可把 Harness C 的工具通道从“模型直接发 JSON”升级为：</p>
 <pre><code>流式模型 → typed Action batch
          → schema / 权限 / 前置条件 / 幂等检查
          → 低风险并行准备，高风险 ask_user
          → 执行结果与最终车态回写
          → terminate 前强制验证</code></pre>
-<p>车控不需要复刻 GUI Agent；最有价值的是批动作、显式确认、持久事项和执行后验证。建议优先级：<strong>P1</strong>。</p>
+<p>车控不需要复刻 GUI Agent；最有价值的是批动作、显式确认、持久事项和执行后验证。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>真实设备结果依赖准确率为 92.8% 的 AutoJudge，仍有判断误差。</li>
+<li>数据飞轮仍需大量人工监督；长流程逐步观察、推理和执行的延迟仍是部署障碍。</li>
+<li>需要更系统的安全评测、可解释性和用户记忆控制。</li>
+<li>没有语音流、音频打断或实时座舱结果。</li>
+<li>Qwen-UI-Agent 专用代码、权重、MobileWorld-Real 和 harness 许可证：<strong>未知</strong>。</li>
+<li>官方页面提供演示，但不能据此标记为已开源。</li>
+</ul>
 <h2>5. StreamingClaw v2：流式视觉 Agent 框架</h2>
 <p>来源：<a href="https://arxiv.org/abs/2603.22120v2" rel="noopener noreferrer">arXiv v2:2603.22120</a>；<a href="https://jackyu6.github.io/StreamingClaw-Page/" rel="noopener noreferrer">作者官方项目页</a>。</p>
-<h3>论文/项目页事实：方法</h3>
+<h3>它是什么</h3>
+<p>StreamingClaw v2 是面向连续视频流的 Agent 框架，将增量感知、外部记忆、主动事件和工具/技能执行组织为闭环。相较前一日报告的 Mage-VL codec 事件稀疏化，它补充 Agent、记忆和工具框架；相较 Voice Memory、AdaMM、ReflectWorld-MM 等外部记忆工作，它补充层次流式记忆，但没有实验证明优于前一日方案。</p>
+<h3>核心方法</h3>
 <ul>
 <li>新视频块到达后增量编码和推理，以动态滑窗限制上下文。</li>
 <li>复用增量 KV cache；按注意力贡献裁剪视觉 token，并以余弦相似度跳过冗余视觉写入，但没有给保留率或阈值。</li>
@@ -308,28 +314,31 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>主动交互可用持续监控节点，或由场景专用 trigger token 在一次 forward 中发出多个事件信号。</li>
 <li>工具/技能执行结果回写上下文，形成感知—决策—动作闭环；项目页展示 DMS 和车辆迎宾 skill。</li>
 </ul>
-<h3>论文事实：结果与开放状态</h3>
+<h3>论文结果</h3>
 <p>正文<strong>没有</strong>报告数据集、基线、准确率、消融、硬件、帧率、端到端时延、TTFT、吞吐或 KV 保留率。因此“real-time”“low latency”是设计目标，不是已验证结果。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>可以借鉴“短窗 KV + 外部层次记忆 + 主动事件 + skill”四层接口，但不能据此选择运行时或制定时延预算。必须先在真实座舱视频上复现吞吐、事件漏检/误报、KV 增长和工具闭环成功率。</p>
+<h3>局限与开放状态</h3>
 <ul>
+<li>论文承认当前主要是视觉+文本，音频输入、音视频精细对齐和端到端联合生成仍不足。</li>
 <li>StreamingClaw 自身代码和模型权重：<strong>未知</strong>。</li>
 <li>数据和许可证：<strong>未知</strong>。</li>
 <li>官方项目页有架构和案例展示，但没有代码下载证据。</li>
-<li>本次 Radar 命中的是 arXiv <code>v2</code>；正文没有说明 v1→v2 的具体变更，按同一论文修订版去重。</li>
+<li>本次 Radar 命中的是 arXiv <code>v2</code>；正文没有说明 v1→v2 的具体变更，按同一论文修订版去重，不建立第二条技术记录。</li>
 </ul>
-<h3>局限与项目帮助</h3>
-<p>论文承认当前主要是视觉+文本，音频输入、音视频精细对齐和端到端联合生成仍不足。</p>
-<p><strong>编辑判断：</strong> 可以借鉴“短窗 KV + 外部层次记忆 + 主动事件 + skill”四层接口，但不能据此选择运行时或制定时延预算。必须先在真实座舱视频上复现吞吐、事件漏检/误报、KV 增长和工具闭环成功率。建议优先级：<strong>P2</strong>。</p>
 <h2>6. Audio-Visual Flamingo：长音视频联合理解</h2>
 <p>来源：<a href="https://arxiv.org/abs/2607.16107" rel="noopener noreferrer">论文正文 / arXiv:2607.16107</a>；<a href="https://avflamingo.pages.dev/" rel="noopener noreferrer">作者官方项目页</a>；<a href="https://huggingface.co/nvidia/nemotron-labs-audio-visual-flamingo-hf" rel="noopener noreferrer">NVIDIA 官方模型页</a>。</p>
-<h3>论文/官方页面事实：方法</h3>
+<h3>它是什么</h3>
+<p>Audio-Visual Flamingo（AVF）是长音视频联合理解和带时间戳推理模型。它与前一日报告的 OmniVideo-100K 音视频联合数据相关但任务不同：AVF 面向长视频联合理解，不作为重复项。它补充了 StreamingClaw 未覆盖的音视频联合理解，但没有证明音视频在线到达时的因果增量推理。</p>
+<h3>核心方法</h3>
 <ul>
 <li>SigLIP 视觉塔与 AF-Whisper 音频编码器分别提取特征，再按时间块交错并加入 CRTE 绝对时间信息，送入 Qwen2.5-7B。</li>
-<li>音频为16 kHz单声道，以30秒非重叠块独立编码后拼接。</li>
-<li>训练课程从最长5分钟/16K token扩展到15分钟/32K token，再以带时间戳的音视觉交错推理链做 SFT 和 GRPO。</li>
-<li>AV-Skills 含约7M个 caption/QA 实例，其中约4.8M是QA；训练使用512张H100。</li>
+<li>音频为 16 kHz 单声道，以 30 秒非重叠块独立编码后拼接。</li>
+<li>训练课程从最长 5 分钟/16K token 扩展到 15 分钟/32K token，再以带时间戳的音视觉交错推理链做 SFT 和 GRPO。</li>
+<li>AV-Skills 含约 7M 个 caption/QA 实例，其中约 4.8M 是 QA；训练使用 512 张 H100。</li>
 <li>文本子词可驱动可选流式 TTS；正文没有描述音视频在线到达时的因果增量推理。</li>
 </ul>
-<h3>论文事实：部分结果</h3>
+<h3>论文结果</h3>
 <ul>
 <li>WorldSense：AVF-Think 51.6，OmniVinci 48.2。</li>
 <li>DailyOmni：73.9，对比 OmniVinci 66.5。</li>
@@ -338,41 +347,42 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>MMOU：60.2，低于 Gemini-2.5 Pro 64.2。</li>
 <li>正文没有推理硬件、采样帧率、分辨率、吞吐、TTFT、端到端延迟或 TTS RTF。</li>
 </ul>
-<h3>开放状态与局限</h3>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>适合作为“音频事件+画面事件是否被联合理解”的离线教师或评测基线，不适合作为当前 H20 实时主模型。可优先抽取其时间戳证据格式，用于评测“谁在何座位说了什么、同时发生了什么车内/车外事件”。</p>
+<h3>局限与开放状态</h3>
 <ul>
 <li>NVIDIA 官方页面提供 AVF-Instruct 权重。</li>
 <li>模型页标注 <strong>NVIDIA OneWay Noncommercial License</strong>；不能按可商用开源模型处理。</li>
 <li>官方模型页说明当前依赖 AVF Transformers integration fork，上游支持仍在合入。</li>
 <li>AVF-Think 权重、训练数据完整开放范围及数据许可证：<strong>未知</strong>。</li>
 <li>作者指出公共/互联网视频可能带来来源偏差和训练重叠；极长、证据稀疏或时间分散的视频仍困难，现有基准也不足以覆盖真实部署。</li>
-</ul>
-<h3>对当前项目的帮助（编辑判断）</h3>
-<p>适合作为“音频事件+画面事件是否被联合理解”的离线教师或评测基线，不适合作为当前 H20 实时主模型。可优先抽取其时间戳证据格式，用于评测“谁在何座位说了什么、同时发生了什么车内/车外事件”。建议优先级：<strong>P2</strong>。</p>
-<h2>去重与未纳入项</h2>
-<ul>
-<li><code>StreamingClaw v2</code> 是同一 arXiv ID 的修订版，不建立第二条技术记录。</li>
-<li>Qwen-UI-Agent 是 MAI-UI 的后续工作；报告只记其新增的真实设备、统一 Action、主动服务和跨平台 harness。</li>
 <li>AVF-Instruct 与 AVF-Think 是同一工作中的阶段模型，不拆成两项。</li>
-<li>Ming-omni-tts 的社区 MLX 转换、RVC/Applio、Waxal 模型、通用 embedding、头像与 HN 条目没有提供足够的论文级增量或与当前问题的直接证据，本日不进入主清单。</li>
-<li>CoTinyVLA、TurboVLA、RL²-VLA 的动作结果来自机器人任务，未证明可迁移到车控 Action 安全与流式语音；保留为低优先级观察项。</li>
-<li>今日未发现新的 AEC/降噪、空间听觉、真正在线的语义判停、全双工基础模型或实时服务/KV cache 定量结果。</li>
 </ul>
-<h2>建议执行顺序（编辑判断）</h2>
-<h3>P0</h3>
+<h2>今日建议路线</h2>
+<h3>第一阶段</h3>
 <ol>
-<li>将 Cocktail-Talker 的 RESPOND/LISTEN/IGNORE 标签改造成真实座舱多乘员回放集，不直接采用其固定边界模型。</li>
+<li>将 Cocktail-Talker 的 <code>RESPOND</code>/<code>LISTEN</code>/<code>IGNORE</code> 标签改造成真实座舱多乘员回放集，不直接采用其固定边界模型。</li>
 <li>在 CosyVoice2/3 本地 TTS 上实现 ECCD 小规模 A/B，首包延迟和 RTF 必须与 CER 同时过门。</li>
 <li>延续前一日 AEC+NS 真实双讲数据及 M3 多轮评测，不因今日无新论文而降级。</li>
 </ol>
-<h3>P1</h3>
+<h3>第二阶段</h3>
 <ol>
 <li>以 SpeechParaling-Bench 样式新增儿童安抚、告警、导航和噪声补偿的表达回归。</li>
 <li>为 Harness C 定义 typed Action batch、<code>ask_user</code>、执行后最终车态验证和持久 affair 状态。</li>
 </ol>
-<h3>P2</h3>
+<h3>第三阶段</h3>
 <ol>
 <li>用 StreamingClaw 的接口思想做短窗 KV、外部事件记忆和主动 trigger 的最小原型，先测再决定。</li>
 <li>用 AVF 做离线音视频联合证据评测；在没有实时数据前不进入在线主链。</li>
-</ol></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+</ol>
+<h2>风险提醒</h2>
+<ul>
+<li>今日没有新的项目实测。前一日 H20 Harness A/B 与 Harness C 的建议继续有效，论文数字不能替代真实车内回放。</li>
+<li>Cocktail-Talker 依赖固定话轮边界，不能替换真正在线的语义判停；ECCD 缺少双分支时延和资源开销；StreamingClaw 缺少全部定量结果；AVF 缺少在线流式和端侧实时证据。</li>
+<li><code>StreamingClaw v2</code> 是同一 arXiv ID 的修订版，不建立第二条技术记录；Qwen-UI-Agent 是 MAI-UI 的后续工作，只记其新增的真实设备、统一 Action、主动服务和跨平台 harness；AVF-Instruct 与 AVF-Think 是同一工作中的阶段模型，不拆成两项。</li>
+<li>Ming-omni-tts 的社区 MLX 转换、RVC/Applio、Waxal 模型、通用 embedding、头像与 HN 条目没有提供足够的论文级增量或与当前问题的直接证据，本日不进入主清单。</li>
+<li>CoTinyVLA、TurboVLA、RL²-VLA 的动作结果来自机器人任务，未证明可迁移到车控 Action 安全与流式语音；保留为低优先级观察项。</li>
+<li>今日未发现新的 AEC/降噪、空间听觉、真正在线的语义判停、全双工基础模型或实时服务/KV cache 定量结果。</li>
+</ul></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>
