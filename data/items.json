@@ -1,6 +1,266 @@
 {
- "generated": "2026-08-03T20:03:53.283892+08:00",
+ "generated": "2026-08-04T09:31:26.689914+08:00",
  "items": [
+  {
+   "id": "54e4301e1f",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "DrawAI: Agentic Benchmark and Workflow for Making Raster Images Editable",
+   "url": "https://arxiv.org/abs/2608.00548v1",
+   "published": "2026-08-01",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 8,
+   "tags": [
+    "multimodal agent",
+    "multimodal",
+    "agent harness"
+   ],
+   "summary_en": "Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly because meaningful content and relationships are flattened into pixels, preventing users from inspecting, modifying, rearranging, or reusing individual components. We formulate image-to-editable reconstruction, which recovers a structured, directly manipulable artifact from a raster image while preserving its visual and semantic content. The central challenge is to jointly satisfy Fidelity and Editability, which often trade off in practice. To study this task, we introduce DrawAI, comprising an agentic benchmark, DrawAI-Bench, and a reconstruction workflow, DrawAI-Flow. DrawAI-Bench spans scientific figures, presentation slides, posters, and diagrams, combining real and AI-generated images to reflect practical visual-creation scenarios. It evaluates Fidelity and Editability through a hybrid protocol of 39 criteria: deterministic rule-based metrics measure properties with direct correspondences, while asset-specific vision-language rubrics capture semantic and perceptual qualities for which exact matching is misleading. Besides, we propose DrawAI-Flow, a two-stage agentic workflow in which a Parser Agent turns extracted elements evidence into an explicit reconstruction plan, and a Reconstruction Agent realizes the plan as executable graphics code through an iterative code-render-validate-revise loop. On DrawAI-Bench, we systematically evaluate thirteen models across five agent harnesses to study the effects of model capability, harness choice, and workflow design. The results show that reconstruction quality and costs vary substantially across model-harness configurations, while DrawAI-Flow consistently improves editable structure.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "106132c5f3",
+   "kind": "model",
+   "source": "hf",
+   "title": "LCO-Embedding/LCO-Embedding-Omni-3B-2605",
+   "url": "https://huggingface.co/LCO-Embedding/LCO-Embedding-Omni-3B-2605",
+   "published": "2026-08-03",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction sentence-transformers safetensors qwen2_5_omni_thinker image-text-to-text multimodal-embedding transformers feature-extraction license:apache-2.0 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 12
+  },
+  {
+   "id": "801d9f24b2",
+   "kind": "model",
+   "source": "hf",
+   "title": "lactroiii/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4",
+   "url": "https://huggingface.co/lactroiii/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4",
+   "published": "2026-08-03",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers safetensors NemotronH_Nano_Omni_Reasoning_V3 feature-extraction nvidia pytorch multimodal any-to-any custom_code dataset:nvidia/Nemotron-Image-Training-v3 arxiv:2604.24954 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16 base_model:quantized:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16 license:other 8-bit modelopt region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "0627af35c7",
+   "kind": "repo",
+   "source": "github",
+   "title": "IAHispano/Applio",
+   "url": "https://github.com/IAHispano/Applio",
+   "published": "2026-08-03",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 7,
+   "tags": [
+    "speech-to-speech",
+    "text-to-speech"
+   ],
+   "summary_en": "A simple, high-quality voice conversion tool focused on ease of use and performance. ai applio pytorch rvc speech speech-to-speech text-to-speech tts vc vits voice voice-clone voice-cloning voice-conversion",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3548
+  },
+  {
+   "id": "105a9279b0",
+   "kind": "model",
+   "source": "hf",
+   "title": "emmilina/waxal-omni-ctc-300m-lug-sna-lin-casepunct",
+   "url": "https://huggingface.co/emmilina/waxal-omni-ctc-300m-lug-sna-lin-casepunct",
+   "published": "2026-08-03",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "9703f0e5a6",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "From Pixels to PCells: A Neurosymbolic Approach to Photonic Component Creation",
+   "url": "https://arxiv.org/abs/2608.00084v1",
+   "published": "2026-07-29",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric primitives. A system enabling deterministic visual verification renders evaluation asymmetrically cheaper than the generation attempt. While models using multi-seed sampling and iterative revision reach a mean best-turn IoU of only 0.416, multimodal agents through PixCell's interface and verifier consistently exceed 0.9 mean IoU, with scores reaching 0.974 and 0.955 across eight component targets while also satisfying source contracts. These results demonstrate that frontier multimodal agents can reliably understand and render executable parametric representations from visual targets. Using these live parameters, cross-stack studies on an interferometer reconstruct primitive programs that satisfy an 8.0 nm free spectral range target and the original footprint constraint on modeled 220-nm SOI, 400-nm SiN, and 400-nm TFLN stacks. PixCell further carries a paper-derived splitter from visual reconstruction through SOI full-wave simulation, producing symmetric propagation and balanced outputs. Finally, the same executable verifier supplies a training reward and dataset used to train a Qwen3.6-35B-A3B model with LoRA and GRPO without supervised demonstrations. On eight training-excluded paper figures, its mean champion IoU rises from 0.422 after eight initial attempts to 0.491 after three verifier-guided revision rounds. These results therefore establish a controlled framework for measuring, retargeting, and improving visual-to-parametric photonic component design.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ccb83c7e65",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Normal-Anchored First-Order Model-Agnostic Meta-Learning based Whisper Fine-Tuning for Enhancing Fairness of Cleft Lip and Palate Speech Recognition",
+   "url": "https://arxiv.org/abs/2608.00186v1",
+   "published": "2026-07-31",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 5,
+   "tags": [
+    "speech recognition"
+   ],
+   "summary_en": "Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance of pretrained ASR systems, and conventional fine-tuning may not generalize well under low-resource, heterogeneous CLP conditions. This work proposes Normal-Anchored First-Order Model-Agnostic Meta-Learning (NA-FOMAML) for adapting Whisper to CLP speech. The method uses a first-order bilevel meta-learning framework in which normal speech is used in the inner loop as a stable support condition, while CLP severity groups are used in the outer loop to improve post-adaptation robustness. This design aims to reduce the performance gap between normal and pathological speech. Experiments are conducted on the NMCPC and AIISH datasets using four normal-anchored training configurations. Frozen encoder, full encoder, and selected Whisper encoder-layer tuning strategies are evaluated, including layers 0--5, 4--11, 6--11, and 8--11, with decoder and projection-head adaptation. Results show that outer-loop training with only normal speech is insufficient. For NMCPC, full encoder tuning with Normal to Normal+Mild+Moderate gives WERs of 4.40%, 5.53%, 16.14%, and 52.07% for normal, mild, moderate, and severe speech. For AIISH, full encoder tuning with Normal to Normal+Mild+Moderate+Severe gives WERs of 2.48%, 19.66%, 14.05%, and 57.50%. A transcription-based phoneme-category analysis shows that severe CLP speech has high error rates across fricatives, affricates, nasals, liquids, plosives, and vowels. Overall, NA-FOMAML improves cross-severity robustness, but severe speech still requires severity-aware sampling, phoneme-aware loss functions, and augmentation targeting pressure consonant and resonance-related distortions.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "4045088edf",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Experience-Calibrated Contrastive Decoding for Mitigating Hallucinations in LM-Based Text-to-Speech",
+   "url": "https://arxiv.org/abs/2608.00722v1",
+   "published": "2026-08-01",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 5,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or additional training, while decoding-time control remains underexplored. We present a conditional information view that distinguishes text-derived alignment information from experience information supplied by acoustic context and learned speech regularities. We hypothesize that an important class of hallucinations begins when alignment support is insufficiently reflected in the selected token at a vulnerable transition. Using predictions from the same speech LM with and without text conditions, we propose Experience-Calibrated Contrastive Decoding (ECCD), a training-free method that strengthens alignment support while preserving useful experience information. ECCD preserves the original expert distribution, applies only positive alignment enhancement, and calibrates its strength using set-level experience compatibility. Across four models, ECCD reduces WER/CER by up to 55.6% in all SeedTTS-Eval settings and 24 of 25 multilingual CV3-Eval settings. A listening test yields a CMOS gain of $+0.644$ while retaining strong speaker similarity. Further analysis shows that alignment influence and decision-level gain vary within linguistic units and are lower at first-error boundaries than at matched correct boundaries. Overall, these extensive experiments and analyses identify conditional information control as a promising decoding-time direction for mitigating speech hallucination.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3662bcbb20",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Real-time avatars that change emotions as you talk",
+   "url": "https://anam.ai",
+   "published": "2026-07-14",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Hey HN, we&#x27;re Ben and Caoimhe, cofounders of Anam. We build interactive avatars and just shipped our latest model, cara-4. This is the first avatar model which can naturally shift emotions and expressions during the conversation; a feature we’re calling “Director Notes”. The way it works is relatively simple: we have an LLM provide cues such as [laughter], [sad], [warm] interleaved with the speech, which we then condition our animation model with. To test it out, we commissioned a blind study from Mabyduck.com with 200 participants, 1,600 rated live interactions across six criteria. Cara-4 ranked first overall and was preferred head-to-head over each competitor on overall experience, lip-sync, visual quality and “naturalness”. On latency, measured across a full week of live traffic, end of user-speech to first video frame is ~1.2s median. The avatar model&#x27;s own share is just ~100ms; most of the rest is waiting on STT, LLM, TTS or various forms of buffering (an unsung latency killer). How the model works: cara-4 has a two-stage design, a diffusion transformer turns audio+text into motion embeddings (head pose, gaze, lip shape, expression), and a rendering model applies those to a reference image, so new faces works without finetuning. Why faces at all: they carry emotional signal that text and voice don&#x27;t, and they&#x27;re a more accessible medium. Anam started in part from Ben watching his gran struggle with her iPad and thinking there should be a face she could just talk to. If you’d like to test it for free go to anam.ai",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 12
+  },
+  {
+   "id": "af4dae27c7",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Modular Deep Learning Framework for Assistive Perception: Gaze, Affect, and Speaker Identification",
+   "url": "https://arxiv.org/abs/2511.20474v1",
+   "published": "2025-11-25",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like 'Smart Eye.' We propose and benchmark three independent sensing modules: a Convolutional Neural Network (CNN) for eye state detection (drowsiness/attention), a deep CNN for facial expression recognition, and a Long Short-Term Memory (LSTM) network for voice-based speaker identification. Utilizing the Eyes Image, FER2013, and customized audio datasets, our models achieved accuracies of 93.0%, 97.8%, and 96.89%, respectively. This study demonstrates that lightweight, domain-specific models can achieve high fidelity on discrete tasks, establishing a validated foundation for future real-time, multimodal integration in resource-constrained assistive devices.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "1d9deafed8",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "StreamingClaw Technical Report",
+   "url": "https://arxiv.org/abs/2603.22120v2",
+   "published": "2026-03-23",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges for streaming video understanding. However, current agents mostly suffer from fragmented capabilities, such as supporting only offline video understanding, lacking long-term multimodal memory mechanisms, or struggling to achieve real-time reasoning and proactive interaction under streaming input. These shortcomings have become a key bottleneck for preventing agents from sustaining perception, making real-time decisions, and executing closed-loop actions in complex real-world environments, constraining their deployment and potential in dynamic, open physical worlds. To alleviate these issues, we propose StreamingClaw, a unified agent framework for streaming video understanding and embodied intelligence. Beyond maintaining full compatibility with the OpenClaw framework, it natively supports real-time, multimodal streaming interactions. StreamingClaw integrates five core capabilities: (1) It supports real-time streaming reasoning. (2) It supports reasoning about future events and proactive interaction under the online evolution of interaction objectives. (3) It supports multimodal long-term memory storage, hierarchical memory evolution, efficient memory retrieval, and memory sharing across multiple agents. (4) It supports a closed loop of perception-decision-action. In addition to conventional tools and skills, it also provides streaming tools and action-centric skills tailored for real-world physical environments. (5) It is compatible with the OpenClaw framework, allowing it to leverage the resources and support of the open-source community.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "893ae9f4fa",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "From Rights to Rites: Expectations Management in Smart-Home AI",
+   "url": "https://arxiv.org/abs/2604.23635v1",
+   "published": "2026-04-26",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "Domestic voice assistants and smart-home devices are increasingly embedded in everyday routines, yet their ethics are often treated as an afterthought or delegated to compliance teams. To explore how expectations about smart-home AI are constructed and managed, we conducted 33 semi-structured interviews with designers, developers, and researchers from major smart-home platforms (Amazon Alexa, Microsoft Azure IoT, and Google Nest). Using a constructivist grounded theory approach, we develop Expectations Management (EM): a culturally embedded model describing how practitioners shape, calibrate, and repair expectations by balancing organisational rights with culturally situated rites. We show that EM differs from expectation-confirmation theory and trust-calibration by foregrounding moral judgement, situated action, and cross-cultural variation. Our analysis reveals four recurring design tensions: automation vs. autonomy, helpfulness vs. intrusiveness, personalisation vs. predictability, and transparency vs. obscurity and distils them into a five-phase EM Design Playbook that supports moral prudence. We discuss implications for responsible smart-home design and offer guidance for human-centred AI.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2726b2f1e0",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Understanding Perspectives of Patients, Caregivers and Clinicians towards Emerging Collaborative-decision Making Technologies",
+   "url": "https://arxiv.org/abs/2605.21777v1",
+   "published": "2026-05-20",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [
+    "voice assistant"
+   ],
+   "summary_en": "In pediatrics, patients, caregivers, and clinicians share responsibility for health decisions, but limited collaboration can undermine outcomes. We conducted a qualitative study examining decision-makers perceptions toward collaborative decision-making technologies, including interactive dashboards, VR simulators, and AI voice assistants. Findings reveal differences in user opinions across groups and indicate technology acceptance is linked to users trust of these technologies. Technology developers and researchers need to explore design and implementation strategies that build and facilitate trust or appropriate distrust between users and these novel technologies before these tools can effectively support collaborative decision-making.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "a4810dc0ad",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Data Pyramid for Embodied Manipulation",
+   "url": "https://arxiv.org/abs/2607.24744v1",
+   "published": "2026-07-27",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal",
+    "vision-language-action"
+   ],
+   "summary_en": "Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this work, we organize the embodied data ecosystem as a \"pyramid\" spanning five complementary sources: real-robot data, UMI-style data, egocentric and exocentric data, simulation data, and general vision-language data. We organize the pyramid around the tension between scalability and robot alignment, and further characterize each source in terms of data quality, diversity, reusability, and physical fidelity. We then analyze recent embodied foundation models through the lens of their data recipes, examining how different sources are selected, aligned, and mixed during pretraining. For embodied brain models, vision-language-action models, and world-action models alike, we relate data composition to capabilities in perception, reasoning, planning, action generation, and world prediction. We close by discussing six open challenges: building large-scale tactile datasets, collecting failure and recovery data, developing scalable data-collection pipelines, aligning actions across embodiments, leveraging egocentric data for dexterous manipulation, and designing principled data recipes for robot learning. We hope this work paves the foundation for the design of next-generation embodied systems.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2ddbd4fd07",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "CoTinyVLA: Chain-of-Thought Distillation for a Sub-Billion-Parameter Vision-Language-Action Model",
+   "url": "https://arxiv.org/abs/2607.25487v1",
+   "published": "2026-07-28",
+   "found": "2026-08-04T09:31:26.689914+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter backbones whose memory demands can exceed embedded robotic budgets. We present CoTinyVLA, a 0.9B-parameter action model on a Qwen3.5-0.8B backbone that obtains that robustness by structuring supervision instead of enlarging the model. Three components target different axes of the problem: dual-view temporal input of 16 history frames per step with textual camera and time markers; hierarchical chain-of-thought (CoT) distillation from a 35B teacher into an episode-level Plan and a chunk-level Think span over task phase, gripper state and next subaction; and paraphrase augmentation expanding 40 base commands into 800 variants. On LIBERO-Plus, spanning 10,030 perturbed tasks across seven perturbation dimensions, CoTinyVLA reaches 90.8% on Spatial, 87.3% on Object, 86.6% on Goal and 80.7% on Long, leading the strongest 7B baseline on all four suites by 4.7, 2.8, 15.9 and 3.0 points, with every margin interval excluding zero. The gains concentrate on the hardest axes of the benchmark: across the eleven published baselines none exceeds 53.2% on Robot Initial States in any suite, whereas CoTinyVLA reaches 73.6% on Goal against 39.9% for the strongest baseline. Ablations show the three components to be separable by perturbation axis, and at a matched image budget how frames are divided between the two cameras and across time accounts for 8.6 points on its own. Closed-loop inference peaks at 2.25 GiB of allocated GPU memory, and paired interventions show the episode Plan to be load-bearing: replacing it with an empty or contradictory span costs 40 to 45 points of success. Structured supervision thus lets a 0.9B backbone exceed all of them. Code: https://github.com/BrainJellyPie/CoTinyVLA",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "7520cdd0e3",
    "kind": "model",
@@ -547,7 +807,7 @@
    "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
    "summary_zh": "",
    "demo": "",
-   "stars": 85
+   "stars": 91
   },
   {
    "id": "64bb628be2",
@@ -1215,7 +1475,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15027
+   "stars": 15031
   },
   {
    "id": "357904a773",
@@ -1426,7 +1686,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 21
+   "stars": 37
   },
   {
    "id": "bd747fc4a6",
@@ -2767,7 +3027,7 @@
    "summary_en": "The Virtual Human Toolkit enables researchers and developers to rapidly create embodied conversational agents using speech recognition, audio-visual sensing, natural language processing, text-to-speech synthesis, and nonverbal behavior generation. ai avatars cloud conversational-agents conversational-ai embodied-agent llm nlp sensing simulation socially-intelligent-agents tts unity virtual-humans",
    "summary_zh": "",
    "demo": "",
-   "stars": 9
+   "stars": 11
   },
   {
    "id": "47d9062193",
@@ -2822,7 +3082,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5804
+   "stars": 5818
   },
   {
    "id": "293306d628",
@@ -2840,7 +3100,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 715
+   "stars": 718
   },
   {
    "id": "5d6e6e2b0a",
@@ -2876,7 +3136,7 @@
    "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
    "summary_zh": "",
    "demo": "",
-   "stars": 557
+   "stars": 558
   },
   {
    "id": "b8dde0aed2",

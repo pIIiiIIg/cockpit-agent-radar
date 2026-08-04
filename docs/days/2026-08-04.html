@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-04 · cockpit-agent-radar</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+
+<div class="datebar">
+  <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-03.html" title="前一天 2026-08-03">◀</a>
+  <input type="date" id="dp" value="2026-08-04" min="2026-07-30" max="2026-08-04">
+  <span class="btn off">▶</span>
+  <span style="color:var(--dim);font-size:12.5px"><span class="l-zh">选日期看当天内容</span><span class="l-en">pick a date</span></span>
+</div>
+<script>
+var DATES = new Set(["2026-08-04", "2026-08-03", "2026-08-02", "2026-08-01", "2026-07-31", "2026-07-30"]);
+document.getElementById("dp").onchange = function () {
+  if (DATES.has(this.value)) location.href = "https://piiiiiig.github.io/cockpit-agent-radar/days/" + this.value + ".html";
+  else { this.style.borderColor = "#e0a23f";
+         this.title = "该日期无内容 / no items on that day"; }
+};
+</script><h2 class="day">2026-08-04 · 15 <span class="l-zh">条</span><span class="l-en">items</span></h2><h3 class="slot">⏰ 09:00 <span class="l-zh">班</span><span class="l-en">run</span> · 15 <span class="l-zh">条</span><span class="l-en">items</span></h3>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html">DrawAI: Agentic Benchmark and Workflow for Making Raster Images Editable</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-08-01</span><span title="relevance">◈ 8</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly bec</span><span class="l-en">Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly bec</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/106132c5f3.html">LCO-Embedding/LCO-Embedding-Omni-3B-2605</a></div><div class="meta"><span class="badge hi"><span class="l-zh">模型</span><span class="l-en">Model</span></span><span>hf</span><span>2026-08-03</span><span>★ 12</span><span title="relevance">◈ 8</span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">feature-extraction sentence-transformers safetensors qwen2_5_omni_thinker image-text-to-text multimodal-embedding transformers feature-extraction license:apache-2.0 endpoints_compatible region:us</span><span class="l-en">feature-extraction sentence-transformers safetensors qwen2_5_omni_thinker image-text-to-text multimodal-embedding transformers feature-extraction license:apache-2.0 endpoints_compatible region:us</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/801d9f24b2.html">lactroiii/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4</a></div><div class="meta"><span class="badge hi"><span class="l-zh">模型</span><span class="l-en">Model</span></span><span>hf</span><span>2026-08-03</span><span title="relevance">◈ 8</span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">any-to-any transformers safetensors NemotronH_Nano_Omni_Reasoning_V3 feature-extraction nvidia pytorch multimodal any-to-any custom_code dataset:nvidia/Nemotron-Image-Training-v3 arxiv:2604.24954 base</span><span class="l-en">any-to-any transformers safetensors NemotronH_Nano_Omni_Reasoning_V3 feature-extraction nvidia pytorch multimodal any-to-any custom_code dataset:nvidia/Nemotron-Image-Training-v3 arxiv:2604.24954 base</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/0627af35c7.html">IAHispano/Applio</a></div><div class="meta"><span class="badge hi"><span class="l-zh">仓库</span><span class="l-en">Repo</span></span><span>github</span><span>2026-08-03</span><span>★ 3548</span><span title="relevance">◈ 7</span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">A simple, high-quality voice conversion tool focused on ease of use and performance. ai applio pytorch rvc speech speech-to-speech text-to-speech tts vc vits voice voice-clone voice-cloning voice-conv</span><span class="l-en">A simple, high-quality voice conversion tool focused on ease of use and performance. ai applio pytorch rvc speech speech-to-speech text-to-speech tts vc vits voice voice-clone voice-cloning voice-conv</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/105a9279b0.html">emmilina/waxal-omni-ctc-300m-lug-sna-lin-casepunct</a></div><div class="meta"><span class="badge hi"><span class="l-zh">模型</span><span class="l-en">Model</span></span><span>hf</span><span>2026-08-03</span><span title="relevance">◈ 6</span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">region:us</span><span class="l-en">region:us</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/9703f0e5a6.html">From Pixels to PCells: A Neurosymbolic Approach to Photonic Component Creation</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-29</span><span title="relevance">◈ 5</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric</span><span class="l-en">We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/ccb83c7e65.html">Normal-Anchored First-Order Model-Agnostic Meta-Learning based Whisper Fine-Tuning for Enhancing Fairness of Cleft Lip and Palate Speech Recognition</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-31</span><span title="relevance">◈ 5</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance o</span><span class="l-en">Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance o</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/4045088edf.html">Experience-Calibrated Contrastive Decoding for Mitigating Hallucinations in LM-Based Text-to-Speech</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-08-01</span><span title="relevance">◈ 5</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or addition</span><span class="l-en">Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or addition</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/3662bcbb20.html">Show HN: Real-time avatars that change emotions as you talk</a></div><div class="meta"><span class="badge hi"><span class="l-zh">新闻</span><span class="l-en">News</span></span><span>hn</span><span>2026-07-14</span><span>★ 12</span><span title="relevance">◈ 4</span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Hey HN, we&amp;#x27;re Ben and Caoimhe, cofounders of Anam. We build interactive avatars and just shipped our latest model, cara-4. This is the first avatar model which can naturally shift emotions and ex</span><span class="l-en">Hey HN, we&amp;#x27;re Ben and Caoimhe, cofounders of Anam. We build interactive avatars and just shipped our latest model, cara-4. This is the first avatar model which can naturally shift emotions and ex</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/af4dae27c7.html">Modular Deep Learning Framework for Assistive Perception: Gaze, Affect, and Speaker Identification</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2025-11-25</span><span title="relevance">◈ 4</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core </span><span class="l-en">Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core </span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/1d9deafed8.html">StreamingClaw Technical Report</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-03-23</span><span title="relevance">◈ 4</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges f</span><span class="l-en">Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges f</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/893ae9f4fa.html">From Rights to Rites: Expectations Management in Smart-Home AI</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-04-26</span><span title="relevance">◈ 4</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Domestic voice assistants and smart-home devices are increasingly embedded in everyday routines, yet their ethics are often treated as an afterthought or delegated to compliance teams. To explore how </span><span class="l-en">Domestic voice assistants and smart-home devices are increasingly embedded in everyday routines, yet their ethics are often treated as an afterthought or delegated to compliance teams. To explore how </span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/2726b2f1e0.html">Understanding Perspectives of Patients, Caregivers and Clinicians towards Emerging Collaborative-decision Making Technologies</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-05-20</span><span title="relevance">◈ 4</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">In pediatrics, patients, caregivers, and clinicians share responsibility for health decisions, but limited collaboration can undermine outcomes. We conducted a qualitative study examining decision-mak</span><span class="l-en">In pediatrics, patients, caregivers, and clinicians share responsibility for health decisions, but limited collaboration can undermine outcomes. We conducted a qualitative study examining decision-mak</span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/a4810dc0ad.html">Data Pyramid for Embodied Manipulation</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-27</span><span title="relevance">◈ 4</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states </span><span class="l-en">Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states </span></div></div>
+<div class="card" data-found="2026-08-04T09:31:26.689914+08:00"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/items/2ddbd4fd07.html">CoTinyVLA: Chain-of-Thought Distillation for a Sub-Billion-Parameter Vision-Language-Action Model</a></div><div class="meta"><span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span><span>arxiv</span><span>2026-07-28</span><span title="relevance">◈ 4</span><span class="deep-badge"><span class="l-zh">◇ 摘要速读</span><span class="l-en">◇ abstract brief</span></span><span title="进入雷达时刻">⏱ 09:31</span></div><div class="sum"><span class="l-zh">Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter b</span><span class="l-en">Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter b</span></div></div><p style="margin-top:18px"><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 最新</span><span class="l-en">← latest</span></a></p>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>

@@ -116,12 +116,12 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 
 <div class="datebar">
   <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-07-31.html" title="前一天 2026-07-31">◀</a>
-  <input type="date" id="dp" value="2026-08-01" min="2026-07-30" max="2026-08-03">
+  <input type="date" id="dp" value="2026-08-01" min="2026-07-30" max="2026-08-04">
   <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-02.html" title="后一天 2026-08-02">▶</a>
   <span style="color:var(--dim);font-size:12.5px"><span class="l-zh">选日期看当天内容</span><span class="l-en">pick a date</span></span>
 </div>
 <script>
-var DATES = new Set(["2026-08-03", "2026-08-02", "2026-08-01", "2026-07-31", "2026-07-30"]);
+var DATES = new Set(["2026-08-04", "2026-08-03", "2026-08-02", "2026-08-01", "2026-07-31", "2026-07-30"]);
 document.getElementById("dp").onchange = function () {
   if (DATES.has(this.value)) location.href = "https://piiiiiig.github.io/cockpit-agent-radar/days/" + this.value + ".html";
   else { this.style.borderColor = "#e0a23f";

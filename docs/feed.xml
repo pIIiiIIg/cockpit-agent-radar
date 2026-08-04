@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>DrawAI: Agentic Benchmark and Workflow for Making Raster Images Editable</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html</guid>
+<description>Recent image-generation models and multimodal agents can produce high-quality visuals for increasingly complex visual communication tasks. Yet their raster outputs remain difficult to use directly because meaningful content and relationships are flattened into pixels, preventing users from inspectin</description>
+</item>
+<item>
+<title>LCO-Embedding/LCO-Embedding-Omni-3B-2605</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/106132c5f3.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/106132c5f3.html</guid>
+<description>feature-extraction sentence-transformers safetensors qwen2_5_omni_thinker image-text-to-text multimodal-embedding transformers feature-extraction license:apache-2.0 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>lactroiii/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-NVFP4</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/801d9f24b2.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/801d9f24b2.html</guid>
+<description>any-to-any transformers safetensors NemotronH_Nano_Omni_Reasoning_V3 feature-extraction nvidia pytorch multimodal any-to-any custom_code dataset:nvidia/Nemotron-Image-Training-v3 arxiv:2604.24954 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16 base_model:quantized:nvidia/Nemotron-3-Nan</description>
+</item>
+<item>
+<title>IAHispano/Applio</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0627af35c7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0627af35c7.html</guid>
+<description>A simple, high-quality voice conversion tool focused on ease of use and performance. ai applio pytorch rvc speech speech-to-speech text-to-speech tts vc vits voice voice-clone voice-cloning voice-conversion</description>
+</item>
+<item>
+<title>emmilina/waxal-omni-ctc-300m-lug-sna-lin-casepunct</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/105a9279b0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/105a9279b0.html</guid>
+<description>region:us</description>
+</item>
+<item>
+<title>From Pixels to PCells: A Neurosymbolic Approach to Photonic Component Creation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9703f0e5a6.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9703f0e5a6.html</guid>
+<description>We present PixCell, a neurosymbolic system in which multimodal agents convert a visually presented photonic component into a parametric program over a small domain-specific language (DSL) of geometric primitives. A system enabling deterministic visual verification renders evaluation asymmetrically c</description>
+</item>
+<item>
+<title>Normal-Anchored First-Order Model-Agnostic Meta-Learning based Whisper Fine-Tuning for Enhancing Fairness of Cleft Lip and Palate Speech Recognition</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ccb83c7e65.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ccb83c7e65.html</guid>
+<description>Automatic speech recognition (ASR) for cleft lip and palate (CLP) speech is difficult because acoustic and articulatory patterns vary across severity levels. This variability reduces the performance of pretrained ASR systems, and conventional fine-tuning may not generalize well under low-resource, h</description>
+</item>
+<item>
+<title>Experience-Calibrated Contrastive Decoding for Mitigating Hallucinations in LM-Based Text-to-Speech</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4045088edf.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4045088edf.html</guid>
+<description>Language model-based text-to-speech (LM-based TTS) remains vulnerable to speech hallucinations that deviate from the target text. Existing mitigation mainly relies on architectural changes or additional training, while decoding-time control remains underexplored. We present a conditional information</description>
+</item>
+<item>
+<title>Show HN: Real-time avatars that change emotions as you talk</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3662bcbb20.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3662bcbb20.html</guid>
+<description>Hey HN, we&amp;#x27;re Ben and Caoimhe, cofounders of Anam. We build interactive avatars and just shipped our latest model, cara-4. This is the first avatar model which can naturally shift emotions and expressions during the conversation; a feature we’re calling “Director Notes”. The way it works is rel</description>
+</item>
+<item>
+<title>Modular Deep Learning Framework for Assistive Perception: Gaze, Affect, and Speaker Identification</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/af4dae27c7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/af4dae27c7.html</guid>
+<description>Developing comprehensive assistive technologies requires the seamless integration of visual and auditory perception. This research evaluates the feasibility of a modular architecture inspired by core functionalities of perceptive systems like &#x27;Smart Eye.&#x27; We propose and benchmark three independent s</description>
+</item>
+<item>
+<title>StreamingClaw Technical Report</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1d9deafed8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1d9deafed8.html</guid>
+<description>Emerging applications such as embodied intelligence, AI hardware, autonomous driving, and intelligent cockpits rely on a real-time perception-decision-action closed loop, posing stringent challenges for streaming video understanding. However, current agents mostly suffer from fragmented capabilities</description>
+</item>
+<item>
+<title>From Rights to Rites: Expectations Management in Smart-Home AI</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/893ae9f4fa.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/893ae9f4fa.html</guid>
+<description>Domestic voice assistants and smart-home devices are increasingly embedded in everyday routines, yet their ethics are often treated as an afterthought or delegated to compliance teams. To explore how expectations about smart-home AI are constructed and managed, we conducted 33 semi-structured interv</description>
+</item>
+<item>
+<title>Understanding Perspectives of Patients, Caregivers and Clinicians towards Emerging Collaborative-decision Making Technologies</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2726b2f1e0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2726b2f1e0.html</guid>
+<description>In pediatrics, patients, caregivers, and clinicians share responsibility for health decisions, but limited collaboration can undermine outcomes. We conducted a qualitative study examining decision-makers perceptions toward collaborative decision-making technologies, including interactive dashboards,</description>
+</item>
+<item>
+<title>Data Pyramid for Embodied Manipulation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a4810dc0ad.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a4810dc0ad.html</guid>
+<description>Multimodal foundation models learned to see and to speak by consuming the whole internet. Embodied agents admit no such shortcut, since they require data that couple observations with physical states and actions. These signals can be provided, to varying degrees, by multiple data sources. In this wo</description>
+</item>
+<item>
+<title>CoTinyVLA: Chain-of-Thought Distillation for a Sub-Billion-Parameter Vision-Language-Action Model</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2ddbd4fd07.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2ddbd4fd07.html</guid>
+<description>Vision-Language-Action (VLA) models translate natural-language commands into robot action sequences, but leading systems on the LIBERO-Plus robustness benchmark use three- to seven-billion-parameter backbones whose memory demands can exceed embedded robotic budgets. We present CoTinyVLA, a 0.9B-para</description>
+</item>
+<item>
 <title>vanch007/Ming-omni-tts-16.8B-A3B-MLX-bf16</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/7520cdd0e3.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7520cdd0e3.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html</guid>
 <description>Paralinguistic cues are essential for natural human-computer interaction, yet their evaluation in Large Audio-Language Models (LALMs) remains limited by coarse feature coverage and the inherent subjectivity of assessment. To address these challenges, we introduce SpeechParaling-Bench, a comprehensiv</description>
-</item>
-<item>
-<title>Putting HUMANS first: Efficient LAM Evaluation with Human Preference Alignment</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/46fcb251fd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/46fcb251fd.html</guid>
-<description>The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection</description>
-</item>
-<item>
-<title>BrainJanus: A Unified Model for Understanding and Generation across Brain, Vision, and Language</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9ca85357c8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9ca85357c8.html</guid>
-<description>Modeling the bidirectional correspondence between external sensory stimuli and internal neural activity has emerged as a critical frontier in neuroscience. However, existing approaches predominantly treat brain encoding and decoding as isolated tasks, relying heavily on unimodal alignment and extern</description>
-</item>
-<item>
-<title>Weaving Light and Time: Unified Harmonic-Geometric Representation Learning for Dense RGB-Event Parsing</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b98e319e44.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b98e319e44.html</guid>
-<description>Fusing standard RGB frames with asynchronous event streams has emerged as a definitive paradigm for robust perception in degraded environments. Although unified backbones have recently gained traction in multi-modal vision, adapting them to the RGB-Event domain remains fundamentally challenging. Exi</description>
-</item>
-<item>
-<title>TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with &lt;1 GB VRAM</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/55c6e7aa68.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/55c6e7aa68.html</guid>
-<description>Vision-language-action (VLA) models commonly adopt an LLM-centric $V \to L \to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although effective, this design incurs substantial computation and memor</description>
-</item>
-<item>
-<title>Cocktail-Talker: Multi-Speaker Dialog Modeling in Noisy Social Environments with Turn Action GRPO</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2e8e43eb46.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2e8e43eb46.html</guid>
-<description>Spoken dialog systems are typically designed for clean, dyadic interactions in which a single user and an assistant take turns speaking. Real-world social conversations, however, are often more ambiguous: multiple speakers may participate in the same conversation amid irrelevant speech and backgroun</description>
-</item>
-<item>
-<title>M3-DuplexBench: A Multi-Turn, Multilingual, Multidomain Benchmark for Full-Duplex Spoken Dialogue Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3832c6eae8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3832c6eae8.html</guid>
-<description>M3-DuplexBench 用英日双语、闲聊与多轮问答，在固定历史条件下公平评测全双工模型的轮替和内容。 可把现有8轮车控压力测试升级为固定完整上下文的多轮基准</description>
-</item>
-<item>
-<title>streamcoreai/streamcore-server</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/37a3d22f57.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/37a3d22f57.html</guid>
-<description>Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support &amp; fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realt</description>
-</item>
-<item>
-<title>Beyond Retrieval: Analytic Memory for Multimodal Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/64bb628be2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/64bb628be2.html</guid>
-<description>AdaMM把多模态长期记忆拆成语义检索和可执行分析两部分，支持跨时间过滤、聚合与比较。 可把乘员偏好、车况和历次车控从纯对话KV迁移到可审计表</description>
-</item>
-<item>
-<title>cstr/mini-omni2-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cd371ed33f.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cd371ed33f.html</guid>
-<description>mini-omni2 gguf asr tts speech-to-speech en base_model:gpt-omni/mini-omni2 base_model:quantized:gpt-omni/mini-omni2 license:mit region:us</description>
-</item>
-<item>
-<title>K5PTB/fldigi</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f041291a15.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f041291a15.html</guid>
-<description>fldigi + native TCI (Transceiver Control Interface): WebSocket CAT &amp; full-duplex RX/TX audio for ExpertSDR/SunSDR/AetherSDR-class SDRs. Windows download in Releases; build from source on Linux/macOS. Tracks the real SourceForge upstream.</description>
-</item>
-<item>
-<title>MulRobBench: A Decision-Level Benchmark for Safe and Security-Policy-Compliant Multimodal UAV Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/88c1d889be.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/88c1d889be.html</guid>
-<description>Smart-city airspace is transforming Uncrewed Aerial Vehicles (UAVs) from passive sensing platforms into cyber-physical decision makers that must follow operational rules under degraded observations and ambiguous language. Existing UAV and multimodal benchmarks evaluate perception, navigation, collab</description>
-</item>
-<item>
-<title>Agentic AI in medicine: architectures, applications, evaluation, and challenges for clinical translation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a7ac14b936.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a7ac14b936.html</guid>
-<description>Large language models and multimodal foundation models are enabling medical artificial intelligence (AI) systems to move beyond isolated prediction and undertake multistep clinical tasks that require planning, tool use, memory, iterative correction, and coordination among specialized agents. However</description>
-</item>
-<item>
-<title>ViSAGE: Constructing Self-Correcting Memories for Long-Form Video Understanding</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1db51afa92.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1db51afa92.html</guid>
-<description>Multimodal agents operating in long-horizon environments must build and continually update multimedia memories to support entity-consistent, temporally grounded reasoning. However, existing agentic memory approaches often discard fine-grained dentity cues under aggressive compression and segment-wis</description>
-</item>
-<item>
-<title>FibVLA: An Efficient Temporal Vision-Language-Action Model with Fibonacci Sampling</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e226d59e8b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e226d59e8b.html</guid>
-<description>Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs&#x27; </description>
-</item>
-<item>
-<title>Fangyuan025/Chaty</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d1ff43bf6f.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d1ff43bf6f.html</guid>
-<description>Private, on-device AI desktop app — GGUF (llama.cpp) &amp; MLX models, a local coding agent, RAG knowledge base, Deep Research, vision and voice. 100% offline, no account, no telemetry. Windows &amp; macOS. ai-agent ai-chat apple-silicon coding-agent desktop-app gguf huggingface llama-cpp llm local-llm mcp </description>
 </item>
 </channel></rss>
