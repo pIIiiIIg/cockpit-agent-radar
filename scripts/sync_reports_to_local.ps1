@@ -1,6 +1,7 @@
 param(
     [string]$RepoPath = "C:\Users\Administrator\Projects\cockpit-agent-radar",
     [string]$SyncPath = "C:\Users\Administrator\sync",
+    [string]$Date = (Get-Date -Format "yyyy-MM-dd"),
     [int]$MaxAttempts = 10,
     [int]$RetrySeconds = 120
 )
@@ -8,7 +9,6 @@ param(
 $ErrorActionPreference = "Stop"
 $Git = "C:\Program Files\Git\cmd\git.exe"
 $LogPath = Join-Path $SyncPath "cockpit-radar-report-sync.log"
-$Today = Get-Date -Format "yyyy-MM-dd"
 
 function Write-Log([string]$Message) {
     $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message"
@@ -41,11 +41,11 @@ for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
         exit 4
     }
 
-    $TodayReports = @(Get-ChildItem -Path $ReportsPath -Filter "*-$Today.md" `
+    $TodayReports = @(Get-ChildItem -Path $ReportsPath -Filter "*-$Date.md" `
         -File -ErrorAction SilentlyContinue)
     if ($TodayReports.Count -ge 2) {
         $TodayReports | Copy-Item -Destination $SyncPath -Force
-        Write-Log "SUCCESS: synced $($TodayReports.Count) reports for $Today"
+        Write-Log "SUCCESS: synced $($TodayReports.Count) reports for $Date"
         exit 0
     }
 
