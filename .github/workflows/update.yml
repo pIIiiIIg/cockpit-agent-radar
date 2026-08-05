@@ -35,4 +35,22 @@ jobs:
           git config user.email "radar-bot@users.noreply.github.com"
           git add -A
           git diff --cached --quiet || git commit -m "radar: $(date -u '+%Y-%m-%d %H:%M') UTC"
-          git push
+          for attempt in 1 2 3 4; do
+            git push && exit 0
+            git fetch origin main
+            if ! GIT_EDITOR=true git rebase origin/main; then
+              conflicts="$(git diff --name-only --diff-filter=U)"
+              nongenerated="$(printf '%s\n' "$conflicts" | grep -v '^docs/' || true)"
+              if [ -n "$nongenerated" ]; then
+                echo "Non-generated rebase conflicts:" >&2
+                printf '%s\n' "$nongenerated" >&2
+                exit 1
+              fi
+              python scripts/build_site.py
+              git add docs
+              GIT_EDITOR=true git rebase --continue
+            fi
+            sleep $((attempt * 10))
+          done
+          echo "Push failed after retries" >&2
+          exit 1

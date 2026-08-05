@@ -518,6 +518,11 @@ def build_reports():
             rows.append({"date": date, "kind": kind, "title": title,
                          "href": f"{BASE}/reports/{output_name}"})
     rows.sort(key=lambda row: (row["date"], row["kind"]), reverse=True)
+    valid_report_files = {
+        row["href"].rsplit("/", 1)[-1] for row in rows} | {"index.html"}
+    for name in os.listdir(target):
+        if name.endswith(".html") and name not in valid_report_files:
+            os.remove(os.path.join(target, name))
     cards = []
     for row in rows:
         label = pair("精简日报", "Daily brief") if row["kind"] == "daily" else pair(
@@ -563,7 +568,12 @@ def main():
         explanations = {}
     for item in items:
         item["explanation"] = explanations.get(item["id"], {})
-    os.makedirs(os.path.join(DOCS, "items"), exist_ok=True)
+    items_dir = os.path.join(DOCS, "items")
+    os.makedirs(items_dir, exist_ok=True)
+    valid_item_files = {item["id"] + ".html" for item in items}
+    for name in os.listdir(items_dir):
+        if name.endswith(".html") and name not in valid_item_files:
+            os.remove(os.path.join(items_dir, name))
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
     reports = build_reports()
@@ -577,6 +587,10 @@ def main():
                       reverse=True)
     days = all_days[:6]
     os.makedirs(os.path.join(DOCS, "days"), exist_ok=True)
+    days_dir = os.path.join(DOCS, "days")
+    for name in os.listdir(days_dir):
+        if name.endswith(".html") and name[:-5] not in all_days:
+            os.remove(os.path.join(days_dir, name))
     for d in all_days:
         rows = by_day.get(d, [])
         body = (datebar(d, all_days)

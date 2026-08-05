@@ -1,0 +1,31 @@
+name: pages-smoke
+
+on:
+  workflow_run:
+    workflows: [radar-update]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: wait for Pages and verify public routes
+        run: |
+          base="https://piiiiiig.github.io/cockpit-agent-radar"
+          routes=("/" "/archive.html" "/feed.xml" "/reports/" "/demos/full-duplex-primer.html")
+          for attempt in $(seq 1 15); do
+            failed=0
+            for route in "${routes[@]}"; do
+              curl --fail --silent --show-error --location \
+                --max-time 30 "$base$route" >/dev/null || failed=1
+            done
+            [ "$failed" -eq 0 ] && exit 0
+            sleep 20
+          done
+          echo "GitHub Pages did not pass public-route smoke checks" >&2
+          exit 1

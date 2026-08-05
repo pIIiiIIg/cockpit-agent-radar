@@ -1,5 +1,5 @@
 param(
-    [string]$RepoPath = "C:\Users\Administrator\Projects\cockpit-agent-radar",
+    [string]$RepoPath = "",
     [string]$SyncPath = "C:\Users\Administrator\sync",
     [string]$Date = (Get-Date -Format "yyyy-MM-dd"),
     [int]$MaxAttempts = 10,
@@ -7,8 +7,11 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+if (-not $RepoPath) { $RepoPath = Split-Path -Parent $PSScriptRoot }
+. (Join-Path $PSScriptRoot "automation_common.ps1")
 $Git = "C:\Program Files\Git\cmd\git.exe"
 $LogPath = Join-Path $SyncPath "cockpit-radar-report-sync.log"
+$Lock = Join-Path $RepoPath ".radar-agent.lock"
 
 function Write-Log([string]$Message) {
     $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message"
@@ -28,16 +31,27 @@ if (-not (Test-Path (Join-Path $RepoPath ".git"))) {
 }
 
 $ReportsPath = Join-Path $RepoPath "reports"
+Acquire-RadarLock -Lock $Lock -Log $LogPath -WaitMinutes 480
+try {
 for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
     Write-Log "Checking daily reports: attempt $attempt/$MaxAttempts"
     $previousPreference = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    $gitOutput = & $Git -C $RepoPath pull --ff-only origin main 2>&1
+    $gitOutput = & $Git -C $RepoPath fetch origin main 2>&1
     $gitCode = $LASTEXITCODE
     $ErrorActionPreference = $previousPreference
     $gitOutput | ForEach-Object { Write-Log "git: $_" }
     if ($gitCode -ne 0) {
-        Write-Log "FAILED: git pull failed; refusing to overwrite local changes"
+        Write-Log "git fetch failed; retrying"
+        if ($attempt -lt $MaxAttempts) {
+            Start-Sleep -Seconds $RetrySeconds
+            continue
+        }
+        exit 4
+    }
+    $gitOutput = & $Git -C $RepoPath -c core.editor=true rebase origin/main 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Log "FAILED: sync clone rebase failed"
         exit 4
     }
 
@@ -57,3 +71,7 @@ for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
 
 Write-Log "TIMEOUT: reports not found after $($MaxAttempts * $RetrySeconds / 60) minutes"
 exit 5
+}
+finally {
+    Remove-Item $Lock -Force -ErrorAction SilentlyContinue
+}
