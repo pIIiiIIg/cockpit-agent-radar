@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reports · cockpit-agent-radar</title>
+<title>每日调研日报 · 2026-08-05</title>
 <link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
       href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
 <style>
@@ -126,6 +126,15 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<h2 class="day"><span class="l-zh">每日调研</span><span class="l-en">Research reports</span></h2><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/全双工语音技术增量调研-2026-08-05.html">全双工语音技术增量调研 · 2026-08-05</a></div><div class="meta"><span class="badge hi"><span class="l-zh">详细调研</span><span class="l-en">Deep report</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/每日调研日报-2026-08-05.html">每日调研日报 · 2026-08-05</a></div><div class="meta"><span class="badge hi"><span class="l-zh">精简日报</span><span class="l-en">Daily brief</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/全双工语音技术增量调研-2026-08-04.html">全双工语音技术增量调研 · 2026-08-04</a></div><div class="meta"><span class="badge hi"><span class="l-zh">详细调研</span><span class="l-en">Deep report</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/每日调研日报-2026-08-04.html">每日调研日报 · 2026-08-04</a></div><div class="meta"><span class="badge hi"><span class="l-zh">精简日报</span><span class="l-en">Daily brief</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/全双工语音技术增量调研-2026-08-03.html">全双工语音技术增量调研 · 2026-08-03</a></div><div class="meta"><span class="badge hi"><span class="l-zh">详细调研</span><span class="l-en">Deep report</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/每日调研日报-2026-08-03.html">每日调研日报 · 2026-08-03</a></div><div class="meta"><span class="badge hi"><span class="l-zh">精简日报</span><span class="l-en">Daily brief</span></span></div></div>
+<div class="item-page"><h2>每日调研日报 · 2026-08-05</h2><div class="report-body"><h1>每日调研日报 · 2026-08-05</h1>
+<p>阶段测量：统一车控落地时钟（此前 A/B 只测到首动作，<code>22edce8</code> 补测车辆真正生效，<code>768c60e</code>/<code>0a1d84e</code> 又加入 token 账本、引擎耗时、phase 与 forward 探针；先统一 commit→search→call→车态生效→回执→首音频口径；准备按新埋点重跑 A/B/C，快照未给新数字前不更新 Pareto 结论）</p>
+<p>KV 回执：Sparse Event-KV（紧凑回执可减少持久 KV，但 B 版 KV 累积曾损失约22个百分点且存在上下文引力；论文证明特定 answer-free carrier 可把 Qwen3-8B donor-aligned recovery 从约6%提到约51%，同时三位数字为0/192；准备以显式参数/最终车态为 source of record，只对成功、重试、阶段等紧凑状态做 donor-flip 与长会话实验）</p>
+<p>聚合意图：AdaMM 分析记忆（当前聚合车控展开不全，top-k 检索不能保证覆盖全部相关车态；AdaMM 把重复属性物化为关系表并用 Filter/Compute/Rank 全量操作，在 MemEye/MemGallery 的 Judge 指标最高较最佳基线提高11.3/6.9个百分点；准备离线比较“仅RAG”和“RAG+typed table”的聚合完整率、参数与最终车态）</p>
+<p>近义工具回归：AES + HDC（当前有52组近义工具判据和400条文本，平均覆盖有限；论文按能力覆盖、冗余、梯度冲突选环境，再逐步移除 scaffold 并增加状态难度；准备只借鉴覆盖与难度分层，为每组补正反例、边界例、音色和噪声桶，不外推论文143.2%的低基线相对增益）</p>
+<p>长期记忆：Zero-Mem（持久 KV 会积累无关回执并拉低 B 版准确率；Zero-Mem 保留带 provenance 的原始 trace，以实体图和时间层级检索，论文的零 token 仅指最终问答前不调用 LLM，实际为0.22s/query且不含 final reader；准备作为“短窗KV+外部记忆”控制组做30分钟会话回归）</p>
+<p>MoE 解码：无同步 fast path（当前约110ms/token且项目剖析指向每token约816次GPU→CPU同步；今日Radar没有能直接验证的新内核候选；准备继续在5090/H200比较原HF实现与 <code>index_select</code>+<code>bmm</code> monkeypatch 的输出一致性和ms/token）</p>
+<p>本地 TTS：GROW 质量评测（Edge TTS 使两版首音频都约3秒，本地方案还需中文忠实度门；GROW 在DiTAR上把三集合平均WER从2.016降到1.558、SIM从0.676升到0.715，但没有TTFA、RTF或流式结果；准备只借鉴Seed-TTS中文、说话人相似度和UTMOS评测，联合测CosyVoice2/3首包与打断残留）</p>
+<p>座舱声学 TTS：扩展版 DAIEN-TTS（嘈杂speaker prompt和座舱混响需要解耦评测，但真实车内播放不应重复烘焙噪声；该方法独立控制音色、噪声与混响，环境保真提升会把模拟环境WER从2.80%推到13.05%，且无中文和流式证据；准备仅用于离线声学回放/鲁棒性研究，不进入在线主链）</p>
+<p>全双工前端：沿用前一日已核验路线（今日没有新的AEC/降噪、在线语义判停或可接入全双工模型；继续采用AEC/LMPAN→因果NS→判停、Cocktail-Talker受话对象门与M3多轮回放；准备把新的车态落地时钟同时加入双讲、打断改口和取消/补偿评测）</p></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>
