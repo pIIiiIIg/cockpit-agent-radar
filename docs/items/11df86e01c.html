@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2025-11-14 · ◈ 13
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。</span>
+    <span class="l-zh">AV-Dialog 每 40ms 融合 DAC 音频 token 和唇部视觉特征，在多人噪声下流式跟踪目标说话者并预测 turn-event；干扰条件 A+V WER 为 38.8%，Auto-AVSR 为 71.8%。dual 版的外挂 TTS 与 Harness 有交集，但它能在回复中持续监听和让权，不能被 endpoint 后生成架构直接等同。</span>
     <span class="l-en">Dialogue models falter in noisy, multi-speaker environments, often producing irrelevant responses and awkward turn-taking. We present AV-Dialog, the first multimodal dialog framework that uses both audio and visual cues to track the target speaker, predict turn-taking, and generate coherent responses. By combining acoustic tokenization with multi-task, multi-stage training on monadic, synthetic, and real audio-visual</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">AV-Dialog 用嘴唇视觉和保留声纹的 DAC token，在噪声及多人干扰下流式跟踪目标说话者、转写并预测何时接话；dual 版本再由文本 LLM 和外挂 Mimi TTS 回复。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>纯音频对话模型在鸡尾酒会环境中容易跟错说话者，造成错误响应和不自然轮替。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。</p>
-
-
+  <p>每 40ms 输入 16 路 DAC codebook 与 AV-HuBERT 唇部特征，LLaMA3-8B 预测目标转写和 normal/overlap/backchannel 事件。dual 架构把结果流入第二个文本 LLM，再交给 Mimi TTS；unified 架构在同一模型输出 turn-event 与文本回复。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>用 dlib 定位人脸，AV-HuBERT 提取唇部特征，DAC 编码音频。</li><li>AV understanding LLaMA3-8B 流式输出目标用户转写和 turn-event。</li><li>dual 模式在 LISTENING 时更新文本 LLM KV，turn token 到达后进入 SPEAKING。</li><li>响应中检测到新用户语音则让权并回到 LISTENING，文本交给外挂 Mimi TTS。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Table 1 中 A+V 在 Clean/BG/Interf 的 WER 为 17.4/35.6/38.8%，Auto-AVSR 为 26.8/48.2/71.8%。</li><li>Table 3 中 A+V 的响应比例为 74.5/78.3/78.8%，Moshi 为 54.0/53.8/52.5%；FTO error 为 1.86/1.96/1.81，对照为 3.48/3.20/3.27。</li><li>Table 5 的 18 人研究中 Dual+ICL N-MOS/H-MOS 为 4.14/4.09，SE+Moshi 为 2.39/2.10，Unified 为 3.54/3.02。</li><li>Table 8 中 unified 加 turn supervision 后三条件响应比例为 68.1/75.6/75.9%，移除后为 48.0/35.1/38.0%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。</li></ul>
+    <ul><li>编辑判断：dual 架构与 Harness 的外挂 TTS 有交集，可借鉴视听说话人跟踪和语义 turn token；但 Harness 等 endpoint 后才生成，不能声称同等流式轮替。</li><li>编辑判断：论文没有工具调用证据；晚注入工具可能改变首响应和连贯性，必须把 endpoint、工具执行和 TTS 分段评测。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>模型不显式处理笑声、叹气等非语言音频，视觉也基本限于嘴唇，不理解表情和手势。</li><li>弱光、嘴部遮挡和极端头部姿态会损害目标跟踪与识别。</li><li>AV-HuBERT 两帧 look-ahead 使算法延迟约 120ms；dual 还需同时运行两个约 8B 模型。</li><li>指定 arXiv v1 与官网后续版本的人评样本数和 MOS 增益不同，本站数字严格采用 v1。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-08-04 https://avdialog.cs.washington.edu/ 的官方代码链接返回 404，未找到权重、处理后数据或软件许可证；Seamless Interaction 等上游数据不足以复现系统。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:30</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2511.11124v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

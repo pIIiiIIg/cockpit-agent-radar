@@ -517,50 +517,76 @@
   "review_status": "editorial"
  },
  "3327bbf388": {
-  "tl_dr": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Moshi-Face 在 Moshi 的双向音频流旁加入 12.5Hz 的双向 3D 人脸 token 流，使模型连续接收用户声音与面部运动，并同步生成助手语音和面部动作。",
+  "problem": "原生全双工语音模型缺少面对面交流所需的表情与口型；传统 talking-face 系统又通常依赖已经生成完的音频，不能在持续对话中联合生成。",
+  "method": "系统先用 VQ-VAE 将 25fps FLAME 网格压成每帧 8 个离散 face token，再新增 Face Transformer，结合 Moshi 的 RQ-Transformer 隐状态、文本和音频 token 并行预测面部 token。训练先冻结语音主干预训练 Face Transformer，再联合微调语音与面部分支。",
+  "workflow": [
+   "从 Seamless Interaction 取约 180 小时双人对话，以 VHAP 提取 5,143 顶点的 FLAME 网格。",
+   "用约 70 小时数据训练 face codec，经 2 倍降采样得到 12.5Hz、每帧 8 个 token。",
+   "在用户/助手文本与音频流之外加入用户输入和助手输出的人脸 token 流。",
+   "Face Transformer 读取语音主干状态并同步生成助手面部 token，最后解码为 25fps 网格。"
+  ],
+  "findings": [
+   "Table 1 中采用的 K=256、C=128 codec 的 normalized perplexity 为 0.66，MVE/LVE 为 9.90×10⁻³/11.77×10⁻³。",
+   "Table 2 中 teacher-forced Moshi-Face 的 LSE-D/LSE-C 为 8.76/0.14，free-run 为 11.0/0.16。",
+   "Table 2 中 Moshi-Face 的 UTMOS 为 1.75，低于原始 Moshi 的 3.08；LLMAJ overall 为 3.76，对照为 3.85。",
+   "移除 Face Transformer 预训练后 LSE-D 从 8.76 变为 9.53；移除联合微调后为 11.8，overall 降到 3.23。"
+  ],
   "project_fit": [
-   "对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。"
+   "编辑判断：当前 Harness 在 endpoint 后才生成且使用外挂 TTS，无法提供 Moshi-Face 所需的 12.5Hz 模型内双向音频/面部流，不能据此称为模型级全双工。",
+   "编辑判断：若座舱需要虚拟形象，短期更现实的是让外挂 TTS 驱动级联动画；这不等同于论文利用语音主干隐藏状态联合生成面部动作。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "face codec 是非因果的，论文把改用 causal streaming codec 列为未来工作。",
+   "未做真人感知评测，音频与面部同步也只能渲染成 2D 视频后用 SyncNet 间接评价。",
+   "在较小领域数据上联合微调明显降低了语音 UTMOS。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 未找到 Moshi-Face 专属代码、face codec/Face Transformer 权重、处理后数据或项目许可证；公开的 Moshi、Seamless Interaction 和 VHAP 只是上游依赖。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "44a67a536b": {
-  "tl_dr": "该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "该工作不是语音回复模型，而是每秒读取对话音频、预测高低层 speech act，并用 Graph-of-Thoughts 生成自然语言理由的流式行为感知器。",
+  "problem": "端到端双工模型通常直接预测下一段或下一组 token，缺少可审计的“感知行为—推断意图—决定动作”中间层。",
+  "method": "系统冻结 HuBERT、Whisper/T5 等编码器，用因果 Transformer 预测四类高层和四类低层行为；再将增量转写的 OpenIE 节点与 speech-act 节点组成图，经 GAT 和音频/文本特征融合后由 T5 生成逐秒 rationale。",
+  "workflow": [
+   "将 16kHz 音频切成 1 秒块，只读取当前及历史窗口。",
+   "融合 HuBERT 声学特征和 Whisper→T5 语义特征，预测两级对话行为。",
+   "对增量转写执行 OpenIE，并把行为与文本实体关系写入逐秒图。",
+   "GAT 聚合图证据，T5 decoder 生成当前行为的解释。"
+  ],
+  "findings": [
+   "Table 3 中 CANDOR 的 turn-taking、backchannel、continuation AUC 分别为 0.796、0.701、0.720。",
+   "Table 4 中合成集高层 macro-F1/macro-AUC 为 0.546/0.822，低层为 0.660/0.915。",
+   "Table 5 中 Synthetic 的 BLEU-1/ROUGE-1/ROUGE-L/SIM 为 0.480/0.470/0.420/0.520，CANDOR 为 0.580/0.560/0.490/0.660。",
+   "Appendix Table 10 中严格零 look-ahead、30 秒窗口的四项 rationale 指标为 0.2899/0.2709/0.2216/0.3299；加入 10 秒未来信息后升至 0.4121/0.3988/0.3485/0.4519。"
+  ],
   "project_fit": [
-   "对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。"
+   "编辑判断：可把标签体系用作 Harness 的流式旁路感知器，在 endpoint 时将行为与 rationale 注入生成或工具决策。",
+   "编辑判断：论文不生成回复语音也不控制 TTS；当前 Harness 若仍只在 endpoint 后消费标签，依旧不能在用户讲话时附和、抢话或形成模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "离散 speech-act 标签不能完整表达连续、模糊且受文化影响的真实对话行为。",
+   "系统依赖上游 ASR 与 OpenIE，论文承认噪声环境和转写错误会降低鲁棒性。",
+   "正文、Table 6 与 Appendix A.8 的人评数字互相冲突，且最佳消融使用未来 10 秒信息，不能作为严格在线结果。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/got-duplex/got-duplex.github.io",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 官方仓库只有静态项目页、演示音频和 rationale JSON，无训练/推理代码、权重、192 小时合成语料或 LICENSE；OpenReview 投稿状态为 withdrawn。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "f65775c8d2": {
   "tl_dr": "论文对比用户流直接融合进生成序列的 CF-Duplex 与独立 cross-attention memory 的 XA-Duplex：前者问答和打断更强，后者在漏停后更能隔离重叠语音污染。",
@@ -635,234 +661,366 @@
   "review_status": "editorial"
  },
  "0cfb27f5b9": {
-  "tl_dr": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "这篇综述用 L0–L3 决策层级、T×I×R 交互本体和五状态机拆解“全双工”，并强调架构上可表达某行为不等于训练后已经实现。",
+  "problem": "“级联/端到端”等单轴分类不能说明双工决策发生在哪一层，也无法区分打断、附和、犹豫、持续重叠和第三方语音。",
+  "method": "论文从音频进入 LLM 的路线和 tokenizer 粒度出发，将系统按决策位置分成 L0 外部控制、L1 隐状态预测、L2 token-level 和尚未实现的 L3 shared latent；再以时间关系、用户意图、系统响应三元组和 Idle/Listen/Speak/Wait/Dual 状态机审计系统、语料与基准。",
+  "workflow": [
+   "检查每类系统的输入表示、同步粒度和双工决策位置。",
+   "把交互映射为时间关系 T、用户意图 I、系统响应 R 的三元组。",
+   "将三元组落入五状态、十一转换的可观察状态机。",
+   "对照系统论文、公开语料和评测，定位架构能力与实测行为之间的 realization gap。"
+  ],
+  "findings": [
+   "Table 2 审计列出 L0/L1/L2/L3 代表系统分别为 4/2/9/0 个，只有 L2 被标为五种状态全部原生可达。",
+   "Table 3 的 T、I、R 分别有 5、7、6 类，形成 210 个名义交互单元，论文选出 6 个 acid-test cells。",
+   "Table 4 的状态机包含 5 个状态和 11 条转换；稳定持续重叠的 Dual self-loop 未计入。",
+   "Table 5–6 汇总 9 个代表公开语料、约 5,000 小时；五个重点语料中持续 concurrent 覆盖为 0/5，第三方语音仅 1/5 部分覆盖。"
+  ],
   "project_fit": [
-   "对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。"
+   "编辑判断：当前 Harness 是流式输入、endpoint 后生成的 L0-shaped half-duplex pipeline；流式 KV 不等于模型能在听的同时产生因果输出。",
+   "编辑判断：应分别报告 endpoint、外挂 TTS 首包/取消、工具注入和控制器延迟，而不是用“streaming input”笼统宣称 full duplex。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "系统能力和交互单元覆盖主要来自原论文自报，没有逐个端到端复现，部分工业系统也闭源。",
+   "框架按现有 L0–L2 系统校准，L3 方案仍是推测，未来架构可能要求扩展本体与状态机。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/DuplexLM/DuplexSurvey",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 官方仓库公开 README、图表和六段演示，但没有审计/评测代码、模型、权重或第一方数据，两个相关仓库均无 LICENSE。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "35477e429c": {
-  "tl_dr": "VideoFDB 是首个评测对话智能体全双工'视觉+语音'能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "VideoFDB 是首个评测对话智能体全双工'视觉+语音'能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "VideoFDB 用自然双人视频通话测试智能体能否持续利用凝视、表情、动作和语音管理对话，并显示现有 AV2A 模型常忽略视频或退化为视觉描述。",
+  "problem": "语音全双工基准不测视觉信号，传统视频 QA 又不评价连续重叠对话中的时机、让权和非语言反馈。",
+  "method": "基准从双路视频通话标注 11 类 conversational dynamics，为每个事件保留上下文、目标时间窗与 judge caption；实时重放用户音视频后，以 0–5 rubric 评价感知/生成质量，并用 TOR-Alignment 判断 stay-silent、yield、handoff 等时序策略。",
+  "workflow": [
+   "从本地双路录制的自然视频通话中发现并人工质检候选互动事件。",
+   "保留事件前 1–3 个 turn 和最多一个后续 turn，标注动态类型与时间窗。",
+   "向模型实时流式输入用户音视频，记录输出、ASR、时间戳和音视频 caption。",
+   "按动态专属 rubric 评分，并计算五类 timing policy 的 TOR-Alignment 与延迟。"
+  ],
+  "findings": [
+   "Appendix Tables 6–7 给出 237 个评测行、11 类 dynamics、130 位说话者；test/validation 为 226/11。",
+   "Table 3 中人类 Overall 为 4.20，最佳非人类 AV2A MiniCPM-o 4.5 为 3.40。",
+   "同表中 MiniCPM-o、Gemini 3.1、gpt-realtime 加视频后分别为 3.40/2.84/2.75，低于各自 audio-only 的 3.44/3.03/2.97。",
+   "Table 4 中人类非语言反馈适当性为 3.18、时序命中 78%/900ms；Anam 为 1.71、44%/2840ms，Keyframe 为 1.13、31%/3520ms。"
+  ],
   "project_fit": [
-   "这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。"
+   "编辑判断：若 Harness 没有连续视频输入和视觉输出，generation track 不适用；只能借用部分 AV2A/A2A 感知协议。",
+   "编辑判断：endpoint 后才生成且外挂 TTS 的架构无法在用户 turn 内独立产生视觉/语音反馈；可借 TOR-Alignment 测整条 pipeline，但不能宣称模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "数据仅覆盖英语、美国/加拿大参与者和双人 webcam 视频会议，不代表多语、移动端或多人面对面互动。",
+   "基准只支持 single-turn evaluation，不提供多轮训练或微调。",
+   "LM judge 依赖上游音视频 caption，系统 prompt 也不总能覆盖模型预训练出的问候行为。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://huggingface.co/datasets/nvidia/video-full-duplex-benchmark",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 约 4.8GB 数据已人工门控发布，但受 NVIDIA Evaluation License 限制；评测代码、Space 和 judge 权重尚未公开，237 行对应 180 个唯一 sample_id。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "5e1773f2f1": {
-  "tl_dr": "RelayS2S 针对实时对话中'低延迟'与'高质量'的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "RelayS2S 针对实时对话中'低延迟'与'高质量'的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。对我们'Omni 模型+外挂 TTS'的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "RelayS2S 让小型双工 S2S 模型先给出经 verifier 审核的约 5 词前缀，同时让 ASR→强 LLM 从同一前缀续写，以快路径启动速度换取慢路径回答质量。",
+  "problem": "端到端 S2S 启动快但语义较弱，级联 ASR→LLM 质量高却随后端模型变大而增加首段生成延迟。",
+  "method": "快路径在检测到 BOS/BOC 后分叉出自由解码的投机流，约 170K 参数 verifier 根据 hidden state、熵、log-probability 和 top-two margin 决定提交或回退；慢 LLM 被约束为从已经播放的精确前缀继续，最终统一交给 streaming TTS。",
+  "workflow": [
+   "每 160ms 编码用户语音并预测 SIL、BOS、BOC 或 STP。",
+   "决定发言时并行启动快路径前缀和 ASR→LLM 慢路径。",
+   "verifier 审核投机前缀，通过则立即送 TTS，否则完全回退慢路径。",
+   "慢 LLM 从已提交前缀续写；持续监听的主分支在 STP 时停止播放。"
+  ],
+  "findings": [
+   "Table 2 中 GPT-4o 后端 RelayS2S P90 为 81ms，级联为 1,091ms，纯 S2S 为 71ms；该口径不含 TTS、网络和 turn detection。",
+   "同表中 RelayS2S/级联平均质量为 4.78/4.83，低质量率为 7.4%/5.5%。",
+   "Table 3 中 BOS/SIL/STP/BOC F1 为 88.5/99.8/96.7/50.8。",
+   "Table 4 中 verifier AUROC 为 0.90；阈值 0.50 时 good commit 96.3%、bad commit 45.7%、fallback 8.0%。"
+  ],
   "project_fit": [
-   "对我们'Omni 模型+外挂 TTS'的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。"
+   "编辑判断：当前 Harness 可在 endpoint 后并行运行“小模型前缀+大模型续写”，但无法复现论文边听边附和和 barge-in 的模型级双工路径。",
+   "编辑判断：晚注入工具与早提交事实性前缀冲突；工具结果确定前只能允许无命题短开场，且必须重测 endpoint→首个可听音频。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "前缀越长低质量率越高，默认阈值仍提交 45.7% 的坏前缀。",
+   "backchannel F1 只有 50.8，说明最难的交互时机仍不稳定。",
+   "81ms 延迟排除了 endpoint、网络与 TTS，且只在单张 L40S 上测量，不是用户听到声音的端到端延迟。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/mailong25/relays2s",
+   "model_url": "https://huggingface.co/datasets/mailong225/speech_to_speech",
+   "note": "代码、约 227GB 数据和主要 checkpoint 已公开，但 README 明示 live interactive inference 尚未发布，仓库缺完整实时编排/streaming TTS，GitHub 与 HF 均无明确许可证。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "137d033275": {
-  "tl_dr": "Sympatheia 是一个情感自适应的语音到语音对话框架，从用户语音中推断情感，并支持以连续的效价-唤醒(VA)控制信号显式指定情感，解决日常语音中情感线索微弱、含糊的问题。",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "Sympatheia 是一个情感自适应的语音到语音对话框架，从用户语音中推断情感，并支持以连续的效价-唤醒(VA)控制信号显式指定情感，解决日常语音中情感线索微弱、含糊的问题。在座舱场景里，驾驶员的情绪与疲劳状态是重要上下文，这种'连续情感条件化'的思路可借鉴来调节外挂 TTS 的语调与回复策略，让助手在高压或疲惫工况下应答更得体。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Sympatheia 在 GLM-4-Voice-9B 上用 LoRA 学习连续 valence–arousal 条件，使回答内容和模型原生语音随用户情绪变化，并统一接收面部、生理或文本情绪模块输出的 VA。",
+  "problem": "日常语音的情绪线索常弱、模糊或混合，离散情绪标签难表达强度、连续变化和个体差异。",
+  "method": "系统将可选的 valence/arousal 数值写入 system prompt；没有显式 VA 时从用户语音推断。GLM-4-Voice 生成文本和语音 token，streaming flow-matching decoder 还原波形；Sympatheia-18k 以 12 个情绪锚点训练语义与声学适配。",
+  "workflow": [
+   "WhisperVQ 将用户音频编码为 12.5Hz 单码本 speech token。",
+   "可选面部、EEG/ECG/GSR 或文本模块输出类别分布并映射为连续 VA。",
+   "把 VA 写入 system prompt，LoRA 适配的 GLM-4-Voice 生成文本与语音 token。",
+   "流匹配解码器生成波形；没有外部 VA 时依赖输入语音自身的情绪线索。"
+  ],
+  "findings": [
+   "Table 1 中 Sympatheia 的 Neutral/Emotional/VoiceBench/人工 Emotion MOS 为 4.37/4.74/4.22/3.86，Qwen3-Omni 为 2.59/4.69/1.88/3.32。",
+   "Appendix Table 11 中显式 VA 将 Neutral 从 1.883 提升到 4.368，VoiceBench 从 1.690 提升到 4.224。",
+   "Table 3 中离线面部线索为 3.64、无 cue 为 1.92；现场面部为 3.39/1.98，文本描述为 3.57/1.63。",
+   "VA 噪声 σ 从 0 增至 0.1/0.2/0.3/0.5 时，情绪匹配分从 4.32 降至 3.79/3.59/3.51/3.30。"
+  ],
   "project_fit": [
-   "在座舱场景里，驾驶员的情绪与疲劳状态是重要上下文，这种'连续情感条件化'的思路可借鉴来调节外挂 TTS 的语调与回复策略，让助手在高压或疲惫工况下应答更得体。"
+   "编辑判断：Harness 可在 endpoint 后把 VA 注入 system prompt，但论文的韵律增益来自原生语音 decoder；外挂 TTS 只有同时支持 VA/style 才能保留声学效果。",
+   "编辑判断：若把情绪传感器作为晚注入工具，应在首 token 前完成；该方案仍是 endpoint 后条件生成，不应称为模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "合成数据无法充分覆盖真实口误、说话人差异和长程情绪动态。",
+   "单个 VA 点不能完整表示混合、快速变化及受文化/个体影响的情绪。",
+   "评测高度依赖自动音频 LLM judge，数据、TTS 和 judge 同属 Qwen3 系列，可能存在模型家族偏差。",
+   "上游情绪识别尤其是生理信号容易出错，并带来隐私、同意和公平风险。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/susameddin/sympatheia",
+   "model_url": "https://huggingface.co/susameddin/Sympatheia",
+   "note": "训练、推理、评测代码、约 1.19GB LoRA 和 18,000 对数据已公开；adapter 仍依赖 GLM-4-Voice 专用许可与额外 decoder 权重，GitHub 根目录也缺独立 LICENSE。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "3f92468717": {
-  "tl_dr": "OmniInteract 是一个面向实时全模态助手的流式基准，要求模型在原生在线推理下处理原始音视频流、看不到未来内容，用户提问与环境音直接嵌入音频流中。",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "OmniInteract 是一个面向实时全模态助手的流式基准，要求模型在原生在线推理下处理原始音视频流、看不到未来内容，用户提问与环境音直接嵌入音频流中。它与本站'流式进 KV、边看边听'的设定高度吻合，可作为评测我们 harness 在线多模态能力的现成协议与对照基准。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OmniInteract 把连续音视频助手评测表示为带时间边界的 interaction slots，联合衡量系统是否回答、何时回答和回答什么。",
+  "problem": "离线视频 QA、文本提问或预切片输入无法测试语音触发、主动响应、中断、嵌套恢复和长时任务监控。",
+  "method": "每个 slot 定义起点、允许作答时刻、终点、目标答案和中断属性；系统按原始时间戳在线接收音视频，输出再映射回 slot，分别评价过早输出、核心答案、延迟、spillover 和上下文恢复，并汇总 IA-QTF1、IDS、NCCS。",
+  "workflow": [
+   "按原始时间戳重放音频和视频，禁止模型读取未来内容。",
+   "将实时、主动、嵌套和 1QnA 事件标成 trigger/window/answer slots。",
+   "按输出起始时间匹配 slot，并在允许作答时刻切分 early/core 内容。",
+   "用 judge 判断过早幻觉、核心答案和中断部分，再聚合 IA-QTF1、IDS、NCCS。"
+  ],
+  "findings": [
+   "Table 2 中 250 个视频包含 1,430 个 slots：638 real-time、184 proactive、240 nested、368 1QnA，并有 192 个中断案例。",
+   "Table 3 中最佳总 IA-QTF1 仅 0.368，最佳 1QnA 为 0.052；1Q1A global 最佳为 0.467。",
+   "Table 4 中最佳 NCCS 为 0.284；Gemini 和 Qwen 分别漏掉 119/120 与 116/120 个外层恢复。",
+   "Table 6 中 MiniCPM-o 数学推理质量从离线 0.6833 降到在线 0.3475，绝对下降 0.3358。"
+  ],
   "project_fit": [
-   "它与本站'流式进 KV、边看边听'的设定高度吻合，可作为评测我们 harness 在线多模态能力的现成协议与对照基准。"
+   "编辑判断：slot 和 IA-QTF1 可用于 Harness，但 endpoint 后才生成意味着 proactive、边听边说、中断和 nested-resume 不能按原论文能力宣称通过。",
+   "编辑判断：外挂 TTS 的起止、取消和 spill 应计入系统级时序；晚注入工具可另建事件 slot，但必须与论文原分数分开。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文只评估四个模型，在线能力退化实验也只覆盖 MiniCPM-o 数学任务。",
+   "1QnA 初始指令使用 TTS，与自然录制的 1Q1A 存在输入难度差异。",
+   "语言和领域只覆盖中文日常场景与英文数学推理。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Lucky-Lance/OmniInteract",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 评测适配器、slot/judge/指标代码及 8.38GB 数据已公开；代码仓库无顶层许可证，完整四模型复现还依赖商业 API 和外部模型，数据为 CC BY-NC 4.0。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "f90b0bcb1d": {
-  "tl_dr": "一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "S-MARC 是每秒预测对话行为并生成证据化理由的严格因果流式 sidecar，不是端到端语音回复模型。",
+  "problem": "双向对话模型常直接预测下一段或双 token，缺少显式的“沟通功能—交互行为”推理层，也难以低延迟解释打断、接话或保持沉默的原因。",
+  "method": "系统融合每 0.5 秒更新的流式 ASR 和声学特征，先预测高层 communicative function，再以 duration-conditioned belief state 预测低层 interaction behavior；稳定句子与当前 tick 组成 90 秒因果图，选择历史证据后由 seq2seq decoder 生成 rationale。",
+  "workflow": [
+   "把 16kHz 音频切成 1 秒 tick，并持续更新增量 ASR。",
+   "融合文本/声学特征，预测四类高层功能和五类低层行为。",
+   "用持续时间 belief state 抑制秒级标签抖动。",
+   "在 90 秒因果窗口选择历史锚点，线性化证据链并生成 rationale。"
+  ],
+  "findings": [
+   "Table 5 中完整模型 H-Ack F1/AUC 为 0.546/0.837，低层 Interruption 为 0.386/0.851，推理延迟为 0.101s。",
+   "移除 CausalEvidenceTrunk 后 H-Directive F1 从 0.534 降到 0.098，L-Continuation 从 0.824 降到 0.369。",
+   "Table 7 中 GoT rationale 延迟为 0.74±0.12s，GPT-4o 为 2.98±1.04s，GPT-5 thinking 为 16.98±5.29s。",
+   "Appendix Table 10 中单 RTX A6000 的 input-to-rationale 平均/steady-state/p95 为 0.8249/0.8361/1.0491s。"
+  ],
   "project_fit": [
-   "对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。"
+   "编辑判断：每秒 causal perceiver 可作为 Harness 的 endpoint、打断或 backchannel sidecar，但不能替换 endpoint 后的生成链路。",
+   "编辑判断：若 Harness 在生成期间不继续监听，它仍不是论文意义上的模型级全双工；论文也未覆盖晚注入工具和外挂 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "GoT 计算复杂度限制实时图的深度、规模和更新频率。",
+   "模拟对话比真人有更密集的微分段、更多停顿和更短 overlap，不能等同于真实时序分布。",
+   "Candor 上正常 turn-taking 边界仍容易与 backchannel/continuation 混淆。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 未找到可取得的 S-MARC 实现、checkpoint 或 ConversationGoT-120h 数据；关联项目页只有静态演示且无 LICENSE，arXiv supplementary source 也不含代码。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "5fceaa2ebd": {
-  "tl_dr": "DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DuplexGen 用少量、slot 级人类偏好分布校准 LLM，再按场景合成带 BACKCHANNEL 和 TAKE_FLOOR 的对话数据，用于微调原生全双工语音模型。",
+  "problem": "人类语音语料缺少任务角色和场景规范，规则或 prompt 合成又没有验证目标场景偏好，导致模型对教学、谈判和闲聊采用同一种轮替策略。",
+  "method": "系统在六类场景中把五名标注者对“继续听/附和/抢话”的投票作为软标签，以 KL 损失校准 Qwen3；随后按预测分布插入 backchannel 或截断当前话轮，TTS 渲染后用于 PersonaPlex 微调。",
+  "workflow": [
+   "将文本对话改写为含 filler、重复和自我修正的口语体。",
+   "结合标点、停顿词、LLM 边界和最长 8-token 规则确定候选 slot。",
+   "每个 slot 收集五人偏好分布，先用 Switchboard 预训练再做场景 LoRA 校准。",
+   "按校准概率插入附和或抢占话轮，渲染语音后微调 PersonaPlex。"
+  ],
+  "findings": [
+   "Figure 3 中六场景 backchannel 比例为 0.23–0.32，floor-taking 为 0.05–0.12，绝大多数跨场景差异在 Holm 校正后显著。",
+   "Table 6 中 Qwen3-4B 的 SWBD+DuplexGen 平均 KL 为 0.335±0.009，优于 prompt-only 0.458±0.009 和 SWBD-only 0.752±0.012。",
+   "Table 7 中人类竞争−合作的 floor/backchannel 差为 +0.056/−0.053，SWBD+DG 为 +0.052/−0.062，prompt-only 仅 +0.008/+0.011。",
+   "Table 8 中 PP-DG 指令遵循/轮次自然度为 3.55±0.12/3.69±0.05，PP 为 3.41±0.12/3.56±0.05，Moshi 为 2.61±0.12/3.48±0.05。"
+  ],
   "project_fit": [
-   "轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。"
+   "编辑判断：可复用三分类标签、slot 格式和场景差异做 Harness 的离线数据与回归设计，但它不是可直接接入的运行时组件。",
+   "编辑判断：Harness 只有 endpoint 后生成，无法在用户仍讲话时 backchannel 或 take-floor；晚注入工具和外挂 TTS 也会把文本决策与真实声学时序分离。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只覆盖六种场景，交互类型和社会规范的多样性有限。",
+   "PersonaPlex 行为对数据及 turn-switch latency、pause duration、learning rate 等超参数敏感。",
+   "校准只看增量文本，没有使用韵律、重叠、视觉信号，也未证明文本偏好与音频条件偏好一致。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/duplexgen/duplexgen-code",
+   "model_url": "https://huggingface.co/datasets/DuplexGen/duplexgen-corpus",
+   "note": "文本/标注和约 705GB 语音数据已公开；两个 GitHub 仓库仍只有 README，六个 PP-DG checkpoint、训练实现和统一许可证未发布，论文与数据卡对 PER 子集许可还有冲突。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "6632215e09": {
-  "tl_dr": "FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了\"只会说话的全双工模型\"与\"只能对已生成音频做面部驱动\"之间的缺口，实现在线联合生成。",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了\"只会说话的全双工模型\"与\"只能对已生成音频做面部驱动\"之间的缺口，实现在线联合生成。对纯语音座舱助手相关性有限，胜在其\"全双工 + 多模态输出流联合生成\"的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "FacePlex 以 PersonaPlex 为语音主干，每 80ms 联合输出一个语音块和两个 FLAME 面部帧，用滚动流匹配与交叉注意力保持在线同步。",
+  "problem": "全双工语音模型没有面部输出，而普通 talking-face 模型依赖预先给定的完整音频，无法在持续对话中联合生成声音与表情。",
+  "method": "Rolling Flow Matching 维护错位 flow-time 的运动队列并逐步精炼，Rolling Cross-Attention 让待输出运动读取近期隐藏状态和短暂预测语音；默认长度 4 的队列每步输出两个 108D FLAME 帧。",
+  "workflow": [
+   "PersonaPlex 持续接收用户音频，每 80ms 生成 4096 维 hidden state 和预测语音块。",
+   "维护长度 4 的音频、hidden-state 和 motion 队列。",
+   "RFM 并行推进各 motion slot 的 flow time，RCA 注入近期和短暂未来预测语音。",
+   "最前端语音块与两个面部帧同步出队并渲染。"
+  ],
+  "findings": [
+   "Table 2 中 FacePlex 的 turn/interruption latency 为 0.078/0.399s，PersonaPlex 为 0.078/0.427s。",
+   "同表中 FacePlex PLRS 为 0.239，表中音频驱动基线最佳为 0.208。",
+   "Table 3 的 25 人研究中 Lip Sync/Natural & Coherence/Interaction/MOS 为 3.592/3.624/3.920/3.736，第二高总体 MOS 为 3.080。",
+   "Appendix Table 6 中 N=2/4/8/16 Euler steps 的 motion forward latency 为 7.909/15.465/30.647/62.261ms；不含语音主干、编解码和渲染。"
+  ],
   "project_fit": [
-   "对纯语音座舱助手相关性有限，胜在其\"全双工 + 多模态输出流联合生成\"的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。"
+   "编辑判断：FacePlex 依赖模型级持续监听与 80ms 语音生成；当前 Harness 在 endpoint 后才生成，架构不兼容。",
+   "编辑判断：外挂 TTS 无法提供 PersonaPlex 的内部隐藏状态和待播放预测语音，最多只能在 TTS 输出后做普通 audio-driven animation。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主要评价 FLAME 参数而非照片级视频，没有覆盖身份保持、光照和渲染伪影。",
+   "listener motion 一对多，距离指标只能部分衡量语义与情绪适当性。",
+   "合成 self-play 和 UniLS teacher 可能传递偏差，且不生成 gaze、身体/手部动作或长期 persona。",
+   "正文称联合端到端训练，附录却称冻结 PersonaPlex 并预缓存 hidden states，训练描述存在矛盾。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "unavailable",
+   "code_url": "https://github.com/hahminlew/faceplex",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 官方仓库只有项目网页与演示媒体；核心训练/推理/评测代码、FacePlex 权重和约 1,138 小时处理后数据均未发布，网页许可证不能覆盖未发布模型。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "e772de8f55": {
-  "tl_dr": "Wan-Streamer 是一个从零设计的原生流式端到端交互基础模型，在单个 Transformer 内以交错的视觉/音频/文本 token 同时建模输入与输出，实现低延迟全双工音视交互。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Wan-Streamer 是一个从零设计的原生流式端到端交互基础模型，在单个 Transformer 内以交错的视觉/音频/文本 token 同时建模输入与输出，实现低延迟全双工音视交互。它几乎是本站项目的同题对标：其原生流式序列组织方式可直接为\"流式进 KV、边说边听\"的座舱 harness 提供架构参照。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Wan-Streamer v0.1 用一个 Transformer 原生联合处理并生成文本、音频和 192p 视频，以严格因果流实现持续感知、同步音视频输出和可打断交互。",
+  "problem": "ASR→LLM→TTS→avatar 级联系统存在模块等待、误差累积及音画/轮次不同步，工程优化也不能把非因果组件变成模型级全双工。",
+  "method": "模型用因果音视频 VAE、block-causal attention、文本 next-token loss 和音视频联合 conditional flow matching，把多模态输入输出交错为一条序列；滚动蒸馏后以 thinker–performer 双 GPU 流水线重叠状态更新、latent 生成与解码。",
+  "workflow": [
+   "将当前用户文本、音频和视频编码为可立即消费的因果流式单元。",
+   "Transformer 用完整历史更新语言/交互状态并预测文本。",
+   "performer 基于共享 KV 历史联合去噪下一音视频 latent。",
+   "clean latent 写回历史，thinker 解码上一单元并发出，同时继续接收用户输入。"
+  ],
+  "findings": [
+   "Section 2.4 与 Table 1 给出的流式单元为 160ms，视频输出为 25fps。",
+   "编码、状态更新、latent 生成到解码的模型侧 signal-to-signal 延迟约 200ms。",
+   "加入论文假设的 350ms 双向网络预算后，总交互延迟约 550ms。",
+   "Section 5 明确 v0.1 只在初步 192p 输出上验证，正文没有标准质量指标、人评或消融。"
+  ],
   "project_fit": [
-   "它几乎是本站项目的同题对标：其原生流式序列组织方式可直接为\"流式进 KV、边说边听\"的座舱 harness 提供架构参照。"
+   "编辑判断：Wan-Streamer 是模型内部持续感知与生成，当前 Harness 是流式输入、endpoint 后生成和外挂 TTS，二者不能等同。",
+   "编辑判断：论文未讨论工具调用且没有可接入资产，只适合作为长期目标架构；Harness 应单列 endpoint、工具、首文本、首 TTS 音频和网络延迟。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "192p 只是 proof of concept，更高分辨率仍是未来工作。",
+   "实时吞吐要求 performer 加通信开销小于 160ms，200ms 结果依赖特定双 GPU 路径。",
+   "论文没有公开标准化质量指标、人评或消融，并提醒竞品延迟口径并不一致。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 https://wan-streamer.com/v0.1/ 只提供论文和演示；Wan 官方 GitHub/Hugging Face 中未找到专属代码、权重、训练数据或许可证。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "11df86e01c": {
-  "tl_dr": "AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "AV-Dialog 用嘴唇视觉和保留声纹的 DAC token，在噪声及多人干扰下流式跟踪目标说话者、转写并预测何时接话；dual 版本再由文本 LLM 和外挂 Mimi TTS 回复。",
+  "problem": "纯音频对话模型在鸡尾酒会环境中容易跟错说话者，造成错误响应和不自然轮替。",
+  "method": "每 40ms 输入 16 路 DAC codebook 与 AV-HuBERT 唇部特征，LLaMA3-8B 预测目标转写和 normal/overlap/backchannel 事件。dual 架构把结果流入第二个文本 LLM，再交给 Mimi TTS；unified 架构在同一模型输出 turn-event 与文本回复。",
+  "workflow": [
+   "用 dlib 定位人脸，AV-HuBERT 提取唇部特征，DAC 编码音频。",
+   "AV understanding LLaMA3-8B 流式输出目标用户转写和 turn-event。",
+   "dual 模式在 LISTENING 时更新文本 LLM KV，turn token 到达后进入 SPEAKING。",
+   "响应中检测到新用户语音则让权并回到 LISTENING，文本交给外挂 Mimi TTS。"
+  ],
+  "findings": [
+   "Table 1 中 A+V 在 Clean/BG/Interf 的 WER 为 17.4/35.6/38.8%，Auto-AVSR 为 26.8/48.2/71.8%。",
+   "Table 3 中 A+V 的响应比例为 74.5/78.3/78.8%，Moshi 为 54.0/53.8/52.5%；FTO error 为 1.86/1.96/1.81，对照为 3.48/3.20/3.27。",
+   "Table 5 的 18 人研究中 Dual+ICL N-MOS/H-MOS 为 4.14/4.09，SE+Moshi 为 2.39/2.10，Unified 为 3.54/3.02。",
+   "Table 8 中 unified 加 turn supervision 后三条件响应比例为 68.1/75.6/75.9%，移除后为 48.0/35.1/38.0%。"
+  ],
   "project_fit": [
-   "对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。"
+   "编辑判断：dual 架构与 Harness 的外挂 TTS 有交集，可借鉴视听说话人跟踪和语义 turn token；但 Harness 等 endpoint 后才生成，不能声称同等流式轮替。",
+   "编辑判断：论文没有工具调用证据；晚注入工具可能改变首响应和连贯性，必须把 endpoint、工具执行和 TTS 分段评测。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "模型不显式处理笑声、叹气等非语言音频，视觉也基本限于嘴唇，不理解表情和手势。",
+   "弱光、嘴部遮挡和极端头部姿态会损害目标跟踪与识别。",
+   "AV-HuBERT 两帧 look-ahead 使算法延迟约 120ms；dual 还需同时运行两个约 8B 模型。",
+   "指定 arXiv v1 与官网后续版本的人评样本数和 MOS 增益不同，本站数字严格采用 v1。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-04 https://avdialog.cs.washington.edu/ 的官方代码链接返回 404，未找到权重、处理后数据或软件许可证；Seamless Interaction 等上游数据不足以复现系统。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-04T16:30:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "36cf43811f": {
   "tl_dr": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。",

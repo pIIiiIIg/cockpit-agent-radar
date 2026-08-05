@@ -4228,7 +4228,7 @@
     "low latency"
    ],
    "summary_en": "Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly processes the user's audio and facial input while simultaneously generating speech and facial motion. We first construct a",
-   "summary_zh": "Moshi-Face 是首个把面部生成纳入全双工对话的模型，在 Moshi 基础上同时处理用户的音频+面部输入，并同步生成语音与面部动作。对本站“视觉+语音座舱助手”的主题很对口：座舱里本就有舱内摄像头，可借鉴其把视觉流与音频流并列送入全双工回路的架构思路。",
+   "summary_zh": "Moshi-Face 在 Moshi 旁加入 12.5Hz 的双向 3D 人脸 token 流，联合接收用户声音/面部并生成助手语音/面部，但 UTMOS 从原始 Moshi 的 3.08 降至 1.75。其 face codec 仍非因果且无代码权重；当前判停后生成、外挂 TTS 的 Harness 最多借鉴头像方向，不能复现模型级联合生成。",
    "demo": "",
    "stars": null
   },
@@ -4312,7 +4312,7 @@
     "multimodal"
    ],
    "summary_en": "Human conversation is organized by an implicit chain of thoughts that manifests as timed speech acts. Capturing this causal pathway is key to building natural full-duplex interactive systems. We introduce a framework that enables reasoning over conversational behaviors by modeling this process as causal inference within a Graph-of-Thoughts (GoT). Our approach formalizes the intent-to-action pathway with a hierarchica",
-   "summary_zh": "该工作提出一个用 Graph-of-Thoughts 把人类对话中“意图到行为”的因果链显式建模的框架，让全双工语音系统能对何时说话、何时附和等会话行为做推理。对 harness 层的启示是：轮替决策可以不只依赖端到端信号，而用一个可解释的推理结构来决定开口/闭嘴/插话时机。",
+   "summary_zh": "该工作每秒预测高低层 speech act，并把增量转写与行为节点组成 Graph-of-Thoughts 来生成可解释理由；它本身不是回复或语音生成模型。标签体系可作为 StreamingModelHarness 的流式旁路感知器，但结果存在人评数字冲突、未来信息消融和实现未发布等风险。",
    "demo": "",
    "stars": null
   },
@@ -4430,7 +4430,7 @@
     "spoken dialogue"
    ],
    "summary_en": "More than a dozen spoken dialogue systems have recently claimed to be \"full-duplex,\" yet the term has been used to describe substantially different capabilities. Existing surveys collapse them onto a single axis (cascaded/end-to-end, or engineered/learned) and miss the distinctions that matter most for builders. We argue that much of this ambiguity is taxonomical: current terminology does not specify where duplex dec",
-   "summary_zh": "这是一篇全双工口语对话系统的综述，指出当前十几种自称'全双工'的系统能力差异巨大，并提出架构分层、交互本体与决策状态机这套分类法来厘清'双工决策究竟发生在哪一层'。对自研 harness 的团队来说，它提供了一张定位地图：我们的流式 KV 注入、晚注入工具清单、打断/轮替策略分别落在哪个层级，都可以借这套框架说清并对标。",
+   "summary_zh": "该综述用 L0–L3 决策层级、210 个 T×I×R 名义交互单元和五状态机拆解“全双工”，并指出已审计系统中尚无实现 L3 shared latent。按其口径，StreamingModelHarness 仍是流式输入、endpoint 后生成的 L0-shaped pipeline，应分开报告判停、工具、TTS 首包与取消延迟。",
    "demo": "",
    "stars": null
   },
@@ -4468,7 +4468,7 @@
     "multimodal"
    ],
    "summary_en": "Natural human conversation is full-duplex and audio-visual: people simultaneously speak and listen while continuously interpreting and producing nonverbal cues, such as nods, smiles, and gestures. To support successful human-agent interaction, agents must model full-duplex audiovisual conversation; however, existing full-duplex benchmarks evaluate only speech. In this work, we present VideoFDB, the first benchmark to",
-   "summary_zh": "VideoFDB 是首个评测对话智能体全双工'视觉+语音'能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。",
+   "summary_zh": "VideoFDB 以 237 个评测行、11 类视频对话动态测试凝视、表情、动作和语音的联合感知/生成；最佳非人类 AV2A Overall 为 3.40，人类为 4.20。Harness 可借 TOR-Alignment 测系统级让权和反馈时机，但 endpoint 后生成与外挂 TTS 无法满足用户话轮内的原生视听全双工。",
    "demo": "",
    "stars": null
   },
@@ -4488,7 +4488,7 @@
     "turn-taking"
    ],
    "summary_en": "Real-time spoken dialogue systems face a fundamental tension between latency and response quality. End-to-end speech-to-speech (S2S) models respond immediately and naturally handle turn-taking, backchanneling, and interruption, but produce semantically weaker outputs. Cascaded pipelines (ASR -> LLM) deliver stronger responses at the cost of latency that grows with model size. We present RelayS2S, a hybrid architectur",
-   "summary_zh": "RelayS2S 针对实时对话中'低延迟'与'高质量'的根本矛盾，提出双路投机生成的混合架构：端到端 S2S 模型负责即时响应、轮替与打断，级联 ASR→LLM 路径负责语义更强的回答，二者接力协作。对我们'Omni 模型+外挂 TTS'的 harness 很有借鉴意义——可以用类似的双路/投机机制先给出快速反馈音或 backchannel，再无缝切换到高质量长回复，缓解大模型带来的首响延迟。",
+   "summary_zh": "RelayS2S 让小型双工模型先给出经 verifier 审核的约 5 词前缀，再由强 LLM 续写；GPT-4o 后端 P90 为 81ms、级联为 1,091ms，但该口径不含判停、网络和 TTS。Harness 可在 endpoint 后借鉴双路生成，但晚注入工具前不应抢先承诺事实内容。",
    "demo": "",
    "stars": null
   },
@@ -4508,7 +4508,7 @@
     "voice assistant"
    ],
    "summary_en": "Empathetic spoken dialogue systems must infer a user's emotional state to respond appropriately, yet everyday speech often carries weak, neutral, or ambiguous affective cues. To address this, we introduce Sympatheia, a speech-to-speech dialogue framework conditioned on affect inferred from the user's speech and, when available, explicit affect specifications provided as a continuous valence--arousal (VA) control sign",
-   "summary_zh": "Sympatheia 是一个情感自适应的语音到语音对话框架，从用户语音中推断情感，并支持以连续的效价-唤醒(VA)控制信号显式指定情感，解决日常语音中情感线索微弱、含糊的问题。在座舱场景里，驾驶员的情绪与疲劳状态是重要上下文，这种'连续情感条件化'的思路可借鉴来调节外挂 TTS 的语调与回复策略，让助手在高压或疲惫工况下应答更得体。",
+   "summary_zh": "Sympatheia 在 GLM-4-Voice-9B 上用连续 valence–arousal 条件控制内容与原生语音，显式 VA 将 Neutral 分数从 1.883 提升到 4.368。Harness 可在首 token 前注入 VA，但外挂 TTS 也必须支持相同风格控制，否则只能保留内容层适配，不能外推论文的韵律收益。",
    "demo": "",
    "stars": null
   },
@@ -4547,7 +4547,7 @@
     "omnimodal"
    ],
    "summary_en": "We introduce OmniInteract, a streaming benchmark for real-time omnimodal large language models evaluated through native online inference over audio-visual streams. Unlike offline video understanding or text-prompted streaming QA, OmniInteract preserves the original audio-visual stream and requires models to process it online, without access to future content. User queries and ambient sounds are embedded in the audio ",
-   "summary_zh": "OmniInteract 是一个面向实时全模态助手的流式基准，要求模型在原生在线推理下处理原始音视频流、看不到未来内容，用户提问与环境音直接嵌入音频流中。它与本站'流式进 KV、边看边听'的设定高度吻合，可作为评测我们 harness 在线多模态能力的现成协议与对照基准。",
+   "summary_zh": "OmniInteract 用 250 个视频、1,430 个带时限 slot 联合评测实时回答、主动响应、中断与嵌套恢复，最佳总 IA-QTF1 仅 0.368。它的 slot 协议适合 StreamingModelHarness，但 endpoint 后生成只能覆盖部分任务，外挂 TTS 与晚注入工具应另计系统级时序。",
    "demo": "",
    "stars": null
   },
@@ -4566,7 +4566,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Human conversation is organized by an implicit chain of thought and manifests as temporally structured conversational behaviors. Capturing this perceptual pathway is critical for building natural full-duplex interactive systems. We propose S-MARC (Streaming Causal Modeling and Reasoning for Conversation), a streaming, causal, and hierarchical framework for conversational behavior modeling and reasoning. By formalizin",
-   "summary_zh": "一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。",
+   "summary_zh": "S-MARC 每秒融合流式 ASR 和声学特征，预测对话行为并从 90 秒因果图生成证据化理由；单 A6000 的 input-to-rationale p95 为 1.0491 秒。它可作为 Harness 的 endpoint/打断 sidecar 设计参考，但不是回复生成器，且实现、权重和 ConversationGoT-120h 均未公开。",
    "demo": "",
    "stars": null
   },
@@ -4754,7 +4754,7 @@
     "turn-taking"
    ],
    "summary_en": "Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phenomena but provide little role grounding or scenario-specific norms, while heuristic or prompted synthesis methods inject",
-   "summary_zh": "DuplexGen，一篇关于自适应合成人类-AI 轮替(turn-taking)对话数据的论文，指出现有模型不分场景套用单一轮替规范，根源在于人人对话语料缺乏角色与场景 grounding，而启发式/提示合成方法又有局限。轮替是全双工交互的核心痛点，这种面向场景合成轮替训练数据的思路可用于教会座舱助手何时该插话、何时该倾听，例如驾驶紧急场景与闲聊场景采用不同的轮替策略。",
+   "summary_zh": "DuplexGen 用 slot 级人类偏好校准 Qwen3，再按六类场景合成 BACKCHANNEL/TAKE_FLOOR 数据；SWBD+DuplexGen 的平均 KL 为 0.335，prompt-only 为 0.458。其标签和场景差异适合做 Harness 离线回归，但 endpoint 后生成无法直接执行话中附和或抢话。",
    "demo": "",
    "stars": null
   },
@@ -4772,7 +4772,7 @@
     "duplex"
    ],
    "summary_en": "Natural face-to-face conversation requires real-time speech generation together with synchronized facial motion. Existing systems only partially address this problem: speech-only full-duplex models can generate speech in real time but do not produce facial motion, while audio-driven facial motion models animate a face from already available audio rather than jointly generating speech and motion online. To bridge this",
-   "summary_zh": "FacePlex，一篇全双工联合生成语音与面部动作的论文，弥合了\"只会说话的全双工模型\"与\"只能对已生成音频做面部驱动\"之间的缺口，实现在线联合生成。对纯语音座舱助手相关性有限，胜在其\"全双工 + 多模态输出流联合生成\"的架构思路可借鉴；若座舱带虚拟形象屏，则直接对口。",
+   "summary_zh": "FacePlex 以 PersonaPlex 为主干，每 80ms 联合输出语音块和两个 FLAME 面部帧，25 人研究的总体 MOS 为 3.736。它依赖内部隐藏状态与待播放预测语音，当前 endpoint 后生成、外挂 TTS 的 Harness 只能做普通 audio-driven animation，无法复现联合全双工。",
    "demo": "",
    "stars": null
   },
@@ -4792,7 +4792,7 @@
     "vad"
    ],
    "summary_en": "We present Wan-Streamer, a native-streaming, end-to-end interactive foundation model designed from the ground up for real-time, low-latency, full-duplex audio-visual interaction. Wan-Streamer seamlessly models language, audio, and video as both input and output within a single Transformer, where the sequence is represented as interleaved visual, audio, and text input tokens together with visual, audio, and text outpu",
-   "summary_zh": "Wan-Streamer 是一个从零设计的原生流式端到端交互基础模型，在单个 Transformer 内以交错的视觉/音频/文本 token 同时建模输入与输出，实现低延迟全双工音视交互。它几乎是本站项目的同题对标：其原生流式序列组织方式可直接为\"流式进 KV、边说边听\"的座舱 harness 提供架构参照。",
+   "summary_zh": "Wan-Streamer v0.1 在单个 Transformer 中因果交错文本、音频和视频输入输出，160ms 一步、模型侧 signal-to-signal 约 200ms，但只验证了 192p 且未报告标准质量指标。它是 StreamingModelHarness 的长期原生流式对标，不是可接入后端：代码、权重和数据均未发布。",
    "demo": "",
    "stars": null
   },
@@ -4811,7 +4811,7 @@
     "multimodal"
    ],
    "summary_en": "Dialogue models falter in noisy, multi-speaker environments, often producing irrelevant responses and awkward turn-taking. We present AV-Dialog, the first multimodal dialog framework that uses both audio and visual cues to track the target speaker, predict turn-taking, and generate coherent responses. By combining acoustic tokenization with multi-task, multi-stage training on monadic, synthetic, and real audio-visual",
-   "summary_zh": "AV-Dialog 是首个同时利用音频与视觉线索来追踪目标说话人、预测话轮转换并生成连贯回复的多模态对话框架，专攻嘈杂多说话人环境下的对话失灵问题。对座舱场景（多人乘车、噪声大）尤其有借鉴意义：用视觉辅助锁定说话人、改善轮替时机，正是座舱语音助手的核心痛点。",
+   "summary_zh": "AV-Dialog 每 40ms 融合 DAC 音频 token 和唇部视觉特征，在多人噪声下流式跟踪目标说话者并预测 turn-event；干扰条件 A+V WER 为 38.8%，Auto-AVSR 为 71.8%。dual 版的外挂 TTS 与 Harness 有交集，但它能在回复中持续监听和让权，不能被 endpoint 后生成架构直接等同。",
    "demo": "",
    "stars": null
   },

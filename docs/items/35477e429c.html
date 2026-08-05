@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-05-28 · ◈ 16
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">VideoFDB 是首个评测对话智能体全双工&#x27;视觉+语音&#x27;能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。</span>
+    <span class="l-zh">VideoFDB 以 237 个评测行、11 类视频对话动态测试凝视、表情、动作和语音的联合感知/生成；最佳非人类 AV2A Overall 为 3.40，人类为 4.20。Harness 可借 TOR-Alignment 测系统级让权和反馈时机，但 endpoint 后生成与外挂 TTS 无法满足用户话轮内的原生视听全双工。</span>
     <span class="l-en">Natural human conversation is full-duplex and audio-visual: people simultaneously speak and listen while continuously interpreting and producing nonverbal cues, such as nods, smiles, and gestures. To support successful human-agent interaction, agents must model full-duplex audiovisual conversation; however, existing full-duplex benchmarks evaluate only speech. In this work, we present VideoFDB, the first benchmark to</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">VideoFDB 是首个评测对话智能体全双工&#x27;视觉+语音&#x27;能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">VideoFDB 用自然双人视频通话测试智能体能否持续利用凝视、表情、动作和语音管理对话，并显示现有 AV2A 模型常忽略视频或退化为视觉描述。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。</p>
+  <p>语音全双工基准不测视觉信号，传统视频 QA 又不评价连续重叠对话中的时机、让权和非语言反馈。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>VideoFDB 是首个评测对话智能体全双工&#x27;视觉+语音&#x27;能力的基准：它认为真实对话是边说边听边解读点头、微笑、手势等非语言线索，而已有的全双工基准只评语音。这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。</p>
-
-
+  <p>基准从双路视频通话标注 11 类 conversational dynamics，为每个事件保留上下文、目标时间窗与 judge caption；实时重放用户音视频后，以 0–5 rubric 评价感知/生成质量，并用 TOR-Alignment 判断 stay-silent、yield、handoff 等时序策略。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>从本地双路录制的自然视频通话中发现并人工质检候选互动事件。</li><li>保留事件前 1–3 个 turn 和最多一个后续 turn，标注动态类型与时间窗。</li><li>向模型实时流式输入用户音视频，记录输出、ASR、时间戳和音视频 caption。</li><li>按动态专属 rubric 评分，并计算五类 timing policy 的 TOR-Alignment 与延迟。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Appendix Tables 6–7 给出 237 个评测行、11 类 dynamics、130 位说话者；test/validation 为 226/11。</li><li>Table 3 中人类 Overall 为 4.20，最佳非人类 AV2A MiniCPM-o 4.5 为 3.40。</li><li>同表中 MiniCPM-o、Gemini 3.1、gpt-realtime 加视频后分别为 3.40/2.84/2.75，低于各自 audio-only 的 3.44/3.03/2.97。</li><li>Table 4 中人类非语言反馈适当性为 3.18、时序命中 78%/900ms；Anam 为 1.71、44%/2840ms，Keyframe 为 1.13、31%/3520ms。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>这与座舱语音视觉助手的形态几乎完全对应，其任务设计与评测指标可直接借来检验我们 Qwen3-Omni harness 在视听双流下的打断、轮替与非语言响应能力。</li></ul>
+    <ul><li>编辑判断：若 Harness 没有连续视频输入和视觉输出，generation track 不适用；只能借用部分 AV2A/A2A 感知协议。</li><li>编辑判断：endpoint 后才生成且外挂 TTS 的架构无法在用户 turn 内独立产生视觉/语音反馈；可借 TOR-Alignment 测整条 pipeline，但不能宣称模型级全双工。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>数据仅覆盖英语、美国/加拿大参与者和双人 webcam 视频会议，不代表多语、移动端或多人面对面互动。</li><li>基准只支持 single-turn evaluation，不提供多轮训练或微调。</li><li>LM judge 依赖上游音视频 caption，系统 prompt 也不总能覆盖模型预训练出的问候行为。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 截至 2026-08-04 约 4.8GB 数据已人工门控发布，但受 NVIDIA Evaluation License 限制；评测代码、Space 和 judge 权重尚未公开，237 行对应 180 个唯一 sample_id。</p>
+  <p><a class="btn" href="https://huggingface.co/datasets/nvidia/video-full-duplex-benchmark" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:30</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2605.30256v2"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-02-11 · ◈ 15
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。</span>
+    <span class="l-zh">S-MARC 每秒融合流式 ASR 和声学特征，预测对话行为并从 90 秒因果图生成证据化理由；单 A6000 的 input-to-rationale p95 为 1.0491 秒。它可作为 Harness 的 endpoint/打断 sidecar 设计参考，但不是回复生成器，且实现、权重和 ConversationGoT-120h 均未公开。</span>
     <span class="l-en">Human conversation is organized by an implicit chain of thought and manifests as temporally structured conversational behaviors. Capturing this perceptual pathway is critical for building natural full-duplex interactive systems. We propose S-MARC (Streaming Causal Modeling and Reasoning for Conversation), a streaming, causal, and hierarchical framework for conversational behavior modeling and reasoning. By formalizin</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">S-MARC 是每秒预测对话行为并生成证据化理由的严格因果流式 sidecar，不是端到端语音回复模型。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。</p>
+  <p>双向对话模型常直接预测下一段或双 token，缺少显式的“沟通功能—交互行为”推理层，也难以低延迟解释打断、接话或保持沉默的原因。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>一篇提出 S-MARC 的论文：面向全双工对话行为建模与推理的流式、因果、分层框架，把人类对话中隐式的思维链形式化为时间结构化的对话行为。对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。</p>
-
-
+  <p>系统融合每 0.5 秒更新的流式 ASR 和声学特征，先预测高层 communicative function，再以 duration-conditioned belief state 预测低层 interaction behavior；稳定句子与当前 tick 组成 90 秒因果图，选择历史证据后由 seq2seq decoder 生成 rationale。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>把 16kHz 音频切成 1 秒 tick，并持续更新增量 ASR。</li><li>融合文本/声学特征，预测四类高层功能和五类低层行为。</li><li>用持续时间 belief state 抑制秒级标签抖动。</li><li>在 90 秒因果窗口选择历史锚点，线性化证据链并生成 rationale。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Table 5 中完整模型 H-Ack F1/AUC 为 0.546/0.837，低层 Interruption 为 0.386/0.851，推理延迟为 0.101s。</li><li>移除 CausalEvidenceTrunk 后 H-Directive F1 从 0.534 降到 0.098，L-Continuation 从 0.824 降到 0.369。</li><li>Table 7 中 GoT rationale 延迟为 0.74±0.12s，GPT-4o 为 2.98±1.04s，GPT-5 thinking 为 16.98±5.29s。</li><li>Appendix Table 10 中单 RTX A6000 的 input-to-rationale 平均/steady-state/p95 为 0.8249/0.8361/1.0491s。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>对本站的直接启发在于全双工助手的“何时说、何时听、何时插话”决策层——其流式因果推理思路可用于在边说边听的 harness 中建模轮次转换、打断与回应时机，而不是依赖简单的 VAD 阈值。</li></ul>
+    <ul><li>编辑判断：每秒 causal perceiver 可作为 Harness 的 endpoint、打断或 backchannel sidecar，但不能替换 endpoint 后的生成链路。</li><li>编辑判断：若 Harness 在生成期间不继续监听，它仍不是论文意义上的模型级全双工；论文也未覆盖晚注入工具和外挂 TTS。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>GoT 计算复杂度限制实时图的深度、规模和更新频率。</li><li>模拟对话比真人有更密集的微分段、更多停顿和更短 overlap，不能等同于真实时序分布。</li><li>Candor 上正常 turn-taking 边界仍容易与 backchannel/continuation 混淆。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-08-04 未找到可取得的 S-MARC 实现、checkpoint 或 ConversationGoT-120h 数据；关联项目页只有静态演示且无 LICENSE，arXiv supplementary source 也不含代码。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-04 16:30</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2602.11065v2"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

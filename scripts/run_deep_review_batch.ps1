@@ -25,11 +25,34 @@ function Run-Native([scriptblock]$Command) {
     return $output
 }
 
-if (Test-Path $Lock) {
+function Acquire-Lock {
+    if (Test-Path $Lock) {
+        $ownerText = @(Get-Content $Lock -Raw -ErrorAction SilentlyContinue) -join ""
+        $ownerText = $ownerText.Trim()
+        $owner = 0
+        $alive = ([int]::TryParse($ownerText, [ref]$owner) -and
+            (Get-Process -Id $owner -ErrorAction SilentlyContinue))
+        $ageHours = ((Get-Date) - (Get-Item $Lock).LastWriteTime).TotalHours
+        if ($alive -or ($ownerText -and $ageHours -lt 6)) { return $false }
+        Write-Log "RECOVER: removing stale lock pid=$ownerText age=$([int]$ageHours)h"
+        Remove-Item $Lock -Force
+    }
+    try {
+        $stream = [System.IO.File]::Open(
+            $Lock, [System.IO.FileMode]::CreateNew,
+            [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+        $bytes = [Text.Encoding]::UTF8.GetBytes([string]$PID)
+        $stream.Write($bytes, 0, $bytes.Length)
+        $stream.Dispose()
+        return $true
+    }
+    catch [System.IO.IOException] { return $false }
+}
+
+if (-not (Acquire-Lock)) {
     Write-Log "SKIP: another radar agent owns the lock"
     exit 0
 }
-New-Item -ItemType File -Path $Lock -Force | Out-Null
 try {
     Write-Log "START"
     foreach ($required in ($Git, $Python, $Agent)) {
