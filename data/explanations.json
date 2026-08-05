@@ -4408,5 +4408,235 @@
   "generated_at": "2026-08-04T19:42:39.603381+08:00",
   "generated_by": "deterministic abstract backfill",
   "review_status": "abstract_backfill"
+ },
+ "5474a9b921": {
+  "tl_dr": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimo",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550139+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "d5525b2a56": {
+  "tl_dr": "Recent zero-shot text-to-speech (TTS) systems achieve remarkable naturalness and speaker similarity but typically require high-quality speaker prompts and either strip away or entangle the acoustic environment with speaker characteristics, ",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Recent zero-shot text-to-speech (TTS) systems achieve remarkable naturalness and speaker similarity but typically require high-quality speaker prompts and either strip away or entangle the acoustic environment with speaker characteristics, limiting their real-world applicability. We present an extended DAIEN-TTS, an environment-aware zero-shot TTS framework that disentangles and jointly models speech, background noise, and reverberation, enabling independent control over timbre and acoustic environment through separate speaker and environment prompts. Built upon the flow-matching-based F5-TTS, it uses a speech-environment separation module to decompose environmental speech into speech, noise, and reverberation components, which are injected into the Diffusion Transformer for environment-aware generation. Training uses simulated data constructed by mixing clean speech with noise and room impulse responses, together with a cross-speaker conditioning strategy that suppresses speaker information leakage from the environment branch. When real-world data are available, the system can be further fine-tuned to bridge the simulated-to-real domain gap.At inference, a triple classifier-free guidance mechanism enables fine-grained control over speech, noise, and reverberation, and a signal-to-noise-ratio adaptation strategy aligns the synthesized speech with the environment prompt. Experiments on simulated and real-world test sets show that DAIEN-TTS generates environmental personalized speech with high naturalness, strong speaker similarity, and faithful noise and reverberation reproduction, while offering controllability beyond prior environment-aware TTS systems.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550172+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "d2dbbbd2c6": {
+  "tl_dr": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histo",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant information at multiple granularities, from high-level abstractions to underlying records. In this paper, we formulate \\emph{analytic memory} as a complementary abstraction that organizes recurring multimodal observations into queryable structures supporting filtering, aggregation, ranking, and temporal comparison. We present AdaMM, a framework that jointly supports retrieval and analytic memory. Rather than relying on application-defined schemas, AdaMM extracts provenance-linked attribute-value observations from dialogue, images, and contextual metadata, discovers recurring field structures, and materializes them for analytical access. At inference time, a memory-aware planner decomposes queries into retrieval and analytic operations and routes each operation to the appropriate tools. Experiments on two long-term multimodal memory benchmarks, MemEye and MemGallery, show that AdaMM improves performance by up to 11.3\\% and 6.9\\%, respectively.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550185+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "e38e9dc914": {
+  "tl_dr": "Omni-modal models provide a unified interface for text, images, and audio. However, improving these abilities together remains difficult, as post-training on pooled multimodal data often fails to preserve the strengths of modality teachers.",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Omni-modal models provide a unified interface for text, images, and audio. However, improving these abilities together remains difficult, as post-training on pooled multimodal data often fails to preserve the strengths of modality teachers. On-policy distillation (OPD) has recently become popular in model post-training. It samples responses from the current student and compares the teacher's and student's next-token distributions along those responses, yielding dense supervision while reducing the mismatch between training and inference. Despite these advantages, standard OPD does not readily extend to several modality teachers. Their guidance may favor conflicting changes to the shared model, while matching each teacher's next-token distribution can prevent the student from moving beyond that teacher. To address these challenges, we propose On-Policy Omni Distillation (OPOD), which consolidates text, image, and audio teachers into one omni model. OPOD routes each response to the corresponding teacher, controls the teachers independently, and applies guidance only when the teacher assigns a higher probability to the generated token. The selected teacher also evaluates answer confidence and whether the reasoning increases support for the answer. Extensive experiments on twelve benchmarks show that OPOD achieves the best average at three model scales, reaching 70.8, 51.7, and 46.2 and outperforming the strongest comparator by 2.1, 1.8, and 1.7 points. At 30B, it surpasses the base model and pooled RL training on all twelve benchmarks, and ranks first or second on eleven even when the teachers are included. Only the student is retained for deployment.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550195+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "e402ebd99c": {
+  "tl_dr": "Reinforcement learning for flow-matching text-to-speech is complicated by deterministic ODE sampling: trajectory-level policy-gradient methods typically convert the ODE into an SDE and track per-step likelihood ratios, introducing stochasti",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "Reinforcement learning for flow-matching text-to-speech is complicated by deterministic ODE sampling: trajectory-level policy-gradient methods typically convert the ODE into an SDE and track per-step likelihood ratios, introducing stochastic perturbations and substantial overhead. We propose GROW, a group-relative advantage-weighted on-policy RL method that acts directly on the standard flow-matching objective. For each prompt, GROW samples a group of on-policy utterances, separately standardizes intelligibility and speaker-similarity rewards within the group, and combines them to reweight flow-matching regression. A Wasserstein-2 velocity penalty anchors the updated model to a frozen pretrained reference. A group-mean reward baseline is introduced to convert reward weighting into advantage weighting. For strong pretrained TTS models with concentrated rewards, positive exponential weighting is dominated by reward-agnostic self-imitation, whereas a zero-mean signed advantage preserves effective within-group credit assignment. Instantiated on DiTAR and evaluated on LibriSpeech and Seed-TTS EN/ZH, GROW reduces average WER from 2.016 to 1.558 and raises speaker similarity from 0.676 to 0.715 while keeping UTMOS. With 10-NFE training rollouts and 32-NFE evaluation, GROW retains comparable performance while training 2.9x faster than 32-NFE DiTAR-GRPO. We will open-source complete GROW codes, faithful DiTAR reproduction, and all model checkpoints.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550210+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "304a642c99": {
+  "tl_dr": "Multimodal Large Language Models (MLLMs) achieve strong performance by integrating visual inputs with the rich priors of pretrained language models. However, they often fail on vision-centric tasks, especially when visual evidence conflicts",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Multimodal Large Language Models (MLLMs) achieve strong performance by integrating visual inputs with the rich priors of pretrained language models. However, they often fail on vision-centric tasks, especially when visual evidence conflicts with pretrained knowledge. We explore these failures separately using two diagnostic paradigms: (1) probing whether visual information is available, via image reconstruction, and (2) measuring multimodal context sensitivity, the extent to which the model follows visual context versus the language prior. To support the second, we introduce the WhatIfVis, a benchmark spanning five coarse-grained dimensions (spatial-temporal, color, count, size, and weight) whose questions admit answers from either the image or the prior. Our analysis yields three findings: (i) Coarse-grained visual evidence is preserved, as these attributes can be reconstructed from the final-layer image tokens of frozen MLLMs. Failures on questions about these attributes therefore point to post-perceptual utilization, rather than to degraded visual encoding during perception. (ii) Even when explicitly instructed to use or ignore visual evidence, vanilla models (without supervised fine-tuning on the WhatIfVis) show unstable visual context sensitivity. Supervised fine-tuning (SFT) improves this controllability and generalizes across domains, and activation patching further localizes the vision-versus-prior trade-off at architecture-specific depths across all six models. (iii) The vision-versus-prior trade-off is controllable along a learned vector. Applying this steering vector, even without any intent instruction, improves controllability over the vanilla model. Together, these results relocate the bottleneck, indicating that for the coarse attributes we study, MLLMs e",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550224+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "26177fef58": {
+  "tl_dr": "Multimodal clinical models are usually judged on accuracy with every modality present, but deployment removes modalities; an echocardiogram is often unavailable where an ECG is routine. Two questions then matter beyond the size of the accur",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Multimodal clinical models are usually judged on accuracy with every modality present, but deployment removes modalities; an echocardiogram is often unavailable where an ECG is routine. Two questions then matter beyond the size of the accuracy loss: which modality was responsible, and whether the model fails loudly or silently once that modality is dropped. The distinction is per-example and modality-level, and is separate from post-hoc feature attribution (e.g. SHAP). Models are replaced often; the evaluation that answers these questions is reused. We present a model-agnostic modality-failure framework: given N modality embeddings, any mask-aware probe, and labels, it returns a per-example failure taxonomy, a per-modality complementarity matrix that attributes error to modalities, and a loud-vs-silent dropout profile separating monitorable failures from those that pass unflagged far from the decision boundary, using only deployment-observable signals. We release it as a small, unit-tested harness and validate it against planted ground truth. Across seeds it recovers that planted modality dominance and complementary subset, reports per-modality loud-vs-silent rates, and scales to a three-modality complementarity matrix; because the planted structure is known by construction, this validates recovery of per-example attribution rather than clinical performance. We then instantiate the framework on frozen EchoJEPA and HuBERT-ECG embeddings for LVEF and the EF <= 40% HFrEF gate over a paired MIMIC-IV cohort, where on the held-out test split (n = 245) dropping echo nearly doubles error. The narrow echo-to-ECG overlap that bounds cohort size is itself a deployment finding for cardiac foundation models. All of our work can be found at https://github.com/criticaldata/PRIMED-AI.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550234+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "72e8154caf": {
+  "tl_dr": "Long-horizon agents increasingly reuse their KV cache as memory: a serving system keeps a subset of cached entries and drops the rest. Eviction and episodic-memory schemes therefore rest on a premise rarely tested directly, that a retained ",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Long-horizon agents increasingly reuse their KV cache as memory: a serving system keeps a subset of cached entries and drops the rest. Eviction and episodic-memory schemes therefore rest on a premise rarely tested directly, that a retained event is still informative once the observations that produced it are gone. We test it by omitting one earlier observation from what is served, across otherwise identical agent histories. Among items sensitive to that observation, the answer overwhelmingly follows the omitted value, though no served span says which value is correct. We call this semantic materialization: a downstream event's cached rows act as an independently servable view of computation whose inputs are gone. It can also be written on purpose. A deliberately phrased, answer-free event raises donor-aligned recovery from 6% to 51% on Qwen3-8B without ever naming the value, whereas passively harvesting natural mentions from long-term dialog yields no detected advantage. What such a row carries is specific and bounded. Compact state survives, larger payloads decay toward chance, and whether a construction writes at all turns on phrasing rather than on meaning alone, so two phrasings the model comprehends equally well can diverge sharply. The result is a memory contract for sparse event-KV serving: what to write, where it lands, and what survives once the source is gone. For anyone who evicts the corollary is that dropping a source event and observing no accuracy loss does not show the source was unnecessary.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550249+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "04f31b07b7": {
+  "tl_dr": "LLM agents need memory to act consistently over long interactions, yet many systems use additional LLM calls to operate that memory. Generating intermediate records and mediating their retrieval adds recurring token and time costs, while om",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "LLM agents need memory to act consistently over long interactions, yet many systems use additional LLM calls to operate that memory. Generating intermediate records and mediating their retrieval adds recurring token and time costs, while omitted or merged details can obscure the original evidence. We ask whether structured memory access requires generation at all. Zero-Mem introduces zero-token memory operations: no step outside final question answering invokes an LLM or consumes LLM input or output tokens; encoder computation is accounted for separately. Zero-Mem preserves original interaction traces as its source of record. It organizes the traces in two complementary ways. An entity--context graph exposes connections across interactions, while a temporal hierarchy preserves conversational locality and session state. For each query, Zero-Mem weighs the two views, retrieves from both, and follows their structure to recover supporting relations or surrounding context. Deterministic calibration first discards conflicting evidence and then keeps the reader's answer grounded in the retrieved traces. Only the final-QA reader invokes an LLM. Across long-memory and long-context question-answering benchmarks, Zero-Mem achieves competitive performance while eliminating LLM calls and LLM-token consumption from memory operations. With the same final-QA reader and context budget, it reduces memory-operation time cost by 57.6\\% relative to the fastest compared baseline. Ablations support the contribution of the two views and their query-dependent coordination. Overall, the results show that structured agent memory need not generate an intermediate representation of the past. After peer review, the code and implementation details will be available at blue{https://github.com/TheMoon0",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550259+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "704bcdfd0d": {
+  "tl_dr": "Despite recent progress in Vision-Language-Action (VLA) models for robotic manipulation, the action chunk remains a weakly structured interface. Existing work typically flatten each chunk into per-timestep controls, relying on implicit data",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Despite recent progress in Vision-Language-Action (VLA) models for robotic manipulation, the action chunk remains a weakly structured interface. Existing work typically flatten each chunk into per-timestep controls, relying on implicit data learning that manifests as jagged motion and boundary discontinuities during physical execution. To address these limitations, we introduce Hermite trajectory priors, parameterizing the chunk trajectory as a piecewise cubic Hermite curve defined by endpoint positions and velocities to explicitly enforce smoothness and continuity. We instantiate this fixed operator across discrete autoregressive and continuous generative paradigms via three variants: (1) Hermite Tokens, which predict quantized boundary variables autoregressively; (2) Hermite Scaffold, which decomposes clean actions into a base scaffold and residuals; and (3) Hermite Regularization, which applies the prior strictly as an auxiliary training objective. Across simulation benchmarks and real-robot platforms, Hermite Regularization achieves superior performance among these three variants, improving π0.5 baseline success rates from 95.9% to 98.7% on LIBERO, 85.7% to 90.9% on LIBERO-plus, and 63.4% to 90.0% across four real-robot tasks without additional inference overhead. Trajectory analyses reveal that explicitly structuring trajectory priors serves most effectively as a learning inductive bias rather than a runtime constraint.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-05T09:31:57.550269+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
  }
 }
