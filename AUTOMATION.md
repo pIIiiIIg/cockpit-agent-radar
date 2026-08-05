@@ -29,10 +29,12 @@ Recommended Beijing schedule:
 - 12:00 local report sync
 - 15:00, 20:00 and 23:00 full-text review
 
-The machine must remain logged into the Administrator account because Cursor
-Agent credentials are user-scoped. Locking the desktop is fine; signing out is
-not. This is the only host constraint that cannot be removed without a separate
-service-account Cursor login.
+Windows tasks run as `SYSTEM`, while `automation_common.ps1` pins
+`USERPROFILE`/`HOME`/`APPDATA` to the dedicated Administrator automation
+profile. A live SYSTEM smoke run completed an authenticated Cursor Agent prompt,
+so tasks continue while the desktop is locked or the user is signed out.
+The machine must still be powered on and have network access; missed starts are
+configured to run as soon as the host becomes available.
 
 ## Failure semantics
 
