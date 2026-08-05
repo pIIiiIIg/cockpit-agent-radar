@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reports · cockpit-agent-radar</title>
+<title>每日调研日报 · 2026-08-05</title>
 <link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
       href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
 <style>
@@ -126,6 +126,16 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<h2 class="day"><span class="l-zh">每日调研</span><span class="l-en">Research reports</span></h2><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/全双工语音技术增量调研-2026-08-05.html">全双工语音技术增量调研 · 2026-08-05</a></div><div class="meta"><span class="badge hi"><span class="l-zh">详细调研</span><span class="l-en">Deep report</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/每日调研日报-2026-08-05.html">每日调研日报 · 2026-08-05</a></div><div class="meta"><span class="badge hi"><span class="l-zh">精简日报</span><span class="l-en">Daily brief</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/全双工语音技术增量调研-2026-08-04.html">全双工语音技术增量调研 · 2026-08-04</a></div><div class="meta"><span class="badge hi"><span class="l-zh">详细调研</span><span class="l-en">Deep report</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/每日调研日报-2026-08-04.html">每日调研日报 · 2026-08-04</a></div><div class="meta"><span class="badge hi"><span class="l-zh">精简日报</span><span class="l-en">Daily brief</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/全双工语音技术增量调研-2026-08-03.html">全双工语音技术增量调研 · 2026-08-03</a></div><div class="meta"><span class="badge hi"><span class="l-zh">详细调研</span><span class="l-en">Deep report</span></span></div></div><div class="card"><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/reports/每日调研日报-2026-08-03.html">每日调研日报 · 2026-08-03</a></div><div class="meta"><span class="badge hi"><span class="l-zh">精简日报</span><span class="l-en">Daily brief</span></span></div></div>
+<div class="item-page"><h2>每日调研日报 · 2026-08-05</h2><div class="report-body"><h1>每日调研日报 · 2026-08-05</h1>
+<p>音频评测：UltraEval-Audio（当前 ASR、TTS、Codec 和 Audio LLM 指标分散；官方框架统一数据、模型、提示词和 evaluator，但不覆盖连续双工与车控；可以固定 commit 后接入现有 WAV/JSONL，并补 endpoint、打断取消、Action、最终车态和流式 P50/P95）</p>
+<p>Agent Harness：LongHorizon-Harness（当前长任务把状态、执行和完成判断留在持续增长的 KV；论文用 Manager 外置状态、Executor 新上下文和只读 Auditor 验收，在 WeaveBench 将 PassRate 从 51.8% 提到 80.7%；可以把 affair、前置条件和最终车态审计接入 Harness C）</p>
+<p>KV cache：Sparse Event-KV（当前持久 KV 使严格工具能力下降约 22 个百分点，但“删历史后不掉点”可能被下游 KV 已物化旧信息混淆；论文的主动 carrier 将恢复率从 6% 提到 51%，却只可靠承载紧凑状态；可以增加 donor-pair、独立重编码和显式摘要对照后再定裁剪策略）</p>
+<p>判停与打断：JoyAI-Talker（当前原生 <code>probe_turn_end</code> 不可用，固定话轮门又不够在线；独立 Joy-Duplex 每 160 ms 输出 partial/complete/backchannel/accept/reject，但没有完整端到端时延和开放权重；可以先把五状态加入驾驶员、副驾、后排、回声、广播和附和回放，不把它误称为统一模型级全双工）</p>
+<p>工具/Action 通道：SpeechAgent-R（当前候选外工具已有校验门，候选内消歧、音频技能和结果回流仍不足；论文用 typed skill call 与音频/文本回执把总体分从 65.01 提到 80.05，但平均耗时约 22 秒；可以复用接口和分层评分，高耗时技能只走并行或低频路径）</p>
+<p>故障归因：Model or Harness?（当前任务失败难区分模型、上下文、memory、工具、服务和 grader；论文用 interaction edge、fault side 和 earliest unrecovered event 建立 41 类 taxonomy；可以把这三个字段加入回放日志并由人工复核，不直接把 LLM judge 当根因结论）</p>
+<p>Omni 模型：OPOD v3（当前 Qwen3-Omni thinker 可做低成本替换 A/B；v3 的 30B 学生在 12 项平均分为 70.8、领先最强对照 2.1，已有官方权重，但 talker 未训练；可以保持候选门、执行器和外挂 TTS 不变测试，按同一 arXiv 的 v2 修订去重）</p>
+<p>音视频 token：Macer（当前视觉尚未进入在线 Harness，未来共享解码器可能让音频挤占视频 token；论文先分模态预算再做模态内排序，Qwen2.5-Omni-7B 在 25% 保留率下保持 98.7% 全 token 性能；可以在离线音视频回放中测显存、prefill 和关键时段覆盖，封闭 API 暂不可用）</p>
+<p>TTS：DAIEN-TTS / GROW（前者分离控制音色、噪声和混响，适合生成座舱压测数据；后者把平均 WER 从 2.016 降到 1.558，适合未来 flow-matching TTS 后训练；两者均无可用实现或流式首包结果，继续跟踪，近期仍优先做 ECCD 的 CER、RTF 和首音频 A/B）</p>
+<p>持续跟踪：AEC、空间听觉与实时服务（今日无重大新增；继续 AEC/LMPAN→因果 NS→语义判停、多座位受话对象门、M3 多轮打断、5090/H200 无同步 MoE fast path 和真实双讲回归）</p></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>
