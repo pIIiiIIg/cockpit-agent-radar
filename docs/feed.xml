@@ -25,7 +25,7 @@
 <title>Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/dcf4f2fa5d.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dcf4f2fa5d.html</guid>
-<description>Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized </description>
+<description>QIANGDA 通过对同一真实双人混音分别查询两位说话人的嘴部视频，显式检测分离器是否忽略视觉目标；最佳归档 checkpoint 达到 82.22% 严格正确率和 69.53% 成对成功率。该模型采用完整语句非因果推理，当前价值主要是多人座舱前端研究和身份忠实度回归，而非直接接入流式全双工链路。</description>
 </item>
 <item>
 <title>Show HN: Learn from 30 historical figures, open source, nonprofit, self-hosted</title>
@@ -199,13 +199,13 @@
 <title>Towards Real-world Environment-aware Zero-shot Text-to-speech Synthesis via Disentangled Audio Infilling</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/d5525b2a56.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d5525b2a56.html</guid>
-<description>Recent zero-shot text-to-speech (TTS) systems achieve remarkable naturalness and speaker similarity but typically require high-quality speaker prompts and either strip away or entangle the acoustic environment with speaker characteristics, limiting their real-world applicability. We present an exten</description>
+<description>扩展版 DAIEN-TTS 通过两级语音环境分离、跨说话人混响条件和三路引导，独立控制说话人声线、背景噪声与混响，并用真实录音微调缩小模拟域差距。它只能作为 StreamingModelHarness 的外挂 TTS 研究候选；Harness 仍是流式输入、endpoint 后生成、晚注入工具的非原生全双工架构。</description>
 </item>
 <item>
 <title>Beyond Retrieval: Analytic Memory for Multimodal Agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/d2dbbbd2c6.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d2dbbbd2c6.html</guid>
-<description>Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant </description>
+<description>AdaMM把多模态长期记忆拆成语义检索和可执行分析两部分，支持跨时间过滤、聚合与比较。 可把乘员偏好、车况和历次车控从纯对话KV迁移到可审计表</description>
 </item>
 <item>
 <title>An AI voice agent running locally on a $50 Arduino uno Q</title>

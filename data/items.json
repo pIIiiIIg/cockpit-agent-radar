@@ -66,7 +66,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.",
-   "summary_zh": "",
+   "summary_zh": "QIANGDA 通过对同一真实双人混音分别查询两位说话人的嘴部视频，显式检测分离器是否忽略视觉目标；最佳归档 checkpoint 达到 82.22% 严格正确率和 69.53% 成对成功率。该模型采用完整语句非因果推理，当前价值主要是多人座舱前端研究和身份忠实度回归，而非直接接入流式全双工链路。",
    "demo": "",
    "stars": null
   },
@@ -563,7 +563,7 @@
     "text-to-speech"
    ],
    "summary_en": "Recent zero-shot text-to-speech (TTS) systems achieve remarkable naturalness and speaker similarity but typically require high-quality speaker prompts and either strip away or entangle the acoustic environment with speaker characteristics, limiting their real-world applicability. We present an extended DAIEN-TTS, an environment-aware zero-shot TTS framework that disentangles and jointly models speech, background noise, and reverberation, enabling independent control over timbre and acoustic environment through separate speaker and environment prompts. Built upon the flow-matching-based F5-TTS, it uses a speech-environment separation module to decompose environmental speech into speech, noise, and reverberation components, which are injected into the Diffusion Transformer for environment-aware generation. Training uses simulated data constructed by mixing clean speech with noise and room impulse responses, together with a cross-speaker conditioning strategy that suppresses speaker information leakage from the environment branch. When real-world data are available, the system can be further fine-tuned to bridge the simulated-to-real domain gap.At inference, a triple classifier-free guidance mechanism enables fine-grained control over speech, noise, and reverberation, and a signal-to-noise-ratio adaptation strategy aligns the synthesized speech with the environment prompt. Experiments on simulated and real-world test sets show that DAIEN-TTS generates environmental personalized speech with high naturalness, strong speaker similarity, and faithful noise and reverberation reproduction, while offering controllability beyond prior environment-aware TTS systems.",
-   "summary_zh": "",
+   "summary_zh": "扩展版 DAIEN-TTS 通过两级语音环境分离、跨说话人混响条件和三路引导，独立控制说话人声线、背景噪声与混响，并用真实录音微调缩小模拟域差距。它只能作为 StreamingModelHarness 的外挂 TTS 研究候选；Harness 仍是流式输入、endpoint 后生成、晚注入工具的非原生全双工架构。",
    "demo": "",
    "stars": null
   },
@@ -581,7 +581,7 @@
     "multimodal"
    ],
    "summary_en": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant information at multiple granularities, from high-level abstractions to underlying records. In this paper, we formulate \\emph{analytic memory} as a complementary abstraction that organizes recurring multimodal observations into queryable structures supporting filtering, aggregation, ranking, and temporal comparison. We present AdaMM, a framework that jointly supports retrieval and analytic memory. Rather than relying on application-defined schemas, AdaMM extracts provenance-linked attribute-value observations from dialogue, images, and contextual metadata, discovers recurring field structures, and materializes them for analytical access. At inference time, a memory-aware planner decomposes queries into retrieval and analytic operations and routes each operation to the appropriate tools. Experiments on two long-term multimodal memory benchmarks, MemEye and MemGallery, show that AdaMM improves performance by up to 11.3\\% and 6.9\\%, respectively.",
-   "summary_zh": "",
+   "summary_zh": "AdaMM把多模态长期记忆拆成语义检索和可执行分析两部分，支持跨时间过滤、聚合与比较。 可把乘员偏好、车况和历次车控从纯对话KV迁移到可审计表",
    "demo": "",
    "stars": null
   },
@@ -855,7 +855,7 @@
    "score": 5,
    "tags": [],
    "summary_en": "Existing evaluations often reduce agent failures to system-level outcomes, obscuring where the fault originated and which intervention would improve the agent system. This creates a repair-assignment problem: the same visible failure may call for model post-training, harness engineering, environment redesign, or benchmark repair depending on its source. Because agent behavior emerges from interactions among models, harnesses, users, tools, memory, and environments, outcome-level labels are often insufficient for improvement. Most failure taxonomies do little to resolve this problem because they are benchmark-specific and lack a shared structure. We introduce an interaction-centric taxonomy that localizes failures to the interactions in which they originate and identifies the responsible component. It organizes 41 failure modes by assigning each to an edge between two components and a fault side indicating where the repair belongs. This makes the taxonomy actionable: model-side failures identify targets for post-training, harness-side failures point to scaffolding and tool-integration fixes, and environment or grader failures reveal evaluation conditions requiring redesign. The schema applies across agent architectures, from coding assistants to long-horizon personal assistants and multi-agent systems. We ground the taxonomy in worked examples from public benchmarks, model system cards, published reports, and logged agent trajectories, and evaluate its reproducibility using independent reasoning agents as judges. Across four frontier models, the strongest judge reaches Cohen's κ=0.76 against human category labels, suggesting that the categories capture shared structure rather than annotator-specific preferences.",
-   "summary_zh": "",
+   "summary_zh": "论文以交互边、责任侧和最早未恢复故障组织 41 类智能体失败，并用 40 个真实案例验证独立 judge 能否复现人工归因。它适合给 StreamingModelHarness 的 endpoint、工具包装、外部 TTS 和环境错误建立证据化分流，但现有 taxonomy 需扩展音频实时组件，自动归因也不能替代人工事故复核。",
    "demo": "",
    "stars": null
   },
@@ -941,7 +941,7 @@
     "speech recognition"
    ],
    "summary_en": "To estimate confidence for end-to-end Automatic Speech Recognition (ASR) systems, recent research has proposed Confidence Estimation Modules that incorporate features from the backbone ASR model. Most existing approaches, however, are architecture-dependent. In this paper, we propose the Score-Rank Confidence Estimation Module (SR-CEM), a lightweight module that leverages beam search information to generate token- and word-level confidence scores. Specifically, SR-CEM constructs features by combining the scores and ranks of tokens within a hypothesis. Experiments show that SR-CEM achieves effective calibration on both in-domain and out-of-domain English data. On the in-domain testset, it attains a Maximum Calibration Error of 4.50% and an Expected Calibration Error of 0.30% at the token level, significantly outperforming softmax confidence (20.04% and 1.75%, respectively). At the word level, SR-CEM achieves 8.17% and 0.35%, compared to 17.91% and 1.67% from softmax confidence. Furthermore, we demonstrate its robustness across hybrid and transducer ASR architectures with different decoding strategies, as well as on Dutch, noisy and conversational speech conditions. Our main finding is that SR-CEM is particularly effective in reducing Maximum Calibration Error, which is critical for reliable downstream use of ASR outputs, while maintaining architecture independence and generality across diverse evaluation conditions.",
-   "summary_zh": "",
+   "summary_zh": "SR-CEM 从 beam search 的 token 分数、排名和上下文累计分数中学习轻量置信度，在多种 ASR 架构及噪声、会话条件下显著降低最坏校准误差。它可在 StreamingModelHarness 的 endpoint 后为转写和晚注入工具提供风险门控，但该系统仍是流式输入、判停后生成和外挂 TTS，并非原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -958,7 +958,7 @@
     "vision-language-action"
    ],
    "summary_en": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
-   "summary_zh": "",
+   "summary_zh": "WCM 让 VLA critic 联合预测未来视觉 latent 和价值，在 ManiSkill 上将 π0 的 OOD 成绩由 Flow-SDE 的 39.3 提升至 51.5。它适合作为 Harness 工具轨迹和判停策略的离线 critic 研究，不提供在线增量 KV、晚注入或 TTS 机制。",
    "demo": "",
    "stars": null
   },
@@ -3126,7 +3126,7 @@
     "speech recognition"
    ],
    "summary_en": "Speech enhancement (SE) can substantially improve perceptual quality, yet enhanced speech does not necessarily improve automatic speech recognition (ASR). Existing remedies, such as retraining the enhancer jointly with recognizer or interpolating enhanced speech with the noisy input, can mitigate this mismatch, but common explanations such as artifacts and over-suppression remain qualitative and do not localize which enhancement component harms recognition. We propose inference time polar projection, a diagnosis for STFT domain enhancement. Given a mask $M=Ae^{jφ}$, polar projection forms $M_{α,γ}=A^αe^{jγφ}$, where $α$ controls magnitude strength and $γ$ controls phase correction. Sweeping these controls on frozen SE and ASR models turns ASR degradation into measurable magnitude and phase effects. Our projection analysis shows that magnitude strength is the operative axis, while estimated phase correction provides no recognition benefit. The optimal magnitude strength is recognizer dependent: waveform-input wav2vec2.0 favors strong correction, whereas log-Mel-input, noise-robust Whisper prefers weaker correction. Finally, the projection provides a simple mitigation for any SE front end in the STFT mask domain, without retraining either the enhancer or the recognizer, making it directly useful for voice assistants and agents that rely on enhanced speech.",
-   "summary_zh": "",
+   "summary_zh": "论文通过推理时极坐标投影分别缩放 STFT 掩码的幅度和相位，发现影响 ASR 的主要是识别器相关的幅度强度，而所测相位修正没有收益。它可用于校准 StreamingModelHarness 的增强→ASR 前端，但未验证因果流式延迟，也不涉及端点门控、晚工具注入或外挂 TTS 到原生全双工的升级。",
    "demo": "",
    "stars": null
   },
@@ -3233,7 +3233,7 @@
     "speech recognition"
    ],
    "summary_en": "We present Voice Memory, a inference-only scheme for agentic speech recognition: at stream time, a frozen corrector reads a single per-domain memory.md and decides per utterance whether to act on the hypothesis or abstain and keep the 1-best. Asynchronously, a score-gated optimizer revises that file through bounded edits, accepting an edit only when it strictly improves a held-out score. Extended from classical ASR-LM framework, we refer this split the listener-thinker architecture; the two roles are coupled only through the memory, so no weights change and the learned skill stays auditable and portable. Restraint turns out to be the operative skill this loop discovers: unconstrained generative error correction (GER) over-corrects, breaking correct tokens on up to 64% of its edits on financial news, and Voice Memory, reduces this rate to 35%. Across ten HyPoradise domains with an open corrector, Voice Memory, lowers weighted word error rate from 8.36% to 7.52% (7.47% with three added in-context examples) without regressing any dataset below its 1-best baseline; gains concentrate where recoverable headroom is largest, including air-travel commands (8.40% to 3.40%) and noisy far-field speech (CHiME-4, 12.69% to 10.46%). The memory transfers across corrector families and adds zero parameters to the inference path. A demo and example code are provided for future studies.",
-   "summary_zh": "",
+   "summary_zh": "Voice Memory用可审计memory.md指导冻结的ASR纠错器，并只接受能改善保留集分数的记忆更新。 可让车控热词和同音错误通过可审计规则持续学习",
    "demo": "",
    "stars": null
   },
@@ -3268,7 +3268,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Accurate, low-latency endpointing is crucial for effective spoken dialogue systems. While traditional endpointers often rely on spectrum-based audio features, this work proposes real-time speech endpointing for multi-turn dialogues using streaming, low-bitrate Neural Audio Codec (NAC) features, building upon recent advancements in neural audio codecs. To further reduce cutoff errors, we introduce a novel label delay training scheme. At a fixed median latency of 160 ms, our combined NAC and label delay approach achieves significant relative cutoff error reductions: 42.7% for a single-stream endpointer and 37.5% for a two-stream configuration, compared to baseline methods. Finally, we demonstrate efficient integration with a codec-based pretrained speech large language model, improving its median response time by 1200 ms and reducing its cutoff error by 35%.",
-   "summary_zh": "",
+   "summary_zh": "论文用流式神经音频编解码器特征和标签延迟训练四类 LSTM 端点器，在固定中位延迟下显著减少过早截断，并通过控制 Moshi 内部文本流展示低延迟集成。它最适合改进 StreamingModelHarness 的端点门控，而不是证明当前判停后生成、晚工具注入、外挂 TTS 的流水线已经成为原生模型级全双工。",
    "demo": "",
    "stars": null
   },
@@ -3376,7 +3376,7 @@
     "voice assistant"
    ],
    "summary_en": "While recent Spoken Language Models (SLMs) have been actively deployed in real-world scenarios, they lack the capability to discern Third-Party Interruptions (TPI) from the primary user's ongoing flow, leaving them vulnerable to contextual failures. To bridge this gap, we introduce TPI-Train, a dataset of 88K instances designed with speaker-aware hard negatives to enforce acoustic cue prioritization for interruption handling, and TPI-Bench, a comprehensive evaluation framework designed to rigorously measure the interruption-handling strategy and precise speaker discrimination in deceptive contexts. Experiments demonstrate that our dataset design mitigates semantic shortcut learning-a critical pitfall where models exploit semantic context while neglecting acoustic signals essential for discerning speaker changes. We believe our work establishes a foundational resource for overcoming text-dominated unimodal reliance in SLMs, paving the way for more robust multi-party spoken interaction. The code for the framework is publicly available at https://tpi-va.github.io",
-   "summary_zh": "",
+   "summary_zh": "论文构建 TPI-Train/TPI-Bench，以同文本单说话人硬负例迫使语音模型依据声学说话人变化区分第三方打断，并学习可操作或可忽略的响应策略。它可为 StreamingModelHarness 增加说话人变更与工具确认测试，但论文仍是整段语音输入后文本输出的轮次式设置，不是原生模型级全双工。",
    "demo": "",
    "stars": null
   },
@@ -3394,7 +3394,7 @@
     "speech recognition"
    ],
    "summary_en": "Automatic Speech Recognition (ASR) transcripts often contain disfluencies, such as fillers, repetitions, and false starts, which reduce readability and hinder downstream applications like chatbots and voice assistants. If left unaddressed, such disfluencies can significantly degrade the reliability of downstream systems. Most existing approaches rely on classical models that focus on identifying disfluent tokens for removal. While this strategy is effective to some extent, it often disrupts grammatical structure and semantic coherence, leading to incomplete or unnatural sentences. Recent literature explored the use of large language models (LLMs); however, these efforts have primarily focused on disfluency detection or data augmentation, rather than performing comprehensive correction. We propose a multilingual correction pipeline where a sequence tagger first marks disfluent tokens, and these signals guide instruction fine-tuning of an LLM to rewrite transcripts into fluent text. To further improve reliability, we add a contrastive learning objective that penalizes the reproduction of disfluent tokens, encouraging the model to preserve grammar and meaning while removing disfluent artifacts. Our experiments across three Indian languages, namely Hindi, Bengali, and Marathi show consistent improvements over strong baselines, including multilingual sequence-to-sequence models. These results highlight that detection-only strategies are insufficient. Combining token-level cues with instruction tuning and contrastive learning provides a practical and scalable solution for multilingual disfluency correction in speech-driven NLP systems. We make the codes publicly available at https://github.com/deepak-kumar-98/Mind-the-Pause.",
-   "summary_zh": "",
+   "summary_zh": "论文用 MuRIL 标记印地语、孟加拉语和马拉地语 ASR 文本中的不流畅 token，再以带负向对比约束的 3B LLM 重写完整流畅句，正文实验显示其优于无对比损失和 mBART 等基线。对 StreamingModelHarness，它可作为 endpoint 后、意图和工具解析前的文本纠错候选，但不提供原生模型级全双工，且必须先验证误删自我修正与车控关键词的风险。",
    "demo": "",
    "stars": null
   },
@@ -3644,7 +3644,7 @@
     "voice assistant"
    ],
    "summary_en": "The rise of Internet of Things (IoT) devices in the physical world necessitates voice-based interfaces capable of handling complex user experiences. While modern Large Language Models (LLMs) already demonstrate strong tool-usage capabilities, modeling real-world IoT devices presents a difficult, understudied challenge which combines modeling spatiotemporal constraints with speech inputs, dynamic state tracking, and mixed-initiative interaction patterns. We introduce MIST (the Multimodal Interactive Speech-based Tool-calling Dataset), a synthetic multi-turn, voice-driven code generation task that operates over IoT devices. We find that there is a significant gap between open- and closed-weight multimodal LLMs on MIST, and that even frontier closed-weight LLMs have substantial headroom. We release MIST and an extensible data generation framework to build related datasets in order to facilitate research on mixed-initiative voice assistants which reason about physical world constraints.",
-   "summary_zh": "",
+   "summary_zh": "MIST 通过 10,000 段合成智能家居对话和可执行数字孪生，同时评测语音工具代码、状态维护、澄清、冗余与改口处理。编辑判断：其最终状态判定很适合车控回归，但公开仓库尚无完整数据或生成框架，且任务不覆盖 Harness 的在线判停、打断和外挂 TTS。",
    "demo": "",
    "stars": null
   },
@@ -3878,7 +3878,7 @@
     "voice assistant"
    ],
    "summary_en": "Audio has rapidly become a primary interface for foundation models, powering real-time voice assistants. Ensuring safety in audio systems is inherently more complex than just \"unsafe text spoken aloud\": real-world risks can hinge on audio-native harmful sound events, speaker attributes (e.g., child voice), impersonation/voice-cloning misuse, and voice-content compositional harms, such as child voice plus sexual content. The nature of audio makes it challenging to develop comprehensive benchmarks or guardrails against this unique risk landscape. To close this gap, we conduct large-scale red teaming on audio systems, systematically uncover vulnerabilities in audio, and develop a comprehensive, policy-grounded audio risk taxonomy and AudioSafetyBench, the first policy-based audio safety benchmark across diverse threat models. AudioSafetyBench supports diverse languages, suspicious voices (e.g., celebrity/impersonation and child voice), risky voice-content combinations, and non-speech sound events. To defend against these threats, we propose AudioGuard, a unified guardrail consisting of 1) SoundGuard for waveform-level audio-native detection and 2) ContentGuard for policy-grounded semantic protection. Extensive experiments on AudioSafetyBench and four complementary benchmarks show that AudioGuard consistently improves guardrail accuracy over strong audio-LLM-based baselines with substantially lower latency.",
-   "summary_zh": "",
+   "summary_zh": "AudioGuard 并行组合波形级声线/危险声检测与 ASR 后的政策分类，在正文评测中以 0.871 平均准确率超过音频大模型裁判。它更适合作为 StreamingModelHarness 端点后的输入审核和外挂 TTS 播放前审核，而不是低延迟流式或原生全双工安全层。",
    "demo": "",
    "stars": null
   },
@@ -3897,7 +3897,7 @@
     "text-to-speech"
    ],
    "summary_en": "Voice assistants increasingly rely on Speech Language Models (SpeechLMs) to interpret spoken queries and execute complex tasks, yet existing benchmarks lack domain breadth, acoustic diversity, and compositional reasoning complexity to evaluate tool-calling performance. We introduce Audio2Tool, a large-scale dataset comprising approximately 30,000 queries designed to assess tool-calling capabilities of SpeechLMs across three primary domains: Smart Car, Smart Home, and Wearables. Our benchmark features a multi-tier complexity hierarchy, ranging from simple direct commands to complex multi-intent and needle-in-a-haystack extraction to isolate distinct failure modes. To ensure realism, we employ zero-shot voice cloning text-to-speech synthesis and diverse noise profiles to simulate in-the-wild conditions. Evaluations of state-of-the-art SpeechLMs and ASR-LLM pipelines show strong performance on simple commands but significant degradation under compositional and acoustic challenges. Code and dataset are publicly available on the project page: https://audio2tool.github.io/.",
-   "summary_zh": "",
+   "summary_zh": "Audio2Tool 以八级合成语音基准评测 152 个汽车、家居和穿戴工具，显示强模型在参数、多意图、多轮和背景意图混叠上仍明显退化。编辑判断：它适合补齐 Harness 的车控正确性与误触发回归，但不评测判停、生成、外挂 TTS 的在线时延，也不能证明模型原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -4087,7 +4087,7 @@
     "vision-language-action"
    ],
    "summary_en": "We are entering a new era of composite model architectures that integrate diverse components such as vision encoders, language backbones, diffusion and flow heads, audio codecs, action generators, and world-model predictors. Such architectures underpin a broad class of multimodal models, including unified multimodal models, omni models, speech-language models, vision-language-action policies, and world models. However, existing model serving frameworks were built on narrow assumptions about model structure, making them ill-suited to accommodate this new architectural diversity. Here we present M*, a universal serving system for efficient serving of composite AI models. M* represents models as dataflow graphs, processing requests spanning diverse modalities and tasks as traversals over these graphs. The core insight is a modular abstraction that supports arbitrary composition of model components, flexible placement onto a physical cluster, and model-agnostic optimizations within a distributed runtime. We call this abstraction the Walk Graph and show how it can concisely capture composite models from a broad range of families. We instantiate M* on representative models and find that it achieves, on average, 20% lower end-to-end latency than vLLM-Omni for text-to-image workloads on BAGEL, while delivering up to 2.9x lower real-time factor and 2.7x higher throughput for text-to-speech workloads on Qwen3-Omni. M* also outperforms the V-JEPA 2-AC rollout baseline for robotic planning by up to 12.5x. Thus, our work paves the road towards more efficient serving of complex models with minimal developer effort.",
-   "summary_zh": "",
+   "summary_zh": "M* 用 Walk Graph 统一表达复合多模态模型的顺序、并行、循环和流式组件路径，并在 BAGEL、Qwen3-Omni、Orpheus 与 V-JEPA 2 上报告最高 12.5× 的服务加速。它可借鉴为 Harness 的组件调度层，但 Harness 仍是端点后生成、晚注入工具和外挂 TTS，并非原生全双工。",
    "demo": "",
    "stars": null
   },
