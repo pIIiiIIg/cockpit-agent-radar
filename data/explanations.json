@@ -1023,96 +1023,159 @@
   "review_status": "editorial"
  },
  "36cf43811f": {
-  "tl_dr": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。虽然它是桌面而非座舱场景，但其\"规划器-执行器-恢复\"的工具体系设计，对本站 harness 中晚注入工具清单、工具编排的工程实现有直接参考价值。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "AnovaX 把桌面语音助手拆成转写、JSON 规划、安全检查、类型化本地执行器和有界恢复循环，重点是可控工具编排而非新语音模型。",
+  "problem": "传统语音助手技能封闭且执行过程不透明；简单的线性 LLM 工具链又会因单步阻塞、焦点竞争或错误环境假设而让整条计划失败。",
+  "method": "单个 Python 进程整合唤醒、语音识别、Gemini JSON 规划、记忆、执行器和 pyttsx3。提示规则与 Python 白名单、拒绝词和计划预算形成两层安全检查；工具映射到带 TTL、重试和资源锁的 ChildAgent，核心步骤失败后才进入有界 ReAct 恢复。",
+  "workflow": [
+   "把唤醒词或文本请求与会话、应用和持久事实合并为规划上下文。",
+   "Gemini 生成固定 JSON 计划；无 API key 时退化到正则规则。",
+   "每个计划及递归子计划都经过工具白名单、参数拒绝词和预算检查。",
+   "编排器按资源锁和只读性分批运行类型化执行器。",
+   "核心步骤失败时启动有界恢复，结束后由外部 TTS 播报并推送状态。"
+  ],
+  "findings": [
+   "能力表覆盖 13 类请求；每个示例手工运行 5 次，至少成功 4 次才标记 works，表中操作类均为 works，删除请求被正确拒绝。",
+   "论文日志给出的语音识别、Gemini 规划和十词 TTS 时延分别约为 0.6–1.4 秒、0.7–2.0 秒和 1.2–2.0 秒，安全检查加调度低于 0.05 秒。",
+   "关闭 Gemini 后正则回退覆盖 13 类中的 8 类；关闭键鼠锁后，复合任务约每 5 次出现 1 次按键抢跑。",
+   "错误应用名案例通过额外一次恢复往返改用网页搜索完成；预执行剩余只读操作约减少 0.7 秒感知恢复时间。"
+  ],
   "project_fit": [
-   "虽然它是桌面而非座舱场景，但其\"规划器-执行器-恢复\"的工具体系设计，对本站 harness 中晚注入工具清单、工具编排的工程实现有直接参考价值。"
+   "编辑判断：其“转写→一次规划→工具执行→外挂 TTS”与 StreamingModelHarness 的工程形态接近，类型化执行器、锁、TTL 和恢复循环可用于晚注入工具调度。",
+   "编辑判断：执行成功仍需由确定性车控层和实际车态回执验证；论文执行器不观察屏幕，也不证明动作已经生效。",
+   "编辑判断：它没有连续输入上的模型内流式推理、生成中监听或双向语音通道，不能作为原生全双工能力证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "仅在单台笔记本上做手工定性检查，没有标准任务集、对照系统、统计显著性或长期可靠性评估。",
+   "默认语音识别调用 Google、规划调用 Gemini，因而“完全本地”的表述与具体实现不一致。",
+   "手机端使用 PIN over HTTP，没有传输加密、限速或轮换；MJPEG 还会暴露完整屏幕。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-05，论文未给官方项目、代码、模型或数据链接；精确仓库和 Hugging Face 检索均未找到作者关联资源，代码、权重、数据和许可证不可核验。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "2524767fb3": {
-  "tl_dr": "Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Omni-Prune 在 LLM 前按音频事件自适应分窗，并结合编码器显著性、文本相关性、音视配对和多样性代表免训练剪枝。",
+  "problem": "视觉专用剪枝忽略同步音频、跨模态关联和用户问题；单向用一种模态指导另一种，又可能保留响亮但无关内容或丢掉静音却关键的视觉证据。",
+  "method": "方法先平滑音频编码器注意力并以峰值划分时间窗口，再在每个窗口内联合编码器显著性与文本相关性，建立音视频关系图并成对保留高相似 token，最后按模态和窗口用最远点优先 medoid 补回少量多样性代表。",
+  "workflow": [
+   "把音频 token 对齐到视频帧，计算平均音频注意力并用核大小 3 的一维平均池化平滑。",
+   "以局部音频显著性峰值划分窗口，边界最小间隔为 2 帧。",
+   "在窗口内按编码器显著性和文本相关性排序 token。",
+   "以跨模态相似度门限联合保留相关音频—视频 token 对。",
+   "从剩余 token 中按模态执行最远点优先选择，补充低显著但多样的上下文。"
+  ],
+  "findings": [
+   "Qwen2.5-Omni-7B 保留 45% token 时五基准归一化平均为全模型的 99.2%，保留 35% 时仍为 99.0%。",
+   "Daily-Omni、单张 A6000、FlashAttention 条件下，7B 在 35% 保留率时 prefill 由 899ms 降至 277ms，峰值显存由 28.7GB 降至 22.3GB。",
+   "3B 在 35% 保留率时保持 97.5% 归一化表现，prefill 由 567ms 降至 156ms，峰值显存由 18.4GB 降至 12.8GB。",
+   "7B、35% 保留率下移除残差聚类后，VideoMME 由 66.3 降至 64.5，Daily-Omni 由 60.4 降至 59.2。"
+  ],
   "project_fit": [
-   "对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。"
+   "编辑判断：该方法在 LLM 前一次性剪枝，更适合 Harness 判停后对完整音视频输入做 prefill，不会加速判停前的持续输入。",
+   "编辑判断：官方评测使用 return_audio=false，与文本输出再接外挂 TTS 的链路相容，但不提供原生语音全双工、抢话或 Talker 加速。",
+   "编辑判断：当前代码把所有非音视频 token 都用于文本相关性；晚注入工具 schema 可能吸走剪枝预算，接入时应显式限定用户问题。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只评估五个视频问答基准，未验证开放式生成、多轮对话、工具调用或端到端语音链路。",
+   "效率只在 Daily-Omni、单张 A6000 和 FlashAttention 下测量，没有编码器成本、解码吞吐或并发数据。",
+   "论文公式称音视频显著性联合归一化，公开代码却先分别归一化再拼接，结果影响未知。",
+   "仓库不含基准数据、锁定依赖、release 或实验提交标记，五个评测脚本仍使用本地占位路径。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://github.com/kimberlyii/Omni-Prune",
+   "model_url": "https://huggingface.co/Qwen/Qwen2.5-Omni-7B",
+   "note": "核心剪枝模块、修改模型和五套评测脚本按 Apache-2.0 公开；方法免训练，无专用权重。7B 基座为 Apache-2.0，3B 基座是非商用 Qwen Research License，评测数据未随仓库发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "14533da23c": {
-  "tl_dr": "Spatial-Omni 通过轻量的 SO-Encoder 把一阶 Ambisonics（FOA）空间音频作为独立模态注入现有 Omni LLM，使模型获得声源定位、空间关系推理和场景理解能力，而无需大改原模型。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Spatial-Omni 通过轻量的 SO-Encoder 把一阶 Ambisonics（FOA）空间音频作为独立模态注入现有 Omni LLM，使模型获得声源定位、空间关系推理和场景理解能力，而无需大改原模型。这与座舱高度相关：多麦克风阵列的空间感知正是区分主驾/后排发声、实现分区语音交互的关键能力。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Spatial-Omni 保留原单声道语义路径，并增加 FOA 空间编码器，把方向、距离、运动和多声源关系压成低速率空间 token 注入 Omni LLM。",
+  "problem": "现有音频和 Omni LLM 通常只接收单声道，FOA 中的方向、距离与运动线索在进入语言模型前已丢失；同时缺少大规模 FOA 问答数据和统一空间推理评测。",
+  "method": "W 通道继续进入原音频编码器；四路 FOA mel 与三路强度向量进入独立 SO-Encoder。该编码器融合 BEATs 语义分支、CNN/Transformer 空间分支和门控交叉注意力，再由 Temporal Pixel Shuffle Projector 将 10Hz 表征压到 2.5Hz 后注入 LLM。",
+  "workflow": [
+   "按 AmbiX/ACN 解码 FOA，W 进入原语义路径，完整 FOA 与强度向量进入空间路径。",
+   "SO-Encoder 联合预测活动、类别、方向和距离，并融合语义与空间表征。",
+   "Projector 按时间分组拼接，把空间特征映射到 LLM 隐藏维度。",
+   "依次训练 SO-Encoder、projector、LLM LoRA 和三者联合配置。",
+   "在 SO-Bench 的检测、定位、关系、运动、多跳推理和定向 ASR 任务上评测。"
+  ],
+  "findings": [
+   "63 类设置下，SO-Encoder 的 F20 为 40.2%、DOA error 为 17.2°、相对距离误差为 0.22；Spatial-AST 分别为 29.2%、36.0° 和 0.36。",
+   "SO-7B(MIX) 的 DS F1 为 53.97%，方位角、仰角和距离准确率分别为 71.79%、77.73% 和 83.54%。",
+   "MMAU 平均分由基础模型 76.60 降至 SO-7B 的 60.40；混合单声道数据后 SO-7B(MIX) 恢复到 67.80。",
+   "生成 64 个新 token 时，基础模型为 8.93B 参数、16.99GB、1.85 秒，SO-7B 为 9.09B、17.63GB、1.94 秒。"
+  ],
   "project_fit": [
-   "这与座舱高度相关：多麦克风阵列的空间感知正是区分主驾/后排发声、实现分区语音交互的关键能力。"
+   "编辑判断：并行空间编码器适合作为 StreamingModelHarness 的上游感知扩展，可保留现有语义路径并补充主驾、副驾和后排定位线索。",
+   "编辑判断：论文采用最长 20 秒片段和问答式生成，未评增量状态、端点前推理或边听边说，推理时间不能证明流式实时性。",
+   "编辑判断：它不处理响应调度、晚注入工具或外挂 TTS，不会改变 Harness 判停后生成、非原生全双工的定性。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只系统评测统一坐标约定下的 FOA，未验证 SALSA、SALSA-Lite 或其他麦克风几何。",
+   "固定 track query、匹配和激活阈值限制多声源重叠中的计数与关系推理。",
+   "空间适配会损害一般音频能力，混合单声道训练只能部分恢复。",
+   "约 37 万模拟片段对约 3500 条真实录音，合成声场和模板问答带来明显分布风险。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/dieKarotte/Spatial-Omni",
+   "model_url": "https://huggingface.co/dieKarotte/Spatial-Omni",
+   "note": "代码为 Apache-2.0，7B 与 SO-Encoder 权重可下载但模型卡为 CC-BY-NC-SA-4.0，未见 30B 权重。SO-Dataset 与 SO-Bench 已公开，但统一数据许可证和底层来源再分发授权未闭合。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "dea7925667": {
-  "tl_dr": "该论文针对全双工语音语言模型提出层级化的声学-语义建模方法，通过模态分离与语义连贯性设计，缓解当前全双工 SLM 中严重的模态干扰所导致的知识退化与语义损伤。",
-  "problem": "助手播报产生的回声、车内噪声和硬件时延会重新进入麦克风，破坏双讲检测、语音理解和用户打断。",
-  "method": "该论文针对全双工语音语言模型提出层级化的声学-语义建模方法，通过模态分离与语义连贯性设计，缓解当前全双工 SLM 中严重的模态干扰所导致的知识退化与语义损伤。它直接命中本站\"边说边听\"路线的核心隐患——全双工下模型变笨，可作为选型与训练时的避坑参考。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Lychee-FD 通过浅层共享、深层语义/声学/控制三路分离和连续语义对齐，缓解原生全双工模型的梯度冲突与语义稀释。",
+  "problem": "稠密声学 token 与稀疏文本监督被压入同一深层参数空间后，浅层协同梯度会在深层逐渐正交甚至冲突；约 3Hz 文本与 25Hz 音频的稀疏对齐还会削弱语义监督。",
+  "method": "模型以 StepAudio-2-mini 为骨干，保留 24 层共享 Transformer，并在深层并行设置 4 层语义头、4 层声学头和 2 层控制头。训练增加连续文本内部独白，推理以定制 vLLM DAG 并行生成文本、语音和起停/打断控制信号。",
+  "workflow": [
+   "分别累积文本与语音损失梯度，分析逐层余弦相似度和幅值比。",
+   "保留浅层共享骨干，把出现冲突的深层拆为语义、声学和控制三路。",
+   "训练时并行预测连续文本、25Hz 语音 token 和控制 token。",
+   "在约 14 万条合成全双工对话上训练。",
+   "用 Spoken QA、FDBench、FullDuplexBench 和 UTMOS/WER 评测。"
+  ],
+  "findings": [
+   "三项 Spoken QA 平均 S→T/S→S 准确率为 51.5/46.2，Fun-Audio-Chat 为 42.7/38.8；Takeover Rate 为 100%。",
+   "FullDuplexBench 1.5 的 IRR/BRR 为 78%/69%，打断停止延迟 570ms、响应延迟 826ms；Freeze-Omni 为 27%/63%、660ms 和 2066ms。",
+   "移除语义通道后平均 S→T/S→S 从 51.5/46.2 降至 45.9/40.8；移除参数分离后降至 46.1/27.6。",
+   "图4报告 UTMOS 4.50；分离层数增至 4 层时 LlamaQ 准确率由 36.0 升至 65.4，之后趋于饱和。"
+  ],
   "project_fit": [
-   "它直接命中本站\"边说边听\"路线的核心隐患——全双工下模型变笨，可作为选型与训练时的避坑参考。"
+   "编辑判断：StreamingModelHarness 是流式输入、语义判停和外挂 TTS 的系统编排，采用 Lychee-FD 将是原生全双工后端替换而非局部优化。",
+   "编辑判断：官方多流 vLLM 服务可作为未来后端参考，但还需要 Lychee-FD 权重、独立 Token2Wav 和对应 GPU 资源。",
+   "编辑判断：论文没有工具或 Action 通道，也未研究生成中迟到的工具结果；晚注入工具仍需额外编排或训练。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "模型会把面向第三方的侧谈误判为对代理的打断并错误停声。",
+   "约 14 万条训练数据主要是双人合成对话，缺少开放麦、多说话人和细粒度打断意图。",
+   "训练说明只接受本地 Hugging Face Dataset 目录，未核验到训练集下载地址或许可证。",
+   "FullDuplexBench 1.5 部分指标依赖 GPT-4o 分类，没有对应真实用户研究。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://github.com/HITsz-TMG/Lychee-FD",
+   "model_url": "https://huggingface.co/HIT-TMG/Lychee-FD",
+   "note": "代码、训练脚本和主模型权重按 Apache-2.0 公开；Token2Wav 需另取 Step-Audio-2-mini 并遵守上游条款，训练数据与许可证未能核验。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "568f96feb9": {
   "tl_dr": "Metronome 用“最近 W 个 token 加固定 attention sinks”的有界 KV 和逐帧延迟驱动的 AIMD 准入控制，避免实时交互模型长期驻留时突然耗尽 KV block pool。",
@@ -1151,27 +1214,43 @@
   "review_status": "editorial"
  },
  "fd2cfdf072": {
-  "tl_dr": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。它为\"边说边听\"的协调性提供了可操作的机理洞见，提示我们不必重训模型也能在推理期改善全双工的听说切换行为。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "原生全双工模型被打断时会短暂滞留在生成态并漏听开头词；短时注入“感知态减生成态”的隐藏方向可无需微调改善即时理解。",
+  "problem": "全双工模型从输出导向的生成态切到输入导向的感知态并非即时完成；突发打断时的状态惯性会使模型错过最早且可能最关键的语义。",
+  "method": "论文用 logit lens 定义生成与感知亲和度，识别两类时间步并以隐藏状态均值差构造感知向量。能量检测器发现打断起点后，系统把该向量以线性衰减方式短时加到指定中间层。",
+  "workflow": [
+   "在轮流对话上投影中间层状态，测量用户流和模型输出流的预测亲和度。",
+   "比较有打断和无打断条件下进入感知态与退出生成态的延迟。",
+   "构造 100 条把关键主题固定在首词的 Zero-Buffer Benchmark 查询。",
+   "从独立对话计算感知态与生成态隐藏表示均值差。",
+   "在 PersonaPlex、Moshi 和 Raon-SpeechChat 上注入 3 个时间步并评测。"
+  ],
+  "findings": [
+   "PersonaPlex 在突发打断后约需 7–8 个时间步、约 0.6 秒恢复感知亲和度，注入后可在打断开始时立即恢复。",
+   "PersonaPlex 的打断正确率/IWOR 由 0.28±0.04/0.40±0.05 升至 0.45±0.05/0.72±0.04；无打断上限为 0.49±0.05/0.74±0.04。",
+   "Moshi 的正确率/IWOR 由 0.22±0.04/0.29±0.05 升至 0.34±0.05/0.64±0.05；Raon 由 0.03±0.02/0.16±0.04 升至 0.17±0.03/0.24±0.04。",
+   "FDB 得分在误差范围内基本保持：PersonaPlex 3.34±0.08→3.41±0.08，Moshi 3.45±0.08→3.36±0.08，Raon 2.41±0.09→2.41±0.09。"
+  ],
   "project_fit": [
-   "它为\"边说边听\"的协调性提供了可操作的机理洞见，提示我们不必重训模型也能在推理期改善全双工的听说切换行为。"
+   "编辑判断：当前 StreamingModelHarness 不是模型级全双工系统，也不暴露兼容 FD-SLM 的中间隐藏状态，方法不能直接接入。",
+   "编辑判断：若未来换成 PersonaPlex/Moshi 类后端，感知向量可作为降低打断首词漏听的轻量干预，但仍依赖可靠的打断起点检测。",
+   "编辑判断：ZBB 首词敏感测试可先改造成系统级回归；论文不涉及工具调用或迟到工具结果。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "方法依赖能量检测器准确定位打断起点，噪声和多说话人环境需要更稳健的 VAD 或语义打断检测。",
+   "实验只覆盖三个公开 FD-SLM，模型覆盖受开放模型数量限制。",
+   "logit lens 是在单样本上可能较噪声的诊断近似。",
+   "ZBB 只有 100 条合成查询，输出经 ASR 后由 GPT-4.1-mini 评判，没有人工评测。"
   ],
   "open_source": {
    "status": "unknown",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文和作者页未给官方代码、ZBB 数据或许可证链接，也没有本文新模型权重；泛用 activation-steering 仓库不能视为官方实现。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "cfbb41def0": {
   "tl_dr": "FastTurn 融合 streaming CTC 部分转写、Conformer 声学表示和 Qwen3-0.6B 语义状态，判断 Complete、Incomplete、Backchannel、Wait；它是判停器，不是语音生成模型。",
@@ -1210,27 +1289,43 @@
   "review_status": "editorial"
  },
  "694f3be77a": {
-  "tl_dr": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。与本站'外挂TTS'架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Harness TTS 不改造声学模型，而是在 TTS 外增加上下文感知的有限提示音频路由层，使表达风格可审计、可治理。",
+  "problem": "固定参考音频无法动态适配风格，开放式自然语言指令又不稳定；系统还需整合用户画像、场景、环境、历史和显式要求，并处理彼此冲突的信号。",
+  "method": "每段风格提示音频被注册为带离散标签和说明的工具。轻量 LLM 根据五层 observation 和固定优先级输出候选 audio_id，执行器取首选提示音频驱动 CosyVoice3 或 VoxCPM2，不修改 TTS 后端。",
+  "workflow": [
+   "离线构建轴向风格工具和场景预设工具，标注速度、音量、情绪与适用场景。",
+   "在线汇总系统默认、用户画像、场景、隐式意图和显式指令。",
+   "按显式指令到系统默认的五级优先级处理冲突。",
+   "LLM planner 输出排序后的 audio_id。",
+   "executor 取首选提示音频驱动现有 prompt-based TTS。"
+  ],
+  "findings": [
+   "在 Gemini-2.5-Pro 教师标签上，Qwen3-4B+CoT 的 T-Exact@1 在显式、隐式和冲突集分别为 74.3%、43.0% 和 64.6%；这是教师一致率，不是人工准确率。",
+   "RTX 5090、vLLM 条件下，Qwen3-4B 无 CoT 的 First-ID P50/P95 为 34.4/41.2ms，完整五候选为 179.9/206.0ms；均为 planner-only 延迟。",
+   "相对 instruction-only，Harness 在 CosyVoice3 参数/场景子集的 instruction-following 胜率优势为 23.1/35.6 个百分点，VoxCPM2 为 13.8/20.0 个百分点。",
+   "四种合成条件的 UTMOSv2 均提高 0.11–0.38；CosyVoice3 参数子集说话人稳定性为 89.8 对 86.8，场景子集则为 90.4 对 92.9。"
+  ],
   "project_fit": [
-   "与本站'外挂TTS'架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。"
+   "编辑判断：最适合接在 StreamingModelHarness 文本生成与外挂 TTS 之间，用用户、场景和环境状态选择有限提示音频。",
+   "编辑判断：它不会改变等待 endpoint 后生成的控制流，也不解决抢话、输入输出重叠或原生全双工；价值在外部 TTS 表达治理。",
+   "编辑判断：路由可与 endpoint 后主模型生成并行，但论文只测 planner 延迟，未验证晚注入工具或完整首音频延迟。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "CoT 提高路由一致率，却把 Qwen3-4B First-ID P95 从 41.2ms 增至 323.6ms。",
+   "路由教师和合成偏好评委均为 LLM，没有人工标注或主观听测。",
+   "测试数据由 LLM 生成，不是真实用户日志。",
+   "135 个合成样例只围绕显式指令，没有端到端验证隐式上下文和冲突场景。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-05 未找到作者官方仓库、planner 权重、42 条路由集、25 段提示语音或 135 条合成案例；代码、权重、数据及语音授权均未知，同名第三方复现不计为官方资源。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T11:59:36.954698+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "04145c81fb": {
   "tl_dr": "Omni-modal video captioning is not merely combining visual captioning with audio transcription: a useful caption must describe how visual actions, speech, music, and sound effects co-evolve. Existing large multimodal models often fail at th",
@@ -1256,50 +1351,82 @@
   "review_status": "abstract_backfill"
  },
  "21e7d7b562": {
-  "tl_dr": "Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inheren",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics rather than reconstructing signals in real time. This fundamental difference shifts the transport goal from the technical problem of signal fidelity (Shannon-Weaver Level A) to the semantic problem of meaning preservation (Level B). This mismatch imposes significant overhead. In visual pipelines, screenshot upload accounts for over 60% of end-to-end action latency on constrained uplinks, and in voice pipelines, conventional transport carries massive redundancy, sending 43-64x more data than needed to maintain task accuracy. We present Sema, a semantic transport system that combines discrete audio tokenizers with a hybrid screen representation (lossless accessibility-tree or OCR text, plus compact visual tokens) and bursty token delivery that eliminates jitter buffers. In simulations under emulated WAN conditions, Sema reduces uplink bandwidth by 64x for audio and 130-210x for screenshots while preserving task accuracy within 0.7 percentage points of the raw baseline.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Sema 在客户端先提取模型需要的离散语音、结构化 UI 文本和视觉 token，再突发传输；v1 证明的是 WAN 仿真潜力，不是已部署全双工系统。",
+  "problem": "现有实时多模态系统沿用面向人类的 Opus、WebP、连续播放和抖动缓冲，优化感知保真度；模型真正消费的是语言、UI 元素和空间关系，原始媒体传输因此造成冗余带宽与等待。",
+  "method": "语音只传 SpeechTokenizer 或 EnCodec 第一层 RVQ 的离散索引；截图用可访问性树/DOM/OCR 的无损文本加视觉 token 混合表示。服务端重构媒体并送入 Whisper 或 Qwen2.5-VL，下行语音 token 则交给客户端声码器。",
+  "workflow": [
+   "客户端捕获一轮音频或截图。",
+   "执行语音离散化，或提取 UI 文本并编码视觉 token。",
+   "通过带模态、码本和序列信息的帧突发上传。",
+   "服务端重构媒体并调用下游 ASR 或 VLM。",
+   "返回紧凑动作文本，或把语音 token 交给客户端声码器。"
+  ],
+  "findings": [
+   "三秒语音由 Opus 的 12KB 降至 188B，为 64×；截图由 WebP 的 700KB 降至 3–5KB，为 130–210×。",
+   "在 5Mbps 上行，截图基线约 1.1 秒；Sema 使用可访问性树约 75ms、OCR 回退约 105ms。在 1Mbps 时基线约 5.6 秒，主路径低于 100ms。",
+   "视觉文本任务中，仅视觉 token 为 75.5%；加入结构化文本后为 93.3%，原始输入为 94.0%。",
+   "语音 WER 由 2.7% 增至 4.1%；导航动作准确率与原始输入相差不超过 2 个百分点。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：Sema 最适合放在 StreamingModelHarness 输入采集与语义判停之前，作为客户端语义压缩和传输层，而不是替换生成模型。",
+   "编辑判断：Harness 判停后生成并使用外挂 TTS，与 Sema 假设的服务端语音 token 和客户端声码器不同，不能据此宣称原生全双工。",
+   "编辑判断：Sema 不解决晚注入工具、工具调度或生成中工具交互，主要价值是降低输入上传成本和抖动敏感性。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "v1 明确是按组件实测参数拼接的仿真，端到端实现、异构客户端、真实尾延迟和丢包恢复均未验证。",
+   "视觉收益在约 80Mbps 以上趋于边际，语音净延迟收益主要出现在约 2Mbps 以下。",
+   "视觉 token 单独处理小字明显退化，系统依赖可访问性树或 OCR，画布、游戏和远程桌面仍困难。",
+   "摘要“准确率在 0.7 个百分点内”只直接对应视觉文本结果，语音 WER 不满足同一差值。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/bojieli/Sema",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "后续 Apache-2.0 参考实现含协议、tokenizer 适配器、客户端、服务端和评测代码，但组件已改用 Cosmos 等方案，不能视为逐项复现 v1；无 Sema 专属权重，SpeechTokenizer 权重许可未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.502964+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "2db635b47b": {
-  "tl_dr": "Production voice agents span cascaded, speech-to-speech, and hybrid architectures. Voice-agent benchmarks typically measure component quality and conversational properties such as word error rate, latency, naturalness, and turn-taking. Fewe",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Production voice agents span cascaded, speech-to-speech, and hybrid architectures. Voice-agent benchmarks typically measure component quality and conversational properties such as word error rate, latency, naturalness, and turn-taking. Fewer measure whether the agent handled a phone call correctly on its own. Contact centers refer to this as ``containment'': the share of phone calls the automated system resolves without handing off to a human. On some phone calls the right outcome is refusal or a redirect. To address this gap, we introduce VAmoS Bench, the Voice Agent Simulation Bench. It measures complete voice-agent systems end to end in a stateful customer-support task. The agent is Riley, a credit-card support representative for a fictional bank who can freeze, cancel, replace, or activate a card. Each of 100 scenarios supplies a simulated caller with a private goal and a seeded PostgreSQL backend. The platform uses each scenario to populate and activate an isolated simulation in which the caller reaches Riley over audio; roughly one-third apply adversarial pressure. The agent can use five tools that execute real SQL against the backend. Each scenario also defines binary assertions. A grader evaluates them against the complete trace of what the caller and agent said and what the agent did, including tool invocations, arguments, and returned rows. This catches an agent that claims to have changed a card without updating the database, as well as one that makes the right database change while disclosing protected information. This first benchmark version focuses on financial services. Its evaluation protocol supports an evolving leaderboard: additional voice agents can be evaluated on the same version, while later versions can expand the tasks and scenarios.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "VAmoS Bench 用 100 个隔离银行客服场景、真实音频、PostgreSQL 工具和完整轨迹评估语音代理是否真正完成任务，而不只看对话流畅度。",
+  "problem": "WER、自然度、延迟或最终数据库状态都不能单独判断代理是否正确验证用户、按政策顺序执行工具、真实完成请求且没有泄露隐私。",
+  "method": "每个场景包含数据库初态、来电者目标、说话风格和 1–3 条二元断言。电话启动隔离 PostgreSQL，五个卡务工具执行真实 SQL；统一裁判联合检查转录、调用顺序、参数和返回行，全部断言通过才计为完成。",
+  "workflow": [
+   "为场景创建独立数据库、来电者 persona、私有目标和评分断言。",
+   "模拟来电者通过实时音频与被测代理交互并根据结果继续追问或施压。",
+   "代理执行查用户、查卡、变更状态、申请补卡和更新配送等 SQL 工具。",
+   "平台记录对话、工具顺序、参数和返回行，连接失败也保留。",
+   "裁判逐条验证断言并汇总完成率、连接率、时延、轮次、打断和成本。"
+  ],
+  "findings": [
+   "11 个系统完成率从 Nemotron 的 43.0% 到 Pipecat 的 71.0%；Pipecat 与同模型栈 LiveKit 为 71.0% 对 70.3%，论文不认为已统计分胜负。",
+   "3245/3300 通电话成功连接，连接率 98.3%，但只有 2081/3300 完成任务，完成率 63.1%。",
+   "简单、复杂和对抗场景完成率分别为 65.8%、52.2% 和 73.4%，复杂组对 11 个系统都是最弱组。",
+   "直接绕过验证场景为 33/33 通过；重复验证失败时只有 11/33 保密成功，用户要求跳过补卡前冻结步骤时只有 1/33 成功。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：它适合补充 StreamingModelHarness 系统级评测，应联合检查音频交互、工具注入时机、参数、副作用和口头陈述。",
+   "编辑判断：基准对级联、混合和原生 S2S 架构一视同仁，Harness 可明确以 endpoint-gated cascaded 系统参测，无需冒充原生全双工。",
+   "编辑判断：固定场景和 grader 未完整开放，当前更现实的是借鉴“隔离状态＋路径断言＋说做交叉检查”自建车控基准。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只覆盖 100 个英语银行卡务场景，不能外推到其他行业、语言、口音或真实客户。",
+   "每个系统只跑三次，完成率标准误为 0.9–5.5 个百分点，接近榜首的差异不稳定。",
+   "使用单一 LLM judge 且无人工金标集，模拟用户真实性也未校准。",
+   "评分读取执行轨迹但不在通话后显式查询最终数据库，不能最强确认状态持久性。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/veris-ai/riley-agent",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "MIT 仓库公开多种 Riley 实现、工具逻辑和合成 PostgreSQL schema/seed，但固定 100 场景、断言、完整 grader、轨迹和结果未发布，需 Veris 账户动态生成；该工作没有专用模型权重。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.502990+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "271ff71800": {
   "tl_dr": "Audio-text retrieval systems based on Contrastive Language-Audio Pretraining (CLAP) achieve strong performance on traditional benchmarks; however, these benchmarks rely on caption-style queries that differ substantially from real-world sear",
@@ -1463,27 +1590,43 @@
   "review_status": "abstract_backfill"
  },
  "5af78d53e4": {
-  "tl_dr": "End-to-end speech-in speech-out dialogue systems are emerging as a powerful alternative to traditional ASR-LLM-TTS pipelines, generating more natural, expressive responses with significantly lower latency. However, these systems remain pron",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "End-to-end speech-in speech-out dialogue systems are emerging as a powerful alternative to traditional ASR-LLM-TTS pipelines, generating more natural, expressive responses with significantly lower latency. However, these systems remain prone to hallucinations due to limited factual grounding. While text-based dialogue systems address this challenge by integrating tools such as web search and knowledge graph APIs, we introduce the first approach to extend tool use directly into speech-in speech-out systems. A key challenge is that tool integration substantially increases response latency, disrupting conversational flow. To mitigate this, we propose Streaming Retrieval-Augmented Generation (Streaming RAG), a novel framework that reduces user-perceived latency by predicting tool queries in parallel with user speech, even before the user finishes speaking. Specifically, we develop a post-training pipeline that teaches the model when to issue tool calls during ongoing speech and how to generate spoken summaries that fuse audio queries with retrieved text results, thereby improving both accuracy and responsiveness. To evaluate our approach, we construct AudioCRAG, a benchmark created by converting queries from the publicly available CRAG dataset into speech form. Experimental results demonstrate that our streaming RAG approach increases QA accuracy by up to 200% relative (from 11.1% to 34.2% absolute) and further enhances user experience by reducing tool use latency by 20%. Importantly, our streaming RAG approach is modality-agnostic and can be applied equally to typed input, paving the way for more agentic, real-time AI assistants.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Stream RAG 把检索查询从用户说完后前移到讲话过程中；模型触发版每 500ms 判断是否发起或替换查询，再在端点后融合最终问题与结果生成语音。",
+  "problem": "端到端语音模型依赖参数知识，面对动态事实易幻觉；传统 RAG 又必须在端点后生成查询、检索再回答，工具延迟会形成明显静默。",
+  "method": "系统先从累积音频生成 Web/KG 查询，再把完整音频和文本检索结果共同输入模型生成语音。Fixed-Interval 每秒并行查询并用 reflector 选最早足够结果；Model-Triggered 每 500ms 输出新查询或 NO_QUERY，新查询会取消旧调用。",
+  "workflow": [
+   "把持续到达的用户音频按固定时长切块并累积上下文。",
+   "模型依据当前音频和上一个查询输出 Web/KG 查询或 NO_QUERY。",
+   "后续信息改变意图时取消旧查询并启动新查询，工具与讲话并行。",
+   "用户结束后取最后有效结果，与完整音频共同生成最终语音回答。",
+   "用 Whisper 转写输出，再按 CRAG 答案评估准确性。"
+  ],
+  "findings": [
+   "AudioCRAG-Synthetic 上，Qwen2.5-Omni-7B 准确率由闭卷 11.1%、普通 Open Book 26.3% 提升至 Model-Triggered 的 34.2%。",
+   "AudioCRAG-Human 上，对应准确率为 13.1%→26.9%→37.4%。",
+   "Synthetic 的 P50 首 token 时延由普通 RAG 的 5.90 秒降至 5.32 秒，工具结果时延由 2.78 秒降至 2.20 秒；表1的 20.7%是工具时延节省，总时延实际降 9.8%。",
+   "Human 的 P50 首 token 时延由 5.40 秒降至 3.60 秒，表1报告相对工具时延节省 53.4%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：它直接针对 StreamingModelHarness 等端点后才开始工具查询的缺口，可把工具意图检测和调用前移到音频块处理阶段。",
+   "编辑判断：Fixed-Interval 可做无需改主模型的原型；Model-Triggered 更节省调用，但需要专门后训练和取消语义。",
+   "编辑判断：最终回答仍在用户结束后生成并可接外挂 TTS，不解决持续输出、边说边听或原生模型级全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只提前执行检索，未评重叠说听、自然附和、复杂打断或生成中持续输出。",
+   "Synthetic 延迟明确排除端点检测，完整硬件、网络和并发成本也不足以复现实测。",
+   "评测集中于短事实问答和 CRAG 模拟工具，不含多轮、有副作用的真实业务工具。",
+   "语音输出经 Whisper 后由单一 LLM judge 评分，没有人工金标校准。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "v1 与作者公告只承诺开源，未给官方仓库、Stream RAG 后训练权重或 AudioCRAG 下载页；基础 Qwen2.5-Omni、OpusLM 和上游 CRAG 的开放不等于本文工件开放，AudioCRAG 许可未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.503084+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "420a33f2c8": {
   "tl_dr": "Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and ",
@@ -1532,27 +1675,43 @@
   "review_status": "abstract_backfill"
  },
  "219d8f814d": {
-  "tl_dr": "Achieving human-like responsiveness is a critical yet challenging goal for cascaded spoken dialogue systems. Conventional ASR-LLM-TTS pipelines follow a strictly sequential paradigm, requiring complete transcription and full reasoning befor",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Achieving human-like responsiveness is a critical yet challenging goal for cascaded spoken dialogue systems. Conventional ASR-LLM-TTS pipelines follow a strictly sequential paradigm, requiring complete transcription and full reasoning before speech synthesis can begin, which results in high response latency. We propose the Discourse-Aware Dual-Track Streaming Response (DDTSR) framework, a low-latency architecture that enables listen-while-thinking and speak-while-thinking. DDTSR is built upon three key mechanisms: (1) connective-guided small-large model synergy, where an auxiliary small model generates minimal-committal discourse connectives while a large model performs knowledge-intensive reasoning in parallel; (2) streaming-based cross-modal collaboration, which dynamically overlaps ASR, LLM inference, and TTS to advance the earliest speakable moment; and (3) curriculum-learning-based discourse continuity enhancement, which maintains coherence and logical consistency between early responses and subsequent reasoning outputs. Experiments on two spoken dialogue benchmarks demonstrate that DDTSR reduces response latency by 19%-51% while preserving discourse quality. Further analysis shows that DDTSR functions as a plug-and-play module compatible with diverse LLM backbones, and remains robust across varying utterance lengths, indicating strong practicality and scalability for real-time spoken interaction.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DDTSR 让小模型根据 partial ASR 提前说低承诺连接词，同时由大模型处理实质回答，以跨模态并行压缩级联语音助手的等待。",
+  "problem": "严格串行的 ASR–LLM–TTS 必须等待转写、完整推理和合成启动；单纯加速某个组件无法解除整个链路的时序依赖。",
+  "method": "Qwen3-0.6B 在部分转写上生成连接词和 commit 信号，Qwen3-8B/32B 在最终转写上生成主体回答；课程学习、连贯性损失和置信度阈值用于降低提前发声与后续答案不一致的风险。",
+  "workflow": [
+   "用 POS 规则和 LLM 构造“输入—连接词—回答”数据并以课程学习微调小模型。",
+   "流式 ASR 持续产生 partial transcript，小模型在每次更新预测连接词和 commit。",
+   "置信度首次过阈值时由 CosyVoice2 立即合成连接词，可能早于用户说完。",
+   "最终转写到达后，大模型生成主体回答并执行增量 TTS。",
+   "连接词音频结束后顺序衔接主体回答音频。"
+  ],
+  "findings": [
+   "SD-Eval、8B 条件下，平均 waiting latency 由 SSC 的 1003ms 降至 548ms，降低 45.4%；有连接词的最优条件为 515ms。",
+   "SpokenNativQA、8B 条件下表格值为 931→741ms，32B 为 1022→828ms；正文称前者降低 17.5%，但按数值计算约 20.4%。",
+   "SD-Eval、8B 上，DDTSR 的一致性/连贯性为 4.77/4.49，SSC 为 4.76/4.54；UTMOSv2 为 3.12 对 3.16。",
+   "SD-Eval 输入变长时 waiting latency 降幅由 38.3% 增至 58.3%，perception latency 约维持 100ms。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：它直接挑战 Harness 等待 endpoint 的规则；主要收益要求小模型消费 partial ASR 并允许端点前播放低承诺连接词，不是即插即用。",
+   "编辑判断：方案仍是级联架构并使用外挂增量 TTS，适合组件化方向，但属于双轨时序编排而非原生全双工模型。",
+   "编辑判断：晚注入工具时只能提前播放无命题连接词，不能承诺答案；论文未评工具失败、取消、抢话或回滚。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "实验只覆盖 SD-Eval 和 SpokenNativQA，文本和语音质量由 G-Eval 与 UTMOSv2 自动评估，没有人工听测。",
+   "收益依赖连接词机会：SD-Eval 连接词比例为 94%，SpokenNativQA 只有 38%，更适合休闲口语场景。",
+   "回答正确性因共用大模型而被假定受控，没有直接测量。",
+   "SpokenNativQA 的正文百分比与表格数值不一致。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文声称发布的 https://github.com/hlt-cuhksz/DDTSR 截至 2026-08-05 返回 404，官方组织也无该仓库；微调小模型权重、连接词数据和各自许可证均未找到。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.503110+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "854193be76": {
   "tl_dr": "Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or lef",
@@ -4269,27 +4428,43 @@
   "review_status": "abstract_backfill"
  },
  "2633e8f341": {
-  "tl_dr": "Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, an",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, and completion assessment within a growing context, making the state difficult to track and allowing incorrect self-assessments to propagate into later decisions. We reformulate long-horizon execution as a task-state management problem and propose LongHorizon-Harness, which maintains the task state explicitly outside execution and updates it only with facts independently verified from the environment. Its Manage-Execute-Audit(MEA) loop uses a manager to maintain the task state and determine the next subtask, a fresh-context executor to perform it, and a read-only auditor to verify the resulting environment state before the next round. A lightweight AgentAdapter supports interchangeable model and harness backends without modifying their native agent loops. LongHorizon-Harness improves Qwen~3.7-Plus from 51.8% to 80.7% on WeaveBench, from 69.7% to 77.2% on Terminal-Bench~2.1, and from 2.8% to 8.3% on OSWorld~2.0. It also raises Claude Opus~4.7 from 20.0% to 34.3% on an OSWorld2.0 subset, demonstrating consistent gains across models, harnesses, and interaction domains.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "LongHorizon-Harness 把长任务变成 Manage–Execute–Audit 循环：状态只由环境审计证据推进，执行器每轮使用新上下文。",
+  "problem": "单一不断增长的代理会话同时承担执行、状态维护和完成判断，容易产生上下文退化、目标漂移、状态丢失，并把错误的自我完成声明传播到后续步骤。",
+  "method": "Manager 只读取目标、结构化状态和审计报告并生成有边界的子任务契约；Executor 在预算受限的新上下文中修改环境；Auditor 用只读工具独立检查结果。只有审计支持的事实进入持久状态，AgentAdapter 保留底层代理原生循环。",
+  "workflow": [
+   "Manager 从 requirements、artifacts、facts 和历史审计证据中选择未完成目标。",
+   "生成含目标、依赖、边界和验收标准的子任务契约，并选择 GUI 或 CLI 执行器。",
+   "Executor 在新上下文中执行并提交报告，原始轨迹不进入下一轮上下文。",
+   "Auditor 独立检查环境并输出完成状态、证据和剩余缺口。",
+   "Manager 只据审计更新状态并决定 execute、done、blocked 或 ask。"
+  ],
+  "findings": [
+   "相同主干和 Claude Code 后端下，WeaveBench PassRate 由 51.8% 升至 80.7%，Overall 由 0.702 升至 0.835。",
+   "Terminal-Bench 2.1 成功率由 69.7% 升至 77.2%。",
+   "OSWorld 2.0 全集 Binary 由 2.8% 升至 8.3%，Partial 由 21.5% 升至 35.2%。",
+   "相对基线，WeaveBench token 为 2.3×、OSWorld 输出 token 为 3.6×，而 Terminal-Bench token 减少 24%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：MEA 适合 StreamingModelHarness 中耗时工具任务的持久状态、分轮恢复和独立验收，尤其适合作为异步任务模式。",
+   "编辑判断：工具集合在每轮开始前配置，最多支持下一轮重新路由；它没有解决同一生成过程中的晚注入工具。",
+   "编辑判断：框架与音频传输、判停、响应音频和外挂 TTS 正交，不会使系统变成原生全双工；逐轮审计还会增加对话延迟。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "OSWorld 基线使用 single-action GUI，而 Harness 使用 hybrid GUI+CLI，结果不能纯粹归因于状态管理。",
+   "两个基准分别增加至 2.3× token 和 3.6×输出 token，较弱主干还可能触发更多恢复轮次。",
+   "视觉定位、数学、算法等原子能力不足时，审计不能补齐能力，误解契约时仍可能验证错误答案。",
+   "三个角色通常使用同一主干，独立主要来自权限和上下文隔离；未报告审计器准确率、显著性或置信区间。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/AMAP-ML/LongHorizon-Harness",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "核心代码和 v0.1.0 GitHub/PyPI 包为 MIT；无新模型权重。仓库含 WeaveBench 与 OSWorld 复现目录，但未见 Terminal-Bench 2.1 套件和论文所述 Hermes 后端。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T19:42:39.603261+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "8b7e72d84e": {
   "tl_dr": "Sparse retrieval underpins modern search systems, from web search to retrieval-augmented generation. Existing work has introduced Learned Sparse Retrieval (LSR) to push beyond exact lexical matching toward richer semantics. Yet LSR has so f",
@@ -4798,27 +4973,42 @@
   "review_status": "abstract_backfill"
  },
  "a4e755cd6c": {
-  "tl_dr": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, dema",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OmniPack 以“LLM 前结构压缩＋LLM 内查询条件精炼”兼顾全局覆盖、音视协作和信息回收；低预算结果很强，但官方实现尚不可复现。",
+  "problem": "长音视频产生大量冗余 token，导致 OmniLLM prefill 和内存成本高；前置压缩易遗漏分散证据，已有 LLM 内压缩又未充分利用成熟后的音视频关系。",
+  "method": "免训练框架先按模态执行注意力/结构变化重要性选择、带位置距离的 DPC-KNN 覆盖选择和相似度合并；在指定 Transformer 层后，再以完整文本查询、另一模态原型和模态内代表性联合评分，做相关性与多样性选择并再次合并。",
+  "workflow": [
+   "分别提取音频、视频 token、末层注意力及时间或时空结构变化信号。",
+   "按部分预算选高重要性 token，再用特征加位置距离的 DPC-KNN 补充全局代表。",
+   "依据特征相似度、位置邻近度和代表重要性，把未选 token 合并到保留 token。",
+   "在 Qwen2.5-Omni 第 18/26 层或 MiniCPM-o 第 18 层后结合文本、另一模态和多样性完成第二次压缩。"
+  ],
+  "findings": [
+   "Qwen2.5-Omni-7B 在前置/最终保留率 25%/12.5% 时五基准平均 53.5，为全 token 54.6 的 98.0%；FLOPs 为 12.2T，即原始 73.2T 的 16.7%。",
+   "15%/7.5% 时平均 52.2、相对表现 95.6%，FLOPs 7.3T；单张 H20 的 prefill 由 1.512 秒降至 0.339 秒。",
+   "10%/5% 时平均 50.7、相对表现 92.9%，FLOPs 5.0T，为原始的 6.8%。",
+   "15%/7.5% 下，Qwen2.5-Omni-3B 保留 92.7% 表现并使用 9.0% FLOPs；MiniCPM-o-2.6 达到 100.8% 表现并使用 10.0% FLOPs。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：Harness 判停后才开始生成，可在端点确定后压缩已缓存音视频，收益主要落在 Thinker/LLM prefill 而非实时输入。",
+   "编辑判断：方法不改变 endpoint、barge-in、增量生成或外挂 TTS 延迟，不会把系统变成原生全双工。",
+   "编辑判断：LLM 内阶段依赖文本状态；晚注入工具时应隔离用户查询与工具 schema，避免工具描述改变 token 相关性。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只评五个音视频多选问答基准，未覆盖开放生成、多轮对话、在线流输入或全双工交互。",
+   "FLOPs 排除编码器、投影器、文本 token、选择操作和 LM head，并固定生成 100 token，不能等同端到端成本。",
+   "实测 prefill 只覆盖 Qwen2.5-Omni-7B 与单张 H20，没有外挂 TTS、工具注入、并发吞吐或持续流场景。",
+   "官方仓库只有占位 README，无源码、许可证、环境、评测脚本、专用权重或数据清单。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "unavailable",
+   "code_url": "https://github.com/RowanSu/OmniPack",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库只有 README 且无 LICENSE、release 或 tag；没有 OmniPack 专用权重。Qwen2.5-Omni 与 MiniCPM-o 基础权重各有独立许可，不能视为方法工件已开放。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T16:14:50.674531+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "211c0dd840": {
   "tl_dr": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal ",
@@ -4844,27 +5034,42 @@
   "review_status": "abstract_backfill"
  },
  "25706b1e40": {
-  "tl_dr": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, dema",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OmniPack 以“LLM 前结构压缩＋LLM 内查询条件精炼”兼顾全局覆盖、音视协作和信息回收；低预算结果很强，但官方实现尚不可复现。",
+  "problem": "长音视频产生大量冗余 token，导致 OmniLLM prefill 和内存成本高；前置压缩易遗漏分散证据，已有 LLM 内压缩又未充分利用成熟后的音视频关系。",
+  "method": "免训练框架先按模态执行注意力/结构变化重要性选择、带位置距离的 DPC-KNN 覆盖选择和相似度合并；在指定 Transformer 层后，再以完整文本查询、另一模态原型和模态内代表性联合评分，做相关性与多样性选择并再次合并。",
+  "workflow": [
+   "分别提取音频、视频 token、末层注意力及时间或时空结构变化信号。",
+   "按部分预算选高重要性 token，再用特征加位置距离的 DPC-KNN 补充全局代表。",
+   "依据特征相似度、位置邻近度和代表重要性，把未选 token 合并到保留 token。",
+   "在 Qwen2.5-Omni 第 18/26 层或 MiniCPM-o 第 18 层后结合文本、另一模态和多样性完成第二次压缩。"
+  ],
+  "findings": [
+   "Qwen2.5-Omni-7B 在前置/最终保留率 25%/12.5% 时五基准平均 53.5，为全 token 54.6 的 98.0%；FLOPs 为 12.2T，即原始 73.2T 的 16.7%。",
+   "15%/7.5% 时平均 52.2、相对表现 95.6%，FLOPs 7.3T；单张 H20 的 prefill 由 1.512 秒降至 0.339 秒。",
+   "10%/5% 时平均 50.7、相对表现 92.9%，FLOPs 5.0T，为原始的 6.8%。",
+   "15%/7.5% 下，Qwen2.5-Omni-3B 保留 92.7% 表现并使用 9.0% FLOPs；MiniCPM-o-2.6 达到 100.8% 表现并使用 10.0% FLOPs。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：Harness 判停后才开始生成，可在端点确定后压缩已缓存音视频，收益主要落在 Thinker/LLM prefill 而非实时输入。",
+   "编辑判断：方法不改变 endpoint、barge-in、增量生成或外挂 TTS 延迟，不会把系统变成原生全双工。",
+   "编辑判断：LLM 内阶段依赖文本状态；晚注入工具时应隔离用户查询与工具 schema，避免工具描述改变 token 相关性。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只评五个音视频多选问答基准，未覆盖开放生成、多轮对话、在线流输入或全双工交互。",
+   "FLOPs 排除编码器、投影器、文本 token、选择操作和 LM head，并固定生成 100 token，不能等同端到端成本。",
+   "实测 prefill 只覆盖 Qwen2.5-Omni-7B 与单张 H20，没有外挂 TTS、工具注入、并发吞吐或持续流场景。",
+   "官方仓库只有占位 README，无源码、许可证、环境、评测脚本、专用权重或数据清单。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "unavailable",
+   "code_url": "https://github.com/RowanSu/OmniPack",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库只有 README 且无 LICENSE、release 或 tag；没有 OmniPack 专用权重。Qwen2.5-Omni 与 MiniCPM-o 基础权重各有独立许可，不能视为方法工件已开放。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T16:14:50.674570+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-05T23:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "1f6552b1b4": {
   "tl_dr": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal ",

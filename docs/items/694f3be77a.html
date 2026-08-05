@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-20 · ◈ 12
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。与本站&#x27;外挂TTS&#x27;架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。</span>
+    <span class="l-zh">Harness TTS 把多源上下文路由成有限、可审计的提示音频，再驱动现有 CosyVoice3 或 VoxCPM2；无 CoT 的 First-ID P95 为 41.2ms。它与 Harness 的外挂 TTS 形态直接同构，但不改变判停后生成，且目前没有官方代码、权重或数据。</span>
     <span class="l-en">Expressive speech synthesis for voice assistants requires flexible style control that adapts to explicit requests and broader interaction context. We propose Harness TTS, a lightweight control layer that wraps around a TTS engine to externalize and govern its expressive behavior. It reformulates style control as closed-set prompt-tool routing: offline, a compact registry of stylistic prompt tools is constructed with </span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Harness TTS 不改造声学模型，而是在 TTS 外增加上下文感知的有限提示音频路由层，使表达风格可审计、可治理。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>固定参考音频无法动态适配风格，开放式自然语言指令又不稳定；系统还需整合用户画像、场景、环境、历史和显式要求，并处理彼此冲突的信号。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。与本站&#x27;外挂TTS&#x27;架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。</p>
-
-
+  <p>每段风格提示音频被注册为带离散标签和说明的工具。轻量 LLM 根据五层 observation 和固定优先级输出候选 audio_id，执行器取首选提示音频驱动 CosyVoice3 或 VoxCPM2，不修改 TTS 后端。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>离线构建轴向风格工具和场景预设工具，标注速度、音量、情绪与适用场景。</li><li>在线汇总系统默认、用户画像、场景、隐式意图和显式指令。</li><li>按显式指令到系统默认的五级优先级处理冲突。</li><li>LLM planner 输出排序后的 audio_id。</li><li>executor 取首选提示音频驱动现有 prompt-based TTS。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>在 Gemini-2.5-Pro 教师标签上，Qwen3-4B+CoT 的 T-Exact@1 在显式、隐式和冲突集分别为 74.3%、43.0% 和 64.6%；这是教师一致率，不是人工准确率。</li><li>RTX 5090、vLLM 条件下，Qwen3-4B 无 CoT 的 First-ID P50/P95 为 34.4/41.2ms，完整五候选为 179.9/206.0ms；均为 planner-only 延迟。</li><li>相对 instruction-only，Harness 在 CosyVoice3 参数/场景子集的 instruction-following 胜率优势为 23.1/35.6 个百分点，VoxCPM2 为 13.8/20.0 个百分点。</li><li>四种合成条件的 UTMOSv2 均提高 0.11–0.38；CosyVoice3 参数子集说话人稳定性为 89.8 对 86.8，场景子集则为 90.4 对 92.9。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>与本站&#x27;外挂TTS&#x27;架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。</li></ul>
+    <ul><li>编辑判断：最适合接在 StreamingModelHarness 文本生成与外挂 TTS 之间，用用户、场景和环境状态选择有限提示音频。</li><li>编辑判断：它不会改变等待 endpoint 后生成的控制流，也不解决抢话、输入输出重叠或原生全双工；价值在外部 TTS 表达治理。</li><li>编辑判断：路由可与 endpoint 后主模型生成并行，但论文只测 planner 延迟，未验证晚注入工具或完整首音频延迟。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>CoT 提高路由一致率，却把 Qwen3-4B First-ID P95 从 41.2ms 增至 323.6ms。</li><li>路由教师和合成偏好评委均为 LLM，没有人工标注或主观听测。</li><li>测试数据由 LLM 生成，不是真实用户日志。</li><li>135 个合成样例只围绕显式指令，没有端到端验证隐式上下文和冲突场景。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-08-05 未找到作者官方仓库、planner 权重、42 条路由集、25 段提示语音或 135 条合成案例；代码、权重、数据及语音授权均未知，同名第三方复现不计为官方资源。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-05 23:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.17900v2"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

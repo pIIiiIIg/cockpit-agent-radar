@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-26 · ◈ 13
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。</span>
+    <span class="l-zh">Omni-Prune 按音频事件分窗，并用显著性、查询相关性、音视配对和多样性代表免训练剪枝；7B 在 35% 保留率下保持 99.0% 归一化表现，prefill 由 899ms 降至 277ms。它适合 Harness 判停后的完整输入 prefill，不加速判停前流式阶段，也不处理外挂 TTS。</span>
     <span class="l-en">Omnimodal large language models (OmniLLMs) are rapidly extending multimodal reasoning to cover synchronized audio and video. However, the resulting audio-video token sequences are long, leading to high prefill latency and GPU memory usage at inference time. Existing token pruning methods, designed mainly for vision-only inputs, miss both the cross-modal links between audio and video and the user query that decides wh</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Omni-Prune 在 LLM 前按音频事件自适应分窗，并结合编码器显著性、文本相关性、音视配对和多样性代表免训练剪枝。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。</p>
+  <p>视觉专用剪枝忽略同步音频、跨模态关联和用户问题；单向用一种模态指导另一种，又可能保留响亮但无关内容或丢掉静音却关键的视觉证据。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。</p>
-
-
+  <p>方法先平滑音频编码器注意力并以峰值划分时间窗口，再在每个窗口内联合编码器显著性与文本相关性，建立音视频关系图并成对保留高相似 token，最后按模态和窗口用最远点优先 medoid 补回少量多样性代表。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>把音频 token 对齐到视频帧，计算平均音频注意力并用核大小 3 的一维平均池化平滑。</li><li>以局部音频显著性峰值划分窗口，边界最小间隔为 2 帧。</li><li>在窗口内按编码器显著性和文本相关性排序 token。</li><li>以跨模态相似度门限联合保留相关音频—视频 token 对。</li><li>从剩余 token 中按模态执行最远点优先选择，补充低显著但多样的上下文。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Qwen2.5-Omni-7B 保留 45% token 时五基准归一化平均为全模型的 99.2%，保留 35% 时仍为 99.0%。</li><li>Daily-Omni、单张 A6000、FlashAttention 条件下，7B 在 35% 保留率时 prefill 由 899ms 降至 277ms，峰值显存由 28.7GB 降至 22.3GB。</li><li>3B 在 35% 保留率时保持 97.5% 归一化表现，prefill 由 567ms 降至 156ms，峰值显存由 18.4GB 降至 12.8GB。</li><li>7B、35% 保留率下移除残差聚类后，VideoMME 由 66.3 降至 64.5，Daily-Omni 由 60.4 降至 59.2。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。</li></ul>
+    <ul><li>编辑判断：该方法在 LLM 前一次性剪枝，更适合 Harness 判停后对完整音视频输入做 prefill，不会加速判停前的持续输入。</li><li>编辑判断：官方评测使用 return_audio=false，与文本输出再接外挂 TTS 的链路相容，但不提供原生语音全双工、抢话或 Talker 加速。</li><li>编辑判断：当前代码把所有非音视频 token 都用于文本相关性；晚注入工具 schema 可能吸走剪枝预算，接入时应显式限定用户问题。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>只评估五个视频问答基准，未验证开放式生成、多轮对话、工具调用或端到端语音链路。</li><li>效率只在 Daily-Omni、单张 A6000 和 FlashAttention 下测量，没有编码器成本、解码吞吐或并发数据。</li><li>论文公式称音视频显著性联合归一化，公开代码却先分别归一化再拼接，结果影响未知。</li><li>仓库不含基准数据、锁定依赖、release 或实验提交标记，五个评测脚本仍使用本地占位路径。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 11:59</p>
+  <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
+     &nbsp; 核心剪枝模块、修改模型和五套评测脚本按 Apache-2.0 公开；方法免训练，无专用权重。7B 基座为 Apache-2.0，3B 基座是非商用 Qwen Research License，评测数据未随仓库发布。</p>
+  <p><a class="btn" href="https://github.com/kimberlyii/Omni-Prune" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a> <a class="btn" href="https://huggingface.co/Qwen/Qwen2.5-Omni-7B" rel="noopener noreferrer"><span class="l-zh">模型</span><span class="l-en">model</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-05 23:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.23445v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

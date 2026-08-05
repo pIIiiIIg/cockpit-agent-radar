@@ -134,30 +134,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-04-22 · ◈ 19
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics rather than reconstructing signals in real time. This fundamental difference shifts the transport goal from the technical problem of signal fidelity (Shannon-Weaver Level A) to the semantic problem of meaning preservation (Level B). This mismatch imposes significant overhead. In visual pipelines, screenshot upload accounts for over 60% of end-to-end action latency on constrained uplinks, and in voice pipelines, conventional transport carries massive redundancy, sending 43-64x more data than needed to maintain task accuracy. We present Sema, a semantic transport system that combines discrete audio tokenizers with a hybrid screen representation (lossless accessibility-tree or OCR text, plus compact visual tokens) and bursty token delivery that eliminates jitter buffers. In simulations under emulated WAN conditions, Sema reduces uplink bandwidth by 64x for audio and 130-210x for screenshots while preserving task accuracy within 0.7 percentage points of the raw baseline. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Sema 在客户端把音频和截图压成离散语音、结构化 UI 文本与视觉 token，论文仿真把三秒语音和截图分别压缩 64× 与 130–210×。它可作为 Harness 判停前的语义传输层，但 v1 不是端到端实现，也不处理生成、晚注入工具或原生全双工。</span>
     <span class="l-en">Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics rather than reconstructing signals in real time. This fundamental difference shifts the transport goal from the technical problem of signal fidelity (Shannon-Weaver Level A) to the semantic problem of meaning preservation (Level B). This mismatch imposes significant overhead. In visual pipelines, screenshot upload accounts for over 60% of end-to-end action latency on constrained uplinks, and in voice pipelines, conventional transport carries massive redundancy, sending 43-64x more data than needed to maintain task accuracy. We present Sema, a semantic transport system that combines discrete audio tokenizers with a hybrid screen representation (lossless accessibility-tree or OCR text, plus compact visual tokens) and bursty token delivery that eliminates jitter buffers. In simulations under emulated WAN conditions, Sema reduces uplink bandwidth by 64x for audio and 130-210x for screenshots while preserving task accuracy within 0.7 percentage points of the raw baseline.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inheren</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Sema 在客户端先提取模型需要的离散语音、结构化 UI 文本和视觉 token，再突发传输；v1 证明的是 WAN 仿真潜力，不是已部署全双工系统。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>现有实时多模态系统沿用面向人类的 Opus、WebP、连续播放和抖动缓冲，优化感知保真度；模型真正消费的是语言、UI 元素和空间关系，原始媒体传输因此造成冗余带宽与等待。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics rather than reconstructing signals in real time. This fundamental difference shifts the transport goal from the technical problem of signal fidelity (Shannon-Weaver Level A) to the semantic problem of meaning preservation (Level B). This mismatch imposes significant overhead. In visual pipelines, screenshot upload accounts for over 60% of end-to-end action latency on constrained uplinks, and in voice pipelines, conventional transport carries massive redundancy, sending 43-64x more data than needed to maintain task accuracy. We present Sema, a semantic transport system that combines discrete audio tokenizers with a hybrid screen representation (lossless accessibility-tree or OCR text, plus compact visual tokens) and bursty token delivery that eliminates jitter buffers. In simulations under emulated WAN conditions, Sema reduces uplink bandwidth by 64x for audio and 130-210x for screenshots while preserving task accuracy within 0.7 percentage points of the raw baseline.</p>
-
-
+  <p>语音只传 SpeechTokenizer 或 EnCodec 第一层 RVQ 的离散索引；截图用可访问性树/DOM/OCR 的无损文本加视觉 token 混合表示。服务端重构媒体并送入 Whisper 或 Qwen2.5-VL，下行语音 token 则交给客户端声码器。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>客户端捕获一轮音频或截图。</li><li>执行语音离散化，或提取 UI 文本并编码视觉 token。</li><li>通过带模态、码本和序列信息的帧突发上传。</li><li>服务端重构媒体并调用下游 ASR 或 VLM。</li><li>返回紧凑动作文本，或把语音 token 交给客户端声码器。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>三秒语音由 Opus 的 12KB 降至 188B，为 64×；截图由 WebP 的 700KB 降至 3–5KB，为 130–210×。</li><li>在 5Mbps 上行，截图基线约 1.1 秒；Sema 使用可访问性树约 75ms、OCR 回退约 105ms。在 1Mbps 时基线约 5.6 秒，主路径低于 100ms。</li><li>视觉文本任务中，仅视觉 token 为 75.5%；加入结构化文本后为 93.3%，原始输入为 94.0%。</li><li>语音 WER 由 2.7% 增至 4.1%；导航动作准确率与原始输入相差不超过 2 个百分点。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：Sema 最适合放在 StreamingModelHarness 输入采集与语义判停之前，作为客户端语义压缩和传输层，而不是替换生成模型。</li><li>编辑判断：Harness 判停后生成并使用外挂 TTS，与 Sema 假设的服务端语音 token 和客户端声码器不同，不能据此宣称原生全双工。</li><li>编辑判断：Sema 不解决晚注入工具、工具调度或生成中工具交互，主要价值是降低输入上传成本和抖动敏感性。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>v1 明确是按组件实测参数拼接的仿真，端到端实现、异构客户端、真实尾延迟和丢包恢复均未验证。</li><li>视觉收益在约 80Mbps 以上趋于边际，语音净延迟收益主要出现在约 2Mbps 以下。</li><li>视觉 token 单独处理小字明显退化，系统依赖可访问性树或 OCR，画布、游戏和远程桌面仍困难。</li><li>摘要“准确率在 0.7 个百分点内”只直接对应视觉文本结果，语音 WER 不满足同一差值。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 19:41</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 后续 Apache-2.0 参考实现含协议、tokenizer 适配器、客户端、服务端和评测代码，但组件已改用 Cosmos 等方案，不能视为逐项复现 v1；无 Sema 专属权重，SpeechTokenizer 权重许可未知。</p>
+  <p><a class="btn" href="https://github.com/bojieli/Sema" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-05 23:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2604.20940v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

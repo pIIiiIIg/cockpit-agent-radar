@@ -97,7 +97,7 @@
 <title>OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html</guid>
-<description>Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment.</description>
+<description>OmniPack 免训练地先做模态结构压缩，再在 LLM 内依据查询和音视协作精炼 token；Qwen2.5-Omni-7B 以 16.7% FLOPs 保留 98.0% 的五基准平均表现。它可降低 Harness 判停后的多模态 prefill，但不改变判停、打断、晚注入工具或外挂 TTS，且官方仓库目前只有占位 README。</description>
 </item>
 <item>
 <title>Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent</title>
@@ -109,7 +109,7 @@
 <title>OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/25706b1e40.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/25706b1e40.html</guid>
-<description>Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment.</description>
+<description>OmniPack 免训练地先做模态结构压缩，再在 LLM 内依据查询和音视协作精炼 token；Qwen2.5-Omni-7B 以 16.7% FLOPs 保留 98.0% 的五基准平均表现。它可降低 Harness 判停后的多模态 prefill，但不改变判停、打断、晚注入工具或外挂 TTS，且官方仓库目前只有占位 README。</description>
 </item>
 <item>
 <title>Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent</title>

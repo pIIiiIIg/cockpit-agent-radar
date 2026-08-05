@@ -269,7 +269,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.",
-   "summary_zh": "",
+   "summary_zh": "OmniPack 免训练地先做模态结构压缩，再在 LLM 内依据查询和音视协作精炼 token；Qwen2.5-Omni-7B 以 16.7% FLOPs 保留 98.0% 的五基准平均表现。它可降低 Harness 判停后的多模态 prefill，但不改变判停、打断、晚注入工具或外挂 TTS，且官方仓库目前只有占位 README。",
    "demo": "",
    "stars": null
   },
@@ -305,7 +305,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.",
-   "summary_zh": "",
+   "summary_zh": "OmniPack 免训练地先做模态结构压缩，再在 LLM 内依据查询和音视协作精炼 token；Qwen2.5-Omni-7B 以 16.7% FLOPs 保留 98.0% 的五基准平均表现。它可降低 Harness 判停后的多模态 prefill，但不改变判停、打断、晚注入工具或外挂 TTS，且官方仓库目前只有占位 README。",
    "demo": "",
    "stars": null
   },
@@ -823,7 +823,7 @@
     "agent harness"
    ],
    "summary_en": "Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, and completion assessment within a growing context, making the state difficult to track and allowing incorrect self-assessments to propagate into later decisions. We reformulate long-horizon execution as a task-state management problem and propose LongHorizon-Harness, which maintains the task state explicitly outside execution and updates it only with facts independently verified from the environment. Its Manage-Execute-Audit(MEA) loop uses a manager to maintain the task state and determine the next subtask, a fresh-context executor to perform it, and a read-only auditor to verify the resulting environment state before the next round. A lightweight AgentAdapter supports interchangeable model and harness backends without modifying their native agent loops. LongHorizon-Harness improves Qwen~3.7-Plus from 51.8% to 80.7% on WeaveBench, from 69.7% to 77.2% on Terminal-Bench~2.1, and from 2.8% to 8.3% on OSWorld~2.0. It also raises Claude Opus~4.7 from 20.0% to 34.3% on an OSWorld2.0 subset, demonstrating consistent gains across models, harnesses, and interaction domains.",
-   "summary_zh": "",
+   "summary_zh": "LongHorizon-Harness 用 Manage–Execute–Audit 循环和环境证据维护外部任务状态，让每轮执行器在新上下文中工作，WeaveBench PassRate 由 51.8% 提升至 80.7%。它适合 Harness 的异步工具任务、恢复和最终状态验证，但不解决同一生成中的晚注入、语音判停或外挂 TTS。",
    "demo": "",
    "stars": null
   },
@@ -3571,7 +3571,7 @@
     "voice agent"
    ],
    "summary_en": "",
-   "summary_zh": "",
+   "summary_zh": "VAmoS Bench 用 100 个隔离银行场景、真实音频、SQL 工具和完整轨迹评估语音代理是否真正完成任务；3300 通电话连接率 98.3%，完成率只有 63.1%。其路径断言和说做交叉检查很适合改造成车控回归，但固定场景与 grader 尚未完整开放。",
    "demo": "",
    "stars": 6
   },
@@ -3952,7 +3952,7 @@
     "multimodal"
    ],
    "summary_en": "Real-time multimodal agents transport raw audio and screenshots using networking stacks designed for human receivers, which optimize for perceptual fidelity and smooth playout. Yet agent models act as event-driven processors with no inherent sense of physical time, consuming task-relevant semantics rather than reconstructing signals in real time. This fundamental difference shifts the transport goal from the technical problem of signal fidelity (Shannon-Weaver Level A) to the semantic problem of meaning preservation (Level B). This mismatch imposes significant overhead. In visual pipelines, screenshot upload accounts for over 60% of end-to-end action latency on constrained uplinks, and in voice pipelines, conventional transport carries massive redundancy, sending 43-64x more data than needed to maintain task accuracy. We present Sema, a semantic transport system that combines discrete audio tokenizers with a hybrid screen representation (lossless accessibility-tree or OCR text, plus compact visual tokens) and bursty token delivery that eliminates jitter buffers. In simulations under emulated WAN conditions, Sema reduces uplink bandwidth by 64x for audio and 130-210x for screenshots while preserving task accuracy within 0.7 percentage points of the raw baseline.",
-   "summary_zh": "",
+   "summary_zh": "Sema 在客户端把音频和截图压成离散语音、结构化 UI 文本与视觉 token，论文仿真把三秒语音和截图分别压缩 64× 与 130–210×。它可作为 Harness 判停前的语义传输层，但 v1 不是端到端实现，也不处理生成、晚注入工具或原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -3971,7 +3971,7 @@
     "turn-taking"
    ],
    "summary_en": "Production voice agents span cascaded, speech-to-speech, and hybrid architectures. Voice-agent benchmarks typically measure component quality and conversational properties such as word error rate, latency, naturalness, and turn-taking. Fewer measure whether the agent handled a phone call correctly on its own. Contact centers refer to this as ``containment'': the share of phone calls the automated system resolves without handing off to a human. On some phone calls the right outcome is refusal or a redirect. To address this gap, we introduce VAmoS Bench, the Voice Agent Simulation Bench. It measures complete voice-agent systems end to end in a stateful customer-support task. The agent is Riley, a credit-card support representative for a fictional bank who can freeze, cancel, replace, or activate a card. Each of 100 scenarios supplies a simulated caller with a private goal and a seeded PostgreSQL backend. The platform uses each scenario to populate and activate an isolated simulation in which the caller reaches Riley over audio; roughly one-third apply adversarial pressure. The agent can use five tools that execute real SQL against the backend. Each scenario also defines binary assertions. A grader evaluates them against the complete trace of what the caller and agent said and what the agent did, including tool invocations, arguments, and returned rows. This catches an agent that claims to have changed a card without updating the database, as well as one that makes the right database change while disclosing protected information. This first benchmark version focuses on financial services. Its evaluation protocol supports an evolving leaderboard: additional voice agents can be evaluated on the same version, while later versions can expand the tasks and scenarios.",
-   "summary_zh": "",
+   "summary_zh": "VAmoS Bench 用 100 个隔离银行场景、真实音频、SQL 工具和完整轨迹评估语音代理是否真正完成任务；3300 通电话连接率 98.3%，完成率只有 63.1%。其路径断言和说做交叉检查很适合改造成车控回归，但固定场景与 grader 尚未完整开放。",
    "demo": "",
    "stars": null
   },
@@ -4140,7 +4140,7 @@
     "spoken dialogue"
    ],
    "summary_en": "End-to-end speech-in speech-out dialogue systems are emerging as a powerful alternative to traditional ASR-LLM-TTS pipelines, generating more natural, expressive responses with significantly lower latency. However, these systems remain prone to hallucinations due to limited factual grounding. While text-based dialogue systems address this challenge by integrating tools such as web search and knowledge graph APIs, we introduce the first approach to extend tool use directly into speech-in speech-out systems. A key challenge is that tool integration substantially increases response latency, disrupting conversational flow. To mitigate this, we propose Streaming Retrieval-Augmented Generation (Streaming RAG), a novel framework that reduces user-perceived latency by predicting tool queries in parallel with user speech, even before the user finishes speaking. Specifically, we develop a post-training pipeline that teaches the model when to issue tool calls during ongoing speech and how to generate spoken summaries that fuse audio queries with retrieved text results, thereby improving both accuracy and responsiveness. To evaluate our approach, we construct AudioCRAG, a benchmark created by converting queries from the publicly available CRAG dataset into speech form. Experimental results demonstrate that our streaming RAG approach increases QA accuracy by up to 200% relative (from 11.1% to 34.2% absolute) and further enhances user experience by reducing tool use latency by 20%. Importantly, our streaming RAG approach is modality-agnostic and can be applied equally to typed input, paving the way for more agentic, real-time AI assistants.",
-   "summary_zh": "",
+   "summary_zh": "Stream RAG 在用户讲话期间按音频块提前生成、取消和执行检索查询，再在端点后融合完整问题与结果生成语音，AudioCRAG-Synthetic 准确率由闭卷 11.1% 提升至 34.2%。它直接启发 Harness 把工具调用前移到判停前，但最终回答仍在用户结束后生成，不能称为原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -4195,7 +4195,7 @@
     "speech synthesis"
    ],
    "summary_en": "Achieving human-like responsiveness is a critical yet challenging goal for cascaded spoken dialogue systems. Conventional ASR-LLM-TTS pipelines follow a strictly sequential paradigm, requiring complete transcription and full reasoning before speech synthesis can begin, which results in high response latency. We propose the Discourse-Aware Dual-Track Streaming Response (DDTSR) framework, a low-latency architecture that enables listen-while-thinking and speak-while-thinking. DDTSR is built upon three key mechanisms: (1) connective-guided small-large model synergy, where an auxiliary small model generates minimal-committal discourse connectives while a large model performs knowledge-intensive reasoning in parallel; (2) streaming-based cross-modal collaboration, which dynamically overlaps ASR, LLM inference, and TTS to advance the earliest speakable moment; and (3) curriculum-learning-based discourse continuity enhancement, which maintains coherence and logical consistency between early responses and subsequent reasoning outputs. Experiments on two spoken dialogue benchmarks demonstrate that DDTSR reduces response latency by 19%-51% while preserving discourse quality. Further analysis shows that DDTSR functions as a plug-and-play module compatible with diverse LLM backbones, and remains robust across varying utterance lengths, indicating strong practicality and scalability for real-time spoken interaction.",
-   "summary_zh": "",
+   "summary_zh": "DDTSR 让小模型根据 partial ASR 提前说低承诺连接词，同时由大模型生成主体回答，SD-Eval、8B 条件下平均等待由 1003ms 降至 548ms。它与 Harness 的级联加外挂 TTS 路线相容，但收益要求端点前发声，工具结果确定前只能使用无命题开场。",
    "demo": "",
    "stars": null
   },
@@ -5337,7 +5337,7 @@
     "voice assistant"
    ],
    "summary_en": "Desktop voice assistants are still dominated by cloud pipelines that ship raw audio off the machine and expose a fixed set of skills. We describe AnovaX, a small local-first assistant that runs entirely on the user's computer and treats the desktop itself as its action surface. A single Python process wires together a wake-word gate, a speech pipeline, an LLM planner (Gemini) that emits a JSON plan of tool calls, a w",
-   "summary_zh": "AnovaX 是一个本地优先的桌面语音助手，用唤醒词门控+语音流水线+LLM 规划器（输出 JSON 工具调用计划）+类型化执行器与自适应恢复，把整个桌面当作动作面。虽然它是桌面而非座舱场景，但其\"规划器-执行器-恢复\"的工具体系设计，对本站 harness 中晚注入工具清单、工具编排的工程实现有直接参考价值。",
+   "summary_zh": "AnovaX 用 JSON 规划、白名单安全检查、类型化执行器、资源锁和有界恢复编排桌面语音任务，但只做单机手工定性验证。其工具调度可借给 Harness 的晚注入执行层；默认仍依赖 Google ASR、Gemini 和外挂 TTS，且没有模型级全双工。",
    "demo": "",
    "stars": null
   },
@@ -5356,7 +5356,7 @@
     "omnimodal"
    ],
    "summary_en": "Omnimodal large language models (OmniLLMs) are rapidly extending multimodal reasoning to cover synchronized audio and video. However, the resulting audio-video token sequences are long, leading to high prefill latency and GPU memory usage at inference time. Existing token pruning methods, designed mainly for vision-only inputs, miss both the cross-modal links between audio and video and the user query that decides wh",
-   "summary_zh": "Omni-Prune 针对全模态大模型提出查询感知的统一 token 剪枝方法，利用音视跨模态关联和用户 query 来决定保留哪些 token，以降低长音视序列带来的高 prefill 延迟与显存占用。对把多模态流持续灌进 KV 的座舱 harness 来说，这类剪枝思路是控制上下文膨胀、保住实时性的实用手段。",
+   "summary_zh": "Omni-Prune 按音频事件分窗，并用显著性、查询相关性、音视配对和多样性代表免训练剪枝；7B 在 35% 保留率下保持 99.0% 归一化表现，prefill 由 899ms 降至 277ms。它适合 Harness 判停后的完整输入 prefill，不加速判停前流式阶段，也不处理外挂 TTS。",
    "demo": "",
    "stars": null
   },
@@ -5374,7 +5374,7 @@
     "multimodal"
    ],
    "summary_en": "Recent multimodal large language models mainly process audio as monaural signals, thereby discarding the spatial cues contained in spatial audio for sound localization, spatial relation reasoning, and spatial scene understanding. We propose Spatial-Omni, a lightweight method that implements SO-Encoder to inject First-Order Ambisonics (FOA) spatial audio into existing Omni LLMs as an independent modality, without modi",
-   "summary_zh": "Spatial-Omni 通过轻量的 SO-Encoder 把一阶 Ambisonics（FOA）空间音频作为独立模态注入现有 Omni LLM，使模型获得声源定位、空间关系推理和场景理解能力，而无需大改原模型。这与座舱高度相关：多麦克风阵列的空间感知正是区分主驾/后排发声、实现分区语音交互的关键能力。",
+   "summary_zh": "Spatial-Omni 保留单声道语义路径并增加 FOA 空间编码器，使 Omni LLM 获得方向、距离、运动和多声源关系理解，SO-7B(MIX) 方位角准确率为 71.79%。它适合补充座舱席位感知，但只按最长 20 秒片段评测，不证明流式判停或模型级全双工。",
    "demo": "",
    "stars": null
   },
@@ -5392,7 +5392,7 @@
     "duplex"
    ],
    "summary_en": "Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which causes substantial knowledge degradation and compromises semantic integrity -- ultimately making full-duplex SLMs feel unn",
-   "summary_zh": "该论文针对全双工语音语言模型提出层级化的声学-语义建模方法，通过模态分离与语义连贯性设计，缓解当前全双工 SLM 中严重的模态干扰所导致的知识退化与语义损伤。它直接命中本站\"边说边听\"路线的核心隐患——全双工下模型变笨，可作为选型与训练时的避坑参考。",
+   "summary_zh": "Lychee-FD 用浅层共享、深层语义/声学/控制分头和连续语义对齐缓解全双工训练冲突，在 FullDuplexBench 1.5 上报告 570ms 打断停止和 826ms 响应延迟。它是可替换的原生全双工后端而非 Harness 局部插件，且训练数据开放状态仍未知。",
    "demo": "",
    "stars": null
   },
@@ -5430,7 +5430,7 @@
     "duplex"
    ],
    "summary_en": "Full-duplex spoken language models (FD-SLMs) enable seamless speech interaction by allowing models to listen and speak simultaneously, yet the internal mechanism by which they coordinate listening and speaking remains underexplored. We analyze the predictive behavior encoded in FD-SLM hidden representations and find that they exhibit stream-specific predictive patterns: during listening, they preferentially predict t",
-   "summary_zh": "该工作分析全双工口语模型隐层表示，发现听与说两条流具有各自特异的预测模式，并据此用激活引导（activation steering）克服模型在听说切换间的状态惯性。它为\"边说边听\"的协调性提供了可操作的机理洞见，提示我们不必重训模型也能在推理期改善全双工的听说切换行为。",
+   "summary_zh": "该文把全双工模型漏听打断首词归因于生成态向感知态切换滞后，并用短时隐藏向量注入将 PersonaPlex 的打断正确率由 0.28 提升至 0.45。当前 Harness 不暴露这类模型中间层，短期更适合借用其首词敏感 ZBB 做系统回归。",
    "demo": "",
    "stars": null
   },
@@ -5467,7 +5467,7 @@
     "speech synthesis"
    ],
    "summary_en": "Expressive speech synthesis for voice assistants requires flexible style control that adapts to explicit requests and broader interaction context. We propose Harness TTS, a lightweight control layer that wraps around a TTS engine to externalize and govern its expressive behavior. It reformulates style control as closed-set prompt-tool routing: offline, a compact registry of stylistic prompt tools is constructed with ",
-   "summary_zh": "一篇外挂式TTS控制的论文，提出Harness TTS：在TTS引擎外面包一层轻量控制层，把表现力风格控制重构为闭集提示工具路由（离线构建风格提示工具注册表，在线路由调用）。与本站'外挂TTS'架构高度同构，可借鉴其用闭集路由而非自由生成来治理风格的方式，让座舱助手根据交互上下文自适应地切换语气。",
+   "summary_zh": "Harness TTS 把多源上下文路由成有限、可审计的提示音频，再驱动现有 CosyVoice3 或 VoxCPM2；无 CoT 的 First-ID P95 为 41.2ms。它与 Harness 的外挂 TTS 形态直接同构，但不改变判停后生成，且目前没有官方代码、权重或数据。",
    "demo": "",
    "stars": null
   },
