@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+
+<div class="item-page">
+  <h2 style="margin:18px 0 6px">Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE</h2>
+  <div class="meta" style="color:var(--dim);font-size:13px">
+    <span class="badge hi"><span class="l-zh">论文</span><span class="l-en">Paper</span></span> · arxiv
+    · 2026-08-04 · ◈ 4
+  </div>
+  <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
+    <span class="l-zh">Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-en">Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.</span></div>
+
+
+<section class="explain">
+  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
+  <p class="lead">Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of j</p>
+  <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
+  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
+  <p>Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.</p>
+
+
+  <div class="editorial">
+    <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
+    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+  </div>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+  <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
+  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
+     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
+     · 2026-08-05 20:46</p>
+</section>
+  <p><a class="btn" href="https://arxiv.org/abs/2608.03964v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
+     &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
+  <div class="tags"></div>
+</div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>

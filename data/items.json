@@ -1,6 +1,260 @@
 {
- "generated": "2026-08-05T16:14:40.412815+08:00",
+ "generated": "2026-08-05T20:46:30.459887+08:00",
  "items": [
+  {
+   "id": "1523ce3a78",
+   "kind": "repo",
+   "source": "github",
+   "title": "wiringai/mod_earshot",
+   "url": "https://github.com/wiringai/mod_earshot",
+   "published": "2026-08-05",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 17,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "voice agent",
+    "barge-in",
+    "text-to-speech"
+   ],
+   "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "032a32327f",
+   "kind": "paper",
+   "source": "hf",
+   "title": "MiniWorld: Democratizing the Training of Video World Models from Scratch",
+   "url": "https://huggingface.co/papers/2608.01127",
+   "published": "2026-08-01",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 7,
+   "tags": [
+    "kv cache",
+    "streaming inference"
+   ],
+   "summary_en": "Video world models predict future observations conditioned on historical observations and control signals, enabling long-horizon generation through autoregressive state transitions. Unlike conventional video generation models that primarily capture visual appearance and motion, video world models learn the underlying dynamics governing environment evolution under agent actions, providing a foundation for embodied AI and interactive simulation. Recent progress has largely relied on adapting pretrained video generation models through post-training or distillation. Although effective, these approaches often require complex training pipelines, substantial computational resources, and suffer from the mismatch between bidirectional pretraining and causal streaming inference. Recent studies have shown that training autoregressive video world models from scratch is feasible and scalable. However, the community still lacks a lightweight, transparent, and fully reproducible baseline trainable end-to-end with modest computational resources. We present MiniWorld, a reproducible framework for training streaming video world models from scratch. MiniWorld employs a block-causal Video Diffusion Transformer trained with Flow Matching in the latent space of a pretrained Video VAE. Building on Diffusion Forcing, it adopts a chunk-wise non-decreasing noise schedule and two-stage continued training to improve temporal modeling and stability. During inference, MiniWorld combines a rolling KV cache with pipelined asynchronous denoising for efficient streaming generation under bounded computation. The entire model can be trained within several days on a single 8-GPU server. By releasing the training and inference codebase and pretrained checkpoints, we hope MiniWorld will facilitate future research on video world modeling.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f5e41f8681",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Language-Specialized Multi-Teacher On-Policy Distillation for Multilingual LLM-Based ASR",
+   "url": "https://arxiv.org/abs/2608.03610v1",
+   "published": "2026-08-04",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Modern LLM-based ASR systems have established multilingual capability as a standard feature, leveraging large-scale multilingual corpora and LLMs' cross-lingual knowledge to achieve competitive performance across multilingual benchmarks. However, joint modeling of languages with heterogeneous acoustic, phonological, and lexical characteristics inevitably introduces optimization conflicts, undermining language-wise specialization. To address this challenge, we propose Language-Specialized Multi-Teacher On-Policy Distillation (LS-MOPD), which decouples language-specific knowledge acquisition from multilingual capability integration: language-specialized teachers are independently optimized via reinforcement learning (RL), after which their expertise is integrated into a generalist multilingual student through language routing and token-level multi-teacher distillation, thereby reducing direct cross-lingual optimization conflicts. We further explore two acoustic-prefix configurations, static and dynamic, to examine how teacher--student prefix consistency influences the efficacy of on-policy distillation. Experiments on benchmarks covering Mandarin, Mandarin subdialects, Cantonese, and English demonstrate that LS-MOPD substantially outperforms RL baselines and consistently surpasses the empirical performance envelope defined by best-performing RL teachers, revealing its potential to generalize beyond all teachers in multilingual ASR.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dcf4f2fa5d",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE",
+   "url": "https://arxiv.org/abs/2608.03964v1",
+   "published": "2026-08-04",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2a89101fd3",
+   "kind": "news",
+   "source": "hn",
+   "title": "Show HN: Learn from 30 historical figures, open source, nonprofit, self-hosted",
+   "url": "https://github.com/chipmates/agoracosmica",
+   "published": "2026-06-09",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "speech to speech"
+   ],
+   "summary_en": "Hello HN, I am the founder of Agora Cosmica.<p>This started about three years ago. On a walk I asked a chatbot to interpret the cave dream from Cormac McCarthy&#x27;s book &quot;The Road&quot; as C.G. Jung. It gave me a perspective I had not thought of. But for my own dreams the policies of the big providers felt wrong for so personal conversations, as zero data retention is not available. So I started building.<p>The project evolved to a German nonprofit and we published the code (AGPL-3.0) last month. The content is still copyright, but will be opened to CC-BY 4.0 in the next 6 to 12 months.<p>Agora Cosmica is a library to learn from 30 historical figures. Each one has 12 narrated stories about their teachings &#x2F; life wisdom, speech to speech conversation. Four learning modes and a council where you can gather the figures to discuss or reflect on a topic. Each figure is an AI Echo, an interpretation grounded in primary works, historical context, with a factcheck per figure to show what&#x27;s verified versus recreated. On privacy: The speech is self hosted on Hetzner GPU servers, Qwen3-TTS for German, Kokoro TTS for English, Faster-Whisper for transcription. 30 free messages per day (EU-hosted for GDPR), BYOK, or you can run it in a full local self-hosted mode.<p>No conversation is stored, no tracking cookies, no profiling, no signup.<p>The app is slow on purpose. Cosmic, no dopamine rush.<p>The mission is to be a doorway, a first step, an introduction to get people interested and outgrow the app to move to primary texts and human teachers.<p>Live at: <a href=\"https:&#x2F;&#x2F;agoracosmica.org\" rel=\"nofollow\">https:&#x2F;&#x2F;agoracosmica.org</a>",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 49
+  },
+  {
+   "id": "ddb4e832d4",
+   "kind": "repo",
+   "source": "github",
+   "title": "cmots/STEB",
+   "url": "https://github.com/cmots/STEB",
+   "published": "2026-08-05",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "speech-to-speech"
+   ],
+   "summary_en": "A Speech-to-Speech Translation Expressiveness Benchmark. Evaluate emotion, scenario style, NV preservation in S2ST with LLM-as-a-judge.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 22
+  },
+  {
+   "id": "e04e98479e",
+   "kind": "model",
+   "source": "hf",
+   "title": "MultimodalAgent/PlanPhys-Model-Pre-Training-Distribution",
+   "url": "https://huggingface.co/MultimodalAgent/PlanPhys-Model-Pre-Training-Distribution",
+   "published": "2026-06-26",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "safetensors license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "396e3078ab",
+   "kind": "model",
+   "source": "hf",
+   "title": "MultimodalAgent/PlanPhys-Model-Pre-Training-Ensemble",
+   "url": "https://huggingface.co/MultimodalAgent/PlanPhys-Model-Pre-Training-Ensemble",
+   "published": "2026-06-26",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "safetensors license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "1a7a9a0485",
+   "kind": "model",
+   "source": "hf",
+   "title": "MultimodalAgent/PlanPhys-Model-Pre-Training-Random",
+   "url": "https://huggingface.co/MultimodalAgent/PlanPhys-Model-Pre-Training-Random",
+   "published": "2026-06-24",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "safetensors qwen2 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "288195c6a4",
+   "kind": "model",
+   "source": "hf",
+   "title": "MultimodalAgent/PlanPhys-Model-Pre-Training-Scaling",
+   "url": "https://huggingface.co/MultimodalAgent/PlanPhys-Model-Pre-Training-Scaling",
+   "published": "2026-06-25",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "safetensors license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "f165842898",
+   "kind": "model",
+   "source": "hf",
+   "title": "MultimodalAgent/PlanPhys-Model-RL-Single",
+   "url": "https://huggingface.co/MultimodalAgent/PlanPhys-Model-RL-Single",
+   "published": "2026-06-29",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "19eed4abc5",
+   "kind": "model",
+   "source": "hf",
+   "title": "MultimodalAgent/TianyiMen_PlanPhys_Models",
+   "url": "https://huggingface.co/MultimodalAgent/TianyiMen_PlanPhys_Models",
+   "published": "2026-07-27",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "en license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1
+  },
+  {
+   "id": "f4443e27a7",
+   "kind": "model",
+   "source": "hf",
+   "title": "Slinkies86/e2b_multimodal_agent",
+   "url": "https://huggingface.co/Slinkies86/e2b_multimodal_agent",
+   "published": "2026-05-02",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "text-generation litert android edge-ai multimodal on-device anyone-hub tflite text-generation en license:other region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "168eb1eb8d",
+   "kind": "model",
+   "source": "hf",
+   "title": "Slinkies86/e4b_multimodal_agent",
+   "url": "https://huggingface.co/Slinkies86/e4b_multimodal_agent",
+   "published": "2026-05-02",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "text-generation litert android edge-ai multimodal on-device anyone-hub tflite orchestration text-generation en license:other region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "69549f8458",
+   "kind": "paper",
+   "source": "hf",
+   "title": "ExplainBench: Evaluating Code Explanations from Agents",
+   "url": "https://huggingface.co/papers/2607.26451",
+   "published": "2026-07-28",
+   "found": "2026-08-05T20:46:30.459887+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes, spanning tens to hundreds of lines. This makes manual review of agent results increasingly infeasible, leading developers to turn to explanations to understand enacted changes. Despite this, there are no benchmarks that evaluate the trustworthiness of agent-generated explanations. To bridge this gap, we propose ExplainBench, a benchmark to automatically evaluate explanations from coding agents. ExplainBench is based on the intuition that informative explanations should enable an LLM to correctly answer questions, allowing quantitative comparison of explanation quality between agents. With this observation, we construct a suite of questions that evaluates whether explanations accurately describe (1) the intended behavior of buggy code and (2) the effect of applying the agent patch itself. Experiments first reveal that explanation quality is a distinct axis of agent evaluation: ExplainBench ranks agents differently from the widely-used SWE-bench Verified benchmark. A deeper breakdown of explanation quality in agents shows frequent problems in explanations, such that explanations often claim that a patch is correct when it is not. Based on this insight, we implement and evaluate an explanation audit agent which runs additional tests to validate and refine explanations. This agent improved the explanations of all evaluated agents, demonstrating agent explanations can be automatically made more trustworthy.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "a4e755cd6c",
    "kind": "paper",
@@ -122,7 +376,7 @@
    "summary_en": "The FULL-VOCAL interaction driven AI system that actively sustains your daily. Simply talk and everything is done. agent ai asr assistant-chat-bots bot chat chatbot computer-use-agent llm manus operator personal python tts voice",
    "summary_zh": "",
    "demo": "",
-   "stars": 6
+   "stars": 7
   },
   {
    "id": "e6151be63a",
@@ -346,7 +600,7 @@
    "summary_en": "",
    "summary_zh": "",
    "demo": "",
-   "stars": 16
+   "stars": 17
   },
   {
    "id": "e38e9dc914",
@@ -2521,7 +2775,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15050
+   "stars": 15052
   },
   {
    "id": "357904a773",
@@ -3998,7 +4252,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 11012
+   "stars": 11062
   },
   {
    "id": "be7f76beb6",
@@ -4092,7 +4346,7 @@
    "summary_en": "AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML apple-silicon asr coreml ios macos mlx neural-engine on-device speaker-diarization speech-enhancement speech-recognition speech-to-speech swift text-to-speech tts voice-activity-detection",
    "summary_zh": "",
    "demo": "",
-   "stars": 1097
+   "stars": 1099
   },
   {
    "id": "ac53c9cede",
@@ -4128,7 +4382,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5860
+   "stars": 5866
   },
   {
    "id": "293306d628",
@@ -4146,7 +4400,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 730
+   "stars": 733
   },
   {
    "id": "5d6e6e2b0a",
@@ -4182,7 +4436,7 @@
    "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
    "summary_zh": "",
    "demo": "",
-   "stars": 560
+   "stars": 562
   },
   {
    "id": "b8dde0aed2",
@@ -4882,7 +5136,7 @@
    "summary_en": "X-Talk is an open-source full-duplex cascaded spoken dialogue system framework enabling low-latency, interruptible, and human-like speech interaction with a lightweight, pure-Python, production-ready architecture. ai conversational-ai python real-time speech-to-speech voice voice-assistant websocket",
    "summary_zh": "X-Talk 是一个开源的全双处级联式口语对话系统框架，纯 Python、轻量、面向生产，主打低延迟、可打断、拟人化的语音交互，基于 WebSocket 提供服务。与自研 harness 路线高度同构：其级联流水线中打断处理、状态管理与流式调度的工程实现可作为直接参考，也可用作对照基线来验证自研全双工方案的延迟与打断体验。",
    "demo": "",
-   "stars": 234
+   "stars": 235
   },
   {
    "id": "fdc2fde8d1",

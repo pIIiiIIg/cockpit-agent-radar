@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>wiringai/mod_earshot</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1523ce3a78.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1523ce3a78.html</guid>
+<description>FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text teleph</description>
+</item>
+<item>
+<title>MiniWorld: Democratizing the Training of Video World Models from Scratch</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/032a32327f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/032a32327f.html</guid>
+<description>Video world models predict future observations conditioned on historical observations and control signals, enabling long-horizon generation through autoregressive state transitions. Unlike conventional video generation models that primarily capture visual appearance and motion, video world models le</description>
+</item>
+<item>
+<title>Language-Specialized Multi-Teacher On-Policy Distillation for Multilingual LLM-Based ASR</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f5e41f8681.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f5e41f8681.html</guid>
+<description>Modern LLM-based ASR systems have established multilingual capability as a standard feature, leveraging large-scale multilingual corpora and LLMs&#x27; cross-lingual knowledge to achieve competitive performance across multilingual benchmarks. However, joint modeling of languages with heterogeneous acoust</description>
+</item>
+<item>
+<title>Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dcf4f2fa5d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dcf4f2fa5d.html</guid>
+<description>Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce QIANGDA, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized </description>
+</item>
+<item>
+<title>Show HN: Learn from 30 historical figures, open source, nonprofit, self-hosted</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2a89101fd3.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2a89101fd3.html</guid>
+<description>Hello HN, I am the founder of Agora Cosmica.&lt;p&gt;This started about three years ago. On a walk I asked a chatbot to interpret the cave dream from Cormac McCarthy&amp;#x27;s book &amp;quot;The Road&amp;quot; as C.G. Jung. It gave me a perspective I had not thought of. But for my own dreams the policies of the big </description>
+</item>
+<item>
+<title>cmots/STEB</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ddb4e832d4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ddb4e832d4.html</guid>
+<description>A Speech-to-Speech Translation Expressiveness Benchmark. Evaluate emotion, scenario style, NV preservation in S2ST with LLM-as-a-judge.</description>
+</item>
+<item>
+<title>MultimodalAgent/PlanPhys-Model-Pre-Training-Distribution</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e04e98479e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e04e98479e.html</guid>
+<description>safetensors license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>MultimodalAgent/PlanPhys-Model-Pre-Training-Ensemble</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/396e3078ab.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/396e3078ab.html</guid>
+<description>safetensors license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>MultimodalAgent/PlanPhys-Model-Pre-Training-Random</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1a7a9a0485.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1a7a9a0485.html</guid>
+<description>safetensors qwen2 region:us</description>
+</item>
+<item>
+<title>MultimodalAgent/PlanPhys-Model-Pre-Training-Scaling</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/288195c6a4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/288195c6a4.html</guid>
+<description>safetensors license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>MultimodalAgent/PlanPhys-Model-RL-Single</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f165842898.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f165842898.html</guid>
+<description>license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>MultimodalAgent/TianyiMen_PlanPhys_Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/19eed4abc5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/19eed4abc5.html</guid>
+<description>en license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>Slinkies86/e2b_multimodal_agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f4443e27a7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f4443e27a7.html</guid>
+<description>text-generation litert android edge-ai multimodal on-device anyone-hub tflite text-generation en license:other region:us</description>
+</item>
+<item>
+<title>Slinkies86/e4b_multimodal_agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/168eb1eb8d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/168eb1eb8d.html</guid>
+<description>text-generation litert android edge-ai multimodal on-device anyone-hub tflite orchestration text-generation en license:other region:us</description>
+</item>
+<item>
+<title>ExplainBench: Evaluating Code Explanations from Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/69549f8458.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/69549f8458.html</guid>
+<description>Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes, spanning tens to hundreds of lines. This makes manual review of agent results increasingly infeasible, leading developer</description>
+</item>
+<item>
 <title>OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/5103f83318.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5103f83318.html</guid>
 <description>region:us</description>
-</item>
-<item>
-<title>Seeing or Knowing? Visual Context Sensitivity in Multimodal Large Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/304a642c99.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/304a642c99.html</guid>
-<description>Multimodal Large Language Models (MLLMs) achieve strong performance by integrating visual inputs with the rich priors of pretrained language models. However, they often fail on vision-centric tasks, especially when visual evidence conflicts with pretrained knowledge. We explore these failures separa</description>
-</item>
-<item>
-<title>Loud or Silent? A Reusable Framework for Per-Modality Failure Analysis in Multimodal Clinical AI</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/26177fef58.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/26177fef58.html</guid>
-<description>Multimodal clinical models are usually judged on accuracy with every modality present, but deployment removes modalities; an echocardiogram is often unavailable where an ECG is routine. Two questions then matter beyond the size of the accuracy loss: which modality was responsible, and whether the mo</description>
-</item>
-<item>
-<title>Compute Globally, Materialize Locally: The Memory Contract of Sparse Event-KV</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/72e8154caf.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/72e8154caf.html</guid>
-<description>Long-horizon agents increasingly reuse their KV cache as memory: a serving system keeps a subset of cached entries and drops the rest. Eviction and episodic-memory schemes therefore rest on a premise rarely tested directly, that a retained event is still informative once the observations that produc</description>
-</item>
-<item>
-<title>Zero-Mem: Zero-Token Memory Operations for LLM Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/04f31b07b7.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/04f31b07b7.html</guid>
-<description>LLM agents need memory to act consistently over long interactions, yet many systems use additional LLM calls to operate that memory. Generating intermediate records and mediating their retrieval adds recurring token and time costs, while omitted or merged details can obscure the original evidence. W</description>
-</item>
-<item>
-<title>Hermite Curves as Trajectory Priors for Vision-Language-Action Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/704bcdfd0d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/704bcdfd0d.html</guid>
-<description>Despite recent progress in Vision-Language-Action (VLA) models for robotic manipulation, the action chunk remains a weakly structured interface. Existing work typically flatten each chunk into per-timestep controls, relying on implicit data learning that manifests as jagged motion and boundary disco</description>
-</item>
-<item>
-<title>modelscope/mcore-bridge</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ebe69abc97.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ebe69abc97.html</guid>
-<description>MCore-Bridge: Providing Megatron-Core model definitions for state-of-the-art large models and making Megatron training as simple as Transformers — with support for 300+ large language models (Qwen3-Next, GLM-5.2, Deepseek-V4, MiniMax-2.7, ...) and 200+ multimodal large models (Qwen3.5, Qwen3-Omni, G</description>
-</item>
-<item>
-<title>Deferred Exposure of Future Trajectories for Verifiable Reasoning in Autonomous Driving VLMs</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6c381be0cf.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6c381be0cf.html</guid>
-<description>Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged grou</description>
-</item>
-<item>
-<title>LongHorizon-Harness: Advancing Long-Horizon Agents for Real-World Tasks</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2633e8f341.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2633e8f341.html</guid>
-<description>Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, and completion assessment within a growing context, making the</description>
-</item>
-<item>
-<title>UEmbed: Unified Sparse and Dense Multimodal Embeddings</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8b7e72d84e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8b7e72d84e.html</guid>
-<description>Sparse retrieval underpins modern search systems, from web search to retrieval-augmented generation. Existing work has introduced Learned Sparse Retrieval (LSR) to push beyond exact lexical matching toward richer semantics. Yet LSR has so far remained tied to encoder-style bidirectional architecture</description>
-</item>
-<item>
-<title>Model or Harness? An Interaction-Centric Taxonomy for Localizing Agent Failures</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b53cfd0acb.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b53cfd0acb.html</guid>
-<description>Existing evaluations often reduce agent failures to system-level outcomes, obscuring where the fault originated and which intervention would improve the agent system. This creates a repair-assignment problem: the same visible failure may call for model post-training, harness engineering, environment</description>
-</item>
-<item>
-<title>SKT: Skill-Use Training at Scale via Verified Synthetic Data Generation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3306ffc2ed.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3306ffc2ed.html</guid>
-<description>Agent skills have become an important mechanism for equipping language-model agents with reusable procedural knowledge. However, providing skills alone does not guarantee that current models can effectively identify, apply, and coordinate them. To improve skill-use capabilities, we introduce SKT, a </description>
-</item>
-<item>
-<title>SAM3D-Guided Object-Centric Representation Alignment for Vision-Language-Action Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6402f4706a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6402f4706a.html</guid>
-<description>Vision-Language-Action (VLA) models have shown strong potential for general robot manipulation, but most existing models rely on 2D visual-language backbones and lack fine-grained 3D understanding of target objects, especially under occlusion, pose variation, scale changes, and precise spatial inter</description>
-</item>
-<item>
-<title>CG-World: A Large-Scale World-State Dataset and Protocol for World Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f60acec12a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f60acec12a.html</guid>
-<description>World models must learn the joint dynamics of states, actions, events, and observations, yet existing video, robotics, and simulation datasets usually capture only part of this structure. We introduce CG-World, a large-scale world-state dataset and protocol derived from industrial computer graphics </description>
-</item>
-<item>
-<title>Cloned Voices, Real Consequences: Evaluating Bias in Political Deepfake Detection for Electoral Integrity in Brazil</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2f896129ea.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2f896129ea.html</guid>
-<description>Recent advances in generative artificial intelligence have made it easier to fabricate statements and amplify political disinformation during elections. We introduce ParlaSpoof-BR, an audio deepfake dataset derived from recordings of the Brazilian Chamber of Deputies and expanded with synthetic utte</description>
-</item>
-<item>
-<title>Leveraging Beam Search Information for Confidence Estimation in E2E ASR</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8c85d4ceba.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8c85d4ceba.html</guid>
-<description>To estimate confidence for end-to-end Automatic Speech Recognition (ASR) systems, recent research has proposed Confidence Estimation Modules that incorporate features from the backbone ASR model. Most existing approaches, however, are architecture-dependent. In this paper, we propose the Score-Rank </description>
 </item>
 </channel></rss>
