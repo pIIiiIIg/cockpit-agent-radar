@@ -1,6 +1,261 @@
 {
- "generated": "2026-08-05T09:31:44.911846+08:00",
+ "generated": "2026-08-05T16:14:40.412815+08:00",
  "items": [
+  {
+   "id": "a4e755cd6c",
+   "kind": "paper",
+   "source": "hf",
+   "title": "OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models",
+   "url": "https://huggingface.co/papers/2608.03812",
+   "published": "2026-08-03",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 12,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "211c0dd840",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent",
+   "url": "https://huggingface.co/papers/2608.03979",
+   "published": "2026-08-03",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 11,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "25706b1e40",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models",
+   "url": "https://arxiv.org/abs/2608.03812v1",
+   "published": "2026-08-04",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 10,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Omni-modal large language models (Omni-LLMs) have achieved remarkable performance on audio-visual understanding tasks, but processing long and highly redundant visual and audio token sequences incurs substantial computational overhead, demanding aggressive token compression for efficient deployment. Existing methods often degrade at low token budgets: pre-LLM compression may discard structurally important and globally distributed evidence, whereas inner-LLM compression often underexploits query-conditioned audio-visual collaboration. To address these limitations, we propose OmniPack, a training-free framework that coordinates structural compression before the LLM with task-relevant semantic refinement within the LLM. Before the LLM, OmniPack removes structural redundancy through modality-specific importance, global coverage, and similarity-aware merging. After sufficient multimodal interaction, it further consolidates diverse, task-relevant representations through textual guidance and audio-visual collaboration. Extensive experiments on five benchmarks with three Omni-LLM backbones demonstrate that OmniPack consistently achieves the best performance-efficiency trade-off across diverse retention ratios, outperforming all existing methods. Notably, on Qwen2.5-Omni-7B, OmniPack preserves 98.0% of the original performance while reducing FLOPs to 16.7%, and still retains 92.9% of the original performance with only 6.8% of the original FLOPs.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "1f6552b1b4",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent",
+   "url": "https://arxiv.org/abs/2608.03979v1",
+   "published": "2026-08-04",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 9,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8e6aef3a3e",
+   "kind": "model",
+   "source": "hf",
+   "title": "oscar0403/mindsurf-omni",
+   "url": "https://huggingface.co/oscar0403/mindsurf-omni",
+   "published": "2026-08-05",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 9,
+   "tags": [
+    "speech-to-speech",
+    "omni"
+   ],
+   "summary_en": "any-to-any speech-to-speech spoken-dialogue chinese any-to-any zh license:cc-by-nc-4.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "8c2ba08e2e",
+   "kind": "repo",
+   "source": "github",
+   "title": "AbrahamSanders/realtime-codec-agent",
+   "url": "https://github.com/AbrahamSanders/realtime-codec-agent",
+   "published": "2026-08-05",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 8,
+   "tags": [
+    "full-duplex",
+    "duplex"
+   ],
+   "summary_en": "A Full-Duplex Codec-based Speech2Speech Dialogue Agent",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 6
+  },
+  {
+   "id": "5a41c5e54c",
+   "kind": "repo",
+   "source": "github",
+   "title": "ccjjfdyqlhy/DSN-exp",
+   "url": "https://github.com/ccjjfdyqlhy/DSN-exp",
+   "published": "2026-08-05",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 6,
+   "tags": [],
+   "summary_en": "The FULL-VOCAL interaction driven AI system that actively sustains your daily. Simply talk and everything is done. agent ai asr assistant-chat-bots bot chat chatbot computer-use-agent llm manus operator personal python tts voice",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 6
+  },
+  {
+   "id": "e6151be63a",
+   "kind": "paper",
+   "source": "hf",
+   "title": "PosterMELD: Multi-Agent Paper-to-Poster Generation for Controllable Design Diversity with Editable Print-Ready Outputs",
+   "url": "https://huggingface.co/papers/2608.02218",
+   "published": "2026-08-02",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs; direct image generation is not element-editable, while coding-agent workflows are costly. PosterMELD is a template-conditioned multi-agent pipeline: capacity-aware slots guide writing before rendering, and deterministic gates plus vision-language model (VLM) review route failures to bounded repair. Each accepted request exports editable PowerPoint (PPTX) and Portable Network Graphics (PNG) artifacts; explicit design controls yield same-paper variants. Across 621 papers, Print-Ready Rate (PRR) counts requests passing geometric, readability, asset-integrity, and obvious-factual-error checks, with native editability reported separately. A frozen VLM assigns conditional Craftsmanship-Harmony-Expressiveness (CHE) scores to print-ready outputs. PosterMELD attains 81.3% PRR, 3.4 times P2P's rate and 5.2 times PosterGen's, and the highest conditional CHE among generated methods with multiple print-ready outputs. Native editability and explicit design controls are retained at a mean cost of USD 0.38 per request, 3.5% of Codex+Skill's. Code and resources are available at https://github.com/Shannon4Science/PosterMELD.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b4c812b608",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Hunyuan3D-Buffalo 1.0: A Unified Multimodal Model for Scalable 3D Generation, Understanding, and Editing",
+   "url": "https://huggingface.co/papers/2608.02711",
+   "published": "2026-08-02",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Recent advances in image generation have demonstrated the potential of unified multimodal models that integrate understanding, generation, and editing. However, unified 3D modeling remains constrained by scarce multimodal data, particularly the lack of large-scale and geometrically consistent editing data. To address this limitation, we propose Hunyuan3D-Buffalo 1.0, a unified framework supporting 3D understanding, text-to-3D generation, instruction-guided 3D editing, and text-grounded part generation within a single architecture. To enable scalable training, we construct an 87M-scale 3D multimodal corpus, comprising 25M understanding samples, 50M text-to-3D pairs, and 12M editing pairs generated using Nano3D-v2. Architecturally, the framework combines Hunyuan3D-VLM for semantic, structural, and spatial understanding with Hunyuan3D DiT for high-fidelity 3D synthesis. The VLM provides multimodal semantic conditions for generation, while editing and part generation additionally condition the diffusion process on the source object representation to preserve its overall structure and unedited regions. Extensive experiments show that Hunyuan3D-Buffalo 1.0 achieves state-of-the-art or leading performance on text-to-3D generation and 3D editing benchmarks, while exhibiting strong understanding and part-generation capabilities. Our analysis further shows that both generation and understanding improve editing, demonstrating the effectiveness of unified 3D multimodal training. Project Page: https://tencent-hunyuan.github.io/Hunyuan3D-Buffalo1.0/",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "02c84a448e",
+   "kind": "paper",
+   "source": "hf",
+   "title": "MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations",
+   "url": "https://huggingface.co/papers/2607.28956",
+   "published": "2026-07-30",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments often require Long-Term Coherence, the capacity to preserve purposeful behavior across extended horizons while adapting decisions to accumulated evidence. Evaluating this capacity requires a persistent environment in which actions constrain future choices, feedback arrives at heterogeneous delays, and incoherent behavior produces measurable cumulative effects. Seller-side e-commerce provides a suitable setting for this evaluation through recurrent and interdependent decisions over Product Sourcing, Listing and Pricing Control, Cash-Flow Management, and Mixed-Latency Feedback Adaptation. We introduce MerchantBench, a 365-day order-level simulation grounded in 98,843 real e-commerce product records and equipped with 26 tools for agent interaction. MerchantBench couples promptly observable Upstream Supplier Events with delayed Downstream Order Outcomes, requiring agents to follow individual order lifecycles and revisit earlier decisions. We evaluate eight LLMs under two agent frameworks in 48 runs, each spanning 365 simulated days. Our results reveal a substantial gap between even the latest LLMs and human participants, with the best LLM configuration attaining only 27.3\\% of the mean final net assets achieved by human participants.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f80e382d25",
+   "kind": "paper",
+   "source": "hf",
+   "title": "ContinualSkillBench: Can LLM Agents Truly Evolve Their Capabilities?",
+   "url": "https://huggingface.co/papers/2608.03874",
+   "published": "2026-08-03",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Modern agent frameworks equip large language models with external skill libraries to solve complex tasks. However, it remains unclear whether these systems can effectively evolve their skills and whether the resulting skills improve task-solving capabilities. To bridge this gap, we introduce ContinualSkillBench, a dynamic evaluation framework for in-context continual skill learning. It covers five representative domains, each containing 100 interconnected subtasks ordered by increasing difficulty and opportunities for cross-task skill reuse. Our experiments show that sequential execution generally improves performance, but the gains vary substantially across models and domains. Moreover, in-context learning performs comparably to explicit skill maintenance on average, suggesting that much of the improvement arises from adaptation to prior context and feedback rather than reusable skill abstraction alone. Explicit skills nevertheless provide selective benefits for tasks requiring reusable procedures or precise outputs. We further find that less capable models tend to accumulate larger, more fragmented collections of task-specific skills. These findings show that current in-context skill evolution mechanisms can support continual adaptation, but still struggle to consistently consolidate experience into robust and transferable skills.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b1d0c5c355",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Latent Softmax for Data-Efficient Phoneme-Based Multilingual ASR Across Tonal and Non-Tonal Languages",
+   "url": "https://arxiv.org/abs/2608.01281v1",
+   "published": "2026-08-02",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 4,
+   "tags": [
+    "speech recognition"
+   ],
+   "summary_en": "Phoneme-based multilingual automatic speech recognition (ASR) can share acoustic evidence across languages more directly than language-specific subword modeling. When tonal and non-tonal languages are jointly trained, however, their supervision granularity does not match: tonal languages annotate tone-marked vowels, whereas non-tonal languages typically provide only base-vowel labels. A standard softmax either treats the two as unrelated classes, weakening cross-lingual sharing, or collapses tones, losing distinctions required by tonal languages. We propose Latent Softmax, a connectionist temporal classification (CTC)-compatible output layer that models tone-marked vowels as subclasses and base vowels as major classes, while consonants and the CTC blank remain singleton labels. When only a base-vowel major-class label is observed, the tone-marked vowel subclass is treated as latent and marginalized out. Multilingual experiments on AISHELL-1 Mandarin and LibriSpeech English show that Latent Softmax reduces speech-to-phoneme (S2P) phoneme error rates over a standard softmax multilingual baseline by 8.4% on AISHELL-1, 17.5% on LibriSpeech test-clean, and 12.6% on test-other. The improved speech-to-phoneme encoders also yield consistent word error rate gains for both large-language-model phoneme-to-grapheme conversion and projector-based interfaces. After code-switching adaptation, Latent Softmax further reduces projector-based mixed error rate by 2.6% on ASRU2019 and 9.5% on CS-Dialogue datasets.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "861c15240c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Deferred Exposure of Future Trajectories for Verifiable Reasoning in Autonomous Driving VLMs",
+   "url": "https://arxiv.org/abs/2608.01755v2",
+   "published": "2026-08-03",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged ground-truth (GT) future trajectory. We empirically show that this induces trajectory anchoring bias: teacher models rationalize the revealed outcome rather than infer a decision from scene evidence, producing less causally faithful CoTs and substantially more severe hallucinations, especially in causally challenging scenes. Removing the GT trajectory eliminates this shortcut, but open-ended trajectory generation entangles high-level decision-making with precise geometric synthesis and low-level dynamics. To make trajectory-level driving decisions verifiable without requiring open-ended trajectory synthesis, we introduce Autonomous-Driving Multiple-Choice Question (AD-MCQ), which casts planning as selection among explicit trajectory candidates. Taking this a step further, we propose Deferred Exposure of Future Trajectories for RLVR (DEFT-RLVR) to transform future trajectories from pre-decision anchors into post-decision verification targets. Experimental results show that DEFT-RLVR improves AD reasoning while preserving or even enhancing general visual capabilities. With VLM-only inference and controllable difficulty through candidate construction, AD-MCQ provides a flexible, scalable, and extensible foundation for future research on verifiable AD reasoning.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "526179613c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "ValueFormer: A Causal Transformer Value Function with Stage-Aware Labels for Semi-Autonomous Vision-Language-Action Policies",
+   "url": "https://arxiv.org/abs/2608.02958v1",
+   "published": "2026-08-03",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) policies trained by behavior cloning fail silently: from the action stream alone, a collapsing rollout looks much like one making clean progress, because imitation supplies no notion of progress. Reinforcement learning would supply one, but it is impractical here, where real-robot experience is costly and deformable food resists simulation. The cheap alternative, a terminal success / failure bit, is learnable in principle yet far too sparse to say when a rollout went wrong. We argue that the per-frame label, not the architecture, is the hard part: to be useful it must be dense, continuous, and correctly shaped. We present ValueFormer, a compact policy-agnostic causal transformer over a frozen DINOv3 backbone that emits two per-frame signals in one forward pass: a smooth Monte Carlo value, V_mc, for advantage estimation and a sharp binary value for online mistake detection, targets that pull in opposite directions by design. Failed episodes are labeled with a stage-aware, success-then-decay return that preserves the success curve before the failure stage, and detection is supervised from mistake intervals rather than a single failure time, so mistakes the policy recovers from also carry signal. On a real-robot bimanual sandwich-assembly task 1,427 episodes), a critic-derived per-frame training weight lifts task completion from 70% to 85% (within noise at n=20), and a batched bf16 encoder cuts the live serving cost 3~5 times so the critic runs at 2 Hz alongside the policy on a single GPU.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "5bcb0181b4",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Structure-Aware Robust Fine-Tuning: Defending Vision-Language-Action Robots Against Physical Attention Hijacking",
+   "url": "https://arxiv.org/abs/2608.03231v1",
+   "published": "2026-08-04",
+   "found": "2026-08-05T16:14:40.412815+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) policies promise general robotic manipulation, but their robustness against physical-world attacks remains fragile. In particular, we show that physically realizable adversarial patches can reliably induce failures by triggering a mechanism we call policy-critical action-to-vision attention hijacking, where action-conditioned attention is diverted from task-relevant regions to a localized patch. To demonstrate the threat, we propose Attention-Guided Semantic Disruption (AGSD), an Expectation-over-Transformation (EOT) optimized printable patch that jointly (i) concentrates action-to-vision attention on the patch and (ii) disrupts vision-language semantic alignment, yielding strong cross-task and cross-architecture transfer. To mitigate such attacks, we introduce Structure-Aware Robust Fine-Tuning (SARF), a zero-inference-overhead defense that fine-tunes only the visual encoder using feature anchoring, policy-critical attention correction, and language-guided geometric consistency restricted to semantically relevant regions. On LIBERO, SARF reduces OpenVLA's failure rate under AGSD from 100% to 14.2%-56.8% (28.6% average) across suites while preserving clean performance, and on a real PiPER manipulator it improves average success under AGSD from 23.0% to 65.0%. These results highlight mechanism-level robustness as a practical path to securing VLA robots against physical attention hijacking.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "12897fa990",
    "kind": "repo",
@@ -91,7 +346,7 @@
    "summary_en": "",
    "summary_zh": "",
    "demo": "",
-   "stars": 8
+   "stars": 16
   },
   {
    "id": "e38e9dc914",
@@ -1598,7 +1853,7 @@
    "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
    "summary_zh": "",
    "demo": "",
-   "stars": 94
+   "stars": 98
   },
   {
    "id": "64bb628be2",
@@ -1844,7 +2099,7 @@
    "summary_en": "Your calls, handled by AI — open-source AI phone agent on a Quectel EC20/EG25 4G modem. Auto-answers calls with realtime voice AI (Qwen/OpenAI/Doubao), dials out, sends SMS, navigates IVR menus. 4g-modem ai ai-agent ec20 macos phone-agent python quectel qwen realtime speech-to-speech telephony voice-ai voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 12
+   "stars": 13
   },
   {
    "id": "1f6cd0317b",
@@ -2266,7 +2521,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15046
+   "stars": 15050
   },
   {
    "id": "357904a773",
@@ -3743,7 +3998,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 10956
+   "stars": 11012
   },
   {
    "id": "be7f76beb6",
@@ -3780,7 +4035,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7683
+   "stars": 7682
   },
   {
    "id": "5b176e49fe",
@@ -3873,7 +4128,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5849
+   "stars": 5860
   },
   {
    "id": "293306d628",
@@ -3891,7 +4146,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 727
+   "stars": 730
   },
   {
    "id": "5d6e6e2b0a",
@@ -4587,7 +4842,7 @@
    "summary_en": "A curated list of full-duplex spoken dialogue models & benchmarks awesome-list full-duplex spoken-dialogue-models spoken-dialogue-systems",
    "summary_zh": "一份精选全双工口语对话模型与基准测试的 awesome 清单，持续收录该方向的模型、系统和评测资源。对座舱助手项目是实用的导航页：选型基线模型、寻找全双工能力评测基准（如打断、抢话、延迟指标）时可以按图索骥，避免重复调研。",
    "demo": "",
-   "stars": 158
+   "stars": 159
   },
   {
    "id": "0edff6bc67",
