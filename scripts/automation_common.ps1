@@ -1,5 +1,15 @@
 Set-StrictMode -Version Latest
 
+$AutomationProfile = if ($env:RADAR_AUTOMATION_USER_PROFILE) {
+    $env:RADAR_AUTOMATION_USER_PROFILE
+} else {
+    "C:\Users\Administrator"
+}
+$env:USERPROFILE = $AutomationProfile
+$env:HOME = $AutomationProfile
+$env:LOCALAPPDATA = Join-Path $AutomationProfile "AppData\Local"
+$env:APPDATA = Join-Path $AutomationProfile "AppData\Roaming"
+
 function Write-AutomationLog([string]$Path, [string]$Message) {
     Add-Content -Path $Path -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message" -Encoding UTF8
 }
