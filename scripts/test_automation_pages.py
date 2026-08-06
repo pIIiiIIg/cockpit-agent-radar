@@ -13,6 +13,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
 import build_automation
+import build_site
 
 
 class AutomationPageTests(unittest.TestCase):
@@ -85,6 +86,12 @@ class AutomationPageTests(unittest.TestCase):
         for slug in ("research", "reports", "candidates", "h20",
                      "selection", "publishing"):
             self.assertIn(f"/automation/{slug}/", self.pages["case-hybrid-c"])
+
+    def test_global_site_navigation_exposes_automation(self):
+        rendered = build_site.shell("test", "<p>body</p>", page="index")
+        self.assertIn(f'{build_site.BASE}/automation/', rendered)
+        self.assertIn(f'{build_site.BASE}/reviews.html', rendered)
+        self.assertIn(f'{build_site.BASE}/reports/', rendered)
 
     def test_internal_automation_links_resolve(self):
         routes = {"/automation/"}
