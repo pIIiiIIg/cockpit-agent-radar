@@ -79,6 +79,13 @@ Cursor 负责筛选后的正文精读；不能把整条调研链标成“纯脚�
 真实 registry 链接和当前三组分范围判定。两页都把 partial、冒烟和错误桶证据与
 qualified/production 明确分开。
 
+所有 automation 子页的主要步骤、卡片和案例时间轴都保留短摘要，并附原生
+`details/summary` 双语详细层，说明输入、运行、产物、失败与证据边界。每页提供
+展开/收起全部控制、键盘焦点与 hash 定位；打印时默认展示详细内容，移动端和
+`prefers-reduced-motion` 也受测试保护。严格 B 审计另区分 B pure（无 SoulX）、
+B+真实 SoulX 与 audio-derived C，并把 369/452 幂等合并口径、音频 provenance、
+标签敏感性、CarSim/最终态和时延边界写入 Research、Selection 与 Limitations。
+
 修改后运行：
 
 ```bash

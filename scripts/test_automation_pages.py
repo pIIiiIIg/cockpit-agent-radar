@@ -228,6 +228,64 @@ class AutomationPageTests(unittest.TestCase):
         self.assertIn("不能 full qualified", page)
         self.assertNotIn("Hybrid C · 4-case smoke · qualified", page)
 
+    def test_strict_b_audit_facts_are_consistent_across_pages(self):
+        joined = "\n".join(
+            self.pages[slug] for slug in ("research", "selection", "limitations"))
+        for fact in (
+                "B pure", "不发送 SoulX", "asr_prefetch=true",
+                "369 / 452", "81.64%", "Wilson CI 77.81–84.93%",
+                "successful-or-idempotent", "49", "427", "23", "2",
+                "84.51%", "85.18%", "单音色", "clean", "single-turn",
+                "expected_args", "expected_final_state", "1818.7ms",
+                "0.7s VAD", "完整转写"):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, joined)
+        self.assertIn("当前默认 asr_prefetch 测 C，不能替代 B pure",
+                      self.pages["h20"])
+        self.assertIn("不是端到端任务成功率", joined)
+        self.assertIn("不声称这次只读审计已经单独发布为 GitHub 文件",
+                      self.pages["limitations"])
+
+    def test_every_subpage_article_has_bilingual_details(self):
+        for slug, page in self.pages.items():
+            if slug == "index":
+                continue
+            with self.subTest(slug=slug):
+                article_count = page.count("<article")
+                self.assertGreater(article_count, 0)
+                self.assertEqual(
+                    article_count, page.count('class="item-detail"'))
+                self.assertGreaterEqual(
+                    page.count(f'id="{slug}-item-'), article_count)
+                self.assertIn("展开详细解释", page)
+                self.assertIn("Expand detailed explanation", page)
+                self.assertIn('summary tabindex="0"', page)
+
+    def test_candidate_contract_has_nontrivial_specific_details(self):
+        page = self.pages["candidates"]
+        for fact in (
+                "若只改变 X", "正例是只开紧凑回执", "共享工作树",
+                "candidate_id", "protected paths", "diff allowlist",
+                "manifest 原文", "任何违规都标 invalid",
+                "retained_components", "direct/component-specific",
+                "0/31 无收益保持 rejected"):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, page)
+
+    def test_detail_controls_print_and_safe_javascript(self):
+        for slug, page in self.pages.items():
+            if slug == "index":
+                continue
+            with self.subTest(slug=slug):
+                self.assertIn("展开全部详细解释", page)
+                self.assertIn("收起全部详细解释", page)
+                self.assertIn("setDetails(true)", page)
+                self.assertIn("setDetails(false)", page)
+                self.assertIn("@media print", page)
+                self.assertIn("details:not([open])", page)
+                self.assertIn("hashchange", page)
+                self.assertNotIn("innerHTML", page)
+
     def test_accessibility_responsive_and_reduced_motion(self):
         for slug, text in self.pages.items():
             with self.subTest(slug=slug):
