@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>bielcarpi/hermes-live-voice</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b1f769a184.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b1f769a184.html</guid>
+<description>Continuous voice for Hermes Agent. Keep talking while durable tasks run in the background. background-tasks browser-sdk durable-tasks full-duplex gemini-live hermes-agent hermes-plugin local-voice nous-research openai-realtime realtime-audio realtime-voice self-hosted speech-to-speech terminal types</description>
+</item>
+<item>
+<title>Yeongtak/Qwen2.5-Omni-7B-Omni-Persona-RLVR</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b2a17a87f9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b2a17a87f9.html</guid>
+<description>any-to-any transformers safetensors qwen2_5_omni text-to-audio omnimodal personalization rlvr gspo abstention any-to-any en arxiv:2503.20215 arxiv:2605.09996 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us</description>
+</item>
+<item>
+<title>Yeongtak/Qwen2.5-Omni-3B-Omni-Persona-RLVR</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1b21f75edc.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1b21f75edc.html</guid>
+<description>any-to-any transformers omnimodal personalization rlvr gspo abstention qwen2_5_omni any-to-any en arxiv:2503.20215 arxiv:2605.09996 base_model:Qwen/Qwen2.5-Omni-3B base_model:finetune:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us</description>
+</item>
+<item>
+<title>antgas/qwen2-5-omni-3b-it_distill-ours</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/57dee2722a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/57dee2722a.html</guid>
+<description>text-generation peft safetensors base_model:adapter:Qwen/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B region:us</description>
+</item>
+<item>
+<title>namin0202/qwen2-5-omni-3b-it_distill-ours</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c088d57f87.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c088d57f87.html</guid>
+<description>text-generation peft safetensors base_model:adapter:Qwen/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B region:us</description>
+</item>
+<item>
+<title>namin0202/qwen2-5-omni-3b-it_unifalign</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5f4c6a4670.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5f4c6a4670.html</guid>
+<description>text-generation peft safetensors base_model:adapter:/mnt/image-net-full/namin/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B base_model:adapter:Qwen/Qwen2.5-Omni-3B region:us</description>
+</item>
+<item>
+<title>namin0202/qwen2-5-omni-7b_unifalign</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f3ac56afe4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f3ac56afe4.html</guid>
+<description>text-generation peft safetensors base_model:adapter:/mnt/image-net-full/namin/Qwen2.5-Omni-7B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-7B base_model:adapter:Qwen/Qwen2.5-Omni-7B region:us</description>
+</item>
+<item>
+<title>Agent Against Agent: An Agentic System for Automatic Prompt Injection Red Teaming</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b1e69abc71.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b1e69abc71.html</guid>
+<description>Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforce</description>
+</item>
+<item>
+<title>OpenSQZ/OpenGlass</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e8bde6a628.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e8bde6a628.html</guid>
+<description>An open research platform for wearable sensing, nearby-device local multimodal inference, and local-first visual assistance. ai-glasses hardware multimodel omni personas smartglasses wearable wearable-devices</description>
+</item>
+<item>
+<title>AVE-Compass: Towards Holistic Evaluation for Audio-Video Editing Abilities</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b8a6dfc35f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b8a6dfc35f.html</guid>
+<description>While instruction-based video editing has advanced rapidly, real-world videos contain tightly coupled audio and visual signals, and editing one modality often requires coordinated changes in the other. Existing benchmarks primarily evaluate visual transformations on silent clips or isolated audio ed</description>
+</item>
+<item>
+<title>Explicit Language Memory for Long-Horizon Planning in Vision-Language-Action Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/33b9b9733c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/33b9b9733c.html</guid>
+<description>Vision-language-action (VLA) models provide a unified paradigm for connecting visual perception, language understanding, and robotic control. However, existing VLA models still face major challenges in long-horizon tasks: sparse expert demonstrations constrain cross-task compositional generalization</description>
+</item>
+<item>
+<title>Kushagra1A/openpi</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/722a5d2b25.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/722a5d2b25.html</guid>
+<description>🤖 Explore open-source robotics models and packages, including advanced vision-language-action systems for versatile applications and fine-tuning options. advanced-driver-assistance-systems composite-fields end-to-end-autonomous-driving fpga gpu human-pose-estimation javascript llm llmops multicloud </description>
+</item>
+<item>
+<title>provael/provael</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/adcb3183a0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/adcb3183a0.html</guid>
+<description>Provael — red-team open Vision-Language-Action (VLA) robot policies in simulation and report an Attack Success Rate (ASR). Prove it. Prevail. adversarial-attacks ai-safety lerobot libero llm red-team robot-learning robotics security smolvla vision-language-action vla</description>
+</item>
+<item>
+<title>Decoding Children&#x27;s Gait Behavior</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2dfa2c0c88.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2dfa2c0c88.html</guid>
+<description>We introduce a new problem domain for human action recognition: the fine-grained analysis of children&#x27;s gait behaviors from standard RGB video. We specifically target the ambulatory patterns of children aged 3-17 years. Such behaviors arise naturally in the diagnosis and treatment of several critica</description>
+</item>
+<item>
+<title>Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8a653ef5e0.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8a653ef5e0.html</guid>
+<description>Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task po</description>
+</item>
+<item>
 <title>ayutaz/vokra</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/efa2f9c432.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/efa2f9c432.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/288195c6a4.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/288195c6a4.html</guid>
 <description>safetensors license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>MultimodalAgent/PlanPhys-Model-RL-Single</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f165842898.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f165842898.html</guid>
-<description>license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>MultimodalAgent/TianyiMen_PlanPhys_Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/19eed4abc5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/19eed4abc5.html</guid>
-<description>en license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>Slinkies86/e2b_multimodal_agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f4443e27a7.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f4443e27a7.html</guid>
-<description>text-generation litert android edge-ai multimodal on-device anyone-hub tflite text-generation en license:other region:us</description>
-</item>
-<item>
-<title>Slinkies86/e4b_multimodal_agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/168eb1eb8d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/168eb1eb8d.html</guid>
-<description>text-generation litert android edge-ai multimodal on-device anyone-hub tflite orchestration text-generation en license:other region:us</description>
-</item>
-<item>
-<title>ExplainBench: Evaluating Code Explanations from Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/69549f8458.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/69549f8458.html</guid>
-<description>Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes, spanning tens to hundreds of lines. This makes manual review of agent results increasingly infeasible, leading developer</description>
-</item>
-<item>
-<title>OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html</guid>
-<description>OmniPack 免训练地先做模态结构压缩，再在 LLM 内依据查询和音视协作精炼 token；Qwen2.5-Omni-7B 以 16.7% FLOPs 保留 98.0% 的五基准平均表现。它可降低 Harness 判停后的多模态 prefill，但不改变判停、打断、晚注入工具或外挂 TTS，且官方仓库目前只有占位 README。</description>
-</item>
-<item>
-<title>Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/211c0dd840.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/211c0dd840.html</guid>
-<description>We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bia</description>
-</item>
-<item>
-<title>OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/25706b1e40.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/25706b1e40.html</guid>
-<description>OmniPack 免训练地先做模态结构压缩，再在 LLM 内依据查询和音视协作精炼 token；Qwen2.5-Omni-7B 以 16.7% FLOPs 保留 98.0% 的五基准平均表现。它可降低 Harness 判停后的多模态 prefill，但不改变判停、打断、晚注入工具或外挂 TTS，且官方仓库目前只有占位 README。</description>
-</item>
-<item>
-<title>Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1f6552b1b4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1f6552b1b4.html</guid>
-<description>We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bia</description>
-</item>
-<item>
-<title>oscar0403/mindsurf-omni</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8e6aef3a3e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8e6aef3a3e.html</guid>
-<description>any-to-any speech-to-speech spoken-dialogue chinese any-to-any zh license:cc-by-nc-4.0 region:us</description>
-</item>
-<item>
-<title>AbrahamSanders/realtime-codec-agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8c2ba08e2e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8c2ba08e2e.html</guid>
-<description>A Full-Duplex Codec-based Speech2Speech Dialogue Agent</description>
-</item>
-<item>
-<title>ccjjfdyqlhy/DSN-exp</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5a41c5e54c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5a41c5e54c.html</guid>
-<description>The FULL-VOCAL interaction driven AI system that actively sustains your daily. Simply talk and everything is done. agent ai asr assistant-chat-bots bot chat chatbot computer-use-agent llm manus operator personal python tts voice</description>
-</item>
-<item>
-<title>PosterMELD: Multi-Agent Paper-to-Poster Generation for Controllable Design Diversity with Editable Print-Ready Outputs</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e6151be63a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e6151be63a.html</guid>
-<description>Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs; direct image generation is not element-editable, while coding-agent workflows are costly. PosterMELD is a template-condi</description>
-</item>
-<item>
-<title>Hunyuan3D-Buffalo 1.0: A Unified Multimodal Model for Scalable 3D Generation, Understanding, and Editing</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b4c812b608.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b4c812b608.html</guid>
-<description>Recent advances in image generation have demonstrated the potential of unified multimodal models that integrate understanding, generation, and editing. However, unified 3D modeling remains constrained by scarce multimodal data, particularly the lack of large-scale and geometrically consistent editin</description>
-</item>
-<item>
-<title>MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/02c84a448e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/02c84a448e.html</guid>
-<description>Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments often require Long-Term Coherence, the capacity to preserve purposeful behavior across extended horizons while adapting </description>
 </item>
 </channel></rss>

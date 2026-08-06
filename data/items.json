@@ -1,6 +1,262 @@
 {
- "generated": "2026-08-06T11:57:12.553089+08:00",
+ "generated": "2026-08-06T16:12:57.715842+08:00",
  "items": [
+  {
+   "id": "b1f769a184",
+   "kind": "repo",
+   "source": "github",
+   "title": "bielcarpi/hermes-live-voice",
+   "url": "https://github.com/bielcarpi/hermes-live-voice",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 13,
+   "tags": [
+    "full-duplex",
+    "speech-to-speech",
+    "duplex"
+   ],
+   "summary_en": "Continuous voice for Hermes Agent. Keep talking while durable tasks run in the background. background-tasks browser-sdk durable-tasks full-duplex gemini-live hermes-agent hermes-plugin local-voice nous-research openai-realtime realtime-audio realtime-voice self-hosted speech-to-speech terminal typescript ui voice-interface websockets",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 19
+  },
+  {
+   "id": "b2a17a87f9",
+   "kind": "model",
+   "source": "hf",
+   "title": "Yeongtak/Qwen2.5-Omni-7B-Omni-Persona-RLVR",
+   "url": "https://huggingface.co/Yeongtak/Qwen2.5-Omni-7B-Omni-Persona-RLVR",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "omnimodal"
+   ],
+   "summary_en": "any-to-any transformers safetensors qwen2_5_omni text-to-audio omnimodal personalization rlvr gspo abstention any-to-any en arxiv:2503.20215 arxiv:2605.09996 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "1b21f75edc",
+   "kind": "model",
+   "source": "hf",
+   "title": "Yeongtak/Qwen2.5-Omni-3B-Omni-Persona-RLVR",
+   "url": "https://huggingface.co/Yeongtak/Qwen2.5-Omni-3B-Omni-Persona-RLVR",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "omnimodal"
+   ],
+   "summary_en": "any-to-any transformers omnimodal personalization rlvr gspo abstention qwen2_5_omni any-to-any en arxiv:2503.20215 arxiv:2605.09996 base_model:Qwen/Qwen2.5-Omni-3B base_model:finetune:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "57dee2722a",
+   "kind": "model",
+   "source": "hf",
+   "title": "antgas/qwen2-5-omni-3b-it_distill-ours",
+   "url": "https://huggingface.co/antgas/qwen2-5-omni-3b-it_distill-ours",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation peft safetensors base_model:adapter:Qwen/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "c088d57f87",
+   "kind": "model",
+   "source": "hf",
+   "title": "namin0202/qwen2-5-omni-3b-it_distill-ours",
+   "url": "https://huggingface.co/namin0202/qwen2-5-omni-3b-it_distill-ours",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation peft safetensors base_model:adapter:Qwen/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "5f4c6a4670",
+   "kind": "model",
+   "source": "hf",
+   "title": "namin0202/qwen2-5-omni-3b-it_unifalign",
+   "url": "https://huggingface.co/namin0202/qwen2-5-omni-3b-it_unifalign",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation peft safetensors base_model:adapter:/mnt/image-net-full/namin/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B base_model:adapter:Qwen/Qwen2.5-Omni-3B region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "f3ac56afe4",
+   "kind": "model",
+   "source": "hf",
+   "title": "namin0202/qwen2-5-omni-7b_unifalign",
+   "url": "https://huggingface.co/namin0202/qwen2-5-omni-7b_unifalign",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation peft safetensors base_model:adapter:/mnt/image-net-full/namin/Qwen2.5-Omni-7B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-7B base_model:adapter:Qwen/Qwen2.5-Omni-7B region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "b1e69abc71",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Agent Against Agent: An Agentic System for Automatic Prompt Injection Red Teaming",
+   "url": "https://huggingface.co/papers/2608.05108",
+   "published": "2026-08-04",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 6,
+   "tags": [],
+   "summary_en": "Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforcement learning (RL), producing attacker models that often generalize poorly to new target LLMs. In this work, we develop PIMiner, an agentic system for prompt injection red-teaming. During training, PIMiner is trained on a sequence of (dataset, target model) pairs and builds a strategy library from scratch. At test time, the learned strategy library can be directly transferred to a previously unseen target LLM without additional training. PIMiner requires only a small number of queries to a target agent (e.g., 10) per test sample. Experimental results demonstrate that PIMiner achieves strong performance. On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1, and 42.9% ASR against Claude-Sonnet-4.5. On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro, 53.3% ASR against GPT-5.1, and 40.0% ASR against Claude-Sonnet-4.5.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e8bde6a628",
+   "kind": "repo",
+   "source": "github",
+   "title": "OpenSQZ/OpenGlass",
+   "url": "https://github.com/OpenSQZ/OpenGlass",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 5,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "An open research platform for wearable sensing, nearby-device local multimodal inference, and local-first visual assistance. ai-glasses hardware multimodel omni personas smartglasses wearable wearable-devices",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 16
+  },
+  {
+   "id": "b8a6dfc35f",
+   "kind": "paper",
+   "source": "hf",
+   "title": "AVE-Compass: Towards Holistic Evaluation for Audio-Video Editing Abilities",
+   "url": "https://huggingface.co/papers/2607.24821",
+   "published": "2026-07-16",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "While instruction-based video editing has advanced rapidly, real-world videos contain tightly coupled audio and visual signals, and editing one modality often requires coordinated changes in the other. Existing benchmarks primarily evaluate visual transformations on silent clips or isolated audio editing, leaving complex audio-visual editing and cross-modal consistency underexplored. We introduce AVE-Compass, a comprehensive benchmark with 145 curated source videos, 196 audio-visually coupled editing instructions, and 2,688 fine-grained checklist items. It evaluates Instruction Following, Fidelity Preserving, Realism, and Editing Intent through checklist-based MLLM judging and a dedicated realism rubric, complemented by automated cross-modal, video, and audio metrics. Extensive evaluation shows that state-of-the-art models still struggle to execute cross-modal instructions while preserving non-target content. We further propose AVE-Agent, a modular agent framework that decomposes complex instructions into dependent subtasks and iteratively improves editing results through self-reflection and evaluator feedback. AVE-Agent improves instruction execution, Fidelity Preserving, and audio-visual alignment in joint editing while maintaining competitive perceptual quality.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "33b9b9733c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Explicit Language Memory for Long-Horizon Planning in Vision-Language-Action Models",
+   "url": "https://arxiv.org/abs/2608.04765v1",
+   "published": "2026-08-05",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-language-action (VLA) models provide a unified paradigm for connecting visual perception, language understanding, and robotic control. However, existing VLA models still face major challenges in long-horizon tasks: sparse expert demonstrations constrain cross-task compositional generalization; the non-Markovian nature of long-horizon tasks makes it difficult for policies conditioned only on current observations to maintain temporal consistency; limited closed-loop error correction allows execution errors to accumulate; and end-to-end action fine-tuning may weaken the high-level semantic representations of vision-language model (VLM) backbones. To address these issues, we propose a hierarchical long-horizon VLA architecture with an explicit language-memory module. The central idea is to convert discrete temporal observations into a coherent textual memory sequence with temporal logic. The system is decoupled into a high-level VLM and a low-level VLA: the high-level VLM performs semantic reasoning through a visual question answering training paradigm, while the low-level VLA executes precise continuous control conditioned on subtask instructions and visual observations. The high-level VLM recursively updates both language memory and subtask instructions using the previous memory as a contextual anchor, enabling persistent temporal tracking and dynamic correction during long-horizon execution. We evaluate the proposed method in multiple simulation environments and conduct sim-to-real experiments on a real robotic platform. The results demonstrate that explicit language memory improves the success rate and robustness of VLA models on complex long-horizon tasks while providing an interpretable semantic account of the decision process.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "722a5d2b25",
+   "kind": "repo",
+   "source": "github",
+   "title": "Kushagra1A/openpi",
+   "url": "https://github.com/Kushagra1A/openpi",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "🤖 Explore open-source robotics models and packages, including advanced vision-language-action systems for versatile applications and fine-tuning options. advanced-driver-assistance-systems composite-fields end-to-end-autonomous-driving fpga gpu human-pose-estimation javascript llm llmops multicloud openpifpaf openpitrix paas perception-algorithm pose-estimation processor prompt-engineering robotics",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 7
+  },
+  {
+   "id": "adcb3183a0",
+   "kind": "repo",
+   "source": "github",
+   "title": "provael/provael",
+   "url": "https://github.com/provael/provael",
+   "published": "2026-08-06",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Provael — red-team open Vision-Language-Action (VLA) robot policies in simulation and report an Attack Success Rate (ASR). Prove it. Prevail. adversarial-attacks ai-safety lerobot libero llm red-team robot-learning robotics security smolvla vision-language-action vla",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5
+  },
+  {
+   "id": "2dfa2c0c88",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Decoding Children's Gait Behavior",
+   "url": "https://huggingface.co/papers/2608.00371",
+   "published": "2026-07-31",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "We introduce a new problem domain for human action recognition: the fine-grained analysis of children's gait behaviors from standard RGB video. We specifically target the ambulatory patterns of children aged 3-17 years. Such behaviors arise naturally in the diagnosis and treatment of several critical developmental and neuromuscular disorders, such as cerebral palsy and hemiplegia. Despite their clinical value, current 3D sensor-based gait analysis systems are expensive, intrusive, and often impractical for young subjects. To address this, we introduce a new dataset comprising over 1,100 high-frame-rate (60 FPS) video sequences from 110 subjects, accompanied by synchronized, anonymized pose sequences. In each session, the child performs a 5-second \"walk-around\" task, capturing the gait cycle from multiple viewpoints. Crucially, we demonstrate that current state-of-the-art approaches, including gait foundation models and Multimodal Large Language Models (MLLMs), fail to effectively resolve these clinical nuances. We identify the key technical challenges in analyzing these erratic and subtle motor patterns and describe a unified end-to-end framework for decoding fundamental components of pediatric gait. Through comprehensive experimental results, we demonstrate the potential of this dataset to drive novel research questions and establish a rigorous baseline for automated child gait assessment.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8a653ef5e0",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+   "url": "https://huggingface.co/papers/2608.02580",
+   "published": "2026-08-02",
+   "found": "2026-08-06T16:12:57.715842+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task policies at small scale. However, whether this approach can provide pretraining benefits for vision-language-action models at scale remains unexplored. We present Ego2Robot, a scalable pipeline that converts egocentric human manipulation videos into robot training data through action retargeting, robot-arm visual synthesis, and multi-level quality curation. Ego2Robot supports both curated datasets and in-the-wild videos, producing 18,561 hours of robot training data spanning 15 robot morphologies, making it the largest ego-to-robot dataset to date. To evaluate generalization, we extend RoboTwin2.0 with disentangled perturbation axes covering visual appearance, scene layout, embodiment morphology, and task semantics. Experiments show that joint pretraining on Ego2Robot-synthesized and robot data consistently improves out-of-distribution generalization across multiple perturbation types, with benefits validated on real-robot deployment. Project page: https://www-ye.github.io/ego2robot_blog/",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "efa2f9c432",
    "kind": "repo",
@@ -279,7 +535,7 @@
    "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
    "summary_zh": "",
    "demo": "",
-   "stars": 14
+   "stars": 25
   },
   {
    "id": "032a32327f",
@@ -3034,7 +3290,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15061
+   "stars": 15066
   },
   {
    "id": "357904a773",
@@ -3245,7 +3501,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 49
+   "stars": 66
   },
   {
    "id": "bd747fc4a6",
@@ -4511,7 +4767,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 11062
+   "stars": 11302
   },
   {
    "id": "be7f76beb6",
@@ -4605,7 +4861,7 @@
    "summary_en": "AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML apple-silicon asr coreml ios macos mlx neural-engine on-device speaker-diarization speech-enhancement speech-recognition speech-to-speech swift text-to-speech tts voice-activity-detection",
    "summary_zh": "",
    "demo": "",
-   "stars": 1099
+   "stars": 1103
   },
   {
    "id": "ac53c9cede",
@@ -4641,7 +4897,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5886
+   "stars": 5894
   },
   {
    "id": "293306d628",
@@ -5766,7 +6022,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5128
+   "stars": 5147
   },
   {
    "id": "a4b6353a38",
