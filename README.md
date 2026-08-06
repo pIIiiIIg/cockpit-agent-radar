@@ -5,6 +5,7 @@ HackerNews 上与**全双工语音、流式多模态模型、agent harness、座
 
 **站点**: <https://piiiiiig.github.io/cockpit-agent-radar/> ·
 **精读记录**: [Reviews](https://piiiiiig.github.io/cockpit-agent-radar/reviews.html) ·
+**自动化系统讲解**: [Automation](https://piiiiiig.github.io/cockpit-agent-radar/automation/) ·
 **订阅**: [RSS](https://piiiiiig.github.io/cockpit-agent-radar/feed.xml)
 
 ## 架构：两层解耦
@@ -55,6 +56,25 @@ python scripts/fetch_rank.py    # 抓取入库 data/items.json（零第三方依
 python scripts/build_site.py    # 生成 docs/
 python -m http.server 8099 --directory docs
 ```
+
+## 自动化系统讲解页面
+
+`scripts/build_automation.py` 是 `/automation/` 总览、六个环节子页和 Hybrid C
+完整案例页的可维护源码；`scripts/build_site.py` 每次建站都会重新生成
+`docs/automation/`。页面沿用站点双语、深浅主题和无外部依赖设计，并提供可暂停、
+可重置且尊重 `prefers-reduced-motion` 的流程动画。
+
+修改后运行：
+
+```bash
+python scripts/test_explanations.py
+python scripts/test_automation_pages.py
+python scripts/build_site.py
+git diff --check
+```
+
+自动化讲解页是普通 Pages 路由，不加入 RSS 条目。云端 Pages smoke 会验收总览、
+调研、H20 和 Hybrid C 案例路由。
 
 ## 打分怎么调
 

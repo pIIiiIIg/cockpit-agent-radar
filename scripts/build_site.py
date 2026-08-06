@@ -15,6 +15,8 @@ import re
 import sys
 from datetime import datetime, timedelta, timezone
 
+import build_automation
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -169,6 +171,7 @@ SHELL = """<!DOCTYPE html>
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="__BASE__/feed.xml">RSS</a>
+    <a class="btn" href="__BASE__/automation/">__AUTOMATION_LABEL__</a>
     <a class="btn" href="__BASE__/reviews.html">__REVIEWS_LABEL__</a>
     <a class="btn" href="__BASE__/reports/">__REPORTS_LABEL__</a>
     <a class="btn" href="__BASE__/archive.html">__ARCHIVE_LABEL__</a>
@@ -192,6 +195,7 @@ def shell(title, body, page=""):
             .replace("__BASE__", BASE)
             .replace("__STYLE__", STYLE).replace("__JS__", JS)
             .replace("__SUB__", sub).replace("__FOOTER__", foot)
+            .replace("__AUTOMATION_LABEL__", pair("自动化", "Automation"))
             .replace("__REVIEWS_LABEL__", pair("精读记录", "Reviews"))
             .replace("__REPORTS_LABEL__", pair("日报", "Reports"))
             .replace("__ARCHIVE_LABEL__", pair("存档", "Archive"))
@@ -691,6 +695,7 @@ def main():
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
     reports = build_reports(by_review_day)
     build_reviews_page(by_review_day)
+    automation_pages = build_automation.build(ROOT)
 
     # 按发现日期分组；首页放最近 6 天，每天另出独立子页 days/<date>.html
     by_day = {}
@@ -722,6 +727,10 @@ def main():
                     "Watching: full-duplex speech, streaming multimodal models, "
                     "agent harnesses, cockpit assistants. Auto-curated from "
                     "arXiv / GitHub / HuggingFace / HackerNews.") + "</p>"]
+    parts.append('<p><a class="demo-link" href="' + BASE + '/automation/">'
+                 + pair("◎ 自动化系统讲解：从技术雷达到 H20 评测闭环",
+                        "◎ Automation guide: radar-to-H20 evaluation loop")
+                 + "</a></p>")
     primer = os.path.join(DOCS, "demos", "full-duplex-primer.html")
     if os.path.exists(primer):
         parts.append('<p><a class="demo-link" href="' + BASE
@@ -769,7 +778,8 @@ def main():
                     if item.get("kind") == "paper")
     papers = sum(item.get("kind") == "paper" for item in items)
     print(f"site built: {len(items)} items, {len(days)} days on index, "
-          f"paper deep dives {explained}/{papers}, reports {len(reports)}")
+          f"paper deep dives {explained}/{papers}, reports {len(reports)}, "
+          f"automation pages {automation_pages}")
 
 
 if __name__ == "__main__":

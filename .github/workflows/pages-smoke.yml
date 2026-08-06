@@ -17,7 +17,9 @@ jobs:
       - name: wait for Pages and verify public routes
         run: |
           base="https://piiiiiig.github.io/cockpit-agent-radar"
-          routes=("/" "/archive.html" "/feed.xml" "/reports/" "/demos/full-duplex-primer.html")
+          routes=("/" "/archive.html" "/feed.xml" "/reports/" "/demos/full-duplex-primer.html"
+                  "/automation/" "/automation/research/" "/automation/h20/"
+                  "/automation/case-hybrid-c/")
           for attempt in $(seq 1 15); do
             failed=0
             for route in "${routes[@]}"; do

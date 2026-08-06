@@ -1,0 +1,128 @@
+<!doctype html><html lang="zh" data-lang="zh"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hybrid C 完整案例 · cockpit-agent-radar</title><style>
+:root{--bg:#0e1116;--card:#161b23;--fg:#dbe2ea;--dim:#8b96a5;--acc:#4da3ff;
+--ok:#3fb46b;--warn:#e0a23f;--bad:#e06b6b;--violet:#b98cff;--line:#29313d;
+--chip:#1d2733} @media(prefers-color-scheme:light){:root{--bg:#f7f8fa;--card:#fff;
+--fg:#1c2430;--dim:#5d6b7c;--acc:#0d6ecc;--ok:#1f8f4d;--warn:#a66d0b;
+--bad:#b34242;--violet:#7542b5;--line:#dce2ea;--chip:#eef2f7}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);
+color:var(--fg);font:15px/1.7 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.wrap{max-width:1040px;margin:auto;padding:18px 18px 64px}.site{display:flex;gap:12px;
+align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:13px}
+.brand{font-size:19px;font-weight:700;color:var(--fg)}.sub{font-size:12px;color:var(--dim)}
+.toolbar{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;
+gap:5px;background:var(--chip);color:var(--fg);border:1px solid var(--line);border-radius:7px;
+padding:5px 10px;font:inherit;font-size:12.5px;cursor:pointer}.btn:hover{border-color:var(--acc);
+text-decoration:none}.hero{padding:28px 0 12px}.hero h1{font-size:clamp(25px,4vw,40px);
+line-height:1.2;margin:0 0 12px}.hero p{max-width:820px;color:var(--dim);font-size:16px}
+.legend,.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:15px 0}
+.badge{display:inline-block;border:1px solid var(--line);background:var(--chip);border-radius:999px;
+padding:2px 8px;font-size:12px}.cursor{color:var(--violet)}.script{color:var(--acc)}
+.verified{color:var(--ok)}.pending{color:var(--warn)}.fact{color:var(--ok)}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:24px;margin:24px 0 34px;
+padding:8px 0;position:relative}.flow:before{content:"";position:absolute;left:6%;right:6%;top:53px;
+height:2px;background:var(--line)}.flow-node{position:relative;z-index:1;background:var(--card);
+border:1px solid var(--line);border-radius:12px;padding:14px 12px;min-height:150px;color:var(--fg);
+transition:.2s transform,.2s border-color,.2s box-shadow}.flow-node:hover,.flow-node.active{
+border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent);
+transform:translateY(-3px);text-decoration:none}.flow-node .num{display:grid;place-items:center;width:28px;
+height:28px;border-radius:50%;background:var(--acc);color:white;font-weight:700;margin-bottom:10px}
+.flow-node h2{font-size:15px;margin:0 0 6px}.flow-node p{font-size:12.5px;color:var(--dim);margin:0}
+.flow-node.pulse:after{content:"";position:absolute;inset:-4px;border:2px solid var(--acc);
+border-radius:15px;animation:pulse 1.2s ease-out}.section{margin:28px 0}.section h2{font-size:21px;
+border-left:3px solid var(--acc);padding-left:10px}.grid{display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.card{background:var(--card);
+border:1px solid var(--line);border-radius:11px;padding:15px}.card h3{font-size:15px;margin:0 0 7px}
+.card p,.card li{font-size:13.5px}.card p{color:var(--dim)}.card ul,.card ol{padding-left:20px}
+.callout{border-left:3px solid var(--warn);background:var(--card);padding:12px 15px;
+border-radius:0 9px 9px 0}.callout.ok{border-color:var(--ok)}.callout.bad{border-color:var(--bad)}
+.steps{counter-reset:step}.step{position:relative;margin:0 0 12px 38px;padding:13px 15px;
+background:var(--card);border:1px solid var(--line);border-radius:10px}.step:before{counter-increment:step;
+content:counter(step);position:absolute;left:-39px;top:12px;width:28px;height:28px;display:grid;
+place-items:center;border-radius:50%;background:var(--acc);color:white;font-weight:700}
+.step h3{margin:0 0 4px;font-size:15px}.step p{margin:4px 0;color:var(--dim)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:24px;color:var(--acc)}.metric small{color:var(--dim)}
+.timeline{border-left:2px solid var(--line);margin-left:11px}.event{position:relative;margin:0 0 14px 25px;
+padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:9px}
+.event:before{content:"";position:absolute;left:-32px;top:17px;width:12px;height:12px;
+border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px var(--bg)}
+.decision{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.decision .card{text-align:center}
+.arrow{color:var(--dim);font-size:22px;text-align:center}.term{border-bottom:1px dotted var(--dim);
+cursor:help}.navline{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-top:38px;
+padding-top:16px;border-top:1px solid var(--line)}.navline a:last-child{text-align:right}
+footer{color:var(--dim);font-size:12px;margin-top:35px}.l-en{display:none}
+[data-lang=en] .l-en{display:revert}[data-lang=en] .l-zh{display:none}
+@keyframes pulse{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.07)}}
+@media(max-width:820px){.flow{grid-template-columns:repeat(2,1fr)}.flow:before{display:none}
+.decision{grid-template-columns:1fr}.site .sub{display:none}}@media(max-width:480px){
+.wrap{padding:12px 12px 48px}.flow{grid-template-columns:1fr}.toolbar{margin-left:0;width:100%}
+.hero{padding-top:20px}.navline{grid-template-columns:1fr}.navline a:last-child{text-align:left}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;
+transition:none!important;scroll-behavior:auto!important}.flow-node.pulse:after{display:none}}
+</style></head>
+<body><div class="wrap"><header class="site">
+<a class="brand" href="https://piiiiiig.github.io/cockpit-agent-radar/">🚗 cockpit-agent-radar</a>
+<span class="sub"><span class="l-zh">自动化系统讲解</span><span class="l-en">automation system guide</span></span>
+<nav class="toolbar" aria-label="Site">
+<a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+<a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读</span><span class="l-en">Reviews</span></a>
+<a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+<button class="btn" type="button" onclick="toggleLang()" aria-label="Switch language">中 / EN</button>
+</nav></header><main id="main"><section class="hero"><h1><span class="l-zh">完整案例：Hybrid C</span><span class="l-en">Full case: Hybrid C</span></h1><p><span class="l-zh">这个案例展示自动化为什么需要“范围、硬门和 partial”：大样本准确率没有过门，但若干组件在独立小范围证据下值得保留。</span><span class="l-en">This case shows why scope, hard gates, and partial exist: large-scope accuracy missed the gate, while several components had independently scoped evidence worth retaining.</span></p><div class="legend"><span class="badge fact">Measured</span><span class="badge pending">No extrapolation from 4 cases</span></div></section><section class="section" id="radar"><h2><span class="l-zh">1. Radar 建议进入日报</span><span class="l-en">1. Radar advice enters the report</span></h2>
+<p><span class="l-zh">RelayS2S 提醒安全控制可在生成前后加结构化约束；Voice Memory 提醒把跨轮状态做成显式记忆；Qwen-UI-Agent 提供 typed action / UI grounding 的参考。它们是技术证据，不是 Harness 已有效的结论。</span><span class="l-en">RelayS2S suggested structured safety constraints around generation; Voice Memory suggested explicit cross-turn state; Qwen-UI-Agent informed typed action and UI grounding. These were external evidence, not proof of Harness gains.</span></p></section>
+<section class="section" id="report"><h2><span class="l-zh">2. 从建议到问题</span><span class="l-en">2. From advice to question</span></h2>
+<div class="decision"><article class="card"><b><span class="l-zh">现象</span><span class="l-en">Observed problem</span></b><p><span class="l-zh">确认回执冗长、复杂动作解析不稳定、真实 ASR 路径有可隐藏时延。</span><span class="l-en">Verbose confirmations, unstable complex-action parsing, and latency opportunities on the real ASR path.</span></p></article><div class="arrow">→</div><article class="card"><b><span class="l-zh">实验问题</span><span class="l-en">Experiment question</span></b><p><span class="l-zh">能否组合低风险确定性组件，提高完成与工具执行，同时保持 e2e P95？</span><span class="l-en">Can low-risk deterministic components improve completion and tool execution while preserving e2e P95?</span></p></article></div></section>
+<section class="section" id="candidate"><h2><span class="l-zh">3. 组件逐步形成 Hybrid C</span><span class="l-en">3. Components form Hybrid C</span></h2><div class="timeline">
+<article class="event"><b><span class="l-zh">紧凑回执</span><span class="l-en">Compact receipt</span></b> — <span class="l-zh">减少确认文本和 TTS 尾部。</span><span class="l-en">Reduce confirmation text and TTS tail.</span></article>
+<article class="event"><b>grouped MoE</b> — <span class="l-zh">按意图组路由专门解析器。</span><span class="l-en">Route intent groups to specialized resolvers.</span></article>
+<article class="event"><b><span class="l-zh">确定性确认</span><span class="l-en">Deterministic confirmation</span></b> — <span class="l-zh">对可确定动作不依赖自由生成。</span><span class="l-en">Avoid free-form generation for deterministic confirmations.</span></article>
+<article class="event"><b>Relay <span class="l-zh">安全前缀</span><span class="l-en">safety prefix</span></b> — <span class="l-zh">在可执行动作前注入不可绕过的安全上下文。</span><span class="l-en">Inject non-bypassable safety context before executable actions.</span></article>
+<article class="event"><b><span class="l-zh">真实 ASR 预取</span><span class="l-en">Real-ASR prefetch</span></b> — <span class="l-zh">只预取、不提前提交，在真实音频路径复用等待时间。</span><span class="l-en">Prefetch without early commit, reusing wait time on the real audio path.</span></article>
+<article class="event"><b>typed resolver</b> — <span class="l-zh">把槽位和动作类型解析成可校验结构。</span><span class="l-en">Parse slots and action types into a validated structure.</span></article>
+</div></section>
+<section class="section" id="evaluation"><h2><span class="l-zh">4. 真实结果，严格分范围</span><span class="l-en">4. Measured results, strictly scoped</span></h2>
+<h3><span class="l-zh">452 条组合评测</span><span class="l-en">452-case combination evaluation</span></h3><div class="metrics">
+<div class="metric"><b>99.56%</b><small><span class="l-zh">组合完成率</span><span class="l-en">combined completion</span></small></div>
+<div class="metric"><b>81.64%</b><small><span class="l-zh">工具执行率</span><span class="l-en">tool execution</span></small></div>
+<div class="metric"><b>1241.6ms</b><small>e2e P95</small></div></div>
+<p class="callout bad"><span class="l-zh">时延通过 1.6s 硬门；准确率门按要求未通过。99.56% 是“组合完成率”，不能替代工具执行准确性；81.64% 明显低于 99%。</span><span class="l-en">Latency passes the 1.6s gate; the required accuracy gate does not. 99.56% is combined completion and cannot replace tool-execution accuracy; 81.64% is below 99%.</span></p>
+<h3><span class="l-zh">4 条 Hybrid C 冒烟</span><span class="l-en">Four-case Hybrid C smoke</span></h3><div class="metrics">
+<div class="metric"><b>4 / 4</b><small><span class="l-zh">仅该冒烟集</span><span class="l-en">this smoke set only</span></small></div>
+<div class="metric"><b>≈1195ms</b><small>e2e</small></div>
+<div class="metric"><b>≈975ms</b><small>call</small></div></div>
+<p class="callout"><span class="l-zh">4 条样本证明链路可工作，不证明总体准确率，也不能外推到 452 或 122 条集合。call 时延也不能冒充 e2e。</span><span class="l-en">Four cases prove the path can work; they do not establish overall accuracy and cannot be extrapolated to 452 or 122 cases. Call latency is not e2e.</span></p>
+<h3><span class="l-zh">错误桶与淘汰项</span><span class="l-en">Error bucket and rejected item</span></h3><div class="grid">
+<article class="card"><h3>0 → 24 / 31</h3><p><span class="l-zh">针对 31 条错误桶的组件修复覆盖到 24 条：有显著局部证据，但仍不是完整集通过。</span><span class="l-en">A component fix covered 24 of a 31-case error bucket: meaningful partial evidence, not a full-set pass.</span></p></article>
+<article class="card"><h3>0 / 31</h3><p><span class="l-zh">“增强工具描述”没有修复任何一条，因此淘汰并保留负结果，避免下一轮重复。</span><span class="l-en">Tool-description enhancement fixed none, so it was rejected and recorded as a negative result.</span></p></article>
+</div></section>
+<section class="section" id="decision"><h2><span class="l-zh">5. 决策树：为什么保留 partial</span><span class="l-en">5. Decision tree: why retain partial</span></h2><div class="steps">
+<article class="step"><h3><span class="l-zh">证据有效吗？是</span><span class="l-en">Valid evidence? Yes</span></h3><p><span class="l-zh">真实 ASR、独立 worker、范围和时延口径可追溯。</span><span class="l-en">Real ASR, isolated workers, scope, and latency definitions are traceable.</span></p></article>
+<article class="step"><h3><span class="l-zh">整体过硬门吗？否</span><span class="l-en">Overall gates pass? No</span></h3><p><span class="l-zh">e2e 1241.6ms 过门；工具执行 81.64% 未达到 99%，因此不能 qualified / pareto。</span><span class="l-en">e2e 1241.6ms passes; tool execution 81.64% misses 99%, so it cannot be qualified or Pareto.</span></p></article>
+<article class="step"><h3><span class="l-zh">有可拆、可复验的局部收益吗？有</span><span class="l-en">Separable, repeatable partial gain? Yes</span></h3><p><span class="l-zh">31 错误桶修到 24/31，且组件边界清楚，因此登记 retained components；0/31 的描述增强不保留。</span><span class="l-en">The 31-case bucket improved to 24/31 with clear component boundaries, so those components are retained. The 0/31 description enhancement is not.</span></p></article>
+</div></section>
+<section class="section" id="publish"><h2><span class="l-zh">6. 正确的发布措辞</span><span class="l-en">6. Correct publishing language</span></h2>
+<p class="callout ok"><span class="l-zh">“Hybrid C 在 452 条评测中 e2e P95 1241.6ms 过时延门，但工具执行率 81.64% 未过 99% 准确率门；若干组件因 31 错误桶达到 24/31 而局部留存。4/4 smoke 仅证明小范围链路。”</span><span class="l-en">“On 452 cases, Hybrid C passed latency with e2e P95 1241.6ms but missed the 99% accuracy gate with 81.64% tool execution. Some components were retained after improving a 31-case bucket to 24/31. The 4/4 smoke proves only that small path.”</span></p>
+<div class="legend"><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/research/"><span class="l-zh">调研</span><span class="l-en">Research</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/candidates/"><span class="l-zh">候选</span><span class="l-en">Candidates</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/h20/"><span class="l-zh">评测</span><span class="l-en">Evaluation</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/selection/"><span class="l-zh">选择</span><span class="l-en">Selection</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/publishing/"><span class="l-zh">发布</span><span class="l-en">Publishing</span></a></div></section></main><nav class="navline" aria-label="Guide sequence"><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/selection/"><span class="l-zh">← 上一环节</span><span class="l-en">← Previous</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">返回总览</span><span class="l-en">Overview</span></a><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/publishing/"><span class="l-zh">下一环节 →</span><span class="l-en">Next →</span></a></nav>
+<footer><span class="l-zh">事实状态截至 2026-08-06；实测与待验证严格分开。</span><span class="l-en">Evidence status as of 2026-08-06; measured and pending claims are separated.</span></footer>
+</div><script>
+(function(){
+ var root=document.documentElement, reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ root.dataset.lang=localStorage.getItem("radar-lang")||
+   (navigator.language&&navigator.language.indexOf("zh")===0?"zh":"en");
+ window.toggleLang=function(){root.dataset.lang=root.dataset.lang==="zh"?"en":"zh";
+   localStorage.setItem("radar-lang",root.dataset.lang)};
+ var nodes=[].slice.call(document.querySelectorAll(".flow-node")),timer=null,index=-1;
+ function show(i){nodes.forEach(function(n){n.classList.remove("active","pulse")});
+   if(nodes[i]){nodes[i].classList.add("active");if(!reduced)nodes[i].classList.add("pulse")}}
+ function step(){if(!nodes.length)return;index=(index+1)%nodes.length;show(index)}
+ window.playFlow=function(){if(reduced){step();return}clearInterval(timer);step();timer=setInterval(step,1500)}
+ window.pauseFlow=function(){clearInterval(timer);timer=null}
+ window.resetFlow=function(){clearInterval(timer);timer=null;index=-1;show(-1)}
+ document.addEventListener("keydown",function(e){if(e.key==="Escape")window.resetFlow()});
+})();
+</script></body></html>
