@@ -142,30 +142,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-01-16 · ◈ 9
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, hindering personalized voice interaction. In this work, we present Chroma 1.0, the first open-source, real-time, end-to-end spoken dialogue model that achieves both low-latency interaction and high-fidelity personalized voice cloning. Chroma achieves sub-second end-to-end latency through an interleaved text-audio token schedule (1:2) that supports streaming generation, while maintaining high-quality personalized voice synthesis across multi-turn conversations. Our experimental results demonstrate that Chroma achieves a 10.96% relative improvement in speaker similarity over the human baseline, with a Real-Time Factor (RTF) of 0.43, while maintaining strong reasoning and dialogue capabilities. Our code and models are publicly available at https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma and https://huggingface.co/FlashLabs/Chroma-4B . <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Chroma 1.0 以交错文本—声学 token、分层 RVQ 和参考声音条件化生成 24kHz 克隆语音，论文报告首音频 token 146.87ms 和 RTF 0.43。它没有内置轮次检测、打断、工具或确定性执行，更适合作为 endpoint 后的语音生成对照，而不是现有 Harness 的全双工替代品。</span>
     <span class="l-en">Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, hindering personalized voice interaction. In this work, we present Chroma 1.0, the first open-source, real-time, end-to-end spoken dialogue model that achieves both low-latency interaction and high-fidelity personalized voice cloning. Chroma achieves sub-second end-to-end latency through an interleaved text-audio token schedule (1:2) that supports streaming generation, while maintaining high-quality personalized voice synthesis across multi-turn conversations. Our experimental results demonstrate that Chroma achieves a 10.96% relative improvement in speaker similarity over the human baseline, with a Real-Time Factor (RTF) of 0.43, while maintaining strong reasoning and dialogue capabilities. Our code and models are publicly available at https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma and https://huggingface.co/FlashLabs/Chroma-4B .</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, h</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Chroma 1.0 以 1:2 文本—音频 token 调度和分层 RVQ 解码流式生成 24kHz 克隆语音，论文报告低生成延迟，但没有证明原生全双工、轮次检测或用户打断。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>ASR→LLM→TTS 级联会累积延迟并丢失音色、韵律与情绪；已有端到端语音模型又常在低延迟和跨轮次声音一致性之间取舍。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, hindering personalized voice interaction. In this work, we present Chroma 1.0, the first open-source, real-time, end-to-end spoken dialogue model that achieves both low-latency interaction and high-fidelity personalized voice cloning. Chroma achieves sub-second end-to-end latency through an interleaved text-audio token schedule (1:2) that supports streaming generation, while maintaining high-quality personalized voice synthesis across multi-turn conversations. Our experimental results demonstrate that Chroma achieves a 10.96% relative improvement in speaker similarity over the human baseline, with a Real-Time Factor (RTF) of 0.43, while maintaining strong reasoning and dialogue capabilities. Our code and models are publicly available at https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma and https://huggingface.co/FlashLabs/Chroma-4B .</p>
-
-
+  <p>Reasoner 提取语义与韵律表示，数秒参考语音和转录由 CSM-1B 编成 voice prompt；约 1B 参数 Backbone 按一个文本 token 对两个音频 code 交错生成，每帧先预测粗 RVQ code，再由约 100M Decoder 预测其余七层，最后用 Mimi 风格因果 codec 恢复 24kHz 波形。训练冻结 Reasoner，用全合成 S2S 目标分两阶段训练 Backbone 与 Decoder。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>接收完整用户语音/文本，并由 Reasoner 提取回复表示。</li><li>把参考声音条件和 Reasoner 表示送入 Backbone。</li><li>按帧交错生成文本表示与八层声学 code。</li><li>因果 codec 分块解码为个性化波形。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>H200、并发 1 且 voice prompt 已 prefill 时，首个音频 token 为 146.87ms；该数字不含 endpoint、网络和首个可播放 PCM。</li><li>论文单样例生成 38.80s 音频耗时 16.58s，报告 RTF 0.43；Codec 总耗时 2.99s 是否与前级流水重叠未解释。</li><li>CommonVoice 上 WavLM 说话人相似度为 0.81；主观自然度对 ElevenLabs 的胜率为 24.4% 对 57.2%，音色相似胜率为 40.6% 对 42.4%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>可作为 endpoint 后、无工具的原生语音输出对照，测 EOU→首 PCM、RTF、声音相似度和长对话漂移，研究能否绕开 Edge TTS。</li><li>Chroma 没有内置 turn detection、barge-in、结构化工具或确定性执行，146.87ms 不能与 Harness 约 3 秒端到端首音频直接比较，也不是 drop-in replacement。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>输出仅英语，延迟只在 H200、并发 1、单样例上测量，且不支持 batch。</li><li>正文没有打断、重叠说话、WER、绝对 MOS、长对话漂移或安全评测。</li><li>训练数据规模、来源和参考声音授权未披露；论文所称完整训练管线在仓库中也未找到。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-01 14:47</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 推理代码和 gated-public Safetensors 权重声明 Apache-2.0；训练数据、完整训练脚本和数据许可证未发布。模型加载需要 trust_remote_code，公开 README 示例仍在 generate 完成后整体 codec decode。</p>
+  <p><a class="btn" href="https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a> <a class="btn" href="https://huggingface.co/FlashLabs/Chroma-4B" rel="noopener noreferrer"><span class="l-zh">模型</span><span class="l-en">model</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-06 15:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2601.11141v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

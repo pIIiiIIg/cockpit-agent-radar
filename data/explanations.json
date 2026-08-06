@@ -1498,27 +1498,39 @@
   "review_status": "abstract_backfill"
  },
  "21a60eab7a": {
-  "tl_dr": "We present Wan-Streamer v0.3, which reframes our native-streaming interaction model under a single organizing view: a video is a world plus an event stream. The world is the persistent context in which a video unfolds, including the environ",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "We present Wan-Streamer v0.3, which reframes our native-streaming interaction model under a single organizing view: a video is a world plus an event stream. The world is the persistent context in which a video unfolds, including the environment, scene, subjects, ambient acoustic conditions, voice characteristics, and other relatively stable conditions. The event stream is everything that changes over time within that world, including scene or environmental changes, subject behavior, speech, and other sounds. This yields a general-purpose pretraining task over large amounts of real video: given a world and incoming input, predict how the world moves, changes, and responds in real time. The resulting competence can be specialized to a broad family of real-time downstream tasks. We instantiate it on real-time full-duplex audio-visual interaction, where the event stream is the agent's speech together with free-form behavior. Functionally, the model's multimodal understanding process is vision-language-action-like: it maps multimodal user input to language-form speech and behavior actions. Wan-Streamer v0.3 preserves the v0.2 operating point: 640x368 video at 25 FPS, a 160 ms streaming unit, approximately 200 ms model-side response latency, and approximately 550 ms total interaction latency under a 350 ms bidirectional network budget.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Wan-Streamer v0.3 把长期稳定的场景、角色和音色写成一次性“世界”，把语音、动作和环境变化写成因果“事件流”，用同一目标连接普通视频预训练与原生流式音视频交互。",
+  "problem": "前两版直接依赖交互数据学习倾听、说话和动作，能力与单一应用绑定；论文希望从大量普通视频学习可迁移的世界演化规律，同时保持低延迟音视频生成。",
+  "method": "世界由可变 schema 描述稳定条件；事件由时间区间、角色和自由文本组成。世界只 prefill 一次，模型以 block-causal attention 持续接收用户文本、音频和视频，用 next-token prediction 生成对白与行为指令，并以 conditional flow matching 联合生成连续音视频 latent；服务沿用 v0.2 的 thinker 与 context-parallel performer。",
+  "workflow": [
+   "从训练视频提取世界摘要和时间对齐的事件记录。",
+   "会话开始时一次性 prefill 世界，之后按 160ms 单元接收用户多模态输入。",
+   "预测交织的对白、行为 token 和联合音视频 latent。",
+   "解码并发射同步音视频，再把生成单元写回因果历史。"
+  ],
+  "findings": [
+   "论文报告输出为 640×368、25 FPS，流式单元为 160ms。",
+   "按论文从输入单元可供 thinker 使用到响应可发射的口径，模型侧 signal-to-signal 延迟约 200ms；再假设 350ms 双向网络预算后总延迟约 550ms。",
+   "正文没有质量基准、成功率、用户研究或消融，动作与同步质量只作定性展示。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "“世界+事件流”可用于区分 persona/场景等稳定 prefill 与 partial audio、commit、工具结果等时序事件；晚注入候选工具应属于动态事件而非永久世界状态。",
+   "当前 Harness 只在输入侧流式、判停后才生成，并使用外部 ASR/RAG 与 TTS，不能套用论文约 200ms 指标或称为原生全双工；确定性工具执行也不同于论文的可视行为。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文未披露参数量、训练数据规模与来源、训练超参或算力。",
+   "约 200ms 继承 v0.2 服务点位，未给硬件、并发和 P50/P95；350ms 网络时间是部署假设。",
+   "具身操作和漫游只是潜在方向，自由文本行为不等于可验证 API 动作。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "作者项目页 https://wan-streamer.com/v0.3/ 和演示已公开；截至 2026-08-06 未发现官方代码、权重或数据，论文也未声明这些资产的许可证。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.503036+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "ebc6945228": {
   "tl_dr": "Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal canno",
@@ -1645,27 +1657,39 @@
   "review_status": "editorial"
  },
  "420a33f2c8": {
-  "tl_dr": "Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and ",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and computational challenges because their key-value (KV) caches grow substantially with continuous streaming video input. This process requires an iterative prefill stage, which is a unique feature of streaming video LLMs. Due to its iterative prefill stage, it suffers from significant limitations, including extensive computation, substantial data transfer, and degradation in accuracy. Crucially, this issue is exacerbated for edge deployment, which is the primary target for these models. In this work, we propose V-Rex, the first software-hardware co-designed accelerator that comprehensively addresses both algorithmic and hardware bottlenecks in streaming video LLM inference. At its core, V-Rex introduces ReSV, a training-free dynamic KV cache retrieval algorithm. ReSV exploits temporal and spatial similarity-based token clustering to reduce excessive KV cache memory across video frames. To fully realize these algorithmic benefits, V-Rex offers a compact, low-latency hardware accelerator with a dynamic KV cache retrieval engine (DRE), featuring bit-level and early-exit based computing units. V-Rex achieves unprecedented real-time of 3.9-8.3 FPS and energy-efficient streaming video LLM inference on edge deployment with negligible accuracy loss. While DRE only accounts for 2.2% power and 2.0% area, the system delivers 1.9-19.7x speedup and 3.1-18.5x energy efficiency improvements over AGX Orin GPU. This work is the first to comprehensively tackle KV cache retrieval across algorithms and hardware, enabling real-time streaming video LLM infer",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "V-Rex 用训练免除的动态 KV 检索 ReSV 和专用 DRE 硬件减少流式视频反复 prefill 的传输与注意力开销，但主要收益来自尚未流片、未开放的定制硬件。",
+  "problem": "流式视频逐帧 prefill 会让视觉 KV 持续增长；旧 KV 即使卸载到 CPU/SSD，PCIe 检索和逐层 attention 仍可能主导延迟，固定 top-k 又难适应不同层、头和查询。",
+  "method": "ReSV 用随机超平面二值哈希和汉明距离聚类相邻帧的时空相似 token，再以 WiCSum 按簇得分和簇大小动态决定各层各头要取回的原始 KV。DRE 的 KVPU/KVMU 加速位级聚类、early-exit 排序和分层缓存，并把下一层预取与当前层计算重叠。",
+  "workflow": [
+   "新视频帧生成 Q/K/V，近期 KV 留在设备、旧 KV 分层卸载。",
+   "对 Key 生成 hash-bit，跨帧聚类并更新簇表。",
+   "对代表 Key 评分，WiCSum 选择各层各头所需簇。",
+   "映射回原始 KV 并预取，只对选中历史执行 attention。"
+  ],
+  "findings": [
+   "在论文的 V-Rex8 模拟配置、batch=1 下，1K到40K KV 的逐帧延迟为 121–254ms，即 3.9–8.3 FPS；生成 TPOT 为 89–97ms。",
+   "ReSV 的平均检索率在帧处理和生成阶段分别为 32.7% 与 2.5%，平均 Top-1 下降 0.8 个百分点。",
+   "40K KV、batch=1 时纯 AGX 软件 ReSV 为 2.8×，加入 KVPU 后完整 V-Rex8 报告 8.1× 加速和 10.2× 能效提升。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "若未来持续写入舱内视频 KV 并出现长会话的分层存储/检索瓶颈，可试验 ReSV 的跨帧聚类和逐层动态检索。",
+   "当前 110ms/token 已定位为 HF MoE 的 GPU→CPU 同步而非 KV 大小，论文也没有音频、工具或 TTS 实验，因此不能用 V-Rex 解释现有解码和约 3 秒首音频。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "结果来自 cycle-level simulator、DRAMSim3/MQSim 和 14nm RTL pre-layout 综合，不是流片或真实部署。",
+   "只评估 Llama-3 8B、SigLIP 和 COIN 五项任务；经验阈值对其他模型及音频模态的泛化未知。",
+   "完整历史 KV 仍保存在 CPU/SSD，方法减少工作集与传输，并未消除总存储增长。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文和 HPCA 2026 页面已公开；截至 2026-08-06 未发现官方算法代码、RTL、模拟器或模型资产，项目实现与数据许可证未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.503092+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "ecf1da395a": {
   "tl_dr": "Real-time video generation via diffusion is essential for building general-purpose multimodal interactive AI systems. However, the simultaneous denoising of all video frames with bidirectional attention via an iterative process in diffusion",
@@ -1730,50 +1754,74 @@
   "review_status": "editorial"
  },
  "854193be76": {
-  "tl_dr": "Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or lef",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused on isolated text, leaving dialogue audio under-studied. We introduce MAD2, a new Multi-turn Audio Dialogues benchmark for spoken claim verification, containing 1,000 two-speaker dialogues with 3,368 check-worthy claims and approximately 10 hours of audio, and propose calibrated multimodal fusion of a context-aware audio encoder and a dialogue-aware text model. Across settings, adding dialogue context improves verification, but the gains depend on scenario type. Using only preceding context often matches offline performance, supporting live-moderation settings, and audio contributes most when transcript-based models are destabilized by additional context. Overall, conversational structure matters more for verification than misinformation framing.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "MAD2 用合成双人语音对话测试上下文和原始音频对声明真伪分类的帮助；完整对话融合达到 AUC 0.852，但相对文本分支的总体增益很小且不显著。",
+  "problem": "现有事实核查多处理孤立文本，难以判断对话中的质疑、强化与语气是否能帮助验证声明，也不清楚音频能否补偿 ASR 文本模型受噪声影响的错误。",
+  "method": "数据由 1,000 条 LIAR 声明扩展为 1,000 段双人合成对话、3,368 个候选声明和约 10 小时音频。WavLM-base+ 对上下文音频编码但只池化声明帧，RoBERTa 编码带说话人和声明边界的 ASR；两分支独立训练、概率校准后，由验证集选择固定加权或条件式音频覆盖策略。",
+  "workflow": [
+   "从已识别且对齐的完整候选声明选择过去、双向或完整对话窗口。",
+   "按同一窗口裁剪音频并序列化 ASR、说话人和声明边界。",
+   "WavLM 与 RoBERTa 分别输出并校准 true 概率。",
+   "用验证集确定的条件融合规则输出二元判断。"
+  ],
+  "findings": [
+   "完整对话下 Audio、Text、Fusion 的 F1/AUC 分别为 0.696/0.780、0.740/0.841、0.764/0.852。",
+   "从 claim-only 到完整对话，音频 pooled ΔAUC 为 +0.108、95% CI [+0.057,+0.158]；文本为 +0.069、95% CI [+0.021,+0.118]。",
+   "Fusion 相对 Text 的 AUC 增益在各设置仅 +0.005到+0.016，完整对话中位增益 +0.011、95% CI [-0.012,+0.030]，总体不显著。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可借鉴 ASR 置信不足时的音频回退与条件门控，但论文的“实时”仍从完整声明和离线词级时间戳开始，不能取消 Harness 的 endpoint barrier。",
+   "模型没有外部证据、工具 schema 或执行结果输入；真正的车控 grounding 仍应把回答原子声明与确定性工具回执/RAG 证据做蕴含检查。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "全部样本为英语合成双人对话，平均仅 36 秒，未覆盖真实噪声、重叠说话和长时会话。",
+   "标签继承自 LIAR 种子且脚本在已知标签下生成，可能泄漏到质疑、赞同或措辞模板。",
+   "任务不含声明检测、证据检索、引用、解释和“证据不足”类别，不能充当自动真理裁判。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-06 未发现 MAD2 官方代码、任务权重或数据发布页，代码、权重、音频及标注许可证均未知；WavLM、RoBERTa、MoonCast 等上游资源的开放不等于 MAD2 已开放。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.503117+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "c59bca301f": {
-  "tl_dr": "Multimodal Large Language Models have achieved remarkable progress in short-form audio-video understanding, yet long-form audio-video comprehension remains challenged by limited context windows and severe information redundancy. To address ",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "Multimodal Large Language Models have achieved remarkable progress in short-form audio-video understanding, yet long-form audio-video comprehension remains challenged by limited context windows and severe information redundancy. To address these bottlenecks, we propose AVOC, a framework for long-form audio-video understanding in Omni-modal Large Language Models. AVOC introduces a learnable token compression module between the modality encoders and the LLM backbone. We reframe multimodal token compression as a top-$K$ retrieval problem: given a fixed context budget, the module must retrieve a compact subset of tokens that best supports answering the user query. We draw inspiration from three classical Information Retrieval criteria for selecting informative units from a large candidate pool: relevance, importance, and diversity. AVOC instantiates each criterion as a tailored mechanism for audio-video understanding, and integrates them into a unified retrieval-style compression pipeline. Experiments show that AVOC achieves state-of-the-art performance on long-form audio-video benchmarks, surpassing the second-best model by 4.9 and 5.5 points in average accuracy on OmniVideoBench and LVOmniBench, respectively. Moreover, AVOC maintains robust performance on Audio-Video Needle-in-a-Haystack task at durations up to one hour.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "AVOC 在模态编码器和 LLM 之间用问题相关性、音视频交叉重要性与局部时间多样性选择 top-K token，改善小时级理解和 prefill，但它必须先看到完整音视频，并非流式 KV 压缩。",
+  "problem": "小时级音视频会超过上下文预算且高度冗余；均匀稀疏采样可能漏掉短事件，而让单一模态指导另一模态又可能在主导信号稀疏时误删信息。",
+  "method": "文本 token 对音视频 token 的 attention 形成 query-conditioned relevance，时间块内双向 audio↔video attention 形成 query-agnostic importance；各分数按模态 Z-score 后等权融合，再以只惩罚局部同模态冗余的 TA-MMR 分配独立音频/视频预算。模型基于 MiniCPM-o 4.5，两阶段微调压缩器和 LLM，训练用 straight-through Gumbel hard mask，TA-MMR 只在推理启用。",
+  "workflow": [
+   "编码完整音频和视频并按时间块交错。",
+   "由文本问题计算相关性，由跨模态 attention 计算重要性。",
+   "融合标准化分数，分别对音频和视频执行 TA-MMR top-K。",
+   "按时间重排保留 token，再执行较短的 LLM prefill 与回答。"
+  ],
+  "findings": [
+   "AVOC 在 WorldSense、OmniVideoBench 和 LVOmniBench 的平均准确率分别为 52.6、42.3 和 40.3；后两项比论文第二名高 4.9 与 5.5 点。",
+   "单张 A800、10 分钟视频实验中，保留率 0.1 时 prefill 从 MiniCPM-o 4.5 的 4.453s 降至 0.497s，但压缩器另耗 0.260s，TTFT 为 22.549s。",
+   "正文的 AV-NIAH 热力图覆盖最长 3,600s，但只用一个源视频和 5 个随机六位数字，未给统一汇总准确率。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "更适合在 faster-whisper+RAG 路径试验“问题相关性+局部 MMR”，或未来在 endpoint 后对尚未写入 LLM KV 的编码器 token 重建短上下文。",
+   "AVOC 不能回收已持续写入 Qwen3-Omni 的 KV，也没有 decode ms/token、流式或 TTS 证据，不能解决当前 110ms/token 和约 3 秒首音频。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "附录明确说明必须等待完整音视频，不能直接增量 streaming。",
+   "只在一个 MiniCPM-o 4.5 规模和固定音视频预算比例上验证，迁移 Qwen3-Omni 需要重训。",
+   "普通长视频评估对超过 320 秒的视频只均匀取 320 帧，且效率实验未报告 KV 显存、decode 吞吐或首音频。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-06 未找到 AVOC 官方项目页、代码、权重或 AV-NIAH/训练清单；论文为 CC BY 4.0，但未发布实现、权重和数据的许可证未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116063+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "5c3479442c": {
   "tl_dr": "Research on agent memory has matured rapidly, but almost entirely on the text side: few existing benchmarks ask, in an interactive environment, when an agent genuinely needs to remember what it saw rather than what it could write down. We i",
@@ -1799,27 +1847,39 @@
   "review_status": "abstract_backfill"
  },
  "90cd95064f": {
-  "tl_dr": "Multimodal models are increasingly deployed to solve tasks collaboratively with humans or other artificial agents. Existing benchmarks show that these models possess many of the required component capabilities, but the conditions that coinc",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Multimodal models are increasingly deployed to solve tasks collaboratively with humans or other artificial agents. Existing benchmarks show that these models possess many of the required component capabilities, but the conditions that coincide in collaboration, including time pressure, information asymmetry, and imperfect communication, are usually studied in isolation. We introduce GPTNT, a benchmark built on the cooperative video game Keep Talking and Nobody Explodes, in which two agents must coordinate to defuse procedurally generated bomb puzzles against a live countdown. One agent can see and manipulate the bomb but does not have the defusal instructions; the other has the instructions but cannot see or manipulate the bomb. Neither agent can succeed alone: success requires effective and efficient communication. Unlike turn-based proxies, GPTNT requires agents to act asynchronously and communicate in real time. GPTNT is designed to separate collaboration from reliance on memorized solutions: the instruction manual, the partner, or both can be withheld to isolate what a model derives in the moment from what it already knows. We show that GPTNT poses a substantial challenge for state-of-the-art systems: none of the closed- or open-source models we test defuses a single bomb in real time, a bar that human players clear. Through controlled experiments, we identify critical weaknesses in state tracking, efficient action under time pressure, ambiguity handling, and error recovery. We release GPTNT as a benchmark for collaborative performance that current evaluations leave unmeasured. Because it runs on the real game, GPTNT benefits from procedural generation and inherits a living modding community, allowing the benchmark to evolve as models improve rather than being solve",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "GPTNT 把真实 KTANE 游戏包装成限时、异步、信息不对称的双多模态智能体基准；受测模型在完整实时任务中全部 0/10，解除生成延迟后单模块平均成功率也只有 24.4%。",
+  "problem": "现有评测常把视觉、实时行动、长上下文和合作分开测试，无法暴露多个智能体在倒计时中维护状态、澄清歧义、沟通并从错误恢复的组合失败。",
+  "method": "Defuser 只能看截图并操作炸弹，Expert 只能看 23 页手册，双方上下文隔离且只能发文本消息。两个推理循环异步运行，真实生成时间计入倒计时；同步消融冻结生成期间的游戏。系统把 ReAct 输出限制为一项 JSON 动作，非法动作阻断为 do_nothing，并由游戏状态直接判定成功、三次失误或超时。",
+  "workflow": [
+   "按固定配置和种子生成炸弹，并记录图像、分割掩码和真实状态。",
+   "Defuser 接收当前/前一帧，Expert 首轮接收图文手册。",
+   "两个独立进程异步读取累计消息、推理并提交原子动作。",
+   "游戏执行动作并以成功、strikeout 或 timeout 客观结束。"
+  ],
+  "findings": [
+   "五个模型在异步多模块任务均为 0/10；共解出 15 个模块，最差人类组也解出 18 个。",
+   "同步多模块中只有 Claude Sonnet 4.6 和 GPT-5.2 各成功 1/10；模块完成率从异步平均 9.5% 升至 18.3%。",
+   "单模块自博弈的异步平均成功率为 9.5%，同步为 24.4%；25 种同步异构配对范围为 6.4%–40.9%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "确定性环境、非法动作阻断、timeout/strike 和错误恢复可改造成 endpoint 延迟、状态更新和安全执行器回归。",
+   "它没有流式追加生成、语音、TTS 或晚注入工具，且是双智能体 GUI 谜题，不能替代单智能体车控基准。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主任务仅 pass@1，单模块每类仅 10 个种子，未给重复试验可靠性。",
+   "人类用可打断语音而模型只发原子文本消息，不是严格同条件对照。",
+   "商业游戏及长期网络语料带来成本和污染风险；固定 640×480、SoM 与生成上限也影响结果。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/GPTNT/gptnt",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "主框架和 gptntPlays mod 以 MIT 开放；HF 只发布部分结果 CSV，缺数据卡和许可证，完整轨迹与原始图像包未发布。项目没有专用模型权重，商业游戏及官方手册不随 MIT 代码授权。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116104+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "0f6fd313bd": {
   "tl_dr": "Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next",
@@ -1983,27 +2043,39 @@
   "review_status": "abstract_backfill"
  },
  "2cd0983fbd": {
-  "tl_dr": "Full-stack multimodal interaction in real-time is a central goal in building intelligent embodied agents capable of natural, dynamic communication. However, existing systems are either limited to unimodal generation or suffer from degraded ",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "Full-stack multimodal interaction in real-time is a central goal in building intelligent embodied agents capable of natural, dynamic communication. However, existing systems are either limited to unimodal generation or suffer from degraded reasoning and poor cross-modal alignment, preventing coherent and perceptually grounded interactions. In this work, we introduce U-Mind, the first unified system for high-intelligence multimodal dialogue that supports real-time generation and jointly models language, speech, motion, and video synthesis within a single interactive loop. At its core, U-Mind implements a Unified Alignment and Reasoning Framework that addresses two key challenges: enhancing cross-modal synchronization via a segment-wise alignment strategy, and preserving reasoning abilities through Rehearsal-Driven Learning. During inference, U-Mind adopts a text-first decoding pipeline that performs internal chain-of-thought planning followed by temporally synchronized generation across modalities. To close the loop, we implement a real-time video rendering framework conditioned on pose and speech, enabling expressive and synchronized visual feedback. Extensive experiments demonstrate that U-Mind achieves state-of-the-art performance on a range of multimodal interaction tasks, including question answering, instruction following, and motion generation, paving the way toward intelligent, immersive conversational agents.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "U-Mind 把文本、语音和 SMPL-X 动作离散成统一 token，先生成内部计划与文字，再生成语音、动作和数字人视频；论文证明了动作与回答质量，但没有给实时延迟或原生全双工证据。",
+  "problem": "级联的 LLM、TTS 和 motion 管线容易跨模态错位；直接加入新模态又会损害原有规划与推理能力，语音和动作也缺乏细粒度同步。",
+  "method": "系统以 LLaMA2-7B/AnyGPT 为主干，用 SpeechTokenizer 和四层 Residual VQ-VAE 离散语音与动作。第一阶段混合 TTS、文本/语音到动作和 OpenOrca 文本 rehearsal，并按标点、停顿和韵律做片段对齐；第二阶段按 CoT→文字→声学 token→动作 token 的 text-first 顺序 instruction tuning，最后由 WAN 扩散或 Gaussian Splatting 渲染视频。",
+  "workflow": [
+   "将用户文本或语音编码进统一 token prompt。",
+   "依次生成内部推理计划和可见文字回答。",
+   "生成声学 token 与动作 token，并分别解码为波形和 SMPL-X 姿态。",
+   "以姿态和音频条件渲染 2D 或 3D 数字人视频。"
+  ],
+  "findings": [
+   "多模态对话中 U-Mind 的 FGD、Diversity、Relevance、Naturalness 为 7.67、11.18、8.23、8.11；级联基线的 Relevance 更高，为 8.72。",
+   "语音到动作任务中，U-Mind 的 FGD 与 Angle Error 为 11.12 和 0.188，优于论文列出的基线。",
+   "移除 text-first 后 Relevance 从 8.23 降至 1.24；但正文和补充材料均未报告 TTFA、RTF、FPS、打断延迟或输入输出并发。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可借鉴新增音频/动作能力时的文本 rehearsal、片段对齐和“计划先于模态输出”，也可研究原生声学 token 是否有机会移除 Edge TTS。",
+   "U-Mind 没有工具调用、确定性执行或 endpoint/barge-in；CoT→完整文字→语音的顺序还可能增加首音频，因此不是当前 Harness 的直接替代。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文所谓 real-time 没有系统延迟、吞吐或流式输入指标支持。",
+   "视频训练语料在正文与补充材料分别写 400/500 小时，且为私有数据。",
+   "离散动作词表限制面部和手部细节，评测主要来自 BEAT v2/HumanML3D 与合成 QA。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "作者项目页 https://xiang-deng00.github.io/U-Mind.github.io/ 的 Code 链接仍是占位地址；截至 2026-08-06 未发现官方实现、checkpoint 或构造数据，代码、权重和私有视频许可证未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116192+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "ca6c85d290": {
   "tl_dr": "AudioGuard 将声纹、儿童声线和危险声事件检测与 ASR 后的文本安全分类并行运行，再以可解释规则组合结果，覆盖纯文本 guardrail 看不到的音频风险。",
@@ -2245,27 +2317,39 @@
   "review_status": "abstract_backfill"
  },
  "d1cf370380": {
-  "tl_dr": "We present Streamo, a real-time streaming video LLM that serves as a general-purpose interactive assistant. Unlike existing online video models that focus narrowly on question answering or captioning, Streamo performs a broad spectrum of st",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "We present Streamo, a real-time streaming video LLM that serves as a general-purpose interactive assistant. Unlike existing online video models that focus narrowly on question answering or captioning, Streamo performs a broad spectrum of streaming video tasks, including real-time narration, action understanding, event captioning, temporal event grounding, and time-sensitive question answering. To develop such versatility, we construct Streamo-Instruct-465K, a large-scale instruction-following dataset tailored for streaming video understanding. The dataset covers diverse temporal contexts and multi-task supervision, enabling unified training across heterogeneous streaming tasks. After training end-to-end on the instruction-following dataset through a streamlined pipeline, Streamo exhibits strong temporal reasoning, responsive interaction, and broad generalization across a variety of streaming benchmarks. Extensive experiments show that Streamo bridges the gap between offline video perception models and real-time multimodal assistants, making a step toward unified, intelligent video understanding in continuous video streams.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Streamo 用逐帧多轮对话和 Silence、Standby、Response 三种状态 token，把离线 VLM 训练成会判断“何时回应”的流式视频助手；它证明了因果决策能力，但没有公开权重或端到端延迟。",
+  "problem": "离线视频模型看到完整视频才回答，持续视频助手则必须只凭当前前缀判断事件尚未发生、正在发生还是信息已足够，并在 narration、grounding 和时敏问答间统一时机与粒度。",
+  "method": "视频以 1 FPS 切成带绝对时间标签的多轮输入，语言模型在同一词表中先生成 Silence、Standby 或 Response，Response 后继续生成正文。状态约 12:3:2 失衡，因此只对状态 token 使用 batch 频率权重与 γ=2 的 focal loss；Streamo-Instruct-465K 由多种视频集和模型生成标注组成，训练冻结视觉编码器、更新 connector 与完整 LLM。",
+  "workflow": [
+   "每秒采样一帧并附时间戳，累积视频前缀和问题历史。",
+   "语言模型生成 Silence、Standby 或 Response 状态。",
+   "Silence 不输出，Standby 继续等待，Response 在同一序列继续回答。",
+   "下一帧携带历史状态再次决策。"
+  ],
+  "findings": [
+   "OVO-Bench 上 Streamo-7B 1 FPS 总分为 55.61，训练 1 FPS、测试 2 FPS 时为 57.86；Dispider-7B 为 41.78。",
+   "Streamo-Bench 上 Streamo-7B 综合为 55.3，Streamo-3B 为 44.7，论文列出的最佳旧基线为 24.6。",
+   "Qwen2.5-VL-3B 上 focal 状态损失把 REC/SSR/CRR 从 6.45/20.99/41.67 提升到 27.94/50.72/82.50；论文未报告端到端 latency、TTFT、逐帧吞吐或峰值显存。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可在未来舱内视觉支路映射 Silence→不注入、Standby→保留候选、Response→把有界事件证据晚注入主会话，避免每帧污染 Qwen KV。",
+   "它不处理音频 VAD、endpoint、工具 schema、确定性执行或 TTS，也没有无限 KV 方案，不能解决当前音频主链问题。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "1 FPS 不适合安全关键的亚秒事件，官方示例读取预录 MP4 而非实时摄像头。",
+   "论文明确承认长序列的内存与延迟会不可接受，KV 管理、token pruning 和滑窗仍是未来工作。",
+   "标注大量由其他 VLM 合成，Streamo-Bench 只有 300 个视频，未充分说明与训练来源的视频级去重。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/maifoundations/Streamo",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "训练和预录视频推理代码以 Apache-2.0 开放；官方明确表示权重无法发布。Streamo-Instruct-465K 仅开放门控注释、不含视频且无数据卡/许可证，未发现完整 Streamo-Bench 发布物。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T14:47:15.088469+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "e78b666cc0": {
   "tl_dr": "World models aim to endow AI systems with the ability to represent, generate, and interact with dynamic environments in a coherent and temporally consistent manner. While recent video generation models have demonstrated impressive visual qu",
@@ -2291,27 +2375,39 @@
   "review_status": "abstract_backfill"
  },
  "bc994c827b": {
-  "tl_dr": "Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, h",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, hindering personalized voice interaction. In this work, we present Chroma 1.0, the first open-source, real-time, end-to-end spoken dialogue model that achieves both low-latency interaction and high-fidelity personalized voice cloning. Chroma achieves sub-second end-to-end latency through an interleaved text-audio token schedule (1:2) that supports streaming generation, while maintaining high-quality personalized voice synthesis across multi-turn conversations. Our experimental results demonstrate that Chroma achieves a 10.96% relative improvement in speaker similarity over the human baseline, with a Real-Time Factor (RTF) of 0.43, while maintaining strong reasoning and dialogue capabilities. Our code and models are publicly available at https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma and https://huggingface.co/FlashLabs/Chroma-4B .",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Chroma 1.0 以 1:2 文本—音频 token 调度和分层 RVQ 解码流式生成 24kHz 克隆语音，论文报告低生成延迟，但没有证明原生全双工、轮次检测或用户打断。",
+  "problem": "ASR→LLM→TTS 级联会累积延迟并丢失音色、韵律与情绪；已有端到端语音模型又常在低延迟和跨轮次声音一致性之间取舍。",
+  "method": "Reasoner 提取语义与韵律表示，数秒参考语音和转录由 CSM-1B 编成 voice prompt；约 1B 参数 Backbone 按一个文本 token 对两个音频 code 交错生成，每帧先预测粗 RVQ code，再由约 100M Decoder 预测其余七层，最后用 Mimi 风格因果 codec 恢复 24kHz 波形。训练冻结 Reasoner，用全合成 S2S 目标分两阶段训练 Backbone 与 Decoder。",
+  "workflow": [
+   "接收完整用户语音/文本，并由 Reasoner 提取回复表示。",
+   "把参考声音条件和 Reasoner 表示送入 Backbone。",
+   "按帧交错生成文本表示与八层声学 code。",
+   "因果 codec 分块解码为个性化波形。"
+  ],
+  "findings": [
+   "H200、并发 1 且 voice prompt 已 prefill 时，首个音频 token 为 146.87ms；该数字不含 endpoint、网络和首个可播放 PCM。",
+   "论文单样例生成 38.80s 音频耗时 16.58s，报告 RTF 0.43；Codec 总耗时 2.99s 是否与前级流水重叠未解释。",
+   "CommonVoice 上 WavLM 说话人相似度为 0.81；主观自然度对 ElevenLabs 的胜率为 24.4% 对 57.2%，音色相似胜率为 40.6% 对 42.4%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可作为 endpoint 后、无工具的原生语音输出对照，测 EOU→首 PCM、RTF、声音相似度和长对话漂移，研究能否绕开 Edge TTS。",
+   "Chroma 没有内置 turn detection、barge-in、结构化工具或确定性执行，146.87ms 不能与 Harness 约 3 秒端到端首音频直接比较，也不是 drop-in replacement。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "输出仅英语，延迟只在 H200、并发 1、单样例上测量，且不支持 batch。",
+   "正文没有打断、重叠说话、WER、绝对 MOS、长对话漂移或安全评测。",
+   "训练数据规模、来源和参考声音授权未披露；论文所称完整训练管线在仓库中也未找到。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma",
+   "model_url": "https://huggingface.co/FlashLabs/Chroma-4B",
+   "note": "推理代码和 gated-public Safetensors 权重声明 Apache-2.0；训练数据、完整训练脚本和数据许可证未发布。模型加载需要 trust_remote_code，公开 README 示例仍在 generate 完成后整体 codec decode。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T14:47:15.088488+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "b021a6932b": {
   "tl_dr": "MIST 用带数字孪生状态的合成智能家居对话，联合测试语音理解、可执行代码、歧义澄清、冗余拒绝、纠错和跨轮设备状态维护。",
@@ -2352,27 +2448,39 @@
   "review_status": "editorial"
  },
  "41c43c87a1": {
-  "tl_dr": "Large Language Models (LLMs) voice assistants are commonly built as cascaded Automatic Speech recognition (ASR) to LLM systems, where recognition errors can distort user intent. Dislikes may also arise from ambiguous, out-of-domain, or non-",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "Large Language Models (LLMs) voice assistants are commonly built as cascaded Automatic Speech recognition (ASR) to LLM systems, where recognition errors can distort user intent. Dislikes may also arise from ambiguous, out-of-domain, or non-request turns, making it hard to isolate ASR effects. We release WASIL (it denotes connection or linking in Arabic): in-the-wild Arabic spoken interaction prompts with audio, ASR hypotheses, assistant responses, and explicit like/dislike feedback (8,529 turns; 14.2% dislikes), plus a 2,000-turn test set covering Modern Standard Arabic (MSA) and four major dialects with their labels. We provide low-cost gold transcripts via multi-ASR agreement-guided post-editing and annotate answerability (answerable, ambiguous/needs-clarification, unsupported, not-a-request/noise) to separate intrinsic unanswerability from ASR-induced degradation. Finally, we describe scalable reference-free evaluation of responses from ASR vs. gold transcripts using multi-judge LLM scoring.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "WASIL 把真实阿拉伯语语音、双 ASR 假设、人工转写、回答、用户好恶与可回答性串成故障链，适合研究 ASR 误差传播和澄清策略，但不是流式车载基准。",
+  "problem": "级联语音助手的不满可能来自 ASR 扭曲意图、原始话轮不可回答，或下游 LLM 的事实、指令、文化与表达错误；单看 WER 无法区分这些来源。",
+  "method": "研究收集四国 93 名用户九天的语音交互，使用 Fanar 与 Gemini ASR，并对 2,702 条做方言匹配的人工 post-edit。样本标注方言、like/dislike、多标签错误和四类 answerability；再比较直接音频、两套 ASR 与 gold transcript 输入下多种模型的七项 reference-free 回答检查。",
+  "workflow": [
+   "采集真实语音、ASR 假设、原助手回答和用户反馈。",
+   "按双 ASR 一致性分配人工修订，并标注方言与可回答性。",
+   "用音频、ASR 或 gold transcript 重新生成回答。",
+   "由统一 rubric 计算全项通过率 APR 与逐项平均 ARS。"
+  ],
+  "findings": [
+   "2,702 条人工修订集上，Table 1 报告 Fanar/Gemini 平均 WER 为 0.24/0.17，语义 cosine 为 0.88/0.92；正文另有互相矛盾的平均数，应以表格为准。",
+   "点赞回答中 72% 的双 ASR cosine≥0.90，点踩中仅 52%；论文未给显著性检验，不能据此断言因果。",
+   "Gemini-2.5 Pro 从直接音频到 gold transcript 的 APR 为 82.01%→92.44%、ARS 为 91.97%→96.46%；深度和具体性分别提高 10.97 与 9.47 个百分点。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可迁移 audio→ASR→LLM 与 gold→LLM 配对回归、双 ASR 低一致时澄清，以及 answerability 路由，帮助 A 路径拆分识别和回答失败。",
+   "数据没有 partial transcript、endpoint、barge-in、工具轨迹、执行结果或助手 TTS；阿拉伯方言与中文车控差异大，只能作为非商业方法论辅助集。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "摘要、正文、Figure 5 和公开数据的条目数不一致，Table 1 与正文的 ASR 平均数及优劣方向也矛盾。",
+   "多轮片段在评测时按单轮处理，同一家族 Gemini 还参与部分 ASR、生成和 judge，可能产生同族偏好。",
+   "未报告置信区间、显著性、人类 judge 校准，且没有车内噪声、远场、SNR 或多人分层。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "partial",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方数据页 https://huggingface.co/datasets/QCRI/WASIL 以 CC BY-NC-SA 4.0 发布约 4.18GB 的部分语料，但行数少于论文规模；未发现官方构建/评测代码或 WASIL 专属权重。非商业、相同方式共享条款不适合直接并入商业车载产品。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T14:47:15.088502+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "57a1dc2b93": {
   "tl_dr": "Multimodal Large Language Models (MLLMs) can listen and see, but how do audio and visual signals actually travel through the network to shape an answer? Despite their growing role in research and real-world applications, the internal pathwa",
@@ -2421,27 +2529,40 @@
   "review_status": "abstract_backfill"
  },
  "47272d2c1c": {
-  "tl_dr": "Omni-modal models can handle text, images, and audio in one system, but improving all of these abilities together remains difficult. Training a single model on pooled multimodal data often fails to match models specialized for individual mo",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Omni-modal models can handle text, images, and audio in one system, but improving all of these abilities together remains difficult. Training a single model on pooled multimodal data often fails to match models specialized for individual modalities. On-policy distillation (OPD) offers a way to combine such specialists: the student generates a response, and a teacher evaluates that same response, so the student learns directly from behaviors it actually produces. Yet using several teachers can introduce competing guidance and improve one modality at the expense of another. We present On-Policy Omni Distillation (OPOD), which routes each student response to the matching text, image, or audio teacher. OPOD keeps teacher guidance only on tokens where the teacher assigns a higher probability than the student, adjusts the influence of each modality teacher independently during training, and asks the routed teacher to assess both the final answer and whether the reasoning supports the correct answer. Across twelve benchmarks and three backbone sizes, OPOD achieves the best average score at every scale, reaching 70.8, 51.7, and 46.2 and exceeding the strongest comparator by 2.1, 1.8, and 1.7 points. On the 30B model, it outperforms both the base model and a counterpart post-trained jointly on pooled multimodal data on all twelve benchmarks, and ranks first or second on eleven even when the individual specialists are included. The specialists are discarded after training, leaving one deployable omni-modal model. These results show that coordinating modality-specific teachers is an effective way to improve a shared model while maintaining cross-modal balance.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OPOD 用单边 token 指导、按模态独立的约束控制和教师轨迹验证，把文本、图像与音频专家蒸馏为一个 omni-modal student；它改善端点后的多模态推理，但不提供流式语音或工具调度。",
+  "problem": "把多模态数据直接混合做 GRPO 难保留各专家优势；标准 on-policy distillation 又会产生教师冲突，并在学生已超过教师的 token 上仍把分布拉回，形成 teacher ceiling。",
+  "method": "Student 先按当前策略 rollout，再按输入模态路由给固定教师在同一 prefix 上评分。OPOD 只保留教师概率高于学生的正 margin，各模态分别维护约束预算和 β；教师还评估正确答案区域的置信度，以及学生 reasoning 是否提高对 gold answer 的支持。任务/过程奖励组内标准化后与 reference KL 共同更新 student，部署时丢弃教师。",
+  "workflow": [
+   "从同一 backbone 分别训练文本、图像和音频教师。",
+   "Student 每个 prompt 采样 8 条 rollout，并按模态送给对应教师。",
+   "计算单边 token 约束、答案置信度和 reasoning gain。",
+   "按模态更新约束权重，合并奖励与 reference KL 更新共享 student。",
+   "训练后仅部署 student。"
+  ],
+  "findings": [
+   "12 项 accuracy 简单平均中，30B、7B、3B OPOD 分别为 70.8、51.7、46.2；对应 Base 为 67.0、46.9、40.7。",
+   "30B 相对 Base、混合 GRPO、Native OPD、ExOPD 和最强教师分别高 3.8、3.5、2.9、2.2、2.1 点；逐 benchmark 教师 oracle 平均 70.3。",
+   "完整模型 70.8；移除单边指导、模态控制或验证奖励后分别为 69.0、68.6、68.8。所有配置只跑一个固定 seed。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "公开 student 可作为 endpoint 后的多模态 reasoning backend 候选，部署时不需要教师 ensemble，仍可保留现有确定性执行器和外部 TTS。",
+   "论文没有增量音频、首包、barge-in、late tool schema 或工具时序实验；官方卡也说明 talker 未优化和未评测，不能称原生全双工或据此替换 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "每个配置单次运行，没有方差、置信区间或显著性；异构 benchmark 的简单平均不代表统一任务分布。",
+   "v3 两次引用的补充材料不在 PDF 或 arXiv source 中，训练数据来源、过滤和逐项许可无法从论文附件核验。",
+   "训练依赖在线教师 logits 和约 32×H20，教师校准偏差也可能进入 answer confidence 与 reasoning gain。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/VincentZhao2002/OPOD",
+   "model_url": "https://huggingface.co/Tung111/OPOD-Qwen2.5-Omni-7B",
+   "note": "Apache-2.0 仓库公开方法模块、recipes 和评测，但依赖未打包的 Relax/集群 glue；30B/7B/3B student 权重已发，教师权重和原始数据未发。7B 为 Apache-2.0，3B 继承非商业 Qwen Research License，30B 许可文件打包仍有缺口。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T19:26:26.961685+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "d9d5d237fa": {
   "tl_dr": "Psychotherapists need repeated training and supervision by experts; however, scalability is problematic. Here we present MyMentorLLM, a multimodal voice- and text-based simulation environment for deliberate practice, used to generate 2,100 ",
@@ -2612,27 +2733,39 @@
   "review_status": "abstract_backfill"
  },
  "f7a9bac2ca": {
-  "tl_dr": "Real-time multimodal auto-completion is essential for digital assistants, chatbots, design tools, and healthcare consultations, where user inputs rely on shared visual context. We introduce Multimodal Auto-Completion (MAC), a task that pred",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Real-time multimodal auto-completion is essential for digital assistants, chatbots, design tools, and healthcare consultations, where user inputs rely on shared visual context. We introduce Multimodal Auto-Completion (MAC), a task that predicts upcoming characters in live chats using partially typed text and visual cues. Unlike traditional text-only auto-completion (TAC), MAC grounds predictions in multimodal context to better capture user intent. To enable this task, we adapt MMDialog and ImageChat to create benchmark datasets. We evaluate leading vision-language models (VLMs) against strong textual baselines, highlighting trade-offs in accuracy and efficiency. We present Router-Suggest, a router framework that dynamically selects between textual models and VLMs based on dialog context, along with a lightweight variant for resource-constrained environments. Router-Suggest achieves a 2.3x to 10x speedup over the best-performing VLM. A user study shows that VLMs significantly excel over textual models on user satisfaction, notably saving user typing effort and improving the quality of completions in multi-turn conversations. These findings underscore the need for multimodal context in auto-completions, leading to smarter, user-aware assistants.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Router-Suggest 为每个文本前缀在字符 n-gram 模型和三种 VLM 间选择一次，以补全质量标签和平均推理成本学习路由；它启发可撤销预取，但任务与安全工具 commit 差异很大。",
+  "problem": "同一未完成文本会因共享图像而需要不同补全，VLM 虽更准却更慢；交互式系统需要在单条内联建议的质量、打字节省和延迟之间取舍。",
+  "method": "研究把视觉重要的 MMDialog/ImageChat 对话逐轮展开，并随机切分最后一句为 prefix/completion。所有候选模型先生成，最长公共前缀 PR-F1 最高者成为 oracle route；轻量 MLP 根据前缀 embedding 预测模型，并以分类损失和归一化平均延迟共同训练。Router-4 在 QB、Qwen2-VL、PaliGemma、MiniCPM-V 间选，Router-2 只选 QB/Qwen2-VL。",
+  "workflow": [
+   "过滤视觉相关对话并构造未完成前缀与目标补全。",
+   "运行所有候选模型，以 PR-F1 产生每样本 oracle 标签。",
+   "用前缀 embedding 训练成本敏感 MLP。",
+   "线上每个前缀选择一个候选模型生成补全。"
+  ],
+  "findings": [
+   "未见前缀时，MMDD 上 MiniCPM-V/QB PR-F1 为 0.2800/0.1892，ImageChat 为 0.2586/0.1755。",
+   "MMDD 上 Router-4-P 的 PR-F1/平均时延为 0.281/0.832s，Router-2-L 为 0.240/0.170s；MiniCPM-V 为 0.247/2.080s。",
+   "ImageChat 上 Router-4-L 为 0.212/0.966s，Router-2-L 为 0.196/0.288s，MiniCPM-V 为 0.223/2.080s；表格与摘要的 2.3–10× 区间不能完全对应。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可借鉴“离线 oracle 标签+成本敏感策略”，把动作改成 wait、只读 prefetch、commit，并让错误 commit 的代价远高于预取浪费。",
+   "Harness 已持续维护单个 Qwen3-Omni KV，切换独立模型需重放或并行状态；路由器也看不到晚注入候选工具，因此不能直接降低当前工具 commit 延迟，确定性执行门必须保留。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文路由器只看文本前缀，不看图像或完整对话，并假设 300M embedding 路由开销约为零。",
+   "官方代码默认 embedding、训练特征和成本打分与论文描述存在偏差，其中使用 oracle 预测文本作 embedding 会造成不可部署的结果泄漏。",
+   "只评估英语单图对话；用户研究未给均值、方差、参与者数或显著性。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/devichand579/MAC",
+   "model_url": "https://huggingface.co/collections/devichand/router-suggest-697088681cef19c99a1f98a1",
+   "note": "MIT 仓库和六个公开 LoRA adapter 已发布，但没有 Router-2/4 MLP 权重或清晰线上入口。OSF 资源虽标 MIT，上游 MMDialog 限学术非商业，PaliGemma/MiniCPM 等基础权重也有各自条款，不能按统一 MIT 处理。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T19:26:26.961793+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "630dc13e5c": {
   "tl_dr": "Smart Voice assistants (SVAs) are widely adopted by youth, yet privacy decision-making in these environments is often characterized by competing considerations rather than clear-cut preferences. While our prior research has examined privacy",
@@ -5034,50 +5167,76 @@
   "review_status": "editorial"
  },
  "e38e9dc914": {
-  "tl_dr": "Omni-modal models provide a unified interface for text, images, and audio. However, improving these abilities together remains difficult, as post-training on pooled multimodal data often fails to preserve the strengths of modality teachers.",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Omni-modal models provide a unified interface for text, images, and audio. However, improving these abilities together remains difficult, as post-training on pooled multimodal data often fails to preserve the strengths of modality teachers. On-policy distillation (OPD) has recently become popular in model post-training. It samples responses from the current student and compares the teacher's and student's next-token distributions along those responses, yielding dense supervision while reducing the mismatch between training and inference. Despite these advantages, standard OPD does not readily extend to several modality teachers. Their guidance may favor conflicting changes to the shared model, while matching each teacher's next-token distribution can prevent the student from moving beyond that teacher. To address these challenges, we propose On-Policy Omni Distillation (OPOD), which consolidates text, image, and audio teachers into one omni model. OPOD routes each response to the corresponding teacher, controls the teachers independently, and applies guidance only when the teacher assigns a higher probability to the generated token. The selected teacher also evaluates answer confidence and whether the reasoning increases support for the answer. Extensive experiments on twelve benchmarks show that OPOD achieves the best average at three model scales, reaching 70.8, 51.7, and 46.2 and outperforming the strongest comparator by 2.1, 1.8, and 1.7 points. At 30B, it surpasses the base model and pooled RL training on all twelve benchmarks, and ranks first or second on eleven even when the teachers are included. Only the student is retained for deployment.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OPOD 用单边 token 指导、按模态独立的约束控制和教师轨迹验证，把文本、图像与音频专家蒸馏为一个 omni-modal student；它改善端点后的多模态推理，但不提供流式语音或工具调度。",
+  "problem": "把多模态数据直接混合做 GRPO 难保留各专家优势；标准 on-policy distillation 又会产生教师冲突，并在学生已超过教师的 token 上仍把分布拉回，形成 teacher ceiling。",
+  "method": "Student 先按当前策略 rollout，再按输入模态路由给固定教师在同一 prefix 上评分。OPOD 只保留教师概率高于学生的正 margin，各模态分别维护约束预算和 β；教师还评估正确答案区域的置信度，以及学生 reasoning 是否提高对 gold answer 的支持。任务/过程奖励组内标准化后与 reference KL 共同更新 student，部署时丢弃教师。",
+  "workflow": [
+   "从同一 backbone 分别训练文本、图像和音频教师。",
+   "Student 每个 prompt 采样 8 条 rollout，并按模态送给对应教师。",
+   "计算单边 token 约束、答案置信度和 reasoning gain。",
+   "按模态更新约束权重，合并奖励与 reference KL 更新共享 student。",
+   "训练后仅部署 student。"
+  ],
+  "findings": [
+   "12 项 accuracy 简单平均中，30B、7B、3B OPOD 分别为 70.8、51.7、46.2；对应 Base 为 67.0、46.9、40.7。",
+   "30B 相对 Base、混合 GRPO、Native OPD、ExOPD 和最强教师分别高 3.8、3.5、2.9、2.2、2.1 点；逐 benchmark 教师 oracle 平均 70.3。",
+   "完整模型 70.8；移除单边指导、模态控制或验证奖励后分别为 69.0、68.6、68.8。所有配置只跑一个固定 seed。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "公开 student 可作为 endpoint 后的多模态 reasoning backend 候选，部署时不需要教师 ensemble，仍可保留现有确定性执行器和外部 TTS。",
+   "论文没有增量音频、首包、barge-in、late tool schema 或工具时序实验；官方卡也说明 talker 未优化和未评测，不能称原生全双工或据此替换 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "每个配置单次运行，没有方差、置信区间或显著性；异构 benchmark 的简单平均不代表统一任务分布。",
+   "v3 两次引用的补充材料不在 PDF 或 arXiv source 中，训练数据来源、过滤和逐项许可无法从论文附件核验。",
+   "训练依赖在线教师 logits 和约 32×H20，教师校准偏差也可能进入 answer confidence 与 reasoning gain。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/VincentZhao2002/OPOD",
+   "model_url": "https://huggingface.co/Tung111/OPOD-Qwen2.5-Omni-7B",
+   "note": "Apache-2.0 仓库公开方法模块、recipes 和评测，但依赖未打包的 Relax/集群 glue；30B/7B/3B student 权重已发，教师权重和原始数据未发。7B 为 Apache-2.0，3B 继承非商业 Qwen Research License，30B 许可文件打包仍有缺口。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T09:31:57.550195+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "e402ebd99c": {
-  "tl_dr": "Reinforcement learning for flow-matching text-to-speech is complicated by deterministic ODE sampling: trajectory-level policy-gradient methods typically convert the ODE into an SDE and track per-step likelihood ratios, introducing stochasti",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "Reinforcement learning for flow-matching text-to-speech is complicated by deterministic ODE sampling: trajectory-level policy-gradient methods typically convert the ODE into an SDE and track per-step likelihood ratios, introducing stochastic perturbations and substantial overhead. We propose GROW, a group-relative advantage-weighted on-policy RL method that acts directly on the standard flow-matching objective. For each prompt, GROW samples a group of on-policy utterances, separately standardizes intelligibility and speaker-similarity rewards within the group, and combines them to reweight flow-matching regression. A Wasserstein-2 velocity penalty anchors the updated model to a frozen pretrained reference. A group-mean reward baseline is introduced to convert reward weighting into advantage weighting. For strong pretrained TTS models with concentrated rewards, positive exponential weighting is dominated by reward-agnostic self-imitation, whereas a zero-mean signed advantage preserves effective within-group credit assignment. Instantiated on DiTAR and evaluated on LibriSpeech and Seed-TTS EN/ZH, GROW reduces average WER from 2.016 to 1.558 and raises speaker similarity from 0.676 to 0.715 while keeping UTMOS. With 10-NFE training rollouts and 32-NFE evaluation, GROW retains comparable performance while training 2.9x faster than 32-NFE DiTAR-GRPO. We will open-source complete GROW codes, faithful DiTAR reproduction, and all model checkpoints.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "GROW 用组内标准化的正负 advantage 重加权 flow-matching，并以 W2 参考约束稳定更新，在英中测试上改善 DiTAR 的 WER 和音色相似度；它优化训练质量，不提供首包或流式推理证据。",
+  "problem": "连续 AR-diffusion TTS 的每个 patch 要解确定性 ODE，常规策略梯度需改成 SDE 并跟踪逐步 likelihood；而强预训练模型奖励集中时，正指数权重又会被与奖励无关的 self-imitation 常数项主导。",
+  "method": "每个 prompt 由当前策略生成 8 个候选，冻结 ASR 与 WavLM 分别给 WER 和音色奖励；两种奖励组内独立 z-score 后相加，形成零均值、有正有负的 flow-matching 权重。当前 velocity 与冻结预训练模型之间的 W2 上界惩罚防止负权重令平方损失发散；方法在作者自复现的 DiTAR 上训练，最终仍按 32 NFE 推理。",
+  "workflow": [
+   "当前 TTS 策略为每个 prompt 生成 8 个 on-policy 候选。",
+   "冻结 ASR 与 speaker encoder 计算 WER 和 SIM 奖励。",
+   "逐奖励组内标准化并合成 signed advantage。",
+   "计算带 W2 reference anchor 的加权 flow-matching 损失。",
+   "更新当前策略，参考模型和奖励模型保持冻结。"
+  ],
+  "findings": [
+   "三个测试集平均 WER 从 2.016 降至 1.558，SIM 从 0.676 升至 0.715，平均 UTMOS 变化为 +0.02。",
+   "Seed-TTS ZH 的 WER/SIM/UTMOS 从 1.269/0.717/3.14 变为 0.983/0.742/3.12；论文没有报告中文 CER。",
+   "10-NFE rollout 的训练墙钟速度是 32-NFE DiTAR-GRPO 的 2.9×，但最终质量统一用 32 NFE 推理；全文没有 TTFA、RTF、首 PCM chunk 或端到端推理时间。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "短期可借鉴 Seed-TTS 中英文 WER、SIM、UTMOS 评测，但本地 CosyVoice 仍需另测冷/热 TTFA P50/P95、RTF、显存、长文本和打断残留。",
+   "质量提升和 2.9×训练速度不能推导首音频更快；在没有代码、权重和 serving 指标前，GROW 不能替代当前 Edge TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只在作者自复现的 DiTAR 上验证，没有 F5-TTS/CosyVoice、流式、长文本或延迟实验。",
+   "奖励与最终评估复用相同 ASR/speaker 模型，没有人工 MOS、置信区间或显著性检验。",
+   "约 95K 小时英中预训练和每 prompt 8 个 rollout 使独立复现成本很高，signed loss 还依赖 W2 与小学习率稳定。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "unavailable",
+   "code_url": "https://github.com/yanghaha0908/GROW",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-06 官方仓库为空，无 README、代码、LICENSE、release 或 checkpoint；作者复现的 Pretrain 与 GROW 权重均未发布。训练使用的 Emilia 含 CC BY-NC 4.0 和原音频版权约束，未来模型许可不能预判。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T09:31:57.550210+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-06T15:00:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "304a642c99": {
   "tl_dr": "Multimodal Large Language Models (MLLMs) achieve strong performance by integrating visual inputs with the rich priors of pretrained language models. However, they often fail on vision-centric tasks, especially when visual evidence conflicts",

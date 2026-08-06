@@ -4,6 +4,240 @@
   "description": "Only transitions to review_status=editorial and source_depth=fulltext; abstract_backfill and missing explanations are never reviews.",
   "entries": [
     {
+      "id": "f7a9bac2ca",
+      "title": "Router-Suggest: Dynamic Routing for Multimodal Auto-Completion in Visually-Grounded Dialogs",
+      "paper_url": "https://arxiv.org/abs/2601.05851v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f7a9bac2ca.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "f7a9bac2ca",
+      "mirror_of": null
+    },
+    {
+      "id": "e402ebd99c",
+      "title": "GROW: Group-Relative Advantage-Weighted On-Policy Reinforcement Learning of Autoregressive-Diffusion Text-to-Speech model",
+      "paper_url": "https://arxiv.org/abs/2608.03215v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/e402ebd99c.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "e402ebd99c",
+      "mirror_of": null
+    },
+    {
+      "id": "e38e9dc914",
+      "title": "OPOD: On-Policy Omni Distillation",
+      "paper_url": "https://arxiv.org/abs/2607.20918v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/e38e9dc914.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "47272d2c1c",
+      "mirror_of": "47272d2c1c"
+    },
+    {
+      "id": "d1cf370380",
+      "title": "Streaming Video Instruction Tuning",
+      "paper_url": "https://arxiv.org/abs/2512.21334v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/d1cf370380.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "d1cf370380",
+      "mirror_of": null
+    },
+    {
+      "id": "c59bca301f",
+      "title": "AVOC: Enhancing Hour-Level Audio-Video Understanding in Omni-Modal LLMs via Retrieval-Inspired Token Compression",
+      "paper_url": "https://arxiv.org/abs/2606.24286v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/c59bca301f.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "c59bca301f",
+      "mirror_of": null
+    },
+    {
+      "id": "bc994c827b",
+      "title": "FlashLabs Chroma 1.0: A Real-Time End-to-End Spoken Dialogue Model with Personalized Voice Cloning",
+      "paper_url": "https://arxiv.org/abs/2601.11141v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/bc994c827b.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "bc994c827b",
+      "mirror_of": null
+    },
+    {
+      "id": "90cd95064f",
+      "title": "GPTNT: Benchmarking Real-Time Collaboration Between Multimodal Agents on Keep Talking And Nobody Explodes",
+      "paper_url": "https://arxiv.org/abs/2606.28514v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/90cd95064f.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "90cd95064f",
+      "mirror_of": null
+    },
+    {
+      "id": "854193be76",
+      "title": "Context-Aware Multimodal Claim Verification in Spoken Dialogues",
+      "paper_url": "https://arxiv.org/abs/2606.11420v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/854193be76.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "854193be76",
+      "mirror_of": null
+    },
+    {
+      "id": "47272d2c1c",
+      "title": "OPOD: On-Policy Omni Distillation",
+      "paper_url": "https://arxiv.org/abs/2607.20918v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/47272d2c1c.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "47272d2c1c",
+      "mirror_of": null
+    },
+    {
+      "id": "420a33f2c8",
+      "title": "V-Rex: Real-Time Streaming Video LLM Acceleration via Dynamic KV Cache Retrieval",
+      "paper_url": "https://arxiv.org/abs/2512.12284v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/420a33f2c8.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "420a33f2c8",
+      "mirror_of": null
+    },
+    {
+      "id": "41c43c87a1",
+      "title": "WASIL: In-the-Wild Arabic Spoken Interactions with LLMs",
+      "paper_url": "https://arxiv.org/abs/2605.16364v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/41c43c87a1.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "41c43c87a1",
+      "mirror_of": null
+    },
+    {
+      "id": "2cd0983fbd",
+      "title": "U-Mind: A Unified Framework for Real-Time Multimodal Interaction with Audiovisual Generation",
+      "paper_url": "https://arxiv.org/abs/2602.23739v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2cd0983fbd.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "2cd0983fbd",
+      "mirror_of": null
+    },
+    {
+      "id": "21a60eab7a",
+      "title": "Video = World + Event Stream",
+      "paper_url": "https://arxiv.org/abs/2607.15038v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/21a60eab7a.html",
+      "reviewed_at": "2026-08-06T15:31:10.211337+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T073110Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "21a60eab7a",
+      "mirror_of": null
+    },
+    {
       "id": "f474b60b71",
       "title": "Where Speech Enhancement Hurts Recognition: An Inference Time Polar Projection Diagnosis",
       "paper_url": "https://arxiv.org/abs/2607.11157v1",

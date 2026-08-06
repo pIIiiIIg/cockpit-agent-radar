@@ -142,30 +142,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-06-09 · ◈ 11
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused on isolated text, leaving dialogue audio under-studied. We introduce MAD2, a new Multi-turn Audio Dialogues benchmark for spoken claim verification, containing 1,000 two-speaker dialogues with 3,368 check-worthy claims and approximately 10 hours of audio, and propose calibrated multimodal fusion of a context-aware audio encoder and a dialogue-aware text model. Across settings, adding dialogue context improves verification, but the gains depend on scenario type. Using only preceding context often matches offline performance, supporting live-moderation settings, and audio contributes most when transcript-based models are destabilized by additional context. Overall, conversational structure matters more for verification than misinformation framing. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">MAD2 用合成双人语音对话研究上下文与音频对声明真伪分类的影响，完整对话融合 AUC 为 0.852，但相对文本分支的总体增益很小且不显著。它可启发 ASR 噪声下的音频回退，却没有外部证据、状态或工具结果输入，对 StreamingModelHarness 的 grounding 仅属邻接。</span>
     <span class="l-en">Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused on isolated text, leaving dialogue audio under-studied. We introduce MAD2, a new Multi-turn Audio Dialogues benchmark for spoken claim verification, containing 1,000 two-speaker dialogues with 3,368 check-worthy claims and approximately 10 hours of audio, and propose calibrated multimodal fusion of a context-aware audio encoder and a dialogue-aware text model. Across settings, adding dialogue context improves verification, but the gains depend on scenario type. Using only preceding context often matches offline performance, supporting live-moderation settings, and audio contributes most when transcript-based models are destabilized by additional context. Overall, conversational structure matters more for verification than misinformation framing.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or lef</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">MAD2 用合成双人语音对话测试上下文和原始音频对声明真伪分类的帮助；完整对话融合达到 AUC 0.852，但相对文本分支的总体增益很小且不显著。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>现有事实核查多处理孤立文本，难以判断对话中的质疑、强化与语气是否能帮助验证声明，也不清楚音频能否补偿 ASR 文本模型受噪声影响的错误。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused on isolated text, leaving dialogue audio under-studied. We introduce MAD2, a new Multi-turn Audio Dialogues benchmark for spoken claim verification, containing 1,000 two-speaker dialogues with 3,368 check-worthy claims and approximately 10 hours of audio, and propose calibrated multimodal fusion of a context-aware audio encoder and a dialogue-aware text model. Across settings, adding dialogue context improves verification, but the gains depend on scenario type. Using only preceding context often matches offline performance, supporting live-moderation settings, and audio contributes most when transcript-based models are destabilized by additional context. Overall, conversational structure matters more for verification than misinformation framing.</p>
-
-
+  <p>数据由 1,000 条 LIAR 声明扩展为 1,000 段双人合成对话、3,368 个候选声明和约 10 小时音频。WavLM-base+ 对上下文音频编码但只池化声明帧，RoBERTa 编码带说话人和声明边界的 ASR；两分支独立训练、概率校准后，由验证集选择固定加权或条件式音频覆盖策略。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>从已识别且对齐的完整候选声明选择过去、双向或完整对话窗口。</li><li>按同一窗口裁剪音频并序列化 ASR、说话人和声明边界。</li><li>WavLM 与 RoBERTa 分别输出并校准 true 概率。</li><li>用验证集确定的条件融合规则输出二元判断。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>完整对话下 Audio、Text、Fusion 的 F1/AUC 分别为 0.696/0.780、0.740/0.841、0.764/0.852。</li><li>从 claim-only 到完整对话，音频 pooled ΔAUC 为 +0.108、95% CI [+0.057,+0.158]；文本为 +0.069、95% CI [+0.021,+0.118]。</li><li>Fusion 相对 Text 的 AUC 增益在各设置仅 +0.005到+0.016，完整对话中位增益 +0.011、95% CI [-0.012,+0.030]，总体不显著。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>可借鉴 ASR 置信不足时的音频回退与条件门控，但论文的“实时”仍从完整声明和离线词级时间戳开始，不能取消 Harness 的 endpoint barrier。</li><li>模型没有外部证据、工具 schema 或执行结果输入；真正的车控 grounding 仍应把回答原子声明与确定性工具回执/RAG 证据做蕴含检查。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>全部样本为英语合成双人对话，平均仅 36 秒，未覆盖真实噪声、重叠说话和长时会话。</li><li>标签继承自 LIAR 种子且脚本在已知标签下生成，可能泄漏到质疑、赞同或措辞模板。</li><li>任务不含声明检测、证据检索、引用、解释和“证据不足”类别，不能充当自动真理裁判。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-08-06 未发现 MAD2 官方代码、任务权重或数据发布页，代码、权重、音频及标注许可证均未知；WavLM、RoBERTa、MoonCast 等上游资源的开放不等于 MAD2 已开放。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-07-31 19:41</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-06 15:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2606.11420v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

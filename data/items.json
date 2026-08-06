@@ -875,7 +875,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal models provide a unified interface for text, images, and audio. However, improving these abilities together remains difficult, as post-training on pooled multimodal data often fails to preserve the strengths of modality teachers. On-policy distillation (OPD) has recently become popular in model post-training. It samples responses from the current student and compares the teacher's and student's next-token distributions along those responses, yielding dense supervision while reducing the mismatch between training and inference. Despite these advantages, standard OPD does not readily extend to several modality teachers. Their guidance may favor conflicting changes to the shared model, while matching each teacher's next-token distribution can prevent the student from moving beyond that teacher. To address these challenges, we propose On-Policy Omni Distillation (OPOD), which consolidates text, image, and audio teachers into one omni model. OPOD routes each response to the corresponding teacher, controls the teachers independently, and applies guidance only when the teacher assigns a higher probability to the generated token. The selected teacher also evaluates answer confidence and whether the reasoning increases support for the answer. Extensive experiments on twelve benchmarks show that OPOD achieves the best average at three model scales, reaching 70.8, 51.7, and 46.2 and outperforming the strongest comparator by 2.1, 1.8, and 1.7 points. At 30B, it surpasses the base model and pooled RL training on all twelve benchmarks, and ranks first or second on eleven even when the teachers are included. Only the student is retained for deployment.",
-   "summary_zh": "",
+   "summary_zh": "OPOD 通过单边 token 指导、按模态独立控制和教师轨迹验证，将文本、图像与音频专家蒸馏为一个 omni-modal student，30B/7B/3B 在十二项 accuracy 简单平均上分别达到 70.8/51.7/46.2。它可作为 StreamingModelHarness 判停后的推理模型候选，但不提供增量音频、全双工、工具编排或已验证的语音生成能力。",
    "demo": "",
    "stars": null
   },
@@ -893,7 +893,7 @@
     "text-to-speech"
    ],
    "summary_en": "Reinforcement learning for flow-matching text-to-speech is complicated by deterministic ODE sampling: trajectory-level policy-gradient methods typically convert the ODE into an SDE and track per-step likelihood ratios, introducing stochastic perturbations and substantial overhead. We propose GROW, a group-relative advantage-weighted on-policy RL method that acts directly on the standard flow-matching objective. For each prompt, GROW samples a group of on-policy utterances, separately standardizes intelligibility and speaker-similarity rewards within the group, and combines them to reweight flow-matching regression. A Wasserstein-2 velocity penalty anchors the updated model to a frozen pretrained reference. A group-mean reward baseline is introduced to convert reward weighting into advantage weighting. For strong pretrained TTS models with concentrated rewards, positive exponential weighting is dominated by reward-agnostic self-imitation, whereas a zero-mean signed advantage preserves effective within-group credit assignment. Instantiated on DiTAR and evaluated on LibriSpeech and Seed-TTS EN/ZH, GROW reduces average WER from 2.016 to 1.558 and raises speaker similarity from 0.676 to 0.715 while keeping UTMOS. With 10-NFE training rollouts and 32-NFE evaluation, GROW retains comparable performance while training 2.9x faster than 32-NFE DiTAR-GRPO. We will open-source complete GROW codes, faithful DiTAR reproduction, and all model checkpoints.",
-   "summary_zh": "",
+   "summary_zh": "GROW 用组内标准化的 signed advantage 重加权 flow-matching，并以 W2 anchor 稳定训练，在论文的英中测试上改善 WER 与音色相似度。它没有可用代码、权重、TTFA、RTF 或流式证据，不能据质量结果和 2.9×训练速度推断能解决 StreamingModelHarness 的约 3 秒首音频。",
    "demo": "",
    "stars": null
   },
@@ -3439,7 +3439,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal models can handle text, images, and audio in one system, but improving all of these abilities together remains difficult. Training a single model on pooled multimodal data often fails to match models specialized for individual modalities. On-policy distillation (OPD) offers a way to combine such specialists: the student generates a response, and a teacher evaluates that same response, so the student learns directly from behaviors it actually produces. Yet using several teachers can introduce competing guidance and improve one modality at the expense of another. We present On-Policy Omni Distillation (OPOD), which routes each student response to the matching text, image, or audio teacher. OPOD keeps teacher guidance only on tokens where the teacher assigns a higher probability than the student, adjusts the influence of each modality teacher independently during training, and asks the routed teacher to assess both the final answer and whether the reasoning supports the correct answer. Across twelve benchmarks and three backbone sizes, OPOD achieves the best average score at every scale, reaching 70.8, 51.7, and 46.2 and exceeding the strongest comparator by 2.1, 1.8, and 1.7 points. On the 30B model, it outperforms both the base model and a counterpart post-trained jointly on pooled multimodal data on all twelve benchmarks, and ranks first or second on eleven even when the individual specialists are included. The specialists are discarded after training, leaving one deployable omni-modal model. These results show that coordinating modality-specific teachers is an effective way to improve a shared model while maintaining cross-modal balance.",
-   "summary_zh": "",
+   "summary_zh": "OPOD 通过单边 token 指导、按模态独立控制和教师轨迹验证，将文本、图像与音频专家蒸馏为一个 omni-modal student，30B/7B/3B 在十二项 accuracy 简单平均上分别达到 70.8/51.7/46.2。它可作为 StreamingModelHarness 判停后的推理模型候选，但不提供增量音频、全双工、工具编排或已验证的语音生成能力。",
    "demo": "",
    "stars": null
   },
@@ -3601,7 +3601,7 @@
     "multimodal"
    ],
    "summary_en": "Real-time multimodal auto-completion is essential for digital assistants, chatbots, design tools, and healthcare consultations, where user inputs rely on shared visual context. We introduce Multimodal Auto-Completion (MAC), a task that predicts upcoming characters in live chats using partially typed text and visual cues. Unlike traditional text-only auto-completion (TAC), MAC grounds predictions in multimodal context to better capture user intent. To enable this task, we adapt MMDialog and ImageChat to create benchmark datasets. We evaluate leading vision-language models (VLMs) against strong textual baselines, highlighting trade-offs in accuracy and efficiency. We present Router-Suggest, a router framework that dynamically selects between textual models and VLMs based on dialog context, along with a lightweight variant for resource-constrained environments. Router-Suggest achieves a 2.3x to 10x speedup over the best-performing VLM. A user study shows that VLMs significantly excel over textual models on user satisfaction, notably saving user typing effort and improving the quality of completions in multi-turn conversations. These findings underscore the need for multimodal context in auto-completions, leading to smarter, user-aware assistants.",
-   "summary_zh": "",
+   "summary_zh": "Router-Suggest 在视觉对话补全中按前缀选择字符模型或 VLM，形成可测的补全质量—平均延迟折中，但论文指标和官方实现存在影响复现的偏差。对 StreamingModelHarness 更可取的是借鉴成本敏感的可撤销预取，而不是让该路由器决定不可逆工具 commit。",
    "demo": "",
    "stars": null
   },
@@ -3849,7 +3849,7 @@
     "multimodal assistant"
    ],
    "summary_en": "We present Streamo, a real-time streaming video LLM that serves as a general-purpose interactive assistant. Unlike existing online video models that focus narrowly on question answering or captioning, Streamo performs a broad spectrum of streaming video tasks, including real-time narration, action understanding, event captioning, temporal event grounding, and time-sensitive question answering. To develop such versatility, we construct Streamo-Instruct-465K, a large-scale instruction-following dataset tailored for streaming video understanding. The dataset covers diverse temporal contexts and multi-task supervision, enabling unified training across heterogeneous streaming tasks. After training end-to-end on the instruction-following dataset through a streamlined pipeline, Streamo exhibits strong temporal reasoning, responsive interaction, and broad generalization across a variety of streaming benchmarks. Extensive experiments show that Streamo bridges the gap between offline video perception models and real-time multimodal assistants, making a step toward unified, intelligent video understanding in continuous video streams.",
-   "summary_zh": "",
+   "summary_zh": "Streamo 用逐帧多轮对话、Silence/Standby/Response 状态 token 和 focal loss，训练 VLM 判断连续视频中何时等待、何时回答。它适合启发未来舱内视觉的事件触发上下文注入，但没有公开权重、实时延迟或无限 KV 证据，也不解决现有音频 endpoint、工具与外部 TTS。",
    "demo": "",
    "stars": null
   },
@@ -3885,7 +3885,7 @@
     "spoken dialogue"
    ],
    "summary_en": "Recent end-to-end spoken dialogue systems leverage speech tokenizers and neural audio codecs to enable LLMs to operate directly on discrete speech representations. However, these models often exhibit limited speaker identity preservation, hindering personalized voice interaction. In this work, we present Chroma 1.0, the first open-source, real-time, end-to-end spoken dialogue model that achieves both low-latency interaction and high-fidelity personalized voice cloning. Chroma achieves sub-second end-to-end latency through an interleaved text-audio token schedule (1:2) that supports streaming generation, while maintaining high-quality personalized voice synthesis across multi-turn conversations. Our experimental results demonstrate that Chroma achieves a 10.96% relative improvement in speaker similarity over the human baseline, with a Real-Time Factor (RTF) of 0.43, while maintaining strong reasoning and dialogue capabilities. Our code and models are publicly available at https://github.com/FlashLabs-AI-Corp/FlashLabs-Chroma and https://huggingface.co/FlashLabs/Chroma-4B .",
-   "summary_zh": "",
+   "summary_zh": "Chroma 1.0 以交错文本—声学 token、分层 RVQ 和参考声音条件化生成 24kHz 克隆语音，论文报告首音频 token 146.87ms 和 RTF 0.43。它没有内置轮次检测、打断、工具或确定性执行，更适合作为 endpoint 后的语音生成对照，而不是现有 Harness 的全双工替代品。",
    "demo": "",
    "stars": null
   },
@@ -3921,7 +3921,7 @@
     "speech recognition"
    ],
    "summary_en": "Large Language Models (LLMs) voice assistants are commonly built as cascaded Automatic Speech recognition (ASR) to LLM systems, where recognition errors can distort user intent. Dislikes may also arise from ambiguous, out-of-domain, or non-request turns, making it hard to isolate ASR effects. We release WASIL (it denotes connection or linking in Arabic): in-the-wild Arabic spoken interaction prompts with audio, ASR hypotheses, assistant responses, and explicit like/dislike feedback (8,529 turns; 14.2% dislikes), plus a 2,000-turn test set covering Modern Standard Arabic (MSA) and four major dialects with their labels. We provide low-cost gold transcripts via multi-ASR agreement-guided post-editing and annotate answerability (answerable, ambiguous/needs-clarification, unsupported, not-a-request/noise) to separate intrinsic unanswerability from ASR-induced degradation. Finally, we describe scalable reference-free evaluation of responses from ASR vs. gold transcripts using multi-judge LLM scoring.",
-   "summary_zh": "",
+   "summary_zh": "WASIL 把真实阿拉伯语语音、双 ASR、人工转写、可回答性和用户反馈连成故障链，为分析级联语音助手的 ASR 误差传播提供了少见数据。它对 StreamingModelHarness 的价值主要是迁移澄清与故障归因方法，不能验证中文车载的流式边界、工具执行或 TTS。",
    "demo": "",
    "stars": null
   },
@@ -3939,7 +3939,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal Large Language Models have achieved remarkable progress in short-form audio-video understanding, yet long-form audio-video comprehension remains challenged by limited context windows and severe information redundancy. To address these bottlenecks, we propose AVOC, a framework for long-form audio-video understanding in Omni-modal Large Language Models. AVOC introduces a learnable token compression module between the modality encoders and the LLM backbone. We reframe multimodal token compression as a top-$K$ retrieval problem: given a fixed context budget, the module must retrieve a compact subset of tokens that best supports answering the user query. We draw inspiration from three classical Information Retrieval criteria for selecting informative units from a large candidate pool: relevance, importance, and diversity. AVOC instantiates each criterion as a tailored mechanism for audio-video understanding, and integrates them into a unified retrieval-style compression pipeline. Experiments show that AVOC achieves state-of-the-art performance on long-form audio-video benchmarks, surpassing the second-best model by 4.9 and 5.5 points in average accuracy on OmniVideoBench and LVOmniBench, respectively. Moreover, AVOC maintains robust performance on Audio-Video Needle-in-a-Haystack task at durations up to one hour.",
-   "summary_zh": "",
+   "summary_zh": "AVOC 把小时级音视频压缩建模为兼顾问题相关性、跨模态重要性和局部时间多样性的 top-K 检索，在 MiniCPM-o 4.5 上改善长视频准确率并缩短 prefill。它必须看到完整输入，不能压缩已写入 Qwen3-Omni 的 KV，也没有 decode、流式或首音频证据。",
    "demo": "",
    "stars": null
   },
@@ -3975,7 +3975,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal models are increasingly deployed to solve tasks collaboratively with humans or other artificial agents. Existing benchmarks show that these models possess many of the required component capabilities, but the conditions that coincide in collaboration, including time pressure, information asymmetry, and imperfect communication, are usually studied in isolation. We introduce GPTNT, a benchmark built on the cooperative video game Keep Talking and Nobody Explodes, in which two agents must coordinate to defuse procedurally generated bomb puzzles against a live countdown. One agent can see and manipulate the bomb but does not have the defusal instructions; the other has the instructions but cannot see or manipulate the bomb. Neither agent can succeed alone: success requires effective and efficient communication. Unlike turn-based proxies, GPTNT requires agents to act asynchronously and communicate in real time. GPTNT is designed to separate collaboration from reliance on memorized solutions: the instruction manual, the partner, or both can be withheld to isolate what a model derives in the moment from what it already knows. We show that GPTNT poses a substantial challenge for state-of-the-art systems: none of the closed- or open-source models we test defuses a single bomb in real time, a bar that human players clear. Through controlled experiments, we identify critical weaknesses in state tracking, efficient action under time pressure, ambiguity handling, and error recovery. We release GPTNT as a benchmark for collaborative performance that current evaluations leave unmeasured. Because it runs on the real game, GPTNT benefits from procedural generation and inherits a living modding community, allowing the benchmark to evolve as models improve rather than being solved once and retired.",
-   "summary_zh": "",
+   "summary_zh": "GPTNT 用真实商业游戏构造了推理延迟会消耗倒计时、结果可客观判定的双多模态智能体协作基准，受测模型在完整异步任务中全部 0/10。它适合启发 StreamingModelHarness 的延迟、状态和安全执行回归，但不覆盖流式 KV、晚注入工具、外部 TTS 或单智能体车控。",
    "demo": "",
    "stars": null
   },
@@ -4119,7 +4119,7 @@
     "multimodal"
    ],
    "summary_en": "Full-stack multimodal interaction in real-time is a central goal in building intelligent embodied agents capable of natural, dynamic communication. However, existing systems are either limited to unimodal generation or suffer from degraded reasoning and poor cross-modal alignment, preventing coherent and perceptually grounded interactions. In this work, we introduce U-Mind, the first unified system for high-intelligence multimodal dialogue that supports real-time generation and jointly models language, speech, motion, and video synthesis within a single interactive loop. At its core, U-Mind implements a Unified Alignment and Reasoning Framework that addresses two key challenges: enhancing cross-modal synchronization via a segment-wise alignment strategy, and preserving reasoning abilities through Rehearsal-Driven Learning. During inference, U-Mind adopts a text-first decoding pipeline that performs internal chain-of-thought planning followed by temporally synchronized generation across modalities. To close the loop, we implement a real-time video rendering framework conditioned on pose and speech, enabling expressive and synchronized visual feedback. Extensive experiments demonstrate that U-Mind achieves state-of-the-art performance on a range of multimodal interaction tasks, including question answering, instruction following, and motion generation, paving the way toward intelligent, immersive conversational agents.",
-   "summary_zh": "",
+   "summary_zh": "U-Mind 以统一语音/动作 token、片段对齐、文本 rehearsal 和 text-first 解码组织语言、语音、动作及数字人视频，并在多项动作质量指标上领先基线。它没有工具、公开模型或实时延迟与打断证据，不能直接替换 StreamingModelHarness 的判停后生成和确定性执行管线。",
    "demo": "",
    "stars": null
   },
@@ -4308,7 +4308,7 @@
     "vision-language-action"
    ],
    "summary_en": "We present Wan-Streamer v0.3, which reframes our native-streaming interaction model under a single organizing view: a video is a world plus an event stream. The world is the persistent context in which a video unfolds, including the environment, scene, subjects, ambient acoustic conditions, voice characteristics, and other relatively stable conditions. The event stream is everything that changes over time within that world, including scene or environmental changes, subject behavior, speech, and other sounds. This yields a general-purpose pretraining task over large amounts of real video: given a world and incoming input, predict how the world moves, changes, and responds in real time. The resulting competence can be specialized to a broad family of real-time downstream tasks. We instantiate it on real-time full-duplex audio-visual interaction, where the event stream is the agent's speech together with free-form behavior. Functionally, the model's multimodal understanding process is vision-language-action-like: it maps multimodal user input to language-form speech and behavior actions. Wan-Streamer v0.3 preserves the v0.2 operating point: 640x368 video at 25 FPS, a 160 ms streaming unit, approximately 200 ms model-side response latency, and approximately 550 ms total interaction latency under a 350 ms bidirectional network budget.",
-   "summary_zh": "",
+   "summary_zh": "Wan-Streamer v0.3 用“持久世界+因果事件流”统一普通视频预训练与原生流式音视频交互，并以自然语言行为扩展智能体表现。它可启发 StreamingModelHarness 的状态组织，但当前判停后生成、外部 ASR/RAG/TTS 的系统不能套用其约 200ms 指标或称为原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -4418,7 +4418,7 @@
     "kv cache"
    ],
    "summary_en": "Streaming video large language models (LLMs) are increasingly used for real-time multimodal tasks such as video captioning, question answering, conversational agents, and augmented reality. However, these models face fundamental memory and computational challenges because their key-value (KV) caches grow substantially with continuous streaming video input. This process requires an iterative prefill stage, which is a unique feature of streaming video LLMs. Due to its iterative prefill stage, it suffers from significant limitations, including extensive computation, substantial data transfer, and degradation in accuracy. Crucially, this issue is exacerbated for edge deployment, which is the primary target for these models. In this work, we propose V-Rex, the first software-hardware co-designed accelerator that comprehensively addresses both algorithmic and hardware bottlenecks in streaming video LLM inference. At its core, V-Rex introduces ReSV, a training-free dynamic KV cache retrieval algorithm. ReSV exploits temporal and spatial similarity-based token clustering to reduce excessive KV cache memory across video frames. To fully realize these algorithmic benefits, V-Rex offers a compact, low-latency hardware accelerator with a dynamic KV cache retrieval engine (DRE), featuring bit-level and early-exit based computing units. V-Rex achieves unprecedented real-time of 3.9-8.3 FPS and energy-efficient streaming video LLM inference on edge deployment with negligible accuracy loss. While DRE only accounts for 2.2% power and 2.0% area, the system delivers 1.9-19.7x speedup and 3.1-18.5x energy efficiency improvements over AGX Orin GPU. This work is the first to comprehensively tackle KV cache retrieval across algorithms and hardware, enabling real-time streaming video LLM inference on resource-constrained edge devices.",
-   "summary_zh": "",
+   "summary_zh": "V-Rex 通过 ReSV 的跨帧哈希聚类、逐层逐头动态 KV 检索和专用 DRE 硬件，降低模拟的流式视频反复 prefill 成本。它对未来长时舱内视觉有研究价值，但不能解决当前已定位为 HF MoE 同步的 110ms/token 或外部 Edge TTS 延迟。",
    "demo": "",
    "stars": null
   },
@@ -4472,7 +4472,7 @@
     "multimodal"
    ],
    "summary_en": "Every day, millions absorb claims from podcasts and streams that no fact-checker ever sees. Spoken misinformation is built through conversation, where credibility comes not from facts alone but from how claims are framed, reinforced, or left unchallenged across turns. Yet fact-checking has focused on isolated text, leaving dialogue audio under-studied. We introduce MAD2, a new Multi-turn Audio Dialogues benchmark for spoken claim verification, containing 1,000 two-speaker dialogues with 3,368 check-worthy claims and approximately 10 hours of audio, and propose calibrated multimodal fusion of a context-aware audio encoder and a dialogue-aware text model. Across settings, adding dialogue context improves verification, but the gains depend on scenario type. Using only preceding context often matches offline performance, supporting live-moderation settings, and audio contributes most when transcript-based models are destabilized by additional context. Overall, conversational structure matters more for verification than misinformation framing.",
-   "summary_zh": "",
+   "summary_zh": "MAD2 用合成双人语音对话研究上下文与音频对声明真伪分类的影响，完整对话融合 AUC 为 0.852，但相对文本分支的总体增益很小且不显著。它可启发 ASR 噪声下的音频回退，却没有外部证据、状态或工具结果输入，对 StreamingModelHarness 的 grounding 仅属邻接。",
    "demo": "",
    "stars": null
   },
