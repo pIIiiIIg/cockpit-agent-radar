@@ -6065,5 +6065,281 @@
   "generated_at": "2026-08-06T16:13:08.256022+08:00",
   "generated_by": "deterministic abstract backfill",
   "review_status": "abstract_backfill"
+ },
+ "c663ef96e8": {
+  "tl_dr": "GUI agents must remember both useful experience from earlier tasks and unfinished progress in the current interaction. Latent memory offers a compact solution by compressing multimodal trajectories into a few continuous tokens. Existing met",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "GUI agents must remember both useful experience from earlier tasks and unfinished progress in the current interaction. Latent memory offers a compact solution by compressing multimodal trajectories into a few continuous tokens. Existing methods, however, usually map each trajectory to one fixed memory block and train it mainly through next-action supervision. This creates three practical problems: important details may be lost during compression, the same memory block must serve different decision stages, and irrelevant retrieved trajectories may still mislead the agent. We introduce FocusMem, which separates these responsibilities within a compact latent-memory interface. A role-aware content basis encourages episodic memory to retain reusable experience and working memory to retain task progress. A state-conditioned readout generates a decision-specific view of the same stored evidence, while a lightweight trust gate can suppress memory blocks that appear irrelevant to the current step. All components are trained while the GUI policy remains frozen. Across five GUI-agent benchmarks, FocusMem consistently outperforms a fully matched action-only fixed-memory baseline and prior latent memory adaptations. Further analysis shows that semantic and functional supervision preserve complementary information, state-conditioned readout is more robust as surrounding trajectory context grows, and the trust gate reduces the harm caused by injected irrelevant episodic evidence. These results show that effective latent memory depends not only on compressing past interaction, but also on what is retained, what is exposed, and what is allowed.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971295+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "ba82e8799b": {
+  "tl_dr": "MLLM-based segmentation faces a core segmentation trilemma: high segmentation performance, preserved dialogue ability, and fast inference. Embedding-prediction methods may disrupt language modeling through pixel-level objectives, whereas ne",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "MLLM-based segmentation faces a core segmentation trilemma: high segmentation performance, preserved dialogue ability, and fast inference. Embedding-prediction methods may disrupt language modeling through pixel-level objectives, whereas next-token generation is inefficient for dense masks. We propose All-Mask Prediction, decoupling autoregressive dialogue from non-autoregressive mask prediction. Its binary instantiation, STAMP (Simultaneous Textual All-Mask Prediction), emits an in-vocabulary <SEG> trigger, fuses image-aligned mask tokens with corresponding patch features, and uses hybrid attention to classify all tokens as foreground or background in one pass. It thereby combines strong referring and reasoning segmentation with preserved multimodal ability and efficient inference. However, binary masks cannot retain multiple semantic or instance identities without repeated target-specific predictions. We therefore propose Structured All-Mask Prediction and develop STAMPlus. It generates a target list with explicit IDs and optional boxes, binds these IDs to a shared multi-class mask space, and jointly predicts all targets in one non-autoregressive pass. A single unified checkpoint retains STAMP's referring and reasoning capabilities while extending to open-vocabulary semantic, instance-aware, and remote-sensing small-target segmentation, where high-resolution mask-token scaling preserves finer spatial evidence. Across these settings, STAMPlus achieves state-of-the-art segmentation performance, preserves general multimodal instruction following, and reduces 12-category latency from 13.50s for repeated STAMP inference to 5.16s. Further analyses show that accurate target cues improve segmentation and learned spatial grounding benefits look-twice reasoning. Overall, STAMPl",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971323+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "ffc94a3a05": {
+  "tl_dr": "Chart question answering (CQA) requires multimodal large language models (MLLMs) to integrate visual comprehension with logical reasoning, yet current models struggle with accurate visual grounding and coherent reasoning chains. While extri",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "Chart question answering (CQA) requires multimodal large language models (MLLMs) to integrate visual comprehension with logical reasoning, yet current models struggle with accurate visual grounding and coherent reasoning chains. While extrinsic chain-of-thought prompting and visual cues significantly improve performance, current MLLMs lack intrinsic visual grounded reasoning capabilities, leading to inaccurate perception and reasoning disconnected from visual evidence. To address these limitations, we propose CURV, a curriculum learning framework that develops intrinsic visual reasoning capabilities by reformulating CQA as multi-step visual grounded reasoning, where each step coordinates logical reasoning with dynamic visual grounding through spatial attention concentration. To assist model learning, we further introduce CCQA, a three-level curriculum dataset with scalable synthetic generation across diverse chart types and reasoning patterns. Our curriculum systematically progresses from basic single-operation reasoning to complex multi-chart compositional tasks. Experiments demonstrate that CURV achieves up to uparrow20.50% improvements over baselines and is generalizable to real-world benchmarks (up to uparrow12.30%) and out-of-domain multimodal reasoning tasks (up to uparrow10.20%), validating the effectiveness of internalizing visual reasoning with dynamic grounding for enhanced chart understanding capabilities. Code is available at: https://xhguo7.github.io/CURV/.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971336+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "1069ae17c5": {
+  "tl_dr": "Flow-matching vision-language-action (VLA) models such as pi0 generate robot actions by integrating a learned denoising velocity field, and have been reported to resist adversarial perturbations that readily fool autoregressive VLAs. We sho",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Flow-matching vision-language-action (VLA) models such as pi0 generate robot actions by integrating a learned denoising velocity field, and have been reported to resist adversarial perturbations that readily fool autoregressive VLAs. We show that this robustness is largely illusory: it stems from prior attacks ignoring the multi-step denoising ODE. We introduce DRIFT (Denoising Redirection via Input perturbation of the Flow-matching Trajectory), a test-time universal adversarial patch placed on the robot's gripper that attacks the denoising velocity field of an off-the-shelf policy. Our central finding is counterintuitive: attacking only the first denoising step is both stronger and cheaper than attacking a wider window of steps, which we explain through a gradient conflict unique to input-space optimization and which is exactly opposite to the training-time backdoor regime. On pi0 and pi0.5 across four LIBERO suites, DRIFT breaks essentially all originally-solvable tasks with a small single patch, far exceeding action- and embedding-space attack baselines.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971347+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "af56961fe9": {
+  "tl_dr": "Agent self-evolution updates an agent's persistent state from prior experience and reuses it to solve related tasks more effectively. Evaluating self-evolution is difficult: existing benchmarks provide limited coverage of economically valua",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Agent self-evolution updates an agent's persistent state from prior experience and reuses it to solve related tasks more effectively. Evaluating self-evolution is difficult: existing benchmarks provide limited coverage of economically valuable task domains, do not always design training and test tasks such that test-time gains can be attributed to training experience, and remain vulnerable to data contamination. We present GDPevo, an evolution-native benchmark grounded in GDP-related enterprise workflows, together with the fully automated data pipeline that generates it. Its core mechanism, rule hybridization, decomposes each enterprise workflow into atomic business rules, distributes subsets of these rules across training tasks, and recombines them in held-out test tasks so that test-time gains are attributable. GDPevo spans CRM, ERP, finance, healthcare, legal, and data-centric workflows. Its V1 release contains 120 tasks in 12 groups, with five training and five held-out test tasks per group. Full automation enables the pipeline to expand the suite to 240 tasks in 24 groups (V2) within two days, providing a practical response to contamination. Using GDPevo, we evaluate four agents, each comprising a harness and a model, under four supervision types. Self-evolution consistently improves held-out accuracy by up to 16.44 percentage points. But the best evolved agents remain far below the fully informed oracle ceiling of 91.6%, indicating that the self-evolution ability of current agents remains far from fully realized. We publicly release the pipeline, benchmark, and full evaluation results at https://github.com/Prism-Shadow/GDPevo.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971356+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "2613c89501": {
+  "tl_dr": "Memory-augmented VLM agents act on persistent spatial knowledge, yet that knowledge silently goes stale as the environment changes. We ask what happens when an agent must reconcile a confident memory claim with a contradicting observation, ",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Memory-augmented VLM agents act on persistent spatial knowledge, yet that knowledge silently goes stale as the environment changes. We ask what happens when an agent must reconcile a confident memory claim with a contradicting observation, and whether current models can catch the conflict before it becomes a safety-relevant mistake. Using a dynamic FrozenLake testbed, we pair a staleness-detection task with a downstream navigation task across three closed-source models and three open-weight VLMs under both text and image inputs (1,800 detection runs, and 12,000 text-mode navigation episodes over four LLM navigators at a shared 50-seed scale). Three findings emerge. First, text solvability does not imply visual grounding: models that flag stale entries reliably from text nonetheless span vision F1 from 0.887 down to 0.067 on the identical grids, and the weakest keeps making fluent, confident decisions that ignore the image. Second, consuming stale memory without an audit is a safety liability: in our primary GPT-4o setting, an agent that trusts raw memory dies more than twice as often as the same agent given no memory at all. Third, auditing helps but does not close the gap: a transparent read-time filter removes much of the safety cost in text mode, yet even oracle stale labels bring no further significant gain on the current grid size, and when visual auditing is unreliable, filtering yields no consistent benefit. Together these results frame spatial-memory staleness as a safety failure mode and isolate reliable visual grounding and action selection under memory--observation conflict as the central open challenges for memory-augmented agents.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971365+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "c5f55d7979": {
+  "tl_dr": "On-Policy Self-Distillation (OPSD) has become a standard post-training approach for improving visual reasoning in multimodal large language models (MLLMs). Existing methods draw privileged information from diverse input sources to guide sel",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "On-Policy Self-Distillation (OPSD) has become a standard post-training approach for improving visual reasoning in multimodal large language models (MLLMs). Existing methods draw privileged information from diverse input sources to guide self-distillation. Yet these designs overlook Modality Imbalance, a challenge inherent to MLLM reasoning. When textual information dominates generation, the model cannot fully integrate its multimodal input. Consequently, carefully designed privileged information remains underused, limiting the effectiveness of OPSD. To examine this limitation, we construct a Positive Teacher with the Zoom-In Image and a Negative Teacher with the Mask Image, which exhibit different degrees of Modality Imbalance. Changes in their reasoning correctness and token logits reveal that Modality Balance can itself serve as privileged information. Motivated by this finding, we introduce OPD-V, a visual OPSD paradigm that instantiates such information through the Positive Teacher and Negative Teacher. Positive Modality-Balance Logits Margins define a Modality-Balance Trust Region that selects the on-policy tokens used for self-distillation. Experiments across 6 benchmarks, 4 MLLM backbones, and 5 post-training methods show that OPD-V consistently improves reasoning performance while reducing training cost.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971381+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "6579bd8ee8": {
+  "tl_dr": "Do Large Language Models (LLMs) possess genuine structural reasoning, or merely rely on surface-level pattern matching? The financial domain, demanding numerical precision and multi-step logic over long contexts, is an ideal testbed. Existi",
+  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
+  "method": "Do Large Language Models (LLMs) possess genuine structural reasoning, or merely rely on surface-level pattern matching? The financial domain, demanding numerical precision and multi-step logic over long contexts, is an ideal testbed. Existing benchmarks fail to capture real-world industrial complexity, predominantly relying on multiple-choice questions or single-hop QA over cropped tables while ignoring intricate cross-statement dynamics and temporal de-cumulation. To bridge this gap, we introduce FinIndices, a large-scale benchmark evaluating data-processing fidelity over uncropped financial statements (up to 32K tokens). Utilizing an automated synthesis pipeline with adversarial traps, FinIndices encompasses Single-Index computation and Table-Index tabulation to test complex domain, temporal, and caliber reasoning. Our evaluation reveals two severe LLM vulnerabilities. First, a \"Knowledge Bottleneck\": despite memorizing formulas during pre-training, models demonstrate fragile pattern matching. Removing explicit formula hints causes performance to collapse (e.g., Gemini-3.1-Pro drops from 70.70% to 38.22% on table tasks), exposing fatal flaws in temporal de-cumulation and stock-flow caliber mismatch. Second, a \"Structural Bottleneck\": the intense cognitive load of generating multi-metric, multi-period tables actively drains reasoning capacity. Under structural pressure, LLMs that flawlessly execute isolated derivations regress to shallow heuristics, such as fetching incorrect adjacent columns or substituting deep accounting adjustments with lazy literal arithmetic. Finally, Supervised Fine-Tuning (SFT) yields substantial zero-hint gains (+8.54% Single, +3.82% Table), validating that structured logic can be partially restored via data-centric alignment.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971399+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "62dae80e88": {
+  "tl_dr": "Weight-only quantization substantially reduces the storage of large language model (LLM) transformer blocks, but practical backends often retain the final language-modeling head (LM-head) in BF16 or FP16. Quantizing this projection naively ",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Weight-only quantization substantially reduces the storage of large language model (LLM) transformer blocks, but practical backends often retain the final language-modeling head (LM-head) in BF16 or FP16. Quantizing this projection naively can strongly perturb the vocabulary-logit distribution. We present ARCHead, a packed LM-head compressor that combines a quantized low-rank core, group-wise INT4 residuals, and a low-rank correction fitted in an activation-derived metric. ARCHead stores no dense BF16 head and reduces persistent LM-head storage by 3.7-3.9x. On Qwen3-8B-Base, it uses 25.6% of BF16 head storage while attaining 1.007 relative perplexity; storage-matched naive INT4 yields 1.14-1.16. Replacing the BF16 head left by AWQ or bitsandbytes adds only 0.006-0.007 cross-entropy, with less than 2% throughput change in our measurements. ARCHead therefore complements block quantizers by compressing the large output projection they can leave untouched. Code is available at https://github.com/suayptalha/archead.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971410+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "424c8d0252": {
+  "tl_dr": "Continually improving agents require dynamic interaction feedback beyond static supervision, yet direct real-environment interaction is costly, slow, unsafe, and hard to parallelize. World modeling offers a natural intermediate proxy that a",
+  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
+  "method": "Continually improving agents require dynamic interaction feedback beyond static supervision, yet direct real-environment interaction is costly, slow, unsafe, and hard to parallelize. World modeling offers a natural intermediate proxy that allows agents to query lower-cost, more controllable feedback before committing to real actions. Classical world models instantiate this proxy primarily through future physical-state prediction, a formulation useful yet narrow for agents that require actionable feedback beyond raw state transitions. In this work, we conceptualize Agent-Centric Interactive World Proxies, shifting the fundamental paradigm from physical state transitions to agent-usable information transitions, such as execution outcomes, retrieved experiences or skills, and verification signals, broadening the scope of world modeling to provide versatile feedback for continually improving agents. To systematically map this design space, we organize world proxies into six functional forms based on their feedback modalities: dynamics, spatial, execution, memory/experience, skill, and reward/verification proxies, which together characterize the primary ways world modeling serves agent improvement. We further analyze how these proxies empower agents across three progressive levels: L.1 Inference-Time Guidance, where proxy outputs enrich in-context information for superior decisions; L.2 Training-Time Optimization, where proxy outputs yield rewards, critiques, or synthetic rollouts for policy learning; and L.3 Agent-Proxy Co-Evolution, where real-environment evidence continuously updates both the proxy and the agent for co-evolution. Ultimately, this work recasts world modeling into an agent-centric paradigm, establishing a roadmap for building world proxies that empower agen",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971420+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "be24365c7e": {
+  "tl_dr": "Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents fro",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents from directly constraining retrieval to document fields and often carries irrelevant page content into their context. We introduce SIEVE, a search-inspect-fetch interface driven by fielded Boolean retrieval (BQL). SIEVE filters candidates over document fields, ranks the admitted set, presents structure-rich result cards for inspection, and fetches only selected sections. Across three QA collections, SIEVE achieves higher accuracy than the most accurate conventional Search-Visit configuration on each collection while using 20.7-50.6% fewer tokens. Further analyses show that BQL filtering improves all tested rankers and that the accuracy-context advantage persists across retriever choices and agent backbones. Code and data are available at https://github.com/ielab/skim-search-agent.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971453+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "2d089ea931": {
+  "tl_dr": "Large language models are increasingly embedded in software engineering workflows as coding agents that can inspect repositories, invoke tools, execute tests, debug failures, and generate patches. Yet most existing agents remain largely sta",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Large language models are increasingly embedded in software engineering workflows as coding agents that can inspect repositories, invoke tools, execute tests, debug failures, and generate patches. Yet most existing agents remain largely static after deployment, even though software development is a dynamic, feedback-rich process in which repositories evolve, dependencies change, tests fail, and repair attempts leave reusable experience. This tension has motivated a growing body of work on self-evolving coding agents, where the agent improves its future behavior by updating its framework, memory, skills, tools, models, or collaboration structures from prior coding interactions. In this survey, we provide a systematic synthesis of this emerging area. We first define self-evolving coding agents and distinguish them from conventional coding agents and general self-evolving agents. We then develop an object-centered taxonomy that characterizes what evolves in these systems, and complement it with two orthogonal perspectives: when evolution occurs and what software-specific evidence drives it. Across the literature, we find that executable feedback, repository-level context, and coding trajectories give software engineering a distinctive role as a natural domain for agent self-evolution, but also introduce new challenges in feedback reliability, benchmark overfitting, safety, maintainability, cost, and generalization. By organizing existing work around these dimensions, this survey aims to clarify the conceptual boundaries of self-evolving coding agents and provide a foundation for designing more adaptive, reliable, and software-aware agentic systems. The papers we collect can be found at https://github.com/zhouhao1024/Awesome-Self-Evolving-Coding-Agents.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-06T20:49:43.971461+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
  }
 }
