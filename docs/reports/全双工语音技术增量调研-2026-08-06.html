@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-06</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-06</h2><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-06.html"><span class="l-zh">→ 当天精读来源</span><span class="l-en">→ full-text reviews for this day</span></a></p><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-06</p>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-05.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<p>截至 2026-08-06 10:30 的项目状态快照没有出现晚于前一日报告的新提交或新一轮 P50/P90；最新提交仍是 <code>0a1d84e</code>（phase 埋点、forward 代价探针和紧凑回执）。 因此今天不把“已埋点”写成“已优化”，也不改变 A/B 的 Pareto 结论。</p>
+<p>项目已经实测的事实如下：</p>
+<ul>
+<li>A/B 在相同 100 条语音上的完成率均为 100%，严格工具召回/执行成功率分别为</li>
+<p>80.49%/79.27%，整体任务成功率为 84.0%/约 83.0%；100 条样本的置信区间高度 重叠，不能据 1.22 个百分点断言 A 更强。</p>
+<li>B 的首文本 P50/P90 为 131/141ms、首动作 700/850ms；A 分别为</li>
+<p>758/1,006ms、1,094/1,440ms。A/B 首音频 P50 分别为 2,918/3,491ms，当前主要 瓶颈仍是 Edge TTS。</p>
+<li><code>22edce8</code> 已开始补测真正车态落地时刻，说明此前“首动作”不等于动作生效；</li>
+<p><code>768c60e</code>/<code>0a1d84e</code> 已为 token、engine time、phase、forward 和紧凑回执建立观测， 但快照尚未给出新分布。</p>
+<li>主模型自主 <code>probe_turn_end</code> 已被实测否决；投机预取在 60 条测试中是负优化，工具</li>
+<p>清单压缩也已回滚。今天的检索前移候选只能作为带取消和反事实对照的新实验，不能 覆盖这些负面结果。</p>
+<li>B 版持久 KV 累积曾损失约 22 个百分点；闲聊过滤若要滤净需取 <code>T=5</code>，会误伤</li>
+<p>6.25% 的真实车控。光场屏/副驾屏上下文引力和聚合意图展开不全仍未根治。</p>
+<li>单 token 解码仍约 110ms。项目剖析指向 48 层约 816 次 GPU→CPU 同步/token；</li>
+<p><code>DynamicCache.update()</code> 在 KV=2500 时约 0.2ms，不是当前同量级瓶颈。</p>
+</ul>
+<p>今天新增的候选不是对上述项目事实的替代证明。VAmoS、Audio2Tool、MIST 和 Streaming Endpointer 提供新的评测与控制变量；Stream RAG、QIANGDA、M* 和 Lychee-FD 分别是检索前移、多人前端、复合服务和长期原生全双工候选。</p>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>严格工具名不能证明参数正确和车态真正落地</td><td>当前严格工具成功率 A/B 为 80.49%/79.27%；<code>22edce8</code> 才开始补测真实生效时刻</td><td>VAmoS、MIST、Audio2Tool</td><td>为同一请求保存原始音频、候选、typed call、参数、执行回执、最终车态和口头陈述；按隔离 CarSim 初态重放</td><td>编辑门槛：完成率 100%、闲聊/未授权副作用 0%；参数+最终车态成功率至少达到当前整体任务基线 84%，并单列置信区间</td></tr>
+<tr><td>聚合、改口、多轮和背景意图仍缺少分层诊断</td><td>聚合意图展开不全；当前 400 条文本、52 组近义工具不能定位所有失败类型</td><td>Audio2Tool 八级任务、MIST 六类交互</td><td>把 400 条和 1,566 条语音标成参数、多意图、隐式、干扰、改口、多轮、前后台混叠与 no-op 桶</td><td>每桶报告工具、参数、最终车态和误执行；最差桶不低于原方案，背景意图和 no-op 误执行为 0</td></tr>
+<tr><td>主模型自主判停不可行，固定静音又会截断句中停顿</td><td><code>probe_turn_end</code> 已实测否决；现有快照没有端点 ep50/ep90/cutoff 口径</td><td>NAC + label-delay Streaming Endpointer</td><td>以 AEC 后用户流和系统播放参考分别跑单流/双流影子端点器，覆盖中文停顿、填充词、回声和双讲</td><td>编辑目标：ep50≤160ms、ep90≤600ms、提前截断≤5%；车控最终状态和聊天误触发不退化</td></tr>
+<tr><td>投机预取已是负优化，但 Harness C 仍希望说话中并行准备候选</td><td>60 条实测已关闭原投机预取；A 的 RAG 完成 P50/P90 为 227/315ms</td><td>Stream RAG 的 <code>NO_QUERY</code>、替换与取消协议</td><td>固定间隔、模型触发、完全不预取三组；旧查询只读、可取消，副作用工具禁止预执行</td><td>commit 时相关候选就绪率提高，commit→候选可用 P50 低于 227ms；总调用量、最终状态和 0% 误车控同时过门</td></tr>
+<tr><td>多人座舱可能把声学优势最大的乘员当成目标</td><td>Audio2Tool Tier 8 专门混合前景/背景有效意图；QIANGDA 显示输入端融合仍可能绕过视觉目标</td><td>QIANGDA、Audio2Tool Tier 8</td><td>对同一主驾/副驾混音分别指定座位、嘴部或波束目标，成对检查内容、身份、工具和最终车态</td><td>背景乘员未授权工具执行为 0；两目标成对身份成功率和前景车控成功率均高于无身份门基线</td></tr>
+<tr><td>110ms/token MoE 解码尚无已验证替代内核</td><td>速度不随 KV 长度变化；项目估算约 816 次同步/token</td><td>M* 只提供服务编排证据，不直接修 HF MoE 单 token 同步</td><td>继续在 5090/H200 比较原实现和无同步 <code>index_select</code>+<code>bmm</code> fast path；另把 M* 仅作隔离服务对照</td><td>输出一致；单请求 ms/token 显著下降；不能用 B=16 吞吐或 TTS RTF 代替该门槛</td></tr>
+<tr><td>约 3 秒首音频与长期原生全双工路线仍未闭环</td><td>A/B 首音频 P50 为 2,918/3,491ms；当前是外挂 Edge TTS</td><td>M* 的复合模型调度、Lychee-FD 长期后端</td><td>短期仍先测本地 CosyVoice；长期单独回放 Lychee-FD，统一记录停止、响应、工具正确性和显存</td><td>本地 TTS 首音频 P95 显著低于 Edge；长期后端须保持车控安全门，不能只按全双工 benchmark 换模型</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<p>以下“论文结果”只采用论文正文、作者项目页、官方仓库和官方模型/数据页。Radar 摘要只用于发现候选。项目数字是 StreamingModelHarness 已实测事实；成功门槛和接入 路径是面向项目的编辑判断。</p>
+<h3>P0：直接命中当前工程短板</h3>
+<ol>
+<li><strong>VAmoS Bench + MIST + Audio2Tool</strong> 应先变成新的正确性契约：从严格工具名升级为</li>
+<p>“参数、路径、最终车态和口头陈述一致”。三者互补，而不是三个同名 benchmark： VAmoS 查执行轨迹，MIST 查数字孪生最终状态与 no-op，Audio2Tool 查八级声学工具 难度。</p>
+<li><strong>Streaming Endpointer</strong> 是 <code>probe_turn_end</code> 阴性结果后的独立小模型路线。论文在</li>
+<p>160ms 中位延迟下给出可检验的 cutoff/尾延迟权衡，但需要中文座舱重标定。</p>
+<li><strong>Stream RAG</strong> 只值得作为“带 <code>NO_QUERY</code>、替换、取消和错误恢复”的新预取实验。</li>
+<p>项目已经否决的无约束投机预取不能因论文结果而重新标成正优化。</p>
+</ol>
+<h3>P1：适合形成下一阶段架构</h3>
+<ol>
+<li><strong>QIANGDA</strong> 把“是否真的跟随目标乘员”变成同一混音的成对身份测试，适合主驾/</li>
+<p>副驾前端回归；现有模型是 full-utterance、noncausal，不能在线接入。</p>
+<li><strong>M\</strong>* 的 Walk Graph 和 streaming edge 可用于表达 Thinker、工具、Talker/TTS 的</li>
+<p>不同执行路径；它没有工具事务、安全、取消语义，也没有证明能修复当前 110ms/token。</p>
+</ol>
+<h3>P2：长期模型研究</h3>
+<ol>
+<li><strong>Lychee-FD</strong> 是今天开放度最高的原生全双工后端候选之一，官方已提供框架、训练</li>
+<p>流水线和主权重。它不含工具/Action 通道，训练以约 14 万条合成双人对话为主，不能 直接替换 Harness 的确定性执行层。</p>
+<li>今日仍没有直接针对当前 HF MoE <code>.nonzero()</code>/标量比较同步链的新内核，也没有能</li>
+<p>直接把 Edge TTS 首音频降下来的已核验结果；这两项继续按项目自己的实验推进。</p>
+</ol>
+<h2>1. VAmoS Bench：从“说对了”升级为“说做一致”</h2>
+<p>来源：<a href="https://arxiv.org/abs/2607.27453v1" rel="noopener noreferrer">论文正文 / arXiv:2607.27453v1</a>； <a href="https://github.com/veris-ai/riley-agent" rel="noopener noreferrer">作者官方 Riley 仓库</a>。</p>
+<h3>它是什么</h3>
+<p>VAmoS 是完整语音代理的端到端任务完成基准。它不把 WER、自然度或最终数据库状态 单独当成功，而是让语音代理通过真实音频处理 100 个银行卡场景，并联合审计转写、 工具顺序、参数和返回行。</p>
+<h3>核心方法</h3>
+<ul>
+<li>每通电话启动隔离、按场景 seed 的 PostgreSQL 和卡务服务，五个工具执行真实 SQL。</li>
+<li>场景包含来电者私有目标、说话风格和 1–3 条二元断言；简单、复杂和对抗场景分别</li>
+<p>检查身份验证、动作顺序、保密、工具失败和多卡歧义。</p>
+<li>模拟来电者会依据代理结果继续追问；统一 grader 同时读取对话和执行轨迹。</li>
+<li>只有所有断言都通过才算完成，因此“口头说已冻结但没有调用工具”和“状态正确但</li>
+<p>未验证就泄密”都会失败。</p>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>11 个系统各跑 100 场景、重复三次，共 3,300 通电话；3,245 通建立连接，连接率</li>
+<p>98.3%，但只有 2,081 通完成任务，完成率 63.1%。</p>
+<li>系统完成率从 43.0% 到 71.0%；Pipecat 71.0% 与相同模型栈 LiveKit 70.3% 的差异</li>
+<p>不足以据此判定框架胜负。</p>
+<li>简单、复杂和对抗分组完成率为 65.8%、52.2% 和 73.4%；复杂组是所有 11 个系统的</li>
+<p>最弱组。</p>
+<li>直接绕过验证的 33 个场景全部拒绝成功，但重复验证失败时只有 11/33 保持保密；</li>
+<p>用户要求跳过“先冻结再补卡”时只有 1/33 遵守流程。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>将 <code>22edce8</code> 的车态落地埋点升级为统一证据账本：</p>
+<pre><code>原始音频 → endpoint → 候选工具 → typed call/参数
+→ 执行器接受 → CarSim 最终车态 → 回执 → 对用户的口头陈述</code></pre>
+<p>对每条车控写固定断言，联合检查未授权动作、幂等、前置条件、真正落地和说做一致。 这是编辑建议；VAmoS 的银行断言不能直接当车控金标。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>只覆盖 100 个英语银行卡务场景，每系统仅三次重复；误差条不是 95% 置信区间。</li>
+<li>grader 是单一 LLM，没有人工金标；论文明确说评分读取轨迹，而不是在通话后再次</li>
+<p>查询数据库，因此持久状态仍可进一步加强。</p>
+<li>代码：官方 Riley 仓库公开多种代理实现、工具逻辑和 PostgreSQL schema，MIT。</li>
+<li>场景、固定断言、完整 grader、轨迹和结果包：未完整公开；许可证未知。</li>
+<li>自有模型/权重：无。</li>
+</ul>
+<h2>2. Audio2Tool：把 400 条车控拆成八级失败类型</h2>
+<p>来源：<a href="https://arxiv.org/abs/2604.22821v2" rel="noopener noreferrer">论文正文 / arXiv:2604.22821v2</a>； <a href="https://audio2tool.github.io/" rel="noopener noreferrer">作者项目页</a>； <a href="https://huggingface.co/datasets/RVtech/Audio2Tool" rel="noopener noreferrer">官方数据页</a>； <a href="https://github.com/audio2tool/audio2tool.github.io" rel="noopener noreferrer">官方演示仓库</a>。</p>
+<h3>它是什么</h3>
+<p>Audio2Tool 是语音到工具调用 benchmark，覆盖 Smart Car、Smart Home 和 Wearables 三域的 152 个函数、23 个类别。它把简单调用逐级扩展到参数、多意图、隐式表达、 长干扰、改口、多轮和前后台有效意图混叠。</p>
+<h3>核心方法</h3>
+<ul>
+<li>八级分别测试直接调用、参数抽取、多意图、隐式意图、needle-in-a-haystack、</li>
+<p>句中纠正、多轮和前景/背景意图混叠。</p>
+<li>用 Qwen3-TTS、CosyVoice-3 和多个公开说话人来源合成语音，再叠加汽车、室内、</li>
+<p>babble、机械和冲击噪声。</p>
+<li>零样本向模型提供工具 schema，要求输出有序调用；指标分为工具准确率、完整调用</li>
+<p>Exact Match 和参数 Slot F1。</p>
+<li>Tier 8 把两个都合法的工具意图混在同一音频中，但只允许执行前景目标。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>正文报告约 29,680 条查询；官方 v1.0 数据卡当前列出 16,843 个查询条目、</li>
+<p>36,421 个音频文件、59.6 小时。两个口径未解释如何对齐。</p>
+<li>Qwen-3-Omni-30B 的 Tier 1 工具准确率为 92.4%；Tier 4 的</li>
+<p>Acc/EM/F1 降至 33.4/11.3/23.4，Tier 7 为 54.6/16.3/26.8，Tier 8 为 41.7/12.4/19.9。</p>
+<li>Whisper-v3+Gemma-27B 在 Tier 8 为 50.5/15.7/25.6，高于上述端到端模型的</li>
+<p>41.7/12.4/19.9；论文不支持“SpeechLM 已稳定优于强级联”。</p>
+<li>噪声实验使用 +15、+5、−5dB SNR，正文说明性能明显下降，但没有给图中每个点的</li>
+<p>可引用数值。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>把现有 400 条文本、452 条新入库 WAV 和完整 1,566 条语音映射到八级 taxonomy， 同时按 52 组近义工具分层。优先补 Tier 2/3/6/7/8，分别检查参数、聚合展开、改口、 多轮状态和背景意图误触发。评分必须再加最终车态与安全副作用，不能只复用论文的 工具名准确率。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>语音均为 TTS 合成，不含真实座舱回声、阵列、自然重叠和说话人移动。</li>
+<li>查询和大部分判分由闭源 LLM 生成；只有至少一个 judge 失败的条目再人工复核。</li>
+<li>数据：官方 HF 数据页已公开八个 tier、工具表和音频，CC BY-NC 4.0；商业使用需</li>
+<p>单独授权，底层说话人语料仍服从各自条款。</p>
+<li>代码：官方 GitHub 主要是项目页、样例与下载/绘图内容，完整生成、噪声和评测流水线</li>
+<p>未公开，仓库许可证未知。</p>
+<li>自有模型/权重：无。</li>
+</ul>
+<h2>3. MIST：用数字孪生评最终状态、澄清与 no-op</h2>
+<p>来源：<a href="https://arxiv.org/abs/2605.06897v1" rel="noopener noreferrer">论文正文 / arXiv:2605.06897v1</a>； <a href="https://github.com/BillyZhang24kobe/mist-smarthome" rel="noopener noreferrer">作者官方仓库</a>。</p>
+<h3>它是什么</h3>
+<p>MIST 是合成的多轮语音工具代码生成任务。每个智能家居有房间、设备、能力、用户画像 和持续更新的 Home State 数字孪生；模型既要执行正确代码，也要在歧义、冗余、纠正和 状态查询时选择确认、澄清、拒绝或报告。</p>
+<h3>核心方法</h3>
+<ul>
+<li>采样 50 类设备、27 个能力/API、房间约束和用户画像，建立可执行 Home State。</li>
+<li>概率 orchestrator 在执行、例程更新、纠正、歧义、冗余和状态查询六类模式间采样，</li>
+<p>每轮先做符号合法性检查。</p>
+<li>MLLM 同时读取住宅配置、当前状态、历史文本和当前语音，输出 API 代码和自然语言。</li>
+<li>执行代码后比较最终设备/例程字典，并独立评价对话动作。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>数据含 10,000 段对话、88.1 小时语音，平均 5.6 个用户轮次。</li>
+<li>Gemini 2.5 Pro 的 Execution Match/Exact Match 为 79.53/65.56；</li>
+<p>Qwen 3 Omni 为 59.86/47.19。</p>
+<li>“Previous State” no-op 基线已达 71.62，说明约 71.6% 的样本无需改变设备状态；</li>
+<p>单看 Execution Match 会被 no-op 大量抬高。</p>
+<li>Gemini 2.5 Pro 的对话动作 Macro F1/Accuracy 为 46.00/66.73%，并漏掉 73.0%</li>
+<p>应确认的有效请求。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>用 CarSim 建每条样本的初始状态、合法动作和期望最终状态；显式加入“已经完成无需 重复”“同名设备需澄清”“改口后撤销/补偿”“设备不存在”和“聚合意图全展开”。 同时报告变更样本与 no-op 样本，避免大量无需动作的样本掩盖错误执行。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>全部语音为三种英语口音 TTS，噪声是 Gaussian noise；没有中文、真实远场、回声或</li>
+<p>多说话人。</p>
+<li>Execution Match 容易被 no-op 抬高；对话动作仍由模型 judge 判断。</li>
+<li>代码/数据：论文称将发布数据和生成框架，但当前官方仓库只核验到演示与少量样例，</li>
+<p>完整 10,000 段数据、生成器和评测代码未核验到。</p>
+<li>权重：无专属模型；许可证：未知。</li>
+</ul>
+<h2>4. Streaming Endpointer：NAC 特征与标签延迟</h2>
+<p>来源：<a href="https://arxiv.org/abs/2506.07081v2" rel="noopener noreferrer">论文正文 / arXiv:2506.07081v2</a>； <a href="https://github.com/BUTSpeechFIT/NAC-LD-Endpointer" rel="noopener noreferrer">作者官方代码仓库</a>。</p>
+<h3>它是什么</h3>
+<p>这是独立的实时语音端点器，不让主生成模型自己判停。单流或用户/系统双流 LSTM 每帧 预测 user、user-end、system、system-end；输入可由 Mel 频谱改为冻结的流式神经音频 codec 特征。</p>
+<h3>核心方法</h3>
+<ul>
+<li>以 EnCodec、AudioDec 或 Mimi 的码本向量作为低码率流式输入，比较不同帧率和码本数。</li>
+<li>label-delay training 将监督标签后移一至三帧，让模型在不增加显式等待规则的情况下</li>
+<p>学会更保守地跨过短暂停顿。</p>
+<li>单流加入系统活动 embedding；双流分别处理用户与系统音频。</li>
+<li>在 0.7–0.99 阈值上扫描，用 ep50、ep90 和提前截断率 ep-cutoff 同时评价。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>ep50 固定 160ms 时，单流 Mimi、<code>τ=2</code> 的 cutoff 为 7.01%，频谱、无延迟基线为</li>
+<p>12.23%，相对减少 42.7%；两者 ep90 分别为 560/560ms。</p>
+<li>双流 Mimi、<code>τ=1</code> 在同一 ep50 下 cutoff 为 4.76%，频谱基线为 7.61%，相对减少</li>
+<p>37.5%；代价是 ep90 为 600ms。</p>
+<li>接入 Moshi 的 700 个模拟查询中，temperature 0.7 时中位响应由表格中的 1,690ms</li>
+<p>降至 412ms，ep90 由 4,575ms 降至 812ms，cutoff 由 46.51% 降至 21.15%。</p>
+<li>正文叙述把该 Moshi 基线中位数写成 1,640ms，与表格 1,690ms 不一致；本报告采用</li>
+<p>表格值。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>将其作为现有 RMS VAD 后的影子端点门，不改主模型。单流先用“用户音频+外挂 TTS 活动标记”；若 AEC 能提供独立用户流和播放参考，再测双流。评测必须覆盖“然后把……” 这类未完成语义、中文填充词、双讲和回声，并把 cutoff 与最终车态一起看。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>主实验来自 SpokenWOZ，重叠较少；Moshi 部分也是模拟交互，不代表真实座舱。</li>
+<li>只判断话轮结束，不区分附和、第三方身份或打断意图。</li>
+<li>代码：官方仓库公开数据处理、LSTM、训练和指标代码，Apache-2.0；本次未运行。</li>
+<li>权重、双流完整配置和 Moshi 集成：未完整公开；SpokenWOZ 为 CC BY-NC 4.0。</li>
+</ul>
+<h2>5. Stream RAG：给已否决预取增加替换、取消和恢复</h2>
+<p>来源：<a href="https://arxiv.org/abs/2510.02044v1" rel="noopener noreferrer">论文正文 / arXiv:2510.02044v1</a>。</p>
+<h3>它是什么</h3>
+<p>Stream RAG 在用户说话期间从累积音频生成 Web/KG 查询，使检索与讲话重叠；用户结束 后才把完整音频和最终检索结果交给模型生成回答。它不是持续边说边听的原生全双工。</p>
+<h3>核心方法</h3>
+<ul>
+<li>Fixed-Interval 每秒发查询，并用 reflector 选择最早足够的结果。</li>
+<li>Model-Triggered 每 500ms 输出新查询或 <code>NO_QUERY</code>；新查询会取消旧调用，始终只留</li>
+<p>一个线程。</p>
+<li>训练标签依据当前 partial ASR 查询与上次查询是否相同或检索 top-5 是否不变来生成。</li>
+<li>以 10% 错误前序查询做负样本，训练模型从 partial speech 的错误猜测中恢复。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>Qwen2.5-7B 在 AudioCRAG-Synthetic 上由闭卷 11.1%、普通 Open Book 26.3% 提高到</li>
+<p>Model-Triggered 34.2%；Human 集对应为 13.1%、26.9%、37.4%。</p>
+<li>Synthetic 的 P50 首 token 由普通 RAG 5.90s 降至 5.32s，工具结果由 2.78s 降至</li>
+<p>2.20s；论文表中的 20.7%是工具时延节省，总首 token 实际只降约 9.8%。</p>
+<li>Human 集 P50 首 token 为 5.40s→3.60s；表中报告相对工具时延节省 53.4%。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>只复活“查询生成和只读检索”，不预执行有副作用的车控。先用现有 ASR partial transcript 实现 Fixed-Interval 对照，再评估是否训练触发器。必须记录每次替换、取消、浪费调用和 最终候选覆盖，与项目已否决的 60 条原投机预取正面对照。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>只提前 Web/KG 检索，不处理真实有副作用工具、取消后残留结果或事务补偿。</li>
+<li>评测是短事实问答，延迟口径排除了部分 endpoint、硬件、网络和并发信息。</li>
+<li>输出经 ASR 后由单一模型 judge 评分，没有人工金标。</li>
+<li>代码、后训练权重、AudioCRAG-Human 和许可证：论文只承诺发布，当前未核验到官方</li>
+<p>下载页，均为未知。</p>
+</ul>
+<h2>6. QIANGDA：同一双人混音的目标身份成对测试</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.03964v1" rel="noopener noreferrer">论文正文 / arXiv:2608.03964v1</a>。</p>
+<h3>它是什么</h3>
+<p>QIANGDA 是普通话音视频目标说话人提取 benchmark。同一个真实双人重叠录音分别以 A、 B 的嘴部视频为目标；如果两次都输出声学上更强的同一个人，就能显式识别视觉旁路。</p>
+<h3>核心方法</h3>
+<ul>
+<li>每个场景依次录 A 单讲、B 单讲和 A+B 同讲，并以同步多视角视频提供 scene-matched</li>
+<p>身份参考。</p>
+<li>冻结 AV-HuBERT 产生 25Hz、1,280 维嘴部特征；特征既在输入端融合，也在 6 个</li>
+<p>TF-GridNet block 后通过 FiLM 重复注入。</p>
+<li>训练使用 VoxBlink2-AVSE；评测联合 Qwen3-ASR-1.7B CER、独立 WeSpeaker 声纹相似度</li>
+<p>和 WavLM overlap detector。</p>
+<li>每个混音用两个视觉目标各跑一次，并报告单输出严格正确率与双输出同时成功率。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>QIANGDA 含 77 个场景、14 对说话人、7,598 段 16kHz 音频、11.84 小时；6,038 个</li>
+<p>可评测混音形成 12,076 个目标输出行。</p>
+<li>VoxBlink2-AVSE 含 250,828 对音频/嘴部 ROI、28,421 个身份和 766.17 小时。</li>
+<li>最佳归档 checkpoint 的 CER 为 0.2261，严格正确率 82.22%，双目标均严格正确率</li>
+<p>69.53%，残留重叠率 12.45%，错误说话人率 5.33%。</p>
+<li>只在输入端融合而不做逐层 FiLM 时，残留重叠率为 63.85%；但 checkpoint 配置并非</li>
+<p>完全受控消融，不能把全部差异只归因于 FiLM。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>把主驾/副驾/后排做成同混音成对测试：分别指定目标座位、嘴部或波束，检查音频内容、 说话人身份、候选工具、参数和最终车态。短期价值是数据与评测协议；若未来有因果 separator，再测试逐层身份条件是否减少上下文污染。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>论文明确使用 full-utterance、noncausal 推理，没有在线延迟或流式算力证据。</li>
+<li>只有 14 对固定位置参与者，内容为普通话朗读，排除自由交谈和非语言发声。</li>
+<li>严格正确率依赖自动 ASR、声纹、OSD 及阈值，不是真实隔离源金标。</li>
+<li>论文声称 release QIANGDA/VoxBlink2-AVSE，但未给可核验的官方代码、checkpoint、</li>
+<p>数据下载页或新资产许可证；均写未知。底层 VoxBlink2 的开放不能替代本工作授权。</p>
+</ul>
+<h2>7. M*：复合 Omni 服务的 Walk Graph</h2>
+<p>来源：<a href="https://arxiv.org/abs/2606.12688v2" rel="noopener noreferrer">论文正文 / arXiv:2606.12688v2</a>； <a href="https://github.com/mstar-project/mstar" rel="noopener noreferrer">作者官方仓库</a>。</p>
+<h3>它是什么</h3>
+<p>M* 是复合多模态模型的 serving runtime。模型作者把编码器、LLM、Talker、codec、 扩散头等声明为组件图，并以命名 Walk 表达不同任务路径；部署者再把组件和 Walk 映射 到 GPU。</p>
+<h3>核心架构</h3>
+<ul>
+<li>Walk Graph 支持 Sequential、Parallel、Loop 和 DynamicLoop。</li>
+<li>Conductor 保存请求状态，Worker 执行 KVCacheEngine 或 StatelessEngine，并负责</li>
+<p>连续批处理、paged attention、CUDA graph 和张量传输。</p>
+<li><code>StreamingGraphEdge</code> 提供 FixedChunk、SlidingWindow、LeftContext 三类 chunk</li>
+<p>policy；Qwen3-Omni 的 Thinker→Talker 和 Talker→Code2Wav 可用不同策略。</p>
+<li>组件可同进程共置，也可拆到不同 GPU，运行时处理 stream buffer 和调度。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>Qwen3-Omni Seed-TTS 在 2×H200、B=16 时，M* 吞吐分别为 vLLM-Omni 和</li>
+<p>SGLang-Omni 的 2.7×/4.0×；论文也报告更低 RTF。</p>
+<li>BAGEL I2T 在单 H100、B=16 时吞吐提高 32.7%、端到端延迟降低 25.5%；B=1 的</li>
+<p>TTFT 降低 33%。</p>
+<li>Orpheus 在单 H200、B=16 时 p50 RTF 降低 13.6%；V-JEPA 2 的长 rollout 另有更高</li>
+<p>加速，但与当前语音链路无直接可比性。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>可把音频输入、endpoint、Thinker、RAG、typed executor、回执和 TTS 画成显式 Walk， 并分别测共置/拆分成本。优先价值是可观测与调度，不是替换业务状态机。M* 的模型组件 streaming edge 也不等同对话层的持续边听边说。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>论文只在单节点 4×H100/8×H200 上测试，没有跨节点、故障恢复或多租户隔离。</li>
+<li>Qwen3-Omni 结果是 2–3 张 H200 上的 TTS RTF/吞吐，不能解释 5090、B=1 的 HF MoE</li>
+<p>110ms/token 同步瓶颈。</p>
+<li>没有有副作用工具的事务、授权、取消和补偿协议。</li>
+<li>代码：官方仓库公开 runtime、模型适配、配置和 benchmark，Apache-2.0；M* 没有</li>
+<p>自有权重，所用模型和数据各自遵循独立许可证。</p>
+</ul>
+<h2>8. Lychee-FD：深层模态分离的原生全双工后端</h2>
+<p>来源：<a href="https://arxiv.org/abs/2607.06540v3" rel="noopener noreferrer">论文正文 / arXiv:2607.06540v3</a>； <a href="https://hitsz-tmg.github.io/Lychee-FD" rel="noopener noreferrer">作者项目页</a>； <a href="https://github.com/HITsz-TMG/Lychee-FD" rel="noopener noreferrer">官方代码仓库</a>； <a href="https://huggingface.co/HIT-TMG/Lychee-FD" rel="noopener noreferrer">官方模型页</a>。</p>
+<h3>它是什么</h3>
+<p>Lychee-FD 基于 StepAudio-2-mini 构建原生端到端全双工 SLM。论文认为深层共享参数会 让稠密声学目标与稀疏语义目标产生梯度冲突，因此保留浅层共享、在深层拆出语义、声学 和控制路径。</p>
+<h3>核心架构</h3>
+<ul>
+<li>24 层共享 Transformer 后并行设置 4 层语义头、4 层声学头和 2 层控制头。</li>
+<li>训练加入连续文本内部独白，让约 3Hz 文本监督持续对齐 25Hz 声学 token。</li>
+<li>约 14 万条合成全双工对话覆盖打断、用户 backchannel 和助手 backchannel。</li>
+<li>推理以定制 vLLM DAG 并行生成文本、语音与起停/打断控制信号；官方 Docker demo</li>
+<p>将主模型和 Token2Wav 分开部署。</p>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>FullDuplexBench 1.5 的 IRR/BRR 为 78%/69%，打断停止 570ms、响应 826ms；</li>
+<p>论文中的 Freeze-Omni 对应为 27%/63%、660ms 和 2,066ms。</p>
+<li>FDBench 的 SRR/SIR/EIR/SRIR 为 86.3/99.7/0.4/95.8，FSED 637ms、IRD 1,210ms。</li>
+<li>去掉语义通道时平均 Spoken QA S→T/S→S 从 51.5/46.2 降至 45.9/40.8；</li>
+<p>去掉参数分离时降至 46.1/27.6。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>它适合作为独立长期后端，与 A/B/C 做相同音频、端点、打断和口播回放；不应拆一段 局部代码塞进现有 Harness。即使换后端，也必须保留候选授权、参数校验、幂等、最终 车态验证和取消/补偿，论文没有原生工具通道。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>训练数据主要是合成双人对话；论文承认会把面向第三方的侧谈误判成对代理的打断。</li>
+<li>FullDuplexBench 1.5 部分指标依赖 GPT-4o judge，没有真实座舱、多乘员或车控结果。</li>
+<li>代码/训练脚本：官方仓库公开并标注 Apache-2.0；本次未运行。</li>
+<li>权重：官方 HF 页面提供 Lychee-FD 主权重；Token2Wav 必须另取 Step-Audio-2-mini。</li>
+<p>主权重独立许可证在当前模型卡中未明确，写未知；上游 Token2Wav 遵循其自身条款。</p>
+<li>约 14 万条训练数据的下载地址和许可证未核验到，写未知。</li>
+</ul>
+<h2>今日建议路线</h2>
+<h3>第一阶段</h3>
+<ol>
+<li>先用 VAmoS/MIST 契约统一当前新埋点：从 commit 到候选、typed call、执行接受、</li>
+<p>真正车态、回执和口头陈述；对同一 400 条文本和完整语音池重跑 A/B。</p>
+<li>将 Audio2Tool Tier 2/3/6/7/8 映射到现有车控，补齐参数、聚合、改口、多轮和背景</li>
+<p>意图桶；每桶都报告最终车态与误执行。</p>
+<li>影子部署单流 NAC endpointer，建立 ep50/ep90/cutoff 基线；有 AEC 双流后再比较</li>
+<p>双流，不直接替换生产判停。</p>
+<li>继续 MoE 无同步 fast path 和本地 CosyVoice 的既定实验；今天的 serving/full-duplex</li>
+<p>论文不能替代这两项。</p>
+</ol>
+<h3>第二阶段</h3>
+<ol>
+<li>以只读检索做 Stream RAG 三组对照：无预取、固定间隔、带 <code>NO_QUERY</code> 的触发器。</li>
+<p>对每个旧查询记录取消是否成功，禁止预执行任何车控。</p>
+<li>构造主驾/副驾同混音成对集，先用现有 ASR/波束/声纹链做 QIANGDA 风格审计；</li>
+<p>背景合法意图必须保持 0 次未授权执行。</p>
+<li>若需要拆分 Qwen、工具和 TTS 服务，再做 M* 风格 Walk 原型；先测 B=1 和尾延迟，</li>
+<p>不用 B=16 吞吐替代交互指标。</p>
+</ol>
+<h3>第三阶段</h3>
+<ol>
+<li>单独部署 Lychee-FD 公开 demo 做离线回放，统一测停止、响应、中文内容、显存和长会话；</li>
+<p>不运行其训练代码，不接真实车控。</p>
+<li>只有当 Lychee-FD 在相同座舱音频上通过身份、工具、参数、最终车态和取消硬门时，</li>
+<p>才讨论后端替换；全双工 benchmark 领先不是充分条件。</p>
+</ol>
+<h2>风险提醒</h2>
+<ul>
+<li>今天没有项目新提交或新 P50/P90，不能声称 A/B/C 已因新论文加速。</li>
+<li>VAmoS 的 grader 不做通话后数据库复查，MIST 的 no-op 占比又高；项目必须自行查询</li>
+<p>最终 CarSim 状态，并把变更/no-op 分桶。</p>
+<li>Audio2Tool 官方数据口径与论文约 29,680 条不一致，且为 CC BY-NC 4.0；可用于研究</li>
+<p>benchmark，不应默认可商用。</p>
+<li>Stream RAG 的结果不能推翻项目 60 条投机预取阴性结果；真正新增变量是</li>
+<p><code>NO_QUERY</code>、替换、取消与错误恢复。副作用工具不得预执行。</p>
+<li>QIANGDA 是非因果整句模型，论文虽然声称 release，当前没有可核验的新资产下载与</li>
+<p>许可证；短期只借鉴成对身份协议。</p>
+<li>M* 的高并发 H200 结果与当前 5090 单 token HF MoE 同步不是同一瓶颈。</li>
+<li>Lychee-FD 权重可下载，但训练数据许可和主权重独立许可尚未闭合；它也没有工具通道，</li>
+<p>不能绕过确定性车控安全层。</p>
+<li>今日候选已按技术谱系去重：Audio2Tool 的论文、项目页和 HF 数据是同一工作；</li>
+<p>MIST 仓库是论文配套演示；Lychee-FD 论文、项目页、GitHub 和 HF 是同一后端； QIANGDA 与其训练集 VoxBlink2-AVSE 按同一工作记录，不拆成两个候选。</p>
+</ul></div><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
