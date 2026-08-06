@@ -4,6 +4,7 @@
 HackerNews 上与**全双工语音、流式多模态模型、agent harness、座舱助手**相关的新东西。
 
 **站点**: <https://piiiiiig.github.io/cockpit-agent-radar/> ·
+**精读记录**: [Reviews](https://piiiiiig.github.io/cockpit-agent-radar/reviews.html) ·
 **订阅**: [RSS](https://piiiiiig.github.io/cockpit-agent-radar/feed.xml)
 
 ## 架构：两层解耦
@@ -38,6 +39,14 @@ HackerNews 上与**全双工语音、流式多模态模型、agent harness、座
 为避免新论文在两班之间只显示“排队中”，GitHub Actions 会先运行
 `backfill_abstract_explanations.py` 生成明确标注的“摘要速读”（零 API、无模型费用）；
 Cursor Agent 随后读取正文，将 `review_status=abstract_backfill` 的条目升级为深度讲解。
+
+正文精读历史单独存放在 `data/review_history.json`。它只接受
+`review_status=editorial` 且 `source_depth=fulltext` 的状态迁移，并按北京时间记录
+论文来源、站内详情和自动化 run；摘要回填不会计数。`run_deep_review_batch.ps1`
+在 Agent 前保存状态快照，测试通过后才计算本批实际升级，和数据及 `docs/` 放在同一
+commit 中发布。ID 去重保证断线重试幂等，同题镜像通过 `canonical_id/mirror_of`
+明确标识并在网页合并展示。历史数据若只能由 `generated_at` 核验，会标为
+`backfilled=true`，不会猜测旧批次。
 
 ## 本地跑
 

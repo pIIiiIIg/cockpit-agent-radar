@@ -69,6 +69,12 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
 .report-body { background:var(--card); border:1px solid var(--line);
                border-radius:10px; padding:18px 20px; margin-top:14px; }
 .report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
@@ -122,11 +128,12 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<div class="item-page"><h2>每日调研日报 · 2026-08-05</h2><div class="report-body"><h1>每日调研日报 · 2026-08-05</h1>
+<div class="item-page"><h2>每日调研日报 · 2026-08-05</h2><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-05.html"><span class="l-zh">→ 当天精读来源</span><span class="l-en">→ full-text reviews for this day</span></a></p><div class="report-body"><h1>每日调研日报 · 2026-08-05</h1>
 <p>阶段测量：统一车控落地时钟（此前 A/B 只测到首动作，<code>22edce8</code> 补测车辆真正生效，<code>768c60e</code>/<code>0a1d84e</code> 又加入 token 账本、引擎耗时、phase 与 forward 探针；先统一 commit→search→call→车态生效→回执→首音频口径；准备按新埋点重跑 A/B/C，快照未给新数字前不更新 Pareto 结论）</p>
 <p>KV 回执：Sparse Event-KV（紧凑回执可减少持久 KV，但 B 版 KV 累积曾损失约22个百分点且存在上下文引力；论文证明特定 answer-free carrier 可把 Qwen3-8B donor-aligned recovery 从约6%提到约51%，同时三位数字为0/192；准备以显式参数/最终车态为 source of record，只对成功、重试、阶段等紧凑状态做 donor-flip 与长会话实验）</p>
 <p>聚合意图：AdaMM 分析记忆（当前聚合车控展开不全，top-k 检索不能保证覆盖全部相关车态；AdaMM 把重复属性物化为关系表并用 Filter/Compute/Rank 全量操作，在 MemEye/MemGallery 的 Judge 指标最高较最佳基线提高11.3/6.9个百分点；准备离线比较“仅RAG”和“RAG+typed table”的聚合完整率、参数与最终车态）</p>

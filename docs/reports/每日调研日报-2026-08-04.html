@@ -69,6 +69,12 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
 .report-body { background:var(--card); border:1px solid var(--line);
                border-radius:10px; padding:18px 20px; margin-top:14px; }
 .report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
@@ -122,11 +128,12 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<div class="item-page"><h2>每日调研日报 · 2026-08-04</h2><div class="report-body"><h1>每日调研日报 · 2026-08-04</h1>
+<div class="item-page"><h2>每日调研日报 · 2026-08-04</h2><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-04.html"><span class="l-zh">→ 当天精读来源</span><span class="l-en">→ full-text reviews for this day</span></a></p><div class="report-body"><h1>每日调研日报 · 2026-08-04</h1>
 <p>推理加速：无同步 MoE fast path（当前 Qwen3-Omni 解码约 110ms/token，项目剖析指向 HF MoE 每 token 约 816 次 GPU→CPU 同步；以 <code>index_select</code>+<code>bmm</code> 消除逐专家同步；准备在 5090/H200 上对比原实现与 monkeypatch 的 ms/token 和输出一致性，今日 Radar 没有可直接核验的内核候选）</p>
 <p>工具/Action 通道：Qwen-UI-Agent（当前候选门已拦住约45%的候选外工具失配，但仍有52组近义工具和聚合意图展开不全；用 typed Action batch、候选内判据、权限/前置条件/幂等门和最终车态验证约束执行；准备做400条“参数+最终车态”回归并单列聚合意图完整率）</p>
 <p>多乘员响应决策：Cocktail-Talker（当前车内语音可能对助手、其他乘员或与助手无关；论文用 RESPOND/LISTEN/IGNORE 显式动作区分，在合成多人噪声测试中 Respond/Silent macro-F1 为0.930，但不是流式判停器；准备把三动作标签迁移到真实座舱多座位回放，作为 FastTurn/SoulX 之后的受话对象门）</p>

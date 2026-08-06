@@ -42,6 +42,9 @@
   生成、晚注入工具、外挂 TTS”的真实架构，不能把它写成原生模型层全双工。
 - 开源状态拿不准就保持 `unknown`，不要把论文公开等同于代码/权重公开。
 - 人工确认后将 `review_status` 改为 `editorial`，保留 `generated_by` 以便追溯。
+- 只有同时写成 `review_status=editorial`、`source_depth=fulltext` 才算完成精读。
+  不要直接编辑 `data/review_history.json`；批处理会用运行前后快照计算真实迁移，
+  在测试通过后幂等写入北京时间日期、论文/站内链接和 run 来源。
 
 ### 4. 重建站点
 
@@ -56,3 +59,13 @@ python scripts/build_site.py
 - 演示页禁止外部请求（Pages 上无后端，断网也要能开）。
 - 拿不准的条目宁可不写 `summary_zh`，别编造论文没说的东西。
 - push 前 `git pull --rebase`，Actions 可能刚提交过。
+
+## 精读记录发布机制
+
+`scripts/run_deep_review_batch.ps1` 在启动 Agent 前快照讲解状态。Agent 成功、待办数
+下降且测试通过后，`scripts/review_history.py record` 只记录本次从缺失或
+`abstract_backfill` 进入正文级 editorial 的 ID；随后再次测试、重建站点，并将
+`data/review_history.json`、讲解数据和 `docs/` 放入同一个 commit。失败且尚未 commit
+时会恢复 history，断线重跑也不会重复 ID。安全发布仍由 `Publish-WithRetry` 执行
+`fetch/rebase origin/main` 和非强制 `push origin HEAD:main`；若并发只冲突生成的
+`docs/`，会基于最新数据重建后继续 rebase。

@@ -98,6 +98,12 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
 .report-body { background:var(--card); border:1px solid var(--line);
                border-radius:10px; padding:18px 20px; margin-top:14px; }
 .report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
@@ -163,6 +169,7 @@ SHELL = """<!DOCTYPE html>
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="__BASE__/feed.xml">RSS</a>
+    <a class="btn" href="__BASE__/reviews.html">__REVIEWS_LABEL__</a>
     <a class="btn" href="__BASE__/reports/">__REPORTS_LABEL__</a>
     <a class="btn" href="__BASE__/archive.html">__ARCHIVE_LABEL__</a>
   </span>
@@ -185,6 +192,7 @@ def shell(title, body, page=""):
             .replace("__BASE__", BASE)
             .replace("__STYLE__", STYLE).replace("__JS__", JS)
             .replace("__SUB__", sub).replace("__FOOTER__", foot)
+            .replace("__REVIEWS_LABEL__", pair("精读记录", "Reviews"))
             .replace("__REPORTS_LABEL__", pair("日报", "Reports"))
             .replace("__ARCHIVE_LABEL__", pair("存档", "Archive"))
             .replace("__BODY__", body))
@@ -249,6 +257,100 @@ def no_updates():
                    "Scan completed: no new items crossed the relevance threshold. "
                    "Existing watch items remain monitored.")
             + "</div>")
+
+
+def load_review_history(valid_item_ids):
+    path = os.path.join(ROOT, "data", "review_history.json")
+    try:
+        payload = json.load(open(path, encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    rows = []
+    for raw in payload.get("entries", []):
+        if (not isinstance(raw, dict) or raw.get("id") not in valid_item_ids
+                or raw.get("review_status") != "editorial"
+                or raw.get("source_depth") != "fulltext"):
+            continue
+        try:
+            instant = datetime.fromisoformat(
+                raw["reviewed_at"].replace("Z", "+00:00"))
+            if instant.tzinfo is None:
+                instant = instant.replace(tzinfo=CST)
+            review_date = instant.astimezone(CST).date().isoformat()
+        except (KeyError, AttributeError, TypeError, ValueError):
+            continue
+        if raw.get("review_date") != review_date:
+            continue
+        row = dict(raw)
+        row["detail_url"] = f'{BASE}/items/{row["id"]}.html'
+        paper_url = row.get("paper_url", "")
+        row["paper_url"] = paper_url if re.match(r"^https?://", paper_url) else ""
+        rows.append(row)
+    return sorted(rows, key=lambda row: (row["reviewed_at"], row["id"]),
+                  reverse=True)
+
+
+def review_groups(rows):
+    groups = {}
+    for row in rows:
+        groups.setdefault(row.get("canonical_id") or row["id"], []).append(row)
+    return list(groups.values())
+
+
+def review_block(rows):
+    """Stable per-day review section; mirror records share one visible row."""
+    groups = review_groups(rows)
+    parts = [
+        '<section class="reviews"><h2>'
+        + pair("今日完成精读", "Full-text reviews completed today")
+        + f' · {len(groups)}</h2>'
+    ]
+    for group in groups:
+        first = group[0]
+        source_links = []
+        detail_links = []
+        for index, row in enumerate(group, 1):
+            suffix = f" {index}" if len(group) > 1 else ""
+            if row.get("paper_url"):
+                source_links.append(
+                    f'<a href="{esc(row["paper_url"])}" rel="noopener noreferrer">'
+                    + pair("论文来源", "paper source") + suffix + "</a>")
+            detail_links.append(
+                f'<a href="{esc(row["detail_url"])}">'
+                + pair("站内详情", "site detail") + suffix + "</a>")
+        mirror = (" · " + pair(f"{len(group)} 个镜像已合并",
+                                f"{len(group)} mirrors merged")
+                  if len(group) > 1 else "")
+        parts.append(
+            f'<div class="review-row"><b>{esc(first.get("title"))}</b>{mirror}'
+            f'<div class="links">{" · ".join(source_links + detail_links)}</div></div>')
+    if not groups:
+        parts.append('<div style="color:var(--dim)">'
+                     + pair("0 篇；摘要速读不计入精读。",
+                            "0 papers; abstract briefs are not counted.")
+                     + "</div>")
+    parts.append("</section>")
+    return "".join(parts)
+
+
+def build_reviews_page(by_review_day):
+    parts = [
+        f'<h2 class="day">{pair("精读历史", "Full-text review history")}</h2>',
+        "<p>" + pair(
+            "仅记录已升级为正文级人工复核的论文；摘要回填不计入。",
+            "Only full-text editorial upgrades are listed; abstract backfills do not count."
+        ) + "</p>",
+    ]
+    for day in sorted(by_review_day, reverse=True):
+        rows = by_review_day[day]
+        parts.append(
+            f'<h2 class="day"><a href="{BASE}/days/{day}.html">{day}</a></h2>')
+        parts.append(review_block(rows))
+    if not by_review_day:
+        parts.append(no_updates())
+    with open(os.path.join(DOCS, "reviews.html"), "w",
+              encoding="utf-8") as stream:
+        stream.write(shell("Reviews · cockpit-agent-radar", "\n".join(parts)))
 
 
 def _list_block(rows, ordered=False):
@@ -492,7 +594,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 
-def build_reports():
+def build_reports(by_review_day):
     source = os.path.join(ROOT, "reports")
     target = os.path.join(DOCS, "reports")
     os.makedirs(target, exist_ok=True)
@@ -508,7 +610,14 @@ def build_reports():
             kind = "daily" if stem.startswith("每日调研日报") else "detail"
             title = ("每日调研日报" if kind == "daily" else "全双工语音技术增量调研")
             text = open(path, encoding="utf-8").read()
+            review_source = ""
+            if by_review_day.get(date):
+                review_source = (
+                    f'<p><a class="btn" href="{BASE}/days/{date}.html">'
+                    + pair("→ 当天精读来源", "→ full-text reviews for this day")
+                    + "</a></p>")
             body = (f'<div class="item-page"><h2>{esc(title)} · {esc(date)}</h2>'
+                    f'{review_source}'
                     f'<div class="report-body">{markdown_to_html(text)}</div>'
                     f'<p><a class="btn" href="{BASE}/reports/">'
                     + pair("← 返回日报", "← reports") + "</a></p></div>")
@@ -568,6 +677,10 @@ def main():
         explanations = {}
     for item in items:
         item["explanation"] = explanations.get(item["id"], {})
+    history = load_review_history({item["id"] for item in items})
+    by_review_day = {}
+    for row in history:
+        by_review_day.setdefault(row["review_date"], []).append(row)
     items_dir = os.path.join(DOCS, "items")
     os.makedirs(items_dir, exist_ok=True)
     valid_item_files = {item["id"] + ".html" for item in items}
@@ -576,14 +689,16 @@ def main():
             os.remove(os.path.join(items_dir, name))
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
-    reports = build_reports()
+    reports = build_reports(by_review_day)
+    build_reviews_page(by_review_day)
 
     # 按发现日期分组；首页放最近 6 天，每天另出独立子页 days/<date>.html
     by_day = {}
     for it in items:
         by_day.setdefault(it["found"][:10], []).append(it)
     scan_day = (data.get("generated") or "")[:10]
-    all_days = sorted(set(by_day) | ({scan_day} if scan_day else set()),
+    all_days = sorted(set(by_day) | set(by_review_day)
+                      | ({scan_day} if scan_day else set()),
                       reverse=True)
     days = all_days[:6]
     os.makedirs(os.path.join(DOCS, "days"), exist_ok=True)
@@ -594,6 +709,7 @@ def main():
     for d in all_days:
         rows = by_day.get(d, [])
         body = (datebar(d, all_days)
+                + review_block(by_review_day.get(d, []))
                 + f'<h2 class="day">{d} · {len(rows)} ' + pair("条", "items") + "</h2>"
                 + ("\n".join(day_cards(rows)) if rows else no_updates())
                 + f'<p style="margin-top:18px"><a class="btn" href="{BASE}/">'

@@ -1,0 +1,1660 @@
+{
+  "schema_version": 1,
+  "timezone": "Asia/Shanghai",
+  "description": "Only transitions to review_status=editorial and source_depth=fulltext; abstract_backfill and missing explanations are never reviews.",
+  "entries": [
+    {
+      "id": "f474b60b71",
+      "title": "Where Speech Enhancement Hurts Recognition: An Inference Time Polar Projection Diagnosis",
+      "paper_url": "https://arxiv.org/abs/2607.11157v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f474b60b71.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "f474b60b71",
+      "mirror_of": null
+    },
+    {
+      "id": "ef4031e707",
+      "title": "Mind the Pause: Disfluency-Aware Objective Tuning for Multilingual Speech Correction with LLMs",
+      "paper_url": "https://arxiv.org/abs/2605.12242v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ef4031e707.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "ef4031e707",
+      "mirror_of": null
+    },
+    {
+      "id": "dcf4f2fa5d",
+      "title": "Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE",
+      "paper_url": "https://arxiv.org/abs/2608.03964v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/dcf4f2fa5d.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "dcf4f2fa5d",
+      "mirror_of": null
+    },
+    {
+      "id": "d5525b2a56",
+      "title": "Towards Real-world Environment-aware Zero-shot Text-to-speech Synthesis via Disentangled Audio Infilling",
+      "paper_url": "https://arxiv.org/abs/2608.03011v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/d5525b2a56.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "d5525b2a56",
+      "mirror_of": null
+    },
+    {
+      "id": "ca6c85d290",
+      "title": "AudioGuard: Toward Comprehensive Audio Safety Protection Across Diverse Threat Models",
+      "paper_url": "https://arxiv.org/abs/2604.08867v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ca6c85d290.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "ca6c85d290",
+      "mirror_of": null
+    },
+    {
+      "id": "b53cfd0acb",
+      "title": "Model or Harness? An Interaction-Centric Taxonomy for Localizing Agent Failures",
+      "paper_url": "https://huggingface.co/papers/2607.28802",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/b53cfd0acb.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "b53cfd0acb",
+      "mirror_of": null
+    },
+    {
+      "id": "b021a6932b",
+      "title": "MIST: Multimodal Interactive Speech-based Tool-calling Conversational Assistants for Smart Homes",
+      "paper_url": "https://arxiv.org/abs/2605.06897v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/b021a6932b.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "b021a6932b",
+      "mirror_of": null
+    },
+    {
+      "id": "937de94bbb",
+      "title": "Still Between Us? Evaluating and Improving Voice Assistant Robustness to Third-Party Interruptions",
+      "paper_url": "https://arxiv.org/abs/2604.17358v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/937de94bbb.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "937de94bbb",
+      "mirror_of": null
+    },
+    {
+      "id": "8c85d4ceba",
+      "title": "Leveraging Beam Search Information for Confidence Estimation in E2E ASR",
+      "paper_url": "https://arxiv.org/abs/2607.29299v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/8c85d4ceba.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "8c85d4ceba",
+      "mirror_of": null
+    },
+    {
+      "id": "8baa8530b2",
+      "title": "Audio2Tool: Speak, Call, Act -- A Dataset for Benchmarking Speech Tool Use",
+      "paper_url": "https://arxiv.org/abs/2604.22821v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/8baa8530b2.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "8baa8530b2",
+      "mirror_of": null
+    },
+    {
+      "id": "3e5ebfc066",
+      "title": "M*: A Modular, Extensible, Serving System for Multimodal Models",
+      "paper_url": "https://arxiv.org/abs/2606.12688v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/3e5ebfc066.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "3e5ebfc066",
+      "mirror_of": null
+    },
+    {
+      "id": "358aed2a15",
+      "title": "Streaming Endpointer for Spoken Dialogue using Neural Audio Codecs and Label-Delayed Training",
+      "paper_url": "https://arxiv.org/abs/2506.07081v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/358aed2a15.html",
+      "reviewed_at": "2026-08-06T02:00:00+08:00",
+      "review_date": "2026-08-06",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-06T02:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "358aed2a15",
+      "mirror_of": null
+    },
+    {
+      "id": "fd2cfdf072",
+      "title": "Overcoming State Inertia in Full-Duplex Spoken Language Models via Activation Steering",
+      "paper_url": "https://arxiv.org/abs/2606.11386v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/fd2cfdf072.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "fd2cfdf072",
+      "mirror_of": null
+    },
+    {
+      "id": "dea7925667",
+      "title": "Hierarchical Acoustic-Semantic Modeling: Modality Separation and Semantic Coherence for Full-Duplex SLMs",
+      "paper_url": "https://arxiv.org/abs/2607.06540v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/dea7925667.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "dea7925667",
+      "mirror_of": null
+    },
+    {
+      "id": "a4e755cd6c",
+      "title": "OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models",
+      "paper_url": "https://huggingface.co/papers/2608.03812",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/a4e755cd6c.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "25706b1e40",
+      "mirror_of": "25706b1e40"
+    },
+    {
+      "id": "694f3be77a",
+      "title": "Harness TTS: Towards Context-Aware Expressive Speech Synthesis with Harness Layer",
+      "paper_url": "https://arxiv.org/abs/2607.17900v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/694f3be77a.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "694f3be77a",
+      "mirror_of": null
+    },
+    {
+      "id": "5af78d53e4",
+      "title": "Stream RAG: Instant and Accurate Spoken Dialogue Systems with Streaming Tool Usage",
+      "paper_url": "https://arxiv.org/abs/2510.02044v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/5af78d53e4.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "5af78d53e4",
+      "mirror_of": null
+    },
+    {
+      "id": "36cf43811f",
+      "title": "AnovaX: A Local, Multi-Agent Voice Assistant with LLM Planning, Typed Executors, and Adaptive Recovery",
+      "paper_url": "https://arxiv.org/abs/2607.15367v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/36cf43811f.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "36cf43811f",
+      "mirror_of": null
+    },
+    {
+      "id": "2db635b47b",
+      "title": "VAmoS Bench: Voice Agent Simulation Bench",
+      "paper_url": "https://arxiv.org/abs/2607.27453v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2db635b47b.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2db635b47b",
+      "mirror_of": null
+    },
+    {
+      "id": "2633e8f341",
+      "title": "LongHorizon-Harness: Advancing Long-Horizon Agents for Real-World Tasks",
+      "paper_url": "https://huggingface.co/papers/2608.01964",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2633e8f341.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2633e8f341",
+      "mirror_of": null
+    },
+    {
+      "id": "25706b1e40",
+      "title": "OmniPack: Unified Token Compression for Efficient Omni-modal Large Language Models",
+      "paper_url": "https://arxiv.org/abs/2608.03812v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/25706b1e40.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "25706b1e40",
+      "mirror_of": null
+    },
+    {
+      "id": "2524767fb3",
+      "title": "Omni-Prune: Query-Aware Unified Token Pruning for Efficient Omnimodal Large Language Models",
+      "paper_url": "https://arxiv.org/abs/2607.23445v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2524767fb3.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2524767fb3",
+      "mirror_of": null
+    },
+    {
+      "id": "21e7d7b562",
+      "title": "Sema: Semantic Transport for Real-Time Multimodal Agents",
+      "paper_url": "https://arxiv.org/abs/2604.20940v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/21e7d7b562.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "21e7d7b562",
+      "mirror_of": null
+    },
+    {
+      "id": "219d8f814d",
+      "title": "Discourse-Aware Dual-Track Streaming Response for Low-Latency Spoken Dialogue Systems",
+      "paper_url": "https://arxiv.org/abs/2602.23266v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/219d8f814d.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "219d8f814d",
+      "mirror_of": null
+    },
+    {
+      "id": "14533da23c",
+      "title": "Spatial-Omni: Spatial Audio Understanding Integration in Multimodal LLMs via FOA Encoding",
+      "paper_url": "https://arxiv.org/abs/2606.10738v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/14533da23c.html",
+      "reviewed_at": "2026-08-05T23:00:00+08:00",
+      "review_date": "2026-08-05",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-05T23:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "14533da23c",
+      "mirror_of": null
+    },
+    {
+      "id": "f90b0bcb1d",
+      "title": "S-MARC: Causal Streaming Reasoning for Full-Duplex Conversational Behavior Modeling",
+      "paper_url": "https://arxiv.org/abs/2602.11065v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f90b0bcb1d.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "f90b0bcb1d",
+      "mirror_of": null
+    },
+    {
+      "id": "e772de8f55",
+      "title": "Wan-Streamer v0.1: End-to-end Real-time Interactive Foundation Models",
+      "paper_url": "https://arxiv.org/abs/2606.25041v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/e772de8f55.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "e772de8f55",
+      "mirror_of": null
+    },
+    {
+      "id": "6632215e09",
+      "title": "FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars",
+      "paper_url": "https://arxiv.org/abs/2606.30145v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/6632215e09.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "6632215e09",
+      "mirror_of": null
+    },
+    {
+      "id": "5fceaa2ebd",
+      "title": "DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues",
+      "paper_url": "https://arxiv.org/abs/2607.26178v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/5fceaa2ebd.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "5fceaa2ebd",
+      "mirror_of": null
+    },
+    {
+      "id": "5e1773f2f1",
+      "title": "RelayS2S: A Dual-Path Speculative Generation for Real-Time Dialogue",
+      "paper_url": "https://arxiv.org/abs/2603.23346v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/5e1773f2f1.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "5e1773f2f1",
+      "mirror_of": null
+    },
+    {
+      "id": "44a67a536b",
+      "title": "Enabling Conversational Behavior Reasoning Capabilities in Full-Duplex Speech",
+      "paper_url": "https://arxiv.org/abs/2512.21706v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/44a67a536b.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "44a67a536b",
+      "mirror_of": null
+    },
+    {
+      "id": "3f92468717",
+      "title": "OmniInteract: Benchmarking Real-World Streaming Interaction for Real-Time Omnimodal Assistants",
+      "paper_url": "https://arxiv.org/abs/2605.26485v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/3f92468717.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "3f92468717",
+      "mirror_of": null
+    },
+    {
+      "id": "35477e429c",
+      "title": "VideoFDB: Evaluating Full-Duplex Vision-Speech Capabilities in Conversational Agents",
+      "paper_url": "https://arxiv.org/abs/2605.30256v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/35477e429c.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "35477e429c",
+      "mirror_of": null
+    },
+    {
+      "id": "3327bbf388",
+      "title": "Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems",
+      "paper_url": "https://arxiv.org/abs/2606.21970v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/3327bbf388.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "3327bbf388",
+      "mirror_of": null
+    },
+    {
+      "id": "137d033275",
+      "title": "Sympatheia: Emotionally Adaptive Voice Assistant with Continuous Affect Conditioning",
+      "paper_url": "https://arxiv.org/abs/2606.00851v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/137d033275.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "137d033275",
+      "mirror_of": null
+    },
+    {
+      "id": "11df86e01c",
+      "title": "AV-Dialog: Spoken Dialogue Models with Audio-Visual Input",
+      "paper_url": "https://arxiv.org/abs/2511.11124v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/11df86e01c.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "11df86e01c",
+      "mirror_of": null
+    },
+    {
+      "id": "0cfb27f5b9",
+      "title": "A Survey of Full-Duplex Spoken Dialogue Systems: Architectural Hierarchy, Interaction Ontology, and Decision State Machine",
+      "paper_url": "https://arxiv.org/abs/2606.19453v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/0cfb27f5b9.html",
+      "reviewed_at": "2026-08-04T16:30:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "0cfb27f5b9",
+      "mirror_of": null
+    },
+    {
+      "id": "f3f1d830b7",
+      "title": "VAD: Attributing Visual Evidence for Target Reconstruction in Multimodal On-Policy Distillation",
+      "paper_url": "https://huggingface.co/papers/2607.28590",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f3f1d830b7.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "f3f1d830b7",
+      "mirror_of": null
+    },
+    {
+      "id": "dc6dfec67d",
+      "title": "DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents",
+      "paper_url": "https://arxiv.org/abs/2608.01827v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/dc6dfec67d.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "9f038dec19",
+      "mirror_of": "9f038dec19"
+    },
+    {
+      "id": "ccb83c7e65",
+      "title": "Normal-Anchored First-Order Model-Agnostic Meta-Learning based Whisper Fine-Tuning for Enhancing Fairness of Cleft Lip and Palate Speech Recognition",
+      "paper_url": "https://arxiv.org/abs/2608.00186v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ccb83c7e65.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "ccb83c7e65",
+      "mirror_of": null
+    },
+    {
+      "id": "c7f7e6f314",
+      "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
+      "paper_url": "https://huggingface.co/papers/2607.29613",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/c7f7e6f314.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "7c99d38f8d",
+      "mirror_of": "7c99d38f8d"
+    },
+    {
+      "id": "af4dae27c7",
+      "title": "Modular Deep Learning Framework for Assistive Perception: Gaze, Affect, and Speaker Identification",
+      "paper_url": "https://arxiv.org/abs/2511.20474v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/af4dae27c7.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "af4dae27c7",
+      "mirror_of": null
+    },
+    {
+      "id": "a4810dc0ad",
+      "title": "Data Pyramid for Embodied Manipulation",
+      "paper_url": "https://arxiv.org/abs/2607.24744v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/a4810dc0ad.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "a4810dc0ad",
+      "mirror_of": null
+    },
+    {
+      "id": "9f9870137b",
+      "title": "V-Mem: Modality-Routed Retrieval for Long-Term Multimodal Agentic Memory",
+      "paper_url": "https://arxiv.org/abs/2608.01543v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/9f9870137b.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "9f9870137b",
+      "mirror_of": null
+    },
+    {
+      "id": "9f038dec19",
+      "title": "DeepVoyager-VL: Incentivizing Vision-in-the-Loop Search for Long-Horizon Multimodal Agents",
+      "paper_url": "https://huggingface.co/papers/2608.01827",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/9f038dec19.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "9f038dec19",
+      "mirror_of": null
+    },
+    {
+      "id": "9703f0e5a6",
+      "title": "From Pixels to PCells: A Neurosymbolic Approach to Photonic Component Creation",
+      "paper_url": "https://arxiv.org/abs/2608.00084v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/9703f0e5a6.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "9703f0e5a6",
+      "mirror_of": null
+    },
+    {
+      "id": "7c99d38f8d",
+      "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
+      "paper_url": "https://arxiv.org/abs/2607.29613v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/7c99d38f8d.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "7c99d38f8d",
+      "mirror_of": null
+    },
+    {
+      "id": "54e4301e1f",
+      "title": "DrawAI: Agentic Benchmark and Workflow for Making Raster Images Editable",
+      "paper_url": "https://arxiv.org/abs/2608.00548v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/54e4301e1f.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "54e4301e1f",
+      "mirror_of": null
+    },
+    {
+      "id": "386ec68e80",
+      "title": "Hear, Invoke, and Understand: A Skill-Calling Multimodal Agent for Large Audio Language Models",
+      "paper_url": "https://arxiv.org/abs/2608.01881v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/386ec68e80.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "386ec68e80",
+      "mirror_of": null
+    },
+    {
+      "id": "2ddbd4fd07",
+      "title": "CoTinyVLA: Chain-of-Thought Distillation for a Sub-Billion-Parameter Vision-Language-Action Model",
+      "paper_url": "https://arxiv.org/abs/2607.25487v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2ddbd4fd07.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2ddbd4fd07",
+      "mirror_of": null
+    },
+    {
+      "id": "10ea6cf694",
+      "title": "Allocation Before Ranking: Decoupled Token Compression for OmniLLMs",
+      "paper_url": "https://arxiv.org/abs/2608.01665v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/10ea6cf694.html",
+      "reviewed_at": "2026-08-04T16:22:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:22:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "10ea6cf694",
+      "mirror_of": null
+    },
+    {
+      "id": "f65775c8d2",
+      "title": "How Should LLMs Listen While Speaking? A Study of User-Stream Routing in Full-Duplex Spoken Dialogue",
+      "paper_url": "https://arxiv.org/abs/2605.10199v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f65775c8d2.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "f65775c8d2",
+      "mirror_of": null
+    },
+    {
+      "id": "da29dadcff",
+      "title": "Chronological Thinking in Full-Duplex Spoken Dialogue Language Models",
+      "paper_url": "https://arxiv.org/abs/2510.05150v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/da29dadcff.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "da29dadcff",
+      "mirror_of": null
+    },
+    {
+      "id": "d36cd9bda6",
+      "title": "Chain-of-Thought Reasoning in Streaming Full-Duplex End-to-End Spoken Dialogue Systems",
+      "paper_url": "https://arxiv.org/abs/2510.02066v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/d36cd9bda6.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "d36cd9bda6",
+      "mirror_of": null
+    },
+    {
+      "id": "cfbb41def0",
+      "title": "FastTurn: Unifying Acoustic and Streaming Semantic Cues for Low-Latency and Robust Turn Detection",
+      "paper_url": "https://arxiv.org/abs/2604.01897v6",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/cfbb41def0.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "cfbb41def0",
+      "mirror_of": null
+    },
+    {
+      "id": "b58c7fb4b6",
+      "title": "Decoupling Conversational Dynamics in Full-Duplex Spoken Models through Reinforcement Learning",
+      "paper_url": "https://arxiv.org/abs/2607.07148v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/b58c7fb4b6.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "b58c7fb4b6",
+      "mirror_of": null
+    },
+    {
+      "id": "7369317a9f",
+      "title": "TurnGuide: Enhancing Meaningful Full Duplex Spoken Interactions via Dynamic Turn-Level Text-Speech Interleaving",
+      "paper_url": "https://arxiv.org/abs/2508.07375v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/7369317a9f.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "7369317a9f",
+      "mirror_of": null
+    },
+    {
+      "id": "6926d5f3f7",
+      "title": "JoyAI-Talker: Full-Duplex Speech Interactive Large Model Built for Empathetic Voice Agents",
+      "paper_url": "https://arxiv.org/abs/2608.01119v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/6926d5f3f7.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "6926d5f3f7",
+      "mirror_of": null
+    },
+    {
+      "id": "653ff20c8a",
+      "title": "Multi-Faceted Interactivity Alignment in Full-Duplex Speech Models",
+      "paper_url": "https://arxiv.org/abs/2606.11167v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/653ff20c8a.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "653ff20c8a",
+      "mirror_of": null
+    },
+    {
+      "id": "602fa5c48a",
+      "title": "DuplexChat: Constructing Speaker-Separated Full-Duplex Dialogue Speech at Scale for Spoken Dialogue Language Modeling",
+      "paper_url": "https://arxiv.org/abs/2607.04941v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/602fa5c48a.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "602fa5c48a",
+      "mirror_of": null
+    },
+    {
+      "id": "568f96feb9",
+      "title": "Metronome: Bound the Cache, Keep the Beat for Real-Time Interaction Model Serving",
+      "paper_url": "https://arxiv.org/abs/2607.02640v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/568f96feb9.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "568f96feb9",
+      "mirror_of": null
+    },
+    {
+      "id": "32efe0aaeb",
+      "title": "A Reliability Assessment of LALM Audio Judges for Full-Duplex Voice Agents",
+      "paper_url": "https://arxiv.org/abs/2607.07985v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/32efe0aaeb.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "32efe0aaeb",
+      "mirror_of": null
+    },
+    {
+      "id": "0483feb407",
+      "title": "LMPAN: A Lightweight Multi-Path Alignment Network for Joint Full-Duplex Acoustic Echo Cancellation and Noise Suppression",
+      "paper_url": "https://arxiv.org/abs/2607.02062v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/0483feb407.html",
+      "reviewed_at": "2026-08-04T16:00:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T16:00:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "0483feb407",
+      "mirror_of": null
+    },
+    {
+      "id": "c8d10ef1c8",
+      "title": "Qwen-UI-Agent Technical Report: Toward Next-Generation Real-World Centric Foundation GUI Agents",
+      "paper_url": "https://huggingface.co/papers/2607.28227",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/c8d10ef1c8.html",
+      "reviewed_at": "2026-08-04T11:34:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T11:34:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "c8d10ef1c8",
+      "mirror_of": null
+    },
+    {
+      "id": "8c2e128113",
+      "title": "SpeechParaling-Bench: A Comprehensive Benchmark for Paralinguistic-Aware Speech Generation",
+      "paper_url": "https://arxiv.org/abs/2604.20842v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/8c2e128113.html",
+      "reviewed_at": "2026-08-04T11:34:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T11:34:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "8c2e128113",
+      "mirror_of": null
+    },
+    {
+      "id": "4045088edf",
+      "title": "Experience-Calibrated Contrastive Decoding for Mitigating Hallucinations in LM-Based Text-to-Speech",
+      "paper_url": "https://arxiv.org/abs/2608.00722v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/4045088edf.html",
+      "reviewed_at": "2026-08-04T11:34:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T11:34:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "4045088edf",
+      "mirror_of": null
+    },
+    {
+      "id": "2e8e43eb46",
+      "title": "Cocktail-Talker: Multi-Speaker Dialog Modeling in Noisy Social Environments with Turn Action GRPO",
+      "paper_url": "https://arxiv.org/abs/2607.27756v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2e8e43eb46.html",
+      "reviewed_at": "2026-08-04T11:34:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T11:34:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2e8e43eb46",
+      "mirror_of": null
+    },
+    {
+      "id": "1d9deafed8",
+      "title": "StreamingClaw Technical Report",
+      "paper_url": "https://arxiv.org/abs/2603.22120v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/1d9deafed8.html",
+      "reviewed_at": "2026-08-04T11:34:00+08:00",
+      "review_date": "2026-08-04",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-04T11:34:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "1d9deafed8",
+      "mirror_of": null
+    },
+    {
+      "id": "f0237f934e",
+      "title": "faster-enhancer.c: A Dependency-Free int8 Runtime for Streaming Speech Enhancement on Commodity CPUs",
+      "paper_url": "https://arxiv.org/abs/2607.25350v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f0237f934e.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "f0237f934e",
+      "mirror_of": null
+    },
+    {
+      "id": "d2dbbbd2c6",
+      "title": "Beyond Retrieval: Analytic Memory for Multimodal Agents",
+      "paper_url": "https://arxiv.org/abs/2607.29440v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/d2dbbbd2c6.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "64bb628be2",
+      "mirror_of": "64bb628be2"
+    },
+    {
+      "id": "c90d454b37",
+      "title": "Mage-VL: An Efficient Codec-Native Streaming Multimodal Foundation Model",
+      "paper_url": "https://arxiv.org/abs/2607.24904v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/c90d454b37.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "c90d454b37",
+      "mirror_of": null
+    },
+    {
+      "id": "c4b1e6b1f2",
+      "title": "ReflectWorld-MM: An Entity-Oriented Multimodal Memory System for Open-Ended Video Streams",
+      "paper_url": "https://arxiv.org/abs/2607.09759v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/c4b1e6b1f2.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "c4b1e6b1f2",
+      "mirror_of": null
+    },
+    {
+      "id": "64bb628be2",
+      "title": "Beyond Retrieval: Analytic Memory for Multimodal Agents",
+      "paper_url": "https://arxiv.org/abs/2607.29440v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/64bb628be2.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "64bb628be2",
+      "mirror_of": null
+    },
+    {
+      "id": "4004e2f714",
+      "title": "iFLYTEK-Embodied-Omni Technical Report",
+      "paper_url": "https://arxiv.org/abs/2607.02542v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/4004e2f714.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "4004e2f714",
+      "mirror_of": null
+    },
+    {
+      "id": "3bebe83725",
+      "title": "Voice Memory for Agentic Speech Recognition",
+      "paper_url": "https://arxiv.org/abs/2607.26410v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/3bebe83725.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2c48b0de3e",
+      "mirror_of": "2c48b0de3e"
+    },
+    {
+      "id": "3832c6eae8",
+      "title": "M3-DuplexBench: A Multi-Turn, Multilingual, Multidomain Benchmark for Full-Duplex Spoken Dialogue Models",
+      "paper_url": "https://arxiv.org/abs/2607.29125v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/3832c6eae8.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "3832c6eae8",
+      "mirror_of": null
+    },
+    {
+      "id": "357d87176e",
+      "title": "ARdena: Scenario-driven control of real-time LLM agents",
+      "paper_url": "https://arxiv.org/abs/2607.22651v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/357d87176e.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "357d87176e",
+      "mirror_of": null
+    },
+    {
+      "id": "2c48b0de3e",
+      "title": "Voice Memory for Agentic Speech Recognition",
+      "paper_url": "https://huggingface.co/papers/2607.26410",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2c48b0de3e.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "2c48b0de3e",
+      "mirror_of": null
+    },
+    {
+      "id": "1181cb0b20",
+      "title": "OmniVideo-100K: A Dataset for Audio-Visual Reasoning through Structured Scripts and Evidence Chains",
+      "paper_url": "https://arxiv.org/abs/2606.14702v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/1181cb0b20.html",
+      "reviewed_at": "2026-08-03T11:32:35.000709+08:00",
+      "review_date": "2026-08-03",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-08-03T11:32:35.000709+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "1181cb0b20",
+      "mirror_of": null
+    },
+    {
+      "id": "6c53ea8835",
+      "title": "DyaPlex: Full-Duplex Speech-Motion Model for Dyadic Interaction",
+      "paper_url": "https://arxiv.org/abs/2606.03874v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/6c53ea8835.html",
+      "reviewed_at": "2026-07-31T11:58:00+08:00",
+      "review_date": "2026-07-31",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-31T11:58:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "6c53ea8835",
+      "mirror_of": null
+    },
+    {
+      "id": "ff66a9b753",
+      "title": "BayLing-Duplex: Native Full-Duplex Speech Dialogue with a Single Autoregressive LLM",
+      "paper_url": "https://arxiv.org/abs/2606.14528v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ff66a9b753.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "ff66a9b753",
+      "mirror_of": null
+    },
+    {
+      "id": "fd269fcd0f",
+      "title": "SoulX-Duplug: Plug-and-Play Streaming State Prediction Module for Realtime Full-Duplex Speech Conversation",
+      "paper_url": "https://arxiv.org/abs/2603.14877v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/fd269fcd0f.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "fd269fcd0f",
+      "mirror_of": null
+    },
+    {
+      "id": "fbbb375b6a",
+      "title": "EchoChain: A Full-Duplex Benchmark for State-Update Reasoning Under Interruptions",
+      "paper_url": "https://arxiv.org/abs/2604.16456v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/fbbb375b6a.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "fbbb375b6a",
+      "mirror_of": null
+    },
+    {
+      "id": "dc8da916f7",
+      "title": "Phoenix-VAD: Streaming Semantic Endpoint Detection for Full-Duplex Speech Interaction",
+      "paper_url": "https://arxiv.org/abs/2509.20410v4",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/dc8da916f7.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "dc8da916f7",
+      "mirror_of": null
+    },
+    {
+      "id": "a298114cb1",
+      "title": "TurnNat: Automatic Evaluation of Turn-Taking Naturalness in Dyadic Spoken Dialogue",
+      "paper_url": "https://arxiv.org/abs/2607.01345v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/a298114cb1.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "a298114cb1",
+      "mirror_of": null
+    },
+    {
+      "id": "950a91923f",
+      "title": "IRAF: Interference-Resilient Adaptive Fusion for Noise-Robust End-to-End Full-Duplex Spoken Dialogue Systems",
+      "paper_url": "https://arxiv.org/abs/2606.06559v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/950a91923f.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "950a91923f",
+      "mirror_of": null
+    },
+    {
+      "id": "8539ccbdae",
+      "title": "DuplexSLA: A Full-Duplex Spoken Language Model with Synchronized Speech, Language, and Action",
+      "paper_url": "https://arxiv.org/abs/2605.20755v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/8539ccbdae.html",
+      "reviewed_at": "2026-07-30T20:30:00+08:00",
+      "review_date": "2026-07-30",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "historical-backfill",
+        "run_id": null,
+        "batch": null,
+        "source_generated_at": "2026-07-30T20:30:00+08:00"
+      },
+      "backfilled": true,
+      "canonical_id": "8539ccbdae",
+      "mirror_of": null
+    }
+  ]
+}

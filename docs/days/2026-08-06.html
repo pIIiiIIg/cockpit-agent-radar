@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-08-06 · cockpit-agent-radar</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+
+<div class="datebar">
+  <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-05.html" title="前一天 2026-08-05">◀</a>
+  <input type="date" id="dp" value="2026-08-06" min="2026-07-30" max="2026-08-06">
+  <span class="btn off">▶</span>
+  <span style="color:var(--dim);font-size:12.5px"><span class="l-zh">选日期看当天内容</span><span class="l-en">pick a date</span></span>
+</div>
+<script>
+var DATES = new Set(["2026-08-06", "2026-08-05", "2026-08-04", "2026-08-03", "2026-08-02", "2026-08-01", "2026-07-31", "2026-07-30"]);
+document.getElementById("dp").onchange = function () {
+  if (DATES.has(this.value)) location.href = "https://piiiiiig.github.io/cockpit-agent-radar/days/" + this.value + ".html";
+  else { this.style.borderColor = "#e0a23f";
+         this.title = "该日期无内容 / no items on that day"; }
+};
+</script><section class="reviews"><h2><span class="l-zh">今日完成精读</span><span class="l-en">Full-text reviews completed today</span> · 12</h2><div class="review-row"><b>Where Speech Enhancement Hurts Recognition: An Inference Time Polar Projection Diagnosis</b><div class="links"><a href="https://arxiv.org/abs/2607.11157v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/f474b60b71.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Mind the Pause: Disfluency-Aware Objective Tuning for Multilingual Speech Correction with LLMs</b><div class="links"><a href="https://arxiv.org/abs/2605.12242v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/ef4031e707.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Identity-Faithful Audio-Visual Target Speaker Extraction with QIANGDA and VOXBLINK2-AVSE</b><div class="links"><a href="https://arxiv.org/abs/2608.03964v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/dcf4f2fa5d.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Towards Real-world Environment-aware Zero-shot Text-to-speech Synthesis via Disentangled Audio Infilling</b><div class="links"><a href="https://arxiv.org/abs/2608.03011v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/d5525b2a56.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>AudioGuard: Toward Comprehensive Audio Safety Protection Across Diverse Threat Models</b><div class="links"><a href="https://arxiv.org/abs/2604.08867v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/ca6c85d290.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Model or Harness? An Interaction-Centric Taxonomy for Localizing Agent Failures</b><div class="links"><a href="https://huggingface.co/papers/2607.28802" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/b53cfd0acb.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>MIST: Multimodal Interactive Speech-based Tool-calling Conversational Assistants for Smart Homes</b><div class="links"><a href="https://arxiv.org/abs/2605.06897v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/b021a6932b.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Still Between Us? Evaluating and Improving Voice Assistant Robustness to Third-Party Interruptions</b><div class="links"><a href="https://arxiv.org/abs/2604.17358v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/937de94bbb.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Leveraging Beam Search Information for Confidence Estimation in E2E ASR</b><div class="links"><a href="https://arxiv.org/abs/2607.29299v1" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/8c85d4ceba.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Audio2Tool: Speak, Call, Act -- A Dataset for Benchmarking Speech Tool Use</b><div class="links"><a href="https://arxiv.org/abs/2604.22821v2" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/8baa8530b2.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>M*: A Modular, Extensible, Serving System for Multimodal Models</b><div class="links"><a href="https://arxiv.org/abs/2606.12688v2" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/3e5ebfc066.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div><div class="review-row"><b>Streaming Endpointer for Spoken Dialogue using Neural Audio Codecs and Label-Delayed Training</b><div class="links"><a href="https://arxiv.org/abs/2506.07081v2" rel="noopener noreferrer"><span class="l-zh">论文来源</span><span class="l-en">paper source</span></a> · <a href="https://piiiiiig.github.io/cockpit-agent-radar/items/358aed2a15.html"><span class="l-zh">站内详情</span><span class="l-en">site detail</span></a></div></div></section><h2 class="day">2026-08-06 · 0 <span class="l-zh">条</span><span class="l-en">items</span></h2><div class="no-updates"><span class="l-zh">本日扫描已完成，没有达到相关度门槛的新条目；持续跟踪项仍在更新。</span><span class="l-en">Scan completed: no new items crossed the relevance threshold. Existing watch items remain monitored.</span></div><p style="margin-top:18px"><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 最新</span><span class="l-en">← latest</span></a></p>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
