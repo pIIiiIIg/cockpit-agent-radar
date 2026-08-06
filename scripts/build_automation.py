@@ -6,14 +6,17 @@ The facts and page structure live here; docs/automation is generated output.
 The renderer deliberately has no template/runtime dependency.
 """
 import html
+import json
 import os
+import re
+from datetime import datetime
 
 
 BASE = "https://piiiiiig.github.io/cockpit-agent-radar"
 
 STAGES = [
     ("research", "论文调研", "Research", "抓取、去重、摘要与全文精读",
-     "Fetch, deduplicate, brief, and review full text", "script"),
+     "Fetch, deduplicate, brief, and review full text", "mixed"),
     ("reports", "问题驱动日报", "Reports", "把论文证据映射到项目问题和实验",
      "Map evidence to project problems and experiments", "cursor"),
     ("candidates", "实验候选", "Candidates", "拆成单变量候选并隔离实现",
@@ -34,6 +37,142 @@ def esc(value):
 def pair(zh, en, tag="span"):
     return (f'<{tag} class="l-zh">{esc(zh)}</{tag}>'
             f'<{tag} class="l-en">{esc(en)}</{tag}>')
+
+
+def safe_json(path, fallback):
+    """Load JSON without letting missing or malformed data break the guide."""
+    try:
+        with open(path, encoding="utf-8") as stream:
+            return json.load(stream)
+    except (OSError, ValueError, TypeError):
+        return fallback
+
+
+def safe_http_url(value):
+    value = value if isinstance(value, str) else ""
+    return value if re.match(r"^https?://", value) else ""
+
+
+def load_snapshot(root):
+    """Derive all automation-page facts from the publishable source data."""
+    data_dir = os.path.join(root, "data")
+    item_payload = safe_json(os.path.join(data_dir, "items.json"), {})
+    has_items = (isinstance(item_payload, dict)
+                 and isinstance(item_payload.get("items"), list))
+    raw_items = item_payload["items"] if has_items else []
+    items = [row for row in raw_items if isinstance(row, dict)]
+    item_by_id = {
+        row["id"]: row for row in items
+        if isinstance(row.get("id"), str) and re.match(r"^[A-Za-z0-9_-]+$", row["id"])
+    }
+    papers = [row for row in item_by_id.values() if row.get("kind") == "paper"]
+    paper_ids = {row["id"] for row in papers}
+
+    raw_explanations = safe_json(
+        os.path.join(data_dir, "explanations.json"), {})
+    explanations = raw_explanations if isinstance(raw_explanations, dict) else {}
+    fulltext_ids = {
+        iid for iid, row in explanations.items()
+        if iid in paper_ids and isinstance(row, dict)
+        and row.get("review_status") == "editorial"
+        and row.get("source_depth") == "fulltext"
+    }
+    abstract_ids = {
+        iid for iid, row in explanations.items()
+        if iid in paper_ids and isinstance(row, dict)
+        and row.get("review_status") == "abstract_backfill"
+    }
+
+    history_payload = safe_json(
+        os.path.join(data_dir, "review_history.json"), {})
+    raw_history = (history_payload.get("entries", [])
+                   if isinstance(history_payload, dict) else [])
+    history = []
+    for row in raw_history:
+        if (not isinstance(row, dict) or row.get("id") not in paper_ids
+                or row.get("review_status") != "editorial"
+                or row.get("source_depth") != "fulltext"
+                or not re.match(r"^\d{4}-\d{2}-\d{2}$",
+                                str(row.get("review_date", "")))):
+            continue
+        history.append(row)
+    latest_review_date = max(
+        (row["review_date"] for row in history), default="")
+    latest_rows = [
+        row for row in history if row["review_date"] == latest_review_date]
+    latest_rows.sort(
+        key=lambda row: (str(row.get("reviewed_at", "")), row["id"]),
+        reverse=True)
+    latest_papers = []
+    seen_canonical = set()
+    for row in latest_rows:
+        canonical = row.get("canonical_id") or row.get("mirror_of") or row["id"]
+        if canonical in seen_canonical:
+            continue
+        seen_canonical.add(canonical)
+        item = item_by_id[row["id"]]
+        paper_url = safe_http_url(row.get("paper_url") or item.get("url"))
+        latest_papers.append({
+            "id": row["id"],
+            "title": row.get("title") or item.get("title") or row["id"],
+            "paper_url": paper_url,
+        })
+
+    report_rows = []
+    report_dir = os.path.join(root, "reports")
+    try:
+        report_names = os.listdir(report_dir)
+    except OSError:
+        report_names = []
+    pattern = re.compile(
+        r"^(每日调研日报|全双工语音技术增量调研)-(\d{4}-\d{2}-\d{2})\.md$")
+    for name in report_names:
+        match = pattern.match(name)
+        if not match:
+            continue
+        kind = "daily" if match.group(1) == "每日调研日报" else "detail"
+        report_rows.append({
+            "kind": kind,
+            "date": match.group(2),
+            "title": match.group(1),
+            "href": f"{BASE}/reports/{name[:-3]}.html",
+        })
+    report_rows.sort(key=lambda row: (row["date"], row["kind"]), reverse=True)
+    latest_reports = {}
+    for row in report_rows:
+        latest_reports.setdefault(row["kind"], row)
+
+    found_days = {
+        str(row.get("found", ""))[:10] for row in items
+        if re.match(r"^\d{4}-\d{2}-\d{2}", str(row.get("found", "")))
+    }
+    scan_day = str(item_payload.get("generated", ""))[:10]
+    if re.match(r"^\d{4}-\d{2}-\d{2}$", scan_day):
+        found_days.add(scan_day)
+    all_days = found_days | {row["review_date"] for row in history}
+    latest_day = max(all_days, default="")
+    build_time = datetime.now().astimezone()
+    return {
+        "available": has_items,
+        "total_items": len(items),
+        "paper_count": len(papers),
+        "fulltext_count": len(fulltext_ids),
+        "abstract_count": len(abstract_ids),
+        "history_count": len(history),
+        "latest_review_date": latest_review_date,
+        "latest_review_count": len(latest_rows),
+        "latest_papers": latest_papers,
+        "latest_day": latest_day,
+        "latest_reports": latest_reports,
+        "report_days": len({row["date"] for row in report_rows}),
+        "report_count": len(report_rows),
+        "build_date": build_time.date().isoformat(),
+        "build_time": build_time.isoformat(timespec="minutes"),
+    }
+
+
+def empty_snapshot():
+    return load_snapshot(os.path.join(os.path.dirname(__file__), "__missing__"))
 
 
 STYLE = r"""
@@ -57,6 +196,7 @@ line-height:1.2;margin:0 0 12px}.hero p{max-width:820px;color:var(--dim);font-si
 .legend,.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:15px 0}
 .badge{display:inline-block;border:1px solid var(--line);background:var(--chip);border-radius:999px;
 padding:2px 8px;font-size:12px}.cursor{color:var(--violet)}.script{color:var(--acc)}
+.mixed{color:var(--warn);border-color:var(--warn)}
 .verified{color:var(--ok)}.pending{color:var(--warn)}.fact{color:var(--ok)}
 .flow{display:grid;grid-template-columns:repeat(6,1fr);gap:24px;margin:24px 0 34px;
 padding:8px 0;position:relative}.flow:before{content:"";position:absolute;left:6%;right:6%;top:53px;
@@ -83,6 +223,13 @@ place-items:center;border-radius:50%;background:var(--acc);color:white;font-weig
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}
 .metric{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
 .metric b{display:block;font-size:24px;color:var(--acc)}.metric small{color:var(--dim)}
+.artifacts{display:grid;gap:10px}.artifact{border-bottom:1px solid var(--line);padding:0 0 10px}
+.artifact:last-child{border-bottom:0;padding-bottom:0}.artifact p{margin:3px 0}
+.funnel{display:grid;gap:8px}.funnel-row{display:grid;grid-template-columns:minmax(145px,1fr) 3fr 55px;
+gap:10px;align-items:center;font-size:13px}.funnel-track{height:12px;background:var(--chip);
+border-radius:999px;overflow:hidden}.funnel-fill{height:100%;min-width:3px;background:var(--acc);
+border-radius:999px;transition:width .45s ease}.funnel-row:nth-child(3) .funnel-fill{background:var(--violet)}
+.funnel-row:nth-child(4) .funnel-fill{background:var(--ok)}
 .timeline{border-left:2px solid var(--line);margin-left:11px}.event{position:relative;margin:0 0 14px 25px;
 padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:9px}
 .event:before{content:"";position:absolute;left:-32px;top:17px;width:12px;height:12px;
@@ -97,7 +244,8 @@ footer{color:var(--dim);font-size:12px;margin-top:35px}.l-en{display:none}
 @media(max-width:820px){.flow{grid-template-columns:repeat(2,1fr)}.flow:before{display:none}
 .decision{grid-template-columns:1fr}.site .sub{display:none}}@media(max-width:480px){
 .wrap{padding:12px 12px 48px}.flow{grid-template-columns:1fr}.toolbar{margin-left:0;width:100%}
-.hero{padding-top:20px}.navline{grid-template-columns:1fr}.navline a:last-child{text-align:left}}
+.hero{padding-top:20px}.navline{grid-template-columns:1fr}.navline a:last-child{text-align:left}
+.funnel-row{grid-template-columns:1fr 2fr 42px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;
 transition:none!important;scroll-behavior:auto!important}.flow-node.pulse:after{display:none}}
 """
@@ -151,12 +299,13 @@ def navline(slug):
             + link(next_slug, "下一环节 →", "Next →") + "</nav>")
 
 
-def shell(title_zh, title_en, slug, body):
+def shell(title_zh, title_en, slug, body, snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     return f"""<!doctype html><html lang="zh" data-lang="zh"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title_zh)} · cockpit-agent-radar</title><style>{STYLE}</style></head>
 <body><div class="wrap">{header()}<main id="main">{body}</main>{navline(slug)}
-<footer>{pair("事实状态截至 2026-08-06；实测与待验证严格分开。","Evidence status as of 2026-08-06; measured and pending claims are separated.")}</footer>
+<footer>{pair(f"事实状态构建于 {snapshot['build_date']}；实测与待验证严格分开。",f"Evidence status built on {snapshot['build_date']}; measured and pending claims are separated.")}</footer>
 </div><script>{JS}</script></body></html>"""
 
 
@@ -166,18 +315,25 @@ def hero(zh, en, intro_zh, intro_en, badges=""):
 
 
 def stage_links():
+    labels = {
+        "cursor": ("Cursor 参与", "Cursor-assisted"),
+        "script": ("确定性脚本", "Deterministic scripts"),
+        "mixed": ("混合：脚本 + Cursor", "Mixed: scripts + Cursor"),
+    }
     rows = []
     for i, (slug, zh, en, dzh, den, owner) in enumerate(STAGES, 1):
+        owner_zh, owner_en = labels[owner]
         rows.append(f"""<a class="flow-node" href="{BASE}/automation/{slug}/">
 <span class="num">{i}</span><h2>{pair(zh,en)}</h2><p>{pair(dzh,den)}</p>
-<span class="badge {owner}">{pair("Cursor 参与" if owner=="cursor" else "纯脚本",
-"Cursor-assisted" if owner=="cursor" else "Scripted")}</span></a>""")
+<span class="badge {owner}">{pair(owner_zh,owner_en)}</span></a>""")
     return "".join(rows)
 
 
-def overview():
+def overview(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     badges = (f'<span class="badge cursor">{pair("紫：Cursor 模型参与","Violet: Cursor-assisted")}</span>'
               f'<span class="badge script">{pair("蓝：确定性脚本","Blue: deterministic scripts")}</span>'
+              f'<span class="badge mixed">{pair("金：脚本抓取/评分 + Cursor 全文精读","Gold: scripted fetch/score + Cursor full-text review")}</span>'
               f'<span class="badge verified">{pair("网站自动化：已实测","Site automation: verified")}</span>'
               f'<span class="badge pending">{pair("Harness 00:30 首跑：待验证","Harness first 00:30 run: pending")}</span>')
     body = hero("从技术雷达到可验证改进", "From radar to verified improvements",
@@ -200,16 +356,103 @@ def overview():
 <article class="card"><h3 class="pending">{pair("待验证：Harness 首次 00:30 定时实跑","Pending: first Harness 00:30 scheduled run")}</h3><p>{pair("设计、脚本与资源隔离可说明，但首次无人值守定时结果尚未发生，不能写成“已稳定运行”。","The design, scripts, and resource isolation can be documented, but the first unattended scheduled result has not happened and is not claimed as stable.")}</p></article>
 </div></section>
 <p class="callout ok"><b>{pair("完整案例：","Full case:")}</b> <a href="{BASE}/automation/case-hybrid-c/">{pair("Hybrid C 为什么准确率没过硬门仍保留 partial →","Why Hybrid C was retained as partial despite missing the accuracy gate →")}</a></p>"""
-    return shell("自动化系统总览", "Automation overview", "research", body).replace(
+    return shell("自动化系统总览", "Automation overview", "research", body, snapshot).replace(
         navline("research"), "")
 
 
-def research():
+def metric_value(snapshot, key):
+    return str(snapshot[key]) if snapshot.get("available") else "—"
+
+
+def artifact_links(snapshot):
+    parts = [
+        f'<div class="artifact"><p><a href="{BASE}/reviews.html">'
+        + pair("精读历史", "Full-text review history") + "</a></p></div>"
+    ]
+    if snapshot.get("latest_day"):
+        day = esc(snapshot["latest_day"])
+        parts.append(
+            f'<div class="artifact"><p><a href="{BASE}/days/{day}.html">'
+            + pair(f"最新 day 页 · {day}", f"Latest day page · {day}")
+            + "</a></p></div>")
+    papers = snapshot.get("latest_papers", [])[:5]
+    if papers:
+        rows = []
+        for paper in papers:
+            detail = f"{BASE}/items/{esc(paper['id'])}.html"
+            source = (
+                f' · <a href="{esc(paper["paper_url"])}" '
+                'rel="noopener noreferrer">'
+                + pair("原论文", "Original paper") + "</a>"
+                if paper.get("paper_url") else "")
+            rows.append(
+                f'<li><a href="{detail}">{esc(paper["title"])}</a>{source}</li>')
+        parts.append(
+            '<div class="artifact"><p><b>'
+            + pair("最新精读论文（镜像已合并）",
+                   "Latest full-text reviews (mirrors merged)")
+            + "</b></p><ul>" + "".join(rows) + "</ul></div>")
+    report_labels = {
+        "detail": ("最新详细增量调研", "Latest detailed incremental research"),
+        "daily": ("最新每日调研日报", "Latest daily research brief"),
+    }
+    for kind in ("detail", "daily"):
+        report = snapshot.get("latest_reports", {}).get(kind)
+        if report:
+            zh, en = report_labels[kind]
+            parts.append(
+                f'<div class="artifact"><p><a href="{esc(report["href"])}">'
+                + pair(f"{zh} · {report['date']}", f"{en} · {report['date']}")
+                + "</a></p></div>")
+    parts.append(
+        f'<div class="artifact"><p><a href="{BASE}/reports/">'
+        + pair("全部报告索引", "All reports index") + "</a></p></div>")
+    return "".join(parts)
+
+
+def funnel(snapshot):
+    total = snapshot.get("total_items", 0) if snapshot.get("available") else 0
+    rows = [
+        ("总收录", "Collected", snapshot.get("total_items", 0)),
+        ("有效论文", "Papers", snapshot.get("paper_count", 0)),
+        ("摘要速读 / 正文精读", "Abstract / full text",
+         snapshot.get("abstract_count", 0) + snapshot.get("fulltext_count", 0)),
+        ("报告覆盖天数", "Report days", snapshot.get("report_days", 0)),
+    ]
+    rendered = []
+    for zh, en, value in rows:
+        width = min(100, max(0, round(value * 100 / max(total, 1))))
+        display = str(value) if snapshot.get("available") else "—"
+        rendered.append(
+            f'<div class="funnel-row"><span>{pair(zh,en)}</span>'
+            f'<span class="funnel-track"><span class="funnel-fill" '
+            f'style="display:block;width:{width}%"></span></span>'
+            f'<b>{display}</b></div>')
+    return "".join(rendered)
+
+
+def research(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("论文调研", "Research",
         "调研层先用确定性脚本扩大召回，再让 Cursor 只处理值得全文精读的证据；“摘要速读”和“正文精读”在页面上明确分级。",
         "Deterministic scripts maximize recall; Cursor spends time only on evidence worth full-text review. Abstract briefs and full-text reviews remain visibly distinct.",
-        '<span class="badge script">Fetch/score: script</span><span class="badge cursor">Full text: Cursor</span><span class="badge verified">3 runs/day verified</span>')
-    body += f"""<section class="section"><h2>{pair("从四源到站内证据","From four sources to site evidence")}</h2><div class="steps">
+        '<span class="badge mixed">Mixed ownership</span><span class="badge script">Fetch/score: scripts</span><span class="badge cursor">Full text: Cursor</span><span class="badge verified">3 runs/day verified</span>')
+    body += f"""<section class="section"><h2>{pair("当前真实数据","Current live data")}</h2>
+<div class="metrics">
+<div class="metric"><b>{metric_value(snapshot, "total_items")}</b><small>{pair("总收录条目","collected items")}</small></div>
+<div class="metric"><b>{metric_value(snapshot, "paper_count")}</b><small>{pair("有效论文数","valid papers")}</small></div>
+<div class="metric"><b>{metric_value(snapshot, "fulltext_count")}</b><small>{pair("editorial + fulltext 精读","editorial + fulltext reviews")}</small></div>
+<div class="metric"><b>{metric_value(snapshot, "abstract_count")}</b><small>abstract_backfill</small></div>
+<div class="metric"><b>{metric_value(snapshot, "history_count")}</b><small>{pair("review history 有效记录","valid review-history records")}</small></div>
+<div class="metric"><b>{esc(snapshot.get("latest_review_date") or "—")} · {snapshot.get("latest_review_count", 0) if snapshot.get("latest_review_date") else "—"}</b><small>{pair("最新精读日期 · 当天数量","latest review date · count")}</small></div>
+</div>
+<p class="sub">{pair(
+    "定义：收录仅计 items.json 的对象；有效论文为其中 kind=paper 且 ID 可发布的条目；正文精读来自 explanations.json 的 editorial+fulltext；摘要速读仅计 abstract_backfill；历史记录还须关联有效论文且状态、深度和日期合法。镜像只在链接列表合并，不篡改原始记录计数。构建时间：",
+    "Definitions: collected counts object rows in items.json; valid papers have kind=paper and a publishable ID; full-text reviews are editorial+fulltext in explanations.json; abstract briefs count only abstract_backfill; history records must also reference a valid paper with valid status, depth, and date. Mirrors are merged only in the link list, without altering source-record counts. Built:")} {esc(snapshot["build_time"])}</p>
+</section>
+<section class="section"><h2>{pair("动态调研漏斗","Live research funnel")}</h2><div class="card funnel">{funnel(snapshot)}</div></section>
+<section class="section"><h2>{pair("查看真实产物","Open real artifacts")}</h2><div class="card artifacts">{artifact_links(snapshot)}</div></section>
+<section class="section"><h2>{pair("从四源到站内证据","From four sources to site evidence")}</h2><div class="steps">
 <article class="step"><h3>arXiv / GitHub / Hugging Face / Hacker News</h3><p>{pair("按源抓取，统一成 title、URL、来源、发布时间、分数和标签；陌生仓库只读官方材料，不执行代码。","Source adapters normalize title, URL, source, date, score, and tags. Unknown repositories are inspected, never executed.")}</p></article>
 <article class="step"><h3>{pair("关键词评分与去重","Scoring and deduplication")}</h3><p>{pair("标题命中加权；既有 URL 先更新再应用新条目上限。同题镜像通过 canonical_id / mirror_of 合并，重试保持幂等。","Title matches receive extra weight. Existing URLs update before the new-item cap. Mirrors use canonical_id / mirror_of; retries stay idempotent.")}</p></article>
 <article class="step"><h3>{pair("零模型摘要回填","Model-free abstract backfill")}</h3><p>{pair("GitHub Actions 用摘要生成明确标注的速读，Cursor 缺席时仍可发布；它不计入正文精读历史。","Actions generates a clearly labeled abstract brief, so publishing does not depend on Cursor. It does not count as full-text review.")}</p></article>
@@ -221,15 +464,38 @@ def research():
 <article class="card"><h3>{pair("重试与锁","Retry and locking")}</h3><p>{pair("本地任务共享原子 PID 锁，可排队六小时；Cursor 调用重试三次且必须输出完成哨兵。","Local tasks share an atomic PID lock and may queue six hours. Cursor retries three times and must emit a completion sentinel.")}</p></article>
 <article class="card"><h3>{pair("停止条件","Fail closed")}</h3><p>{pair("锁超时、无哨兵、测试失败、非生成文件冲突或 push 耗尽均返回非零；不会把跳过说成成功。","Lock timeout, missing sentinel, test failure, source conflict, or exhausted push retry returns non-zero; skip is never success.")}</p></article>
 </div></section><p><a href="{BASE}/automation/case-hybrid-c/#radar">{pair("案例关联：Radar 建议如何进入 Hybrid C →","Case link: how Radar advice entered Hybrid C →")}</a></p>"""
-    return shell("论文调研", "Research", "research", body)
+    return shell("论文调研", "Research", "research", body, snapshot)
 
 
-def reports():
+def reports(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("问题驱动日报", "Problem-driven reports",
         "日报不是“今天有哪些论文”，而是把 Harness 的最新失败、指标和假设，与核验过的外部证据对齐。",
         "The report is not a paper digest. It aligns current Harness failures, metrics, and hypotheses with verified external evidence.",
         '<span class="badge cursor">Cursor synthesis</span><span class="badge script">Scripted publish</span>')
-    body += f"""<section class="section"><h2>{pair("输入、推理、输出","Input, reasoning, output")}</h2><div class="grid">
+    report_cards = []
+    labels = {
+        "detail": ("最新详细增量调研", "Latest detailed research"),
+        "daily": ("最新每日调研日报", "Latest daily brief"),
+    }
+    for kind in ("detail", "daily"):
+        row = snapshot.get("latest_reports", {}).get(kind)
+        if row:
+            zh, en = labels[kind]
+            report_cards.append(
+                f'<article class="card"><h3>{pair(zh,en)}</h3>'
+                f'<p><a href="{esc(row["href"])}">{esc(row["date"])} · '
+                + pair("打开公开 HTML", "Open public HTML") + "</a></p></article>")
+    report_cards.append(
+        f'<article class="card"><h3>{pair("报告总天数","Total report days")}</h3>'
+        f'<div class="metric"><b>{snapshot.get("report_days", 0)}</b>'
+        f'<small>{snapshot.get("report_count", 0)} '
+        + pair("份公开报告", "published reports") + "</small></div></article>")
+    body += f"""<section class="section"><h2>{pair("当前公开日报","Current published reports")}</h2>
+<div class="grid">{"".join(report_cards)}</div>
+<p class="callout ok">{pair("内容由 Cursor 结合项目快照与论文证据综合，确定性脚本负责转义、建站、测试和发布。","Cursor synthesizes project snapshots and paper evidence; deterministic scripts handle escaping, site generation, tests, and publishing.")}</p>
+<p><a href="{BASE}/reports/">{pair("查看全部报告索引 →","Open all reports →")}</a></p></section>
+<section class="section"><h2>{pair("输入、推理、输出","Input, reasoning, output")}</h2><div class="grid">
 <article class="card"><h3>{pair("项目快照","Project snapshot")}</h3><ul><li>StreamingModelHarness {pair("最新提交与组件","latest commit and components")}</li><li>{pair("组合准确率、工具执行、端到端 P95","combined accuracy, tool execution, e2e P95")}</li><li>{pair("错误桶、负结果、待验证假设","error buckets, negative results, hypotheses")}</li></ul></article>
 <article class="card"><h3>{pair("证据映射","Evidence mapping")}</h3><p>{pair("每个方向写清：当前项目问题→项目证据→相关技术→最小实验→成功门槛。论文数字只能标成论文结果，不能冒充项目实测。","Each direction states project problem→project evidence→related technique→minimum experiment→success gate. Paper numbers remain paper results, never project measurements.")}</p></article>
 <article class="card"><h3>{pair("两份日报","Two reports")}</h3><p>{pair("详细增量调研包含 P0/P1/P2、统一技术卡和风险；精简日报每行压缩成“方向（问题；解法；实验）”。","The deep report contains P0/P1/P2, normalized technology cards, and risks. The brief compresses each item to direction (problem; mechanism; experiment).")}</p></article>
@@ -238,10 +504,11 @@ def reports():
 <section class="section"><h2>{pair("一次建议如何变成可测问题","How advice becomes a testable question")}</h2>
 <div class="decision"><article class="card"><b>{pair("证据","Evidence")}</b><p>Voice Memory / RelayS2S / Qwen-UI-Agent</p></article><div class="arrow">→</div><article class="card"><b>{pair("问题","Question")}</b><p>{pair("能否在不破坏真值和时延的前提下修复确认与 typed action？","Can confirmation and typed actions improve without harming truth or latency?")}</p></article></div>
 </section><p><a href="{BASE}/automation/case-hybrid-c/#report">{pair("案例关联：日报建议到 Hybrid C →","Case link: report advice to Hybrid C →")}</a></p>"""
-    return shell("问题驱动日报", "Reports", "reports", body)
+    return shell("问题驱动日报", "Reports", "reports", body, snapshot)
 
 
-def candidates():
+def candidates(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("实验候选与隔离实现", "Candidates and isolated implementation",
         "把日报建议拆成一次只改变一个机制的候选。Cursor Agent 可以写代码，但不能改真值、降低阈值或在共享工作树里覆盖别人的实验。",
         "Report advice is decomposed into candidates that change one mechanism at a time. Cursor may write code, but cannot edit truth, lower thresholds, or overwrite another experiment.",
@@ -254,10 +521,11 @@ def candidates():
 </div></section>
 <section class="section"><h2>{pair("为什么强调单变量","Why single-variable candidates")}</h2><p class="callout bad">{pair("多个机制一起变化即使指标上升，也无法知道谁有效；指标下降时更无法安全回退。组合候选只能在各组件已有独立证据后进入。","If several mechanisms change together, neither gains nor regressions are attributable. Combination candidates enter only after each component has independent evidence.")}</p></section>
 <p><a href="{BASE}/automation/case-hybrid-c/#candidate">{pair("案例关联：Hybrid C 的六个组件怎样逐步进入 →","Case link: how six Hybrid C components entered →")}</a></p>"""
-    return shell("实验候选", "Candidates", "candidates", body)
+    return shell("实验候选", "Candidates", "candidates", body, snapshot)
 
 
-def h20():
+def h20(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("双 GPU H20 隔离评测", "Dual-GPU H20 evaluation",
         "评测把基线与候选放在两个独立 worker，先做便宜的失败筛查，再逐级扩大到真实音频与复杂意图。",
         "Baseline and candidate run in separate workers. Cheap failures are filtered first, then scope expands to real audio and complex intent.",
@@ -278,10 +546,11 @@ def h20():
 </div></section>
 <div class="callout"><b>{pair("证据声明：","Evidence statement:")}</b> {pair("该隔离方案和手动案例数据可核验；“每天 00:30 已稳定无人值守运行”尚不能声称，首次定时实跑仍待验证。","The isolation design and manual case data are verifiable. Stable daily unattended 00:30 operation is not claimed; the first scheduled run remains pending.")}</div>
 <p><a href="{BASE}/automation/case-hybrid-c/#evaluation">{pair("案例关联：Hybrid C 的 452 条与 4 条 smoke 数据 →","Case link: Hybrid C's 452-case and 4-case smoke results →")}</a></p>"""
-    return shell("H20 隔离评测", "H20 evaluation", "h20", body)
+    return shell("H20 隔离评测", "H20 evaluation", "h20", body, snapshot)
 
 
-def selection():
+def selection(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("选择、Pareto 与局部留存", "Selection, Pareto, and partial retention",
         "选择器不只输出“赢/输”。它先执行不可协商的硬门，再区分 qualified、pareto、partial、rejected 与 invalid。",
         "Selection is not merely win/lose. Non-negotiable gates run first, followed by qualified, pareto, partial, rejected, or invalid.",
@@ -299,10 +568,11 @@ def selection():
 <article class="step"><h3>{pair("最后看 Pareto 与局部证据","Then Pareto and partial evidence")}</h3><p>{pair("过门候选比较前沿；未过门候选只允许拆出有独立测试、清晰边界的 retained component。","Gate passers compete on the frontier. Gate failures may retain only independently tested, clearly scoped components.")}</p></article>
 </div></section>
 <p><a href="{BASE}/automation/case-hybrid-c/#decision">{pair("案例关联：为什么 Hybrid C 是 partial 而非 qualified →","Case link: why Hybrid C is partial, not qualified →")}</a></p>"""
-    return shell("选择与留存", "Selection", "selection", body)
+    return shell("选择与留存", "Selection", "selection", body, snapshot)
 
 
-def publishing():
+def publishing(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("发布、验收与反馈", "Publishing, verification, and feedback",
         "实验代码、结果 registry 与公开讲解分别发布，但都必须指向同一组可核验证据；发布成功以远端和 Pages 验收为准。",
         "Experiment code, result registry, and public explanation publish separately but point to the same evidence. Success requires remote and Pages verification.",
@@ -315,10 +585,11 @@ def publishing():
 </div></section>
 <div class="callout ok"><b>{pair("闭环的关键：","What closes the loop:")}</b> {pair("下一日报不仅看新论文，也读取上一轮“哪里失败、哪个错误桶缩小、哪个组件值得组合”，因此不会每天从零开始。","The next report reads not only new papers but previous failures, reduced error buckets, and composable components, so each day does not restart from zero.")}</div>
 <p><a href="{BASE}/automation/case-hybrid-c/#publish">{pair("案例关联：Hybrid C 的分范围结论如何发布 →","Case link: publishing Hybrid C's scoped conclusion →")}</a></p>"""
-    return shell("发布与反馈", "Publishing", "publishing", body)
+    return shell("发布与反馈", "Publishing", "publishing", body, snapshot)
 
 
-def hybrid_case():
+def hybrid_case(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
     body = hero("完整案例：Hybrid C", "Full case: Hybrid C",
         "这个案例展示自动化为什么需要“范围、硬门和 partial”：大样本准确率没有过门，但若干组件在独立小范围证据下值得保留。",
         "This case shows why scope, hard gates, and partial exist: large-scope accuracy missed the gate, while several components had independently scoped evidence worth retaining.",
@@ -358,7 +629,7 @@ def hybrid_case():
 <section class="section" id="publish"><h2>{pair("6. 正确的发布措辞","6. Correct publishing language")}</h2>
 <p class="callout ok">{pair("“Hybrid C 在 452 条评测中 e2e P95 1241.6ms 过时延门，但工具执行率 81.64% 未过 99% 准确率门；若干组件因 31 错误桶达到 24/31 而局部留存。4/4 smoke 仅证明小范围链路。”","“On 452 cases, Hybrid C passed latency with e2e P95 1241.6ms but missed the 99% accuracy gate with 81.64% tool execution. Some components were retained after improving a 31-case bucket to 24/31. The 4/4 smoke proves only that small path.”")}</p>
 <div class="legend"><a class="btn" href="{BASE}/automation/research/">{pair("调研","Research")}</a><a class="btn" href="{BASE}/automation/reports/">{pair("日报","Reports")}</a><a class="btn" href="{BASE}/automation/candidates/">{pair("候选","Candidates")}</a><a class="btn" href="{BASE}/automation/h20/">{pair("评测","Evaluation")}</a><a class="btn" href="{BASE}/automation/selection/">{pair("选择","Selection")}</a><a class="btn" href="{BASE}/automation/publishing/">{pair("发布","Publishing")}</a></div></section>"""
-    return shell("Hybrid C 完整案例", "Hybrid C full case", "case-hybrid-c", body)
+    return shell("Hybrid C 完整案例", "Hybrid C full case", "case-hybrid-c", body, snapshot)
 
 
 PAGES = {
@@ -376,13 +647,14 @@ PAGES = {
 def build(root):
     target = os.path.join(root, "docs", "automation")
     os.makedirs(target, exist_ok=True)
+    snapshot = load_snapshot(root)
     expected = set()
     for slug, renderer in PAGES.items():
         folder = target if slug == "index" else os.path.join(target, slug)
         os.makedirs(folder, exist_ok=True)
         path = os.path.join(folder, "index.html")
         with open(path, "w", encoding="utf-8") as stream:
-            stream.write(renderer())
+            stream.write(renderer(snapshot))
         expected.add(os.path.normcase(os.path.abspath(path)))
     for current, _, names in os.walk(target):
         for name in names:

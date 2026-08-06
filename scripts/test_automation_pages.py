@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Regression tests for the generated automation guide."""
 import os
+import json
 import re
 import sys
 import tempfile
@@ -22,6 +23,7 @@ class AutomationPageTests(unittest.TestCase):
         cls.temp = tempfile.TemporaryDirectory()
         cls.root = cls.temp.name
         cls.count = build_automation.build(cls.root)
+        cls.snapshot = build_automation.load_snapshot(ROOT)
         cls.docs = os.path.join(cls.root, "docs")
         cls.pages = {}
         for slug in build_automation.PAGES:
@@ -47,6 +49,98 @@ class AutomationPageTests(unittest.TestCase):
         self.assertNotIn("<script>", rendered)
         self.assertIn("&lt;script&gt;", rendered)
         self.assertIn("&quot; onload=&quot;x", rendered)
+
+    def test_research_stage_is_mixed_not_mislabeled(self):
+        overview = build_automation.overview(self.snapshot)
+        research = build_automation.research(self.snapshot)
+        self.assertEqual(build_automation.STAGES[0][-1], "mixed")
+        self.assertIn("混合：脚本 + Cursor", overview)
+        self.assertIn("脚本抓取/评分 + Cursor 全文精读", overview)
+        self.assertNotIn("纯脚本", overview + research)
+        self.assertIn("Mixed ownership", research)
+
+    def test_dynamic_counts_match_source_data(self):
+        with open(os.path.join(ROOT, "data", "review_history.json"),
+                  encoding="utf-8") as stream:
+            history = json.load(stream)["entries"]
+        valid = [
+            row for row in history
+            if row.get("review_status") == "editorial"
+            and row.get("source_depth") == "fulltext"
+            and re.match(r"^\d{4}-\d{2}-\d{2}$",
+                         str(row.get("review_date", "")))
+        ]
+        self.assertEqual(self.snapshot["history_count"], len(valid))
+        self.assertEqual(self.snapshot["fulltext_count"], len(valid))
+        rendered = build_automation.research(self.snapshot)
+        for key in ("total_items", "paper_count", "fulltext_count",
+                    "abstract_count", "history_count"):
+            self.assertIn(f"<b>{self.snapshot[key]}</b>", rendered)
+        latest = self.snapshot["latest_review_date"]
+        self.assertIn(
+            f"<b>{latest} · {self.snapshot['latest_review_count']}</b>",
+            rendered)
+
+    def test_real_artifact_links_resolve_to_generated_files(self):
+        self.assertGreaterEqual(len(self.snapshot["latest_papers"]), 3)
+        research = build_automation.research(self.snapshot)
+        self.assertIn(f"{build_automation.BASE}/reviews.html", research)
+        latest_day = self.snapshot["latest_day"]
+        self.assertTrue(os.path.isfile(
+            os.path.join(ROOT, "docs", "days", latest_day + ".html")))
+        self.assertIn(f"/days/{latest_day}.html", research)
+        for paper in self.snapshot["latest_papers"][:3]:
+            self.assertTrue(os.path.isfile(
+                os.path.join(ROOT, "docs", "items", paper["id"] + ".html")))
+            self.assertIn(f"/items/{paper['id']}.html", research)
+            self.assertIn(paper["paper_url"], research)
+        for kind in ("detail", "daily"):
+            report = self.snapshot["latest_reports"][kind]
+            filename = report["href"].rsplit("/", 1)[-1]
+            self.assertTrue(os.path.isfile(
+                os.path.join(ROOT, "docs", "reports", filename)))
+            self.assertIn(report["href"], research)
+        self.assertIn(f"{build_automation.BASE}/reports/", research)
+
+    def test_missing_and_malformed_data_falls_back(self):
+        missing = build_automation.load_snapshot(self.root)
+        self.assertFalse(missing["available"])
+        self.assertIn("<b>—</b>", build_automation.research(missing))
+        with tempfile.TemporaryDirectory() as root:
+            os.makedirs(os.path.join(root, "data"))
+            with open(os.path.join(root, "data", "items.json"), "w",
+                      encoding="utf-8") as stream:
+                stream.write("{bad json")
+            self.assertFalse(build_automation.load_snapshot(root)["available"])
+
+    def test_dynamic_titles_are_html_escaped(self):
+        with tempfile.TemporaryDirectory() as root:
+            os.makedirs(os.path.join(root, "data"))
+            item = {"id": "safe-id", "kind": "paper",
+                    "title": "<script>alert(1)</script>",
+                    "url": "https://example.com/paper",
+                    "found": "2026-08-06T02:00:00+08:00"}
+            payloads = {
+                "items.json": {"items": [item],
+                               "generated": "2026-08-06T02:00:00+08:00"},
+                "explanations.json": {
+                    "safe-id": {"review_status": "editorial",
+                                "source_depth": "fulltext"}},
+                "review_history.json": {"entries": [{
+                    "id": "safe-id", "title": item["title"],
+                    "paper_url": item["url"], "review_date": "2026-08-06",
+                    "reviewed_at": "2026-08-06T02:00:00+08:00",
+                    "review_status": "editorial", "source_depth": "fulltext",
+                }]},
+            }
+            for name, payload in payloads.items():
+                with open(os.path.join(root, "data", name), "w",
+                          encoding="utf-8") as stream:
+                    json.dump(payload, stream)
+            rendered = build_automation.research(
+                build_automation.load_snapshot(root))
+            self.assertNotIn("<script>alert(1)</script>", rendered)
+            self.assertIn("&lt;script&gt;alert(1)&lt;/script&gt;", rendered)
 
     def test_required_facts_and_status_are_present(self):
         all_html = "\n".join(self.pages.values())

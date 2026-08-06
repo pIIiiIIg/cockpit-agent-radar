@@ -64,6 +64,14 @@ python -m http.server 8099 --directory docs
 `docs/automation/`。页面沿用站点双语、深浅主题和无外部依赖设计，并提供可暂停、
 可重置且尊重 `prefers-reduced-motion` 的流程动画。
 
+论文调研节点是**混合流程**：确定性脚本负责四源抓取、去重、评分和摘要回填，
+Cursor 负责筛选后的正文精读；不能把整条调研链标成“纯脚本”。Research 和 Reports
+讲解页在构建时安全读取 `data/items.json`、`data/explanations.json`、
+`data/review_history.json` 与 `reports/`，动态展示收录、论文、摘要速读、正文精读、
+精读日期及日报统计，并链接到实际的 Reviews、day、论文详情、原论文和公开日报。
+缺失或损坏的数据文件会降级显示，不会阻断页面生成；所有动态文本都会 HTML 转义。
+事实状态日期和构建时间同样由每次构建生成，不在源码中固定。
+
 修改后运行：
 
 ```bash
@@ -74,7 +82,8 @@ git diff --check
 ```
 
 自动化讲解页是普通 Pages 路由，不加入 RSS 条目。云端 Pages smoke 会验收总览、
-调研、H20 和 Hybrid C 案例路由。
+调研、日报、H20 和 Hybrid C 案例路由；Research 测试还会核对动态计数与
+`review_history.json`、真实详情/日报文件、缺数据降级、HTML 转义和页面互链。
 
 ## 打分怎么调
 

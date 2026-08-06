@@ -21,6 +21,7 @@ line-height:1.2;margin:0 0 12px}.hero p{max-width:820px;color:var(--dim);font-si
 .legend,.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:15px 0}
 .badge{display:inline-block;border:1px solid var(--line);background:var(--chip);border-radius:999px;
 padding:2px 8px;font-size:12px}.cursor{color:var(--violet)}.script{color:var(--acc)}
+.mixed{color:var(--warn);border-color:var(--warn)}
 .verified{color:var(--ok)}.pending{color:var(--warn)}.fact{color:var(--ok)}
 .flow{display:grid;grid-template-columns:repeat(6,1fr);gap:24px;margin:24px 0 34px;
 padding:8px 0;position:relative}.flow:before{content:"";position:absolute;left:6%;right:6%;top:53px;
@@ -47,6 +48,13 @@ place-items:center;border-radius:50%;background:var(--acc);color:white;font-weig
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}
 .metric{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
 .metric b{display:block;font-size:24px;color:var(--acc)}.metric small{color:var(--dim)}
+.artifacts{display:grid;gap:10px}.artifact{border-bottom:1px solid var(--line);padding:0 0 10px}
+.artifact:last-child{border-bottom:0;padding-bottom:0}.artifact p{margin:3px 0}
+.funnel{display:grid;gap:8px}.funnel-row{display:grid;grid-template-columns:minmax(145px,1fr) 3fr 55px;
+gap:10px;align-items:center;font-size:13px}.funnel-track{height:12px;background:var(--chip);
+border-radius:999px;overflow:hidden}.funnel-fill{height:100%;min-width:3px;background:var(--acc);
+border-radius:999px;transition:width .45s ease}.funnel-row:nth-child(3) .funnel-fill{background:var(--violet)}
+.funnel-row:nth-child(4) .funnel-fill{background:var(--ok)}
 .timeline{border-left:2px solid var(--line);margin-left:11px}.event{position:relative;margin:0 0 14px 25px;
 padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:9px}
 .event:before{content:"";position:absolute;left:-32px;top:17px;width:12px;height:12px;
@@ -61,7 +69,8 @@ footer{color:var(--dim);font-size:12px;margin-top:35px}.l-en{display:none}
 @media(max-width:820px){.flow{grid-template-columns:repeat(2,1fr)}.flow:before{display:none}
 .decision{grid-template-columns:1fr}.site .sub{display:none}}@media(max-width:480px){
 .wrap{padding:12px 12px 48px}.flow{grid-template-columns:1fr}.toolbar{margin-left:0;width:100%}
-.hero{padding-top:20px}.navline{grid-template-columns:1fr}.navline a:last-child{text-align:left}}
+.hero{padding-top:20px}.navline{grid-template-columns:1fr}.navline a:last-child{text-align:left}
+.funnel-row{grid-template-columns:1fr 2fr 42px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;
 transition:none!important;scroll-behavior:auto!important}.flow-node.pulse:after{display:none}}
 </style></head>
@@ -73,24 +82,24 @@ transition:none!important;scroll-behavior:auto!important}.flow-node.pulse:after{
 <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读</span><span class="l-en">Reviews</span></a>
 <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
 <button class="btn" type="button" onclick="toggleLang()" aria-label="Switch language">中 / EN</button>
-</nav></header><main id="main"><section class="hero"><h1><span class="l-zh">从技术雷达到可验证改进</span><span class="l-en">From radar to verified improvements</span></h1><p><span class="l-zh">这不是“让模型自动改代码”一个动作，而是一条有证据、有隔离、有硬门、可回滚的闭环。点击节点看输入、输出、失败边界与责任归属。</span><span class="l-en">This is not one “let a model edit code” action. It is an evidence-backed, isolated, gated, reversible loop. Open any node for inputs, outputs, and failure boundaries.</span></p><div class="legend"><span class="badge cursor"><span class="l-zh">紫：Cursor 模型参与</span><span class="l-en">Violet: Cursor-assisted</span></span><span class="badge script"><span class="l-zh">蓝：确定性脚本</span><span class="l-en">Blue: deterministic scripts</span></span><span class="badge verified"><span class="l-zh">网站自动化：已实测</span><span class="l-en">Site automation: verified</span></span><span class="badge pending"><span class="l-zh">Harness 00:30 首跑：待验证</span><span class="l-en">Harness first 00:30 run: pending</span></span></div></section><div class="controls" aria-label="Flow animation">
+</nav></header><main id="main"><section class="hero"><h1><span class="l-zh">从技术雷达到可验证改进</span><span class="l-en">From radar to verified improvements</span></h1><p><span class="l-zh">这不是“让模型自动改代码”一个动作，而是一条有证据、有隔离、有硬门、可回滚的闭环。点击节点看输入、输出、失败边界与责任归属。</span><span class="l-en">This is not one “let a model edit code” action. It is an evidence-backed, isolated, gated, reversible loop. Open any node for inputs, outputs, and failure boundaries.</span></p><div class="legend"><span class="badge cursor"><span class="l-zh">紫：Cursor 模型参与</span><span class="l-en">Violet: Cursor-assisted</span></span><span class="badge script"><span class="l-zh">蓝：确定性脚本</span><span class="l-en">Blue: deterministic scripts</span></span><span class="badge mixed"><span class="l-zh">金：脚本抓取/评分 + Cursor 全文精读</span><span class="l-en">Gold: scripted fetch/score + Cursor full-text review</span></span><span class="badge verified"><span class="l-zh">网站自动化：已实测</span><span class="l-en">Site automation: verified</span></span><span class="badge pending"><span class="l-zh">Harness 00:30 首跑：待验证</span><span class="l-en">Harness first 00:30 run: pending</span></span></div></section><div class="controls" aria-label="Flow animation">
 <button class="btn" onclick="playFlow()">▶ <span class="l-zh">逐步播放</span><span class="l-en">Play</span></button>
 <button class="btn" onclick="pauseFlow()">Ⅱ <span class="l-zh">暂停</span><span class="l-en">Pause</span></button>
 <button class="btn" onclick="resetFlow()">↺ <span class="l-zh">重置</span><span class="l-en">Reset</span></button>
 <span class="sub"><span class="l-zh">Esc 也可重置；减少动态效果时仅单步高亮。</span><span class="l-en">Esc resets; reduced-motion mode only steps.</span></span></div>
 <div class="flow" aria-label="Automation flow"><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/research/">
 <span class="num">1</span><h2><span class="l-zh">论文调研</span><span class="l-en">Research</span></h2><p><span class="l-zh">抓取、去重、摘要与全文精读</span><span class="l-en">Fetch, deduplicate, brief, and review full text</span></p>
-<span class="badge script"><span class="l-zh">纯脚本</span><span class="l-en">Scripted</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/reports/">
+<span class="badge mixed"><span class="l-zh">混合：脚本 + Cursor</span><span class="l-en">Mixed: scripts + Cursor</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/reports/">
 <span class="num">2</span><h2><span class="l-zh">问题驱动日报</span><span class="l-en">Reports</span></h2><p><span class="l-zh">把论文证据映射到项目问题和实验</span><span class="l-en">Map evidence to project problems and experiments</span></p>
 <span class="badge cursor"><span class="l-zh">Cursor 参与</span><span class="l-en">Cursor-assisted</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/candidates/">
 <span class="num">3</span><h2><span class="l-zh">实验候选</span><span class="l-en">Candidates</span></h2><p><span class="l-zh">拆成单变量候选并隔离实现</span><span class="l-en">Turn advice into isolated, single-variable changes</span></p>
 <span class="badge cursor"><span class="l-zh">Cursor 参与</span><span class="l-en">Cursor-assisted</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/h20/">
 <span class="num">4</span><h2><span class="l-zh">H20 隔离评测</span><span class="l-en">H20 evaluation</span></h2><p><span class="l-zh">双 worker、真实音频、分层测试</span><span class="l-en">Two workers, real audio, staged evaluation</span></p>
-<span class="badge script"><span class="l-zh">纯脚本</span><span class="l-en">Scripted</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/selection/">
+<span class="badge script"><span class="l-zh">确定性脚本</span><span class="l-en">Deterministic scripts</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/selection/">
 <span class="num">5</span><h2><span class="l-zh">选择与留存</span><span class="l-en">Selection</span></h2><p><span class="l-zh">硬门、Pareto、partial 与负结果</span><span class="l-en">Hard gates, Pareto, partial retention, negative results</span></p>
-<span class="badge script"><span class="l-zh">纯脚本</span><span class="l-en">Scripted</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/publishing/">
+<span class="badge script"><span class="l-zh">确定性脚本</span><span class="l-en">Deterministic scripts</span></span></a><a class="flow-node" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/publishing/">
 <span class="num">6</span><h2><span class="l-zh">发布与反馈</span><span class="l-en">Publishing</span></h2><p><span class="l-zh">实验分支、registry、Pages 与下一日报</span><span class="l-en">Experiment branches, registry, Pages, and feedback</span></p>
-<span class="badge script"><span class="l-zh">纯脚本</span><span class="l-en">Scripted</span></span></a></div>
+<span class="badge script"><span class="l-zh">确定性脚本</span><span class="l-en">Deterministic scripts</span></span></a></div>
 <section class="section"><h2><span class="l-zh">一圈如何闭合</span><span class="l-en">How the loop closes</span></h2><div class="steps">
 <article class="step"><h3><span class="l-zh">发现证据</span><span class="l-en">Discover evidence</span></h3><p><span class="l-zh">脚本抓取 arXiv、GitHub、Hugging Face 与 Hacker News；摘要回填保障没有 Cursor 时网站也能更新。</span><span class="l-en">Scripts scan arXiv, GitHub, Hugging Face, and Hacker News. Abstract backfill keeps the site useful without Cursor.</span></p></article>
 <article class="step"><h3><span class="l-zh">把证据变成问题</span><span class="l-en">Turn evidence into questions</span></h3><p><span class="l-zh">Cursor 读取全文和 StreamingModelHarness 快照，写出“项目问题→证据→实验→成功门槛”，不是资讯摘要列表。</span><span class="l-en">Cursor reads full text and the project snapshot, producing problem→evidence→experiment→success gate, not a news list.</span></p></article>
@@ -102,7 +111,7 @@ transition:none!important;scroll-behavior:auto!important}.flow-node.pulse:after{
 <article class="card"><h3 class="pending"><span class="l-zh">待验证：Harness 首次 00:30 定时实跑</span><span class="l-en">Pending: first Harness 00:30 scheduled run</span></h3><p><span class="l-zh">设计、脚本与资源隔离可说明，但首次无人值守定时结果尚未发生，不能写成“已稳定运行”。</span><span class="l-en">The design, scripts, and resource isolation can be documented, but the first unattended scheduled result has not happened and is not claimed as stable.</span></p></article>
 </div></section>
 <p class="callout ok"><b><span class="l-zh">完整案例：</span><span class="l-en">Full case:</span></b> <a href="https://piiiiiig.github.io/cockpit-agent-radar/automation/case-hybrid-c/"><span class="l-zh">Hybrid C 为什么准确率没过硬门仍保留 partial →</span><span class="l-en">Why Hybrid C was retained as partial despite missing the accuracy gate →</span></a></p></main>
-<footer><span class="l-zh">事实状态截至 2026-08-06；实测与待验证严格分开。</span><span class="l-en">Evidence status as of 2026-08-06; measured and pending claims are separated.</span></footer>
+<footer><span class="l-zh">事实状态构建于 2026-08-06；实测与待验证严格分开。</span><span class="l-en">Evidence status built on 2026-08-06; measured and pending claims are separated.</span></footer>
 </div><script>
 (function(){
  var root=document.documentElement, reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
