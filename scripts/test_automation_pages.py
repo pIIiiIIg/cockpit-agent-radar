@@ -38,11 +38,11 @@ class AutomationPageTests(unittest.TestCase):
         cls.temp.cleanup()
 
     def test_all_pages_are_generated(self):
-        self.assertEqual(self.count, 8)
+        self.assertEqual(self.count, 9)
         self.assertEqual(
             set(self.pages),
             {"index", "research", "reports", "candidates", "h20",
-             "selection", "publishing", "case-hybrid-c"})
+             "selection", "publishing", "limitations", "case-hybrid-c"})
 
     def test_renderer_escapes_dynamic_text(self):
         rendered = build_automation.pair("<script>x</script>", '" onload="x')
@@ -153,6 +153,81 @@ class AutomationPageTests(unittest.TestCase):
         self.assertIn("待验证", self.pages["index"])
         self.assertNotIn("已稳定无人值守运行", self.pages["index"])
 
+    def test_limitations_audits_baselines_and_claim_boundaries(self):
+        page = self.pages["limitations"]
+        for fact in (
+                "B pure-audio", "grouped MoE", "紧凑回执", "确定性确认",
+                "Relay", "4/4", "24/31", "31-case", "122",
+                "0.7s VAD", "工具名命中不等于参数", "0/31",
+                "冻结 holdout", "危险误控为 0", "置信区间",
+                "真实车内回放", "系统自我批评页"):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, page)
+        self.assertIn("452 条同口径可比结果属于 B", page)
+        self.assertIn("尚无同口径 452 全量结果", page)
+        self.assertIn("定性，不是百分比", page)
+        self.assertNotIn("Hybrid C 在 452 条评测中", page)
+        self.assertIn("禁止表述", page)
+        self.assertIn("452 条同口径可比结果属于 B pure-audio 组合", page)
+
+    def test_limitations_links_real_paper_evidence(self):
+        page = self.pages["limitations"]
+        evidence = {
+            "5e1773f2f1": "https://arxiv.org/abs/2603.23346v1",
+            "3bebe83725": "https://arxiv.org/abs/2607.26410v1",
+            "c8d10ef1c8": "https://huggingface.co/papers/2607.28227",
+            "386ec68e80": "https://arxiv.org/abs/2608.01881v1",
+            "f474b60b71": "https://arxiv.org/abs/2607.11157v1",
+        }
+        for iid, source in evidence.items():
+            with self.subTest(iid=iid):
+                self.assertIn(f"/items/{iid}.html", page)
+                self.assertIn(source, page)
+                self.assertTrue(os.path.isfile(
+                    os.path.join(ROOT, "docs", "items", iid + ".html")))
+        self.assertIn("它不提出 typed action 或工具轨迹", page)
+        self.assertIn("工程组合是本项目的编辑判断与实验假设", page)
+
+    def test_selection_defines_source_aligned_tiers_and_statuses(self):
+        page = self.pages["selection"]
+        for fact in (
+                "research_eligible", "production_eligible", "pure_audio",
+                "full stage", "至少 452 条", "严格 expected-tool",
+                "≥99%", "≤1600ms", "复杂集成功≥95%",
+                "参数 + 最终车态真值覆盖率=100%",
+                "qualified", "pareto", "partial_improvement",
+                "rejected", "invalid", "commit_to_call P95 门为 None"):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, page)
+        self.assertIn("多 seed 和置信区间尚未成为当前源码硬门", page)
+        self.assertIn("production 才可谈部署", page)
+
+    def test_selection_interactive_tree_is_accessible(self):
+        page = self.pages["selection"]
+        self.assertIn('class="decision-tree" role="tree"', page)
+        self.assertGreaterEqual(page.count('role="treeitem"'), 5)
+        self.assertGreaterEqual(page.count('summary tabindex="0"'), 5)
+        self.assertIn('aria-label="Decision outcomes"', page)
+        self.assertIn("prefers-reduced-motion:reduce", page)
+        for gate in ("基础设施与口径有效", "安全门通过", "相对同口径基线有收益",
+                     "全部研究/生产硬门通过"):
+            self.assertIn(gate, page)
+
+    def test_selection_links_real_registries_and_scoped_verdicts(self):
+        page = self.pages["selection"]
+        branch = ("https://github.com/ISS-2030Lab/StreamingModelHarness/"
+                  "blob/automation/agent-h20-loop/evolution/")
+        for path in ("retained_components.json", "RETAINED_COMPONENTS.md",
+                     "experiments/registry.json"):
+            self.assertIn(branch + path, page)
+        for fact in ("99.56%", "81.64%", "1241.6ms", "1818.7ms",
+                     "2 条 infrastructure errors", "4 / 4", "1195ms",
+                     "975.2ms", "0 / 31"):
+            self.assertIn(fact, page)
+        self.assertIn("partial_improvement，不是 qualified", page)
+        self.assertIn("不能 full qualified", page)
+        self.assertNotIn("Hybrid C · 4-case smoke · qualified", page)
+
     def test_accessibility_responsive_and_reduced_motion(self):
         for slug, text in self.pages.items():
             with self.subTest(slug=slug):
@@ -175,11 +250,17 @@ class AutomationPageTests(unittest.TestCase):
                 self.assertIn("/automation/", text)
                 if slug != "index":
                     self.assertIn('aria-label="Guide sequence"', text)
-        for slug in ("research", "reports", "candidates", "h20", "selection"):
+        for slug in ("research", "reports", "candidates", "h20", "selection",
+                     "limitations"):
             self.assertIn("/automation/case-hybrid-c/", self.pages[slug])
         for slug in ("research", "reports", "candidates", "h20",
-                     "selection", "publishing"):
+                     "selection", "publishing", "limitations"):
             self.assertIn(f"/automation/{slug}/", self.pages["case-hybrid-c"])
+        for slug in ("index", "candidates", "h20", "selection",
+                     "case-hybrid-c"):
+            self.assertIn("/automation/limitations/", self.pages[slug])
+        for slug in ("candidates", "h20", "selection", "case-hybrid-c"):
+            self.assertIn(f"/automation/{slug}/", self.pages["limitations"])
 
     def test_global_site_navigation_exposes_automation(self):
         rendered = build_site.shell("test", "<p>body</p>", page="index")

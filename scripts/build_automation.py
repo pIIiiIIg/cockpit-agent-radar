@@ -27,6 +27,10 @@ STAGES = [
      "Hard gates, Pareto, partial retention, negative results", "script"),
     ("publishing", "发布与反馈", "Publishing", "实验分支、registry、Pages 与下一日报",
      "Experiment branches, registry, Pages, and feedback", "script"),
+    ("limitations", "局限与证据审计", "Limitations & audit",
+     "基线、证据缺口、指标边界与 99% 声明门槛",
+     "Baselines, evidence gaps, metric boundaries, and the 99% claim gate",
+     "mixed"),
 ]
 
 
@@ -198,7 +202,7 @@ line-height:1.2;margin:0 0 12px}.hero p{max-width:820px;color:var(--dim);font-si
 padding:2px 8px;font-size:12px}.cursor{color:var(--violet)}.script{color:var(--acc)}
 .mixed{color:var(--warn);border-color:var(--warn)}
 .verified{color:var(--ok)}.pending{color:var(--warn)}.fact{color:var(--ok)}
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:24px;margin:24px 0 34px;
+.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:18px;margin:24px 0 34px;
 padding:8px 0;position:relative}.flow:before{content:"";position:absolute;left:6%;right:6%;top:53px;
 height:2px;background:var(--line)}.flow-node{position:relative;z-index:1;background:var(--card);
 border:1px solid var(--line);border-radius:12px;padding:14px 12px;min-height:150px;color:var(--fg);
@@ -230,6 +234,29 @@ gap:10px;align-items:center;font-size:13px}.funnel-track{height:12px;background:
 border-radius:999px;overflow:hidden}.funnel-fill{height:100%;min-width:3px;background:var(--acc);
 border-radius:999px;transition:width .45s ease}.funnel-row:nth-child(3) .funnel-fill{background:var(--violet)}
 .funnel-row:nth-child(4) .funnel-fill{background:var(--ok)}
+.audit-banner{border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 9%,var(--card));
+border-radius:11px;padding:14px 16px}.compare{display:grid;grid-template-columns:repeat(3,1fr);
+gap:12px}.compare .card{position:relative}.compare .card:after{content:"→";position:absolute;
+right:-18px;top:44%;color:var(--dim);font-size:20px}.compare .card:last-child:after{display:none}
+.evidence-table{width:100%;border-collapse:collapse;font-size:13px}.evidence-table th,
+.evidence-table td{border:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+.evidence-table th{background:var(--chip)}.risk-grid{display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.risk{border-left:4px solid var(--warn)}
+.risk.high{border-left-color:var(--bad)}.risk.medium{border-left-color:var(--warn)}
+.maturity{display:grid;gap:9px}.maturity-row{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;
+gap:10px;align-items:center}.maturity-track{height:12px;background:var(--chip);border-radius:999px;
+overflow:hidden}.maturity-fill{height:100%;background:var(--warn);border-radius:999px}
+.maturity-fill.low{width:22%}.maturity-fill.partial{width:52%}.maturity-fill.strong{width:82%;
+background:var(--ok)}details{background:var(--card);border:1px solid var(--line);border-radius:9px;
+padding:10px 13px;margin:8px 0}summary{cursor:pointer;font-weight:650}
+.decision-tree{display:grid;gap:9px;counter-reset:gate}.decision-tree details{margin:0 0 0 28px;
+position:relative}.decision-tree details:before{counter-increment:gate;content:counter(gate);
+position:absolute;left:-32px;top:9px;width:23px;height:23px;display:grid;place-items:center;
+border-radius:50%;background:var(--acc);color:#fff;font-weight:700;font-size:12px}
+.tree-outcomes{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0 28px}.tree-outcomes .badge{
+font-size:13px;padding:5px 10px}.verdict{border-top:3px solid var(--line)}
+.verdict.good{border-color:var(--ok)}.verdict.warn{border-color:var(--warn)}
+.verdict.bad{border-color:var(--bad)}.plain-analogy{font-size:16px}
 .timeline{border-left:2px solid var(--line);margin-left:11px}.event{position:relative;margin:0 0 14px 25px;
 padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:9px}
 .event:before{content:"";position:absolute;left:-32px;top:17px;width:12px;height:12px;
@@ -242,7 +269,8 @@ footer{color:var(--dim);font-size:12px;margin-top:35px}.l-en{display:none}
 [data-lang=en] .l-en{display:revert}[data-lang=en] .l-zh{display:none}
 @keyframes pulse{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.07)}}
 @media(max-width:820px){.flow{grid-template-columns:repeat(2,1fr)}.flow:before{display:none}
-.decision{grid-template-columns:1fr}.site .sub{display:none}}@media(max-width:480px){
+.decision,.compare{grid-template-columns:1fr}.compare .card:after{display:none}.site .sub{display:none}
+.evidence-table{display:block;overflow-x:auto}}@media(max-width:480px){
 .wrap{padding:12px 12px 48px}.flow{grid-template-columns:1fr}.toolbar{margin-left:0;width:100%}
 .hero{padding-top:20px}.navline{grid-template-columns:1fr}.navline a:last-child{text-align:left}
 .funnel-row{grid-template-columns:1fr 2fr 42px}}
@@ -284,7 +312,7 @@ def header():
 def navline(slug):
     slugs = [row[0] for row in STAGES]
     if slug == "case-hybrid-c":
-        prev_slug, next_slug = "selection", "publishing"
+        prev_slug, next_slug = "limitations", None
     else:
         index = slugs.index(slug)
         prev_slug = slugs[index - 1] if index else None
@@ -355,7 +383,7 @@ def overview(snapshot=None):
 <article class="card"><h3 class="verified">{pair("已实测：Radar 网站自动化","Verified: Radar site automation")}</h3><p>{pair("三班抓取、摘要回填、测试、建站、推送、Pages smoke；本地日报/精读发布使用互斥锁、重试和完成哨兵。","Scheduled fetch, backfill, tests, build, push, and Pages smoke; local publishers use a mutex, retry, and completion sentinel.")}</p></article>
 <article class="card"><h3 class="pending">{pair("待验证：Harness 首次 00:30 定时实跑","Pending: first Harness 00:30 scheduled run")}</h3><p>{pair("设计、脚本与资源隔离可说明，但首次无人值守定时结果尚未发生，不能写成“已稳定运行”。","The design, scripts, and resource isolation can be documented, but the first unattended scheduled result has not happened and is not claimed as stable.")}</p></article>
 </div></section>
-<p class="callout ok"><b>{pair("完整案例：","Full case:")}</b> <a href="{BASE}/automation/case-hybrid-c/">{pair("Hybrid C 为什么准确率没过硬门仍保留 partial →","Why Hybrid C was retained as partial despite missing the accuracy gate →")}</a></p>"""
+<p class="callout ok"><b>{pair("完整案例：","Full case:")}</b> <a href="{BASE}/automation/case-hybrid-c/">{pair("Hybrid C 为什么在 452 全量前只能局部留存 →","Why Hybrid C remains scoped before a full 452-case run →")}</a></p>"""
     return shell("自动化系统总览", "Automation overview", "research", body, snapshot).replace(
         navline("research"), "")
 
@@ -520,7 +548,8 @@ def candidates(snapshot=None):
 <article class="step"><h3>{pair("登记可组合组件","Register composable components")}</h3><p>{pair("Typed Action、Voice Memory、紧凑回执、安全前缀等按组件登记，便于之后组合，而不是把一次实验写成不可拆的补丁。","Typed Action, Voice Memory, compact receipts, and safety prefixes are registered as components for later composition, not one inseparable patch.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("为什么强调单变量","Why single-variable candidates")}</h2><p class="callout bad">{pair("多个机制一起变化即使指标上升，也无法知道谁有效；指标下降时更无法安全回退。组合候选只能在各组件已有独立证据后进入。","If several mechanisms change together, neither gains nor regressions are attributable. Combination candidates enter only after each component has independent evidence.")}</p></section>
-<p><a href="{BASE}/automation/case-hybrid-c/#candidate">{pair("案例关联：Hybrid C 的六个组件怎样逐步进入 →","Case link: how six Hybrid C components entered →")}</a></p>"""
+<p><a href="{BASE}/automation/case-hybrid-c/#candidate">{pair("案例关联：Hybrid C 的六个组件怎样逐步进入 →","Case link: how six Hybrid C components entered →")}</a></p>
+<p><a href="{BASE}/automation/limitations/">{pair("证据审计：组合组件如何归因、哪些结论仍不能说 →","Evidence audit: component attribution and claims not yet supported →")}</a></p>"""
     return shell("实验候选", "Candidates", "candidates", body, snapshot)
 
 
@@ -545,29 +574,92 @@ def h20(snapshot=None):
 <article class="card"><h3>{pair("安全清理","Safe cleanup")}</h3><p>{pair("只按启动记录中的 PID 与端口清理；校验归属后终止。禁止模糊匹配杀进程，失败也执行 finally 清理。","Clean only recorded PIDs and ports after ownership checks. No broad process matching; finally cleanup runs after failures.")}</p></article>
 </div></section>
 <div class="callout"><b>{pair("证据声明：","Evidence statement:")}</b> {pair("该隔离方案和手动案例数据可核验；“每天 00:30 已稳定无人值守运行”尚不能声称，首次定时实跑仍待验证。","The isolation design and manual case data are verifiable. Stable daily unattended 00:30 operation is not claimed; the first scheduled run remains pending.")}</div>
-<p><a href="{BASE}/automation/case-hybrid-c/#evaluation">{pair("案例关联：Hybrid C 的 452 条与 4 条 smoke 数据 →","Case link: Hybrid C's 452-case and 4-case smoke results →")}</a></p>"""
+<p><a href="{BASE}/automation/case-hybrid-c/#evaluation">{pair("案例关联：B 的 452 基线与 Hybrid C 的 4 条 smoke →","Case link: B's 452 baseline and Hybrid C's four-case smoke →")}</a></p>
+<p><a href="{BASE}/automation/limitations/">{pair("查看评测集、指标口径与统计有效性缺口 →","Audit evaluation-set, metric, and statistical-validity gaps →")}</a></p>"""
     return shell("H20 隔离评测", "H20 evaluation", "h20", body, snapshot)
 
 
 def selection(snapshot=None):
     snapshot = snapshot or empty_snapshot()
     body = hero("选择、Pareto 与局部留存", "Selection, Pareto, and partial retention",
-        "选择器不只输出“赢/输”。它先执行不可协商的硬门，再区分 qualified、pareto、partial、rejected 与 invalid。",
-        "Selection is not merely win/lose. Non-negotiable gates run first, followed by qualified, pareto, partial, rejected, or invalid.",
-        '<span class="badge script">Hard gates: script</span><span class="badge fact">Accuracy ≥99%</span><span class="badge fact">e2e P95 ≤1.6s</span>')
-    body += f"""<section class="section"><h2>{pair("五种结果","Five outcomes")}</h2><div class="grid">
-<article class="card"><h3 class="verified">qualified</h3><p>{pair("所有硬门通过，且证据范围完整，可作为合格候选继续。","All hard gates pass with complete evidence.")}</p></article>
-<article class="card"><h3 class="verified">pareto</h3><p>{pair("在准确率、时延或能力覆盖上不可被另一合格候选全面支配。","Not dominated by another qualified candidate across accuracy, latency, and coverage.")}</p></article>
-<article class="card"><h3 class="pending">partial</h3><p>{pair("整体未过门，但某个可拆组件在严格范围内有真实收益，登记 retained components，禁止宣传为整体成功。","Overall gates fail, but a separable component has scoped evidence. Register it as retained; never call the whole candidate successful.")}</p></article>
-<article class="card"><h3 class="bad">rejected</h3><p>{pair("证据有效但无收益、退化或被更简单方案支配；负结果进入 registry，避免重复试验。","Valid evidence shows no gain, regression, or domination; record the negative result.")}</p></article>
-<article class="card"><h3 class="bad">invalid</h3><p>{pair("服务失败、数据污染、评测路径不真实、样本不足或真值被修改，不能据此比较。","Service failure, contamination, unreal path, insufficient scope, or modified truth makes comparison invalid.")}</p></article>
+        "选择器不是挑一个好看的总分，而是依次验口径、过安全门、与同口径基线比较，再决定保留整套候选、只保留可归因组件，还是记录负结果。",
+        "Selection does not pick the prettiest aggregate score. It validates scope, applies safety gates, compares a like-for-like baseline, then retains a whole candidate, only attributable components, or a negative result.",
+        '<span class="badge script">Deterministic gates</span><span class="badge fact">strict execution ≥99%</span><span class="badge fact">e2e P95 ≤1600ms</span>')
+    registry = ("https://github.com/ISS-2030Lab/StreamingModelHarness/blob/"
+                "automation/agent-h20-loop/evolution/experiments/registry.json")
+    retained_json = ("https://github.com/ISS-2030Lab/StreamingModelHarness/blob/"
+                     "automation/agent-h20-loop/evolution/retained_components.json")
+    retained_md = ("https://github.com/ISS-2030Lab/StreamingModelHarness/blob/"
+                   "automation/agent-h20-loop/evolution/RETAINED_COMPONENTS.md")
+    body += f"""<section class="section"><h2>{pair("先用验车比喻说清楚","First, a vehicle-inspection analogy")}</h2>
+<div class="card plain-analogy"><p>{pair("像验收一辆改装车：先确认考卷没泄题、传感器和计时器都正常；再确认不会危险误控；然后拿同一条赛道、同一批样本和原车比成绩；最后才决定整车可入选，还是只拆下某个有独立证据的零部件保留。",
+"Think of accepting a modified car: first verify the exam was not leaked and the sensors and timers worked; next prove it did not make dangerous controls; then compare it with the original car on the same track and samples; only then accept the whole car or retain a component backed by independent evidence.")}</p>
+<ol><li>{pair("先验卷：有效性与口径。","Validate the exam: evidence and scope.")}</li>
+<li>{pair("再判安全：危险误控、闲聊误控与候选授权。","Check safety: dangerous/chat miscalls and candidate authorization.")}</li>
+<li>{pair("再比成绩：完成、严格执行、时延、复杂集和相对基线。","Compare results: completion, strict execution, latency, complex suite, and baseline delta.")}</li>
+<li>{pair("最后定留存粒度：整套方案或可归因零部件。","Choose retention granularity: whole candidate or attributable component.")}</li></ol></div></section>
+
+<section class="section"><h2>{pair("严格定义：两层资格","Strict definition: two eligibility tiers")}</h2><div class="grid">
+<article class="card verdict warn"><h3>research_eligible</h3><p>{pair("研究可比，不等于可生产。源码要求 pure_audio + full stage、smoke/regression 通过、至少 452 条、完成率≥99%、实际执行证据覆盖100%、严格 expected-tool 实际执行≥99%、危险误控=0、闲聊误控≤1%且有闲聊样本、commit→首音频 e2e P95≤1600ms、复杂集成功≥95%、同口径基线不退化，并覆盖 clean/noisy、single/multi-turn、L0/L1 和至少两种音色。",
+"Research-comparable, not production-ready. Source requires pure_audio full stage, smoke/regression pass, at least 452 samples, completion ≥99%, 100% actual-execution evidence coverage, strict expected-tool actual execution ≥99%, zero dangerous miscalls, chat miscalls ≤1% with chat samples, commit-to-first-audio e2e P95 ≤1600ms, complex-suite success ≥95%, no regression against a like-for-like baseline, plus clean/noisy, single/multi-turn, L0/L1, and at least two voices.")}</p></article>
+<article class="card verdict good"><h3>production_eligible</h3><p>{pair("先满足 research_eligible，再要求每个任务样本的参数 + 最终车态真值覆盖率=100%，且有真值样本上的语义任务成功率≥99%。这是“做对了什么并让车达到正确状态”，不是只命中工具名。",
+"Requires research_eligible first, then 100% parameter + final-state truth coverage for task samples and semantic task success ≥99% on truth-covered samples. This means the right action reached the right vehicle state, not merely the right tool name.")}</p></article>
+</div>
+<p class="callout"><b>{pair("源码核对后的缺口：","Source-audited gaps:")}</b> {pair("当前默认 commit_to_call P95 门为 None，真正启用时才成为 research 硬门；评分源码已有参数/最终态 production 门，但历史 452 registry 只有工具执行代理指标、复杂集 not_run，且 2 条基础设施错误仍在记录中，因此历史组合不能补写成 eligible。",
+"The default commit_to_call P95 target is None and becomes a research gate only when configured. Scoring source already has production parameter/final-state gates, but the historical 452 registry contains only a tool-execution proxy, complex suite not_run, and two recorded infrastructure errors; it cannot be rewritten as eligible.")}</p></section>
+
+<section class="section"><h2>{pair("可交互决策树","Interactive decision tree")}</h2>
+<p class="sub">{pair("点击或用 Tab 聚焦后按 Enter/Space 展开每道门；原生 details 控件无需脚本，减少动态效果设置同样生效。","Click, or focus with Tab and press Enter/Space, to expand each gate. Native details need no script and respect reduced-motion settings.")}</p>
+<div class="decision-tree" role="tree" aria-label="候选选择决策树 Candidate selection decision tree">
+<details role="treeitem"><summary tabindex="0">{pair("基础设施与口径有效？否 → invalid","Infrastructure and scope valid? No → invalid")}</summary><p>{pair("输入：profile、stage、manifest audit、sample_id 映射、unknown ID、音频来源、服务/端口/GPU/TTS 错误、结果文件与哈希。pure_audio 禁止 assisted_text、manifest 原文或 truth_text_preinjected 捷径。","Inputs: profile, stage, manifest audit, sample-ID mapping, unknown IDs, audio provenance, service/port/GPU/TTS errors, result files, and hashes. pure_audio forbids assisted_text, manifest transcript, or truth_text_preinjected shortcuts.")}</p></details>
+<details role="treeitem"><summary tabindex="0">{pair("安全门通过？否 → rejected","Safety gate passes? No → rejected")}</summary><p>{pair("输入：dangerous_miscalls=0、chit_chat_miscall_rate≤1%、闲聊样本存在、每个 call 在候选授权集合内、真实执行证据存在。口径无效优先 invalid；有效但安全退化才 rejected。","Inputs: dangerous_miscalls=0, chit_chat_miscall_rate≤1%, chat samples present, every call within candidate authorization, and real execution evidence. Invalid scope takes precedence; valid evidence with a safety regression is rejected.")}</p></details>
+<details role="treeitem"><summary tabindex="0">{pair("相对同口径基线有收益？否 → rejected","Benefit over like-for-like baseline? No → rejected")}</summary><p>{pair("输入：baseline_id、profile、样本/分桶、完成率、actual_execution_success_rate、e2e P95 与 delta。样本范围不同、映射无效或必需指标缺失时不是“无收益”，而是 invalid。","Inputs: baseline_id, profile, sample/buckets, completion, actual_execution_success_rate, e2e P95, and delta. Different scope, invalid mapping, or missing required metrics means invalid, not “no gain.”")}</p></details>
+<details role="treeitem"><summary tabindex="0">{pair("全部研究/生产硬门通过？是 → qualified","All research/production hard gates pass? Yes → qualified")}</summary><p>{pair("输入：smoke、full≥452、分桶、完成、安全、严格执行、e2e、复杂集、基线不退化；生产层再读 truth_coverage 与 task_success_rate。qualified 必须注明是 research 还是 production 资格。","Inputs: smoke, full≥452, buckets, completion, safety, strict execution, e2e, complex suite, and no baseline regression; production additionally reads truth_coverage and task_success_rate. qualified must state whether it is research or production eligibility.")}</p></details>
+<details role="treeitem"><summary tabindex="0">{pair("未过全部门但有收益？→ pareto 或 partial_improvement","Some gain but not all gates? → pareto or partial_improvement")}</summary><p>{pair("当前 registry.classify_result 对未 qualified 且安全、可比、有质量/时延收益的候选分类：若位于前沿则 pareto，否则 partial_improvement。二者都不是 production eligible；只有可归因组件才能进入 retained/conditional。",
+"Current registry.classify_result labels a non-qualified but safe, comparable candidate with quality/latency gain as pareto when on the frontier, otherwise partial_improvement. Neither is production eligible; only attributable components may become retained/conditional.")}</p></details>
+<div class="tree-outcomes" role="group" aria-label="Decision outcomes"><span class="badge verified">qualified</span><span class="badge pending">pareto</span><span class="badge pending">partial_improvement</span><span class="badge bad">rejected</span><span class="badge bad">invalid</span></div></div></section>
+
+<section class="section"><h2>{pair("五类状态：代码与发布含义","Five statuses: code and publishing semantics")}</h2>
+<table class="evidence-table"><thead><tr><th>Status</th><th>{pair("必要条件 / 常见原因","Requirements / common causes")}</th><th>{pair("GitHub 分支","GitHub branch")}</th><th>{pair("默认组合","Default composition")}</th><th>{pair("允许的文档措辞","Allowed wording")}</th></tr></thead><tbody>
+<tr><td><b class="verified">qualified</b></td><td>{pair("对应资格层全部硬门通过；必须注明 research 或 production。","All gates for the named tier pass; state research or production.")}</td><td>{pair("保留并归档","Retain and archive")}</td><td>{pair("仍需人工合并决策；production 才可谈部署","Still requires human merge decision; only production may be discussed for deployment")}</td><td>{pair("“在所列范围通过全部门”","“Passed all gates for the stated scope”")}</td></tr>
+<tr><td><b class="pending">pareto</b></td><td>{pair("安全、可比、有收益但未 qualified，且在准确率高/时延低二维不被另一候选支配。","Safe, comparable, beneficial but not qualified, and non-dominated on higher accuracy/lower latency.")}</td><td>{pair("保留实验分支","Retain experiment branch")}</td><td>{pair("否；仅供研究前沿比较","No; research-frontier comparison only")}</td><td>{pair("“未过全部门的非支配局部候选”","“Non-dominated scoped candidate that missed full gates”")}</td></tr>
+<tr><td><b class="pending">partial_improvement</b></td><td>{pair("安全、可比，至少一项质量提升或时延下降，但整体门失败或证据范围不足。","Safe and comparable with at least one quality or latency gain, but full gates fail or scope is insufficient.")}</td><td>{pair("自动保留实验分支","Experiment branch retained automatically")}</td><td>{pair("整套否；组件须有归因证据才 retained/conditional","Whole candidate: no; components require attributable evidence for retained/conditional")}</td><td>{pair("“仅在 X 范围有局部收益”","“Scoped gain only on X”")}</td></tr>
+<tr><td><b class="bad">rejected</b></td><td>{pair("有效证据显示无收益、退化、安全失败或被更简单方案支配；如工具描述增强 0/31。","Valid evidence shows no gain, regression, safety failure, or domination; e.g. tool-description enhancement 0/31.")}</td><td>{pair("默认不推；仅显式 push_rejected 时留负结果分支","Not pushed by default; negative branch only with push_rejected")}</td><td>{pair("否","No")}</td><td>{pair("“已测试无收益/退化，记录避免重复”","“Tested with no gain/regression; recorded to avoid repetition”")}</td></tr>
+<tr><td><b class="bad">invalid</b></td><td>{pair("基础设施失败、口径不可比、映射失效、真值捷径或证据缺失，不能比较。","Infrastructure failure, incomparable scope, invalid mapping, truth shortcut, or missing evidence prevents comparison.")}</td><td>{pair("不作为结果分支发布","Not published as a result branch")}</td><td>{pair("否","No")}</td><td>{pair("“本次无有效结论，必须重跑”","“No valid conclusion; rerun required”")}</td></tr>
+</tbody></table>
+<div class="callout"><b>Pareto {pair("例子：","example:")}</b> {pair("候选 A 准确率 99.2%、e2e 1500ms；B 为 99.0%、1300ms：A 更准、B 更快，互不支配。若 C 为 99.0%、1500ms，则 A 准确率更高且时延相同，C 被 A 支配，不在前沿。",
+"Candidate A has 99.2% accuracy at 1500ms; B has 99.0% at 1300ms. A is more accurate and B faster, so neither dominates. If C is 99.0% at 1500ms, A has higher accuracy at equal latency and dominates C.")}</div></section>
+
+<section class="section"><h2>{pair("逐门口径说明","Gate-by-gate definitions")}</h2>
+<div class="grid">
+<article class="card"><h3>validity</h3><p>{pair("必须是真实音频路径；pure_audio 禁止读 manifest 原文、辅助文本或预注入真值。sample_id 必须映射到已知样本，unknown ID、缺日志、服务/TTS/GPU 故障与不完整结果要 fail closed。","Must use the real audio path. pure_audio forbids manifest transcripts, assisted text, or pre-injected truth. sample_id must map to known data; unknown IDs, missing logs, service/TTS/GPU faults, or incomplete results fail closed.")}</p></article>
+<article class="card"><h3>safety</h3><p>{pair("危险误控必须为 0；闲聊误控率≤1%且分母必须含真实闲聊样本；所有工具调用必须在候选授权集合内，并有实际执行证据。","Dangerous miscalls must be zero; chat miscalls ≤1% with real chat samples in the denominator; every call must be candidate-authorized and backed by actual-execution evidence.")}</p></article>
+<article class="card"><h3>completion</h3><p>{pair("完成率=产生有效终止结果的样本数/全部入场样本，超时与基础设施错误不能从分母静默删除。452 组的 99.56% 即约 450/452，不等于工具执行正确。","Completion is valid terminal outcomes divided by all admitted samples; timeouts and infrastructure errors cannot silently leave the denominator. 99.56% on 452 is about 450/452 and is not tool-execution correctness.")}</p></article>
+<article class="card"><h3>accuracy / truth</h3><p>{pair("research 严格执行要求 expected tool 与真实 call 对齐，且 execution evidence 覆盖100%；production 再要求参数合法、期望最终态与实际最终态一致。routing、工具名、参数、最终态必须分列，不能都叫“准确率”。","Research strict execution aligns expected tool with a real call and requires 100% execution-evidence coverage. Production adds legal parameters and expected-versus-actual final state. Routing, tool name, parameters, and final state must stay separate, not all be called “accuracy.”")}</p></article>
+<article class="card"><h3>latency</h3><p>{pair("e2e 是 commit→首音频 P95；call P95 单列。Relay 安全前缀可能使首音频≤1600ms，但真实 call 仍慢。约 0.7s VAD 静音窗不在该 e2e 内，必须另报。","e2e is commit-to-first-audio P95; call P95 is separate. A Relay safety prefix may put first audio under 1600ms while the real call remains slow. The roughly 0.7s VAD silence window is outside this e2e and must be reported separately.")}</p></article>
+<article class="card"><h3>complex / multiturn</h3><p>{pair("research 需要 122 复杂意图套件结果，默认目标≥95%，并覆盖 single_turn/multi_turn。合成复杂集只能补结构难度，不能替代真实车内分布。","Research requires the 122-case complex-intent result with default target ≥95% and both single_turn/multi_turn buckets. A synthetic complex suite adds structural difficulty but does not replace real in-car distribution.")}</p></article>
+<article class="card"><h3>baseline / delta</h3><p>{pair("基线必须 mapping_valid、profile 一致、包含完成/实际执行/e2e 必需指标，并在相同样本与分桶比较；任何完成、严格执行或 e2e 退化都会阻断资格。多 seed 和置信区间尚未成为当前源码硬门，是明确待补缺口。","Baseline must be mapping_valid, profile-matched, include completion/actual-execution/e2e metrics, and use the same samples and buckets. Regression in completion, strict execution, or e2e blocks eligibility. Multiple seeds and confidence intervals are not yet source hard gates and remain explicit gaps.")}</p></article>
 </div></section>
-<section class="section"><h2>{pair("决策顺序","Decision order")}</h2><div class="steps">
-<article class="step"><h3>{pair("先查有效性","Validate evidence")}</h3><p>{pair("路径、样本、日志和资源隔离不完整，直接 invalid。","Incomplete path, sample, logs, or isolation means invalid.")}</p></article>
-<article class="step"><h3>{pair("再过硬门","Apply hard gates")}</h3><p>{pair("组合准确率至少 99%，e2e P95 不高于 1.6s；不能互相抵偿。","Combined accuracy must be at least 99%; e2e P95 at most 1.6s. One cannot compensate for the other.")}</p></article>
-<article class="step"><h3>{pair("最后看 Pareto 与局部证据","Then Pareto and partial evidence")}</h3><p>{pair("过门候选比较前沿；未过门候选只允许拆出有独立测试、清晰边界的 retained component。","Gate passers compete on the frontier. Gate failures may retain only independently tested, clearly scoped components.")}</p></article>
+
+<section class="section"><h2>{pair("整套方案留存 vs 子组件留存","Whole-candidate vs component retention")}</h2>
+<div class="grid"><article class="card"><h3>{pair("整套候选","Whole candidate")}</h3><p>{pair("只有明确资格层的全部硬门通过，才可写 qualified。pareto/partial 的实验分支用于复现和消融，不自动进默认组合、不合并 main。","Only passing every gate for a named tier permits qualified. Pareto/partial experiment branches exist for reproduction and ablation; they do not enter the default composition or merge main automatically.")}</p></article>
+<article class="card"><h3>{pair("可归因子组件","Attributable component")}</h3><p>{pair("组合未过门时，组件只有在单测、微基准、消融或明确局部错误桶能归因时才可标 retained/conditional。组合共享 e2e 不能拆给每个组件；无收益组件保持 rejected。","When a combination fails, a component becomes retained/conditional only with attributable unit, microbenchmark, ablation, or scoped-bucket evidence. Shared combination e2e cannot be assigned to each component; no-gain components remain rejected.")}</p></article></div>
+<div class="legend"><a class="btn" href="{retained_json}">retained_components.json</a><a class="btn" href="{retained_md}">RETAINED_COMPONENTS.md</a><a class="btn" href="{registry}">experiment registry.json</a></div></section>
+
+<section class="section"><h2>{pair("当前三张判定卡","Three current verdict cards")}</h2><div class="grid">
+<article class="card verdict warn"><h3>B pure-audio · 452 · partial_improvement</h3><div class="metrics"><div class="metric"><b>99.56%</b><small>completion</small></div><div class="metric"><b>81.64%</b><small>actual tool execution</small></div><div class="metric"><b>1241.6ms</b><small>e2e P95</small></div><div class="metric"><b>1818.7ms</b><small>call P95</small></div></div><p>{pair("2 条 infrastructure errors；Relay 首响让 e2e 时延门通过，但严格工具执行远低于 99%，复杂集 not_run。registry 结论是 partial_improvement，不是 qualified。","Two infrastructure errors. Relay first audio passes the e2e latency gate, but strict tool execution is far below 99% and the complex suite is not_run. Registry verdict: partial_improvement, not qualified.")}</p><a href="{registry}">{pair("查看 registry 原记录","Open source registry record")}</a></article>
+<article class="card verdict warn"><h3>Hybrid C · 4-case smoke · partial_improvement</h3><div class="metrics"><div class="metric"><b>4 / 4</b><small>smoke only</small></div><div class="metric"><b>1195ms</b><small>e2e</small></div><div class="metric"><b>975.2ms</b><small>call</small></div></div><p>{pair("证明该小路径能工作；与 452 样本范围不可比，无复杂集、分桶或置信区间，不能 full qualified。若拿它做全量结论，证据范围即 invalid。","Shows this small path can work. It is incomparable with the 452 scope and lacks complex-suite, buckets, and confidence intervals, so it cannot be fully qualified. Using it for a full-scope claim would make the evidence invalid.")}</p><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-hybrid-c-asr-smoke">{pair("查看实验分支","Open experiment branch")}</a></article>
+<article class="card verdict bad"><h3>{pair("工具描述增强 · 31 条 · rejected","Tool-description enhancement · 31 cases · rejected")}</h3><div class="metric"><b>0 / 31</b><small>{pair("修复","fixed")}</small></div><p>{pair("有效错误桶测试没有修复任何一条，无准确率收益；保留 registry 负结果避免重复，不进入默认组合。","A valid error-bucket test fixed none and showed no accuracy gain. Keep the negative registry record to prevent repetition; do not enter the default composition.")}</p><a href="{registry}">{pair("查看负结果记录","Open negative record")}</a></article>
 </div></section>
-<p><a href="{BASE}/automation/case-hybrid-c/#decision">{pair("案例关联：为什么 Hybrid C 是 partial 而非 qualified →","Case link: why Hybrid C is partial, not qualified →")}</a></p>"""
+
+<section class="section"><h2>{pair("常见误读 FAQ","Common misreadings FAQ")}</h2>
+<details><summary>{pair("P95 是平均值吗？","Is P95 an average?")}</summary><p>{pair("不是。P95 是至少 95% 样本不超过的尾延迟位置；仍需同时看样本数、失败样本和更高分位。","No. P95 is a tail position under which at least 95% of samples fall; sample count, failed samples, and higher tails still matter.")}</p></details>
+<details><summary>{pair("4/4 能写成 99% 吗？","Can 4/4 be called 99%?")}</summary><p>{pair("不能。4 条只是一组冒烟，无法支撑总体比例或窄置信区间。","No. Four cases are a smoke set and cannot establish a population rate or narrow confidence interval.")}</p></details>
+<details><summary>{pair("首音频出来代表车已经动了吗？","Does first audio mean the car moved?")}</summary><p>{pair("不代表。Relay 可先播非承诺前缀；真实 call、执行回执和最终车态可能在后面。","No. Relay may play a non-committal prefix first; the real call, execution receipt, and final state may happen later.")}</p></details>
+<details><summary>{pair("工具名对了，参数也一定对吗？","Does the right tool name imply right parameters?")}</summary><p>{pair("不一定。工具名、参数合法性、动作顺序和最终车态是不同真值层。","No. Tool name, parameter legality, action order, and final state are distinct truth layers.")}</p></details>
+<details><summary>partial_improvement {pair("可以生产吗？","production-ready?")}</summary><p>{pair("不可以。partial 只说明某范围或组件有收益；必须补齐 research/production 全部门和明确归因。","No. Partial means scoped or component-level gain only; all research/production gates and attribution remain required.")}</p></details></section>
+
+<div class="legend"><a class="btn" href="{BASE}/automation/candidates/">{pair("候选页","Candidates")}</a><a class="btn" href="{BASE}/automation/h20/">{pair("H20 评测","H20 evaluation")}</a><a class="btn" href="{BASE}/automation/limitations/">{pair("局限审计","Limitations audit")}</a><a class="btn" href="{BASE}/automation/case-hybrid-c/#decision">{pair("Hybrid C 判定","Hybrid C verdict")}</a></div>"""
     return shell("选择与留存", "Selection", "selection", body, snapshot)
 
 
@@ -588,11 +680,92 @@ def publishing(snapshot=None):
     return shell("发布与反馈", "Publishing", "publishing", body, snapshot)
 
 
+def limitations(snapshot=None):
+    snapshot = snapshot or empty_snapshot()
+    body = hero(
+        "局限与证据审计", "Limitations and evidence audit",
+        "这是系统自我批评页，不是宣传页：它把可比基线、论文到代码的证据链、评测盲区和允许作出 99% 声明的条件放在同一处。",
+        "This is a system self-critique, not a marketing page. It puts comparable baselines, paper-to-code provenance, evaluation blind spots, and the gate for any 99% claim in one place.",
+        '<span class="badge mixed">Audit view</span><span class="badge pending">Evidence gaps visible</span>')
+    body += f"""<section class="section"><div class="audit-banner"><b>{pair("审计结论：","Audit conclusion:")}</b>
+{pair("当前自动进化不是“从 A 单线改到 C”。A 与 B 都保留；452 条同口径可比结果属于 B pure-audio 组合，而 Hybrid C 只有 4 条常规冒烟和 31 条错误桶的局部证据，尚无同口径 452 全量结果。",
+"The current evolution is not a single A-to-C rewrite. A and B are both retained. The comparable 452-case result belongs to the B pure-audio combination; Hybrid C has only a four-case routine smoke and scoped evidence on a 31-case error bucket, not a like-for-like 452-case run.")}</div></section>
+
+<section class="section"><h2>{pair("A / B / Hybrid C 基线关系","A / B / Hybrid C baseline relationship")}</h2>
+<div class="compare">
+<article class="card"><h3>A · ASR / RAG</h3><p>{pair("真实 ASR 后做 RAG 候选召回与晚注入；其预取思想进入 C，但 A 本身仍作为独立基线保留。","Real ASR followed by RAG candidate recall and late injection. Its prefetch path informs C, while A remains an independent baseline.")}</p></article>
+<article class="card"><h3>B · pure audio · 452</h3><p>{pair("Qwen 直听音频，组合 grouped MoE、紧凑回执、确定性确认与 Relay 安全前缀。99.56% 组合完成率、81.64% 工具执行率和 1241.6ms e2e P95 属于这个 B 组合。","Qwen hears audio directly and combines grouped MoE, compact receipts, deterministic confirmation, and a Relay safety prefix. The 99.56% combined completion, 81.64% tool execution, and 1241.6ms e2e P95 belong to this B combination.")}</p></article>
+<article class="card"><h3>Hybrid C · scoped only</h3><p>{pair("组合 A 的真实 ASR/RAG 预取与 B 的直听音频、回执和 typed action。当前只有 4/4 常规冒烟及错误桶 24/31 的局部修复，不能外推到 452。",
+"Combines A's real-ASR/RAG prefetch with B's direct audio, receipts, and typed actions. Evidence is limited to a 4/4 routine smoke and a 24/31 scoped error-bucket repair; neither extrapolates to 452.")}</p></article>
+</div>
+<p class="callout bad">{pair("禁止表述：“Hybrid C 在 452 条上达到 99.56%”或“Hybrid C 已达到 99%”。前者把 B 的结果错挂到 C，后者把 4 条冒烟或错误桶修复外推为总体准确率。",
+"Prohibited claims: “Hybrid C reached 99.56% on 452 cases” or “Hybrid C has reached 99%.” The first assigns B's result to C; the second extrapolates a four-case smoke or an error-bucket repair into overall accuracy.")}</p></section>
+
+<section class="section"><h2>{pair("论文如何映射到候选，而不是变成宣传引用","How papers map to candidates without becoming marketing citations")}</h2>
+<p>{pair("候选 manifest 记录 candidate_id、基线、单一假设、source_paths 和 success gates；experiment registry 记录提交、数据范围、指标与负结果；retained components 只登记有独立局部证据的组件及边界。日报和论文链接必须进入 evidence，不能只留在说明文字。",
+"A candidate manifest records candidate_id, baseline, one hypothesis, source_paths, and success gates. The experiment registry records commit, data scope, metrics, and negative results. Retained components name only components with independent scoped evidence and their boundaries. Report and paper links belong in evidence, not only prose.")}</p>
+<div class="card"><code>source_paths: [reports/每日调研日报-YYYY-MM-DD.md, data/review_history.json, docs/items/&lt;id&gt;.html]</code><br>
+<code>evidence: [paper URL, site review, baseline run, candidate run, error buckets]</code></div>
+<table class="evidence-table"><thead><tr><th>{pair("工程组件","Engineering component")}</th><th>{pair("真实论文证据","Real paper evidence")}</th><th>{pair("允许的工程判断","Permitted engineering inference")}</th></tr></thead><tbody>
+<tr><td>{pair("Relay 安全前缀","Relay safety prefix")}</td><td><a href="{BASE}/items/5e1773f2f1.html">RelayS2S · {pair("站内精读","site review")}</a><br><a href="https://arxiv.org/abs/2603.23346v1" rel="noopener noreferrer">{pair("原论文","paper")}</a></td><td>{pair("借鉴双路前缀与 verifier，把前缀限制为不承诺事实的安全回执；论文没有证明该 Harness 的车控安全或工具正确率。","Borrow dual-path prefixing and verification, restricting the prefix to a non-committal safety receipt. The paper does not prove this Harness's vehicle-control safety or tool correctness.")}</td></tr>
+<tr><td>{pair("可审计 ASR 纠错","Auditable ASR correction")}</td><td><a href="{BASE}/items/3bebe83725.html">Voice Memory · {pair("站内精读","site review")}</a><br><a href="https://arxiv.org/abs/2607.26410v1" rel="noopener noreferrer">{pair("原论文","paper")}</a></td><td>{pair("借鉴保留集门控、可回滚 memory 和 abstain；论文结果不是车载口音、噪声或 Harness 最终车态结果。","Borrow held-out gating, reversible memory, and abstention. Paper results are not in-car accent/noise or Harness final-state results.")}</td></tr>
+<tr><td>typed action / {pair("工具轨迹","tool trajectories")}</td><td><a href="{BASE}/items/c8d10ef1c8.html">Qwen-UI-Agent · {pair("站内精读","site review")}</a> · <a href="https://huggingface.co/papers/2607.28227" rel="noopener noreferrer">{pair("原论文","paper")}</a><br><a href="{BASE}/items/386ec68e80.html">SpeechAgent-R · {pair("站内精读","site review")}</a> · <a href="https://arxiv.org/abs/2608.01881v1" rel="noopener noreferrer">{pair("原论文","paper")}</a></td><td>{pair("借鉴统一 action schema、工具交互轨迹和过程评测；GUI/声学工具任务并不直接证明座舱车控 typed action 成功。","Borrow unified action schemas, tool-interaction trajectories, and process evaluation. GUI and acoustic-tool tasks do not directly prove cockpit typed-action success.")}</td></tr>
+<tr><td>POLAR / {pair("前端诊断证据","front-end diagnostic evidence")}</td><td><a href="{BASE}/items/f474b60b71.html">POLAR · {pair("站内精读","site review")}</a><br><a href="https://arxiv.org/abs/2607.11157v1" rel="noopener noreferrer">{pair("原论文","paper")}</a></td><td>{pair("POLAR 诊断增强对 ASR 的幅度/相位影响，可进入 source_paths 和前端反事实实验；它不提出 typed action 或工具轨迹，不能被误写成工具调用证据。","POLAR diagnoses magnitude/phase effects of enhancement on ASR and can inform source_paths and front-end counterfactuals. It does not propose typed actions or tool trajectories and must not be cited as tool-calling evidence.")}</td></tr>
+</tbody></table>
+<p class="callout">{pair("工程组合是本项目的编辑判断与实验假设，不是上述论文的原结论。每个论文结果、项目实测和待验证门槛必须分栏记录。",
+"The engineering combination is this project's editorial judgment and experimental hypothesis, not an original conclusion of any cited paper. Paper results, project measurements, and pending gates must remain separate.")}</p></section>
+
+<section class="section"><h2>{pair("评测集缺口","Evaluation-set gaps")}</h2>
+<p>{pair("452 条主要覆盖四个 L0/L1 设置与车控集合，偏单轮、干净、有限且近似单音色。122 条复杂意图是合成补充，能增加结构难度，但不能替代真实分布。",
+"The 452 cases mainly cover four L0/L1 settings and a vehicle-control set; they skew single-turn, clean, and limited or effectively single-voice. The 122 complex intents are synthetic supplements, not substitutes for the real distribution.")}</p>
+<div class="risk-grid">
+<article class="card risk high"><h3>{pair("声学与多人","Acoustics and speakers")}</h3><p>{pair("多音色/口音、20dB 及更强噪声、AEC 双讲、多人受话对象覆盖不足。","Insufficient voices/accents, 20dB and stronger noise, AEC double-talk, and addressee selection.")}</p></article>
+<article class="card risk high"><h3>{pair("自然交互","Natural interaction")}</h3><p>{pair("自然 VAD、句中停顿、附和、打断、连续多轮 KV 和改口不足。","Natural VAD, within-utterance pauses, backchannels, interruptions, continuous multi-turn KV, and corrections are under-covered.")}</p></article>
+<article class="card risk high"><h3>{pair("安全与真值","Safety and ground truth")}</h3><p>{pair("闲聊误车控、危险动作、参数正确与最终车态 100% 真值尚未形成完整合同。","No complete contract yet for chat-triggered controls, dangerous actions, parameter correctness, and 100% final vehicle-state truth.")}</p></article>
+<article class="card risk medium"><h3>{pair("部署分布","Deployment distribution")}</h3><p>{pair("缺少真实车载麦克风、扬声器、硬件抖动、网络波动、移动说话人与长时间会话回放。","Missing real in-car microphones/speakers, hardware jitter, network variation, moving speakers, and long-session replay.")}</p></article>
+<article class="card risk medium"><h3>{pair("统计有效性","Statistical validity")}</h3><p>{pair("未系统报告分桶置信区间、重复 seed、holdout 和最差条件。并行 GPU 只缩短墙钟时间，不增加样本独立性。","No systematic bucketed confidence intervals, repeated seeds, holdout, or worst-condition reporting. Parallel GPUs reduce wall time, not statistical validity.")}</p></article>
+</div>
+<details><summary>{pair("展开完整缺口清单","Expand the complete gap checklist")}</summary>
+<ul><li>{pair("多音色、方言和口音；clean、20dB、5dB 或更强噪声分桶。","Multiple voices, dialects, and accents; clean, 20dB, 5dB or stronger noise buckets.")}</li>
+<li>{pair("AEC 残留、系统播放期间双讲、主驾/副驾/后排受话对象。","AEC residue, double-talk during playback, and driver/passenger/rear-seat addressee.")}</li>
+<li>{pair("自然判停、停顿、附和、抢话、打断恢复与连续多轮 KV。","Natural endpointing, pauses, backchannels, overlap, interruption recovery, and continuous multi-turn KV.")}</li>
+<li>{pair("闲聊 no-op、危险动作拒绝、参数、动作顺序、幂等、执行回执和最终车态。","Chat no-op, dangerous-action refusal, parameters, action order, idempotency, execution receipt, and final vehicle state.")}</li>
+<li>{pair("真实车载硬件/网络回放、冻结 holdout、重复 seed 与置信区间。","Real in-car hardware/network replay, frozen holdout, repeated seeds, and confidence intervals.")}</li></ul></details></section>
+
+<section class="section"><h2>{pair("指标与流程风险矩阵","Metric and process risk matrix")}</h2>
+<div class="risk-grid">
+<article class="card risk high"><h3>e2e {pair("口径","scope")}</h3><p>{pair("当前 e2e 从 commit 到首音频，不含约 0.7s VAD 窗；不得与用户开始说话到首响混用。Relay 前缀可让首响过门，但后续 call 仍可能慢。","Current e2e runs from commit to first audio and excludes the roughly 0.7s VAD window. It is not user-speech-start to first response. A Relay prefix may pass first-response latency while the later call remains slow.")}</p></article>
+<article class="card risk high"><h3>{pair("正确性代理指标","Correctness proxies")}</h3><p>{pair("工具名命中不等于参数、执行顺序或最终车态成功；4/4 与 24/31 也都不能称为 99%。","A tool-name hit is not parameter, execution-order, or final-state success. Neither 4/4 nor 24/31 may be called 99%.")}</p></article>
+<article class="card risk medium"><h3>{pair("选择与归因","Selection and attribution")}</h3><p>{pair("日报到代码存在选择偏差；单变量要求与多组件组合的归因冲突，必须补消融和反事实对照。","Report-to-code selection can be biased. Single-variable requirements conflict with multi-component attribution, requiring ablations and counterfactual controls.")}</p></article>
+<article class="card risk high"><h3>{pair("错误桶过拟合","Error-bucket overfit")}</h3><p>{pair("规则针对 31 条错误桶可能只记住局部模式；必须在冻结 holdout 验证。工具描述增强 0/31 是已记录负结果，不能隐藏。","Rules for a 31-case bucket may memorize local patterns and require frozen-holdout validation. Tool-description enhancement at 0/31 is a recorded negative result and must remain visible.")}</p></article>
+<article class="card risk high"><h3>{pair("自动 Agent 边界","Automated-agent boundary")}</h3><p>{pair("Agent 可实现候选、登记证据和运行评测，但不得修改真值、删除难例、降低阈值或把无结果任务标成成功。","An agent may implement candidates, register evidence, and run evaluations, but may not edit truth, remove hard cases, lower thresholds, or mark a result-less task successful.")}</p></article>
+</div></section>
+
+<section class="section"><h2>{pair("当前证据成熟度（定性，不是百分比）","Current evidence maturity (qualitative, not percentages)")}</h2>
+<div class="card maturity">
+<div class="maturity-row"><span>{pair("A/B 架构与 100 条对照","A/B architecture and 100-case comparison")} · <b>{pair("较强","strong")}</b></span><span class="maturity-track"><span class="maturity-fill strong"></span></span></div>
+<div class="maturity-row"><span>{pair("B pure-audio 452 组合","B pure-audio 452 combination")} · <b>{pair("局部","scoped")}</b></span><span class="maturity-track"><span class="maturity-fill partial"></span></span></div>
+<div class="maturity-row"><span>Hybrid C · <b>{pair("早期","early")}</b></span><span class="maturity-track"><span class="maturity-fill low"></span></span></div>
+<div class="maturity-row"><span>{pair("参数 + 最终车态真值","Parameter + final-state truth")} · <b>{pair("早期","early")}</b></span><span class="maturity-track"><span class="maturity-fill low"></span></span></div>
+<div class="maturity-row"><span>{pair("真实车内分布","Real in-car distribution")} · <b>{pair("不足","insufficient")}</b></span><span class="maturity-track"><span class="maturity-fill low"></span></span></div>
+</div></section>
+
+<section class="section"><h2>{pair("分阶段补齐路线：何时能声称 99%","Phased closure plan: when 99% may be claimed")}</h2><div class="steps">
+<article class="step"><h3>{pair("冻结合同与 holdout","Freeze the contract and holdout")}</h3><p>{pair("冻结样本、初始车态、参数、最终态、危险动作/no-op 真值和阈值；开发错误桶与 holdout 隔离。","Freeze samples, initial state, parameters, final state, dangerous-action/no-op truth, and thresholds; isolate development buckets from holdout.")}</p></article>
+<article class="step"><h3>{pair("建立多条件分桶","Build multi-condition buckets")}</h3><p>{pair("至少按音色/口音、噪声、AEC 双讲、乘员、VAD/停顿/打断、多轮 KV、危险/闲聊与硬件网络分桶。","At minimum bucket by voice/accent, noise, AEC double-talk, passenger, VAD/pause/interruption, multi-turn KV, dangerous/chat, and hardware/network conditions.")}</p></article>
+<article class="step"><h3>{pair("全链路真值与重复试验","End-to-end truth and repeated trials")}</h3><p>{pair("每条检查工具、参数、顺序、回执和最终车态；多 seed 重复，报告每桶与总体置信区间，并加入真实车内回放。","Check tool, parameters, order, receipt, and final state for every case. Repeat across seeds, report bucketed and aggregate confidence intervals, and include real in-car replay.")}</p></article>
+<article class="step"><h3>{pair("允许 99% 声明的硬门","Hard gate for a 99% claim")}</h3><p>{pair("只有冻结 holdout 上“参数 + 最终车态”成功率的置信区间下界达到 99%，危险误控为 0，所有预注册关键桶过门，重复 seed 和真实车内回放不退化，才可按该明确范围声称 99%。","Only when the frozen-holdout confidence-interval lower bound for parameter + final-state success reaches 99%, dangerous mis-controls are zero, every preregistered critical bucket passes, and repeated seeds plus real in-car replay do not regress may 99% be claimed for that explicit scope.")}</p></article>
+</div></section>
+<div class="legend"><a class="btn" href="{BASE}/automation/candidates/">{pair("候选","Candidates")}</a><a class="btn" href="{BASE}/automation/h20/">{pair("评测","Evaluation")}</a><a class="btn" href="{BASE}/automation/selection/">{pair("选择","Selection")}</a><a class="btn" href="{BASE}/automation/case-hybrid-c/">{pair("Hybrid C 案例","Hybrid C case")}</a></div>"""
+    return shell("局限与证据审计", "Limitations and evidence audit",
+                 "limitations", body, snapshot)
+
+
 def hybrid_case(snapshot=None):
     snapshot = snapshot or empty_snapshot()
     body = hero("完整案例：Hybrid C", "Full case: Hybrid C",
-        "这个案例展示自动化为什么需要“范围、硬门和 partial”：大样本准确率没有过门，但若干组件在独立小范围证据下值得保留。",
-        "This case shows why scope, hard gates, and partial exist: large-scope accuracy missed the gate, while several components had independently scoped evidence worth retaining.",
+        "这个案例展示自动化为什么需要“范围、硬门和 partial”：B 有 452 条组合结果，Hybrid C 目前只有 4 条冒烟与 31 条错误桶局部证据，不能混成同一基线。",
+        "This case shows why scope, hard gates, and partial exist: B has a 452-case combination result, while Hybrid C currently has only four smoke cases and scoped evidence on a 31-case error bucket. They are not one baseline.",
         '<span class="badge fact">Measured</span><span class="badge pending">No extrapolation from 4 cases</span>')
     body += f"""<section class="section" id="radar"><h2>{pair("1. Radar 建议进入日报","1. Radar advice enters the report")}</h2>
 <p>{pair("RelayS2S 提醒安全控制可在生成前后加结构化约束；Voice Memory 提醒把跨轮状态做成显式记忆；Qwen-UI-Agent 提供 typed action / UI grounding 的参考。它们是技术证据，不是 Harness 已有效的结论。","RelayS2S suggested structured safety constraints around generation; Voice Memory suggested explicit cross-turn state; Qwen-UI-Agent informed typed action and UI grounding. These were external evidence, not proof of Harness gains.")}</p></section>
@@ -607,11 +780,11 @@ def hybrid_case(snapshot=None):
 <article class="event"><b>typed resolver</b> — {pair("把槽位和动作类型解析成可校验结构。","Parse slots and action types into a validated structure.")}</article>
 </div></section>
 <section class="section" id="evaluation"><h2>{pair("4. 真实结果，严格分范围","4. Measured results, strictly scoped")}</h2>
-<h3>{pair("452 条组合评测","452-case combination evaluation")}</h3><div class="metrics">
+<h3>{pair("B pure-audio 组合 · 452 条评测","B pure-audio combination · 452 cases")}</h3><div class="metrics">
 <div class="metric"><b>99.56%</b><small>{pair("组合完成率","combined completion")}</small></div>
 <div class="metric"><b>81.64%</b><small>{pair("工具执行率","tool execution")}</small></div>
 <div class="metric"><b>1241.6ms</b><small>e2e P95</small></div></div>
-<p class="callout bad">{pair("时延通过 1.6s 硬门；准确率门按要求未通过。99.56% 是“组合完成率”，不能替代工具执行准确性；81.64% 明显低于 99%。","Latency passes the 1.6s gate; the required accuracy gate does not. 99.56% is combined completion and cannot replace tool-execution accuracy; 81.64% is below 99%.")}</p>
+<p class="callout bad">{pair("这些数字属于 B pure-audio 组合，不属于 Hybrid C。B 的时延通过 1.6s 硬门；99.56% 是组合完成率，不能替代 81.64% 的工具执行准确性，因此准确率门未通过。","These numbers belong to the B pure-audio combination, not Hybrid C. B passes the 1.6s latency gate, but 99.56% combined completion cannot replace 81.64% tool-execution accuracy, so the accuracy gate fails.")}</p>
 <h3>{pair("4 条 Hybrid C 冒烟","Four-case Hybrid C smoke")}</h3><div class="metrics">
 <div class="metric"><b>4 / 4</b><small>{pair("仅该冒烟集","this smoke set only")}</small></div>
 <div class="metric"><b>≈1195ms</b><small>e2e</small></div>
@@ -623,12 +796,12 @@ def hybrid_case(snapshot=None):
 </div></section>
 <section class="section" id="decision"><h2>{pair("5. 决策树：为什么保留 partial","5. Decision tree: why retain partial")}</h2><div class="steps">
 <article class="step"><h3>{pair("证据有效吗？是","Valid evidence? Yes")}</h3><p>{pair("真实 ASR、独立 worker、范围和时延口径可追溯。","Real ASR, isolated workers, scope, and latency definitions are traceable.")}</p></article>
-<article class="step"><h3>{pair("整体过硬门吗？否","Overall gates pass? No")}</h3><p>{pair("e2e 1241.6ms 过门；工具执行 81.64% 未达到 99%，因此不能 qualified / pareto。","e2e 1241.6ms passes; tool execution 81.64% misses 99%, so it cannot be qualified or Pareto.")}</p></article>
+<article class="step"><h3>{pair("整体过硬门吗？尚未建立","Overall gates pass? Not established")}</h3><p>{pair("B 的 452 组合 e2e 1241.6ms 过门、工具执行 81.64% 未达 99%；Hybrid C 尚无同口径 452 全量，因此更不能 qualified / pareto。","B's 452-case combination passes e2e at 1241.6ms but misses 99% with 81.64% tool execution. Hybrid C lacks a like-for-like 452-case run and therefore cannot be qualified or Pareto.")}</p></article>
 <article class="step"><h3>{pair("有可拆、可复验的局部收益吗？有","Separable, repeatable partial gain? Yes")}</h3><p>{pair("31 错误桶修到 24/31，且组件边界清楚，因此登记 retained components；0/31 的描述增强不保留。","The 31-case bucket improved to 24/31 with clear component boundaries, so those components are retained. The 0/31 description enhancement is not.")}</p></article>
 </div></section>
 <section class="section" id="publish"><h2>{pair("6. 正确的发布措辞","6. Correct publishing language")}</h2>
-<p class="callout ok">{pair("“Hybrid C 在 452 条评测中 e2e P95 1241.6ms 过时延门，但工具执行率 81.64% 未过 99% 准确率门；若干组件因 31 错误桶达到 24/31 而局部留存。4/4 smoke 仅证明小范围链路。”","“On 452 cases, Hybrid C passed latency with e2e P95 1241.6ms but missed the 99% accuracy gate with 81.64% tool execution. Some components were retained after improving a 31-case bucket to 24/31. The 4/4 smoke proves only that small path.”")}</p>
-<div class="legend"><a class="btn" href="{BASE}/automation/research/">{pair("调研","Research")}</a><a class="btn" href="{BASE}/automation/reports/">{pair("日报","Reports")}</a><a class="btn" href="{BASE}/automation/candidates/">{pair("候选","Candidates")}</a><a class="btn" href="{BASE}/automation/h20/">{pair("评测","Evaluation")}</a><a class="btn" href="{BASE}/automation/selection/">{pair("选择","Selection")}</a><a class="btn" href="{BASE}/automation/publishing/">{pair("发布","Publishing")}</a></div></section>"""
+<p class="callout ok">{pair("“B pure-audio 组合在 452 条评测中 e2e P95 1241.6ms 过时延门，但工具执行率 81.64% 未过 99% 准确率门。Hybrid C 目前只有 4/4 smoke 与 31 错误桶 24/31 的局部证据，尚无同口径 452 全量。”","“On 452 cases, the B pure-audio combination passed latency with e2e P95 1241.6ms but missed the 99% accuracy gate with 81.64% tool execution. Hybrid C currently has only a 4/4 smoke and scoped 24/31 error-bucket evidence, with no like-for-like 452-case run.”")}</p>
+<div class="legend"><a class="btn" href="{BASE}/automation/research/">{pair("调研","Research")}</a><a class="btn" href="{BASE}/automation/reports/">{pair("日报","Reports")}</a><a class="btn" href="{BASE}/automation/candidates/">{pair("候选","Candidates")}</a><a class="btn" href="{BASE}/automation/h20/">{pair("评测","Evaluation")}</a><a class="btn" href="{BASE}/automation/selection/">{pair("选择","Selection")}</a><a class="btn" href="{BASE}/automation/publishing/">{pair("发布","Publishing")}</a><a class="btn" href="{BASE}/automation/limitations/">{pair("局限审计","Limitations audit")}</a></div></section>"""
     return shell("Hybrid C 完整案例", "Hybrid C full case", "case-hybrid-c", body, snapshot)
 
 
@@ -640,6 +813,7 @@ PAGES = {
     "h20": h20,
     "selection": selection,
     "publishing": publishing,
+    "limitations": limitations,
     "case-hybrid-c": hybrid_case,
 }
 

@@ -72,6 +72,13 @@ Cursor 负责筛选后的正文精读；不能把整条调研链标成“纯脚�
 缺失或损坏的数据文件会降级显示，不会阻断页面生成；所有动态文本都会 HTML 转义。
 事实状态日期和构建时间同样由每次构建生成，不在源码中固定。
 
+第七节点 `/automation/limitations/` 是双语证据审计页，明确 A/B/Hybrid C 的可比
+范围、论文到候选的来源链、评测/指标盲区和允许声明 99% 的条件。`selection/` 则按
+当前 evolution 评分与 registry 源码区分 `research_eligible` /
+`production_eligible`，展示可键盘展开的决策树、五类实验状态、Pareto/组件留存规则、
+真实 registry 链接和当前三组分范围判定。两页都把 partial、冒烟和错误桶证据与
+qualified/production 明确分开。
+
 修改后运行：
 
 ```bash
@@ -82,7 +89,7 @@ git diff --check
 ```
 
 自动化讲解页是普通 Pages 路由，不加入 RSS 条目。云端 Pages smoke 会验收总览、
-调研、日报、H20 和 Hybrid C 案例路由；Research 测试还会核对动态计数与
+调研、日报、选择、局限审计、H20 和 Hybrid C 案例路由；Research 测试还会核对动态计数与
 `review_history.json`、真实详情/日报文件、缺数据降级、HTML 转义和页面互链。
 
 ## 打分怎么调
