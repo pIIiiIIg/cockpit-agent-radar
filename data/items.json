@@ -1,6 +1,265 @@
 {
- "generated": "2026-08-05T20:46:30.459887+08:00",
+ "generated": "2026-08-06T11:57:12.553089+08:00",
  "items": [
+  {
+   "id": "efa2f9c432",
+   "kind": "repo",
+   "source": "github",
+   "title": "ayutaz/vokra",
+   "url": "https://github.com/ayutaz/vokra",
+   "published": "2026-08-06",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 10,
+   "tags": [
+    "speech-to-speech",
+    "text-to-speech",
+    "vad"
+   ],
+   "summary_en": "Speech-first inference runtime in Rust — TTS / ASR / speech-to-speech / VC / speaker ID / VAD. An ONNX Runtime alternative that loads GGUF & safetensors directly: zero external dependencies, C ABI for Unity & Godot, CPU / Metal / CUDA / Vulkan backends. Apache-2.0, pre-release. asr cuda gguf godot inference-engine machine-learning metal onnx-alternative rust speaker-recognition speech speech-recognition speech-to-text text-to-speech tts unity vad voice-activity-detection vulkan whisper",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 6
+  },
+  {
+   "id": "d9bf4979be",
+   "kind": "news",
+   "source": "hn",
+   "title": "Why Fireworks doesn't support Voice AI",
+   "url": "https://news.ycombinator.com/item?id=49186754",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 9,
+   "tags": [
+    "voice agent",
+    "kv cache"
+   ],
+   "summary_en": "I started thinking over why doesn&#x27;t fireworks support voice models. There are really good opensource models available now, like parakeet, kokoro, Qwen ASR etc but no way to use it without managing a bunch of GPUs yourself.<p>Even LLMs like Gemma 4 used by voice agents are not supported.<p>Then I figured that the inference platform needs to be optimized differently for the kind of usecase you are using. Lets take an example for LLMs, not even STT and TTS. - Coding agents -&gt; lot of cached input, needs to optimize for KV cache - Creation slides&#x2F;blogs -&gt; lots of output, needs to optimize for speculative decoding - Voice LLMs -&gt; Cached input small output, not yet figured out on how to optimize this.<p>So TTS and STT is a completely different ballgame.<p>What I don&#x27;t know is the timing, do people want to use open source models like kokoro, parakeet, Qwen etc RIGHT NOW?",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 4
+  },
+  {
+   "id": "4ba62e8636",
+   "kind": "model",
+   "source": "hf",
+   "title": "unsloth/Qwen2.5-Omni-3B-GGUF",
+   "url": "https://huggingface.co/unsloth/Qwen2.5-Omni-3B-GGUF",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers gguf qwen2_5_omni multimodal unsloth any-to-any en arxiv:2503.20215 base_model:Qwen/Qwen2.5-Omni-3B base_model:quantized:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 50
+  },
+  {
+   "id": "1fd6c7a2ec",
+   "kind": "model",
+   "source": "hf",
+   "title": "unsloth/Qwen2.5-Omni-7B-GGUF",
+   "url": "https://huggingface.co/unsloth/Qwen2.5-Omni-7B-GGUF",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers gguf qwen2_5_omni multimodal unsloth any-to-any en arxiv:2503.20215 base_model:Qwen/Qwen2.5-Omni-7B base_model:quantized:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 75
+  },
+  {
+   "id": "ce198870cc",
+   "kind": "repo",
+   "source": "github",
+   "title": "SHUKLAO/call-with-ai-agent",
+   "url": "https://github.com/SHUKLAO/call-with-ai-agent",
+   "published": "2026-08-06",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 7,
+   "tags": [
+    "real-time voice"
+   ],
+   "summary_en": "🗣️ Engage in real-time voice conversations with an AI agent using Next.js and ElevenLabs for an interactive and responsive user experience. ai-agent aiagent aiagents airtable-api automation chatbot chatops gemini-api incident-response jira kubernetes llm llm-agent n8n prometheus python slack sre",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "fb41881aa5",
+   "kind": "paper",
+   "source": "hf",
+   "title": "ToolArtist: Tool-Using Unified Multimodal Models for Agentic Image Generation",
+   "url": "https://huggingface.co/papers/2608.04436",
+   "published": "2026-08-04",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Text-to-image (T2I) models can produce visually compelling images, yet they remain limited on open-world tasks that require complex semantic understanding, multi-step reasoning, and the integration of external world knowledge. Existing efforts introduce agent capabilities into image generation, but they either prescribe a fixed workflow or place only a subset of the open-world image generation process under agent control. Consequently, reasoning, tool invocation, and image generation are not coordinated by a single policy. We propose ToolArtist, a fully agentic image generation model obtained by post-training a Unified Multimodal Model (UMM). ToolArtist dynamically orchestrates reasoning, external tool use, and native image generation within one unified policy. During Supervised Fine-Tuning (SFT), we equip a teacher agent with search tools alongside an image-generation tool. We then convert the collected trajectories into a UMM compatible format, where the image-generation tool is concealed while the resulting generated images are retained. During Reinforcement Learning (RL), we develop an agentic RL infrastructure for UMMs and introduce Reason-Act-Draw GRPO (RAD-GRPO), which uses complementary intent and quality rewards to jointly optimize the model. Experiments show that placing the entire open-world image-generation process under an agent policy consistently outperforms approaches with fixed pipelines or only partially agent-controlled components. We release the training data and the complete post-training infrastructure.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f70cccf2f1",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Towards Physics of Multimodal Pretraining: Knowledge Flow, Modality Synergy, Early Unification, and Recipes",
+   "url": "https://huggingface.co/papers/2608.05000",
+   "published": "2026-08-04",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Vision offers a critical axis for advancing foundation models, driving a shift towards natively unified multimodal pretraining. Despite this momentum, the design space and the fundamental mechanisms of how modalities interact during unified training remain underexplored. We provide empirical clarity through a systematic exploration of multimodal pretraining. Our controlled experiments on both synthetic and large-scale real-world datasets yield four key insights into the physics of multimodal pretraining: (i) Knowledge Flow: We disentangle how language, visual understanding, and visual generation transfer knowledge across modalities, revealing distinct patterns of influence and asymmetry; (ii) Synergy vs. Competition: We show that data \"complexity\" largely determines whether modalities are synergistic, identify architectural choices that promote synergy: such as shared attention and normalization with modality-specific feed-forward layers, and find that these behaviors generalize across different visual tokenizer designs; (iii) Early Unification: Unifying modalities from the very early stages and training them jointly is shown to be more effective than late alignment or sequential training. This process uncovers a vision laziness phenomenon, where delayed integration leads models to rely on language priors; (iv) Recipes: We derive efficient pretraining recipes that achieve strong generative performance using only 5% of the compute budget. These core findings are subsequently validated at scale by training multiple 13.5B MoE models on 2T tokens. We hope this study provides a principled foundation for understanding and scaling multimodal pretraining.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "74995ff0a2",
+   "kind": "model",
+   "source": "hf",
+   "title": "keylazy/Qwen2.5-Omni-3B-bab-cr-sft",
+   "url": "https://huggingface.co/keylazy/Qwen2.5-Omni-3B-bab-cr-sft",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "bb229bddc4",
+   "kind": "model",
+   "source": "hf",
+   "title": "keylazy/Qwen2.5-Omni-3B-bab-cr6-sft",
+   "url": "https://huggingface.co/keylazy/Qwen2.5-Omni-3B-bab-cr6-sft",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "46dcaefb5a",
+   "kind": "paper",
+   "source": "hf",
+   "title": "RestoreKV: Recovering Full-Cache Behavior Under Aggressive Query-Agnostic KV Cache Eviction",
+   "url": "https://huggingface.co/papers/2608.01247",
+   "published": "2026-08-01",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 6,
+   "tags": [
+    "kv cache"
+   ],
+   "summary_en": "Query-agnostic KV cache eviction compresses a context once and reuses the resulting cache for arbitrary future queries, but performance can collapse under tight budgets. Existing methods primarily improve which original KV pairs are retained. We introduce RestoreKV, which complements this selection-based formulation with learned restoration under the same total KV budget. Our key insight is that, although the information lost through eviction is context-specific, the mechanism for generating its compact complement can be shared across contexts. After context prefill, a few restore tokens attend to the full KV cache in a single LoRA-adapted pass, generating a compact, context-conditioned restore cache. The base importance scorer and eviction rule remain unchanged, and the adapters are disabled for all subsequent queries and decoding. RestoreKV is trained through parameter-efficient self-distillation from the frozen full-cache model, optimizing only 0.4% of the parameters and requiring no task-specific tuning. Across four backbones and four long-context benchmarks, RestoreKV substantially reduces compression-induced degradation. On Qwen3-4B, it improves 59 of 60 paired, budget-matched settings across five base eviction methods; at a 5% budget, it raises KVzip from 38.2 to 73.2 on RULER-4K. Applied to KVzip+, RestoreKV reaches 86.4 RULER accuracy at 16times compression on the KVPress Benchmark, while adding less than 0.5% one-time cache-construction overhead in a 32K-context evaluation. Our project page is available at https://paper.pnu-cvsp.com/RestoreKV/",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6c81e90b0b",
+   "kind": "paper",
+   "source": "hf",
+   "title": "OneDayAgent: Towards a Long-Horizon Harness for Autonomous Agents",
+   "url": "https://huggingface.co/papers/2608.05013",
+   "published": "2026-08-03",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "LLM agents are increasingly applied to open-ended everyday requests that span work, study, and life. These tasks are long-horizon, cross-environment, and multimodal, forcing the agent to preserve goals and constraints across many steps while navigating heterogeneous tools and attachments. While prior work has addressed individual failure modes such as goals drift, states loss, and context overflow, whether a single harness can manage them jointly and remain effective across backends has received less study. We present OneDayAgent, a long-horizon harness for autonomous agents. OneDayAgent turns an open-ended request into a managed execution process that decomposes tasks into bounded subtasks, maintains execution memory under context pressure, and verifies and repairs the final deliverable. We evaluate OneDayAgent on AgentIF-OneDay across 104 tasks. With the GLM-5.2 backend, OneDayAgent sets a new state of the art with an overall score of 0.821. The same harness runs across five backend LLMs from three model families, indicating the harness generalizes across backends without tuning, even as different models induce distinct execution styles under the same workflow.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8159bacb10",
+   "kind": "paper",
+   "source": "hf",
+   "title": "BridgeVLA++: A Data-Efficient, Generalizable, and Memory-Augmented Vision-Language-Action Framework for 3D Manipulation",
+   "url": "https://huggingface.co/papers/2608.05042",
+   "published": "2026-08-04",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 6,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Leveraging pre-trained vision-language models (VLMs) to construct vision-language-action (VLA) models has emerged as a promising paradigm for 3D robot manipulation. However, existing 3D VLA methods remain data-hungry, exhibit limited generalization under distribution shifts, and lack explicit memory of past observations. These limitations hinder their application to data-scarce, open-world, and memory-dependent manipulation scenarios. Our previous work, BridgeVLA, improves data efficiency and generalization by preserving the input--output alignment of a pre-trained VLM during 3D action learning: raw point clouds are projected into multi-view images, and intermediate heatmaps are predicted before generating robot actions. In this work, we develop BridgeVLA++ by equipping BridgeVLA with a unified spatio-temporal memory architecture that models persistent spatial context and temporal interaction history. The resulting memory-augmented framework can reason over observation histories while preserving BridgeVLA's data efficiency and generalization capabilities. Extensive experiments show that our framework achieves strong performance on spatial manipulation tasks while exhibiting robust generalization. BridgeVLA++ further achieves state-of-the-art performance on two challenging memory-dependent manipulation benchmarks without sacrificing the data efficiency and generalization of the original BridgeVLA. In addition, BridgeVLA++ performs effectively in bimanual manipulation settings and is validated on an additional real-world robotic platform, demonstrating its scalability across tasks, environments, and robotic platforms. These results establish BridgeVLA++ as a unified 3D vision-language-action framework that simultaneously supports data-efficient learning, robust generalization, and effective memory-aware robot manipulation. Project website: https://bridgevla-plus.github.io/.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "92bbf72d7e",
+   "kind": "paper",
+   "source": "hf",
+   "title": "SKILL-KD: Contrastive Skill Distillation for LLM Agents",
+   "url": "https://huggingface.co/papers/2607.28048",
+   "published": "2026-08-03",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Skill-based prompting has become a practical mechanism for improving large language model (LLM) agents, yet existing skill acquisition methods often treat skills as experience summaries, memory entries, or direct summaries of successful demonstrations. This creates a mismatch for weaker student agents: when a student fails because it lacks task knowledge or operational strategy, its failed trajectory may not contain enough evidence to infer the missing behavior, while the teacher trajectory may be too implicit to be internalized as reusable guidance. We propose SKILL-KD, a contrastive skill distillation framework that treats skills as an explicit distillation medium between agents of different capabilities. Given a student failure and the teacher trajectory on the same task, SKILL-KD distills their actionable discrepancy into a textual skill patch, evaluates the patch by re-running the student, and iteratively refines the patch when the student still fails. To prevent repeated local updates from causing skill drift, SKILL-KD further maintains trace-linked edit histories and performs Drift-Aware Skill Consolidation, deciding whether each patch should add a new rule, delete or modify an existing rule, or be skipped. Across five agent benchmarks and two student settings, SKILL-KD consistently improves frozen student agents over fixed-model adaptation baselines.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f1952daf97",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "CofactVLA: Deconfounding Vision-Language-Action Models via Counterfactual Intervention",
+   "url": "https://arxiv.org/abs/2608.04396v1",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) models have driven significant progress in robotic manipulation, yet they fundamentally struggle with the vision-override phenomenon. Driven by the severe modality imbalance between dense visual streams and sparse linguistic instructions, VLAs frequently fall prey to causal confusion. Instead of treating language as the primary causal driver, the policy entirely bypasses the original instruction by overfitting to spurious visual confounders, such as prominent objects or familiar layouts. To systematically alleviate this bias, we formalize the process of action generation as a Dual-path Deconfounding Graph (DDG) and propose CofactVLA, a novel causal intervention framework. By dynamically constructing a language-masked counterfactual branch within a single forward pass, CofactVLA isolates and neutralizes visual confounders through two synergistic mechanisms. First, Action-Level Orthogonal Projection Guidance (OPG) geometrically projects the factual velocity field away from the counterfactual visual bias during continuous flow matching, extracting the pure semantic intent. Second, Feature-Level Counterfactual Covariance Reduction (CCR) mathematically deconfounds latent representations by penalizing the positive eigenspace of the covariance difference, explicitly suppressing dominant visual shortcuts while preserving the causal language intent. Extensive experiments demonstrate that CofactVLA establishes a new state-of-the-art across diverse simulation benchmarks. Beyond simulation, real-world robot experiments demonstrate the causal efficacy of our method in bridging the generalization gap, yielding a 52.3\\% absolute success rate gain under out-of-distribution scenarios.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b5d1ce2005",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "GUARD: Grounding Uncertainty and Ablation-Based Risk Detection for Diffusion-Based VLAs",
+   "url": "https://arxiv.org/abs/2608.04510v1",
+   "published": "2026-08-05",
+   "found": "2026-08-06T11:57:12.553089+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal",
+    "vision-language-action"
+   ],
+   "summary_en": "Diffusion-based vision-language-action (VLA) policies can generate plausible actions even when their predictions are weakly grounded in the visual and language evidence defining the task. We introduce GUARD, a test-time failure detection method that measures this grounding without modifying the pretrained policy. GUARD estimates the influence of token-indexed entries in the final vision-language model key-value (KV) cache, constructs counterfactual caches by ablating salient KV entries, and compares their denoising responses with the original conditioning. Based on the comparison, we derive GUARD diagnostic stream including sensitivity, attention entropy, modality bias, and grounding efficiency, which are calibrated online and processed by a lightweight temporal classifier. We evaluate GUARD under task-held-out splits across five policy-benchmark settings, using Pi0, SmolVLA, and Alpamayo-1.5 on LIBERO, SimplerEnv, MetaWorld, and PhysicalAI-AV. GUARD achieves the best ROC-AUC on four of five unseen-task settings and ranks second on the remaining setting, improving the average unseen-task ROC-AUC by 5.73 percentage points over the strongest competing runtime monitor while remaining within 0.19 points of the best seen-task average. These results show that directly probing action-head dependence on multimodal evidence provides a transferable failure signal across policies, tasks, embodiments, and domains.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "1523ce3a78",
    "kind": "repo",
@@ -20,7 +279,7 @@
    "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
    "summary_zh": "",
    "demo": "",
-   "stars": 3
+   "stars": 14
   },
   {
    "id": "032a32327f",
@@ -600,7 +859,7 @@
    "summary_en": "",
    "summary_zh": "",
    "demo": "",
-   "stars": 17
+   "stars": 21
   },
   {
    "id": "e38e9dc914",
@@ -2775,7 +3034,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15052
+   "stars": 15061
   },
   {
    "id": "357904a773",
@@ -4289,7 +4548,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7682
+   "stars": 7686
   },
   {
    "id": "5b176e49fe",
@@ -4382,7 +4641,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5866
+   "stars": 5886
   },
   {
    "id": "293306d628",
@@ -4400,7 +4659,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 733
+   "stars": 737
   },
   {
    "id": "5d6e6e2b0a",
@@ -4436,7 +4695,7 @@
    "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
    "summary_zh": "",
    "demo": "",
-   "stars": 562
+   "stars": 563
   },
   {
    "id": "b8dde0aed2",
