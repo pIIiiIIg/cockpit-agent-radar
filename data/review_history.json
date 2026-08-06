@@ -4,6 +4,402 @@
   "description": "Only transitions to review_status=editorial and source_depth=fulltext; abstract_backfill and missing explanations are never reviews.",
   "entries": [
     {
+      "id": "f5e41f8681",
+      "title": "Language-Specialized Multi-Teacher On-Policy Distillation for Multilingual LLM-Based ASR",
+      "paper_url": "https://arxiv.org/abs/2608.03610v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f5e41f8681.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "f5e41f8681",
+      "mirror_of": null
+    },
+    {
+      "id": "ecf1da395a",
+      "title": "LiveTalk: Real-Time Multimodal Interactive Video Diffusion via Improved On-Policy Distillation",
+      "paper_url": "https://arxiv.org/abs/2512.23576v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ecf1da395a.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "ecf1da395a",
+      "mirror_of": null
+    },
+    {
+      "id": "eb1a7322ed",
+      "title": "ALIVE: An Avatar-Lecture Interactive Video Engine with Content-Aware Retrieval for Real-Time Interaction",
+      "paper_url": "https://arxiv.org/abs/2512.20858v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/eb1a7322ed.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "eb1a7322ed",
+      "mirror_of": null
+    },
+    {
+      "id": "e4ffb7ee50",
+      "title": "Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing",
+      "paper_url": "https://arxiv.org/abs/2607.08497v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/e4ffb7ee50.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "e4ffb7ee50",
+      "mirror_of": null
+    },
+    {
+      "id": "dcd7184d58",
+      "title": "Omni-Decision: A Progressive Evidence-State Agent System for Omni-Modal QA",
+      "paper_url": "https://arxiv.org/abs/2607.11433v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/dcd7184d58.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "dcd7184d58",
+      "mirror_of": null
+    },
+    {
+      "id": "ce52649c8d",
+      "title": "Extracting Voice Styles from Frozen TTS Models via Gradient-Based Inverse Optimization",
+      "paper_url": "https://arxiv.org/abs/2607.25351v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ce52649c8d.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "ce52649c8d",
+      "mirror_of": null
+    },
+    {
+      "id": "cb3426cfaa",
+      "title": "Zero-Shot Face-to-Speech Synthesis via Latent Space Adaptation of a Style-Diffusion TTS Model",
+      "paper_url": "https://arxiv.org/abs/2607.26742v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/cb3426cfaa.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "cb3426cfaa",
+      "mirror_of": null
+    },
+    {
+      "id": "b1d0c5c355",
+      "title": "Latent Softmax for Data-Efficient Phoneme-Based Multilingual ASR Across Tonal and Non-Tonal Languages",
+      "paper_url": "https://arxiv.org/abs/2608.01281v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/b1d0c5c355.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "b1d0c5c355",
+      "mirror_of": null
+    },
+    {
+      "id": "a5f2fbbd48",
+      "title": "OmniScope: Modality-Decoupled Token Compression for Omnimodal Large Language Models",
+      "paper_url": "https://huggingface.co/papers/2607.23193",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/a5f2fbbd48.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "a5f2fbbd48",
+      "mirror_of": null
+    },
+    {
+      "id": "a52bf62ed8",
+      "title": "Light-Omni: Reflex over Reasoning in Agentic Video Understanding with Long-Term Memory",
+      "paper_url": "https://arxiv.org/abs/2607.05511v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/a52bf62ed8.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "a52bf62ed8",
+      "mirror_of": null
+    },
+    {
+      "id": "7f68c11d12",
+      "title": "Towards Interactive Intelligence for Digital Humans",
+      "paper_url": "https://arxiv.org/abs/2512.13674v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/7f68c11d12.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "7f68c11d12",
+      "mirror_of": null
+    },
+    {
+      "id": "78d5d4c1b3",
+      "title": "An Intelligent-Cloud Edge Multimodal Interaction System for Robots",
+      "paper_url": "https://arxiv.org/abs/2607.14675v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/78d5d4c1b3.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "78d5d4c1b3",
+      "mirror_of": null
+    },
+    {
+      "id": "72e8154caf",
+      "title": "Compute Globally, Materialize Locally: The Memory Contract of Sparse Event-KV",
+      "paper_url": "https://huggingface.co/papers/2607.23693",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/72e8154caf.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "72e8154caf",
+      "mirror_of": null
+    },
+    {
+      "id": "6c81e90b0b",
+      "title": "OneDayAgent: Towards a Long-Horizon Harness for Autonomous Agents",
+      "paper_url": "https://huggingface.co/papers/2608.05013",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/6c81e90b0b.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "6c81e90b0b",
+      "mirror_of": null
+    },
+    {
+      "id": "57a1dc2b93",
+      "title": "From Senses to Decisions: The Information Flow of Auditory and Visual Perception in Multimodal LLMs",
+      "paper_url": "https://arxiv.org/abs/2606.10147v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/57a1dc2b93.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "57a1dc2b93",
+      "mirror_of": null
+    },
+    {
+      "id": "46dcaefb5a",
+      "title": "RestoreKV: Recovering Full-Cache Behavior Under Aggressive Query-Agnostic KV Cache Eviction",
+      "paper_url": "https://huggingface.co/papers/2608.01247",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/46dcaefb5a.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "46dcaefb5a",
+      "mirror_of": null
+    },
+    {
+      "id": "443a8dd137",
+      "title": "SymbOmni: Evolving Agentic Omni Models via Symbolic Concept Learning",
+      "paper_url": "https://arxiv.org/abs/2607.12042v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/443a8dd137.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "443a8dd137",
+      "mirror_of": null
+    },
+    {
+      "id": "271ff71800",
+      "title": "Omni-Embed-Audio: Leveraging Multimodal LLMs for Robust Audio-Text Retrieval",
+      "paper_url": "https://arxiv.org/abs/2604.18360v3",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/271ff71800.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "271ff71800",
+      "mirror_of": null
+    },
+    {
+      "id": "1d2ed2131c",
+      "title": "Beyond One-Size-Fits-All: Personalized and Culturally Adaptive Emotional TTS via Interactive Optimization of Individual Emotion Perception Spaces",
+      "paper_url": "https://arxiv.org/abs/2608.00998v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/1d2ed2131c.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "1d2ed2131c",
+      "mirror_of": null
+    },
+    {
+      "id": "17ddac9bbe",
+      "title": "Avatar Forcing: Real-Time Interactive Head Avatar Generation for Natural Conversation",
+      "paper_url": "https://arxiv.org/abs/2601.00664v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/17ddac9bbe.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "17ddac9bbe",
+      "mirror_of": null
+    },
+    {
+      "id": "04f31b07b7",
+      "title": "Zero-Mem: Zero-Token Memory Operations for LLM Agents",
+      "paper_url": "https://huggingface.co/papers/2607.29377",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/04f31b07b7.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "04f31b07b7",
+      "mirror_of": null
+    },
+    {
+      "id": "04145c81fb",
+      "title": "AVSCap: Orchestrating Audio-Visual Synergy for Omni-modal Video Captioning",
+      "paper_url": "https://arxiv.org/abs/2607.12820v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/04145c81fb.html",
+      "reviewed_at": "2026-08-07T00:13:11.195314+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T161311Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "04145c81fb",
+      "mirror_of": null
+    },
+    {
       "id": "f7a9bac2ca",
       "title": "Router-Suggest: Dynamic Routing for Multimodal Auto-Completion in Visually-Grounded Dialogs",
       "paper_url": "https://arxiv.org/abs/2601.05851v1",

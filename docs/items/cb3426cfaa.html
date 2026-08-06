@@ -142,30 +142,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-29 · ◈ 10
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we propose a Face-to-Speech (F2S) framework that predicts a plausible voice from a static facial image. A lightweight Face Adapter, together with soft-tuning of the face encoder&#x27;s upper blocks, aligns face-recognition features with the style space of a frozen StyleTTS 2 model, kept frozen during training. We evaluate on held-out identities from LRS3, a large-scale audiovisual corpus of English TED-talk videos. The synthesized speech is highly natural (UTMOS 3.7-4.0, matching or exceeding the 3.61 of ground truth), face-to-voice retrieval is consistently above chance, and the generated voice is consistent with the target speaker. Without any retraining, an English-trained adapter also produces fluent Spanish speech, indicating that the face-to-style mapping is largely language-agnostic. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Freeze-Align 把单张人脸映射到冻结 StyleTTS 2 的风格空间，再分别混合人脸音色与 diffusion 韵律，生成“与脸相符”的候选声音。人脸贡献有限且有隐私、刻板化和冒充风险；它只可能作为 StreamingModelHarness 外挂 TTS 的会话级条件，不涉及流式或打断。</span>
     <span class="l-en">Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we propose a Face-to-Speech (F2S) framework that predicts a plausible voice from a static facial image. A lightweight Face Adapter, together with soft-tuning of the face encoder&#x27;s upper blocks, aligns face-recognition features with the style space of a frozen StyleTTS 2 model, kept frozen during training. We evaluate on held-out identities from LRS3, a large-scale audiovisual corpus of English TED-talk videos. The synthesized speech is highly natural (UTMOS 3.7-4.0, matching or exceeding the 3.61 of ground truth), face-to-voice retrieval is consistently above chance, and the generated voice is consistent with the target speaker. Without any retraining, an English-trained adapter also produces fluent Spanish speech, indicating that the face-to-style mapping is largely language-agnostic.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we pro</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Freeze-Align 冻结 StyleTTS 2 教师，把单张人脸表示映射到其 128 维 style space，并在推理时分别混合人脸音色和 diffusion 韵律；输出是“与脸相符的合理声音”，不保证真实本人身份。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>零样本 TTS 通常仍需参考音频；脸与声音只有弱且非确定性关联，直接回归容易塌缩为通用或性别平均声音，静态脸也不携带时间韵律。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we propose a Face-to-Speech (F2S) framework that predicts a plausible voice from a static facial image. A lightweight Face Adapter, together with soft-tuning of the face encoder&#x27;s upper blocks, aligns face-recognition features with the style space of a frozen StyleTTS 2 model, kept frozen during training. We evaluate on held-out identities from LRS3, a large-scale audiovisual corpus of English TED-talk videos. The synthesized speech is highly natural (UTMOS 3.7-4.0, matching or exceeding the 3.61 of ground truth), face-to-voice retrieval is consistently above chance, and the generated voice is consistent with the target speaker. Without any retraining, an English-trained adapter also produces fluent Spanish speech, indicating that the face-to-style mapping is largely language-agnostic.</p>
-
-
+  <p>FaceNet 输出 512 维表示，经 512→1024→1024→128 的 Face Adapter 投影到 StyleTTS 2 风格空间，并软调人脸编码器上层；声学教师和 style encoder 保持冻结。损失组合多正例 InfoNCE、保持音频空间成对距离的 RKD、方差匹配以及性别/年龄辅助头。推理把 style 拆为 timbre 与 prosody，由 alpha 混合人脸音色和 diffusion prior、beta 控制韵律来源。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>从静态人脸提取 512 维表示。</li><li>Face Adapter 投影到冻结 TTS 的 128 维风格空间。</li><li>训练时用真实音频 style 向量和组合损失对齐。</li><li>推理时分别混合人脸音色与 diffusion 韵律。</li><li>StyleTTS 2 根据文本和最终 style 生成语音。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>24 个未见身份上，机会 Top-1/Top-5 为 4.17%/20.8%，English Balanced 达 9.3%/35.1%，Spanish zero-shot 达 12.7%/44.0%。</li><li>软调人脸编码器上层将 embedding SECS 从 0.29 提至 0.42；Top-1 差异不显著，p=0.25。</li><li>English +variance 在 alpha=0.5 时 SECS_audio/UTMOS/NISQA 为 0.61/3.98/4.22；这些是自动代理指标而非人工 MOS。</li><li>Spanish Balanced 的 SECS_audio/UTMOS/NISQA 为 0.57/2.73/3.66，低于 English Balanced 的 0.62/3.72/3.94。</li><li>alpha 从 0.1 增至 0.9 时 UTMOS 从 1.82 升至 4.10，而 SECS_audio 在 0.3 达 0.64 后降至 0.56，显示身份相似度与自然度存在权衡。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：人脸 style 可在会话开始时预计算，endpoint 后作为 StreamingModelHarness 外挂 TTS 的条件；前提是 TTS 暴露兼容风格向量。</li><li>编辑判断：论文不涉及流式输入、增量波形、首音频、实时率或 barge-in；Harness 的端点后生成和晚注入工具不会因此成为原生全双工。</li><li>编辑判断：人脸对身份的净贡献很弱，并带来生物特征隐私、刻板化和冒充风险，不应自动据脸选声。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>只测试 24 个未见身份，且没有大规模人工 MOS 或 A/B 听测。</li><li>缺少 mismatched-face 对照，alpha 扫描也显示人脸只贡献有限身份信号。</li><li>与既有 Face-TTS 的 SECS 协议不一致，数值不能直接横比。</li><li>Spanish 语料为私有，自动 MOS 预测器又偏英语。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 论文专属 Face Adapter、软调人脸编码器、Spanish checkpoint、代码和样例截至 2026-08-06 均未发布；LRS3 过滤清单未发布，Spanish 语料为私有。上游 StyleTTS 2 代码为 MIT，但不覆盖本文适配器、权重或数据。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-01 14:47</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-06 23:35</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.26742v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

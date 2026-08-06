@@ -669,7 +669,7 @@
     "kv cache"
    ],
    "summary_en": "Query-agnostic KV cache eviction compresses a context once and reuses the resulting cache for arbitrary future queries, but performance can collapse under tight budgets. Existing methods primarily improve which original KV pairs are retained. We introduce RestoreKV, which complements this selection-based formulation with learned restoration under the same total KV budget. Our key insight is that, although the information lost through eviction is context-specific, the mechanism for generating its compact complement can be shared across contexts. After context prefill, a few restore tokens attend to the full KV cache in a single LoRA-adapted pass, generating a compact, context-conditioned restore cache. The base importance scorer and eviction rule remain unchanged, and the adapters are disabled for all subsequent queries and decoding. RestoreKV is trained through parameter-efficient self-distillation from the frozen full-cache model, optimizing only 0.4% of the parameters and requiring no task-specific tuning. Across four backbones and four long-context benchmarks, RestoreKV substantially reduces compression-induced degradation. On Qwen3-4B, it improves 59 of 60 paired, budget-matched settings across five base eviction methods; at a 5% budget, it raises KVzip from 38.2 to 73.2 on RULER-4K. Applied to KVzip+, RestoreKV reaches 86.4 RULER accuracy at 16times compression on the KVPress Benchmark, while adding less than 0.5% one-time cache-construction overhead in a 32K-context evaluation. Our project page is available at https://paper.pnu-cvsp.com/RestoreKV/",
-   "summary_zh": "",
+   "summary_zh": "RestoreKV 在固定总预算内，以一次 LoRA 适配的八 token 前向从完整缓存生成恢复 KV，再与保留的原 KV 合并；Qwen3-4B 的 5% KVzip RULER-4K 由 38.2 升至 73.2。它适合实验性修复 Harness B 路径端点后的激进压缩损失，但需训练 Qwen3-Omni adapter，且不解决 context attraction 或 MoE 同步。",
    "demo": "",
    "stars": null
   },
@@ -686,7 +686,7 @@
     "multimodal"
    ],
    "summary_en": "LLM agents are increasingly applied to open-ended everyday requests that span work, study, and life. These tasks are long-horizon, cross-environment, and multimodal, forcing the agent to preserve goals and constraints across many steps while navigating heterogeneous tools and attachments. While prior work has addressed individual failure modes such as goals drift, states loss, and context overflow, whether a single harness can manage them jointly and remain effective across backends has received less study. We present OneDayAgent, a long-horizon harness for autonomous agents. OneDayAgent turns an open-ended request into a managed execution process that decomposes tasks into bounded subtasks, maintains execution memory under context pressure, and verifies and repairs the final deliverable. We evaluate OneDayAgent on AgentIF-OneDay across 104 tasks. With the GLM-5.2 backend, OneDayAgent sets a new state of the art with an overall score of 0.821. The same harness runs across five backend LLMs from three model families, indicating the harness generalizes across backends without tuning, even as different models induce distinct execution styles under the same workflow.",
-   "summary_zh": "",
+   "summary_zh": "OneDayAgent 用有限子任务、压缩执行记忆、全局验证和定点修复管理小时级跨工具任务，104 项上由 DIRECT 0.771 提升到 0.821，但平均耗时由 27.6 增至 53.6 分钟。对 Harness 最实用的是先在 endpoint 后加入 artifact-level verification；当前官方仓库尚无源码，且宿主机 shell 与压缩记忆存在安全风险。",
    "demo": "",
    "stars": null
   },
@@ -807,7 +807,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Modern LLM-based ASR systems have established multilingual capability as a standard feature, leveraging large-scale multilingual corpora and LLMs' cross-lingual knowledge to achieve competitive performance across multilingual benchmarks. However, joint modeling of languages with heterogeneous acoustic, phonological, and lexical characteristics inevitably introduces optimization conflicts, undermining language-wise specialization. To address this challenge, we propose Language-Specialized Multi-Teacher On-Policy Distillation (LS-MOPD), which decouples language-specific knowledge acquisition from multilingual capability integration: language-specialized teachers are independently optimized via reinforcement learning (RL), after which their expertise is integrated into a generalist multilingual student through language routing and token-level multi-teacher distillation, thereby reducing direct cross-lingual optimization conflicts. We further explore two acoustic-prefix configurations, static and dynamic, to examine how teacher--student prefix consistency influences the efficacy of on-policy distillation. Experiments on benchmarks covering Mandarin, Mandarin subdialects, Cantonese, and English demonstrate that LS-MOPD substantially outperforms RL baselines and consistently surpasses the empirical performance envelope defined by best-performing RL teachers, revealing its potential to generalize beyond all teachers in multilingual ASR.",
-   "summary_zh": "",
+   "summary_zh": "LS-MOPD 分别训练普通话、中文方言和英语 RL 教师，再按语言对学生自己的轨迹做多教师 reverse-KL 蒸馏；共享冻结声学前缀的 streaming 平均错误率由基座 5.74% 降至 5.18%。它与 Harness B 路径形态相关，但依赖未公开的 2.3B 基座、56 万小时预训练和多教师训练，不能即插即用或与现有 micro CER 直接比较。",
    "demo": "",
    "stars": null
   },
@@ -1211,7 +1211,7 @@
     "speech recognition"
    ],
    "summary_en": "Phoneme-based multilingual automatic speech recognition (ASR) can share acoustic evidence across languages more directly than language-specific subword modeling. When tonal and non-tonal languages are jointly trained, however, their supervision granularity does not match: tonal languages annotate tone-marked vowels, whereas non-tonal languages typically provide only base-vowel labels. A standard softmax either treats the two as unrelated classes, weakening cross-lingual sharing, or collapses tones, losing distinctions required by tonal languages. We propose Latent Softmax, a connectionist temporal classification (CTC)-compatible output layer that models tone-marked vowels as subclasses and base vowels as major classes, while consonants and the CTC blank remain singleton labels. When only a base-vowel major-class label is observed, the tone-marked vowel subclass is treated as latent and marginalized out. Multilingual experiments on AISHELL-1 Mandarin and LibriSpeech English show that Latent Softmax reduces speech-to-phoneme (S2P) phoneme error rates over a standard softmax multilingual baseline by 8.4% on AISHELL-1, 17.5% on LibriSpeech test-clean, and 12.6% on test-other. The improved speech-to-phoneme encoders also yield consistent word error rate gains for both large-language-model phoneme-to-grapheme conversion and projector-based interfaces. After code-switching adaptation, Latent Softmax further reduces projector-based mixed error rate by 2.6% on ASRU2019 and 9.5% on CS-Dialogue datasets.",
-   "summary_zh": "",
+   "summary_zh": "Latent Softmax 把带调元音建成细粒度子类，并在无调语料上边缘化未知声调，从而让中英 CTC 音素识别共享声学证据而不抹平普通话声调。它可能改善 StreamingModelHarness 端点前的中英 ASR，但正文没有流式延迟实验，也不改变端点后生成、晚注入工具和外挂 TTS 的半双工架构。",
    "demo": "",
    "stars": null
   },
@@ -1495,7 +1495,7 @@
     "kv cache"
    ],
    "summary_en": "Long-horizon agents increasingly reuse their KV cache as memory: a serving system keeps a subset of cached entries and drops the rest. Eviction and episodic-memory schemes therefore rest on a premise rarely tested directly, that a retained event is still informative once the observations that produced it are gone. We test it by omitting one earlier observation from what is served, across otherwise identical agent histories. Among items sensitive to that observation, the answer overwhelmingly follows the omitted value, though no served span says which value is correct. We call this semantic materialization: a downstream event's cached rows act as an independently servable view of computation whose inputs are gone. It can also be written on purpose. A deliberately phrased, answer-free event raises donor-aligned recovery from 6% to 51% on Qwen3-8B without ever naming the value, whereas passively harvesting natural mentions from long-term dialog yields no detected advantage. What such a row carries is specific and bounded. Compact state survives, larger payloads decay toward chance, and whether a construction writes at all turns on phrasing rather than on meaning alone, so two phrasings the model comprehends equally well can diverge sharply. The result is a memory contract for sparse event-KV serving: what to write, where it lands, and what survives once the source is gone. For anyone who evicts the corollary is that dropping a source event and observing no accuracy loss does not show the source was unnecessary.",
-   "summary_zh": "",
+   "summary_zh": "Sparse Event-KV 用 donor-pair 证明下游 KV 能继续携带已删除源事件的紧凑语义状态，但写入依赖措辞、模型和位置，载荷扩大后迅速失效。对 Harness 最重要的是：删掉音频源 KV 不等于清除其影响，应固定已服务 KV/工具/query、只翻转被删音频状态来诊断 context attraction。",
    "demo": "",
    "stars": null
   },
@@ -1510,7 +1510,7 @@
    "score": 5,
    "tags": [],
    "summary_en": "LLM agents need memory to act consistently over long interactions, yet many systems use additional LLM calls to operate that memory. Generating intermediate records and mediating their retrieval adds recurring token and time costs, while omitted or merged details can obscure the original evidence. We ask whether structured memory access requires generation at all. Zero-Mem introduces zero-token memory operations: no step outside final question answering invokes an LLM or consumes LLM input or output tokens; encoder computation is accounted for separately. Zero-Mem preserves original interaction traces as its source of record. It organizes the traces in two complementary ways. An entity--context graph exposes connections across interactions, while a temporal hierarchy preserves conversational locality and session state. For each query, Zero-Mem weighs the two views, retrieves from both, and follows their structure to recover supporting relations or surrounding context. Deterministic calibration first discards conflicting evidence and then keeps the reader's answer grounded in the retrieved traces. Only the final-QA reader invokes an LLM. Across long-memory and long-context question-answering benchmarks, Zero-Mem achieves competitive performance while eliminating LLM calls and LLM-token consumption from memory operations. With the same final-QA reader and context budget, it reduces memory-operation time cost by 57.6\\% relative to the fastest compared baseline. Ablations support the contribution of the two views and their query-dependent coordination. Overall, the results show that structured agent memory need not generate an intermediate representation of the past. After peer review, the code and implementation details will be available at blue{https://github.com/TheMoon0815/Zero-mem}.",
-   "summary_zh": "",
+   "summary_zh": "Zero-Mem 保留原始 trace，以实体图、时间层级、双路检索和规则校准完成最终 QA 之外的零 LLM-token 记忆操作，相对生成式 baseline 将该部分耗时降低 57.6%。它适合作为 Harness 的跨会话外部文本记忆，不修复流内音频 KV 或 MoE 解码；官方仓库目前只有发布占位 README。",
    "demo": "",
    "stars": null
   },
@@ -1748,7 +1748,7 @@
     "text-to-speech"
    ],
    "summary_en": "The rise of conversational AI has increased interest in emotional Text-to-Speech (TTS). Most systems rely on discrete emotion labels, which fail to capture the nuanced nature of human affect. Recent models employ dimensional representations such as Russell's arousal-valence (A-V) model, offering finer control. However, emotional perception varies across individuals and cultures, which may cause mismatches between modeled and perceived emotions. We propose a personalized and culturally adaptive emotional TTS framework that performs interactive optimization of individualized A-V perception spaces using an Interactive Genetic Algorithm. By adapting emotion representations to each listener, the system produces speech with more perceptually aligned emotional expression than models using averaged A-V values. Evaluations with Japanese, Chinese, and Indonesian participants highlight the importance of personalization and cultural adaptation for moving beyond one-size-fits-all emotional TTS.",
-   "summary_zh": "",
+   "summary_zh": "该框架冻结情感 TTS，通过用户多轮试听选择在 arousal–valence 空间搜索个人情感坐标，也可形成显式文化组预设。它适合作为 StreamingModelHarness 外挂 TTS 的离线校准层，不是实时流式或全双工方案，且 30 人、单一英语女声的证据不足以支持自动文化画像。",
    "demo": "",
    "stars": null
   },
@@ -3195,7 +3195,7 @@
     "text-to-speech"
    ],
    "summary_en": "Some text-to-speech systems ship a synthesis model and preset style vectors but not the reference encoder that turns audio into such a vector. The model still accepts a style vector; a user with a voice of their own cannot produce one. We solve for that input directly, inverting the released pipeline by gradient descent: every weight stays frozen and only the style vector is optimized, against time-pooled WavLM statistics of one recording. Because the objective discards the time axis, the synthesized text may differ from the recording, so no transcript and no alignment are needed. On 154 speakers from two corpora, ECAPA-TDNN similarity rises from 0.132 to 0.413 and ResNet from 0.099 to 0.401, improving for every speaker; a verifier at its equal-error point accepts 53% of the recovered voices as the target, against 1% for the presets they start from.",
-   "summary_zh": "",
+   "summary_zh": "冻结 SupertonicTTS 与 WavLM、只优化 timbre style，即可从一段无转录录音恢复可用声音 JSON；154 人上 ECAPA 相似度由 0.132 升至 0.413，但 WER 上升且代码缺正式许可证。它适合离线声音注册，不改善 StreamingModelHarness 的流式 TTFA，并需按高风险声音克隆能力治理。",
    "demo": "",
    "stars": null
   },
@@ -3704,7 +3704,7 @@
     "multimodal"
    ],
    "summary_en": "Robust human-robot interaction in complex environments requires accurate gesture perception, semantic scene understanding, and reliable task planning under limited onboard computing resources. This paper presents a cloud-edge multimodal interaction framework that integrates an enhanced YOLO-based gesture detector with coordinated large language model (LLM) and vision-language model (VLM) agents. The proposed detector, incorporates the Convolutional Block Attention Module (CBAM) into the neck and replaces the baseline bounding-box regression objective with Distance-IoU (DIoU) loss. These modifications improve feature discrimination and localization for small or partially occluded gestures in complex backgrounds. The cloud layer performs gesture detection, scene understanding, multimodal fusion, and action planning, whereas the TonyPi robot locally handles data acquisition, communication, action execution, and feedback. Experiments on a public gesture dataset and a custom dataset show that YOLO-DC achieves precision values of 98.9% and 95.0%, with mAP@0.5 values of 90.7% and 92.7%, respectively. System-level evaluation yields success rates of 95%, 88%, and 82% for single-action, composite-action, and vision-dependent tasks. A 30 participant evaluation yields an overall mean satisfaction score of 3.69 out of 5. These results demonstrate the feasibility of combining refined gesture detection with multimodal agents for resource-constrained robotic interaction.",
-   "summary_zh": "",
+   "summary_zh": "TonyPi 在边缘端采集语音/图像和执行动作，云端以 YOLO-DC、VLM、LLM、规则引擎与 FSM 规划，再用统一 JSON 返回动作。其安全编排链可约束 Harness 的晚注入工具，但流程等待完整命令后 STT 和上云，不是增量或全双工语音方案。",
    "demo": "",
    "stars": null
   },
@@ -3900,7 +3900,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal Large Language Models (MLLMs) can listen and see, but how do audio and visual signals actually travel through the network to shape an answer? Despite their growing role in research and real-world applications, the internal pathways through which audio and visual tokens influence the final prediction remain poorly understood. In this study, we examine audio-visual information flow inside Audio-Visual Large Language Models (AVLLMs), tracing how AVLLMs route, utilize, and integrate audio and visual information across two input configurations, audio-visual video and multiple interleaved audio-visual items. We find that for audio-visual video, AVLLMs follow the sequential information flow pathway established for VLMs and VideoLLMs, with audio and visual contribution flowing along this pathway in proportion to the task's reliance on each modality. In settings with multiple interleaved audio-visual items, this routing shifts to different parallel streams. Furthermore, we demonstrate that audio-visual and other token types can be discarded once their information is transferred to LLM, with minimal impact on the model's prediction or even slight improvement, generalizing across multiple tasks and datasets, enabling more efficient inference. These findings hold across multiple models and scales, Qwen2.5-Omni and Video-SALMONN2 Plus at 3B and 7B scales, leading to hypotheses on why these flow structures emerge. Together, these results deliver the first coherent picture of how AVLLMs orchestrate sound and sight inside the network and lay the groundwork for the next wave of interpretability, design, and efficiency advances in audio-visual and broader MLLMs.",
-   "summary_zh": "",
+   "summary_zh": "论文用 attention knockout 追踪音频、视觉信息如何经问题 token 到达答案，并在信息转移完成后删除原始 token 以缩短 prefill。该优化需要控制模型层和 KV cache，封闭 API 难以采用；选择题结果也不能证明 StreamingModelHarness 获得边听边说能力。",
    "demo": "",
    "stars": null
   },
@@ -3918,7 +3918,7 @@
     "multimodal"
    ],
    "summary_en": "Visual generation is increasingly ubiquitous in diverse domains, from text-to-image/video synthesis to multimodal interactive creation. Yet prevailing monolithic models remain fundamentally constrained by their inability to learn cumulatively and evolve autonomously, which is a limitation we term the \"perpetual novice\" problem. They lack mechanisms for structuring experience into reusable knowledge and therefore rely on brittle, \"from-scratch\" reasoning for each task, resulting in poor compositional generalization and inefficient knowledge retention. Motivated by these limitations, we propose SymbOmni, an agentic omni-model designed for cumulative evolution through Symbolic Concept Learning. At its core is the Symbolic Concept Box, an optimizable memory module that abstracts low-level operations into reusable Symbolic Workflow Instructions. SymbOmni operates through an induction-transduction cycle: experiences are abstracted into symbolic concepts (induction), which are then adaptively composed to solve novel tasks (transduction). The training is done by verbalized backpropagation with language-based feedback to enable continuous self-improvement without gradient-based model fine-tuning. Comprehensive experiments validate that (I) SymbOmni significantly outperforms existing agent-based systems for iterative creation and also surpasses closed-source models (e.g., Nano Banana, GPT-Image-1) in both image quality and task success rates; (II) SymbOmni effectively reduces token consumption by over 40% while maintaining competitive generation quality; and (III) SymbOmni enables effective continual learning by achieving cumulative gains across multiple online-learning benchmarks and setting a new state of the art.",
-   "summary_zh": "",
+   "summary_zh": "SymbOmni 把 ComfyUI 成功与失败轨迹抽象成可检索、组合和修正的符号工作流指令，减少视觉任务反复从零规划。它可为 StreamingModelHarness 缓存 endpoint 后的工具计划，但不处理流式感知、生成中途工具注入或语音全双工。",
    "demo": "",
    "stars": null
   },
@@ -4043,7 +4043,7 @@
     "multimodal"
    ],
    "summary_en": "We introduce Interactive Intelligence, a novel paradigm of digital human that is capable of personality-aligned expression, adaptive interaction, and self-evolution. To realize this, we present Mio (Multimodal Interactive Omni-Avatar), an end-to-end framework composed of five specialized modules: Thinker, Talker, Face Animator, Body Animator, and Renderer. This unified architecture integrates cognitive reasoning with real-time multimodal embodiment to enable fluid, consistent interaction. Furthermore, we establish a new benchmark to rigorously evaluate the capabilities of interactive intelligence. Extensive experiments demonstrate that our framework achieves superior performance compared to state-of-the-art methods across all evaluated dimensions. Together, these contributions move digital humans beyond superficial imitation toward intelligent interaction.",
-   "summary_zh": "",
+   "summary_zh": "Mio 以 Thinker、语音 Talker、说话/倾听表情、流式身体动作和多视角渲染五模块构成数字人。论文主要给出分模块结果，没有端到端首音、首帧或打断实验；StreamingModelHarness 若保留 endpoint 后生成和外挂 TTS，只能借鉴记忆与动作层，不能复现完整交互时序。",
    "demo": "",
    "stars": null
   },
@@ -4061,7 +4061,7 @@
     "multimodal"
    ],
    "summary_en": "Traditional lecture videos offer flexibility but lack mechanisms for real-time clarification, forcing learners to search externally when confusion arises. Recent advances in large language models and neural avatars provide new opportunities for interactive learning, yet existing systems typically lack lecture awareness, rely on cloud-based services, or fail to integrate retrieval and avatar-delivered explanations in a unified, privacy-preserving pipeline. We present ALIVE, an Avatar-Lecture Interactive Video Engine that transforms passive lecture viewing into a dynamic, real-time learning experience. ALIVE operates fully on local hardware and integrates (1) Avatar-delivered lecture generated through ASR transcription, LLM refinement, and neural talking-head synthesis; (2) A content-aware retrieval mechanism that combines semantic similarity with timestamp alignment to surface contextually relevant lecture segments; and (3) Real-time multimodal interaction, enabling students to pause the lecture, ask questions through text or voice, and receive grounded explanations either as text or as avatar-delivered responses. To maintain responsiveness, ALIVE employs lightweight embedding models, FAISS-based retrieval, and segmented avatar synthesis with progressive preloading. We demonstrate the system on a complete medical imaging course, evaluate its retrieval accuracy, latency characteristics, and user experience, and show that ALIVE provides accurate, content-aware, and engaging real-time support. ALIVE illustrates how multimodal AI-when combined with content-aware retrieval and local deployment-can significantly enhance the pedagogical value of recorded lectures, offering an extensible pathway toward next-generation interactive learning environments.",
-   "summary_zh": "",
+   "summary_zh": "ALIVE 在学生暂停并问完后，按语义相似度和播放时间检索字幕片段，再由本地 LLM、外挂 TTS 与分段头像合成回答。它与 StreamingModelHarness 的流式收音、endpoint 后生成和晚注入检索高度匹配，但本质仍是半双工系统。",
    "demo": "",
    "stars": null
   },
@@ -4080,7 +4080,7 @@
     "low latency"
    ],
    "summary_en": "Talking head generation creates lifelike avatars from static portraits for virtual communication and content creation. However, current models do not yet convey the feeling of truly interactive communication, often generating one-way responses that lack emotional engagement. We identify two key challenges toward truly interactive avatars: generating motion in real-time under causal constraints and learning expressive, vibrant reactions without additional labeled data. To address these challenges, we propose Avatar Forcing, a new framework for interactive head avatar generation that models real-time user-avatar interactions through diffusion forcing. This design allows the avatar to process real-time multimodal inputs, including the user's audio and motion, with low latency for instant reactions to both verbal and non-verbal cues such as speech, nods, and laughter. Furthermore, we introduce a direct preference optimization method that leverages synthetic losing samples constructed by dropping user conditions, enabling label-free learning of expressive interaction. Experimental results demonstrate that our framework enables real-time interaction with low latency (approximately 500ms), achieving 6.8X speedup compared to the baseline, and produces reactive and expressive avatar motion, which is preferred over 80% against the baseline.",
-   "summary_zh": "",
+   "summary_zh": "Avatar Forcing 用因果 diffusion forcing、十帧分块和滚动 KV cache，根据用户音频/动作与已有 avatar 音频实时生成头像反应；DPO 进一步抑制迟钝动作。论文的 0.5 秒只测 H100 上运动生成，不含对话、TTS 或音频特征，因此不能外推为 Harness 首音频延迟。",
    "demo": "",
    "stars": null
   },
@@ -4222,7 +4222,7 @@
     "text-to-speech"
    ],
    "summary_en": "Zero-shot text-to-speech (TTS) clones a voice from a short audio prompt, but this reliance on reference audio is a barrier when only visual information is available, e.g. for historical figures or video-game characters. In this work, we propose a Face-to-Speech (F2S) framework that predicts a plausible voice from a static facial image. A lightweight Face Adapter, together with soft-tuning of the face encoder's upper blocks, aligns face-recognition features with the style space of a frozen StyleTTS 2 model, kept frozen during training. We evaluate on held-out identities from LRS3, a large-scale audiovisual corpus of English TED-talk videos. The synthesized speech is highly natural (UTMOS 3.7-4.0, matching or exceeding the 3.61 of ground truth), face-to-voice retrieval is consistently above chance, and the generated voice is consistent with the target speaker. Without any retraining, an English-trained adapter also produces fluent Spanish speech, indicating that the face-to-style mapping is largely language-agnostic.",
-   "summary_zh": "",
+   "summary_zh": "Freeze-Align 把单张人脸映射到冻结 StyleTTS 2 的风格空间，再分别混合人脸音色与 diffusion 韵律，生成“与脸相符”的候选声音。人脸贡献有限且有隐私、刻板化和冒充风险；它只可能作为 StreamingModelHarness 外挂 TTS 的会话级条件，不涉及流式或打断。",
    "demo": "",
    "stars": null
   },
@@ -4544,7 +4544,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal evidence-seeking QA requires agents to answer questions whose evidence is sparsely distributed across videos, audio, images, web pages, and computation results. Existing agentic multimodal systems often leave evidence in scratchpads, tool trajectories, or free-form histories, making it difficult to track what has been grounded, what remains missing, and when the evidence is sufficient to answer. We propose Omni-Decision, a training-free evidence-state system that turns omni-modal QA into a query-scoped evidence-closure process. For each query, Omni-Decision maintains a structured evidence state containing confirmed evidence, unresolved conflicts, fact and computation dependencies, and open evidence needs. A shared state view conditions planning, evidence acquisition, validation, repair, and finalization. Heterogeneous observations from media, web, computation, and verification modules are normalized, judged, and committed through deterministic state updates. This design enables targeted evidence acquisition, preserves sparse cross-modal cues, and provides inspectable control over repair and stopping. Omni-Decision achieves 45.6% accuracy on OmniGAIA and 58.3% on WorldSense, improving over the baselines by +27.3 and +30.2 percentage points, respectively. No-state ablations and trajectory audits further support the role of explicit evidence-state control in multi-step omni-modal evidence seeking.",
-   "summary_zh": "",
+   "summary_zh": "Omni-Decision 用已确认证据、冲突、外部依赖和开放需求四类状态控制多模态工具规划、验证与停止。它适合让 StreamingModelHarness 把晚注入工具结果作为 typed event 并在冲突时使草稿失效，但调用量明显增加，且没有同步听说能力。",
    "demo": "",
    "stars": null
   },
@@ -4746,7 +4746,7 @@
     "multimodal"
    ],
    "summary_en": "Audio-text retrieval systems based on Contrastive Language-Audio Pretraining (CLAP) achieve strong performance on traditional benchmarks; however, these benchmarks rely on caption-style queries that differ substantially from real-world search behavior, limiting their assessment of practical retrieval robustness. We present Omni-Embed-Audio (OEA), a retrieval-oriented encoder leveraging multimodal LLMs with native audio understanding. To systematically evaluate robustness beyond caption-style queries, we introduce User-Intent Queries (UIQs) - five formulations reflecting natural search behaviors: questions, commands, keyword tags, paraphrases, and exclusion-based negative queries. For negative queries, we develop a hard negative mining pipeline and propose discrimination metrics (HNSR, TFR) assessing models' ability to suppress acoustically similar distractors. Experiments on AudioCaps, Clotho, and MECAT show that OEA achieves comparable text-to-audio retrieval performance to state-of-the-art M2D-CLAP, while demonstrating clear advantages in two critical areas: (1) dominant text-to-text retrieval (+22% relative improvement), and (2) substantially superior hard negative discrimination (+4.3%p HNSR@10, +34.7% relative TFR@10), revealing that LLM backbones provide superior semantic understanding of complex queries.",
-   "summary_zh": "",
+   "summary_zh": "Omni-Embed-Audio 以原生音频 MLLM 的共享 transformer、LoRA 和双 projection 建立音频—文本向量空间，并用命令、问题、排除式查询及硬负例评测。它适合独立的音效/录音内容检索，不是 ASR 或工具检索，也没有 streaming KV、endpoint 或 TTS 证据；完整代码与六个 adapter 已公开。",
    "demo": "",
    "stars": null
   },
@@ -4766,7 +4766,7 @@
     "video agent"
    ],
    "summary_en": "Agentic video understanding equips models with long-term memory to autonomously process and respond to continuous, long-horizon multimodal streams. However, advanced video agents often rely on ``detective-style'' iterative reasoning for action control (e.g., $\\mathtt{search}$) and evidence aggregation, incurring prohibitive costs and latency. We argue that such heavy reasoning primarily compensates for the lack of global context and semantic misalignment in retrieval. This paper introduces Light-Omni, a multimodal agent framework for reflexive and lightweight video understanding. It achieves this through dual contextual states that instantly build the required context in a single forward pass. First, we maintain a global state, a finite-sized multimodal script continuously consolidated from episodic memory, serving as the global context for Light-Omni. Through hierarchical merging, it preserves recent details while summarizing past events. Second, conditioned on this global context, we generate a parametric latent state that directly drives autonomous actions and produces retrieval embeddings, with minimal latency. Benefiting from this coupled design, Light-Omni achieves semantically aligned retrieval and reflexive responses while avoiding iterative reasoning. Extensive experiments validate the effectiveness of Light-Omni across multiple video benchmarks. Notably, it outperforms M3-Agent with an average 2.4% accuracy gain, a 12.1$\\times$ speedup, and a 2.6$\\times$ improvement in GPU memory efficiency. Furthermore, it serves as a memory system to enhance both the performance and efficiency of existing MLLMs. Project page: https://clare-nie.github.io/Light-Omni.",
-   "summary_zh": "",
+   "summary_zh": "Light-Omni 以有限大小的分层全局记忆和一次前向产生的动作、检索 latent state，替代视频 agent 的多轮规划搜索。它最值得 StreamingModelHarness 借鉴的是 reaction head 与异步记忆整合；公开实现仍由 VAD/静默端点触发并使用非流式外挂 TTS，不是原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -4785,7 +4785,7 @@
     "agent harness"
    ],
    "summary_en": "Recent unified multimodal models show a single architecture can jointly perform vision/language understanding and image generation/editing. However, they repeatedly feed all historical visual and textual inputs into a shared context window, limiting long-horizon multimodal dialogue due to visual token explosion and unreliable cross-turn referencing. We propose a Cognitive-structured Multimodal Agent that externalizes visual information into an Episodic Visual Memory and selectively reactivates relevant episodes during reasoning. The agent consists of a Perceptual Abstraction Engine for structured visual abstraction, a Cognitive Retrieval Engine for cross-turn memory retrieval, and a Multimodal Executive Controller for autonomous task inference and action planning. To address the lack of turn-level retrieval supervision in existing datasets, we develop a Unified Scenario Engine that programmatically generates structured multi-turn conversations with fine-grained retrieval annotations, enabling reinforcement learning to optimize abstraction and retrieval policies. We also construct a long-horizon visual-dialogue benchmark stratified by difficulty to evaluate episodic visual recall. Our 8B agent achieves 91.4% retrieval accuracy over 20-turn sessions, surpassing 32B baselines by +8.2% while nearly halving per-turn inference time (23.1s -> 12.7s). We further present the Cognitive-structured Multimodal Agent Harness (CMA-Harness), a tool-augmented deployment of the same cognitive structure integrating persistent multimodal memory, web access, image generation/editing/composition tools, and OpenAI-compatible serving. Structured memory and modular decision-making offer a more scalable, efficient paradigm for long-horizon multimodal agents than monolithic parameter scaling. Code: https://github.com/caseclose/cma-harness ; Project page: https://caseclose.github.io/cma-harness/",
-   "summary_zh": "",
+   "summary_zh": "CMA 把历史图像写入带缩略图和语义元数据的外部情景记忆，每轮只取回相关图像，再由控制器选择理解、生成、编辑或合成工具。该结构适合 StreamingModelHarness 在流式输入期异步积累视觉事件、endpoint 后执行晚注入工具，但当前官方仓库尚无实现。",
    "demo": "",
    "stars": null
   },
@@ -4933,7 +4933,7 @@
     "multimodal"
    ],
    "summary_en": "Real-time video generation via diffusion is essential for building general-purpose multimodal interactive AI systems. However, the simultaneous denoising of all video frames with bidirectional attention via an iterative process in diffusion models prevents real-time interaction. While existing distillation methods can make the model autoregressive and reduce sampling steps to mitigate this, they focus primarily on text-to-video generation, leaving the human-AI interaction unnatural and less efficient. This paper targets real-time interactive video diffusion conditioned on a multimodal context, including text, image, and audio, to bridge the gap. Given the observation that the leading on-policy distillation approach Self Forcing encounters challenges (visual artifacts like flickering, black frames, and quality degradation) with multimodal conditioning, we investigate an improved distillation recipe with emphasis on the quality of condition inputs as well as the initialization and schedule for the on-policy optimization. On benchmarks for multimodal-conditioned (audio, image, and text) avatar video generation including HDTF, AVSpeech, and CelebV-HQ, our distilled model matches the visual quality of the full-step, bidirectional baselines of similar or larger size with 20x less inference cost and latency. Further, we integrate our model with audio language models and long-form video inference technique Anchor-Heavy Identity Sinks to build LiveTalk, a real-time multimodal interactive avatar system. System-level evaluation on our curated multi-turn interaction benchmark shows LiveTalk outperforms state-of-the-art models (Sora2, Veo3) in multi-turn video coherence and content quality, while reducing response latency from 1 to 2 minutes to real-time generation, enabling seamless human-AI multimodal interaction.",
-   "summary_zh": "",
+   "summary_zh": "LiveTalk 把头像视频扩散教师蒸馏成每块 3 个潜帧、4 步去噪的因果模型，并以重叠音频窗、身份 KV sink 和并行解码降低首帧延迟。要接入 StreamingModelHarness，外挂 TTS 必须先提供稳定增量音频；当前离线 WAV 入口不能弥补 endpoint 后才生成的限制。",
    "demo": "",
    "stars": null
   },
@@ -6242,7 +6242,7 @@
     "speech recognition"
    ],
    "summary_en": "Omni-modal video captioning is not merely combining visual captioning with audio transcription: a useful caption must describe how visual actions, speech, music, and sound effects co-evolve. Existing large multimodal models often fail at this relational step, treating audio and visual streams as loosely coupled observations, relying on automatic speech recognition, and under-specifying non-speech sounds and their lin",
-   "summary_zh": "",
+   "summary_zh": "AVSCap 显式监督语音、音乐、音效与视觉事件的时间绑定，并以 SFT+GRPO 训练事件级 omni-modal captioner。它可提升 StreamingModelHarness 判停后的音视频描述和离线评测，但不处理并发听说、打断、晚注入工具或外挂 TTS 同步。",
    "demo": "",
    "stars": null
   },

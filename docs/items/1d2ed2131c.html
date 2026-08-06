@@ -142,30 +142,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-02 · ◈ 4
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">The rise of conversational AI has increased interest in emotional Text-to-Speech (TTS). Most systems rely on discrete emotion labels, which fail to capture the nuanced nature of human affect. Recent models employ dimensional representations such as Russell&#x27;s arousal-valence (A-V) model, offering finer control. However, emotional perception varies across individuals and cultures, which may cause mismatches between modeled and perceived emotions. We propose a personalized and culturally adaptive emotional TTS framework that performs interactive optimization of individualized A-V perception spaces using an Interactive Genetic Algorithm. By adapting emotion representations to each listener, the system produces speech with more perceptually aligned emotional expression than models using averaged A-V values. Evaluations with Japanese, Chinese, and Indonesian participants highlight the importance of personalization and cultural adaptation for moving beyond one-size-fits-all emotional TTS. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">该框架冻结情感 TTS，通过用户多轮试听选择在 arousal–valence 空间搜索个人情感坐标，也可形成显式文化组预设。它适合作为 StreamingModelHarness 外挂 TTS 的离线校准层，不是实时流式或全双工方案，且 30 人、单一英语女声的证据不足以支持自动文化画像。</span>
     <span class="l-en">The rise of conversational AI has increased interest in emotional Text-to-Speech (TTS). Most systems rely on discrete emotion labels, which fail to capture the nuanced nature of human affect. Recent models employ dimensional representations such as Russell&#x27;s arousal-valence (A-V) model, offering finer control. However, emotional perception varies across individuals and cultures, which may cause mismatches between modeled and perceived emotions. We propose a personalized and culturally adaptive emotional TTS framework that performs interactive optimization of individualized A-V perception spaces using an Interactive Genetic Algorithm. By adapting emotion representations to each listener, the system produces speech with more perceptually aligned emotional expression than models using averaged A-V values. Evaluations with Japanese, Chinese, and Indonesian participants highlight the importance of personalization and cultural adaptation for moving beyond one-size-fits-all emotional TTS.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">The rise of conversational AI has increased interest in emotional Text-to-Speech (TTS). Most systems rely on discrete emotion labels, which fail to capture the nuanced nature of human affect. Recent models employ dimensional representations</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">该方法不重训 TTS，而让用户通过多轮试听选择，在二维 arousal–valence 空间搜索其主观情感坐标，再把个人或文化组平均坐标用于情感语音生成。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。</p>
+  <p>固定情感标签或人口平均 A–V 坐标假设所有人对情感声学线索的解释一致，忽略个体与文化差异；全模型 RLHF 又不适合即时、少量反馈。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>The rise of conversational AI has increased interest in emotional Text-to-Speech (TTS). Most systems rely on discrete emotion labels, which fail to capture the nuanced nature of human affect. Recent models employ dimensional representations such as Russell&#x27;s arousal-valence (A-V) model, offering finer control. However, emotional perception varies across individuals and cultures, which may cause mismatches between modeled and perceived emotions. We propose a personalized and culturally adaptive emotional TTS framework that performs interactive optimization of individualized A-V perception spaces using an Interactive Genetic Algorithm. By adapting emotion representations to each listener, the system produces speech with more perceptually aligned emotional expression than models using averaged A-V values. Evaluations with Japanese, Chinese, and Indonesian participants highlight the importance of personalization and cultural adaptation for moving beyond one-size-fits-all emotional TTS.</p>
-
-
+  <p>系统以 Grad-TTS 和 HiFi-GAN 为骨干，Emotion Feature Predictor 用 Gaussian Fourier features 和四层 MLP 把二维 A–V 映射到 SER 情感特征，并与 Pitch/Energy Predictor 联合控制韵律。个性化时冻结声学模型，Interactive Genetic Algorithm 每轮合成一组坐标候选，由用户选优，再通过多父代算术交叉和均匀变异产生下一代；变异范围从 0.20 按 0.90 衰减，最低 0.05。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>用人口平均 A–V 坐标初始化目标情感候选。</li><li>对候选坐标批量合成相同文本。</li><li>用户选择最符合自身感知的样本。</li><li>IGA 交叉、变异并缩小范围，通常三轮内结束。</li><li>保存个人坐标或按文化组计算显式预设。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Emotion Controller 将 MOS 从 3.37±0.10 提高至 3.75±0.09，真实语音为 4.04±0.09。</li><li>表中 WER 从 21% 降至 17%，按基线分母计算相对下降为 19.0%，与正文声称的 23.5% 不一致。</li><li>情感 CCC 中 arousal 从 0.60 提至 0.84，valence 从 0.64 提至 0.77。</li><li>完成个性化的盲测中，个人 A–V 相对美国数据集平均坐标获得 76% 偏好率。</li><li>文化平均坐标相对美国基线的偏好率为中国 64.8%、印尼 69.8%、日本 65.6%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：最适合作为 StreamingModelHarness 外挂 TTS 的用户配置层，在 endpoint 后通过晚注入参数选择预存 A–V 坐标。</li><li>编辑判断：IGA 是离线多轮试听校准，论文没有首音、实时率、流式音频或打断测试，不能让 Harness 变成原生全双工。</li><li>编辑判断：不应根据用户地区静默推断文化坐标；小样本只支持显式选择或个人校准。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>训练数据只有约 9 小时美国英语女声，文化评价没有测试中、日、印尼语或多说话人。</li><li>总样本仅 30 人，每文化 10 人；未报告显著性、置信区间或效应量。</li><li>SER 特征同时用于训练目标和 CCC 评价，存在指标同源风险。</li><li>文化差异可能混合个体、语言熟练度和样本构成，作者也把结果称为 preliminary。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-04 19:42</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 官方仓库只有项目网页和 WAV 样例，没有训练或 IGA 代码、权重、合并后的 9 小时数据、SER 标签或参与者坐标；仓库也无 LICENSE。因此有项目材料但不能称为可复现开源。</p>
+  <p><a class="btn" href="https://github.com/37integer/Beyond-One-Size-Fits-All" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-06 23:35</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.00998v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

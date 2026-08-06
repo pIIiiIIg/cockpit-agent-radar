@@ -241,6 +241,6 @@
 <title>RestoreKV: Recovering Full-Cache Behavior Under Aggressive Query-Agnostic KV Cache Eviction</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/46dcaefb5a.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/46dcaefb5a.html</guid>
-<description>Query-agnostic KV cache eviction compresses a context once and reuses the resulting cache for arbitrary future queries, but performance can collapse under tight budgets. Existing methods primarily improve which original KV pairs are retained. We introduce RestoreKV, which complements this selection-</description>
+<description>RestoreKV 在固定总预算内，以一次 LoRA 适配的八 token 前向从完整缓存生成恢复 KV，再与保留的原 KV 合并；Qwen3-4B 的 5% KVzip RULER-4K 由 38.2 升至 73.2。它适合实验性修复 Harness B 路径端点后的激进压缩损失，但需训练 Qwen3-Omni adapter，且不解决 context attraction 或 MoE 同步。</description>
 </item>
 </channel></rss>
