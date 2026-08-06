@@ -142,30 +142,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-22 · ◈ 10
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent failures. We introduce a six-category taxonomy covering modality shortcuts, phantom grounding, wrong-evidence-right-answer cases, over-retrieval laundering, cross-modal contradiction, and provenance hallucination. Based on this taxonomy, we build a trajectory-level diagnostic pipeline that evaluates both answer correctness and evidence-grounding quality under a unified ReAct-style scaffold. Experiments on MMSearch-Plus trajectories across four frontier multimodal models show that surface accuracy consistently overestimates true trajectory-level correctness. We further use cross-judge validation, blank-image stress tests, and tool ablations to show that silent failures are capability-dependent and often shift rather than disappear. Home-page: https://github.com/DingWu1021/silent-failures-multimodal-agentic-search <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">论文把多模态搜索代理的评测从“答案是否正确”推进到“答案与完整检索轨迹是否同时可信”，归纳出六类静默失败。800 条轨迹显示模型能力和反向图片搜索会改变失败分布，却不会稳定消除失败；细分类别的低跨裁判一致性及未发布实验产物限制了结论的可复核性。</span>
     <span class="l-en">Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent failures. We introduce a six-category taxonomy covering modality shortcuts, phantom grounding, wrong-evidence-right-answer cases, over-retrieval laundering, cross-modal contradiction, and provenance hallucination. Based on this taxonomy, we build a trajectory-level diagnostic pipeline that evaluates both answer correctness and evidence-grounding quality under a unified ReAct-style scaffold. Experiments on MMSearch-Plus trajectories across four frontier multimodal models show that surface accuracy consistently overestimates true trajectory-level correctness. We further use cross-judge validation, blank-image stress tests, and tool ablations to show that silent failures are capability-dependent and often shift rather than disappear. Home-page: https://github.com/DingWu1021/silent-failures-multimodal-agentic-search</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In thi</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Silent Failures 用六类轨迹错误和 Trajectory-Correct Rate 揭示“答案正确但检索过程不可信”的多模态代理失败。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。</p>
+  <p>仅检查最终答案会漏掉未使用图像、伪证据、错误推理碰巧答对、冗余检索洗白、跨模态冲突和伪造来源。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent failures. We introduce a six-category taxonomy covering modality shortcuts, phantom grounding, wrong-evidence-right-answer cases, over-retrieval laundering, cross-modal contradiction, and provenance hallucination. Based on this taxonomy, we build a trajectory-level diagnostic pipeline that evaluates both answer correctness and evidence-grounding quality under a unified ReAct-style scaffold. Experiments on MMSearch-Plus trajectories across four frontier multimodal models show that surface accuracy consistently overestimates true trajectory-level correctness. We further use cross-judge validation, blank-image stress tests, and tool ablations to show that silent failures are capability-dependent and often shift rather than disappear. Home-page: https://github.com/DingWu1021/silent-failures-multimodal-agentic-search</p>
-
-
+  <p>论文从 MMSearch-Plus 抽样 200 题，让四个模型各执行一次最多 10 次工具调用的统一 ReAct 流程，再由 Claude Opus 4.6 根据原图、答案和完整轨迹给出答案正确性及六个非互斥失败标签，并做跨 judge 一致性和空白图压力测试。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>代理接收图像和问题，调用反向图片搜索、网页搜索、读取或裁剪工具。</li><li>记录 thought、工具输入、观察、最终答案和 terminal state。</li><li>裁判同时判断答案正确性与六类轨迹失败。</li><li>计算 Accuracy、TCR、Wilson 95% 区间和 Cohen’s kappa。</li><li>补做空白图、跨裁判和反向图片搜索消融。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>committed 子集的 Accuracy/TCR 分别为 Claude 36.0%/34.6%、Gemini 2.5 Pro 31.6%/28.6%、Gemini 3.1 Pro 61.3%/54.0%、GPT-4o 22.9%/22.3%。</li><li>空白图压力测试总体仅 2/208 仍答对；作者判断两例是题面已泄露足够信息。</li><li>答案正确性的跨家族 kappa 为 0.817，但 modality-shortcut 的跨家族 kappa 仅 0.031，说明细分类别高度依赖裁判。</li><li>反向图片搜索对三个模型提升 13.9 至 18.9 个百分点，对 Gemini 3.1 仅提升 4.8 点，同时增加部分伪落地和跨模态冲突。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：可为 Harness 同时记录 endpoint、commit、首 token、工具注入、证据来源和最终答案，用“答案正确 + 轨迹可信”双层指标做回归。</li><li>编辑判断：应分别归因流式输入、commit 后生成和外部 TTS 的延迟；论文没有语音或全双工评测。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>主结果只分析各模型 62% 至 88% 的 committed 子集，存在选择偏差；每题每模型也只运行一次。</li><li>细粒度标签的跨裁判一致性较弱，TCR 又把不同严重度的失败等权处理。</li><li>论文、README 和公开脚本在正确计数、GPT-4o 百分比、空白图规模及模型数量上存在不一致。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-01 14:47</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 仓库公开代理 scaffold、工具、rubric 和分析脚本，但未发布抽样清单、轨迹、标签或结果，也没有 LICENSE、tag 或 release；无许可证不能视为可自由复用。论文未训练新模型，被测模型均为 API 服务。</p>
+  <p><a class="btn" href="https://github.com/DingWu1021/silent-failures-multimodal-agentic-search" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-07 02:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.19793v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

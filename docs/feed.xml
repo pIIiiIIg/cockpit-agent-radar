@@ -7,7 +7,7 @@
 <title>FocusMem: Factorizing Content, Readout, and Trust in Latent GUI Memory</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html</guid>
-<description>GUI agents must remember both useful experience from earlier tasks and unfinished progress in the current interaction. Latent memory offers a compact solution by compressing multimodal trajectories into a few continuous tokens. Existing methods, however, usually map each trajectory to one fixed memo</description>
+<description>FocusMem 将 GUI 潜在记忆拆成角色化内容保存、按当前决策动态读出和块级证据信任，使同一轨迹在不同步骤暴露不同信息并过滤无关历史。五基准和受控诊断支持这种分解优于固定压缩，但结果均为单次、由专有模型判分，且代码、权重和评测 manifest 尚未发布。</description>
 </item>
 <item>
 <title>Chenxi-Li24/UIEAclub_ThirdHand_VLA</title>
@@ -43,7 +43,7 @@
 <title>When Memory Lies: An Empirical Study of Spatial Memory Staleness in VLM Agents</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/2613c89501.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2613c89501.html</guid>
-<description>Memory-augmented VLM agents act on persistent spatial knowledge, yet that knowledge silently goes stale as the environment changes. We ask what happens when an agent must reconcile a confident memory claim with a contradicting observation, and whether current models can catch the conflict before it </description>
+<description>SpatialSTALE 用动态 FrozenLake 同时测量陈旧空间记忆的识别及其导航伤害：GPT-4o 在 L2 使用未过滤旧记忆时死亡率由无记忆的 28.0% 升至 74.4%，OMCD 读时过滤降至 31.6%。但视觉审计 F1 在不同模型间从 0.887 到 0.067，可靠过滤后也仍有动作选择错误。</description>
 </item>
 <item>
 <title>OPD-V: Visual On-Policy Self-Distillation with Modality Balance</title>

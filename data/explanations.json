@@ -1594,27 +1594,40 @@
   "review_status": "editorial"
  },
  "ebc6945228": {
-  "tl_dr": "Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal canno",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal cannot tell whether a correct answer was reached through grounded evidence, language priors, or accidental error cancellation. We propose to treat a multimodal agent trajectory as a provenance-constrained state machine: tool outputs are normalized into a Structured Evidence Ledger that serves as the trajectory state, downstream reasoning and decision claims may cite only active ledger entries, grounding is checked at the entity and numeric level, and repair is realized as typed state transitions that cannot introduce content without tool-produced provenance. We instantiate this design as LedgerMind (Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger), augmented by a Three-Layer Grounding Protocol, an Adaptive Dual-Path Dispatcher that matches reasoning depth to question complexity, and an Event-Triggered Verification-and-Repair engine with a formal provenance non-amplification guarantee. We use LedgerMind to target four recurring failure patterns that final-answer accuracy tends to obscure: unsupported intermediate reasoning, citation-backed entity hallucination (Phantom Grounding), over-reasoning on simple queries, and repair-time amplification. Experiments across multiple multimodal reasoning benchmarks and backbone MLLMs show that LedgerMind improves both answer accuracy and trajectory-level faithfulness.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "LedgerMind 是套在冻结多模态模型外的证据运行时：工具输出先写入结构化账本，后续声明必须引用有效证据，并接受实体和数字一致性检查。",
+  "problem": "只看最终答案无法区分真实取证、语言先验碰巧命中和错误相消；自由文本轨迹还会产生无依据中间声明、伪落地和在修复阶段继续扩大的幻觉。",
+  "method": "方法使用 11 字段 Structured Evidence Ledger、支持覆盖率、实体一致性 ECC、数字一致性 NCC、Direct/FullPipe 分发器和七种有限类型的修复操作。修复新增的账本内容必须来自工具输出，但这一来源约束不保证工具本身正确。",
+  "workflow": [
+   "规则分发器选择直接回答或完整取证流程。",
+   "把 OCR、裁剪和搜索结果规范化为感知、检索或推导账本项。",
+   "状态声明按 Evidence、Inference、Judgment 分层生成并引用 active 条目。",
+   "依次检查覆盖率、ECC 和 NCC，失败时触发 Drop、Refresh、Retry、Acquire 或 Abstain 等局部修复。",
+   "返回答案以及可审计的证据和修复轨迹。"
+  ],
+  "findings": [
+   "VTC-Bench 上 LedgerMind(Gemini-3-Flash) 报告 58.90%；Hard-200 六个 backbone 的 Overall 增益为 11.25 至 19.75 个百分点。",
+   "MMMU-Pro 消融中完整系统为 68.89，去掉账本降至 53.50，去掉 typed repair 降至 60.40，去掉 ECC/NCC 降至 63.70。",
+   "EMMA 最佳配置 Overall 为 58.29，相对对应 baseline 增加 9.58 个百分点；Coding 子项反而下降 0.18 个百分点。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：最适合用于 Harness 晚注入工具的证据生命周期、依赖关系、数值声明和修复审计，把自由文本反思收敛为有限状态转换。",
+   "编辑判断：它只覆盖 commit 后的静态图文推理，没有视频流、增量解码、语音打断或 TTS，不能改变 Harness 非模型原生全双工的事实。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文只研究静态图文 VQA；ECC/NCC 依赖确定性抽取和小型别名表，来源可追溯也不等于事实正确。",
+   "Hard-200 含 25 条未公开的 RealCAR，固定外部审计器也会引入模型偏差。",
+   "论文未统一报告账本、重复读数、搜索和修复的延迟、token 或 API 成本，部分模型数量和 VTC 对照标注不一致。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-07 仅论文和作者出版物页公开；未找到官方实现、Hard-200、审计数据或专属模型。方法本身无需训练权重，但论文所称 supplementary code 未发布，软件与数据许可证未知。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-07-31T19:41:28.503048+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "3e5ebfc066": {
   "tl_dr": "M* 用 Walk Graph 把复合多模态模型表示成组件图和请求遍历，以统一表达顺序、并行、循环及跨组件流式传输；论文在 BAGEL、Qwen3-Omni、Orpheus 和 V-JEPA 2 上报告相对专用系统的延迟或吞吐优势。",
@@ -1982,27 +1995,41 @@
   "review_status": "abstract_backfill"
  },
  "0cc89f3e2e": {
-  "tl_dr": "We present SimpleSearch-VL, an efficient, reliable, and practical framework for multimodal agentic search. Its core idea is to improve the agent's own search-and-verification process rather than scaling data, tools, or auxiliary model compo",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "We present SimpleSearch-VL, an efficient, reliable, and practical framework for multimodal agentic search. Its core idea is to improve the agent's own search-and-verification process rather than scaling data, tools, or auxiliary model components. For efficiency, Factorized Adaptive Rollout (FAR) improves sampling efficiency by forming more informative training groups while using redundant samples to mitigate long-tail latency and expose hard samples. For reliability, SimpleSearch-VL performs evidence-verified reasoning, explicitly using chain-of-thought verification to assess the relevance of retrieved visual and textual cues to the original context. For practicality, SimpleSearch-VL keeps a lightweight tool interface and performs webpage self-summary within the agent, requiring no additional external dependencies. With only 5K supervised tool-interleaved trajectories and 2K RL data, SimpleSearch-VL improves Qwen3-VL agentic baselines by 15.8 and 16.0 average points for the 8B and 30B-A3B variants, respectively. The SimpleSearch-VL-30B-A3B model further achieves performance competitive with agentic Gemini-3-Pro.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SimpleSearch-VL 用自适应 rollout 分配、可核验的区域反向图片搜索和策略模型自摘要，后训练一个轻量多模态深度搜索代理。",
+  "problem": "多模态搜索训练受到工具 rollout 长尾等待、反向图片搜索的伪匹配、工具过度耦合和额外网页摘要模型等效率与可靠性问题影响。",
+  "method": "FAR 把预算分为 prompt 扩展和 rollout 分配：仍全错的组获得更多采样，出现正确样本后屏蔽冗余槽位。运行时将 text_search、image_search、visit 解耦，图片搜索返回缩略图、标题和 URL 供模型核验，网页摘要由同一策略模型完成。",
+  "workflow": [
+   "模型每轮只调用文本搜索、区域图片搜索、网页访问之一或提交答案。",
+   "图片搜索返回缩略图和来源，模型先比对目标区域再决定是否信任。",
+   "网页内容规范化后由策略模型按当前问题自行摘要。",
+   "用证据感知工具轨迹做 SFT，再以答案和格式奖励做 RL。",
+   "FAR 根据训练组是否出现正样本动态分配额外 rollout。"
+  ],
+  "findings": [
+   "8B 与 30B-A3B 在六个基准上相对对应 Qwen3-VL agentic baseline 的均值分别提高 15.8 和 16.0 个百分点。",
+   "FAR(2×,4–8) 每步 187 秒、平均 62.8；标准采样为 192 秒、56.6，时间相近而平均高 6.2 分。",
+   "策略模型自摘要用时 358 秒、平均 69.7；外部 8B 摘要器为 501 秒、67.9。",
+   "实际训练使用 5193 条 SFT 轨迹和 1995 个 RL prompt；8B 在 8 张 H200 上约需 2 小时 SFT 加 16 小时 RL。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：解耦的文本、区域图片和网页工具适合 Harness 的晚注入接口，缩略图核验可降低搜索结果看似相关却证据不匹配的问题。",
+   "编辑判断：FAR 是后训练技术，自摘要还会占用生成时间；论文没有流式音频、打断或 TTS，不能直接改善 endpoint 前延迟。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "多数消融只用 914 个训练样本，除 MMSearch 外每个评测集仅抽样 100 条，且没有误差条或多随机种子。",
+   "数据由大型 Qwen 生成并由 Gemini 重写，奖励又依赖 Qwen judge，存在教师和评审偏差。",
+   "运行依赖 Serper、JINA Reader、对象存储和随时间变化的网页内容；所谓 minimal dependencies 仅指不另部署摘要模型。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/AQ-MedAI/SimpleSearch-VL",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库当前只有 Apache-2.0 LICENSE、README 和图片；权重、数据、训练/评测代码及完整脚本均标为 TODO。许可证只覆盖已发布的预览内容，不能推定未来权重和数据采用同一许可。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116124+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "41560b57ab": {
   "tl_dr": "Autonomous aerial inspection of marine infrastructure is frequently compromised by stochastic sea states, introducing risks of high-kinetic impacts, post-landing toppling, and sensory occlusion. This paper proposes a decoupled, multi-vehicl",
@@ -2068,27 +2095,40 @@
   "review_status": "editorial"
  },
  "52daaa0251": {
-  "tl_dr": "We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-h",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-hosted vision-language model for zero-shot disease classification. The system separates agent interaction from workflow orchestration: OpenClaw provides scheduling, tool access, user interaction, and notification services on the edge device, while LangGraph manages the stateful screening workflow, including input validation, image transmission, model invocation, safety checks, conditional routing, failure handling, and structured logging. This design moves beyond static image classification by enabling the system to collect visual evidence, invoke external models, apply deterministic safety rules, and generate diagnostic-support alerts. Results show that image-only VLM prediction remains limited, whereas symptom-guided and multimodal inputs improve zero-shot classification performance. Thus, VetClaw transforms a static prediction model into a coordinated, safety-aware system that can use tools, manage workflows, handle failures, and escalate uncertain cases.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "VetClaw 是由 Raspberry Pi 采集、OpenClaw 交互调度、LangGraph 安全编排和云端 VLM 分类组成的兽医疾病早筛原型。",
+  "problem": "单张动物图片缺少物种、行为和症状上下文，大型 VLM 又不适合直接跑在边缘设备；完整系统还必须处理输入校验、失败重试、安全规则和人工升级。",
+  "method": "OpenClaw 负责定时、摄像头和通知，LangGraph 维护状态、条件分支、重试与日志；边缘端把图片和可选症状文本送到 FastAPI/Ollama 托管的 Qwen3-VL-32B 或 InternVL3-38B，输出仅作为早筛警报。",
+  "workflow": [
+   "边缘端定时采集图片并检查文件、清晰度、亮度与格式。",
+   "图片和症状文本上传到云端 VLM 做零样本分类。",
+   "LangGraph 校验类别并应用低置信度、冲突、紧急症状和 API 错误规则。",
+   "通过审查的结果生成辅助提醒，风险案例要求补充信息或转人工。",
+   "记录图片引用、模型回复、规则结果和错误。"
+  ],
+  "findings": [
+   "Dogs Skin Disease 上，Qwen 的 image-only 准确率/F1 为 33.26%/0.31，text+image 为 72.17%/0.69。",
+   "InternVL 在 Dogs 上 text-only 达到 100%，高于 text+image 的 94.34%；Pet Disease 上 Qwen 的 text-only 86.90% 也高于 text+image 84.02%。",
+   "论文只给出一个延迟样例：采集 2820.47ms、上传 1977.86ms、Qwen 响应 925.3ms，没有端到端分布或方差。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：边缘缓存、endpoint/commit 后云端推理、确定性校验、重试和人工升级与 Harness 的现有编排方式相符。",
+   "编辑判断：论文没有语音输入、打断或 TTS 实验，也没有证明代理编排优于普通 API 管线，不能视为模型原生全双工方案。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "仅使用两套小型图片数据做零样本提示，缺少真实兽医多模态数据和兽医专家验证。",
+   "症状文本构造没有充分说明，Dogs text-only 的满分结果提示标签描述泄漏或任务过易。",
+   "论文所述 Pet Disease 的 1736 张/22 类与当前数据页的 5000 余张/27 类不一致，也未固定模型 revision、量化和提示版本。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-07 未发现作者发布的 VetClaw 项目页、实现、日志或专属模型。本文没有训练新权重；上游 Qwen3-VL 与 InternVL3 权重公开，但不能替代论文系统。GitHub 上同名 VetClaw 是无关的兽医 skill 库。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116163+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "cf9f84810a": {
   "tl_dr": "Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent advances in large language models (LLMs) ",
@@ -2273,27 +2313,40 @@
   "review_status": "abstract_backfill"
  },
  "fe021672c7": {
-  "tl_dr": "We find that current emotion-oriented Omni-MLLMs still lack reliable omni-modal perception: they (i) underutilize multimodal cues in their reasoning trajectories and (ii) exhibit unfaithful behavior, often hallucinating modality-specific st",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "We find that current emotion-oriented Omni-MLLMs still lack reliable omni-modal perception: they (i) underutilize multimodal cues in their reasoning trajectories and (ii) exhibit unfaithful behavior, often hallucinating modality-specific statements from other modalities. Building on these insights, we propose OPPO (Omni-Perception Policy Optimization), a reinforcement learning framework that explicitly optimizes multimodal perception. First, an Omni-Perception Reward decomposes ground-truth reasoning into fine-grained visual, acoustic, and emotion cues and rewards trajectories that semantically recover these cues. Second, an Omni-Perception Loss compares the policy under full and unimodally masked inputs, applying a KL penalty only to modality-specific evidence tokens to suppress cross-modal hallucination. We further introduce MEP-Bench, a diagnostic benchmark that quantifies utilization and faithfulness. Experiments show that OPPO achieves state-of-the-art performance on MER-UniBench and MME-Emotion, while substantially improving utilization and faithfulness scores on MEP-Bench, highlighting the importance of sufficient and faithful omni perception for multimodal emotion reasoning.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OPPO 用细粒度证据覆盖奖励提升多模态线索利用率，再用单模态遮蔽下的 token 级 KL 目标抑制跨模态臆造证据。",
+  "problem": "情绪 Omni-MLLM 常遗漏视觉和音频细节，并在某个模态被遮蔽后仍根据其他模态编造该模态的证据。",
+  "method": "GPT-5 将标注推理拆成视觉、音频和情绪线索，Qwen3-Embedding 把生成子句匹配到线索以计算覆盖奖励。训练随机遮蔽 70% 视频或音频，只在对应证据 token 上拉大完整输入与遮蔽输入的分布差异；整体采用 SFT 后接 GRPO。",
+  "workflow": [
+   "从 MER-Caption+ 取 5000 条做 SFT，其余用于 RL。",
+   "把标注推理拆成原子线索并对生成 CoT 分句。",
+   "用嵌入相似度建立线索—子句路由矩阵并计算覆盖奖励。",
+   "构造视频或音频遮蔽反事实输入，对相应证据 token 施加定向 KL 目标。",
+   "在 MER-UniBench、MME-Emotion 和 MEP-Bench 上评测任务分数、召回与遮蔽忠实度。"
+  ],
+  "findings": [
+   "MER-UniBench 九数据集平均分为 81.05，超过论文复现的 AffectGPT-R1 75.60，即增加 5.45 个百分点。",
+   "MEP-Bench 上 Baseline 到 OPPO 的 Recall 为 58.00→70.44，视觉遮蔽 Acc@V 为 59.20→76.40，音频遮蔽 Acc@A 为 33.00→50.60。",
+   "只加感知奖励平均为 79.45，加入定向 Omni-Perception Loss 后为 81.05；对全 token 施加目标的 PAPO/PAPO-dual 仅为 79.34/79.23。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可把 commit 前后、工具注入前后构造成反事实输入，检查 Harness 回答中的音频、视觉或工具主张是否真正依赖对应来源。",
+   "编辑判断：它不研究首 token 延迟、增量解码、打断或 TTS；公开权重也只是 Thinker，不能当作原生语音全双工模型。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "MEP-Bench 只有 300 个样本，并依赖多个外部模型抽取线索和评分；MME-Emotion 还更换了裁判，不能与原评测直接比较。",
+   "只验证 Qwen2.5-Omni 单一主干，训练需 16 张 H100，结果对 KL 权重、遮蔽率和相似度阈值敏感。",
+   "零值遮蔽可能制造分布外输入，遮蔽后的分布变化不完全等价于自然场景中的因果忠实度。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/ZhiyuanHan-Aaron/OPPO",
+   "model_url": "https://huggingface.co/AaronHan/OPPO",
+   "note": "仓库公开 SFT、GRPO、奖励、定向 KL、推理和评测代码，顶层为 Apache-2.0；HF 提供约 8.93B 参数权重，但模型卡没有明确 license 字段。训练元数据公开而音视频、MEP-Bench 和完整数据许可不全；MER-Caption+ 受非商业和审批条款约束。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116224+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "857d83c211": {
   "tl_dr": "Multimodal agents that think with images iteratively manipulate visual evidence and invoke tools across many steps. Existing reinforcement learning methods reduce trajectories to scalar rewards, forcing the policy to discover reusable tool-",
@@ -2342,27 +2395,41 @@
   "review_status": "abstract_backfill"
  },
  "9a76b0c9fd": {
-  "tl_dr": "Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In thi",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent failures. We introduce a six-category taxonomy covering modality shortcuts, phantom grounding, wrong-evidence-right-answer cases, over-retrieval laundering, cross-modal contradiction, and provenance hallucination. Based on this taxonomy, we build a trajectory-level diagnostic pipeline that evaluates both answer correctness and evidence-grounding quality under a unified ReAct-style scaffold. Experiments on MMSearch-Plus trajectories across four frontier multimodal models show that surface accuracy consistently overestimates true trajectory-level correctness. We further use cross-judge validation, blank-image stress tests, and tool ablations to show that silent failures are capability-dependent and often shift rather than disappear. Home-page: https://github.com/DingWu1021/silent-failures-multimodal-agentic-search",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Silent Failures 用六类轨迹错误和 Trajectory-Correct Rate 揭示“答案正确但检索过程不可信”的多模态代理失败。",
+  "problem": "仅检查最终答案会漏掉未使用图像、伪证据、错误推理碰巧答对、冗余检索洗白、跨模态冲突和伪造来源。",
+  "method": "论文从 MMSearch-Plus 抽样 200 题，让四个模型各执行一次最多 10 次工具调用的统一 ReAct 流程，再由 Claude Opus 4.6 根据原图、答案和完整轨迹给出答案正确性及六个非互斥失败标签，并做跨 judge 一致性和空白图压力测试。",
+  "workflow": [
+   "代理接收图像和问题，调用反向图片搜索、网页搜索、读取或裁剪工具。",
+   "记录 thought、工具输入、观察、最终答案和 terminal state。",
+   "裁判同时判断答案正确性与六类轨迹失败。",
+   "计算 Accuracy、TCR、Wilson 95% 区间和 Cohen’s kappa。",
+   "补做空白图、跨裁判和反向图片搜索消融。"
+  ],
+  "findings": [
+   "committed 子集的 Accuracy/TCR 分别为 Claude 36.0%/34.6%、Gemini 2.5 Pro 31.6%/28.6%、Gemini 3.1 Pro 61.3%/54.0%、GPT-4o 22.9%/22.3%。",
+   "空白图压力测试总体仅 2/208 仍答对；作者判断两例是题面已泄露足够信息。",
+   "答案正确性的跨家族 kappa 为 0.817，但 modality-shortcut 的跨家族 kappa 仅 0.031，说明细分类别高度依赖裁判。",
+   "反向图片搜索对三个模型提升 13.9 至 18.9 个百分点，对 Gemini 3.1 仅提升 4.8 点，同时增加部分伪落地和跨模态冲突。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可为 Harness 同时记录 endpoint、commit、首 token、工具注入、证据来源和最终答案，用“答案正确 + 轨迹可信”双层指标做回归。",
+   "编辑判断：应分别归因流式输入、commit 后生成和外部 TTS 的延迟；论文没有语音或全双工评测。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主结果只分析各模型 62% 至 88% 的 committed 子集，存在选择偏差；每题每模型也只运行一次。",
+   "细粒度标签的跨裁判一致性较弱，TCR 又把不同严重度的失败等权处理。",
+   "论文、README 和公开脚本在正确计数、GPT-4o 百分比、空白图规模及模型数量上存在不一致。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/DingWu1021/silent-failures-multimodal-agentic-search",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仓库公开代理 scaffold、工具、rubric 和分析脚本，但未发布抽样清单、轨迹、标签或结果，也没有 LICENSE、tag 或 release；无许可证不能视为可自由复用。论文未训练新模型，被测模型均为 API 服务。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T14:47:15.088442+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "cb3426cfaa": {
   "tl_dr": "Freeze-Align 冻结 StyleTTS 2 教师，把单张人脸表示映射到其 128 维 style space，并在推理时分别混合人脸音色和 diffusion 韵律；输出是“与脸相符的合理声音”，不保证真实本人身份。",
@@ -2724,27 +2791,42 @@
   "review_status": "editorial"
  },
  "d9d5d237fa": {
-  "tl_dr": "Psychotherapists need repeated training and supervision by experts; however, scalability is problematic. Here we present MyMentorLLM, a multimodal voice- and text-based simulation environment for deliberate practice, used to generate 2,100 ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Psychotherapists need repeated training and supervision by experts; however, scalability is problematic. Here we present MyMentorLLM, a multimodal voice- and text-based simulation environment for deliberate practice, used to generate 2,100 complete Cognitive Behavioural Therapy (CBT) training sessions. Each session links a DSM-5-TR-grounded patient (with major depressive, generalised anxiety or borderline personality disorder), a therapist-in-training and an expert supervisor. As an initial implementation, we adopted CBT because its structured procedures and competency-based supervision facilitate standardised simulation and evaluation. Sessions were analysed for emotional dynamics, therapeutic competence and diagnostic accuracy. Simulated patients expressed disorder-congruent emotional profiles, which trainee therapists mirrored as in real human counselling. The quality of supervision differed across LLMs: while most models overestimated trainees' competences, native speech-to-speech was closest to human scores. Supervisors' feedback led to better diagnoses in simulated psychotherapists in 5 out of 7 LLMs, and symptom identification accuracy increased with model size. This work shows that simulation of deliberate practice is possible for CBT training, although patient fidelity, calibration of supervisors, and harmful feedback should be evaluated together.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "MyMentorLLM 用患者、受训治疗师和导师三个角色生成 2100 个 CBT 会谈—反馈—修订周期，比较原生语音、语音输入加外部 TTS和纯文本条件。",
+  "problem": "真人患者、标准化演员和专家督导难以低成本扩展，而纯文本模拟又缺少语音韵律和完整的督导反馈闭环。",
+  "method": "实验采用三种 DSM-5-TR 病例、七种模型—模态条件、每组合 100 次。每次包含 31-turn 意大利语会谈、四选一初始诊断、导师 11 项 CTRS 评分与反馈、诊断修订和从 35 项中选择五项症状。",
+  "workflow": [
+   "用 MDD、GAD、BPD 三个病例构建患者 persona。",
+   "患者与受训治疗师完成固定 31-turn 会谈。",
+   "治疗师提交初始诊断。",
+   "导师读取转录并给出 CTRS、优缺点和改进建议。",
+   "治疗师修改或确认诊断并选择症状，再进行情绪、能力和诊断转移分析。"
+  ],
+  "findings": [
+   "Gemini-3.1 原生语音条件的导师 CTRS 总分为 29.97±7.06，人类参考为 31.04±11.10；其他条件为 41.15 至 55.99。",
+   "反馈前 GAD/MDD/BPD 准确率为 97.7%/91.0%/65.3%，反馈后为 97.9%/82.6%/82.6%。",
+   "七种条件中五种在反馈后改善；最小 Gemma-E2B 的 audio/text 条件分别从 79.0%/75.3% 降到 74.3%/68.0%。",
+   "症状一致率从 E2B 条件的 19.4% 至 25.5% 上升到 Qwen3.6-35B 的 95.5%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：最接近当前 Harness 的是语音输入、文本输出再接外部 TTS 的 Gemma 条件，可借用执行者—导师—修订闭环评估反馈吸收。",
+   "编辑判断：应分开测 commit 到首 token、文本完成到 TTS 首音频和总 TTS 时间；当前 Harness 不是 Gemini Live 式模型原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "多数条件由同一模型扮演患者、治疗师和导师，共享偏差会贯穿全周期，也没有盲评 CBT 专家直接评价会谈。",
+   "仅三个固定首次会谈病例；即时诊断改变不等于持久学习、治疗技能改善或患者安全。",
+   "原生语音条件同时更换了模型和导师，无法把 CTRS 差异归因于语音模态；论文也没有显著性检验。",
+   "原始 prompt、会谈数据和代码未发布，DSM 案例与部分词典还受限制性版权或非商业条款约束。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文明确写 Data/Materials/Code availability 均为尚不适用；截至 2026-08-07 未发现项目页、仓库、数据集或专属模型。部分 Gemma/Qwen 底座权重公开，OmniVoice 代码为 Apache-2.0、权重为 CC BY-NC，但这些上游资产不等于 MyMentorLLM 开源。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T19:26:26.961717+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "2c48b0de3e": {
   "tl_dr": "Voice Memory用可审计memory.md指导冻结的ASR纠错器，并只接受能改善保留集分数的记忆更新。",
@@ -4166,27 +4248,41 @@
   "review_status": "abstract_backfill"
  },
  "55c6e7aa68": {
-  "tl_dr": "Vision-language-action (VLA) models commonly adopt an LLM-centric $V \\to L \\to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although eff",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Vision-language-action (VLA) models commonly adopt an LLM-centric $V \\to L \\to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although effective, this design incurs substantial computation and memory overhead at every policy invocation. In this work, we introduce TurboVLA, a new VLA paradigm that reformulates the conventional $V \\to L \\to A$ pathway as a direct $V + L \\to A$ mapping. Instead of using a large language model as the central interface between perception and action, TurboVLA independently encodes visual observations and language instructions, directly exchanges information between them through lightweight bidirectional vision-language interaction, and predicts continuous action chunks with a compact decoder. This simple design constructs task-conditioned representations directly from visual and linguistic features, significantly reducing the computational and memory costs of VLA inference. On LIBERO, TurboVLA achieves 97.7% average success with only 0.2B parameters, 31.2 ms inference latency, and 0.9 GB inference VRAM on a consumer-grade RTX 4090, matching or outperforming substantially larger VLA policies. These results establish TurboVLA as a simple and effective alternative to the prevailing LLM-centric VLA paradigm, offering a new perspective on how vision, language, and action can be connected for efficient robotic manipulation. Code is available at https://github.com/H-EmbodVis/TurboVLA.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "TurboVLA 把高频机器人执行从生成式 LLM 中解耦，用独立视觉/语言编码、双向跨注意力和紧凑动作解码器直接完成 V+L→A。",
+  "problem": "LLM-centric VLA 每次策略调用都要运行数十亿参数语言核心，即使并行动作头也带来显存和延迟瓶颈。",
+  "method": "DINOv3 编码视觉、BERT 编码指令，二者在 256 维空间经过六层双向跨注意力；机器人状态进入 ACT 风格 Transformer 解码器，一次前向并行预测连续动作块，以行为克隆 L1 训练。",
+  "workflow": [
+   "独立编码多视角图像和自然语言指令。",
+   "双向视觉—语言交互得到任务条件化特征。",
+   "融合机器人本体状态。",
+   "单次前向并行预测 12 步或 50 步连续动作块。",
+   "在 LIBERO、RoboTwin 2.0 和四项实机任务上评测成功率与推理开销。"
+  ],
+  "findings": [
+   "LIBERO 四套件为 99.2%/99.8%/97.4%/94.2%，平均 97.7%；精确规模 216.1M 参数，RTX 4090 峰值显存 0.9GB，动作块延迟 31.2ms。",
+   "31.2ms 的倒数约为每秒 32.05 次，支持标题的 32Hz，但这是动作块策略调用率而非底层控制环或 token 生成率。",
+   "RoboTwin Clean50 平均成功率 60.2%、延迟 43.4ms；论文中的 π0.5 为 57.0%、95.6ms。",
+   "四项实机任务成功率为 92.5%/80.0%/90.0%/87.5%，每项测试 40 次。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可借鉴“低频理解/规划、高频轻量执行”的分层原则，并按输入提交、首 token、工具等待、生成和 TTS 分段报告延迟。",
+   "编辑判断：它输出机器人动作而非文本、音频或工具调用，32Hz 也不改变 Harness 仅在 endpoint/commit 后生成且使用外部 TTS 的现状。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "作者明确限定为执行级指令，不具备高层规划；RoboTwin 只用 clean demonstrations。",
+   "实机仅一台 AgileX Piper、四项任务、每项 65 条演示和 40 次测试，没有误差条或多随机种子。",
+   "实机数据和 checkpoint 未发布，HF 的四个 LIBERO checkpoint 选择逻辑也未充分说明。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/H-EmbodVis/TurboVLA",
+   "model_url": "https://huggingface.co/H-EmbodVis/TurboVLA",
+   "note": "代码和仿真权重已发布；仓库声明 Apache-2.0，但权重明确受非 OSI 的 DINOv3 自定义许可约束。LIBERO 数据可用，RoboTwin-Clean 未注明数据许可；260 条实机演示和实机 checkpoint 未发布。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T15:01:28.340900+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "2e8e43eb46": {
   "tl_dr": "Cocktail-Talker 在多人噪声对话的固定话轮末输出 RESPOND、LISTEN 或 IGNORE，先决定“该不该答”，再在 RESPOND 时生成回答文本。",
@@ -4925,27 +5021,42 @@
   "review_status": "editorial"
  },
  "6c381be0cf": {
-  "tl_dr": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pi",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged ground-truth (GT) future trajectory. We empirically show that this induces trajectory anchoring bias: teacher models rationalize the revealed outcome rather than infer a decision from scene evidence, producing less causally faithful CoTs and substantially more severe hallucinations, especially in causally challenging scenes. Removing the GT trajectory eliminates this shortcut, but open-ended trajectory generation entangles high-level decision-making with precise geometric synthesis and low-level dynamics. To make trajectory-level driving decisions verifiable without requiring open-ended trajectory synthesis, we introduce Autonomous-Driving Multiple-Choice Question (AD-MCQ), which casts planning as selection among explicit trajectory candidates. Taking this a step further, we propose Deferred Exposure of Future Trajectories for RLVR (DEFT-RLVR) to transform future trajectories from pre-decision anchors into post-decision verification targets. Experimental results show that DEFT-RLVR improves AD reasoning while preserving or even enhancing general visual capabilities. With VLM-only inference and controllable difficulty through candidate construction, AD-MCQ provides a flexible, scalable, and extensible foundation for future research on verifiable AD reasoning.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DEFT-RLVR 先让驾驶 VLM 在看不到候选轨迹时提交高层决策，再揭示六条轨迹进行匹配，以减少“先看到答案、再倒推理由”的锚定偏差。",
+  "problem": "CoT 标注若预先暴露真实未来轨迹，教师会围绕已知结果事后合理化；完全隐藏轨迹又使开放式坐标生成同时承担语义、几何和动力学预测，难以精确验证。",
+  "method": "AD-MCQ 用 K=8192 的轨迹原型代码本把 5 秒、10 路点规划转为六选一。DEFT 第一轮只看三相机历史、车辆状态和导航指令并提交方向/速度决策，第二轮才注入六条轨迹；GRPO 以精确选项正确性乘以候选盲的过程 rubric 分数作为奖励。",
+  "workflow": [
+   "从 514781 条场景—轨迹对拟合轨迹代码本并构造五个干扰项。",
+   "第一轮在候选盲条件下根据场景提交不可修改的高层决策。",
+   "第二轮注入六条候选轨迹并输出 FINAL_CHOICE。",
+   "确定性解析器验证选项，正确 rollout 才获得过程 rubric 分。",
+   "两轮生成 token 共享优势，注入候选的 token 不计入 response mask。"
+  ],
+  "findings": [
+   "100 个困难场景的人评中，严重幻觉率由隐藏真实轨迹时的 29.0% 升到暴露时的 50.0%；成对偏好为 60.5% 对 24.0%，另有 15.5% 平局。",
+   "Qwen3-VL-8B 的 AD-MCQ 准确率为直接选择 28.1%、训练前 DEFT 56.6%、DEFT-RLVR 77.9%；Qwen3.5-4B 对应为 34.0%/65.6%/82.2%。",
+   "相同正确性奖励下，DEFT 相对预先展示候选的 JEFT 在两个骨干上分别提高 15.3 和 6.7 个百分点。",
+   "8B 的通用视觉平均分从基座 54.81% 升到 56.09%；nuScenes OOD 准确率从训练前 DEFT 39.6% 升到 49.5%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可直接借鉴“先 commit、后暴露工具/候选”的因果隔离，构造决策前展示工具与 commit 后注入工具的对照，检查理由是否被答案锚定。",
+   "编辑判断：论文是固定历史帧和两次顺序生成，不是持续流式或模型原生全双工；外部 TTS 与模型内并发听说无关。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "任务是候选轨迹选择而非开放式连续规划，没有闭环车辆控制或真实安全验证；记录轨迹也未必是唯一安全解。",
+   "训练含内部驾驶语料并使用 64 个 96GB 加速器；CFS/HLD 仍由大型 Qwen 裁判而非客观真值。",
+   "公开数据缺少 Dev 100，媒体只覆盖 3497/5000 个训练样本和 250/500 个测试样本。",
+   "只发布 8B DEFT-RLVR 权重，未发布 4B、JEFT、蒸馏和其他消融 checkpoint；公开运行时也与开发集群不完全相同。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/hzx122/DEFT-RLVR",
+   "model_url": "https://huggingface.co/hzxllll/DEFT-RLVR-model-HF",
+   "note": "仓库含两轮 agent loop、GRPO、奖励、数据构造和评测脚本，但采用仅限学术/非营利研究且禁止再分发衍生物的 UCLA Mobility Lab Academic Software License，并非 OSI 开源。8B 权重公开，模型卡称 Apache-2.0；AD-MCQ 数据未注明许可且媒体不完整。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T19:42:39.603233+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "2633e8f341": {
   "tl_dr": "LongHorizon-Harness 把长任务变成 Manage–Execute–Audit 循环：状态只由环境审计证据推进，执行器每轮使用新上下文。",
@@ -5215,27 +5326,42 @@
   "review_status": "editorial"
  },
  "ec978c587a": {
-  "tl_dr": "Deploying billion-parameter Vision-Language-Action (VLA) policies on mobile robots creates a systems conflict: semantic reasoning benefits from cloud GPUs, whereas closed-loop control must respond locally despite network delay and jitter. E",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Deploying billion-parameter Vision-Language-Action (VLA) policies on mobile robots creates a systems conflict: semantic reasoning benefits from cloud GPUs, whereas closed-loop control must respond locally despite network delay and jitter. Existing hierarchical and asynchronous policies improve throughput, but their slow-path representations can still arrive stale or require explicit scheduling and delay cues. We introduce CloudEdgeVLA, a cloud-edge policy that treats temporal misalignment as a representation-learning problem. A cloud VLA encodes delayed observations into slowly varying task features, while a lightweight edge head combines the latest available cloud feature with current local vision. During training, current and randomly delayed frames are paired with the same current action target in fresh and stale paths. This objective encourages the cloud representation to preserve task-level information while the edge path supplies state-sensitive corrections. Across four LIBERO suites, CloudEdgeVLA retains 63.8--78.0% success with a 40-step uniform-delay window, whereas VLASH reaches at most 6.4% and the evaluated single-path baselines at most 3.0%. By removing blocking synchronization from the control loop, the design offers a practical route to scalable VLA deployment in which cloud models can grow while edge computation remains lightweight and responsive.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "CloudEdgeVLA 让云端 7B VLA 返回可能过时的规划特征，边缘端不阻塞等待，而是用最新本地图像和轻量动作头持续闭环。",
+  "problem": "大模型语义规划适合云 GPU，但网络延迟和抖动无法满足机器人闭环控制；阻塞会降低控制频率，直接消费旧特征又造成观察—动作时序错位。",
+  "method": "云端使用 OpenVLA-OFT，边缘端使用冻结 SigLIP-Base 和视觉增强动作头。训练为同一当前动作构造 fresh/stale 两条路径：当前帧与随机历史帧分别进入云骨干，但共享当前边缘图像和动作标签，以双 L1 损失诱导云特征时间稳定。",
+  "workflow": [
+   "边缘端采集当前观察并异步发往云端。",
+   "云端处理延迟帧并返回规划隐藏特征。",
+   "边缘端保存最新到达的云特征，不等待指定请求。",
+   "本地 SigLIP 编码当前图像，动作头融合旧云特征与当前边缘特征。",
+   "一次生成 8 步、7 维动作块；训练时从长度 21 的轨迹窗口抽取 stale 帧。"
+  ],
+  "findings": [
+   "LIBERO 最大 40-step 随机延迟下四套件为 76.4%/75.6%/78.0%/63.8%，平均 73.5%；VLASH 同条件平均 1.7%。",
+   "论文报告归一化 delay AUC 90.8%，同步成功率保留率 76.5%；VLASH 分别为 32.4% 和 1.8%。",
+   "120k checkpoint 在固定 20-step 偏移下将隐藏状态漂移从 0.391 降至 0.160、动作漂移从 0.423 降至 0.047。",
+   "额外 1000ms RTT 的单项实机表格中，CloudEdgeVLA 静态/动态成功率为 80%/70%，VLASH 为 0%/0%，但每格仅 10 次。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：非阻塞消费“最新可用结果”和显式信息年龄适合类比 Harness 的晚到工具，可记录工具结果年龄、commit 到首 token 以及晚到证据对后续输出的影响。",
+   "编辑判断：外部 TTS 已播出的内容无法持续回写校正，陈旧度判断应发生在文本交给 TTS 前；论文不是语音或模型原生全双工系统。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只验证有限延迟分布，长期断网仍需时间戳和本地 fallback；双路径训练还需要两次云骨干前向。",
+   "实机只有一个 Franka 任务，所谓边缘端是 RTX 5080；延迟以环境 step 表示且未给控制频率。",
+   "消融的 95.1% 与主表相同延迟下 91.0% 均值不一致，主文实机叙述也与表格冲突。",
+   "补充诊断表明把边缘图像从旧帧换成当前帧几乎不改变动作漂移，主要收益更像云表示稳定化而非本地图像主动纠错。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-07 仅论文、作者页和静态项目页公开；未发现 CloudEdgeVLA 实现、checkpoint、配对训练数据、实机日志或许可证。LIBERO 是外部公开基准，不能视为本文开源。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T19:42:39.603352+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "1d2ed2131c": {
   "tl_dr": "该方法不重训 TTS，而让用户通过多轮试听选择，在二维 arousal–valence 空间搜索其主观情感坐标，再把个人或文化组平均坐标用于情感语音生成。",
@@ -5675,27 +5801,40 @@
   "review_status": "editorial"
  },
  "211c0dd840": {
-  "tl_dr": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal ",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Video-DeepResearch 把视频研究代理拆成“先视觉取证、后网页探索”两阶段，用关键帧、区域反向搜索和晚开放的网页工具减少模型绕过视觉证据的捷径。",
+  "problem": "现有多模态研究代理常偏好文本搜索而回避视觉工具，也可能依靠参数记忆猜中答案；传统视频问答又很少同时要求跨帧定位、视觉搜索和开放网页检索。",
+  "method": "系统先用 CLIP 将视频稀疏到最多 20 个关键帧，第一阶段只开放选帧和区域裁剪搜索；视觉证据充分后才开放文本搜索与网页访问。训练先使用 7K 视频工具轨迹和 7K 文本问答做 SFT，再对 2K 中等难度样本做 GRPO。",
+  "workflow": [
+   "筛选视频并生成跨帧、需要外部知识的问题。",
+   "用四次无工具回答过滤可由参数记忆直接猜中的题目。",
+   "代理先选择关键帧、框选实体并执行区域反向图片搜索。",
+   "达到感知阶段上限后解锁 Search 和 Visit，汇总证据并回答。",
+   "仅保留成功轨迹进行 SFT，再以答案正确性奖励做 GRPO。"
+  ],
+  "findings": [
+   "论文主表报告 35B 模型在 Video-DR 和 VideoDR-Bench 上分别为 68.0% 和 60.0%，平均 64.0%；30B 模型分别为 62.0% 和 56.5%，平均 59.3%。",
+   "30B 完整训练从基座平均 40.5% 提升到 59.3%，其中最后 2K 样本 GRPO 带来 2.5 个百分点。",
+   "训练后的 30B 在两个基准上平均每题调用视觉工具 2.33/2.98 次，明显高于论文初测中 Qwen3.5-397B 的 0.10 次。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可把阶段式工具解锁映射为 Harness 的视频缓冲与晚注入工具，先固化视觉证据，再在 endpoint/commit 后开放网页检索。",
+   "编辑判断：论文把视频预处理成有限关键帧后回合式生成，没有输入期间持续解码、语音打断或模型内 TTS；只能作为“流式输入、提交后生成”的工具代理参考。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文对 VideoDR-Bench 规模同时写成 100 和 200，正文还出现与主表不符的 65.4%；模型版本命名也不一致。",
+   "评测由同族 Qwen 模型裁判，未报告人工复核率、置信区间或多次运行方差。",
+   "截至核验日，本文权重、30K 问答、7K 轨迹和 benchmark 均未发布，结果无法独立复现。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Osilly/Vision-DeepResearch/tree/main/Video-DeepResearch",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仓库公开预处理、评测、SFT 和 GRPO 代码，根许可证为 MIT；脚本仍依赖占位路径、API 密钥和自备 checkpoint。项目页将本文 30B/35B 权重、数据与 benchmark 标为 coming soon；已有同组织图像版权重不是本文视频模型。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T16:14:50.674559+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "25706b1e40": {
   "tl_dr": "OmniPack 以“LLM 前结构压缩＋LLM 内查询条件精炼”兼顾全局覆盖、音视协作和信息回收；低预算结果很强，但官方实现尚不可复现。",
@@ -5736,27 +5875,40 @@
   "review_status": "editorial"
  },
  "1f6552b1b4": {
-  "tl_dr": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal ",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Video-DeepResearch 把视频研究代理拆成“先视觉取证、后网页探索”两阶段，用关键帧、区域反向搜索和晚开放的网页工具减少模型绕过视觉证据的捷径。",
+  "problem": "现有多模态研究代理常偏好文本搜索而回避视觉工具，也可能依靠参数记忆猜中答案；传统视频问答又很少同时要求跨帧定位、视觉搜索和开放网页检索。",
+  "method": "系统先用 CLIP 将视频稀疏到最多 20 个关键帧，第一阶段只开放选帧和区域裁剪搜索；视觉证据充分后才开放文本搜索与网页访问。训练先使用 7K 视频工具轨迹和 7K 文本问答做 SFT，再对 2K 中等难度样本做 GRPO。",
+  "workflow": [
+   "筛选视频并生成跨帧、需要外部知识的问题。",
+   "用四次无工具回答过滤可由参数记忆直接猜中的题目。",
+   "代理先选择关键帧、框选实体并执行区域反向图片搜索。",
+   "达到感知阶段上限后解锁 Search 和 Visit，汇总证据并回答。",
+   "仅保留成功轨迹进行 SFT，再以答案正确性奖励做 GRPO。"
+  ],
+  "findings": [
+   "论文主表报告 35B 模型在 Video-DR 和 VideoDR-Bench 上分别为 68.0% 和 60.0%，平均 64.0%；30B 模型分别为 62.0% 和 56.5%，平均 59.3%。",
+   "30B 完整训练从基座平均 40.5% 提升到 59.3%，其中最后 2K 样本 GRPO 带来 2.5 个百分点。",
+   "训练后的 30B 在两个基准上平均每题调用视觉工具 2.33/2.98 次，明显高于论文初测中 Qwen3.5-397B 的 0.10 次。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可把阶段式工具解锁映射为 Harness 的视频缓冲与晚注入工具，先固化视觉证据，再在 endpoint/commit 后开放网页检索。",
+   "编辑判断：论文把视频预处理成有限关键帧后回合式生成，没有输入期间持续解码、语音打断或模型内 TTS；只能作为“流式输入、提交后生成”的工具代理参考。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文对 VideoDR-Bench 规模同时写成 100 和 200，正文还出现与主表不符的 65.4%；模型版本命名也不一致。",
+   "评测由同族 Qwen 模型裁判，未报告人工复核率、置信区间或多次运行方差。",
+   "截至核验日，本文权重、30K 问答、7K 轨迹和 benchmark 均未发布，结果无法独立复现。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Osilly/Vision-DeepResearch/tree/main/Video-DeepResearch",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仓库公开预处理、评测、SFT 和 GRPO 代码，根许可证为 MIT；脚本仍依赖占位路径、API 密钥和自备 checkpoint。项目页将本文 30B/35B 权重、数据与 benchmark 标为 coming soon；已有同组织图像版权重不是本文视频模型。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T16:14:50.674579+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "e6151be63a": {
   "tl_dr": "Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs; direct image generation is not element-editable, while codin",
@@ -5891,27 +6043,42 @@
   "review_status": "editorial"
  },
  "861c15240c": {
-  "tl_dr": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pi",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged ground-truth (GT) future trajectory. We empirically show that this induces trajectory anchoring bias: teacher models rationalize the revealed outcome rather than infer a decision from scene evidence, producing less causally faithful CoTs and substantially more severe hallucinations, especially in causally challenging scenes. Removing the GT trajectory eliminates this shortcut, but open-ended trajectory generation entangles high-level decision-making with precise geometric synthesis and low-level dynamics. To make trajectory-level driving decisions verifiable without requiring open-ended trajectory synthesis, we introduce Autonomous-Driving Multiple-Choice Question (AD-MCQ), which casts planning as selection among explicit trajectory candidates. Taking this a step further, we propose Deferred Exposure of Future Trajectories for RLVR (DEFT-RLVR) to transform future trajectories from pre-decision anchors into post-decision verification targets. Experimental results show that DEFT-RLVR improves AD reasoning while preserving or even enhancing general visual capabilities. With VLM-only inference and controllable difficulty through candidate construction, AD-MCQ provides a flexible, scalable, and extensible foundation for future research on verifiable AD reasoning.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DEFT-RLVR 先让驾驶 VLM 在看不到候选轨迹时提交高层决策，再揭示六条轨迹进行匹配，以减少“先看到答案、再倒推理由”的锚定偏差。",
+  "problem": "CoT 标注若预先暴露真实未来轨迹，教师会围绕已知结果事后合理化；完全隐藏轨迹又使开放式坐标生成同时承担语义、几何和动力学预测，难以精确验证。",
+  "method": "AD-MCQ 用 K=8192 的轨迹原型代码本把 5 秒、10 路点规划转为六选一。DEFT 第一轮只看三相机历史、车辆状态和导航指令并提交方向/速度决策，第二轮才注入六条轨迹；GRPO 以精确选项正确性乘以候选盲的过程 rubric 分数作为奖励。",
+  "workflow": [
+   "从 514781 条场景—轨迹对拟合轨迹代码本并构造五个干扰项。",
+   "第一轮在候选盲条件下根据场景提交不可修改的高层决策。",
+   "第二轮注入六条候选轨迹并输出 FINAL_CHOICE。",
+   "确定性解析器验证选项，正确 rollout 才获得过程 rubric 分。",
+   "两轮生成 token 共享优势，注入候选的 token 不计入 response mask。"
+  ],
+  "findings": [
+   "100 个困难场景的人评中，严重幻觉率由隐藏真实轨迹时的 29.0% 升到暴露时的 50.0%；成对偏好为 60.5% 对 24.0%，另有 15.5% 平局。",
+   "Qwen3-VL-8B 的 AD-MCQ 准确率为直接选择 28.1%、训练前 DEFT 56.6%、DEFT-RLVR 77.9%；Qwen3.5-4B 对应为 34.0%/65.6%/82.2%。",
+   "相同正确性奖励下，DEFT 相对预先展示候选的 JEFT 在两个骨干上分别提高 15.3 和 6.7 个百分点。",
+   "8B 的通用视觉平均分从基座 54.81% 升到 56.09%；nuScenes OOD 准确率从训练前 DEFT 39.6% 升到 49.5%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可直接借鉴“先 commit、后暴露工具/候选”的因果隔离，构造决策前展示工具与 commit 后注入工具的对照，检查理由是否被答案锚定。",
+   "编辑判断：论文是固定历史帧和两次顺序生成，不是持续流式或模型原生全双工；外部 TTS 与模型内并发听说无关。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "任务是候选轨迹选择而非开放式连续规划，没有闭环车辆控制或真实安全验证；记录轨迹也未必是唯一安全解。",
+   "训练含内部驾驶语料并使用 64 个 96GB 加速器；CFS/HLD 仍由大型 Qwen 裁判而非客观真值。",
+   "公开数据缺少 Dev 100，媒体只覆盖 3497/5000 个训练样本和 250/500 个测试样本。",
+   "只发布 8B DEFT-RLVR 权重，未发布 4B、JEFT、蒸馏和其他消融 checkpoint；公开运行时也与开发集群不完全相同。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/hzx122/DEFT-RLVR",
+   "model_url": "https://huggingface.co/hzxllll/DEFT-RLVR-model-HF",
+   "note": "仓库含两轮 agent loop、GRPO、奖励、数据构造和评测脚本，但采用仅限学术/非营利研究且禁止再分发衍生物的 UCLA Mobility Lab Academic Software License，并非 OSI 开源。8B 权重公开，模型卡称 Apache-2.0；AD-MCQ 数据未注明许可且媒体不完整。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-05T16:14:50.674652+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "526179613c": {
   "tl_dr": "Vision-Language-Action (VLA) policies trained by behavior cloning fail silently: from the action stream alone, a collapsing rollout looks much like one making clean progress, because imitation supplies no notion of progress. Reinforcement l",
@@ -6412,27 +6579,42 @@
   "review_status": "abstract_backfill"
  },
  "c663ef96e8": {
-  "tl_dr": "GUI agents must remember both useful experience from earlier tasks and unfinished progress in the current interaction. Latent memory offers a compact solution by compressing multimodal trajectories into a few continuous tokens. Existing met",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "GUI agents must remember both useful experience from earlier tasks and unfinished progress in the current interaction. Latent memory offers a compact solution by compressing multimodal trajectories into a few continuous tokens. Existing methods, however, usually map each trajectory to one fixed memory block and train it mainly through next-action supervision. This creates three practical problems: important details may be lost during compression, the same memory block must serve different decision stages, and irrelevant retrieved trajectories may still mislead the agent. We introduce FocusMem, which separates these responsibilities within a compact latent-memory interface. A role-aware content basis encourages episodic memory to retain reusable experience and working memory to retain task progress. A state-conditioned readout generates a decision-specific view of the same stored evidence, while a lightweight trust gate can suppress memory blocks that appear irrelevant to the current step. All components are trained while the GUI policy remains frozen. Across five GUI-agent benchmarks, FocusMem consistently outperforms a fully matched action-only fixed-memory baseline and prior latent memory adaptations. Further analysis shows that semantic and functional supervision preserve complementary information, state-conditioned readout is more robust as surrounding trajectory context grows, and the trust gate reduces the harm caused by injected irrelevant episodic evidence. These results show that effective latent memory depends not only on compressing past interaction, but also on what is retained, what is exposed, and what is allowed.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "FocusMem 把 GUI 潜在记忆拆成“保留什么、当前读出什么、是否信任”三层，用状态条件读出和块级门抑制固定压缩的遗漏与无关记忆干扰。",
+  "problem": "固定潜在记忆块可能在压缩时丢失关键细节，同一块难以适配不同决策阶段，检索到但不相关的轨迹也会误导策略。",
+  "method": "共享 Q-Former 用 episodic/working role queries 将每项证据压成 8 个 token；内容阶段结合动作、语义蒸馏和角色功能监督，读出阶段由当前状态生成 residual query，并用 HardConcrete 块级门和无关轨迹负例学习是否放行。Qwen3-VL-8B 策略和 grounding 模型保持冻结。",
+  "workflow": [
+   "检索 top-3 历史轨迹，并把当前历史按四事件切成 working memory。",
+   "用角色专属查询将每项证据压缩为 8 个潜在 token。",
+   "根据当前任务、截图和近期历史生成状态条件读出。",
+   "信任门以 0.3 阈值接受或丢弃整块。",
+   "最多 48 个潜在 token 前置给冻结策略生成动作，再由冻结定位模型落点。"
+  ],
+  "findings": [
+   "五个 GUI 基准成功率为 65.3%/59.0%/48.7%/39.6%/28.9%，总体 48.3%，比完全匹配的 Action-only Fixed 33.7% 高 14.6 个百分点。",
+   "MMInA-Shopping 累积消融从无记忆 41.0% 依次升到 Fixed 45.5%、Content 50.5%、Readout 54.5%、Gate 59.0%。",
+   "证据从 Oracle Core 扩展到全文时，固定读出下降 22 至 25 点，动态读出仅下降 6 至 12 点。",
+   "污染从 0 增加到 3 条轨迹时，门通过率从 86% 降至 35%；每步时间则从无记忆 7.72 秒增至 13.10 秒。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可将内容压缩、按当前状态检索和显式信任门用于 Harness 的长期记忆与晚到工具；黑盒模型场景更现实的实现是结构化摘要而非连续 latent token。",
+   "编辑判断：工具结果应在影响后续 token 或外部 TTS 前接受相关性、陈旧度和来源检查；论文不涉及流式语音或模型原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主要只测试冻结 Qwen3-VL-8B 和 Web GUI，所有主结果和诊断均为单次运行并依赖 Gemini-3.1-Pro 判分。",
+   "信任实验只注入明显无关的 episodic 轨迹，未覆盖细微错误或过期 working memory。",
+   "评测子集、episodic bank、检索缓存、Oracle Core 和污染 manifest 未发布，统一 harness 的 style 基线也不是官方精确复现。",
+   "动态读出把每步耗时提高约 1.70 倍。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/stanley-ju/FocusMem",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库存在但只有简短 README，代码和模型标为 coming soon；没有源码、配置、checkpoint、数据或 LICENSE，HF 也没有关联模型、数据集或 Space。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-06T20:49:43.971295+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "ba82e8799b": {
   "tl_dr": "MLLM-based segmentation faces a core segmentation trilemma: high segmentation performance, preserved dialogue ability, and fast inference. Embedding-prediction methods may disrupt language modeling through pixel-level objectives, whereas ne",
@@ -6527,27 +6709,42 @@
   "review_status": "abstract_backfill"
  },
  "2613c89501": {
-  "tl_dr": "Memory-augmented VLM agents act on persistent spatial knowledge, yet that knowledge silently goes stale as the environment changes. We ask what happens when an agent must reconcile a confident memory claim with a contradicting observation, ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Memory-augmented VLM agents act on persistent spatial knowledge, yet that knowledge silently goes stale as the environment changes. We ask what happens when an agent must reconcile a confident memory claim with a contradicting observation, and whether current models can catch the conflict before it becomes a safety-relevant mistake. Using a dynamic FrozenLake testbed, we pair a staleness-detection task with a downstream navigation task across three closed-source models and three open-weight VLMs under both text and image inputs (1,800 detection runs, and 12,000 text-mode navigation episodes over four LLM navigators at a shared 50-seed scale). Three findings emerge. First, text solvability does not imply visual grounding: models that flag stale entries reliably from text nonetheless span vision F1 from 0.887 down to 0.067 on the identical grids, and the weakest keeps making fluent, confident decisions that ignore the image. Second, consuming stale memory without an audit is a safety liability: in our primary GPT-4o setting, an agent that trusts raw memory dies more than twice as often as the same agent given no memory at all. Third, auditing helps but does not close the gap: a transparent read-time filter removes much of the safety cost in text mode, yet even oracle stale labels bring no further significant gain on the current grid size, and when visual auditing is unreliable, filtering yields no consistent benefit. Together these results frame spatial-memory staleness as a safety failure mode and isolate reliable visual grounding and action selection under memory--observation conflict as the central open challenges for memory-augmented agents.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SpatialSTALE 在动态 FrozenLake 中把“检测陈旧空间记忆”与“陈旧记忆是否真的导致危险动作”放进同一受控评测。",
+  "problem": "持久空间记忆会随环境变化而过期；即使当前观察正确，自信但错误的旧记忆仍可能支配模型并造成安全失败。",
+  "method": "系统在完全可观测的 8×8 FrozenLake 中保存 64 条 SAFE/DANGER 记忆，以坐标文本或 384×384 图像提供当前地图。实验比较 NoMemory、原样使用 NoFilter、自检 SelfVerify、每批审计 10 条后移除陈旧项的 OMCD 和使用真值的 Oracle。",
+  "workflow": [
+   "生成约 25% 洞且保证可解的 8×8 地图并建立完整记忆。",
+   "按 L1/L2/L3 规则翻转格子，使旧记忆失效。",
+   "让模型逐条或批量判断 valid/stale，报告陈旧类 Precision、Recall 和 F1。",
+   "模型依据始终真实的当前地图逐步导航，记录成功、死亡、超时和路径长度。",
+   "OMCD 在读时过滤预测陈旧项，动态事件后重新审计。"
+  ],
+  "findings": [
+   "检测共 1800 次；四个导航模型的文本导航共 12000 回合。",
+   "视觉陈旧检测平均 F1 从 Qwen 的 0.887 到 GLM-5.1 的 0.067，说明文本可解不代表视觉落地可靠。",
+   "GPT-4o 的 L2 中，NoFilter 成功/死亡为 14.4%/74.4%，NoMemory 为 28.8%/28.0%，OMCD 为 32.8%/31.6%。",
+   "GPT-4o 文本条件下，检测 F1 与 OMCD 成功率的 Pearson r 仅 0.005 至 0.060，均 p>0.67，过滤后仍受动作选择瓶颈限制。",
+   "批大小从 1 增至 10 后，每实例调用从 64 降到 7，F1 从 0.941 降至 0.914。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可在 Harness 使用持久记忆或晚注入工具结果前，对照最新流输入做读时一致性门，并记录 memory_version、observation_version 和实际引用。",
+   "编辑判断：动态事件后的重审可映射到分段 commit 或工具到达；该类比只覆盖提交后的审计与决策，不构成模型原生全双工或 TTS 能力。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "实验只是完全可观测的符号化网格，视觉导航也只有 10 个种子×3 回合，不能直接外推真实机器人。",
+   "论文不证明 OMCD 普遍优于无记忆；GLM 的 L3 中 OMCD 死亡率反而从 NoFilter 的 3.2% 升至 4.8%。",
+   "正文与表格在最高视觉成功率、Claude L2 样本数和变化标签上存在不一致。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文声称发布代码、50 组地图种子、完整轨迹和复现流水线，但正文无 URL；截至 2026-08-07 未找到官方仓库、数据集、Space 或许可证。本文没有训练专属模型。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-06T20:49:43.971365+08:00",
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-07T02:00:00+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "c5f55d7979": {
   "tl_dr": "On-Policy Self-Distillation (OPSD) has become a standard post-training approach for improving visual reasoning in multimodal large language models (MLLMs). Existing methods draw privileged information from diverse input sources to guide sel",

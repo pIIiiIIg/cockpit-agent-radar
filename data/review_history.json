@@ -4,6 +4,258 @@
   "description": "Only transitions to review_status=editorial and source_depth=fulltext; abstract_backfill and missing explanations are never reviews.",
   "entries": [
     {
+      "id": "fe021672c7",
+      "title": "Omni-Perception Policy Optimization for Multimodal Emotion Reasoning",
+      "paper_url": "https://arxiv.org/abs/2606.25325v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/fe021672c7.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "fe021672c7",
+      "mirror_of": null
+    },
+    {
+      "id": "ec978c587a",
+      "title": "Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models via Emergent Representational Specialization",
+      "paper_url": "https://arxiv.org/abs/2608.00569v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ec978c587a.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "ec978c587a",
+      "mirror_of": null
+    },
+    {
+      "id": "ebc6945228",
+      "title": "LEDGERMIND: Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger",
+      "paper_url": "https://huggingface.co/papers/2607.28374",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ebc6945228.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "ebc6945228",
+      "mirror_of": null
+    },
+    {
+      "id": "d9d5d237fa",
+      "title": "MyMentorLLM: A psychotherapy GenAI environment with multimodal voice/text patients, trainees and experts for deliberate practice",
+      "paper_url": "https://arxiv.org/abs/2607.25667v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/d9d5d237fa.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "d9d5d237fa",
+      "mirror_of": null
+    },
+    {
+      "id": "c663ef96e8",
+      "title": "FocusMem: Factorizing Content, Readout, and Trust in Latent GUI Memory",
+      "paper_url": "https://huggingface.co/papers/2608.04530",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "c663ef96e8",
+      "mirror_of": null
+    },
+    {
+      "id": "9a76b0c9fd",
+      "title": "Silent Failures in Multimodal Agentic Search:A Diagnostic Taxonomy and Cross-Judge Evaluation",
+      "paper_url": "https://arxiv.org/abs/2607.19793v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/9a76b0c9fd.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "9a76b0c9fd",
+      "mirror_of": null
+    },
+    {
+      "id": "861c15240c",
+      "title": "Deferred Exposure of Future Trajectories for Verifiable Reasoning in Autonomous Driving VLMs",
+      "paper_url": "https://arxiv.org/abs/2608.01755v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/861c15240c.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "6c381be0cf",
+      "mirror_of": "6c381be0cf"
+    },
+    {
+      "id": "6c381be0cf",
+      "title": "Deferred Exposure of Future Trajectories for Verifiable Reasoning in Autonomous Driving VLMs",
+      "paper_url": "https://huggingface.co/papers/2608.01755",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/6c381be0cf.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "6c381be0cf",
+      "mirror_of": null
+    },
+    {
+      "id": "55c6e7aa68",
+      "title": "TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM",
+      "paper_url": "https://arxiv.org/abs/2607.27205v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/55c6e7aa68.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "55c6e7aa68",
+      "mirror_of": null
+    },
+    {
+      "id": "52daaa0251",
+      "title": "VetClaw: An Edge-Cloud Multimodal Agentic System for Veterinary Disease Screening",
+      "paper_url": "https://arxiv.org/abs/2607.26042v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/52daaa0251.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "52daaa0251",
+      "mirror_of": null
+    },
+    {
+      "id": "2613c89501",
+      "title": "When Memory Lies: An Empirical Study of Spatial Memory Staleness in VLM Agents",
+      "paper_url": "https://huggingface.co/papers/2608.04574",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2613c89501.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "2613c89501",
+      "mirror_of": null
+    },
+    {
+      "id": "211c0dd840",
+      "title": "Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent",
+      "paper_url": "https://huggingface.co/papers/2608.03979",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/211c0dd840.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "1f6552b1b4",
+      "mirror_of": "1f6552b1b4"
+    },
+    {
+      "id": "1f6552b1b4",
+      "title": "Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent",
+      "paper_url": "https://arxiv.org/abs/2608.03979v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/1f6552b1b4.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "1f6552b1b4",
+      "mirror_of": null
+    },
+    {
+      "id": "0cc89f3e2e",
+      "title": "SimpleSearch-VL: A Simple Recipe for Multimodal Agentic Deep Search",
+      "paper_url": "https://arxiv.org/abs/2606.31504v1",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/0cc89f3e2e.html",
+      "reviewed_at": "2026-08-07T02:27:52.426778+08:00",
+      "review_date": "2026-08-07",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260806T182752Z",
+        "batch": "deep-review"
+      },
+      "backfilled": false,
+      "canonical_id": "0cc89f3e2e",
+      "mirror_of": null
+    },
+    {
       "id": "f5e41f8681",
       "title": "Language-Specialized Multi-Teacher On-Policy Distillation for Multilingual LLM-Based ASR",
       "paper_url": "https://arxiv.org/abs/2608.03610v1",

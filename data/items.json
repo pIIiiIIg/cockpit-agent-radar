@@ -14,7 +14,7 @@
     "multimodal"
    ],
    "summary_en": "GUI agents must remember both useful experience from earlier tasks and unfinished progress in the current interaction. Latent memory offers a compact solution by compressing multimodal trajectories into a few continuous tokens. Existing methods, however, usually map each trajectory to one fixed memory block and train it mainly through next-action supervision. This creates three practical problems: important details may be lost during compression, the same memory block must serve different decision stages, and irrelevant retrieved trajectories may still mislead the agent. We introduce FocusMem, which separates these responsibilities within a compact latent-memory interface. A role-aware content basis encourages episodic memory to retain reusable experience and working memory to retain task progress. A state-conditioned readout generates a decision-specific view of the same stored evidence, while a lightweight trust gate can suppress memory blocks that appear irrelevant to the current step. All components are trained while the GUI policy remains frozen. Across five GUI-agent benchmarks, FocusMem consistently outperforms a fully matched action-only fixed-memory baseline and prior latent memory adaptations. Further analysis shows that semantic and functional supervision preserve complementary information, state-conditioned readout is more robust as surrounding trajectory context grows, and the trust gate reduces the harm caused by injected irrelevant episodic evidence. These results show that effective latent memory depends not only on compressing past interaction, but also on what is retained, what is exposed, and what is allowed.",
-   "summary_zh": "",
+   "summary_zh": "FocusMem 将 GUI 潜在记忆拆成角色化内容保存、按当前决策动态读出和块级证据信任，使同一轨迹在不同步骤暴露不同信息并过滤无关历史。五基准和受控诊断支持这种分解优于固定压缩，但结果均为单次、由专有模型判分，且代码、权重和评测 manifest 尚未发布。",
    "demo": "",
    "stars": null
   },
@@ -112,7 +112,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Memory-augmented VLM agents act on persistent spatial knowledge, yet that knowledge silently goes stale as the environment changes. We ask what happens when an agent must reconcile a confident memory claim with a contradicting observation, and whether current models can catch the conflict before it becomes a safety-relevant mistake. Using a dynamic FrozenLake testbed, we pair a staleness-detection task with a downstream navigation task across three closed-source models and three open-weight VLMs under both text and image inputs (1,800 detection runs, and 12,000 text-mode navigation episodes over four LLM navigators at a shared 50-seed scale). Three findings emerge. First, text solvability does not imply visual grounding: models that flag stale entries reliably from text nonetheless span vision F1 from 0.887 down to 0.067 on the identical grids, and the weakest keeps making fluent, confident decisions that ignore the image. Second, consuming stale memory without an audit is a safety liability: in our primary GPT-4o setting, an agent that trusts raw memory dies more than twice as often as the same agent given no memory at all. Third, auditing helps but does not close the gap: a transparent read-time filter removes much of the safety cost in text mode, yet even oracle stale labels bring no further significant gain on the current grid size, and when visual auditing is unreliable, filtering yields no consistent benefit. Together these results frame spatial-memory staleness as a safety failure mode and isolate reliable visual grounding and action selection under memory--observation conflict as the central open challenges for memory-augmented agents.",
-   "summary_zh": "",
+   "summary_zh": "SpatialSTALE 用动态 FrozenLake 同时测量陈旧空间记忆的识别及其导航伤害：GPT-4o 在 L2 使用未过滤旧记忆时死亡率由无记忆的 28.0% 升至 74.4%，OMCD 读时过滤降至 31.6%。但视觉审计 F1 在不同模型间从 0.887 到 0.067，可靠过滤后也仍有动作选择错误。",
    "demo": "",
    "stars": null
   },
@@ -1043,7 +1043,7 @@
     "multimodal"
    ],
    "summary_en": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.",
-   "summary_zh": "",
+   "summary_zh": "Video-DeepResearch 用阶段式工具解锁把视频研究代理拆成视觉定位与开放网页探索两步，并通过 7K 工具轨迹 SFT 和 2K 样本 GRPO 强化视觉工具使用。论文报告 35B 模型在两个 benchmark 上平均达到 64.0%，但 benchmark 规模和部分结果存在内部矛盾，且权重与数据尚未发布。对 StreamingModelHarness 最有价值的是关键帧稀疏化和晚注入工具，而非模型原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -1079,7 +1079,7 @@
     "multimodal"
    ],
    "summary_en": "We introduce Video-DeepResearch (Video-DR), extending multimodal agents from static images to continuous video streams, a setting that demands dense spatiotemporal grounding coupled with open-web exploration. Preliminary evaluations reveal two critical bottlenecks in current models: (1) modality bias, where agents bypass visual tools in favor of textual search, and (2) parametric knowledge leakage, where models rely on internal memory rather than genuine tool-augmented execution. To address these challenges, we propose Video-DR, featuring a decoupled perception-exploration pipeline with stage-wise tool unlocking that compels exhaustive cross-frame visual grounding prior to web retrieval. Our framework adopts a two-stage training recipe: supervised fine-tuning followed by Group Relative Policy Optimization (GRPO), enabling autonomous exploration that breaks the imitation-learning ceiling. Furthermore, we curate Video-DR-Bench, a human-AI collaborative benchmark comprising 200 complex, multi-hop VQA instances. Empirical results demonstrate that our Video-DeepResearch-35B-A3B establishes a new state-of-the-art of 64.0% average accuracy, surpassing proprietary Claude-4.5-Sonnet (59.0%) by 5.0 points and significantly outperforming GPT-5 (52.5%) and Gemini 2.5 Pro (57.5%). The 30B-A3B variant achieves 59.3%, competitive with Claude-4.5-Sonnet and demonstrating the effectiveness of our training paradigm even at compact scale. Code: https://github.com/Osilly/Vision-DeepResearch.",
-   "summary_zh": "",
+   "summary_zh": "Video-DeepResearch 用阶段式工具解锁把视频研究代理拆成视觉定位与开放网页探索两步，并通过 7K 工具轨迹 SFT 和 2K 样本 GRPO 强化视觉工具使用。论文报告 35B 模型在两个 benchmark 上平均达到 64.0%，但 benchmark 规模和部分结果存在内部矛盾，且权重与数据尚未发布。对 StreamingModelHarness 最有价值的是关键帧稀疏化和晚注入工具，而非模型原生全双工。",
    "demo": "",
    "stars": null
   },
@@ -1228,7 +1228,7 @@
     "vision-language-action"
    ],
    "summary_en": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged ground-truth (GT) future trajectory. We empirically show that this induces trajectory anchoring bias: teacher models rationalize the revealed outcome rather than infer a decision from scene evidence, producing less causally faithful CoTs and substantially more severe hallucinations, especially in causally challenging scenes. Removing the GT trajectory eliminates this shortcut, but open-ended trajectory generation entangles high-level decision-making with precise geometric synthesis and low-level dynamics. To make trajectory-level driving decisions verifiable without requiring open-ended trajectory synthesis, we introduce Autonomous-Driving Multiple-Choice Question (AD-MCQ), which casts planning as selection among explicit trajectory candidates. Taking this a step further, we propose Deferred Exposure of Future Trajectories for RLVR (DEFT-RLVR) to transform future trajectories from pre-decision anchors into post-decision verification targets. Experimental results show that DEFT-RLVR improves AD reasoning while preserving or even enhancing general visual capabilities. With VLM-only inference and controllable difficulty through candidate construction, AD-MCQ provides a flexible, scalable, and extensible foundation for future research on verifiable AD reasoning.",
-   "summary_zh": "",
+   "summary_zh": "本文指出自动驾驶 CoT 若预先看到真实未来轨迹，容易围绕已知结果事后合理化；DEFT-RLVR 因此先让模型提交高层决策，再揭示候选轨迹进行验证。Qwen3-VL-8B 的 AD-MCQ 准确率由直接选择的 28.1% 提升到 77.9%，但公开数据媒体不完整，代码又采用限制性学术许可证，只能评价为部分可复现。",
    "demo": "",
    "stars": null
   },
@@ -1562,7 +1562,7 @@
     "vision-language-action"
    ],
    "summary_en": "Recent Vision-Language-Action (VLA) models for autonomous driving (AD) increasingly utilize chain-of-thought (CoT) supervision to enhance the reasoning capabilities of their Vision-Language Model (VLM) components, yet existing annotation pipelines commonly expose the teacher model to the logged ground-truth (GT) future trajectory. We empirically show that this induces trajectory anchoring bias: teacher models rationalize the revealed outcome rather than infer a decision from scene evidence, producing less causally faithful CoTs and substantially more severe hallucinations, especially in causally challenging scenes. Removing the GT trajectory eliminates this shortcut, but open-ended trajectory generation entangles high-level decision-making with precise geometric synthesis and low-level dynamics. To make trajectory-level driving decisions verifiable without requiring open-ended trajectory synthesis, we introduce Autonomous-Driving Multiple-Choice Question (AD-MCQ), which casts planning as selection among explicit trajectory candidates. Taking this a step further, we propose Deferred Exposure of Future Trajectories for RLVR (DEFT-RLVR) to transform future trajectories from pre-decision anchors into post-decision verification targets. Experimental results show that DEFT-RLVR improves AD reasoning while preserving or even enhancing general visual capabilities. With VLM-only inference and controllable difficulty through candidate construction, AD-MCQ provides a flexible, scalable, and extensible foundation for future research on verifiable AD reasoning.",
-   "summary_zh": "",
+   "summary_zh": "本文指出自动驾驶 CoT 若预先看到真实未来轨迹，容易围绕已知结果事后合理化；DEFT-RLVR 因此先让模型提交高层决策，再揭示候选轨迹进行验证。Qwen3-VL-8B 的 AD-MCQ 准确率由直接选择的 28.1% 提升到 77.9%，但公开数据媒体不完整，代码又采用限制性学术许可证，只能评价为部分可复现。",
    "demo": "",
    "stars": null
   },
@@ -1731,7 +1731,7 @@
     "vision-language-action"
    ],
    "summary_en": "Deploying billion-parameter Vision-Language-Action (VLA) policies on mobile robots creates a systems conflict: semantic reasoning benefits from cloud GPUs, whereas closed-loop control must respond locally despite network delay and jitter. Existing hierarchical and asynchronous policies improve throughput, but their slow-path representations can still arrive stale or require explicit scheduling and delay cues. We introduce CloudEdgeVLA, a cloud-edge policy that treats temporal misalignment as a representation-learning problem. A cloud VLA encodes delayed observations into slowly varying task features, while a lightweight edge head combines the latest available cloud feature with current local vision. During training, current and randomly delayed frames are paired with the same current action target in fresh and stale paths. This objective encourages the cloud representation to preserve task-level information while the edge path supplies state-sensitive corrections. Across four LIBERO suites, CloudEdgeVLA retains 63.8--78.0% success with a 40-step uniform-delay window, whereas VLASH reaches at most 6.4% and the evaluated single-path baselines at most 3.0%. By removing blocking synchronization from the control loop, the design offers a practical route to scalable VLA deployment in which cloud models can grow while edge computation remains lightweight and responsive.",
-   "summary_zh": "",
+   "summary_zh": "CloudEdgeVLA 用非阻塞云—边接口将慢速语义规划与快速本地控制解耦，并通过 fresh/stale 配对训练提高对旧云特征的容忍度。长延迟 LIBERO 结果很强，但诊断表明收益主要来自云表示稳定化而非当前边缘视觉主动纠错；代码、权重和完整数据也尚未开放。",
    "demo": "",
    "stars": null
   },
@@ -2803,7 +2803,7 @@
     "vision-language-action"
    ],
    "summary_en": "Vision-language-action (VLA) models commonly adopt an LLM-centric $V \\to L \\to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although effective, this design incurs substantial computation and memory overhead at every policy invocation. In this work, we introduce TurboVLA, a new VLA paradigm that reformulates the conventional $V \\to L \\to A$ pathway as a direct $V + L \\to A$ mapping. Instead of using a large language model as the central interface between perception and action, TurboVLA independently encodes visual observations and language instructions, directly exchanges information between them through lightweight bidirectional vision-language interaction, and predicts continuous action chunks with a compact decoder. This simple design constructs task-conditioned representations directly from visual and linguistic features, significantly reducing the computational and memory costs of VLA inference. On LIBERO, TurboVLA achieves 97.7% average success with only 0.2B parameters, 31.2 ms inference latency, and 0.9 GB inference VRAM on a consumer-grade RTX 4090, matching or outperforming substantially larger VLA policies. These results establish TurboVLA as a simple and effective alternative to the prevailing LLM-centric VLA paradigm, offering a new perspective on how vision, language, and action can be connected for efficient robotic manipulation. Code is available at https://github.com/H-EmbodVis/TurboVLA.",
-   "summary_zh": "",
+   "summary_zh": "TurboVLA 将高频机器人执行从生成式 LLM 中解耦，以轻量视觉—语言交互和并行动作块解码直接完成 V+L→A。在 RTX 4090 上，它以 216.1M 参数、0.9GB 峰值显存和 31.2ms 动作块延迟取得 97.7% LIBERO 平均成功率；不过只覆盖执行级指令，未验证高层规划、分布外鲁棒性或流式对话。",
    "demo": "",
    "stars": null
   },
@@ -3954,7 +3954,7 @@
     "multimodal"
    ],
    "summary_en": "Psychotherapists need repeated training and supervision by experts; however, scalability is problematic. Here we present MyMentorLLM, a multimodal voice- and text-based simulation environment for deliberate practice, used to generate 2,100 complete Cognitive Behavioural Therapy (CBT) training sessions. Each session links a DSM-5-TR-grounded patient (with major depressive, generalised anxiety or borderline personality disorder), a therapist-in-training and an expert supervisor. As an initial implementation, we adopted CBT because its structured procedures and competency-based supervision facilitate standardised simulation and evaluation. Sessions were analysed for emotional dynamics, therapeutic competence and diagnostic accuracy. Simulated patients expressed disorder-congruent emotional profiles, which trainee therapists mirrored as in real human counselling. The quality of supervision differed across LLMs: while most models overestimated trainees' competences, native speech-to-speech was closest to human scores. Supervisors' feedback led to better diagnoses in simulated psychotherapists in 5 out of 7 LLMs, and symptom identification accuracy increased with model size. This work shows that simulation of deliberate practice is possible for CBT training, although patient fidelity, calibration of supervisors, and harmful feedback should be evaluated together.",
-   "summary_zh": "",
+   "summary_zh": "MyMentorLLM 用合成患者、受训治疗师和导师生成 2100 个包含会谈、反馈和诊断修订的 CBT 周期。导师反馈能帮助较大模型识别困难病例，却会让最小模型放弃原本正确的判断；原生语音条件虽最接近人类 CTRS 参考，但模型、导师和模态相互混杂，不能证明语音本身造成差异。",
    "demo": "",
    "stars": null
   },
@@ -4204,7 +4204,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal agentic search systems increasingly rely on external tools to answer knowledge-intensive visual questions. However, existing evaluations mainly focus on final-answer accuracy and may miss failures in the search trajectory. In this work, we study such hidden reliability issues as silent failures. We introduce a six-category taxonomy covering modality shortcuts, phantom grounding, wrong-evidence-right-answer cases, over-retrieval laundering, cross-modal contradiction, and provenance hallucination. Based on this taxonomy, we build a trajectory-level diagnostic pipeline that evaluates both answer correctness and evidence-grounding quality under a unified ReAct-style scaffold. Experiments on MMSearch-Plus trajectories across four frontier multimodal models show that surface accuracy consistently overestimates true trajectory-level correctness. We further use cross-judge validation, blank-image stress tests, and tool ablations to show that silent failures are capability-dependent and often shift rather than disappear. Home-page: https://github.com/DingWu1021/silent-failures-multimodal-agentic-search",
-   "summary_zh": "",
+   "summary_zh": "论文把多模态搜索代理的评测从“答案是否正确”推进到“答案与完整检索轨迹是否同时可信”，归纳出六类静默失败。800 条轨迹显示模型能力和反向图片搜索会改变失败分布，却不会稳定消除失败；细分类别的低跨裁判一致性及未发布实验产物限制了结论的可复核性。",
    "demo": "",
    "stars": null
   },
@@ -4508,7 +4508,7 @@
     "multimodal"
    ],
    "summary_en": "We present SimpleSearch-VL, an efficient, reliable, and practical framework for multimodal agentic search. Its core idea is to improve the agent's own search-and-verification process rather than scaling data, tools, or auxiliary model components. For efficiency, Factorized Adaptive Rollout (FAR) improves sampling efficiency by forming more informative training groups while using redundant samples to mitigate long-tail latency and expose hard samples. For reliability, SimpleSearch-VL performs evidence-verified reasoning, explicitly using chain-of-thought verification to assess the relevance of retrieved visual and textual cues to the original context. For practicality, SimpleSearch-VL keeps a lightweight tool interface and performs webpage self-summary within the agent, requiring no additional external dependencies. With only 5K supervised tool-interleaved trajectories and 2K RL data, SimpleSearch-VL improves Qwen3-VL agentic baselines by 15.8 and 16.0 average points for the 8B and 30B-A3B variants, respectively. The SimpleSearch-VL-30B-A3B model further achieves performance competitive with agentic Gemini-3-Pro.",
-   "summary_zh": "",
+   "summary_zh": "SimpleSearch-VL 通过 FAR rollout 分配、带缩略图核验的区域图片搜索和策略模型自摘要，构建较轻量的多模态深度搜索代理。论文报告 8B/30B-A3B 相对对应基线平均提升 15.8/16.0 个百分点，但官方仓库仍只是预览，代码、权重和数据均未发布。",
    "demo": "",
    "stars": null
   },
@@ -4562,7 +4562,7 @@
     "multimodal"
    ],
    "summary_en": "We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-hosted vision-language model for zero-shot disease classification. The system separates agent interaction from workflow orchestration: OpenClaw provides scheduling, tool access, user interaction, and notification services on the edge device, while LangGraph manages the stateful screening workflow, including input validation, image transmission, model invocation, safety checks, conditional routing, failure handling, and structured logging. This design moves beyond static image classification by enabling the system to collect visual evidence, invoke external models, apply deterministic safety rules, and generate diagnostic-support alerts. Results show that image-only VLM prediction remains limited, whereas symptom-guided and multimodal inputs improve zero-shot classification performance. Thus, VetClaw transforms a static prediction model into a coordinated, safety-aware system that can use tools, manage workflows, handle failures, and escalate uncertain cases.",
-   "summary_zh": "",
+   "summary_zh": "VetClaw 展示了 Raspberry Pi 摄像采集、OpenClaw 交互、LangGraph 安全编排和云端 VLM 分类组成的兽医早筛原型。实验说明症状文本远比单张图片更有帮助，但部分文本结果异常接近满分、数据版本和症状构造不透明，尚不能视为临床有效性证据。对 StreamingModelHarness 的启发主要是提交后云端推理、失败处理和人工升级。",
    "demo": "",
    "stars": null
   },
@@ -4689,7 +4689,7 @@
     "multimodal"
    ],
    "summary_en": "We find that current emotion-oriented Omni-MLLMs still lack reliable omni-modal perception: they (i) underutilize multimodal cues in their reasoning trajectories and (ii) exhibit unfaithful behavior, often hallucinating modality-specific statements from other modalities. Building on these insights, we propose OPPO (Omni-Perception Policy Optimization), a reinforcement learning framework that explicitly optimizes multimodal perception. First, an Omni-Perception Reward decomposes ground-truth reasoning into fine-grained visual, acoustic, and emotion cues and rewards trajectories that semantically recover these cues. Second, an Omni-Perception Loss compares the policy under full and unimodally masked inputs, applying a KL penalty only to modality-specific evidence tokens to suppress cross-modal hallucination. We further introduce MEP-Bench, a diagnostic benchmark that quantifies utilization and faithfulness. Experiments show that OPPO achieves state-of-the-art performance on MER-UniBench and MME-Emotion, while substantially improving utilization and faithfulness scores on MEP-Bench, highlighting the importance of sufficient and faithful omni perception for multimodal emotion reasoning.",
-   "summary_zh": "",
+   "summary_zh": "OPPO 用细粒度线索覆盖奖励提升多模态利用率，并通过单模态遮蔽下的 token 级 KL 目标抑制跨模态臆造证据。论文在 MER-UniBench 上报告 81.05 的九任务平均分，并显著提高 MEP-Bench 的线索召回和遮蔽准确率；但诊断集规模有限，完整数据与权重许可仍不清晰。",
    "demo": "",
    "stars": null
   },
@@ -4823,7 +4823,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal agents for visual question answering increasingly operate as multi-step trajectories that interleave perception, retrieval, and reasoning, yet evaluation still largely reduces to final-answer accuracy. This aggregate signal cannot tell whether a correct answer was reached through grounded evidence, language priors, or accidental error cancellation. We propose to treat a multimodal agent trajectory as a provenance-constrained state machine: tool outputs are normalized into a Structured Evidence Ledger that serves as the trajectory state, downstream reasoning and decision claims may cite only active ledger entries, grounding is checked at the entity and numeric level, and repair is realized as typed state transitions that cannot introduce content without tool-produced provenance. We instantiate this design as LedgerMind (Provenance-Constrained Multimodal Agentic Reasoning with a Structured Evidence Ledger), augmented by a Three-Layer Grounding Protocol, an Adaptive Dual-Path Dispatcher that matches reasoning depth to question complexity, and an Event-Triggered Verification-and-Repair engine with a formal provenance non-amplification guarantee. We use LedgerMind to target four recurring failure patterns that final-answer accuracy tends to obscure: unsupported intermediate reasoning, citation-backed entity hallucination (Phantom Grounding), over-reasoning on simple queries, and repair-time amplification. Experiments across multiple multimodal reasoning benchmarks and backbone MLLMs show that LedgerMind improves both answer accuracy and trajectory-level faithfulness.",
-   "summary_zh": "",
+   "summary_zh": "LedgerMind 将多模态代理的自由文本轨迹改造成有来源约束的结构化证据账本，并检查引用、实体与数字是否真正得到工具结果支持。它在多项静态图文推理基准上报告明显增益，但实现、Hard-200 和审计数据均未公开，部分模型版本和对照标注也不一致，因此更适合作为可审计工具运行时的设计参考。",
    "demo": "",
    "stars": null
   },

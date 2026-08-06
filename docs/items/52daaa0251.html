@@ -142,30 +142,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-28 · ◈ 11
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-hosted vision-language model for zero-shot disease classification. The system separates agent interaction from workflow orchestration: OpenClaw provides scheduling, tool access, user interaction, and notification services on the edge device, while LangGraph manages the stateful screening workflow, including input validation, image transmission, model invocation, safety checks, conditional routing, failure handling, and structured logging. This design moves beyond static image classification by enabling the system to collect visual evidence, invoke external models, apply deterministic safety rules, and generate diagnostic-support alerts. Results show that image-only VLM prediction remains limited, whereas symptom-guided and multimodal inputs improve zero-shot classification performance. Thus, VetClaw transforms a static prediction model into a coordinated, safety-aware system that can use tools, manage workflows, handle failures, and escalate uncertain cases. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">VetClaw 展示了 Raspberry Pi 摄像采集、OpenClaw 交互、LangGraph 安全编排和云端 VLM 分类组成的兽医早筛原型。实验说明症状文本远比单张图片更有帮助，但部分文本结果异常接近满分、数据版本和症状构造不透明，尚不能视为临床有效性证据。对 StreamingModelHarness 的启发主要是提交后云端推理、失败处理和人工升级。</span>
     <span class="l-en">We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-hosted vision-language model for zero-shot disease classification. The system separates agent interaction from workflow orchestration: OpenClaw provides scheduling, tool access, user interaction, and notification services on the edge device, while LangGraph manages the stateful screening workflow, including input validation, image transmission, model invocation, safety checks, conditional routing, failure handling, and structured logging. This design moves beyond static image classification by enabling the system to collect visual evidence, invoke external models, apply deterministic safety rules, and generate diagnostic-support alerts. Results show that image-only VLM prediction remains limited, whereas symptom-guided and multimodal inputs improve zero-shot classification performance. Thus, VetClaw transforms a static prediction model into a coordinated, safety-aware system that can use tools, manage workflows, handle failures, and escalate uncertain cases.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-h</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">VetClaw 是由 Raspberry Pi 采集、OpenClaw 交互调度、LangGraph 安全编排和云端 VLM 分类组成的兽医疾病早筛原型。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>单张动物图片缺少物种、行为和症状上下文，大型 VLM 又不适合直接跑在边缘设备；完整系统还必须处理输入校验、失败重试、安全规则和人工升级。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>We present VetClaw, an edge-cloud multimodal agentic system for early veterinary disease screening. VetClaw uses a camera module as an edge sensing device and sends captured images, together with optional symptom descriptions, to a server-hosted vision-language model for zero-shot disease classification. The system separates agent interaction from workflow orchestration: OpenClaw provides scheduling, tool access, user interaction, and notification services on the edge device, while LangGraph manages the stateful screening workflow, including input validation, image transmission, model invocation, safety checks, conditional routing, failure handling, and structured logging. This design moves beyond static image classification by enabling the system to collect visual evidence, invoke external models, apply deterministic safety rules, and generate diagnostic-support alerts. Results show that image-only VLM prediction remains limited, whereas symptom-guided and multimodal inputs improve zero-shot classification performance. Thus, VetClaw transforms a static prediction model into a coordinated, safety-aware system that can use tools, manage workflows, handle failures, and escalate uncertain cases.</p>
-
-
+  <p>OpenClaw 负责定时、摄像头和通知，LangGraph 维护状态、条件分支、重试与日志；边缘端把图片和可选症状文本送到 FastAPI/Ollama 托管的 Qwen3-VL-32B 或 InternVL3-38B，输出仅作为早筛警报。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>边缘端定时采集图片并检查文件、清晰度、亮度与格式。</li><li>图片和症状文本上传到云端 VLM 做零样本分类。</li><li>LangGraph 校验类别并应用低置信度、冲突、紧急症状和 API 错误规则。</li><li>通过审查的结果生成辅助提醒，风险案例要求补充信息或转人工。</li><li>记录图片引用、模型回复、规则结果和错误。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Dogs Skin Disease 上，Qwen 的 image-only 准确率/F1 为 33.26%/0.31，text+image 为 72.17%/0.69。</li><li>InternVL 在 Dogs 上 text-only 达到 100%，高于 text+image 的 94.34%；Pet Disease 上 Qwen 的 text-only 86.90% 也高于 text+image 84.02%。</li><li>论文只给出一个延迟样例：采集 2820.47ms、上传 1977.86ms、Qwen 响应 925.3ms，没有端到端分布或方差。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：边缘缓存、endpoint/commit 后云端推理、确定性校验、重试和人工升级与 Harness 的现有编排方式相符。</li><li>编辑判断：论文没有语音输入、打断或 TTS 实验，也没有证明代理编排优于普通 API 管线，不能视为模型原生全双工方案。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>仅使用两套小型图片数据做零样本提示，缺少真实兽医多模态数据和兽医专家验证。</li><li>症状文本构造没有充分说明，Dogs text-only 的满分结果提示标签描述泄漏或任务过易。</li><li>论文所述 Pet Disease 的 1736 张/22 类与当前数据页的 5000 余张/27 类不一致，也未固定模型 revision、量化和提示版本。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至 2026-08-07 未发现作者发布的 VetClaw 项目页、实现、日志或专属模型。本文没有训练新权重；上游 Qwen3-VL 与 InternVL3 权重公开，但不能替代论文系统。GitHub 上同名 VetClaw 是无关的兽医 skill 库。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-01 09:31</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-07 02:00</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.26042v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
