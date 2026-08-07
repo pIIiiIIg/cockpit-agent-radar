@@ -1,6 +1,262 @@
 {
- "generated": "2026-08-06T20:49:33.489591+08:00",
+ "generated": "2026-08-07T14:21:42.383924+08:00",
  "items": [
+  {
+   "id": "dec8c98235",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning",
+   "url": "https://arxiv.org/abs/2608.03571v2",
+   "published": "2026-08-04",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 12,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b4ea70f0c5",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "F$^2$Agent: Financial Fusion of Agentic Intelligence for Multimodal Trading",
+   "url": "https://arxiv.org/abs/2608.05668v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 10,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fail to capture nuanced cross-modal dependencies and remain vulnerable to market noise, due to limited multimodal modeling, ineffective fusion mechanisms, and inadequate robustness. To address these challenges, we propose F$^2$Agent, a novel multimodal agentic paradigm driven by the Financial Fusion of Agentic Intelligence. F$^2$Agent first deploys a hierarchy of specialized agents to comprehensively extract modality-specific signals. It further introduces a modality-aware adaptive fusion mechanism coupled with noise-robust consistency regularization to dynamically capture fine-grained inter-modality dependencies and generate noise-resilient trading signals. Extensive experiments on six stocks and cryptocurrency assets demonstrate that F$^2$Agent consistently outperforms 16 competitive baselines across multiple trading metrics, with over 20% relative improvement in annualized return on average. Notably, F$^2$Agent delivers returns of 120.48% on GOOG and 148.41% on TSLA, demonstrating its efficacy and robustness in varying market dynamics.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8d663c0ee6",
+   "kind": "repo",
+   "source": "github",
+   "title": "nicedreamzapp/nemotron-omni-mlx",
+   "url": "https://github.com/nicedreamzapp/nemotron-omni-mlx",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 10,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Run NVIDIA's tri-modal Nemotron Omni (text+vision+audio) entirely on Apple Silicon — pure MLX runtime, parity-verified against NVIDIA's reference apple-silicon c-radio inference-engine local-llm macos mlx multimodal nemotron nvidia offline-ai omni on-device-ai parakeet speech-recognition vision-language-model",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "42219959bd",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Seeing Is Not Deciding: Can Multimodal LLMs Act as Effective CEOs?",
+   "url": "https://arxiv.org/abs/2608.05864v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual business evidence and effectively integrate it to improve decision quality. We introduce C-SUITEBENCH, a controlled multimodal benchmark that includes five decision tasks under paired text-only and multimodal conditions across 50 scenarios. We place nine frontier models in the role of a chief executive officer and evaluate their decision-making ability. Multimodal inputs consistently improve evidence-centric reasoning, with the largest and most reliable gains appearing in risk forecasting and board-facing justification. However, we uncover a multimodal integration paradox: adding visual business information degrades constrained resource allocation for all nine models, even as visual grounding itself improves. Ablation experiments reveal that this failure emerges from signal crowding, although each visual channel helps individually, their combination disrupts constraint satisfaction during decoding. These findings demonstrate that visual perception and constrained action are separable bottlenecks in multimodal agents, and that indiscriminate visual augmentation can harm high-stakes decision making, motivating selective grounding strategies for future executive AI systems.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7dc9a079ca",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "StreamArena: Toward Continuous, Interactive, and Long-Horizon Agentic Streaming Video Understanding",
+   "url": "https://arxiv.org/abs/2608.05703v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "9e9dc9f352",
+   "kind": "model",
+   "source": "hf",
+   "title": "encredible/Qwen2.5-1.5B-Omni-Fleet",
+   "url": "https://huggingface.co/encredible/Qwen2.5-1.5B-Omni-Fleet",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation mlx safetensors qwen2 text-generation conversational en base_model:Qwen/Qwen2.5-1.5B base_model:finetune:Qwen/Qwen2.5-1.5B license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "8432529fe7",
+   "kind": "model",
+   "source": "hf",
+   "title": "encredible/Qwen2.5-7B-Omni-Fleet",
+   "url": "https://huggingface.co/encredible/Qwen2.5-7B-Omni-Fleet",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation mlx safetensors qwen2 text-generation conversational en base_model:Qwen/Qwen2.5-7B base_model:finetune:Qwen/Qwen2.5-7B license:apache-2.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "367a22b152",
+   "kind": "model",
+   "source": "hf",
+   "title": "hammertoe/Qwen3-Omni-30B-A3B-Barbados-LoRA",
+   "url": "https://huggingface.co/hammertoe/Qwen3-Omni-30B-A3B-Barbados-LoRA",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "text-generation peft safetensors qwen omni lora dapt barbados text-generation conversational base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct base_model:adapter:Qwen/Qwen3-Omni-30B-A3B-Instruct region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "76ffc2986d",
+   "kind": "paper",
+   "source": "hf",
+   "title": "SIGNPOST-Bench: Benchmarking Text-Vision Conflict Resolution in Multimodal Large Language Models",
+   "url": "https://huggingface.co/papers/2608.04244",
+   "published": "2026-08-03",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Multimodal large language models (MLLMs) make grounded predictions in real-world scenes by combining visual and textual cues, yet existing benchmarks rarely reveal how they arbitrate between these evidence sources when they conflict. We introduce SIGNPOST-Bench, a controlled counterfactual benchmark for evaluating text-vision conflict resolution. Each source image is transformed into a counterfactual quintuplet of Original, Blank, Similar, Random, and Adversarial variants. Synthetic, localized scene-text interventions are designed to preserve non-textual content, enabling paired measurements of changes in localization performance and directed shifts toward geographic targets introduced by conflicting text. SIGNPOST-Bench contains 5,111 counterfactual groups and 25,555 image variants from four datasets. We evaluate 20 MLLMs from seven providers. Compared with Original images, Adversarial variants raise median localization error from 282 km to 1,347 km, a 4.8-fold increase. Among geocodable adversarial samples, 6.5-20.1% of predictions lie less than 50 km from the injected target across models, and every evaluated model exhibits a positive mean paired reduction in target distance from Blank to Adversarial. Compatible, unrelated, and conflicting text replacements produce distinct effects on model predictions, while clean-input localization performance does not fully predict robustness to conflicting text. These results establish visual geolocation as a continuous diagnostic of scene-text arbitration and provide a controlled framework for evaluating how MLLMs resolve conflicting multimodal evidence.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dae611bf98",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Learning from Failures: Retrieval-Centric CoT via Hard Negatives for Unified Multimodal Retrieval",
+   "url": "https://huggingface.co/papers/2608.06060",
+   "published": "2026-08-05",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Unified multimodal retrieval aims to identify candidates that satisfy complex user intent expressed through heterogeneous inputs. Although Large Vision-Language Model (LVLM)-based retrievers are efficient and scalable, directly encoding raw multimodal inputs often misses fine-grained discriminative cues, leading to confusion among semantically similar candidates. Recent methods mitigate this limitation by generating Chain-of-Thought (CoT) rationales to enrich the query representation. However, such reasoning is typically derived from the query alone: it explains what the query describes, but not what the retriever misunderstands. We argue that effective retrieval reasoning should instead be conditioned on retrieval feedback. Based on this insight, we introduce UniME-R1, an embedder-adviser framework that learns to reason over initially retrieved candidates and generate Retrieval-Centric Chain-of-Thought (RC-CoT). The adviser analyzes candidates individually to identify the discriminative cues confused by the embedder. If the target appears in the initial top-k set, UniME-R1 directly reranks the candidates; otherwise, it generates RC-CoT to refine the retrieval direction and performs full-corpus re-retrieval with a dual-mode embedder. To train the framework, we mine hard negatives to simulate realistic retrieval failures, jointly optimize direct retrieval and RC-CoT-augmented retrieval, and align the adviser with retrieval outcomes through supervised learning and retrieval-oriented reinforcement learning. Extensive experiments on MMEB-V2 and a diverse set of general multimodal retrieval benchmarks demonstrate that UniME-R1 consistently improves retrieval performance over strong baselines.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e222d7b717",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AffectDF: The Most Comprehensive Benchmark for Speech Deepfake Detection against Emotionally Expressive Attacks",
+   "url": "https://arxiv.org/abs/2608.05507v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 5,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and attack diversity, typically covering only voice conversion (VC) or text-to-speech (TTS) attacks. We introduce AffectDF, the most comprehensive benchmark for emotionally expressive speech deepfakes, spanning TTS, VC, emotional VC, and LALM-based spoofing attacks across both acted and spontaneous emotional speech. AffectDF contains approximately 260 hours of speech generated using 21 spoofing attacks across five emotional states. We benchmark state-of-the-art SDD systems under conventional and emotional spoofing conditions, including LALM-based detectors evaluated with both inference-only prompting and supervised fine-tuning. Our experiments reveal severe robustness degradation when models trained on conventional benchmarks are evaluated on AffectDF, with several systems approaching near-random performance. Surprisingly, even large-scale emotional training does not consistently improve cross-domain robustness, indicating that current SDD systems fail to learn generalized spoof representations under emotional and prosodic variability. Robustness further varies substantially across emotional states, attack families, and acted vs spontaneous emotional speech conditions. These findings expose fundamental limitations of current SDD systems and establish AffectDF as a benchmark for developing more robust spoof detection models.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "886fba2835",
+   "kind": "paper",
+   "source": "hf",
+   "title": "DyPES-VLA: Learning Shared Dynamics Priors and Embodiment-Specific Control for Cross-Embodiment Manipulation",
+   "url": "https://huggingface.co/papers/2608.06374",
+   "published": "2026-08-05",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 5,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) models have become a powerful paradigm for robot manipulation, but training a single generalist policy for heterogeneous robot embodiments remains an open problem. Existing methods have two main limitations. First, they underuse dynamics priors shared across diverse visual and interaction data, limiting cross-embodiment transfer. Second, they require extensive manual preprocessing to convert embodiment-specific actions into a common format. To overcome these limitations, we propose DyPES-VLA, a cross-embodiment VLA that learns shared Dynamics Priors and Embodiment-Specific control. First, we learn shared dynamics priors by training the vision-language model (VLM) with a future-prediction objective on cross-embodiment data, driving the shared query representation to capture object motion, contact, and interaction-induced scene changes. Second, an embodiment-specific Mixture-of-Experts (MoE) action head translates these shared dynamics priors into executable controls directly in each embodiment's native action space, without manually pre-aligning heterogeneous actions into a common format. This head shares attention layers to capture common temporal action structures, while its embodiment-specific feed-forward experts resolve the unique kinematic constraints and control semantics of distinct embodiments. As a generalist policy, our \\ourmethod achieves state-of-the-art performance across simulation and real-world evaluations, reaching 98.0% success on LIBERO, 59.25% on RoboCasa-GR1, and 89.02% on RoboTwin~2.0.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8f3e4a91fb",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Identity-Faithful Audio-Visual Target Speaker Extraction with REAL-2MIX and VOXBLINK2-AVSE",
+   "url": "https://arxiv.org/abs/2608.03964v2",
+   "published": "2026-08-04",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "a34fe1ab83",
+   "kind": "repo",
+   "source": "github",
+   "title": "COSS-India/voicera_mono_repository",
+   "url": "https://github.com/COSS-India/voicera_mono_repository",
+   "published": "2026-08-07",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 4,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "A complete voice AI building block with telephony integration, featuring real-time speech-to-text, text-to-speech, and LLM-powered conversational agents.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 33
+  },
+  {
+   "id": "06e0a0eb35",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Resume Means Resume: A Machine-Checked Conformance Contract for Checkpoint, Interrupt, and Resume Semantics in Workflow Persistence Layers",
+   "url": "https://huggingface.co/papers/2608.03836",
+   "published": "2026-08-03",
+   "found": "2026-08-07T14:21:42.383924+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "A framework that persists execution state so a run can be interrupted, survive a crash, and continue must decide what a resume means for effects that already fired. Five widely deployed agent workflow frameworks answer differently, none exposes a machine-checkable contract, and behavior violates even the fragments they state. The RESUME CONTRACT states six properties over the persistence API (prefix continuation, effect exactly-once, fork determinism, checkpoint validity, consume-once, recovery determinism), plus fork-intent and liveness obligations. A TLA+ model checks a reference semantics exhaustively, unchanged at scaled bounds (7.4 million states); a 39-cell fault matrix yields the separating models independence requires, and consume-once splits, its consumption clause independent of all six others. A deterministic, LLM-free harness measures them at pinned releases. LangGraph 1.2.9 durably records a second resume value and never consults it, persists schema-invalid state silently, and re-executes durably recorded work after a real SIGKILL: exactly-once across interrupts, at-least-once across crashes, on one API. CrewAI 1.15.2 re-executes completed effect-bearing methods against its written claim; pydantic-graph 1.x cannot resume after a mid-node crash; no two probed frameworks share a conformance profile. Consume-once holds sequentially and fails under concurrent delivery: k processes resuming one parked interrupt fire the gated effect k times, saturation 1.0 in 36 of 40 cells, and the failure crosses hosts. REMIT, a reference sequencer whose Verus-verified recovery core is line-identical to the shipped executable, repairs the fork and validity cells. The cross-process cell is repaired at the read path, and that repair ships: an opt-in gate claims consumption in the shared store, serving one racer and refusing the rest before any node executes.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "c663ef96e8",
    "kind": "paper",
@@ -396,7 +652,7 @@
    "summary_en": "An open research platform for wearable sensing, nearby-device local multimodal inference, and local-first visual assistance. ai-glasses hardware multimodel omni personas smartglasses wearable wearable-devices",
    "summary_zh": "",
    "demo": "",
-   "stars": 16
+   "stars": 17
   },
   {
    "id": "b8a6dfc35f",
@@ -533,7 +789,7 @@
    "summary_en": "I started thinking over why doesn&#x27;t fireworks support voice models. There are really good opensource models available now, like parakeet, kokoro, Qwen ASR etc but no way to use it without managing a bunch of GPUs yourself.<p>Even LLMs like Gemma 4 used by voice agents are not supported.<p>Then I figured that the inference platform needs to be optimized differently for the kind of usecase you are using. Lets take an example for LLMs, not even STT and TTS. - Coding agents -&gt; lot of cached input, needs to optimize for KV cache - Creation slides&#x2F;blogs -&gt; lots of output, needs to optimize for speculative decoding - Voice LLMs -&gt; Cached input small output, not yet figured out on how to optimize this.<p>So TTS and STT is a completely different ballgame.<p>What I don&#x27;t know is the timing, do people want to use open source models like kokoro, parakeet, Qwen etc RIGHT NOW?",
    "summary_zh": "",
    "demo": "",
-   "stars": 4
+   "stars": 5
   },
   {
    "id": "4ba62e8636",
@@ -3531,7 +3787,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15070
+   "stars": 15078
   },
   {
    "id": "357904a773",
@@ -3742,7 +3998,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 68
+   "stars": 70
   },
   {
    "id": "bd747fc4a6",
@@ -5138,7 +5394,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5901
+   "stars": 5921
   },
   {
    "id": "293306d628",
@@ -5156,7 +5412,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 740
+   "stars": 743
   },
   {
    "id": "5d6e6e2b0a",
@@ -5192,7 +5448,7 @@
    "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
    "summary_zh": "",
    "demo": "",
-   "stars": 565
+   "stars": 566
   },
   {
    "id": "b8dde0aed2",
@@ -5245,7 +5501,7 @@
    "summary_en": "Specialized .NET Streams and pipes for full duplex in-proc communication, web sockets, and multiplexing",
    "summary_zh": "",
    "demo": "",
-   "stars": 711
+   "stars": 712
   },
   {
    "id": "bf76305254",
@@ -6263,7 +6519,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5150
+   "stars": 5156
   },
   {
    "id": "a4b6353a38",

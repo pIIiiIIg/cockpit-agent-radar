@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</guid>
+<description>Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiment</description>
+</item>
+<item>
+<title>F$^2$Agent: Financial Fusion of Agentic Intelligence for Multimodal Trading</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b4ea70f0c5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b4ea70f0c5.html</guid>
+<description>With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fa</description>
+</item>
+<item>
+<title>nicedreamzapp/nemotron-omni-mlx</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8d663c0ee6.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8d663c0ee6.html</guid>
+<description>Run NVIDIA&#x27;s tri-modal Nemotron Omni (text+vision+audio) entirely on Apple Silicon — pure MLX runtime, parity-verified against NVIDIA&#x27;s reference apple-silicon c-radio inference-engine local-llm macos mlx multimodal nemotron nvidia offline-ai omni on-device-ai parakeet speech-recognition vision-lang</description>
+</item>
+<item>
+<title>Seeing Is Not Deciding: Can Multimodal LLMs Act as Effective CEOs?</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/42219959bd.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/42219959bd.html</guid>
+<description>Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual business evidence and effectively integrate it to improve deci</description>
+</item>
+<item>
+<title>StreamArena: Toward Continuous, Interactive, and Long-Horizon Agentic Streaming Video Understanding</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7dc9a079ca.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7dc9a079ca.html</guid>
+<description>Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that p</description>
+</item>
+<item>
+<title>encredible/Qwen2.5-1.5B-Omni-Fleet</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9e9dc9f352.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9e9dc9f352.html</guid>
+<description>text-generation mlx safetensors qwen2 text-generation conversational en base_model:Qwen/Qwen2.5-1.5B base_model:finetune:Qwen/Qwen2.5-1.5B license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>encredible/Qwen2.5-7B-Omni-Fleet</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8432529fe7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8432529fe7.html</guid>
+<description>text-generation mlx safetensors qwen2 text-generation conversational en base_model:Qwen/Qwen2.5-7B base_model:finetune:Qwen/Qwen2.5-7B license:apache-2.0 region:us</description>
+</item>
+<item>
+<title>hammertoe/Qwen3-Omni-30B-A3B-Barbados-LoRA</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/367a22b152.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/367a22b152.html</guid>
+<description>text-generation peft safetensors qwen omni lora dapt barbados text-generation conversational base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct base_model:adapter:Qwen/Qwen3-Omni-30B-A3B-Instruct region:us</description>
+</item>
+<item>
+<title>SIGNPOST-Bench: Benchmarking Text-Vision Conflict Resolution in Multimodal Large Language Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/76ffc2986d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/76ffc2986d.html</guid>
+<description>Multimodal large language models (MLLMs) make grounded predictions in real-world scenes by combining visual and textual cues, yet existing benchmarks rarely reveal how they arbitrate between these evidence sources when they conflict. We introduce SIGNPOST-Bench, a controlled counterfactual benchmark</description>
+</item>
+<item>
+<title>Learning from Failures: Retrieval-Centric CoT via Hard Negatives for Unified Multimodal Retrieval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dae611bf98.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dae611bf98.html</guid>
+<description>Unified multimodal retrieval aims to identify candidates that satisfy complex user intent expressed through heterogeneous inputs. Although Large Vision-Language Model (LVLM)-based retrievers are efficient and scalable, directly encoding raw multimodal inputs often misses fine-grained discriminative </description>
+</item>
+<item>
+<title>AffectDF: The Most Comprehensive Benchmark for Speech Deepfake Detection against Emotionally Expressive Attacks</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e222d7b717.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e222d7b717.html</guid>
+<description>Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and </description>
+</item>
+<item>
+<title>DyPES-VLA: Learning Shared Dynamics Priors and Embodiment-Specific Control for Cross-Embodiment Manipulation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/886fba2835.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/886fba2835.html</guid>
+<description>Vision-Language-Action (VLA) models have become a powerful paradigm for robot manipulation, but training a single generalist policy for heterogeneous robot embodiments remains an open problem. Existing methods have two main limitations. First, they underuse dynamics priors shared across diverse visu</description>
+</item>
+<item>
+<title>Identity-Faithful Audio-Visual Target Speaker Extraction with REAL-2MIX and VOXBLINK2-AVSE</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8f3e4a91fb.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8f3e4a91fb.html</guid>
+<description>Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronize</description>
+</item>
+<item>
+<title>COSS-India/voicera_mono_repository</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a34fe1ab83.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a34fe1ab83.html</guid>
+<description>A complete voice AI building block with telephony integration, featuring real-time speech-to-text, text-to-speech, and LLM-powered conversational agents.</description>
+</item>
+<item>
+<title>Resume Means Resume: A Machine-Checked Conformance Contract for Checkpoint, Interrupt, and Resume Semantics in Workflow Persistence Layers</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/06e0a0eb35.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/06e0a0eb35.html</guid>
+<description>A framework that persists execution state so a run can be interrupted, survive a crash, and continue must decide what a resume means for effects that already fired. Five widely deployed agent workflow frameworks answer differently, none exposes a machine-checkable contract, and behavior violates eve</description>
+</item>
+<item>
 <title>FocusMem: Factorizing Content, Readout, and Trust in Latent GUI Memory</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/b8a6dfc35f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b8a6dfc35f.html</guid>
 <description>While instruction-based video editing has advanced rapidly, real-world videos contain tightly coupled audio and visual signals, and editing one modality often requires coordinated changes in the other. Existing benchmarks primarily evaluate visual transformations on silent clips or isolated audio ed</description>
-</item>
-<item>
-<title>Explicit Language Memory for Long-Horizon Planning in Vision-Language-Action Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/33b9b9733c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/33b9b9733c.html</guid>
-<description>Vision-language-action (VLA) models provide a unified paradigm for connecting visual perception, language understanding, and robotic control. However, existing VLA models still face major challenges in long-horizon tasks: sparse expert demonstrations constrain cross-task compositional generalization</description>
-</item>
-<item>
-<title>Kushagra1A/openpi</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/722a5d2b25.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/722a5d2b25.html</guid>
-<description>🤖 Explore open-source robotics models and packages, including advanced vision-language-action systems for versatile applications and fine-tuning options. advanced-driver-assistance-systems composite-fields end-to-end-autonomous-driving fpga gpu human-pose-estimation javascript llm llmops multicloud </description>
-</item>
-<item>
-<title>provael/provael</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/adcb3183a0.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/adcb3183a0.html</guid>
-<description>Provael — red-team open Vision-Language-Action (VLA) robot policies in simulation and report an Attack Success Rate (ASR). Prove it. Prevail. adversarial-attacks ai-safety lerobot libero llm red-team robot-learning robotics security smolvla vision-language-action vla</description>
-</item>
-<item>
-<title>Decoding Children&#x27;s Gait Behavior</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2dfa2c0c88.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2dfa2c0c88.html</guid>
-<description>We introduce a new problem domain for human action recognition: the fine-grained analysis of children&#x27;s gait behaviors from standard RGB video. We specifically target the ambulatory patterns of children aged 3-17 years. Such behaviors arise naturally in the diagnosis and treatment of several critica</description>
-</item>
-<item>
-<title>Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8a653ef5e0.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8a653ef5e0.html</guid>
-<description>Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task po</description>
-</item>
-<item>
-<title>ayutaz/vokra</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/efa2f9c432.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/efa2f9c432.html</guid>
-<description>Speech-first inference runtime in Rust — TTS / ASR / speech-to-speech / VC / speaker ID / VAD. An ONNX Runtime alternative that loads GGUF &amp; safetensors directly: zero external dependencies, C ABI for Unity &amp; Godot, CPU / Metal / CUDA / Vulkan backends. Apache-2.0, pre-release. asr cuda gguf godot i</description>
-</item>
-<item>
-<title>Why Fireworks doesn&#x27;t support Voice AI</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d9bf4979be.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d9bf4979be.html</guid>
-<description>I started thinking over why doesn&amp;#x27;t fireworks support voice models. There are really good opensource models available now, like parakeet, kokoro, Qwen ASR etc but no way to use it without managing a bunch of GPUs yourself.&lt;p&gt;Even LLMs like Gemma 4 used by voice agents are not supported.&lt;p&gt;Then </description>
-</item>
-<item>
-<title>unsloth/Qwen2.5-Omni-3B-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4ba62e8636.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4ba62e8636.html</guid>
-<description>any-to-any transformers gguf qwen2_5_omni multimodal unsloth any-to-any en arxiv:2503.20215 base_model:Qwen/Qwen2.5-Omni-3B base_model:quantized:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us conversational</description>
-</item>
-<item>
-<title>unsloth/Qwen2.5-Omni-7B-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1fd6c7a2ec.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1fd6c7a2ec.html</guid>
-<description>any-to-any transformers gguf qwen2_5_omni multimodal unsloth any-to-any en arxiv:2503.20215 base_model:Qwen/Qwen2.5-Omni-7B base_model:quantized:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us conversational</description>
-</item>
-<item>
-<title>SHUKLAO/call-with-ai-agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ce198870cc.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ce198870cc.html</guid>
-<description>🗣️ Engage in real-time voice conversations with an AI agent using Next.js and ElevenLabs for an interactive and responsive user experience. ai-agent aiagent aiagents airtable-api automation chatbot chatops gemini-api incident-response jira kubernetes llm llm-agent n8n prometheus python slack sre</description>
-</item>
-<item>
-<title>ToolArtist: Tool-Using Unified Multimodal Models for Agentic Image Generation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fb41881aa5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fb41881aa5.html</guid>
-<description>Text-to-image (T2I) models can produce visually compelling images, yet they remain limited on open-world tasks that require complex semantic understanding, multi-step reasoning, and the integration of external world knowledge. Existing efforts introduce agent capabilities into image generation, but </description>
-</item>
-<item>
-<title>Towards Physics of Multimodal Pretraining: Knowledge Flow, Modality Synergy, Early Unification, and Recipes</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f70cccf2f1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f70cccf2f1.html</guid>
-<description>Vision offers a critical axis for advancing foundation models, driving a shift towards natively unified multimodal pretraining. Despite this momentum, the design space and the fundamental mechanisms of how modalities interact during unified training remain underexplored. We provide empirical clarity</description>
-</item>
-<item>
-<title>keylazy/Qwen2.5-Omni-3B-bab-cr-sft</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/74995ff0a2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/74995ff0a2.html</guid>
-<description>transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>keylazy/Qwen2.5-Omni-3B-bab-cr6-sft</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bb229bddc4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bb229bddc4.html</guid>
-<description>transformers tensorboard safetensors arxiv:1910.09700 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>RestoreKV: Recovering Full-Cache Behavior Under Aggressive Query-Agnostic KV Cache Eviction</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/46dcaefb5a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/46dcaefb5a.html</guid>
-<description>RestoreKV 在固定总预算内，以一次 LoRA 适配的八 token 前向从完整缓存生成恢复 KV，再与保留的原 KV 合并；Qwen3-4B 的 5% KVzip RULER-4K 由 38.2 升至 73.2。它适合实验性修复 Harness B 路径端点后的激进压缩损失，但需训练 Qwen3-Omni adapter，且不解决 context attraction 或 MoE 同步。</description>
 </item>
 </channel></rss>
