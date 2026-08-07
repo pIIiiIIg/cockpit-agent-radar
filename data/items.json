@@ -1,6 +1,242 @@
 {
- "generated": "2026-08-07T14:21:42.383924+08:00",
+ "generated": "2026-08-07T19:15:16.833068+08:00",
  "items": [
+  {
+   "id": "34e3999f6c",
+   "kind": "model",
+   "source": "hf",
+   "title": "mradermacher/OPOD-Qwen3-Omni-30B-A3B-GGUF",
+   "url": "https://huggingface.co/mradermacher/OPOD-Qwen3-Omni-30B-A3B-GGUF",
+   "published": "2026-08-07",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "reinforcement-learning transformers gguf omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni en zh base_model:Tung111/OPOD-Qwen3-Omni-30B-A3B base_model:quantized:Tung111/OPOD-Qwen3-Omni-30B-A3B license:other endpoints_compatible region:us conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "859a03fc0d",
+   "kind": "repo",
+   "source": "github",
+   "title": "3trilla/ayesha-portfolio",
+   "url": "https://github.com/3trilla/ayesha-portfolio",
+   "published": "2026-08-07",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 6,
+   "tags": [
+    "voice agent"
+   ],
+   "summary_en": "🤖 Build AI systems to enhance education with a Virtual Teaching Assistant and voice agents that ensure secure and accurate support for students and faculty. ai azure cloud data-science database devops docker fastapi jrf llm machine-learning nlp pgvector portfolio rag research sql voice-ai",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 5
+  },
+  {
+   "id": "6b5610598c",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Helping Music Co-Creation Agents 'Listen' Well: Hierarchical Self-Supervised World Models for Understanding and Generation",
+   "url": "https://huggingface.co/papers/2608.04378",
+   "published": "2026-08-04",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Collaborative music agents need internal representations rich enough to support both understanding and generation, yet flexible enough for a workflow where the human retains agency. We present a hierarchical self-supervised ``world model'' for symbolic music: a 2.55M-parameter Swin V2 encoder trained on MIDI piano-roll images with JEPA-style objectives (pitch- and time-shift equivariance, masked embedding prediction, and a distributional regularizer), using no labels and no music-theory vocabulary. Probing the frozen embeddings shows that the level at which a musical property becomes decodable tracks its musical time scale: phrase boundaries are read off the coarsest levels, note density and harmonic detail off the finest. Temporal and phrase structure emerge from the self-supervised objectives alone, while harmonic content must be asked for; a small chord-supervision head raises joint chord recovery from .18 to .54, and key detection, which is never supervised, from .16 to .70. Following the Representation AutoEncoder paradigm, a conditional flow-matching model stands in for a trained decoder, flowing in pixel space from PCA-reduced conditioning: it reproduces a target window at pixel F1 0.996, and the same per-level conditioning dropout that controls how far variations stray also enables graphical prompting for masked inpainting with no inpainting-specific sampler. The pipeline runs on CPU producing a suggestion in 2.8 s, or 0.6 s on Apple MPS, which we demonstrate in a live interactive demo. In concert with an LLM-based brain, these capabilities supply the core of a collaborative music creation agent in service of, rather than in place of, human agency.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "3997ecae60",
+   "kind": "paper",
+   "source": "hf",
+   "title": "SmartMage: Dynamic Modality Orchestration for 3D Scene Understanding",
+   "url": "https://huggingface.co/papers/2608.05137",
+   "published": "2026-08-04",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Understanding 3D scenes is fundamental to embodied intelligence, requiring joint reasoning over heterogeneous information from multiple modalities, including visual and geometric cues. However, the relevance of these modalities often varies across queries. Existing Multimodal Large Language Models (MLLMs) typically rely on fixed modality combinations, overlooking query-dependent modality needs. Such a rigid design can introduce semantic noise from irrelevant modalities while underutilizing more informative ones, leading to wasted computation and diluted reasoning. To address these challenges, this paper proposes SmartMage, a unified MLLM that dynamically orchestrates heterogeneous modalities for semantic-aware 3D scene understanding. Specifically, SmartMage incorporates: (1) a Semantic-guided Modality Adaptive RouTng (SMART) module that selects task-relevant modalities using semantic priors, text-modality alignment, and modality quality; and (2) a Modality-Aware Gating Expert (MAGE) module that leverages modality priors to guide expert activation, fostering adaptive specialization in multimodal reasoning. Empirically, SmartMage achieves state-of-the-art performance across five 3D scene understanding benchmarks, and attains competitive results on RGB-only video understanding benchmarks. In our diagnostic benchmark ScanFacet, tasks are divided into fine-grained semantic categories, enabling analysis of modality combinations preferred by each semantic type. The observed modality-semantic patterns provide further evidence of SmartMage's effectiveness. Project page: https://yuecheong.github.io/SmartMage/.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "74359d047e",
+   "kind": "paper",
+   "source": "hf",
+   "title": "World-to-Wrist: Task-Conditioned Future Wrist Modeling for Fine-Grained Robot Manipulation",
+   "url": "https://huggingface.co/papers/2608.05369",
+   "published": "2026-08-04",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-language-action (VLA) models often treat main-view and wrist-view observations as parallel visual inputs, overlooking their distinct roles in robot manipulation. Fine-grained manipulation, however, benefits from anticipating how wrist-local interactions may evolve under the global task context. To address this limitation, we present World-to-Wrist VLA (W2-VLA), a VLA model for fine-grained robot manipulation with task-conditioned future wrist modeling. Given current multi-view observations and a task instruction, W2-VLA contextualizes a set of latent modeling tokens as a compact interface between the vision-language model and the wrist predictor. Conditioned on this interface and the observed wrist history, the predictor forecasts future wrist latents, which are transformed into future-aware context for action prediction. In addition, we introduce W2-CoT, a synthesis pipeline that produces structured annotations describing manipulation progress, physical transition cues, and wrist-local evidence. These annotations provide auxiliary supervision that shapes the task-conditioned latent interface. Experiments on LIBERO, RoboTwin 2.0, and real-world manipulation tasks demonstrate improved fine-grained and contact-sensitive manipulation across both single-arm and bimanual settings, while maintaining action-generation rates above 80 Hz.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "4629d381d1",
+   "kind": "paper",
+   "source": "hf",
+   "title": "ChronoVision: Temporal Reasoning via Latent State Reconstruction",
+   "url": "https://huggingface.co/papers/2608.05631",
+   "published": "2026-08-05",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Multimodal large language models excel at passive perception but struggle with complex visual cognitive tasks requiring multi-step temporal reasoning. This degradation largely stems from the inherent ambiguity of language-based reasoning, which often fails to accurately articulate continuous visual transformations. To address this, we propose ChronoVision, a multimodal framework designed to align visual logic with latent imagery. During supervised fine-tuning, a Reconstructive Visual Head predicts the latent representation of the final transformed state, while an ROI Attention Locating module focuses the model on key visual evidence via semantic span queries. In post-training, we apply reinforcement learning with an implicit process grounding mechanism, guided by a composite reward function that evaluates outcome correctness, latent process alignment, and unsupervised visual focus. Furthermore, we introduce Vbvr-VQA, a novel dataset that evaluates temporal tracking by reformulating video reasoning into a strict image-ordering task. Experiments demonstrate that ChronoVision achieves state-of-the-art performance on Vbvr-VQA with 74.8% in-domain and 71.6% out-of-domain accuracy, alongside a strong 55.0% accuracy on IntPhys2, a highly challenging cross-domain benchmark.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "c306ee6946",
+   "kind": "paper",
+   "source": "hf",
+   "title": "From Economic Agents to Agentic Economies: A Systems Blueprint for Economic World Models",
+   "url": "https://huggingface.co/papers/2608.06020",
+   "published": "2026-08-05",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Economic World Models (EWMs) are generative economic models that simulate how economies evolve from within by modeling heterogeneous agents, their beliefs and actions, and the market and institutional mechanisms through which their interactions produce aggregate outcomes. This paper develops an implementation roadmap for building economic world models as generative engines in which heterogeneous agents act, interact, adapt, and co-evolve with markets and institutions, thereby producing economic dynamics from the inside. We organize EWM systems into a six-level capability ladder, from fixed rule-based agent worlds to adaptive and LLM-based agent worlds, self-evolving agents, evolving institutional worlds, and sim-to-real economic twins aligned with real observations. A systematic literature survey across these levels reveals that existing work remains concentrated in lower-level agent and simulation environments, while systems with self-evolving agents, endogenous institutions, persistent empirical alignment, and validated economic mechanisms remain rare. By translating the EWM agenda into an implementation blueprint, this paper aims to accelerate the development of the next generation of economic simulation environments that can serve as high-fidelity sandboxes for human decision-makers and as training, planning, evaluation, and safety substrates for AI agents. We release a curated paper list and related resources to support future research.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f2d3c1b4b1",
+   "kind": "paper",
+   "source": "hf",
+   "title": "EnvACE: Internalizing Environment Dynamics via World Rehearsal for Agentic Reinforcement Learning",
+   "url": "https://huggingface.co/papers/2608.06197",
+   "published": "2026-08-05",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Training large language model agents for long-horizon tool use typically relies on interactions with real or synthesized executable environments, whose construction and verification are costly, or on external simulators that are difficult to ground. We introduce EnvACE, an agentic reinforcement learning method that replaces external environment interaction during training with world rehearsal. The policy alternates between acting and rehearsal: it first generates a tool call, then plays the role of the environment to produce the response induced by that action, and conditions subsequent decisions on the rehearsed response. Both roles are jointly optimized end-to-end using task-success rewards. Through world rehearsal, the policy internalizes the relationship between actions and their environment responses in its parameters, yielding an agent world model that directly supports decision making. Across BFCL-v4, tau^2-Bench, VitaBench, and FinMCP-Bench, EnvACE achieves strong and transferable performance, outperforming environment-scaling baselines in the overall evaluation. Controlled studies further show that world rehearsal consistently improves policy learning across model scales. At test time, the internalized world model enables private rehearsal before committed execution, yielding further gains under a moderate rehearsal budget without additional external interaction. Our findings establish world rehearsal as a new path toward scaling LLM agent training beyond the constraints of external environments. Our code is publicly available at https://github.com/Within-yao/EnvACE.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e87eea6e71",
+   "kind": "paper",
+   "source": "hf",
+   "title": "HarnessOpt-Bench: Evaluating LLMs at Harness Optimization",
+   "url": "https://huggingface.co/papers/2608.06301",
+   "published": "2026-08-05",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "As LLMs are increasingly deployed within agentic systems, their capabilities depend not only on the model weights but also on the harness: the prompts, tools, control flow, memory, and orchestration code surrounding them. This makes automated harness optimization -- the iterative and evaluation-guided improvement of a harness by an AI system -- both an important route to improving AI systems and a demanding capability for AI systems themselves. Yet the community lacks a common protocol for measuring how well frontier LLMs perform at this task. We introduce HarnessOpt-Bench, a benchmark for end-to-end harness optimization under expensive and stochastic evaluation. An optimizer, an LLM paired with a coding harness, receives a target agent's seed harness, graded evaluation feedback, and a fixed target-evaluation budget. It edits the harness and nominates a final candidate, which is scored by its normalized gain over the seed on a held-out test partition that remains inaccessible throughout search. A trusted execution environment enforces the evaluation boundary, meters target-agent resource use, and preserves candidate versions for audit. We evaluate 5 frontier LLMs as optimizers both under a shared coding harness and under their native harnesses across 4 downstream tasks, over 111 scored runs. Experiment results show that optimizer models separate more than the coding harnesses they act through, native harnesses are not consistently superior, and gains vary substantially across tasks and seed regimes. These results establish harness optimization as a measurable and discriminative capability with large space for improvement.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "17a9aaead5",
+   "kind": "paper",
+   "source": "hf",
+   "title": "FinanceHarness: Autonomous Financial Deep Research Framework",
+   "url": "https://huggingface.co/papers/2607.27853",
+   "published": "2026-07-29",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research. Financial research demands specialized knowledge to analyze historical patterns and forecast upcoming events. Automating financial deep research therefore requires both a layered harness to drive the research agent and a verifiable, point-in-time benchmark that prevents leakage of future information. We present FinanceHarness, a harness that runs finance-oriented tools and practitioner-guided workflows, automating financial deep research end to end: environment and data construction, the agent execution loop, and reward modeling. We further propose FinanceGym, comprising thesis-driven research questions and rubrics that combine pre-cutoff and post-cutoff criteria. Professional expert validation yields an 82% pass rate. Even leading LLMs and agents score below 40% on the rubrics, showing that FinanceGym is challenging and leaves substantial headroom. With the same open-weight backbone, FinanceHarness improves the overall rubric score from 25.3% to 32.4%. FinanceHarness is available at https://github.com/Yijia-Xiao/FinanceHarness.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "328b04b2d9",
+   "kind": "paper",
+   "source": "hf",
+   "title": "OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models",
+   "url": "https://huggingface.co/papers/2607.28609",
+   "published": "2026-07-29",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curation, and reinforcement learning. Neither human-written verifiers nor human annotators can provide such verification at scale, so the field increasingly turns to vision-language models (VLMs) as judges of CUA trajectories. But a fundamental question has long gone unexamined: are these VLM judges reliable enough? To study it systematically, we introduce OSReward, a realistic, high-quality benchmark that evaluates VLM judges on CUA trajectories. The trajectories come from diverse agent backbones executing human-verified instructions across platforms, then rigorously labeled with ground-truth verdicts through multi-stage human annotation. Building on it, we derive OSReward-Hard, a challenge set concentrating genuinely hard cases, and OSReward-Multi for fine-grained efficiency and alignment scoring. The most comprehensive evaluation of VLM judges to date finds even state-of-the-art models fall short of an ideal judge, sharing a systematic leniency bias that mislabels failed runs as successes. The few reliable enough to trust are too expensive to run at scale, while affordable open models trail far behind. To close this gap, we construct and release OS-Shepherd-100K, an open corpus of reasoning-annotated trajectory judgments for the CUA community. On it, we train OS-Shepherd (9B and 35B), open reward models that supply low-cost, stable, and reliable reward signals, matching commercial judges at 30-60% lower cost than the frontier. Extensive analyses further inform the design of reliable CUA reward at scale. Our code, benchmark, dataset, and model checkpoints are available at https://os-copilot.github.io/OSReward-Home/.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7e8f592a3d",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Lossless Tensor Compression as Program Synthesis",
+   "url": "https://huggingface.co/papers/2608.02162",
+   "published": "2026-08-02",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Model checkpoints are growing in both number and size, which makes archival, transfer, and deployment increasingly costly. General-purpose compressors can reduce storage requirements but ignore tensor structure, whereas existing tensor-specific compressors rely on fixed and format-specific pipelines. We present Brevis, which formulates lossless tensor compression as program synthesis. We design a typed domain-specific language (DSL) that captures recurring tensor structures, such as repeated regions and floating-point fields, through a set of reversible operators. Given a tensor, Brevis synthesizes a self-contained DSL program that reconstructs it bit-exactly. A checkpoint-specific production prior, learned from a small representative sample of tensors, guides a bounded A* search to synthesize compact programs, which can later be executed directly for bit-exact decompression. On 10 public checkpoints spanning language, audio, and image generation models, Brevis reduces 2.13 TB of checkpoint data to 1.41 TB, a 33.93% storage reduction. It produces archives up to 30.87% smaller than those of four general-purpose compressors, including zstd and gzip, and smaller archives than the tensor-specific compressors ZipNN and DFloat11. Under a practical concurrency configuration, Brevis achieves 3.60 GB/s compression and 6.61 GB/s decompression while preserving every source byte.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b8aab3a8b6",
+   "kind": "paper",
+   "source": "hf",
+   "title": "When Teachers Mislead: Spurious-Signal-Aware On-Policy Distillation",
+   "url": "https://huggingface.co/papers/2608.03632",
+   "published": "2026-08-03",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "On-Policy distillation (OPD) transfers teacher capabilities by supervising student-sampled trajectories with dense token-level teacher signals. Recent selective OPD methods improve this process by prioritizing signals that are confident, informative, or learnable. However, the assumptions overlook a fundamental failure mode of language models: their token-level judgments can be driven by input-agnostic language priors, formatting conventions, or stereotyped reasoning templates rather than task-specific evidence. We refer to such optimization-relevant but weakly input-grounded supervision as spurious signals in OPD, which may produce large gradients while contributing little task-improving direction. To mitigate this issue, we propose SA-OPD, a Spurious-Signal-Aware On-Policy Distillation framework that identifies and filters misleading token-level supervision based on input-groundedness and optimization impact. SA-OPD introduces a lightweight input-groundedness proxy estimating whether a token-level distillation signal truly depends on the input. It then filters only tokens that simultaneously exhibit low input-groundedness and extreme distillation divergence, thereby removing high-impact spurious updates and achieving fine-grained OPD optimization. Extensive experiments on both large language model (LLM) and vision-language model (VLM) settings demonstrate that SA-OPD consistently outperforms Vanilla OPD and competitive selective methods. These results establish input-groundedness as a key dimension for OPD supervision selection and offer a simple, effective strategy for mitigating spurious updates.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "2562c5368a",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Recursive Synthesis for Long-Horizon Terminal Tasks",
+   "url": "https://huggingface.co/papers/2608.05466",
+   "published": "2026-08-04",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "High-quality long-horizon training data for terminal agents is expensive to produce, often costing hundreds to thousands of dollars per task, because each task must keep the instruction, environment, reference solution, and verifier mutually consistent. Human authoring does not scale, and direct generation with large language models (LLMs) often breaks these dependencies. We present Recursive Synthetic Terminal Tasks (RST), a recursive verified synthesis framework for constructing long-horizon terminal-agent tasks at scale. Starting from verified seed tasks, RST extends the reference solution, realigns the verifier and instruction to the new workflow, validates the result in a fresh sandbox, and reuses accepted tasks as seeds for subsequent rounds. Across fifteen recursive rounds, RST produces 37,484 synthesized terminal-agent tasks at roughly \\0.05 per task. Task difficulty increases substantially over rounds: the median reference solution grows from 67 to 374 lines, the median number of executed commands grows from 40 to 244, and DeepSeek-V4-Pro pass@4 drops from 90% at R_1 to 2.5% at R_{15}$. To demonstrate training utility, we collect rejection-sampled Qwen3.5 trajectories on the synthesized tasks and use them for supervised fine-tuning. Fine-tuning on these trajectories improves Qwen3.5-27B and Qwen3.5-122B-A10B by up to 10 points on Terminal-Bench~2, Terminal-Bench Hard, and Long-Horizon Terminal Bench, while agentic PPO lifts Qwen3.5-27B to 49.44\\%, 32.00\\%, and 22.07\\% on the three benchmarks, corresponding to relative gains of 20.0\\%, 41.2\\%, and 21.9\\% over the base model. Moreover, after 15 rounds, the recursion shows no ceiling: synthesis yield and validation rates remain stable as difficulty keeps climbing, indicating that the process can continue well beyond the scale reported here.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f2f8889349",
+   "kind": "paper",
+   "source": "hf",
+   "title": "On-Policy Delta Distillation for Multilingual Math Reasoning",
+   "url": "https://huggingface.co/papers/2608.05802",
+   "published": "2026-08-05",
+   "found": "2026-08-07T19:15:16.833068+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "On-Policy Distillation (OPD) is emerging as a promising alternative to reinforcement learning for LLM post-training, yet its effectiveness in multilingual settings remains underexplored. We study OPD and its advanced variant, On-Policy Delta Distillation (OPD^2), for mathematical reasoning in English, Korean, and Japanese. OPD^2 improves OPD by using the probability gap between a post-trained teacher and its base model as the learning signal. Experiments with Qwen3 show that OPD^2 consistently outperforms the original OPD, with particularly strong improvements in Korean and Japanese, and generally narrows the English-Korean performance gap. We further find that English-only OPD can also increase performance for Korean and Japanese, but often shifts the responses toward English, highlighting the importance of multilingual data to preserving target-language responses.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "dec8c98235",
    "kind": "paper",
@@ -53,7 +289,7 @@
    "summary_en": "Run NVIDIA's tri-modal Nemotron Omni (text+vision+audio) entirely on Apple Silicon — pure MLX runtime, parity-verified against NVIDIA's reference apple-silicon c-radio inference-engine local-llm macos mlx multimodal nemotron nvidia offline-ai omni on-device-ai parakeet speech-recognition vision-language-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 9
+   "stars": 11
   },
   {
    "id": "42219959bd",
@@ -1032,7 +1268,7 @@
    "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
    "summary_zh": "",
    "demo": "",
-   "stars": 30
+   "stars": 31
   },
   {
    "id": "032a32327f",
@@ -3787,7 +4023,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15078
+   "stars": 15083
   },
   {
    "id": "357904a773",
@@ -3998,7 +4234,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 70
+   "stars": 72
   },
   {
    "id": "bd747fc4a6",
@@ -5264,7 +5500,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 11352
+   "stars": 11521
   },
   {
    "id": "be7f76beb6",
@@ -5358,7 +5594,7 @@
    "summary_en": "AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML apple-silicon asr coreml ios macos mlx neural-engine on-device speaker-diarization speech-enhancement speech-recognition speech-to-speech swift text-to-speech tts voice-activity-detection",
    "summary_zh": "",
    "demo": "",
-   "stars": 1104
+   "stars": 1105
   },
   {
    "id": "ac53c9cede",
@@ -5394,7 +5630,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5921
+   "stars": 5930
   },
   {
    "id": "293306d628",
@@ -5412,7 +5648,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 743
+   "stars": 745
   },
   {
    "id": "5d6e6e2b0a",
@@ -6519,7 +6755,7 @@
    "summary_en": "Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. ai-calling asterisk-ari conversational-ai inbound-calls local-llm no-code on-prem-voice-agent-platform open-source open-source-voice-ai outbound-calls pipecat python self-hosted speech-to-speech speech-to-text telephony text-",
    "summary_zh": "一篇全模态视频字幕论文，指出好的全模态描述不只是视觉字幕加语音转写，而要刻画视觉动作、语音、音乐、音效如何协同演化，并批评现有大模型把音视流当作松耦合观察。对座舱场景有参考价值：助手需要把驾驶员语音与车内视觉流做关系性理解而非各自独立处理，其音视协同编排思路可用于改进多模态对齐。",
    "demo": "",
-   "stars": 5156
+   "stars": 5159
   },
   {
    "id": "a4b6353a38",

@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>mradermacher/OPOD-Qwen3-Omni-30B-A3B-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/34e3999f6c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/34e3999f6c.html</guid>
+<description>reinforcement-learning transformers gguf omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni en zh base_model:Tung111/OPOD-Qwen3-Omni-30B-A3B base_model:quantized:Tung111/OPOD-Qwen3-Omni-30B-A3B license:other endpoints_compatible region:us conversational</description>
+</item>
+<item>
+<title>3trilla/ayesha-portfolio</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/859a03fc0d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/859a03fc0d.html</guid>
+<description>🤖 Build AI systems to enhance education with a Virtual Teaching Assistant and voice agents that ensure secure and accurate support for students and faculty. ai azure cloud data-science database devops docker fastapi jrf llm machine-learning nlp pgvector portfolio rag research sql voice-ai</description>
+</item>
+<item>
+<title>Helping Music Co-Creation Agents &#x27;Listen&#x27; Well: Hierarchical Self-Supervised World Models for Understanding and Generation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html</guid>
+<description>Collaborative music agents need internal representations rich enough to support both understanding and generation, yet flexible enough for a workflow where the human retains agency. We present a hierarchical self-supervised ``world model&#x27;&#x27; for symbolic music: a 2.55M-parameter Swin V2 encoder traine</description>
+</item>
+<item>
+<title>SmartMage: Dynamic Modality Orchestration for 3D Scene Understanding</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3997ecae60.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3997ecae60.html</guid>
+<description>Understanding 3D scenes is fundamental to embodied intelligence, requiring joint reasoning over heterogeneous information from multiple modalities, including visual and geometric cues. However, the relevance of these modalities often varies across queries. Existing Multimodal Large Language Models (</description>
+</item>
+<item>
+<title>World-to-Wrist: Task-Conditioned Future Wrist Modeling for Fine-Grained Robot Manipulation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/74359d047e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/74359d047e.html</guid>
+<description>Vision-language-action (VLA) models often treat main-view and wrist-view observations as parallel visual inputs, overlooking their distinct roles in robot manipulation. Fine-grained manipulation, however, benefits from anticipating how wrist-local interactions may evolve under the global task contex</description>
+</item>
+<item>
+<title>ChronoVision: Temporal Reasoning via Latent State Reconstruction</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4629d381d1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4629d381d1.html</guid>
+<description>Multimodal large language models excel at passive perception but struggle with complex visual cognitive tasks requiring multi-step temporal reasoning. This degradation largely stems from the inherent ambiguity of language-based reasoning, which often fails to accurately articulate continuous visual </description>
+</item>
+<item>
+<title>From Economic Agents to Agentic Economies: A Systems Blueprint for Economic World Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c306ee6946.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c306ee6946.html</guid>
+<description>Economic World Models (EWMs) are generative economic models that simulate how economies evolve from within by modeling heterogeneous agents, their beliefs and actions, and the market and institutional mechanisms through which their interactions produce aggregate outcomes. This paper develops an impl</description>
+</item>
+<item>
+<title>EnvACE: Internalizing Environment Dynamics via World Rehearsal for Agentic Reinforcement Learning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f2d3c1b4b1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f2d3c1b4b1.html</guid>
+<description>Training large language model agents for long-horizon tool use typically relies on interactions with real or synthesized executable environments, whose construction and verification are costly, or on external simulators that are difficult to ground. We introduce EnvACE, an agentic reinforcement lear</description>
+</item>
+<item>
+<title>HarnessOpt-Bench: Evaluating LLMs at Harness Optimization</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e87eea6e71.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e87eea6e71.html</guid>
+<description>As LLMs are increasingly deployed within agentic systems, their capabilities depend not only on the model weights but also on the harness: the prompts, tools, control flow, memory, and orchestration code surrounding them. This makes automated harness optimization -- the iterative and evaluation-guid</description>
+</item>
+<item>
+<title>FinanceHarness: Autonomous Financial Deep Research Framework</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/17a9aaead5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/17a9aaead5.html</guid>
+<description>Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research. Financial research demands specialized knowledge to analyz</description>
+</item>
+<item>
+<title>OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/328b04b2d9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/328b04b2d9.html</guid>
+<description>Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent&#x27;s actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curation, and reinforcement learning. Neither human-written verifie</description>
+</item>
+<item>
+<title>Lossless Tensor Compression as Program Synthesis</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7e8f592a3d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7e8f592a3d.html</guid>
+<description>Model checkpoints are growing in both number and size, which makes archival, transfer, and deployment increasingly costly. General-purpose compressors can reduce storage requirements but ignore tensor structure, whereas existing tensor-specific compressors rely on fixed and format-specific pipelines</description>
+</item>
+<item>
+<title>When Teachers Mislead: Spurious-Signal-Aware On-Policy Distillation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b8aab3a8b6.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b8aab3a8b6.html</guid>
+<description>On-Policy distillation (OPD) transfers teacher capabilities by supervising student-sampled trajectories with dense token-level teacher signals. Recent selective OPD methods improve this process by prioritizing signals that are confident, informative, or learnable. However, the assumptions overlook a</description>
+</item>
+<item>
+<title>Recursive Synthesis for Long-Horizon Terminal Tasks</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</guid>
+<description>High-quality long-horizon training data for terminal agents is expensive to produce, often costing hundreds to thousands of dollars per task, because each task must keep the instruction, environment, reference solution, and verifier mutually consistent. Human authoring does not scale, and direct gen</description>
+</item>
+<item>
+<title>On-Policy Delta Distillation for Multilingual Math Reasoning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f2f8889349.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f2f8889349.html</guid>
+<description>On-Policy Distillation (OPD) is emerging as a promising alternative to reinforcement learning for LLM post-training, yet its effectiveness in multilingual settings remains underexplored. We study OPD and its advanced variant, On-Policy Delta Distillation (OPD^2), for mathematical reasoning in Englis</description>
+</item>
+<item>
 <title>Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/11a12d2691.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/11a12d2691.html</guid>
 <description>image-text-to-text transformers safetensors qwen2_5_omni video-captioning audiovisual qwen2.5-omni instruction-tuning attribute-structured quality-verified image-text-to-text conversational en arxiv:2602.13013 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:apache-2.</description>
-</item>
-<item>
-<title>Are the Financial Reasoning from LLMs Credible? A Real World Test over Long-Horizon Statements</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6579bd8ee8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6579bd8ee8.html</guid>
-<description>Do Large Language Models (LLMs) possess genuine structural reasoning, or merely rely on surface-level pattern matching? The financial domain, demanding numerical precision and multi-step logic over long contexts, is an ideal testbed. Existing benchmarks fail to capture real-world industrial complexi</description>
-</item>
-<item>
-<title>ARCHead: Activation-Metric Residual Correction for Large Language Model Output Heads</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/62dae80e88.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/62dae80e88.html</guid>
-<description>Weight-only quantization substantially reduces the storage of large language model (LLM) transformer blocks, but practical backends often retain the final language-modeling head (LM-head) in BF16 or FP16. Quantizing this projection naively can strongly perturb the vocabulary-logit distribution. We p</description>
-</item>
-<item>
-<title>Quo Vadis, World Modeling?</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/424c8d0252.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/424c8d0252.html</guid>
-<description>Continually improving agents require dynamic interaction feedback beyond static supervision, yet direct real-environment interaction is costly, slow, unsafe, and hard to parallelize. World modeling offers a natural intermediate proxy that allows agents to query lower-cost, more controllable feedback</description>
-</item>
-<item>
-<title>Search, Inspect, Fetch: Exploiting Boolean Retrieval for Deep-Research Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/be24365c7e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/be24365c7e.html</guid>
-<description>Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents from directly constraining retrieval to document fields and oft</description>
-</item>
-<item>
-<title>Self-Evolving Coding Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2d089ea931.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2d089ea931.html</guid>
-<description>Large language models are increasingly embedded in software engineering workflows as coding agents that can inspect repositories, invoke tools, execute tests, debug failures, and generate patches. Yet most existing agents remain largely static after deployment, even though software development is a </description>
-</item>
-<item>
-<title>bielcarpi/hermes-live-voice</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b1f769a184.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b1f769a184.html</guid>
-<description>Continuous voice for Hermes Agent. Keep talking while durable tasks run in the background. background-tasks browser-sdk durable-tasks full-duplex gemini-live hermes-agent hermes-plugin local-voice nous-research openai-realtime realtime-audio realtime-voice self-hosted speech-to-speech terminal types</description>
-</item>
-<item>
-<title>Yeongtak/Qwen2.5-Omni-7B-Omni-Persona-RLVR</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b2a17a87f9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b2a17a87f9.html</guid>
-<description>any-to-any transformers safetensors qwen2_5_omni text-to-audio omnimodal personalization rlvr gspo abstention any-to-any en arxiv:2503.20215 arxiv:2605.09996 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:other endpoints_compatible region:us</description>
-</item>
-<item>
-<title>Yeongtak/Qwen2.5-Omni-3B-Omni-Persona-RLVR</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1b21f75edc.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1b21f75edc.html</guid>
-<description>any-to-any transformers omnimodal personalization rlvr gspo abstention qwen2_5_omni any-to-any en arxiv:2503.20215 arxiv:2605.09996 base_model:Qwen/Qwen2.5-Omni-3B base_model:finetune:Qwen/Qwen2.5-Omni-3B license:other endpoints_compatible region:us</description>
-</item>
-<item>
-<title>antgas/qwen2-5-omni-3b-it_distill-ours</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/57dee2722a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/57dee2722a.html</guid>
-<description>text-generation peft safetensors base_model:adapter:Qwen/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B region:us</description>
-</item>
-<item>
-<title>namin0202/qwen2-5-omni-3b-it_distill-ours</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c088d57f87.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c088d57f87.html</guid>
-<description>text-generation peft safetensors base_model:adapter:Qwen/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B region:us</description>
-</item>
-<item>
-<title>namin0202/qwen2-5-omni-3b-it_unifalign</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5f4c6a4670.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5f4c6a4670.html</guid>
-<description>text-generation peft safetensors base_model:adapter:/mnt/image-net-full/namin/Qwen2.5-Omni-3B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-3B base_model:adapter:Qwen/Qwen2.5-Omni-3B region:us</description>
-</item>
-<item>
-<title>namin0202/qwen2-5-omni-7b_unifalign</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f3ac56afe4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f3ac56afe4.html</guid>
-<description>text-generation peft safetensors base_model:adapter:/mnt/image-net-full/namin/Qwen2.5-Omni-7B lora transformers text-generation conversational arxiv:1910.09700 base_model:Qwen/Qwen2.5-Omni-7B base_model:adapter:Qwen/Qwen2.5-Omni-7B region:us</description>
-</item>
-<item>
-<title>Agent Against Agent: An Agentic System for Automatic Prompt Injection Red Teaming</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b1e69abc71.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b1e69abc71.html</guid>
-<description>Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforce</description>
-</item>
-<item>
-<title>OpenSQZ/OpenGlass</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e8bde6a628.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e8bde6a628.html</guid>
-<description>An open research platform for wearable sensing, nearby-device local multimodal inference, and local-first visual assistance. ai-glasses hardware multimodel omni personas smartglasses wearable wearable-devices</description>
-</item>
-<item>
-<title>AVE-Compass: Towards Holistic Evaluation for Audio-Video Editing Abilities</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b8a6dfc35f.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b8a6dfc35f.html</guid>
-<description>While instruction-based video editing has advanced rapidly, real-world videos contain tightly coupled audio and visual signals, and editing one modality often requires coordinated changes in the other. Existing benchmarks primarily evaluate visual transformations on silent clips or isolated audio ed</description>
 </item>
 </channel></rss>
