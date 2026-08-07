@@ -138,6 +138,14 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                  border-radius:9px; padding:12px; margin:14px 0; }
 .solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
 .solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
 .solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
 .solution-feedback h2 { font-size:15px; }
 details { background:var(--card); border:1px solid var(--line); border-radius:8px;

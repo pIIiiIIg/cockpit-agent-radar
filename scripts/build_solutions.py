@@ -164,6 +164,111 @@ def metric_value(metric: dict[str, Any]) -> str:
     return f"{value if value is not None else '—'}{unit}"
 
 
+def _evidence_value(field: Any, unit: str = "", *, signed: bool = False) -> str:
+    value = field.get("value") if isinstance(field, dict) else None
+    if value is None:
+        return "unknown"
+    if signed and isinstance(value, (int, float)):
+        prefix = "+" if value > 0 else ""
+        return f"{prefix}{value:g}{unit}"
+    if isinstance(value, float):
+        return f"{value:g}{unit}"
+    return f"{value}{unit}"
+
+
+def sample_badges(component: dict[str, Any]) -> str:
+    seen, rows = set(), []
+    for evidence in component.get("evidence", []):
+        if not isinstance(evidence, dict):
+            continue
+        count = evidence.get("sample_count")
+        scope = str(evidence.get("sample_scope") or "unknown")
+        key = (count, scope)
+        if key in seen:
+            continue
+        seen.add(key)
+        zh = f"样本 n={count if count is not None else '未知'} · {scope}"
+        en = f"Sample n={count if count is not None else 'unknown'} · {scope}"
+        rows.append(f'<span class="badge evidence-scope">{pair(zh,en)}</span>')
+    return "".join(rows) or f'<span class="badge">{pair("样本未知","Sample unknown")}</span>'
+
+
+def comparison_line(component: dict[str, Any]) -> str:
+    evidence = [
+        row for row in component.get("evidence", []) if isinstance(row, dict)]
+    if not evidence:
+        return pair("相对基线：未知", "Versus baseline: unknown")
+    if all(row.get("attribution") == "combined" for row in evidence):
+        return pair(
+            "相对基线：组合实验有收益，单组件提升未知",
+            "Versus baseline: the combined experiment improved; "
+            "the component-specific gain is unknown")
+    row = next(
+        (item for item in evidence if item.get("attribution") != "combined"),
+        evidence[0])
+    unit = str(row.get("unit") or "")
+    baseline = _evidence_value(row.get("baseline"), unit)
+    current = _evidence_value(row.get("current"), unit)
+    delta = _evidence_value(row.get("delta"), unit, signed=True)
+    metric = str(row.get("metric") or "metric")
+    if baseline != "unknown" and current != "unknown":
+        text = f"{metric} {baseline} → {current}（Δ {delta}）"
+    elif delta != "unknown":
+        text = f"{metric} Δ {delta}（基线/当前绝对值未知）"
+    elif current != "unknown":
+        text = f"{metric} 基线未知 → {current}（提升未知）"
+    else:
+        text = f"{metric}：相对基线未知"
+    return pair("相对基线：" + text, "Versus baseline: " + text)
+
+
+def evidence_table(component: dict[str, Any]) -> str:
+    rows = []
+    maturity = component.get("evidence_maturity") or "unknown"
+    for row in component.get("evidence", []):
+        if not isinstance(row, dict):
+            continue
+        unit = str(row.get("unit") or "")
+        attribution = str(row.get("attribution") or "unknown")
+        experiment = row.get("evidence", {})
+        ab = row.get("independent_ab")
+        ab_text = "yes" if ab is True else "no" if ab is False else "unknown"
+        attribution_text = (
+            pair("组合实验有收益，单组件提升未知",
+                 "Combined experiment improved; component-specific gain unknown")
+            if attribution == "combined" else esc(attribution))
+        rows.append(
+            "<tr>"
+            f"<td>{esc(row.get('metric') or 'unknown')}</td>"
+            f"<td>{esc(_evidence_value(row.get('baseline'), unit))}</td>"
+            f"<td>{esc(_evidence_value(row.get('current'), unit))}</td>"
+            f"<td>{esc(_evidence_value(row.get('delta'), unit, signed=True))}</td>"
+            f"<td>{esc(row.get('metric_definition') or 'unknown')}<br>"
+            f"<small>{esc(row.get('direction') or 'unknown')}</small></td>"
+            f"<td>n={esc(row.get('sample_count') if row.get('sample_count') is not None else 'unknown')}"
+            f"<br><small>{esc(row.get('sample_scope') or 'unknown')} · "
+            f"{esc(row.get('hardware') or 'unknown')}</small></td>"
+            f"<td>{attribution_text}<br><small>A/B={esc(ab_text)}</small></td>"
+            f"<td>{esc(experiment.get('experiment') if isinstance(experiment,dict) else 'unknown')}"
+            f"<br><small>{esc(experiment.get('branch') if isinstance(experiment,dict) else 'unknown')}</small></td>"
+            f"<td>{esc(row.get('confidence') or 'unknown')} / {esc(maturity)}</td>"
+            "</tr>")
+    if not rows:
+        rows.append(
+            f'<tr><td colspan="9">{pair("证据未知","Evidence unknown")}</td></tr>')
+    headers = (
+        ("指标", "Metric"), ("基线", "Baseline"), ("当前", "Current"),
+        ("delta", "Delta"), ("定义/方向", "Definition/direction"),
+        ("样本/硬件", "Sample/hardware"),
+        ("归因/是否独立A/B", "Attribution/independent A/B"),
+        ("实验/分支", "Experiment/branch"), ("置信/成熟度", "Confidence/maturity"),
+    )
+    return (
+        '<div class="evidence-table-wrap"><table class="evidence-table"><thead><tr>'
+        + "".join(f"<th>{pair(zh,en)}</th>" for zh, en in headers)
+        + "</tr></thead><tbody>" + "".join(rows) + "</tbody></table></div>")
+
+
 def metrics(component: dict[str, Any], detailed: bool = False) -> str:
     rows = []
     for metric in component.get("improvement", {}).get("metrics", []):
@@ -233,18 +338,22 @@ def component_card(component: dict[str, Any], base: str, event: dict[str, Any] |
         event_label = status_label(str(component.get("status") or "")) + " " + pair(
             "新增" if event.get("kind") == "added" else "更新",
             "Added" if event.get("kind") == "added" else "Updated")
-    narrative = NARRATIVES.get(component["id"], {})
-    english_summary = (
-        narrative.get("problem", ("", ""))[1]
-        if isinstance(narrative.get("problem"), tuple) else "Unknown source record")
+    status = str(component.get("status") or "")
+    reason_label = (
+        pair("条件保留原因", "Conditional retention reason")
+        if status == "conditional" else
+        pair("拒绝原因", "Rejection reason") if status in {"rejected", "invalid"}
+        else pair("保留原因", "Retention reason"))
+    reason = component.get("conditional_reason") or component.get("retention_reason") or "未知"
     return (
         f'<article class="card solution-card" id="solution-{component_id}">'
         f'<div class="meta">{event_label or status_label(str(component.get("status") or ""))}'
         f'{scope_badge(component)}</div>'
         f'<div class="t"><a href="{base}/solutions/{component_id}.html">'
         f'{esc(component.get("name") or component_id)}</a></div>'
-        f'<p>{pair(component.get("retention_reason") or "未知",
-                  english_summary or "Unknown source record")}</p>'
+        f'<p><b>{reason_label}:</b> {pair(reason, "Source rationale: " + str(reason))}</p>'
+        f'<p class="solution-comparison"><b>{comparison_line(component)}</b></p>'
+        f'<div class="meta">{sample_badges(component)}</div>'
         f'{metrics(component)}</article>')
 
 
@@ -317,6 +426,18 @@ def detail_page(component: dict[str, Any], snapshot: dict[str, Any], base: str) 
 <h2>{esc(component.get("name") or component_id)}</h2>
 <div class="meta">{status_label(str(component.get("status") or ""))}{scope_badge(component)}
 <span class="badge">{pair("证据成熟度","Evidence maturity")}: {esc(component.get("status") or "unknown")}</span></div>
+<p><b>{pair(
+    "拒绝原因" if component.get("status") in {"rejected","invalid"} else
+    "条件保留原因" if component.get("status") == "conditional" else "保留原因",
+    "Rejection reason" if component.get("status") in {"rejected","invalid"} else
+    "Conditional retention reason" if component.get("status") == "conditional" else
+    "Retention reason"
+)}:</b> {pair(
+    component.get("conditional_reason") or component.get("retention_reason") or "未知",
+    "Source rationale: " + str(component.get("conditional_reason") or
+                                component.get("retention_reason") or "Unknown")
+)}</p>
+<p class="solution-comparison"><b>{comparison_line(component)}</b></p>
 <section class="solution-flow" aria-label="Solution pipeline position">
 <span>{pair("论文 / 日报","Paper / report")}</span><b>→</b>
 <span>{pair("组件","Component")}</span><b>→</b>
@@ -330,6 +451,7 @@ def detail_page(component: dict[str, Any], snapshot: dict[str, Any], base: str) 
 <section><h3>{pair("指标、delta 与样本范围","Metrics, delta, and scope")}</h3>{metrics(component, detailed=True)}
 <p class="note">{pair("shared / combined 指标只作为整套方案上下文，不归因到本组件。",
 "Shared/combined metrics are whole-candidate context and are not attributed to this component.")}</p></section>
+<section><h3>{pair("证据表","Evidence table")}</h3>{evidence_table(component)}</section>
 <section><h3>{pair("所属实验、基线与分支","Experiments, baselines, and branches")}</h3>
 <ul>{"".join(experiments) if experiments else f"<li>{pair('未知','Unknown')}</li>"}</ul></section>
 <section><h3>{pair("风险、兼容性与未改善项","Risks, compatibility, and non-gains")}</h3>
@@ -337,7 +459,11 @@ def detail_page(component: dict[str, Any], snapshot: dict[str, Any], base: str) 
 {_list(component.get("risks"))}</section>
 <section><h3>{pair("如何复核来源","Source evidence")}</h3>{source_links(component,snapshot)}</section>
 <section><h3>{pair("下一验证门","Next validation gate")}</h3>
-<p>{pair(component.get("next_validation_gate") or "未知","Source next-gate record: " + str(component.get("next_validation_gate") or "Unknown"))}</p></section>
+<p><b>{pair("为什么是当前状态","Why this status")}:</b>
+{pair(component.get("conditional_reason") or component.get("retention_reason") or "未知",
+"Source status rationale: " + str(component.get("conditional_reason") or component.get("retention_reason") or "Unknown"))}</p>
+<p><b>{pair("升级为 retained 需要","Required to become retained")}:</b>
+{pair(component.get("next_validation_gate") or "未知","Source next-gate record: " + str(component.get("next_validation_gate") or "Unknown"))}</p></section>
 <details><summary tabindex="0">{pair("版本与变更历史","Version and change history")}</summary>{_list([
     f"{row.get('date','unknown')} · {row.get('kind','unknown')} · {row.get('summary','')}"
     for row in history if isinstance(row,dict)])}</details>
@@ -356,12 +482,20 @@ def build(root: str | Path, docs: str | Path, base: str,
         row for row in snapshot.get("negative_results", [])
         if isinstance(row, dict) and row.get("status") in {"rejected", "invalid"}
     ]
+    rejected_components = [
+        row for row in snapshot.get("components", [])
+        if isinstance(row, dict) and row.get("status") in {"rejected", "invalid"}
+        and SAFE_ID.fullmatch(str(row.get("id") or ""))
+    ]
     cards = "".join(component_card(row, base) for row in good)
     negative_cards = "".join(
-        f'<article class="card"><div class="meta">{status_label(str(row.get("status") or ""))}</div>'
-        f'<div class="t">{esc(row.get("single_variable") or row.get("id") or "unknown")}</div>'
-        f'<p>{pair(row.get("conclusion") or "未知",row.get("conclusion") or "Unknown")}</p></article>'
-        for row in negatives)
+        component_card(row, base) for row in rejected_components)
+    if not negative_cards:
+        negative_cards = "".join(
+            f'<article class="card"><div class="meta">{status_label(str(row.get("status") or ""))}</div>'
+            f'<div class="t">{esc(row.get("single_variable") or row.get("id") or "unknown")}</div>'
+            f'<p>{pair(row.get("conclusion") or "未知",row.get("conclusion") or "Unknown")}</p></article>'
+            for row in negatives)
     today = datetime.now(CST).date().isoformat()
     index_body = (
         f'<h2 class="day">{pair("高收益组件","High-value components")} · {len(good)}</h2>'
@@ -375,7 +509,7 @@ def build(root: str | Path, docs: str | Path, base: str,
     (target / "index.html").write_text(
         shell("Solutions · cockpit-agent-radar", index_body, "solutions"),
         encoding="utf-8")
-    for component in good:
+    for component in good + rejected_components:
         name = component["id"] + ".html"
         expected.add(name)
         (target / name).write_text(shell(

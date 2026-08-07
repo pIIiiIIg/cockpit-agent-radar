@@ -183,6 +183,12 @@ class SolutionSyncTests(unittest.TestCase):
             row["improvement"]["metrics"][0]["value"], "3/4")
         self.assertEqual(
             row["experiment_records"][0]["metrics"]["accuracy"], 0.75)
+        self.assertEqual(first["schema_version"], 2)
+        evidence = row["evidence"][0]
+        self.assertEqual(evidence["current"]["value"], "3/4")
+        self.assertEqual(evidence["sample_count"], 4)
+        self.assertEqual(evidence["attribution"], "combined")
+        self.assertEqual(evidence["evidence"]["branch"], "experiment/fixture")
 
     def test_sync_redacts_secrets_hosts_and_local_paths(self):
         payload, _ = self.sync()
@@ -263,6 +269,28 @@ class SolutionSyncTests(unittest.TestCase):
         self.assertIn("&lt;script&gt;bad()&lt;/script&gt;", page)
         self.assertEqual(len(build_solutions.recommended(payload)), 2)
 
+    def test_unknown_evidence_fallback_and_bilingual_status(self):
+        self.sync()
+        build_solutions.build(
+            self.root, self.root / "docs",
+            "https://example.test", test_shell)
+        detail = (self.root / "docs/solutions/retained-component.html").read_text(
+            encoding="utf-8")
+        self.assertIn("证据未知", detail)
+        self.assertIn("Evidence unknown", detail)
+        self.assertIn("保留", detail)
+        self.assertIn("Retained", detail)
+
+    def test_combined_evidence_is_not_component_attributed(self):
+        self.sync()
+        build_solutions.build(
+            self.root, self.root / "docs",
+            "https://example.test", test_shell)
+        page = (self.root / "docs/solutions/index.html").read_text(
+            encoding="utf-8")
+        self.assertIn("组合实验有收益，单组件提升未知", page)
+        self.assertNotIn("fixture bucket 3/4 →", page)
+
 
 class PublishedSolutionPageTests(unittest.TestCase):
     @classmethod
@@ -287,6 +315,9 @@ class PublishedSolutionPageTests(unittest.TestCase):
         }
         self.assertEqual(expected - set(rows), set())
         self.assertTrue(all(rows[item]["recommended"] for item in expected))
+        self.assertTrue(all(
+            rows[item].get("conditional_reason") or rows[item].get("retention_reason")
+            for item in expected))
         self.assertFalse(rows["tool-description-enhancement"]["recommended"])
 
     def test_index_daily_and_detail_pages_exist(self):
@@ -303,6 +334,8 @@ class PublishedSolutionPageTests(unittest.TestCase):
         for component in build_solutions.recommended(self.snapshot):
             self.assertTrue(
                 (self.docs / "solutions" / f"{component['id']}.html").is_file())
+        self.assertTrue(
+            (self.docs / "solutions/tool-description-enhancement.html").is_file())
 
     def test_detail_pages_have_required_sections_and_source_numbers(self):
         page = (self.docs / "solutions/voice-memory-rules.html").read_text(
@@ -312,12 +345,39 @@ class PublishedSolutionPageTests(unittest.TestCase):
                 "Pipeline change", "怎么实现", "Implementation",
                 "开关", "Metrics, delta, and scope", "24/31", "31",
                 "组合上下文，不能归因", "风险、兼容性与未改善项",
-                "下一验证门", "Version and change history"):
+                "证据表", "Evidence table", "基线", "当前", "delta",
+                "是否独立", "下一验证门", "Version and change history"):
             with self.subTest(fact=fact):
                 self.assertIn(fact, page)
         self.assertIn("prefers-reduced-motion", page)
         self.assertIn("<details>", page)
         self.assertIn('summary tabindex="0"', page)
+
+    def test_index_comparisons_match_snapshot_and_format_directions(self):
+        page = (self.docs / "solutions/index.html").read_text(encoding="utf-8")
+        self.assertIn("0/31", page)
+        self.assertIn("24/31", page)
+        self.assertIn("组合实验有收益，单组件提升未知", page)
+        for component in self.snapshot["components"]:
+            for evidence in component.get("evidence", []):
+                self.assertIn(
+                    evidence.get("direction"),
+                    {"higher_is_better", "lower_is_better", "unknown"})
+                delta = evidence.get("delta", {}).get("value")
+                if isinstance(delta, (int, float)) and delta > 0:
+                    detail = (self.docs / "solutions" /
+                              f"{component['id']}.html")
+                    if detail.exists():
+                        self.assertIn(f"+{delta:g}", detail.read_text(encoding="utf-8"))
+
+    def test_rejected_detail_explains_zero_gain(self):
+        page = (self.docs / "solutions/tool-description-enhancement.html").read_text(
+            encoding="utf-8")
+        self.assertIn("拒绝原因", page)
+        self.assertIn("0/31", page)
+        rejected = next(row for row in self.snapshot["components"]
+                        if row["id"] == "tool-description-enhancement")
+        self.assertEqual(rejected["evidence"][0]["delta"]["value"], 0)
 
     def test_internal_solution_links_resolve_and_no_runtime_cdn(self):
         pages = list((self.docs / "solutions").glob("*.html"))

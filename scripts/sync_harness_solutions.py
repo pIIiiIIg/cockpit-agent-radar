@@ -53,6 +53,7 @@ SUMMARY_FIELDS = {
     "actual_execution_success_rate", "e2e_p95_ms", "call_p95_ms",
     "commit_to_call_p95_ms", "dangerous_miscalls", "errors", "profile",
 }
+ATTRIBUTIONS = {"direct", "component_specific", "combined", "unknown"}
 
 
 def _run(args: list[str], cwd: Path, *, check: bool = True) -> str:
@@ -125,9 +126,10 @@ class Source:
         if git_dir.exists() and self.branch:
             if self.fetch:
                 _run([self.git, "fetch", "origin", self.branch], self.root)
-            remote_ref = f"origin/{self.branch}"
-            self.commit = _run([self.git, "rev-parse", remote_ref], self.root)
-            self.ref = remote_ref
+                self.ref = "FETCH_HEAD"
+            else:
+                self.ref = f"origin/{self.branch}"
+            self.commit = _run([self.git, "rev-parse", self.ref], self.root)
             remote = _run([self.git, "remote", "get-url", "origin"], self.root)
             match = re.search(
                 r"(?:github\.com[:/])([^/\s]+/[^/\s]+?)(?:\.git)?$", remote)
@@ -174,6 +176,94 @@ def _metric_positive(metric: dict[str, Any]) -> bool:
         if fraction:
             return int(fraction.group(1)) > 0 and int(fraction.group(2)) > 0
     return False
+
+
+def _unknown() -> dict[str, Any]:
+    return {"value": None, "label": "unknown"}
+
+
+def _metric_evidence(metric: dict[str, Any],
+                     improvement: dict[str, Any],
+                     linked: list[dict[str, Any]],
+                     experiments: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Normalize one public source metric without inventing comparisons."""
+    experiment = linked[0] if linked else {}
+    attribution = str(improvement.get("attribution") or "unknown")
+    if attribution not in ATTRIBUTIONS:
+        attribution = "unknown"
+    if metric.get("shared"):
+        attribution = "combined"
+    name = str(metric.get("name") or "unknown")
+    value = metric.get("value")
+    baseline: dict[str, Any] = _unknown()
+    current: dict[str, Any] = {"value": value, "label": name}
+    delta: dict[str, Any] = _unknown()
+
+    # Source component metrics named as savings/avoidance are deltas, not
+    # absolute measurements. Preserve that distinction in the public schema.
+    if isinstance(value, (int, float)) and any(
+            token in name.lower() for token in ("节省", "规避", "saving", "avoid")):
+        current = _unknown()
+        delta = {"value": value, "label": name}
+
+    registry_delta = experiment.get("delta")
+    if isinstance(registry_delta, dict):
+        if name in {"组合修复", "修复"} and registry_delta.get("fixed_errors") is not None:
+            fixed = registry_delta["fixed_errors"]
+            delta = {"value": fixed, "label": "fixed_errors"}
+            sample_count = metric.get("sample_count")
+            current = {
+                "value": f"{fixed}/{sample_count}" if sample_count else fixed,
+                "label": name,
+            }
+            baseline_id = str(experiment.get("baseline_id") or "")
+            baseline_experiment = experiments.get(baseline_id, {})
+            baseline_metrics = baseline_experiment.get("metrics", {})
+            baseline_rate = (
+                baseline_metrics.get("actual_execution_success_rate")
+                if isinstance(baseline_metrics, dict) else None)
+            if baseline_rate == 0 and sample_count:
+                baseline = {
+                    "value": f"0/{sample_count}",
+                    "label": baseline_id,
+                }
+        elif value == 0 and registry_delta:
+            matching = next(
+                (item for item in registry_delta.values()
+                 if isinstance(item, (int, float)) and item == 0), None)
+            if matching == 0:
+                delta = {"value": 0, "label": "no_gain"}
+
+    branch = experiment.get("branch")
+    scope = metric.get("sample_scope") or (
+        experiment.get("buckets", {}).get("scope")
+        if isinstance(experiment.get("buckets"), dict) else None)
+    hardware = "unknown"
+    component_evidence = str(improvement.get("component_evidence") or "")
+    hardware_match = re.search(
+        r"(?i)\b(?:H20|H100|H200|Hopper|Blackwell|GPU)\b[^。.;]{0,100}",
+        component_evidence)
+    if hardware_match:
+        hardware = hardware_match.group(0)
+    return sanitize({
+        "metric": name,
+        "metric_definition": name,
+        "baseline": baseline,
+        "current": current,
+        "delta": delta,
+        "unit": metric.get("unit") or "",
+        "direction": metric.get("direction") or "unknown",
+        "sample_count": metric.get("sample_count"),
+        "sample_scope": scope or "unknown",
+        "hardware": hardware,
+        "attribution": attribution,
+        "independent_ab": False if attribution == "combined" else None,
+        "evidence": {
+            "experiment": experiment.get("id") or "unknown",
+            "branch": branch or "unknown",
+        },
+        "confidence": "combined_only" if attribution == "combined" else "source_recorded",
+    })
 
 
 def _safe_date(value: Any, fallback: str) -> str:
@@ -256,6 +346,14 @@ def _component_public(raw: dict[str, Any], experiments: dict[str, dict[str, Any]
     improvement["metrics"] = metrics
     row["improvement"] = improvement
     status = str(row.get("status") or "")
+    reason = str(row.get("retention_reason") or "")
+    row["retention_reason"] = reason
+    row["conditional_reason"] = reason if status == "conditional" else ""
+    row["evidence"] = [
+        _metric_evidence(metric, improvement, linked, experiments)
+        for metric in metrics
+    ]
+    row["evidence_maturity"] = status or "unknown"
     safety_rows = [
         record.get("safety") for record in linked
         if isinstance(record.get("safety"), dict)]
@@ -347,7 +445,7 @@ def build_snapshot(source: Source, previous: dict[str, Any] | None,
         previous_source.get("synced_at") if same_commit
         else now.astimezone(CST).isoformat(timespec="seconds"))
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "source": {
             "status": "fresh",
             "repository": source.repository,
@@ -388,7 +486,7 @@ def write_if_changed(path: Path, payload: dict[str, Any]) -> bool:
 def mark_stale(previous: dict[str, Any], error: Exception,
                now: datetime) -> dict[str, Any]:
     payload = copy.deepcopy(previous) if previous else {
-        "schema_version": 1, "components": [], "negative_results": []}
+        "schema_version": 2, "components": [], "negative_results": []}
     source = payload.setdefault("source", {})
     source["status"] = "stale"
     source["last_attempt"] = now.astimezone(CST).isoformat(timespec="seconds")

@@ -2,11 +2,43 @@
   "components": [
     {
       "compatibility": "只修复有真实音频证据且范围明确的混淆，不覆盖原始音频输入，不直接生成动作。",
+      "conditional_reason": "局部组合收益明确且规则可审计，但必须等待独立消融与保留集。",
       "dependencies": [
         "版本化voice_memory_rules.json",
         "真实ASR文本",
         "保留集门控"
       ],
+      "evidence": [
+        {
+          "attribution": "combined",
+          "baseline": {
+            "label": "20260805-tool-description-enhancement",
+            "value": "0/31"
+          },
+          "confidence": "combined_only",
+          "current": {
+            "label": "组合修复",
+            "value": "24/31"
+          },
+          "delta": {
+            "label": "fixed_errors",
+            "value": 24
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
+            "experiment": "20260805-hybrid-c-voice-memory-resolver"
+          },
+          "hardware": "unknown",
+          "independent_ab": false,
+          "metric": "组合修复",
+          "metric_definition": "组合修复",
+          "sample_count": 31,
+          "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
+          "unit": ""
+        }
+      ],
+      "evidence_maturity": "conditional",
       "evidence_scope": "31条历史错误桶局部组合结果；不能单独归因Voice Memory，组合e2e P95 1831.3ms未过1600ms门。",
       "experiment_records": [
         {
@@ -86,6 +118,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -148,10 +185,42 @@
     },
     {
       "compatibility": "仅保留生成脚本用于复现负结果，不接入默认运行组合。",
+      "conditional_reason": "",
       "dependencies": [
         "工具catalog",
         "混淆规则与历史结果"
       ],
+      "evidence": [
+        {
+          "attribution": "direct",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "source_recorded",
+          "current": {
+            "label": "修复",
+            "value": "0/31"
+          },
+          "delta": {
+            "label": "fixed_errors",
+            "value": 0
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-tool-description-enhancement",
+            "experiment": "20260805-tool-description-enhancement"
+          },
+          "hardware": "unknown",
+          "independent_ab": null,
+          "metric": "修复",
+          "metric_definition": "修复",
+          "sample_count": 31,
+          "sample_scope": "prior_error_bucket",
+          "unit": ""
+        }
+      ],
+      "evidence_maturity": "rejected",
       "evidence_scope": "31条历史错误桶负结果；不代表描述增强在所有任务中永远无效。",
       "experiment_records": [
         {
@@ -224,6 +293,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -280,10 +354,70 @@
     },
     {
       "compatibility": "仅改变成功/无需执行回执的模型输入格式；失败回执保持JSON和自救指令。",
+      "conditional_reason": "关键路径节省明确且失败路径不牺牲诊断信息，先条件保留。",
       "dependencies": [
         "CarSim结构化回执",
         "harness_b多跳回执环"
       ],
+      "evidence": [
+        {
+          "attribution": "component_specific",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "source_recorded",
+          "current": {
+            "label": "unknown",
+            "value": null
+          },
+          "delta": {
+            "label": "单次成功回执注入节省",
+            "value": 340
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-b-grouped-moe-relay",
+            "experiment": "20260805-b-grouped-moe-relay"
+          },
+          "hardware": "unknown",
+          "independent_ab": null,
+          "metric": "单次成功回执注入节省",
+          "metric_definition": "单次成功回执注入节省",
+          "sample_count": 2,
+          "sample_scope": "32与40/46 token回执注入微基准",
+          "unit": "ms"
+        },
+        {
+          "attribution": "combined",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "combined_only",
+          "current": {
+            "label": "组合实验e2e_P95",
+            "value": 1241.6
+          },
+          "delta": {
+            "label": "unknown",
+            "value": null
+          },
+          "direction": "lower_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-b-grouped-moe-relay",
+            "experiment": "20260805-b-grouped-moe-relay"
+          },
+          "hardware": "unknown",
+          "independent_ab": false,
+          "metric": "组合实验e2e_P95",
+          "metric_definition": "组合实验e2e_P95",
+          "sample_count": 452,
+          "sample_scope": "full_452组合实验",
+          "unit": "ms"
+        }
+      ],
+      "evidence_maturity": "conditional",
       "evidence_scope": "回执注入微基准有组件证据；452条端到端结果是四组件组合证据。",
       "experiment_records": [
         {
@@ -361,6 +495,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -431,11 +570,43 @@
     },
     {
       "compatibility": "依赖可取消的流式TTS；前缀必须非承诺性，且不得计作工具执行成功。",
+      "conditional_reason": "",
       "dependencies": [
         "search意图事件",
         "流式TTS",
         "会话取消信号"
       ],
+      "evidence": [
+        {
+          "attribution": "combined",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "combined_only",
+          "current": {
+            "label": "组合实验e2e_P95",
+            "value": 1241.6
+          },
+          "delta": {
+            "label": "unknown",
+            "value": null
+          },
+          "direction": "lower_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-b-grouped-moe-relay",
+            "experiment": "20260805-b-grouped-moe-relay"
+          },
+          "hardware": "unknown",
+          "independent_ab": false,
+          "metric": "组合实验e2e_P95",
+          "metric_definition": "组合实验e2e_P95",
+          "sample_count": 452,
+          "sample_scope": "full_452组合实验",
+          "unit": "ms"
+        }
+      ],
+      "evidence_maturity": "retained",
       "evidence_scope": "452条full scope只证明含Relay组合的e2e P95；Relay首音频不是call成功证据，也未复现论文verifier。",
       "experiment_records": [
         {
@@ -513,6 +684,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -574,11 +750,43 @@
     },
     {
       "compatibility": "仅计算能力9.0的H20/H100/H200 Hopper路径；Blackwell计算能力12.0不兼容，必须使用hybrid或batched_mm回退。",
+      "conditional_reason": "Hopper上保留官方快路径和已测工具块prefill收益，其他硬件不默认启用。",
       "dependencies": [
         "PyTorch torch._grouped_mm",
         "Transformers Qwen3-Omni MoE integration",
         "Hopper GPU"
       ],
+      "evidence": [
+        {
+          "attribution": "component_specific",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "source_recorded",
+          "current": {
+            "label": "unknown",
+            "value": null
+          },
+          "delta": {
+            "label": "大块prefill相对额外时延规避",
+            "value": -2300
+          },
+          "direction": "lower_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-b-grouped-moe-relay",
+            "experiment": "20260805-b-grouped-moe-relay"
+          },
+          "hardware": "unknown",
+          "independent_ab": null,
+          "metric": "大块prefill相对额外时延规避",
+          "metric_definition": "大块prefill相对额外时延规避",
+          "sample_count": 1,
+          "sample_scope": "单个大工具块prefill形状的实现微基准",
+          "unit": "ms"
+        }
+      ],
+      "evidence_maturity": "conditional",
       "evidence_scope": "组件微基准 + 452条组合实验；组合 e2e 不能单独归因给 grouped_mm。",
       "experiment_records": [
         {
@@ -656,6 +864,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -716,10 +929,70 @@
     },
     {
       "compatibility": "只适用于CarSim可解析的实际成功/无需执行回执；未知或失败格式回退模型后续处理。",
+      "conditional_reason": "",
       "dependencies": [
         "真实call事件",
         "结构化执行回执"
       ],
+      "evidence": [
+        {
+          "attribution": "direct",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "source_recorded",
+          "current": {
+            "label": "成功确认失败回执拦截",
+            "value": "1/1"
+          },
+          "delta": {
+            "label": "unknown",
+            "value": null
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-b-grouped-moe-relay",
+            "experiment": "20260805-b-grouped-moe-relay"
+          },
+          "hardware": "unknown",
+          "independent_ab": null,
+          "metric": "成功确认失败回执拦截",
+          "metric_definition": "成功确认失败回执拦截",
+          "sample_count": 1,
+          "sample_scope": "确定性确认单元测试",
+          "unit": "测试用例"
+        },
+        {
+          "attribution": "combined",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "combined_only",
+          "current": {
+            "label": "组合实验e2e_P95",
+            "value": 1241.6
+          },
+          "delta": {
+            "label": "unknown",
+            "value": null
+          },
+          "direction": "lower_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-b-grouped-moe-relay",
+            "experiment": "20260805-b-grouped-moe-relay"
+          },
+          "hardware": "unknown",
+          "independent_ab": false,
+          "metric": "组合实验e2e_P95",
+          "metric_definition": "组合实验e2e_P95",
+          "sample_count": 452,
+          "sample_scope": "full_452组合实验",
+          "unit": "ms"
+        }
+      ],
+      "evidence_maturity": "retained",
       "evidence_scope": "安全语义由单测直接证明；性能仅有452条组合上下文，不向本组件分摊。",
       "experiment_records": [
         {
@@ -797,6 +1070,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -867,11 +1145,43 @@
     },
     {
       "compatibility": "只做候选授权内的局部修复；当前不是完整生产Typed Action，缺身份权限、持久幂等和真实车态契约。",
+      "conditional_reason": "候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。",
       "dependencies": [
         "RAG候选集合",
         "CarSim工具schema",
         "候选TTL"
       ],
+      "evidence": [
+        {
+          "attribution": "combined",
+          "baseline": {
+            "label": "20260805-tool-description-enhancement",
+            "value": "0/31"
+          },
+          "confidence": "combined_only",
+          "current": {
+            "label": "组合修复",
+            "value": "24/31"
+          },
+          "delta": {
+            "label": "fixed_errors",
+            "value": 24
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
+            "experiment": "20260805-hybrid-c-voice-memory-resolver"
+          },
+          "hardware": "unknown",
+          "independent_ab": false,
+          "metric": "组合修复",
+          "metric_definition": "组合修复",
+          "sample_count": 31,
+          "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
+          "unit": ""
+        }
+      ],
+      "evidence_maturity": "conditional",
       "evidence_scope": "安全边界有实现与单测；24/31是与Voice Memory组合的局部错误桶结果，不能单独归因。",
       "experiment_records": [
         {
@@ -951,6 +1261,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -1012,11 +1327,71 @@
     },
     {
       "compatibility": "只接受audio_derived_text证据；manifest q真值预取属于assisted_diagnostic，不能进入pure_audio口径。",
+      "conditional_reason": "真实链路已有正向冒烟证据，但证据量不足，条件保留等待全量。",
       "dependencies": [
         "faster-whisper真实ASR",
         "音频索引与wav",
         "RAG候选检索"
       ],
+      "evidence": [
+        {
+          "attribution": "direct",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "source_recorded",
+          "current": {
+            "label": "实际工具执行",
+            "value": "4/4"
+          },
+          "delta": {
+            "label": "unknown",
+            "value": null
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-hybrid-c-asr-smoke",
+            "experiment": "20260805-hybrid-c-asr-smoke"
+          },
+          "hardware": "unknown",
+          "independent_ab": null,
+          "metric": "实际工具执行",
+          "metric_definition": "实际工具执行",
+          "sample_count": 4,
+          "sample_scope": "真实音频常规smoke",
+          "unit": ""
+        },
+        {
+          "attribution": "direct",
+          "baseline": {
+            "label": "unknown",
+            "value": null
+          },
+          "confidence": "source_recorded",
+          "current": {
+            "label": "e2e_P95",
+            "value": 1195.0
+          },
+          "delta": {
+            "label": "unknown",
+            "value": null
+          },
+          "direction": "lower_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-hybrid-c-asr-smoke",
+            "experiment": "20260805-hybrid-c-asr-smoke"
+          },
+          "hardware": "unknown",
+          "independent_ab": null,
+          "metric": "e2e_P95",
+          "metric_definition": "e2e_P95",
+          "sample_count": 4,
+          "sample_scope": "真实音频常规smoke",
+          "unit": "ms"
+        }
+      ],
+      "evidence_maturity": "conditional",
       "evidence_scope": "仅4条真实音频冒烟；不能外推到452条、99%准确率或生产资格。",
       "experiment_records": [
         {
@@ -1090,6 +1465,11 @@
           "date": "2026-08-06",
           "kind": "added",
           "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
         }
       ],
       "human_review": {
@@ -1221,14 +1601,14 @@
       "status": "rejected"
     }
   ],
-  "schema_version": 1,
+  "schema_version": 2,
   "source": {
     "branch": "automation/agent-h20-loop",
-    "commit": "257f5077354cb1a9111a5ac691946d0ce7c4c2c3",
+    "commit": "4b63258a340c9206f4e455f9374d765242757263",
     "component_path": "evolution/retained_components.json",
     "registry_path": "evolution/experiments/registry.json",
     "repository": "https://github.com/ISS-2030Lab/StreamingModelHarness",
     "status": "fresh",
-    "synced_at": "2026-08-07T10:12:10+08:00"
+    "synced_at": "2026-08-07T11:44:47+08:00"
   }
 }
