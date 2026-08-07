@@ -1,10 +1,17 @@
 param(
     [string]$RepoPath = "",
-    [string]$Since = ""
+    [string]$Since = "",
+    [string]$HarnessPath = "C:\Users\Administrator\Projects\StreamingModelHarness",
+    [string]$HarnessSolutionsPath = "",
+    [string]$HarnessSolutionsBranch = "automation/agent-h20-loop"
 )
 
 $ErrorActionPreference = "Stop"
 if (-not $RepoPath) { $RepoPath = Split-Path -Parent $PSScriptRoot }
+if (-not $HarnessSolutionsPath) {
+    $candidate = Join-Path (Split-Path -Parent $RepoPath) "StreamingModelHarness-autoloop"
+    $HarnessSolutionsPath = if (Test-Path $candidate) { $candidate } else { $HarnessPath }
+}
 . (Join-Path $PSScriptRoot "automation_common.ps1")
 $Git = "C:\Program Files\Git\cmd\git.exe"
 $Python = "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\Python\python.exe"
@@ -24,6 +31,10 @@ try {
         if (-not (Test-Path $required)) { throw "required executable missing: $required" }
     }
     Update-FromMain -Git $Git -RepoPath $RepoPath -Log $Log
+    Invoke-NativeLogged {
+        & $Python (Join-Path $RepoPath "scripts\sync_harness_solutions.py") `
+            --source $HarnessSolutionsPath --branch $HarnessSolutionsBranch --git $Git
+    } $Log
     $pendingScript = Join-Path $RepoPath "scripts\pending_explanations.py"
     $countArgs = @($pendingScript, "--count-only")
     if ($Since) { $countArgs += @("--since", $Since) }
@@ -53,6 +64,7 @@ try {
         throw "full-text backlog did not decrease"
     }
     Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\test_explanations.py") } $Log
+    Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\test_solutions.py") } $Log
     $reviewedAt = [DateTimeOffset]::Now.ToOffset([TimeSpan]::FromHours(8)).ToString("o")
     $runId = "deep-review-$([DateTimeOffset]::Now.ToUniversalTime().ToString('yyyyMMddTHHmmssZ'))"
     Invoke-NativeLogged {
@@ -65,7 +77,7 @@ try {
     Invoke-NativeLogged { & $Git -C $RepoPath diff --check } $Log
     Invoke-NativeLogged {
         & $Git -C $RepoPath add data/explanations.json data/items.json `
-            data/review_history.json docs
+            data/review_history.json data/harness_solutions.json docs
     } $Log
     $staged = & $Git -C $RepoPath diff --cached --name-only
     if ($LASTEXITCODE -ne 0) { throw "could not inspect staged files" }

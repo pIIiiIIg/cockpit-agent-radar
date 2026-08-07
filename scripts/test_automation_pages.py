@@ -323,8 +323,15 @@ class AutomationPageTests(unittest.TestCase):
     def test_global_site_navigation_exposes_automation(self):
         rendered = build_site.shell("test", "<p>body</p>", page="index")
         self.assertIn(f'{build_site.BASE}/automation/', rendered)
+        self.assertIn(f'{build_site.BASE}/solutions/', rendered)
         self.assertIn(f'{build_site.BASE}/reviews.html', rendered)
         self.assertIn(f'{build_site.BASE}/reports/', rendered)
+
+    def test_automation_feedback_links_public_solutions(self):
+        self.assertIn("/solutions/", self.pages["index"])
+        self.assertIn("实验反馈回到下一轮", self.pages["index"])
+        self.assertIn("/solutions/", self.pages["selection"])
+        self.assertIn("/solutions/", self.pages["publishing"])
 
     def test_internal_automation_links_resolve(self):
         routes = {"/automation/"}

@@ -16,6 +16,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 import build_automation
+import build_solutions
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -118,6 +119,38 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
 .report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
 .report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
                           color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
 footer { margin-top:40px; color:var(--dim); font-size:12.5px;
          border-top:1px solid var(--line); padding-top:12px; }
 """
@@ -172,6 +205,7 @@ SHELL = """<!DOCTYPE html>
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="__BASE__/feed.xml">RSS</a>
     <a class="btn" href="__BASE__/automation/">__AUTOMATION_LABEL__</a>
+    <a class="btn" href="__BASE__/solutions/">__SOLUTIONS_LABEL__</a>
     <a class="btn" href="__BASE__/reviews.html">__REVIEWS_LABEL__</a>
     <a class="btn" href="__BASE__/reports/">__REPORTS_LABEL__</a>
     <a class="btn" href="__BASE__/archive.html">__ARCHIVE_LABEL__</a>
@@ -196,6 +230,7 @@ def shell(title, body, page=""):
             .replace("__STYLE__", STYLE).replace("__JS__", JS)
             .replace("__SUB__", sub).replace("__FOOTER__", foot)
             .replace("__AUTOMATION_LABEL__", pair("自动化", "Automation"))
+            .replace("__SOLUTIONS_LABEL__", pair("好方案", "Solutions"))
             .replace("__REVIEWS_LABEL__", pair("精读记录", "Reviews"))
             .replace("__REPORTS_LABEL__", pair("日报", "Reports"))
             .replace("__ARCHIVE_LABEL__", pair("存档", "Archive"))
@@ -598,7 +633,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 
-def build_reports(by_review_day):
+def build_reports(by_review_day, solution_snapshot=None):
     source = os.path.join(ROOT, "reports")
     target = os.path.join(DOCS, "reports")
     os.makedirs(target, exist_ok=True)
@@ -623,6 +658,7 @@ def build_reports(by_review_day):
             body = (f'<div class="item-page"><h2>{esc(title)} · {esc(date)}</h2>'
                     f'{review_source}'
                     f'<div class="report-body">{markdown_to_html(text)}</div>'
+                    f'{build_solutions.feedback_section(solution_snapshot or {}, date, BASE)}'
                     f'<p><a class="btn" href="{BASE}/reports/">'
                     + pair("← 返回日报", "← reports") + "</a></p></div>")
             output_name = stem + ".html"
@@ -681,6 +717,7 @@ def main():
         explanations = {}
     for item in items:
         item["explanation"] = explanations.get(item["id"], {})
+    solution_snapshot = build_solutions.load_snapshot(ROOT)
     history = load_review_history({item["id"] for item in items})
     by_review_day = {}
     for row in history:
@@ -693,7 +730,8 @@ def main():
             os.remove(os.path.join(items_dir, name))
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
-    reports = build_reports(by_review_day)
+    solution_result = build_solutions.build(ROOT, DOCS, BASE, shell)
+    reports = build_reports(by_review_day, solution_snapshot)
     build_reviews_page(by_review_day)
     automation_pages = build_automation.build(ROOT)
 
@@ -731,6 +769,13 @@ def main():
                  + pair("◎ 自动化系统讲解：从技术雷达到 H20 评测闭环",
                         "◎ Automation guide: radar-to-H20 evaluation loop")
                  + "</a></p>")
+    today = datetime.now(CST).date().isoformat()
+    today_solutions = len(build_solutions.events_on(solution_snapshot, today))
+    parts.append(
+        f'<p><a class="demo-link" href="{BASE}/solutions/{today}.html">'
+        + pair(f"★ 今日好方案：{today_solutions}",
+               f"★ Today’s high-value solutions: {today_solutions}")
+        + "</a></p>")
     primer = os.path.join(DOCS, "demos", "full-duplex-primer.html")
     if os.path.exists(primer):
         parts.append('<p><a class="demo-link" href="' + BASE
@@ -779,7 +824,9 @@ def main():
     papers = sum(item.get("kind") == "paper" for item in items)
     print(f"site built: {len(items)} items, {len(days)} days on index, "
           f"paper deep dives {explained}/{papers}, reports {len(reports)}, "
-          f"automation pages {automation_pages}")
+          f"automation pages {automation_pages}, solutions "
+          f"{solution_result['recommended']}/{solution_result['pages']} pages "
+          f"({solution_result['status']})")
 
 
 if __name__ == "__main__":

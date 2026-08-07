@@ -1,10 +1,16 @@
 param(
     [string]$RepoPath = "",
-    [string]$HarnessPath = "C:\Users\Administrator\Projects\StreamingModelHarness"
+    [string]$HarnessPath = "C:\Users\Administrator\Projects\StreamingModelHarness",
+    [string]$HarnessSolutionsPath = "",
+    [string]$HarnessSolutionsBranch = "automation/agent-h20-loop"
 )
 
 $ErrorActionPreference = "Stop"
 if (-not $RepoPath) { $RepoPath = Split-Path -Parent $PSScriptRoot }
+if (-not $HarnessSolutionsPath) {
+    $candidate = Join-Path (Split-Path -Parent $RepoPath) "StreamingModelHarness-autoloop"
+    $HarnessSolutionsPath = if (Test-Path $candidate) { $candidate } else { $HarnessPath }
+}
 . (Join-Path $PSScriptRoot "automation_common.ps1")
 $Git = "C:\Program Files\Git\cmd\git.exe"
 $Python = "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\Python\python.exe"
@@ -20,6 +26,10 @@ try {
     }
     Update-FromMain -Git $Git -RepoPath $RepoPath -Log $Log
     Invoke-NativeLogged {
+        & $Python (Join-Path $RepoPath "scripts\sync_harness_solutions.py") `
+            --source $HarnessSolutionsPath --branch $HarnessSolutionsBranch --git $Git
+    } $Log
+    Invoke-NativeLogged {
         & $Python (Join-Path $RepoPath "scripts\build_project_status.py") `
             --source $HarnessPath
     } $Log
@@ -33,9 +43,12 @@ try {
         throw "agent did not create both reports for $today"
     }
     Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\test_explanations.py") } $Log
+    Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\test_solutions.py") } $Log
     Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\build_site.py") } $Log
     Invoke-NativeLogged { & $Git -C $RepoPath diff --check } $Log
-    Invoke-NativeLogged { & $Git -C $RepoPath add reports project_status docs } $Log
+    Invoke-NativeLogged {
+        & $Git -C $RepoPath add reports project_status data/harness_solutions.json docs
+    } $Log
     $staged = & $Git -C $RepoPath diff --cached --name-only
     if ($LASTEXITCODE -ne 0) { throw "could not inspect staged files" }
     if ($staged) {

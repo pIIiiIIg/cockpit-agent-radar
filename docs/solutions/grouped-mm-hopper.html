@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>grouped_mm MoE 快路径 · Solutions</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page="solutions"><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<p class="solution-source ok"><span class="l-zh">Harness 数据源已同步</span><span class="l-en">Harness source synchronized</span> · <code>257f5077354c</code></p><div class="item-page solution-detail">
+<p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">← 高收益组件</span><span class="l-en">← High-value solutions</span></a></p>
+<h2>grouped_mm MoE 快路径</h2>
+<div class="meta"><span class="badge solution-status conditional"><span class="l-zh">条件保留</span><span class="l-en">Conditional</span></span><span class="badge"><span class="l-zh">组件证据</span><span class="l-en">Component evidence</span></span>
+<span class="badge"><span class="l-zh">证据成熟度</span><span class="l-en">Evidence maturity</span>: conditional</span></div>
+<section class="solution-flow" aria-label="Solution pipeline position">
+<span><span class="l-zh">论文 / 日报</span><span class="l-en">Paper / report</span></span><b>→</b>
+<span><span class="l-zh">组件</span><span class="l-en">Component</span></span><b>→</b>
+<span><span class="l-zh">实验</span><span class="l-en">Experiment</span></span><b>→</b>
+<span><span class="l-zh">下一验证门</span><span class="l-en">Next gate</span></span></section>
+<section><h3><span class="l-zh">它解决什么</span><span class="l-en">What it solves</span></h3><p><span class="l-zh">大工具清单 prefill 在 MoE 上会复制权重、增加时延，甚至触发显存不足。</span><span class="l-en">Large tool-list prefills can copy MoE weights, add latency, and even exhaust memory.</span></p></section>
+<section><h3><span class="l-zh">改了哪段链路</span><span class="l-en">Pipeline change</span></h3><p><span class="l-zh">位于 Thinker 的 MoE 前向路径，只优化专家计算实现，不改变工具真值或回复语义。</span><span class="l-en">It sits in the Thinker MoE forward path and changes expert execution, not tool truth or response semantics.</span></p></section>
+<section><h3><span class="l-zh">怎么实现</span><span class="l-en">Implementation</span></h3><p><span class="l-zh">在 Hopper 上选择 grouped_mm；不支持的 GPU 必须回退 hybrid/batched_mm，并把硬件与开关写入实验记录。</span><span class="l-en">Select grouped_mm on Hopper; unsupported GPUs must fall back to hybrid/batched_mm with hardware and switch recorded.</span></p>
+<p><b><span class="l-zh">开关</span><span class="l-en">Switch</span>:</b> <code>MOE_IMPL=grouped_mm / run_h20_evolution.ps1 -MoeImpl grouped_mm</code></p>
+<ul><li><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/stream_engine.py" rel="noopener noreferrer">stream_engine.py</a></li><li><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/scripts/run_h20_evolution.ps1" rel="noopener noreferrer">scripts/run_h20_evolution.ps1</a></li></ul></section>
+<section><h3><span class="l-zh">指标、delta 与样本范围</span><span class="l-en">Metrics, delta, and scope</span></h3><div class="solution-metric"><div><b>大块prefill相对额外时延规避</b> <span>-2300ms</span></div><div class="metric-strip positive" aria-label="lower_is_better"></div><small><span class="l-zh">组件指标</span><span class="l-en">Component metric</span> · <span class="l-zh">样本</span><span class="l-en">scope</span>: 单个大工具块prefill形状的实现微基准 · n=1</small></div>
+<p class="note"><span class="l-zh">shared / combined 指标只作为整套方案上下文，不归因到本组件。</span><span class="l-en">Shared/combined metrics are whole-candidate context and are not attributed to this component.</span></p></section>
+<section><h3><span class="l-zh">所属实验、基线与分支</span><span class="l-en">Experiments, baselines, and branches</span></h3>
+<ul><li><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-b-grouped-moe-relay">20260805-b-grouped-moe-relay</a> · <span class="badge solution-status partial_improvement"><span class="l-zh">局部收益</span><span class="l-en">Partial improvement</span></span> · baseline=b-pure-audio · n=452<details><summary tabindex="0"><span class="l-zh">实验字段</span><span class="l-en">Experiment fields</span></summary><p><b>delta:</b> <code>{&quot;actual_execution_vs_hard_gate&quot;: -0.1736283185840708, &quot;e2e_vs_hard_gate_ms&quot;: -358.4}</code></p><p><b>safety:</b> <code>{&quot;dangerous_miscalls&quot;: 0, &quot;error_type&quot;: &quot;TTS&quot;, &quot;infrastructure_errors&quot;: 2, &quot;passed&quot;: true}</code></p><p><b><span class="l-zh">未改善/局限</span><span class="l-en">Not improved / limits</span>:</b> <span class="l-zh">组合实验不能归因到 grouped MoE/Relay 任一组件；缺少可比基线数值，delta仅记录相对硬门。</span><span class="l-en">Source-record limitation: 组合实验不能归因到 grouped MoE/Relay 任一组件；缺少可比基线数值，delta仅记录相对硬门。</span></p><p><b><span class="l-zh">复现</span><span class="l-en">Reproduce</span>:</b> <code>按 STARTUP 与 run_h20_evolution.ps1 参数在 H20 重跑452条</code></p></details></li></ul></section>
+<section><h3><span class="l-zh">风险、兼容性与未改善项</span><span class="l-en">Risks, compatibility, and non-gains</span></h3>
+<p><b><span class="l-zh">兼容性</span><span class="l-en">Compatibility</span>:</b> <span class="l-zh">仅计算能力9.0的H20/H100/H200 Hopper路径；Blackwell计算能力12.0不兼容，必须使用hybrid或batched_mm回退。</span><span class="l-en">Source compatibility record: 仅计算能力9.0的H20/H100/H200 Hopper路径；Blackwell计算能力12.0不兼容，必须使用hybrid或batched_mm回退。</span></p>
+<ul><li><span class="l-zh">硬件不匹配会直接RuntimeError</span><span class="l-en">Source record: 硬件不匹配会直接RuntimeError</span></li><li><span class="l-zh">端到端收益尚未做同口径单变量消融</span><span class="l-en">Source record: 端到端收益尚未做同口径单变量消融</span></li></ul></section>
+<section><h3><span class="l-zh">如何复核来源</span><span class="l-en">Source evidence</span></h3><ul><li><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/docs/HYBRID_C.md" rel="noopener noreferrer"><span class="l-zh">docs/HYBRID_C.md#3-grouped-moe128-选-8-与硬件限制</span><span class="l-en">docs/HYBRID_C.md#3-grouped-moe128-选-8-与硬件限制</span></a></li><li><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/stream_engine.py" rel="noopener noreferrer"><span class="l-zh">stream_engine.py:75-140（实测说明）</span><span class="l-en">stream_engine.py:75-140（实测说明）</span></a></li></ul></section>
+<section><h3><span class="l-zh">下一验证门</span><span class="l-en">Next validation gate</span></h3>
+<p><span class="l-zh">在同一H20、同一工具块和452条集合上做grouped_mm对hybrid单变量全量对照。</span><span class="l-en">Source next-gate record: 在同一H20、同一工具块和452条集合上做grouped_mm对hybrid单变量全量对照。</span></p></section>
+<details><summary tabindex="0"><span class="l-zh">版本与变更历史</span><span class="l-en">Version and change history</span></summary><ul><li><span class="l-zh">2026-08-06 · added · Initial public solution snapshot</span><span class="l-en">Source record: 2026-08-06 · added · Initial public solution snapshot</span></li></ul></details>
+</div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>

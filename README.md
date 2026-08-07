@@ -6,6 +6,7 @@ HackerNews 上与**全双工语音、流式多模态模型、agent harness、座
 **站点**: <https://piiiiiig.github.io/cockpit-agent-radar/> ·
 **精读记录**: [Reviews](https://piiiiiig.github.io/cockpit-agent-radar/reviews.html) ·
 **自动化系统讲解**: [Automation](https://piiiiiig.github.io/cockpit-agent-radar/automation/) ·
+**高收益组件**: [Solutions](https://piiiiiig.github.io/cockpit-agent-radar/solutions/) ·
 **订阅**: [RSS](https://piiiiiig.github.io/cockpit-agent-radar/feed.xml)
 
 ## 架构：两层解耦
@@ -86,11 +87,35 @@ qualified/production 明确分开。
 B+真实 SoulX 与 audio-derived C，并把 369/452 幂等合并口径、音频 provenance、
 标签敏感性、CarSim/最终态和时延边界写入 Research、Selection 与 Limitations。
 
+## 高收益组件同步与页面
+
+`scripts/sync_harness_solutions.py` 从指定的 StreamingModelHarness clone/ref 通过
+`git show` 只读提取版本化 `retained_components.json`、实验 registry 和公开摘要字段，
+写入站点自己的 `data/harness_solutions.json`。同步严格筛选 `retained`，或具有正向
+指标、样本范围且安全未退化的 `conditional/partial_improvement`；组合指标保留
+`combination_only` 标记，不分摊给单组件。`rejected/invalid` 只进入负结果区。
+
+同步器只保留 allowlist 字段并脱敏 host、key、本机路径；源不可用时保留上次快照并
+标记 `stale`，不会清空方案。Windows 日报/精读发布脚本会在建站前同步并把快照与
+`docs/` 同 commit；GitHub Actions 无私有 Harness 访问时直接使用已提交快照。
+
+```bash
+python scripts/sync_harness_solutions.py \
+  --source ../StreamingModelHarness \
+  --branch automation/agent-h20-loop
+python scripts/test_solutions.py
+python scripts/build_site.py
+```
+
+建站生成 `/solutions/`、按北京时间归档的每日变化页以及每组件详情页；首页和日报把
+实验反馈作为独立区块展示，不与论文资讯混写。
+
 修改后运行：
 
 ```bash
 python scripts/test_explanations.py
 python scripts/test_automation_pages.py
+python scripts/test_solutions.py
 python scripts/build_site.py
 git diff --check
 ```

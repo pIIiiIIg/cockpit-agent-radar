@@ -19,7 +19,8 @@ jobs:
           base="https://piiiiiig.github.io/cockpit-agent-radar"
           routes=("/" "/archive.html" "/feed.xml" "/reports/" "/demos/full-duplex-primer.html"
                   "/automation/" "/automation/research/" "/automation/h20/"
-                  "/automation/case-hybrid-c/")
+                  "/automation/case-hybrid-c/" "/solutions/"
+                  "/solutions/$(TZ=Asia/Shanghai date '+%Y-%m-%d').html")
           for attempt in $(seq 1 15); do
             failed=0
             for route in "${routes[@]}"; do

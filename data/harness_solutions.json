@@ -1,0 +1,1234 @@
+{
+  "components": [
+    {
+      "compatibility": "只修复有真实音频证据且范围明确的混淆，不覆盖原始音频输入，不直接生成动作。",
+      "dependencies": [
+        "版本化voice_memory_rules.json",
+        "真实ASR文本",
+        "保留集门控"
+      ],
+      "evidence_scope": "31条历史错误桶局部组合结果；不能单独归因Voice Memory，组合e2e P95 1831.3ms未过1600ms门。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
+              "hash": "sha256:14fa5daa9f722e2b668290c3cd1e5ec04244ec96fde3e442be6717bce5297892",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.7741935483870968,
+                "commit_to_call_p95_ms": 1972.4,
+                "completed": 31,
+                "completion_rate": 1.0,
+                "e2e_p95_ms": 1831.3,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 31
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md",
+              "hash": "sha256:2ed4dbdbc791bef943b60f1d65a9dbfeb96dde2da1f5662fd1f245814b932249",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "20260805-tool-description-enhancement",
+          "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
+          "buckets": {
+            "samples": 31,
+            "scope": "prior_error_bucket"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "31条历史错误桶修复24条（77.4%），e2e P95 1831.3ms；不是全量结论。",
+          "delta": {
+            "actual_execution_success_rate": 0.7741935483870968,
+            "call_p95_ms": 80.9,
+            "e2e_p95_ms": 465.6,
+            "fixed_errors": 24
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-hybrid-c-voice-memory-resolver",
+          "id": "20260805-hybrid-c-voice-memory-resolver",
+          "known_limitations": "错误桶局部结果；组合实验不能单独归因；时延未过1600ms硬门。",
+          "metrics": {
+            "accuracy": 0.7741935483870968,
+            "actual_execution_success_rate": 0.7741935483870968,
+            "call_p95_ms": 1972.4,
+            "completion_rate": 1.0,
+            "e2e_p95_ms": 1831.3
+          },
+          "parent_id": "20260805-tool-description-enhancement",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.768356+00:00",
+          "reproduce": "run_h20_evolution.ps1 -AsrPrefetch -VoiceMemoryRelative evolution/voice_memory_rules.json -SampleIds <31 ids> -SmokeOnly",
+          "retention_reason": "相对同一31条0/31基线有明确局部准确率收益。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "infrastructure_errors": 0,
+            "passed": true
+          },
+          "sample_count": 31,
+          "single_variable": "Voice Memory + candidate-authorized typed resolver（组合证据）",
+          "sources": [
+            "evolution/runs/h20-20260805T070122Z/smoke.summary.json"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-hybrid-c-voice-memory-resolver"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "conditional",
+        "notes": "24/31不可单独归因。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "voice-memory-rules",
+      "improvement": {
+        "attribution": "combined",
+        "component_evidence": "五条可审计窄域规则与candidate-authorized typed resolver组合，在同一31条历史错误桶中修复24条。",
+        "metrics": [
+          {
+            "attribution": "combination_only",
+            "direction": "higher_is_better",
+            "name": "组合修复",
+            "sample_count": 31,
+            "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
+            "shared": true,
+            "unit": "",
+            "value": "24/31"
+          }
+        ]
+      },
+      "name": "Voice Memory窄域纠错",
+      "next_validation_gate": "固定typed resolver，单独开关Voice Memory并在独立保留集及452条全量验证。",
+      "recommended": true,
+      "retention_reason": "局部组合收益明确且规则可审计，但必须等待独立消融与保留集。",
+      "risks": [
+        "规则过宽会误改正常识别",
+        "目标错误桶不能兼作独立保留集"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/voice_memory_rules.json",
+            "path": "evolution/voice_memory_rules.json"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/h20_runner.py",
+            "path": "evolution/h20_runner.py"
+          }
+        ],
+        "switch": "run_h20_evolution.ps1 -VoiceMemoryRelative evolution/voice_memory_rules.json"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "Voice Memory arXiv:2607.26410",
+        "docs/VOICE_MEMORY.md#5-当前证据与边界",
+        "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json"
+      ],
+      "status": "conditional",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "仅保留生成脚本用于复现负结果，不接入默认运行组合。",
+      "dependencies": [
+        "工具catalog",
+        "混淆规则与历史结果"
+      ],
+      "evidence_scope": "31条历史错误桶负结果；不代表描述增强在所有任务中永远无效。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json",
+              "hash": "sha256:9aa1ea80204ccec622bf1a1a7e96288aa0367edbd5197ec96105d38ec83453f5",
+              "path": "evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.0,
+                "commit_to_call_p95_ms": 1891.5,
+                "completed": 31,
+                "completion_rate": 1.0,
+                "e2e_p95_ms": 1365.7,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 31
+              }
+            }
+          ],
+          "baseline_id": "20260805-hybrid-c-asr-smoke",
+          "branch": "experiment/20260805-tool-description-enhancement",
+          "buckets": {
+            "samples": 31,
+            "scope": "prior_error_bucket"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "31条错误集0/31修复，无准确率收益。",
+          "delta": {
+            "actual_execution_success_rate": 0.0,
+            "fixed_errors": 0
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-tool-description-enhancement",
+          "id": "20260805-tool-description-enhancement",
+          "known_limitations": "错误桶回归，不代表全量准确率。",
+          "metrics": {
+            "accuracy": 0.0,
+            "actual_execution_success_rate": 0.0,
+            "call_p95_ms": 1891.5,
+            "completion_rate": 1.0,
+            "e2e_p95_ms": 1365.7
+          },
+          "parent_id": "20260805-hybrid-c-asr-smoke",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.749532+00:00",
+          "reproduce": "用31条混淆样本运行工具描述增强候选",
+          "retention_reason": "总registry保留负结果，避免重复实验。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "infrastructure_errors": 0,
+            "passed": true
+          },
+          "sample_count": 31,
+          "single_variable": "工具描述增强",
+          "sources": [
+            "evolution/runs/h20-20260805T061330Z/smoke.summary.json"
+          ],
+          "status": "rejected"
+        }
+      ],
+      "experiments": [
+        "20260805-tool-description-enhancement"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "rejected",
+        "notes": "明确排除默认组合。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "tool-description-enhancement",
+      "improvement": {
+        "attribution": "direct",
+        "component_evidence": "在31条真实历史混淆错误桶中0/31修复，没有准确率收益。",
+        "metrics": [
+          {
+            "attribution": "component",
+            "direction": "higher_is_better",
+            "name": "修复",
+            "sample_count": 31,
+            "sample_scope": "prior_error_bucket",
+            "unit": "",
+            "value": "0/31"
+          }
+        ]
+      },
+      "name": "工具描述增强",
+      "next_validation_gate": "只有出现新的可证伪上游召回假设和独立样本时才允许重开实验。",
+      "recommended": false,
+      "retention_reason": "保留负结果避免重复投入，但拒绝进入默认推荐和默认组合。",
+      "risks": [
+        "加长描述增加prefill成本",
+        "无法修复上游检索漏召回"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/patch_tool_descriptions.py",
+            "path": "evolution/patch_tool_descriptions.py"
+          }
+        ],
+        "switch": "无默认开关；不得进入默认组合"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": false,
+        "positive_metric": false,
+        "safety_not_regressed": true,
+        "status_allowed": false
+      },
+      "sources": [
+        "docs/HYBRID_C.md#已淘汰工具描述增强",
+        "evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json"
+      ],
+      "status": "rejected",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "仅改变成功/无需执行回执的模型输入格式；失败回执保持JSON和自救指令。",
+      "dependencies": [
+        "CarSim结构化回执",
+        "harness_b多跳回执环"
+      ],
+      "evidence_scope": "回执注入微基准有组件证据；452条端到端结果是四组件组合证据。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "hash": "sha256:fa22223949c2e0b9374fe41234219d7a50d42859f22ffecc33d0249c379db761",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.8163716814159292,
+                "commit_to_call_p95_ms": 1818.7,
+                "completed": 450,
+                "completion_rate": 0.995575221238938,
+                "e2e_p95_ms": 1241.6,
+                "errors": 2,
+                "profile": "pure_audio",
+                "samples": 452
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md",
+              "hash": "sha256:c2c75849f0b0292d1eb77a1292a2d43147315ce21d388a7b7191cef958e8a5b2",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "b-pure-audio",
+          "branch": "experiment/20260805-b-grouped-moe-relay",
+          "buckets": {
+            "scope": "full_452"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "时延硬门通过，准确率硬门未通过；不是 qualified。",
+          "delta": {
+            "actual_execution_vs_hard_gate": -0.1736283185840708,
+            "e2e_vs_hard_gate_ms": -358.4
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-b-grouped-moe-relay",
+          "id": "20260805-b-grouped-moe-relay",
+          "known_limitations": "组合实验不能归因到 grouped MoE/Relay 任一组件；缺少可比基线数值，delta仅记录相对硬门。",
+          "metrics": {
+            "accuracy": 0.8163716814159292,
+            "actual_execution_success_rate": 0.8163716814159292,
+            "call_p95_ms": 1818.7,
+            "completion_rate": 0.995575221238938,
+            "e2e_p95_ms": 1241.6
+          },
+          "parent_id": "b-pure-audio",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.728069+00:00",
+          "reproduce": "按 STARTUP 与 run_h20_evolution.ps1 参数在 H20 重跑452条",
+          "retention_reason": "保留满足时延硬门的组合实现，供后续单变量消融。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "error_type": "TTS",
+            "infrastructure_errors": 2,
+            "passed": true
+          },
+          "sample_count": 452,
+          "single_variable": "grouped MoE + terse receipt + deterministic ack + Relay安全前缀（组合证据）",
+          "sources": [
+            "evolution/README.md#当前实测进展"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-b-grouped-moe-relay"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "conditional",
+        "notes": "失败回执不得纳入压缩。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "terse-execution-receipt",
+      "improvement": {
+        "attribution": "component_specific",
+        "component_evidence": "成功/无需执行回执由约46 token压到32-token性能悬崖以下，实测每次回执注入约省340ms；失败回执保留完整自救信息，明确不压缩。",
+        "metrics": [
+          {
+            "attribution": "component",
+            "direction": "higher_is_better",
+            "name": "单次成功回执注入节省",
+            "sample_count": 2,
+            "sample_scope": "32与40/46 token回执注入微基准",
+            "unit": "ms",
+            "value": 340
+          },
+          {
+            "attribution": "combination_only",
+            "direction": "lower_is_better",
+            "name": "组合实验e2e_P95",
+            "sample_count": 452,
+            "sample_scope": "full_452组合实验",
+            "shared": true,
+            "unit": "ms",
+            "value": 1241.6
+          }
+        ]
+      },
+      "name": "紧凑执行回执",
+      "next_validation_gate": "关闭其他新增组件，完成452条紧凑/完整回执单变量准确率、安全与e2e对照。",
+      "recommended": true,
+      "retention_reason": "关键路径节省明确且失败路径不牺牲诊断信息，先条件保留。",
+      "risks": [
+        "信息压缩可能影响模型后续推理",
+        "尚缺452条单变量准确率回归"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/agent_backend.py",
+            "path": "harness_b/agent_backend.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/scripts/run_h20_evolution.ps1",
+            "path": "scripts/run_h20_evolution.ps1"
+          }
+        ],
+        "switch": "CAR_RECEIPT_TERSE=1 / run_h20_evolution.ps1 -TerseReceipt"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "harness_b/agent_backend.py:136-159（实测日报注释）",
+        "evolution/README.md#当前实测进展"
+      ],
+      "status": "conditional",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "依赖可取消的流式TTS；前缀必须非承诺性，且不得计作工具执行成功。",
+      "dependencies": [
+        "search意图事件",
+        "流式TTS",
+        "会话取消信号"
+      ],
+      "evidence_scope": "452条full scope只证明含Relay组合的e2e P95；Relay首音频不是call成功证据，也未复现论文verifier。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "hash": "sha256:fa22223949c2e0b9374fe41234219d7a50d42859f22ffecc33d0249c379db761",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.8163716814159292,
+                "commit_to_call_p95_ms": 1818.7,
+                "completed": 450,
+                "completion_rate": 0.995575221238938,
+                "e2e_p95_ms": 1241.6,
+                "errors": 2,
+                "profile": "pure_audio",
+                "samples": 452
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md",
+              "hash": "sha256:c2c75849f0b0292d1eb77a1292a2d43147315ce21d388a7b7191cef958e8a5b2",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "b-pure-audio",
+          "branch": "experiment/20260805-b-grouped-moe-relay",
+          "buckets": {
+            "scope": "full_452"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "时延硬门通过，准确率硬门未通过；不是 qualified。",
+          "delta": {
+            "actual_execution_vs_hard_gate": -0.1736283185840708,
+            "e2e_vs_hard_gate_ms": -358.4
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-b-grouped-moe-relay",
+          "id": "20260805-b-grouped-moe-relay",
+          "known_limitations": "组合实验不能归因到 grouped MoE/Relay 任一组件；缺少可比基线数值，delta仅记录相对硬门。",
+          "metrics": {
+            "accuracy": 0.8163716814159292,
+            "actual_execution_success_rate": 0.8163716814159292,
+            "call_p95_ms": 1818.7,
+            "completion_rate": 0.995575221238938,
+            "e2e_p95_ms": 1241.6
+          },
+          "parent_id": "b-pure-audio",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.728069+00:00",
+          "reproduce": "按 STARTUP 与 run_h20_evolution.ps1 参数在 H20 重跑452条",
+          "retention_reason": "保留满足时延硬门的组合实现，供后续单变量消融。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "error_type": "TTS",
+            "infrastructure_errors": 2,
+            "passed": true
+          },
+          "sample_count": 452,
+          "single_variable": "grouped MoE + terse receipt + deterministic ack + Relay安全前缀（组合证据）",
+          "sources": [
+            "evolution/README.md#当前实测进展"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-b-grouped-moe-relay"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "retained",
+        "notes": "人工确认不能将Relay音频计作call成功。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "relay-safe-prefix",
+      "improvement": {
+        "attribution": "combined",
+        "component_evidence": "前缀固定为不承诺动作结果的“好的，正在处理。”，仅在search意图成立后发送；代码将Relay首音频与call执行标记分开。",
+        "metrics": [
+          {
+            "attribution": "combination_only",
+            "direction": "lower_is_better",
+            "name": "组合实验e2e_P95",
+            "sample_count": 452,
+            "sample_scope": "full_452组合实验",
+            "shared": true,
+            "unit": "ms",
+            "value": 1241.6
+          }
+        ]
+      },
+      "name": "Relay安全前缀",
+      "next_validation_gate": "做Relay开/关单变量全量对照，并独立报告首音频、call成功和最终状态。",
+      "recommended": true,
+      "retention_reason": "在不虚构执行结果的前提下提供感知时延快速路径，且全量组合e2e P95为1241.6ms。",
+      "risks": [
+        "误把首音频当call成功会污染评分",
+        "不能继承RelayS2S论文指标"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/agent_backend.py",
+            "path": "harness_b/agent_backend.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/scripts/run_h20_evolution.ps1",
+            "path": "scripts/run_h20_evolution.ps1"
+          }
+        ],
+        "switch": "CAR_RELAY_PREFIX=1 / run_h20_evolution.ps1 -RelayPrefix"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "RelayS2S arXiv:2603.23346",
+        "docs/HYBRID_C.md#41-relay-安全前缀"
+      ],
+      "status": "retained",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "仅计算能力9.0的H20/H100/H200 Hopper路径；Blackwell计算能力12.0不兼容，必须使用hybrid或batched_mm回退。",
+      "dependencies": [
+        "PyTorch torch._grouped_mm",
+        "Transformers Qwen3-Omni MoE integration",
+        "Hopper GPU"
+      ],
+      "evidence_scope": "组件微基准 + 452条组合实验；组合 e2e 不能单独归因给 grouped_mm。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "hash": "sha256:fa22223949c2e0b9374fe41234219d7a50d42859f22ffecc33d0249c379db761",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.8163716814159292,
+                "commit_to_call_p95_ms": 1818.7,
+                "completed": 450,
+                "completion_rate": 0.995575221238938,
+                "e2e_p95_ms": 1241.6,
+                "errors": 2,
+                "profile": "pure_audio",
+                "samples": 452
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md",
+              "hash": "sha256:c2c75849f0b0292d1eb77a1292a2d43147315ce21d388a7b7191cef958e8a5b2",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "b-pure-audio",
+          "branch": "experiment/20260805-b-grouped-moe-relay",
+          "buckets": {
+            "scope": "full_452"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "时延硬门通过，准确率硬门未通过；不是 qualified。",
+          "delta": {
+            "actual_execution_vs_hard_gate": -0.1736283185840708,
+            "e2e_vs_hard_gate_ms": -358.4
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-b-grouped-moe-relay",
+          "id": "20260805-b-grouped-moe-relay",
+          "known_limitations": "组合实验不能归因到 grouped MoE/Relay 任一组件；缺少可比基线数值，delta仅记录相对硬门。",
+          "metrics": {
+            "accuracy": 0.8163716814159292,
+            "actual_execution_success_rate": 0.8163716814159292,
+            "call_p95_ms": 1818.7,
+            "completion_rate": 0.995575221238938,
+            "e2e_p95_ms": 1241.6
+          },
+          "parent_id": "b-pure-audio",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.728069+00:00",
+          "reproduce": "按 STARTUP 与 run_h20_evolution.ps1 参数在 H20 重跑452条",
+          "retention_reason": "保留满足时延硬门的组合实现，供后续单变量消融。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "error_type": "TTS",
+            "infrastructure_errors": 2,
+            "passed": true
+          },
+          "sample_count": 452,
+          "single_variable": "grouped MoE + terse receipt + deterministic ack + Relay安全前缀（组合证据）",
+          "sources": [
+            "evolution/README.md#当前实测进展"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-b-grouped-moe-relay"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "conditional",
+        "notes": "硬件条件与组合归因边界已人工确认。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "grouped-mm-hopper",
+      "improvement": {
+        "attribution": "component_specific",
+        "component_evidence": "工具块 prefill 的专家分组路径显著降低相对 batched_mm 的权重复制与时延；代码内实测对照记录 batched_mm 大 prefill 额外约 2.3s，并可在 900-token 工具块达到 40GB OOM。",
+        "metrics": [
+          {
+            "attribution": "component",
+            "direction": "lower_is_better",
+            "name": "大块prefill相对额外时延规避",
+            "sample_count": 1,
+            "sample_scope": "单个大工具块prefill形状的实现微基准",
+            "unit": "ms",
+            "value": -2300
+          }
+        ]
+      },
+      "name": "grouped_mm MoE 快路径",
+      "next_validation_gate": "在同一H20、同一工具块和452条集合上做grouped_mm对hybrid单变量全量对照。",
+      "recommended": true,
+      "retention_reason": "Hopper上保留官方快路径和已测工具块prefill收益，其他硬件不默认启用。",
+      "risks": [
+        "硬件不匹配会直接RuntimeError",
+        "端到端收益尚未做同口径单变量消融"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/stream_engine.py",
+            "path": "stream_engine.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/scripts/run_h20_evolution.ps1",
+            "path": "scripts/run_h20_evolution.ps1"
+          }
+        ],
+        "switch": "MOE_IMPL=grouped_mm / run_h20_evolution.ps1 -MoeImpl grouped_mm"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "docs/HYBRID_C.md#3-grouped-moe128-选-8-与硬件限制",
+        "stream_engine.py:75-140（实测说明）"
+      ],
+      "status": "conditional",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "只适用于CarSim可解析的实际成功/无需执行回执；未知或失败格式回退模型后续处理。",
+      "dependencies": [
+        "真实call事件",
+        "结构化执行回执"
+      ],
+      "evidence_scope": "安全语义由单测直接证明；性能仅有452条组合上下文，不向本组件分摊。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "hash": "sha256:fa22223949c2e0b9374fe41234219d7a50d42859f22ffecc33d0249c379db761",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.8163716814159292,
+                "commit_to_call_p95_ms": 1818.7,
+                "completed": 450,
+                "completion_rate": 0.995575221238938,
+                "e2e_p95_ms": 1241.6,
+                "errors": 2,
+                "profile": "pure_audio",
+                "samples": 452
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md",
+              "hash": "sha256:c2c75849f0b0292d1eb77a1292a2d43147315ce21d388a7b7191cef958e8a5b2",
+              "path": "evolution/experiments/artifacts/20260805-b-grouped-moe-relay/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "b-pure-audio",
+          "branch": "experiment/20260805-b-grouped-moe-relay",
+          "buckets": {
+            "scope": "full_452"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "时延硬门通过，准确率硬门未通过；不是 qualified。",
+          "delta": {
+            "actual_execution_vs_hard_gate": -0.1736283185840708,
+            "e2e_vs_hard_gate_ms": -358.4
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-b-grouped-moe-relay",
+          "id": "20260805-b-grouped-moe-relay",
+          "known_limitations": "组合实验不能归因到 grouped MoE/Relay 任一组件；缺少可比基线数值，delta仅记录相对硬门。",
+          "metrics": {
+            "accuracy": 0.8163716814159292,
+            "actual_execution_success_rate": 0.8163716814159292,
+            "call_p95_ms": 1818.7,
+            "completion_rate": 0.995575221238938,
+            "e2e_p95_ms": 1241.6
+          },
+          "parent_id": "b-pure-audio",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.728069+00:00",
+          "reproduce": "按 STARTUP 与 run_h20_evolution.ps1 参数在 H20 重跑452条",
+          "retention_reason": "保留满足时延硬门的组合实现，供后续单变量消融。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "error_type": "TTS",
+            "infrastructure_errors": 2,
+            "passed": true
+          },
+          "sample_count": 452,
+          "single_variable": "grouped MoE + terse receipt + deterministic ack + Relay安全前缀（组合证据）",
+          "sources": [
+            "evolution/README.md#当前实测进展"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-b-grouped-moe-relay"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "retained",
+        "notes": "保留的是安全确认规则，不宣称组合准确率收益。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "deterministic-post-execution-ack",
+      "improvement": {
+        "attribution": "direct",
+        "component_evidence": "确认语只由实际成功或无需执行回执生成；任一失败回执均返回None，不形成成功确认，已有确定性单测覆盖。",
+        "metrics": [
+          {
+            "attribution": "component",
+            "direction": "higher_is_better",
+            "name": "成功确认失败回执拦截",
+            "sample_count": 1,
+            "sample_scope": "确定性确认单元测试",
+            "unit": "测试用例",
+            "value": "1/1"
+          },
+          {
+            "attribution": "combination_only",
+            "direction": "lower_is_better",
+            "name": "组合实验e2e_P95",
+            "sample_count": 452,
+            "sample_scope": "full_452组合实验",
+            "shared": true,
+            "unit": "ms",
+            "value": 1241.6
+          }
+        ]
+      },
+      "name": "执行后确定性确认",
+      "next_validation_gate": "加入真实车辆回执契约和最终状态回读，并覆盖混合成功/失败批量动作。",
+      "recommended": true,
+      "retention_reason": "把成功口播绑定到真实成功回执，直接收紧了执行与陈述之间的安全边界。",
+      "risks": [
+        "不能替代最终车态回读",
+        "真实车辆回执格式变化需同步解析器"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/agent_backend.py",
+            "path": "harness_b/agent_backend.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/tests/test_complex_intents.py",
+            "path": "evolution/tests/test_complex_intents.py"
+          }
+        ],
+        "switch": "CAR_DETERMINISTIC_ACK=1 / run_h20_evolution.ps1 -DeterministicAck"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "docs/HYBRID_C.md#44-执行回执",
+        "evolution/tests/test_complex_intents.py:108-118"
+      ],
+      "status": "retained",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "只做候选授权内的局部修复；当前不是完整生产Typed Action，缺身份权限、持久幂等和真实车态契约。",
+      "dependencies": [
+        "RAG候选集合",
+        "CarSim工具schema",
+        "候选TTL"
+      ],
+      "evidence_scope": "安全边界有实现与单测；24/31是与Voice Memory组合的局部错误桶结果，不能单独归因。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
+              "hash": "sha256:14fa5daa9f722e2b668290c3cd1e5ec04244ec96fde3e442be6717bce5297892",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.7741935483870968,
+                "commit_to_call_p95_ms": 1972.4,
+                "completed": 31,
+                "completion_rate": 1.0,
+                "e2e_p95_ms": 1831.3,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 31
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md",
+              "hash": "sha256:2ed4dbdbc791bef943b60f1d65a9dbfeb96dde2da1f5662fd1f245814b932249",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "20260805-tool-description-enhancement",
+          "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
+          "buckets": {
+            "samples": 31,
+            "scope": "prior_error_bucket"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "31条历史错误桶修复24条（77.4%），e2e P95 1831.3ms；不是全量结论。",
+          "delta": {
+            "actual_execution_success_rate": 0.7741935483870968,
+            "call_p95_ms": 80.9,
+            "e2e_p95_ms": 465.6,
+            "fixed_errors": 24
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-hybrid-c-voice-memory-resolver",
+          "id": "20260805-hybrid-c-voice-memory-resolver",
+          "known_limitations": "错误桶局部结果；组合实验不能单独归因；时延未过1600ms硬门。",
+          "metrics": {
+            "accuracy": 0.7741935483870968,
+            "actual_execution_success_rate": 0.7741935483870968,
+            "call_p95_ms": 1972.4,
+            "completion_rate": 1.0,
+            "e2e_p95_ms": 1831.3
+          },
+          "parent_id": "20260805-tool-description-enhancement",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.768356+00:00",
+          "reproduce": "run_h20_evolution.ps1 -AsrPrefetch -VoiceMemoryRelative evolution/voice_memory_rules.json -SampleIds <31 ids> -SmokeOnly",
+          "retention_reason": "相对同一31条0/31基线有明确局部准确率收益。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "infrastructure_errors": 0,
+            "passed": true
+          },
+          "sample_count": 31,
+          "single_variable": "Voice Memory + candidate-authorized typed resolver（组合证据）",
+          "sources": [
+            "evolution/runs/h20-20260805T070122Z/smoke.summary.json"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-hybrid-c-voice-memory-resolver"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "conditional",
+        "notes": "保留安全边界与局部修复，不宣称完整Typed Action。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "candidate-authorized-typed-resolver",
+      "improvement": {
+        "attribution": "combined",
+        "component_evidence": "执行层只允许最近候选内工具；局部resolver仅在目标工具已获候选授权时修复近义调用，稳定rule_id可审计。",
+        "metrics": [
+          {
+            "attribution": "combination_only",
+            "direction": "higher_is_better",
+            "name": "组合修复",
+            "sample_count": 31,
+            "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
+            "shared": true,
+            "unit": "",
+            "value": "24/31"
+          }
+        ]
+      },
+      "name": "candidate-authorized Typed Action resolver",
+      "next_validation_gate": "固定Voice Memory做resolver单变量452条回归，并补参数schema、权限、幂等和最终状态验证。",
+      "recommended": true,
+      "retention_reason": "候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。",
+      "risks": [
+        "规则扩张可能绕过模型意图",
+        "不完整schema不能代表生产安全"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/action_resolver.py",
+            "path": "harness_b/action_resolver.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/agent_backend.py",
+            "path": "harness_b/agent_backend.py"
+          }
+        ],
+        "switch": "AGENT_TOOL_SEEN_TTL=3（候选授权窗）；resolver当前随harness_b启用"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "Qwen-UI-Agent arXiv:2607.28227",
+        "docs/TYPED_ACTION.md#4-本项目已经实现什么"
+      ],
+      "status": "conditional",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "compatibility": "只接受audio_derived_text证据；manifest q真值预取属于assisted_diagnostic，不能进入pure_audio口径。",
+      "dependencies": [
+        "faster-whisper真实ASR",
+        "音频索引与wav",
+        "RAG候选检索"
+      ],
+      "evidence_scope": "仅4条真实音频冒烟；不能外推到452条、99%准确率或生产资格。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-asr-smoke/summary.json",
+              "hash": "sha256:6bf79f72b716d39228b743ecaa128cb31558885daef2a549d8cf7b30031f00f9",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-asr-smoke/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 1.0,
+                "commit_to_call_p95_ms": 975.2,
+                "completed": 4,
+                "completion_rate": 1.0,
+                "e2e_p95_ms": 1195.0,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 4
+              }
+            }
+          ],
+          "baseline_id": "20260805-b-grouped-moe-relay",
+          "branch": "experiment/20260805-hybrid-c-asr-smoke",
+          "buckets": {
+            "samples": 4,
+            "scope": "smoke"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "4/4冒烟通过且时延较低，但样本太少，不能外推或 qualified。",
+          "delta": {
+            "actual_execution_success_rate": null,
+            "e2e_p95_ms": null,
+            "note": "cross-sample baseline comparison intentionally omitted"
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-hybrid-c-asr-smoke",
+          "id": "20260805-hybrid-c-asr-smoke",
+          "known_limitations": "仅4条常规冒烟；与452条全量口径不可直接比较。",
+          "metrics": {
+            "accuracy": 1.0,
+            "actual_execution_success_rate": 1.0,
+            "call_p95_ms": 975.2,
+            "completion_rate": 1.0,
+            "e2e_p95_ms": 1195.0
+          },
+          "parent_id": "20260805-b-grouped-moe-relay",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.732789+00:00",
+          "reproduce": "run_h20_evolution.ps1 -AsrPrefetch -Smoke 4 -SmokeOnly",
+          "retention_reason": "保留真实ASR链路的正向冒烟证据。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "infrastructure_errors": 0,
+            "passed": true
+          },
+          "sample_count": 4,
+          "single_variable": "Hybrid C真实音频ASR预取",
+          "sources": [
+            "evolution/runs/h20-20260805T060347Z/smoke.summary.json"
+          ],
+          "status": "partial_improvement"
+        }
+      ],
+      "experiments": [
+        "20260805-hybrid-c-asr-smoke"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        }
+      ],
+      "human_review": {
+        "decision": "conditional",
+        "notes": "4/4不得显示为已全量达标。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "audio-derived-asr-prefetch",
+      "improvement": {
+        "attribution": "direct",
+        "component_evidence": "从实际wav派生ASR文本并预取候选的链路冒烟4/4通过，e2e P95 1195.0ms；runner显式隔离测试真值预取。",
+        "metrics": [
+          {
+            "attribution": "component",
+            "direction": "higher_is_better",
+            "name": "实际工具执行",
+            "sample_count": 4,
+            "sample_scope": "真实音频常规smoke",
+            "unit": "",
+            "value": "4/4"
+          },
+          {
+            "attribution": "component",
+            "direction": "lower_is_better",
+            "name": "e2e_P95",
+            "sample_count": 4,
+            "sample_scope": "真实音频常规smoke",
+            "unit": "ms",
+            "value": 1195.0
+          }
+        ]
+      },
+      "name": "真实ASR预取",
+      "next_validation_gate": "完成同口径452条真实音频全量，报告分桶、危险误控、e2e和call P95。",
+      "recommended": true,
+      "retention_reason": "真实链路已有正向冒烟证据，但证据量不足，条件保留等待全量。",
+      "risks": [
+        "ASR错误会污染候选",
+        "样本过小且缺全量分桶"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/h20_runner.py",
+            "path": "evolution/h20_runner.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/scripts/run_h20_evolution.ps1",
+            "path": "scripts/run_h20_evolution.ps1"
+          }
+        ],
+        "switch": "run_h20_evolution.ps1 -AsrPrefetch"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "docs/HYBRID_C.md#2-真实-asr-预取不等于测试真值捷径",
+        "evolution/experiments/artifacts/20260805-hybrid-c-asr-smoke/summary.json"
+      ],
+      "status": "conditional",
+      "updated_at": "2026-08-06"
+    }
+  ],
+  "negative_results": [
+    {
+      "artifacts": [
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json",
+          "hash": "sha256:9aa1ea80204ccec622bf1a1a7e96288aa0367edbd5197ec96105d38ec83453f5",
+          "path": "evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json",
+          "summary": {
+            "actual_execution_success_rate": 0.0,
+            "commit_to_call_p95_ms": 1891.5,
+            "completed": 31,
+            "completion_rate": 1.0,
+            "e2e_p95_ms": 1365.7,
+            "errors": 0,
+            "profile": "pure_audio",
+            "samples": 31
+          }
+        }
+      ],
+      "baseline_id": "20260805-hybrid-c-asr-smoke",
+      "branch": "experiment/20260805-tool-description-enhancement",
+      "buckets": {
+        "samples": 31,
+        "scope": "prior_error_bucket"
+      },
+      "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+      "complex_intent": {
+        "status": "not_run"
+      },
+      "conclusion": "31条错误集0/31修复，无准确率收益。",
+      "delta": {
+        "actual_execution_success_rate": 0.0,
+        "fixed_errors": 0
+      },
+      "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-tool-description-enhancement",
+      "id": "20260805-tool-description-enhancement",
+      "known_limitations": "错误桶回归，不代表全量准确率。",
+      "metrics": {
+        "accuracy": 0.0,
+        "actual_execution_success_rate": 0.0,
+        "call_p95_ms": 1891.5,
+        "completion_rate": 1.0,
+        "e2e_p95_ms": 1365.7
+      },
+      "parent_id": "20260805-hybrid-c-asr-smoke",
+      "profile": "pure_audio",
+      "qualified": false,
+      "recorded_at": "2026-08-05T10:21:23.749532+00:00",
+      "reproduce": "用31条混淆样本运行工具描述增强候选",
+      "retention_reason": "总registry保留负结果，避免重复实验。",
+      "safety": {
+        "dangerous_miscalls": 0,
+        "infrastructure_errors": 0,
+        "passed": true
+      },
+      "sample_count": 31,
+      "single_variable": "工具描述增强",
+      "sources": [
+        "evolution/runs/h20-20260805T061330Z/smoke.summary.json"
+      ],
+      "status": "rejected"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "branch": "automation/agent-h20-loop",
+    "commit": "257f5077354cb1a9111a5ac691946d0ce7c4c2c3",
+    "component_path": "evolution/retained_components.json",
+    "registry_path": "evolution/experiments/registry.json",
+    "repository": "https://github.com/ISS-2030Lab/StreamingModelHarness",
+    "status": "fresh",
+    "synced_at": "2026-08-07T10:12:10+08:00"
+  }
+}

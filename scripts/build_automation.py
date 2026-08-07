@@ -155,6 +155,12 @@ def load_snapshot(root):
         found_days.add(scan_day)
     all_days = found_days | {row["review_date"] for row in history}
     latest_day = max(all_days, default="")
+    solution_payload = safe_json(
+        os.path.join(data_dir, "harness_solutions.json"), {})
+    solution_rows = (
+        solution_payload.get("components", [])
+        if isinstance(solution_payload, dict) else [])
+    solution_rows = [row for row in solution_rows if isinstance(row, dict)]
     build_time = datetime.now().astimezone()
     return {
         "available": has_items,
@@ -170,6 +176,11 @@ def load_snapshot(root):
         "latest_reports": latest_reports,
         "report_days": len({row["date"] for row in report_rows}),
         "report_count": len(report_rows),
+        "solution_count": sum(
+            row.get("recommended") is True for row in solution_rows),
+        "solution_status": (
+            solution_payload.get("source", {}).get("status", "stale")
+            if isinstance(solution_payload.get("source"), dict) else "stale"),
         "build_date": build_time.date().isoformat(),
         "build_time": build_time.isoformat(timespec="minutes"),
     }
@@ -706,6 +717,7 @@ def header():
 <span class="sub">{pair("自动化系统讲解","automation system guide")}</span>
 <nav class="toolbar" aria-label="Site">
 <a class="btn" href="{BASE}/automation/">{pair("自动化","Automation")}</a>
+<a class="btn" href="{BASE}/solutions/">{pair("好方案","Solutions")}</a>
 <a class="btn" href="{BASE}/reviews.html">{pair("精读","Reviews")}</a>
 <a class="btn" href="{BASE}/reports/">{pair("日报","Reports")}</a>
 <button class="btn" type="button" onclick="toggleLang()" aria-label="Switch language">中 / EN</button>
@@ -789,6 +801,11 @@ def overview(snapshot=None):
 <article class="card"><h3 class="verified">{pair("已实测：Radar 网站自动化","Verified: Radar site automation")}</h3><p>{pair("三班抓取、摘要回填、测试、建站、推送、Pages smoke；本地日报/精读发布使用互斥锁、重试和完成哨兵。","Scheduled fetch, backfill, tests, build, push, and Pages smoke; local publishers use a mutex, retry, and completion sentinel.")}</p></article>
 <article class="card"><h3 class="pending">{pair("待验证：Harness 首次 00:30 定时实跑","Pending: first Harness 00:30 scheduled run")}</h3><p>{pair("设计、脚本与资源隔离可说明，但首次无人值守定时结果尚未发生，不能写成“已稳定运行”。","The design, scripts, and resource isolation can be documented, but the first unattended scheduled result has not happened and is not claimed as stable.")}</p></article>
 </div></section>
+<section class="section"><h2>{pair("实验反馈回到下一轮","Experiment feedback closes the loop")}</h2>
+<div class="card"><p>{pair(
+    f"当前公开 {snapshot.get('solution_count', 0)} 个严格筛选的保留/条件保留组件。日报读取实验 registry，组件页保存证据范围与下一验证门，再反馈候选生成；数据源状态：{snapshot.get('solution_status','stale')}。",
+    f"{snapshot.get('solution_count', 0)} strictly selected retained/conditional components are public. Reports read the experiment registry; solution pages preserve evidence scope and next gates before feeding candidate generation. Source status: {snapshot.get('solution_status','stale')}.")}</p>
+<p><a class="btn" href="{BASE}/solutions/">{pair("查看高收益组件 →","Open high-value solutions →")}</a></p></div></section>
 <p class="callout ok"><b>{pair("完整案例：","Full case:")}</b> <a href="{BASE}/automation/case-hybrid-c/">{pair("Hybrid C 为什么在 452 全量前只能局部留存 →","Why Hybrid C remains scoped before a full 452-case run →")}</a></p>"""
     return shell("自动化系统总览", "Automation overview", "research", body, snapshot,
                  enrich=False).replace(
@@ -1064,6 +1081,7 @@ def selection(snapshot=None):
 <div class="grid"><article class="card"><h3>{pair("整套候选","Whole candidate")}</h3><p>{pair("只有明确资格层的全部硬门通过，才可写 qualified。pareto/partial 的实验分支用于复现和消融，不自动进默认组合、不合并 main。","Only passing every gate for a named tier permits qualified. Pareto/partial experiment branches exist for reproduction and ablation; they do not enter the default composition or merge main automatically.")}</p></article>
 <article class="card"><h3>{pair("可归因子组件","Attributable component")}</h3><p>{pair("组合未过门时，组件只有在单测、微基准、消融或明确局部错误桶能归因时才可标 retained/conditional。组合共享 e2e 不能拆给每个组件；无收益组件保持 rejected。","When a combination fails, a component becomes retained/conditional only with attributable unit, microbenchmark, ablation, or scoped-bucket evidence. Shared combination e2e cannot be assigned to each component; no-gain components remain rejected.")}</p></article></div>
 <div class="legend"><a class="btn" href="{retained_json}">retained_components.json</a><a class="btn" href="{retained_md}">RETAINED_COMPONENTS.md</a><a class="btn" href="{registry}">experiment registry.json</a></div></section>
+<p><a class="btn" href="{BASE}/solutions/">{pair("查看公开组件介绍页","Open public component pages")}</a></p>
 
 <section class="section"><h2>{pair("当前三张判定卡","Three current verdict cards")}</h2><div class="grid">
 <article class="card verdict warn"><h3>B pure-audio · 452 · partial_improvement</h3><div class="metrics"><div class="metric"><b>99.56%</b><small>completion</small></div><div class="metric"><b>369 / 452</b><small>81.64% · Wilson CI 77.81–84.93%</small></div><div class="metric"><b>1241.6ms</b><small>commit→Relay first audio</small></div><div class="metric"><b>1818.7ms</b><small>call P95</small></div></div><p>{pair("合法指标是单音色 clean 合成语音下 expected-tool successful-or-idempotent receipt rate；其中 49 条只靠无需执行。2 条 infrastructure errors；复杂集 not_run。它不是端到端任务成功率，registry 结论是 partial_improvement，不是 qualified。","The valid metric is expected-tool successful-or-idempotent receipt rate under single-voice clean synthetic speech; 49 are idempotent-only. There are two infrastructure errors and complex is not_run. This is not end-to-end task success; registry verdict is partial_improvement, not qualified.")}</p><a href="{registry}">{pair("查看 registry 原记录","Open source registry record")}</a></article>
@@ -1090,7 +1108,7 @@ def publishing(snapshot=None):
         '<span class="badge script">Git + Pages scripted</span><span class="badge verified">Site smoke verified</span>')
     body += f"""<section class="section"><h2>{pair("发布链","Publishing chain")}</h2><div class="steps">
 <article class="step"><h3>{pair("实验分支","Experiment branch")}</h3><p>{pair("候选提交到 GitHub experiment 分支，不直接把未过门改动并入主线；提交记录关联候选 ID。","Candidates publish to GitHub experiment branches; gate failures do not merge into the main implementation. Commits reference candidate IDs.")}</p></article>
-<article class="step"><h3>registry + retained components</h3><p>{pair("记录配置、提交、数据范围、指标、状态、错误桶和负结果；partial 只登记被保留的组件与适用边界。","Record config, commit, scope, metrics, status, error buckets, and negative results. Partial entries name only retained components and boundaries.")}</p></article>
+<article class="step"><h3>registry + retained components</h3><p>{pair("记录配置、提交、数据范围、指标、状态、错误桶和负结果；partial 只登记被保留的组件与适用边界。安全快照同步后生成公开 Solutions 详情与每日变更页。","Record config, commit, scope, metrics, status, error buckets, and negative results. Partial entries name only retained components and boundaries. A sanitized snapshot then builds public Solutions detail and daily-change pages.")}</p><p><a href="{BASE}/solutions/">{pair("查看公开组件索引","Open public solutions index")}</a></p></article>
 <article class="step"><h3>{pair("网站与 Pages 验收","Website and Pages verification")}</h3><p>{pair("生成 docs 后测试互链和关键事实，push main；Pages smoke 有限重试检查首页、存档、RSS、日报、演示及自动化路由。","After link and fact tests, generate docs and push main. Bounded Pages smoke checks home, archive, RSS, reports, demos, and automation routes.")}</p></article>
 <article class="step"><h3>{pair("本地同步与反馈","Local sync and feedback")}</h3><p>{pair("发布克隆安全 fetch/rebase；生成文件冲突重建，源数据冲突 fail closed。registry 中的成功、partial 和负结果都进入下一份项目快照与日报。","The publisher clone fetches/rebases safely. Generated conflicts rebuild; source conflicts fail closed. Successes, partials, and negatives all feed the next snapshot and report.")}</p></article>
 </div></section>

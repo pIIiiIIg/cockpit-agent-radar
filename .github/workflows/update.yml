@@ -29,6 +29,9 @@ jobs:
           python scripts/backfill_abstract_explanations.py
           python scripts/test_explanations.py
           python scripts/test_automation_pages.py
+          # Harness is private/unavailable in Actions; build from the committed,
+          # last-known-good data/harness_solutions.json snapshot.
+          python scripts/test_solutions.py
           python scripts/build_site.py
       - name: commit & push
         run: |
