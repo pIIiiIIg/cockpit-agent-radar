@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-08</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-08</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-08</p>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-06.md</code></li>
+<li>仓库中没有 2026-08-07 的同类报告，因此本报告覆盖 2026-08-06 10:30 之后尚未纳入日报的批次，以及 2026-08-07 两轮 Radar 新增。</li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>范围、证据与去重</h2>
+<p>本报告只把 Radar 当作候选发现入口。下文的“论文事实”仅来自论文正文、arXiv/Hugging Face 论文页、作者项目页或官方仓库；“编辑判断”是面向 StreamingModelHarness 的接入建议， 不属于论文结论。没有在允许来源中核验到的许可证、代码、数据或权重均写为未知。</p>
+<p>本轮完成了以下去重：</p>
+<ul>
+<li>`Identity-Faithful Audio-Visual Target Speaker Extraction with REAL-2MIX and</li>
+<p>VOXBLINK2-AVSE`（arXiv:2608.03964v2）是前一日报告中 QIANGDA （arXiv:2608.03964v1）的改名修订版，不作为新技术重复计项。</p>
+<li>RestoreKV 的论文页与作者项目页是同一工作；OneDayAgent、HarnessOpt-Bench 和</li>
+<p>StreamArena 的论文/HF 条目各自合并为一个候选。</p>
+<li>第三方量化、LoRA、同名仓库和新闻讨论不作为论文开放状态的证据。</li>
+</ul>
+<h2>StreamingModelHarness 基线没有变化</h2>
+<p>截至本轮可见仓库数据，没有新的 StreamingModelHarness 实测快照。因此下列数字沿用 2026-08-06 报告，不能写成今天重新测得：</p>
+<ul>
+<li>A/B 在同一 100 条语音上的完成率均为 100%，严格工具召回/执行成功率为</li>
+<p>80.49%/79.27%，整体任务成功率为 84.0%/约 83.0%；样本置信区间高度重叠。</p>
+<li>B 的首文本 P50/P90 为 131/141ms、首动作 700/850ms；A 分别为</li>
+<p>758/1,006ms、1,094/1,440ms。A/B 首音频 P50 为 2,918/3,491ms，主要瓶颈仍是 Edge TTS。</p>
+<li>主模型自主 <code>probe_turn_end</code> 已被实测否决；60 条上的投机预取是负优化。</li>
+<li>B 版持久 KV 累积曾损失约 22 个百分点；当前单 token 解码仍约 110ms，项目剖析</li>
+<p>指向约 816 次 GPU→CPU 同步/token，而不是 <code>DynamicCache.update()</code> 本身。</p>
+<li>光场屏/副驾屏上下文引力、聚合意图展开、真实车态落地和多人授权仍是开放问题。</li>
+</ul>
+<p>今天的新论文不能证明这些指标已经改善。</p>
+<h2>一、相对前一日的结论</h2>
+<h3>P0：先补 Harness 与 Action 的正确性契约</h3>
+<ol>
+<li><strong>Resume Contract</strong> 把“审批一次、工具只执行一次”拆成六个可测属性，并给出跨进程</li>
+<p>重复 resume 会重复副作用的确定性证据。它直接补前一日 VAmoS/MIST 的执行轨迹， 应优先转成 StreamingModelHarness 的 crash/retry/并发恢复回归。</p>
+<li><strong>OneDayAgent 的 verification-only 路径</strong>比整套长任务分解更适合当前车控：论文中</li>
+<p>VERIFY 相对 DIRECT 由 0.771 提至 0.804，平均只多 2.1 分钟；完整方案虽到 0.821， 平均延迟却由 27.6 增至 53.6 分钟。对当前项目应只借“最终产物/最终车态核验+定点 修复”，不能复制小时级执行回路。</p>
+</ol>
+<h3>P1：建立流式多模态和 KV 的新对照</h3>
+<ol>
+<li><strong>StreamArena/StreamMind</strong> 提供小时级、因果、开放问答的流式音视频评测协议，</li>
+<p>适合补充前一日报告中短语音和目标说话人成对集；但其同骨干平均回答仍需 27.5 秒， 不是全双工低延迟方案。</p>
+<li><strong>RestoreKV</strong> 是 B 版持久 KV 损失的实验候选，不是当前 110ms/token MoE 同步问题</li>
+<p>的解法。先在离线文本骨干复现“相同 KV 预算下恢复质量”，再决定是否训练 Qwen3-Omni 专用 adapter。</p>
+<li><strong>C-SuiteBench</strong> 的负结果比“多模态总会更好”更重要：加入全部视觉证据后，九个</li>
+<p>模型的受约束分配平均下降 0.08，而单通道反而更好。可直接转成“相同车控请求， 逐个加入光场屏/副驾屏/车态通道”的配对消融。</p>
+</ol>
+<h3>P2：后续架构与自动优化</h3>
+<ol>
+<li><strong>HarnessOpt-Bench</strong> 值得借鉴其固定模型、固定环境、隐藏测试集、预算计量和候选</li>
+<p>版本审计；在 Harness 的车控安全 verifier 未稳定前，不建议开放自动改写生产 Harness。</p>
+<li><strong>SmartMage</strong> 给出了“按问题选择模态，再做模态感知专家路由”的训练型路线，可作</li>
+<p>长期上下文引力方案；它是非流式 3D 场景模型，也会增加 MoE 路由，不应进入当前 单 token 热路径。</p>
+<li>本轮没有直接命中 AEC/降噪、本地低首包 TTS、中文语义判停或 HF MoE 同步链的新</li>
+<p>证据；这些方向继续沿用前一日实验，不用不相干 benchmark 填补。</p>
+</ol>
+<h2>二、当前问题到新增证据的映射</h2>
+<table><thead><tr><th>当前问题</th><th>新增技术</th><th>可执行实验</th><th>编辑门槛</th></tr></thead><tbody>
+<tr><td>工具在 crash、重复审批或并发 resume 后可能重复执行</td><td>Resume Contract</td><td>对同一 CarSim 初态注入异常、SIGKILL、相同/冲突审批和 2/4/8 路并发 resume；用执行器外部账本计数</td><td>每个授权分支至多一次副作用；重复投递不产生新车态；冲突审批必须显式拒绝而非静默复用</td></tr>
+<tr><td>工具名正确不等于最终车态和口播正确</td><td>OneDayAgent verification-only</td><td>在 typed call 后比较请求、参数、执行回执、CarSim 最终状态和口播；失败只做定点补偿</td><td>完成率保持 100%，未授权副作用 0；最终车态成功率至少不低于当前整体任务基线 84%</td></tr>
+<tr><td>长时音视频状态与外部工具缺因果评测</td><td>StreamArena</td><td>构造 30/60 分钟座舱回放，所有查询和证据带时间戳；分别测即时感知、历史回忆、主动提醒和只读工具</td><td>不读取未来帧；主动提醒同时满足内容与触发时刻；报告流式计算成本及响应 P50/P90</td></tr>
+<tr><td>B 版持久 KV 累积损失约 22 个百分点</td><td>RestoreKV</td><td>固定同一语音转写/视觉摘要，比较 full cache、原 B 压缩、budget-matched RestoreKV；长会话分桶</td><td>质量显著追回且不增加 query-time KV 预算；必须单列 prefill/恢复成本、显存和单 token 时延</td></tr>
+<tr><td>光场屏/副驾屏等额外上下文可能抢占车控约束</td><td>C-SuiteBench 式配对消融</td><td>同一请求依次提供车态、主屏、副驾屏、全部通道；每组检查参数和最终车态</td><td>任何新模态不得降低硬约束有效率；不相关通道应可被门控，不能只看描述更丰富</td></tr>
+<tr><td>Harness 改动多、评测昂贵且随机</td><td>HarnessOpt-Bench</td><td>固定模型、CarSim 初态和 verifier；开发/验证/隐藏测试隔离；每个候选保存代码与逐桶结果</td><td>隐藏集相对基线提升超过重复测量噪声；安全桶不得退化；候选不可改 verifier 和测试集</td></tr>
+</tbody></table>
+<h2>1. Resume Contract：把恢复语义变成可机测的 Action 契约</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.03836v2" rel="noopener noreferrer">论文正文 / arXiv:2608.03836v2</a>。</p>
+<h3>论文事实</h3>
+<p>论文针对 checkpoint、interrupt 和 resume 后“哪些已发生副作用可以再次执行”的歧义， 提出六个属性：</p>
+<ul>
+<li>Prefix Continuation（PC）：恢复只能继续耐久前缀之后的工作。</li>
+<li>Effect Exactly-Once（EO）：同一分支内已提交副作用不能重复。</li>
+<li>Fork Determinism（FD）：从旧 checkpoint 建立的新分支必须使用该分支自己提供的值。</li>
+<li>Checkpoint Validity（CV）：无效状态不能静默持久化。</li>
+<li>Consume-Once（CO）：同一等待中的审批只能被消费一次。</li>
+<li>Recovery Determinism（RD）：相同耐久日志必须产生相同恢复决定。</li>
+</ul>
+<p>作者用 TLA+ 检查参考语义；扩大边界后遍历 740 万个 distinct states，六个安全属性和 活性要求仍通过。确定性、无 LLM 的探针覆盖 LangGraph 1.2.9、LlamaIndex Workflows 2.22.2、CrewAI 1.15.2、pydantic-graph 1.107.1 和 AutoGen AgentChat 0.7.5。</p>
+<p>主要实测包括：</p>
+<ul>
+<li>LangGraph interrupt 路径保持 exactly-once，但 crash 恢复会重跑已持久化任务；</li>
+<p>SIGKILL 后外部副作用账本由 1 变为 2。</p>
+<li>对同一个 interrupt checkpoint 先后提交不同 resume 值，LangGraph 会再次服务第一</li>
+<p>个值；第二个值虽被持久化却没有用于分支决定。</p>
+<li>CrewAI <code>CheckpointConfig</code> 声称不重跑已完成工作，但实测恢复会重复执行已完成方法；</li>
+<p>框架内最终状态仍可能看起来正确，只有外部副作用账本显示重复。</p>
+<li>两个进程同时消费同一 LangGraph interrupt 时，SQLite 和 PostgreSQL 两种 saver</li>
+<p>均在 10/10 次重复中执行两次 gated effect。扩到 40 个并发配置时，36/40 个配置的 所有 racer 都成功消费。</p>
+</ul>
+<p>论文给出 Remit 参考 sequencer、追加式 effect ledger、分支键和读路径修复设计，但正文 同时说明论文 artifact 与源码在发表前仍为私有、仅供审稿；因此本报告把可公开核验的 代码和许可证记为未知，不依据第三方包索引改写。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>在现有 VAmoS/MIST 证据账本外增加执行器外部、追加式 action ledger：</p>
+<pre><code>request_id / branch_id / action_id / idempotency_key
+→ approval value → typed call → effect accepted
+→ final CarSim state → spoken acknowledgement</code></pre>
+<p>回归不能只测试正常 interrupt；必须覆盖异常退出、同值重复、冲突值、跨进程并发和 旧 checkpoint fork。副作用的“恰好一次”由执行器外部账本和最终车态联合判断，不能由 Harness 自己的 state 字段判断。</p>
+<h3>局限</h3>
+<ul>
+<li>论文测的是特定版本与特定路径，不证明所有 saver、版本和嵌套图都有相同行为。</li>
+<li>TLA+ 证明参考模型，不证明被测框架；Remit 也没有端到端 refinement proof。</li>
+<li>它不处理语音判停、AEC、TTS 或模型工具选择正确率，只约束已决定 Action 的恢复语义。</li>
+</ul>
+<p>建议优先级：<strong>P0</strong>。</p>
+<h2>2. OneDayAgent：优先借 artifact-level verification，不搬整套长任务 Harness</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.05013v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05013v1</a>； <a href="https://huggingface.co/papers/2608.05013" rel="noopener noreferrer">Hugging Face 论文页</a>。</p>
+<h3>论文事实</h3>
+<p>OneDayAgent 把开放任务拆成有界子任务，在统一 ReAct action space 中使用 Web、文件、 计算和多模态工具；它将原请求保持为全局意图，把工具输出压缩成证据，在上下文达到 阈值时总结旧轨迹，并在最终交付前做全局验证和定点修复。</p>
+<p>AgentIF-OneDay 含 104 个任务、767 个 instance-level 评分点。论文主结果使用 GLM-5.2：</p>
+<ul>
+<li>完整 OneDayAgent 总分 0.821，104/104 完成，平均延迟 3,216.8 秒。</li>
+<li>DIRECT（无分解、无验证）为 0.771、27.6 分钟。</li>
+<li>只加 DECOMP 为 0.804、38.1 分钟；只加 VERIFY 为 0.804、29.7 分钟。</li>
+<li>完整方案为 0.821、53.6 分钟。VERIFY 相对 DIRECT 只多 2.1 分钟，却取得与</li>
+<p>DECOMP 相近的分数。</p>
+<li>95/104 个任务首次验证通过，9 个进入修复，其中 6 个修复成功。</li>
+<li>同一 Harness 在五个后端上均完成 104/104，但总分为 0.613–0.821，延迟和工具调用</li>
+<p>风格差异明显。</p>
+</ul>
+<p>论文称会开放 Harness 和轨迹，但当前允许来源中只核验到通用作者组织链接，没有定位到 本工作的精确公开仓库、版本或许可证，因此代码与许可证记为未知。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>当前语音车控不是小时级开放任务，最合适的是 verification-only：</p>
+<ol>
+<li>保留原始用户话语与授权边界。</li>
+<li>执行 typed call。</li>
+<li>读取真实 CarSim 最终状态。</li>
+<li>检查参数、终态和口播是否一致。</li>
+<li>只对可补偿、幂等的失败执行定点修复；不可逆动作直接失败并告警。</li>
+</ol>
+<p>这比把每条车控拆成多代理子任务更接近当前低延迟需求，也能与前一日 VAmoS/MIST 的 最终状态契约合并。</p>
+<h3>局限</h3>
+<ul>
+<li>论文任务平均耗时以分钟计，不能支持座舱首动作或首音频门槛。</li>
+<li>主结果由 LLM judge 评分；论文更换 judge 后同一运行平均低 3.12 个百分点，说明</li>
+<p>跨基线比较仍受 judge 漂移影响。</p>
+<li>所有 ablation 都保留 execution memory，没有隔离其因果贡献。</li>
+<li>当前实现没有 workspace isolation，正文明确提示安全风险。</li>
+</ul>
+<p>建议优先级：<strong>P0（仅 verification-only）</strong>；完整 Harness 为 <strong>P2</strong>。</p>
+<h2>3. RestoreKV：修复激进压缩质量，不修当前 MoE 同步</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.01247v1" rel="noopener noreferrer">论文正文 / arXiv:2608.01247v1</a>； <a href="https://paper.pnu-cvsp.com/RestoreKV/" rel="noopener noreferrer">作者官方项目页</a>。</p>
+<h3>论文事实</h3>
+<p>RestoreKV 面向 query-agnostic KV eviction：上下文只压缩一次，后续不同查询复用同一 缓存。它不只选择保留哪些原 KV，而是在删除前让默认 8 个 restore token 通过一次 LoRA 适配前向读取完整缓存，生成小型 context-conditioned restore cache，再与保留的 原 KV 合并，总 KV 预算不变。LoRA 只在恢复缓存生成时启用，之后查询和解码仍用冻结 骨干。</p>
+<p>训练通过完整缓存教师做 self-distillation，只更新 restore embedding 和 LoRA：</p>
+<ul>
+<li>Qwen3-4B 可训练参数为 0.4%，训练集含 6,200 个 context-query 对、2,500 个独立</li>
+<p>context；单张 RTX PRO 6000 约两小时。</p>
+<li>在四个骨干、四个长上下文 benchmark、五种 eviction 方法上测试。</li>
+<li>Qwen3-4B、5% KV 预算时，KVzip 的 RULER-4K 由 38.2 提至 73.2；59/60 个匹配</li>
+<p>预算配置得到改善。</p>
+<li>KVzip+ 在 KVPress Benchmark 的 16× 压缩下达到 86.4 RULER accuracy。</li>
+<li>32K 上下文中，8-token 恢复前向增加约 0.03–0.04 秒、低于总压缩时间 0.5%，峰值</li>
+<p>显存增加 84MB；后续 attention latency 和 KV 预算与基线匹配。</p>
+</ul>
+<p>作者项目页公开了方法和结果，但本轮没有从允许来源核验到精确代码仓库与许可证，因此 代码和许可证记为未知。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>它只与“B 版持久 KV 累积损失约 22 个百分点”相关。建议先在纯文本 Qwen3 路径上复现：</p>
+<ul>
+<li>full cache；</li>
+<li>当前 B 版持久/压缩 cache；</li>
+<li>相同总 KV 预算的 RestoreKV；</li>
+<li>每组报告 52 组近义工具、聚合意图、光场屏/副驾屏干扰和长会话。</li>
+</ul>
+<p>如果质量可追回，再评估 Qwen3-Omni adapter。恢复前向仍需先看到完整 cache，因此还要 记录峰值显存和 prefill，不得只报告压缩后显存。</p>
+<h3>局限</h3>
+<ul>
+<li>实验是 0.6B–8B decoder-only Qwen/Llama，不是 Qwen3-Omni MoE，也不含音视频流。</li>
+<li>任务是文档问答、摘要和合成长上下文，不是车控或全双工对话。</li>
+<li>需要按骨干训练 adapter；论文没有证明跨架构即插即用。</li>
+<li>它不减少当前约 816 次 GPU→CPU 同步/token，不能替代无同步 fast path 实验。</li>
+</ul>
+<p>建议优先级：<strong>P1</strong>。</p>
+<h2>4. StreamArena/StreamMind：小时级因果流评测，不是低延迟全双工后端</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.05703v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05703v1</a>； <a href="https://huggingface.co/datasets/hkuzxc/StreamArena" rel="noopener noreferrer">作者官方 Hugging Face 数据页</a>。</p>
+<h3>论文事实</h3>
+<p>StreamArena 含 243 个 60–134.2 分钟视频，平均 88.8 分钟；3,646 个经三阶段人工校验 的开放问答覆盖：</p>
+<ul>
+<li>实时音视频感知 263 项；</li>
+<li>历史回忆 877 项；</li>
+<li>外部工具 1,732 项；</li>
+<li>主动监控/提醒 774 项。</li>
+</ul>
+<p>每个查询和证据都有时间戳，查询只能访问当时及之前的流。StreamMind 将延迟敏感的 Front/Monitor workers 与异步 Memory Writer、Router、Recall、Search workers 分离， 以事件、实体关系和关键帧构建持久多模态记忆。</p>
+<p>论文报告：</p>
+<ul>
+<li>StreamMind 在四类能力上的 accuracy 为 44.5/34.9/56.1/11.6；相对各自最强流式</li>
+<p>基线提高 58.4%/53.7%/228.1%/54.7%，但不同基线和骨干规模并不完全受控。</p>
+<li>与同一 Qwen3.5-397B-A17B 的 query-triggered 离线推理比较，三类响应的加权平均</li>
+<p>延迟由 81.4 秒降至 27.5 秒，保留 89.7% pooled accuracy。</p>
+<li>诊断子集上，实时感知的 ASR-only/visual-only/visual+ASR accuracy 为</li>
+<p>4.2/26.8/32.4。</p>
+<li>StreamMind 的历史回忆从 L2 到 L4 仍下降 63.4%，长时记忆远未解决。</li>
+</ul>
+<p>论文称 annotation 以 CC BY 4.0 发布，评测 Harness、baseline adapter 和 StreamMind 代码以 Apache-2.0 发布；原 YouTube 视频不再分发，只给视频 ID。但作者官方 HF 数据页 当前标注 CC BY-NC 4.0，并实际列出约 321GB 的 <code>videos/*.tar</code> 原视频资产。论文和官方 数据页在许可证与视频分发两点上直接冲突；本报告不替作者选择口径，数据许可、原视频 再分发权和代码仓库状态均记为待澄清。当前仍未核验到论文所称代码仓库的精确 URL。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>借评测协议，不借 27.5 秒服务延迟：</p>
+<ul>
+<li>建立 30/60 分钟真实或合成座舱回放，视频、用户音频、系统播放参考、车态和 Action</li>
+<p>都使用统一时钟。</p>
+<li>同时测即时感知、过去事件回忆、主动提醒和只读检索。</li>
+<li>查询时冻结可见前缀，禁止未来帧泄漏；保存触发时刻和支持证据时间段。</li>
+<li>实时前端只做 endpoint、授权和紧急提醒；长时摘要/检索异步运行，不能阻塞首动作。</li>
+</ul>
+<h3>局限</h3>
+<ul>
+<li>所谓“实时”最终回答仍以十几至几十秒计，远超当前 700–1,440ms 首动作区间。</li>
+<li>视频来自公开视频，不含真实车内 AEC、阵列、多人授权和有副作用车控。</li>
+<li>官方 HF 当前分发原视频，但公开视频版权不会因 benchmark 声明自动转移；在作者</li>
+<p>澄清许可与来源权利前，不应下载或重新分发这些视频资产。</p>
+<li>主要评分由单一 Gemini judge 完成，并非全人工最终判定。</li>
+<li>StreamMind 使用 397B-A17B 骨干；对较小流式基线的相对提升不能全归因于架构。</li>
+</ul>
+<p>建议优先级：<strong>P1（评测）</strong>，服务架构为 <strong>P2</strong>。</p>
+<h2>5. C-SuiteBench：更多视觉证据会让受约束 Action 更差</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.05864v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05864v1</a>。</p>
+<h3>论文事实</h3>
+<p>C-SuiteBench 在 50 个场景上构造完全配对的 text-only 与 multimodal 条件，覆盖诊断、 证据排序、资源分配、风险预测和说明五类任务；九个模型形成 2,250 组配对比较。视觉 材料由同一底层数据渲染，包含财务、增长和运营三个通道。</p>
+<p>主表给出的九模型平均变化为：</p>
+<ul>
+<li>诊断 +0.07；</li>
+<li>证据排序 +0.10；</li>
+<li>受约束资源分配 −0.08，九个模型全部下降；</li>
+<li>风险预测 +0.24；</li>
+<li>说明 +0.17。</li>
+</ul>
+<p>正文叙述另把后两项写为 +0.27/+0.21，与主表不一致；本报告采用主表并明确保留此 冲突。资源分配中，visual-grounding proxy 平均约 +0.42，但 constraint validity 和 strategic fit 同时下降。单通道消融中，每个通道都优于全通道；九模型最佳单通道相对 text-only 为 +0.052，而三通道合并为 −0.08。结构化数字而非图表也重现约 60% 的下降， 说明问题更接近并发证据负载，而不只是视觉格式。</p>
+<p>论文称场景、rubric、prompt、输出和 scorer 将发布到匿名 GitHub 地址；当前没有可核验 的官方仓库，因此代码、数据许可证均为未知。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>这与项目已有的光场屏/副驾屏上下文引力相符，但不是对该项目现象的直接证明。可以借其 配对设计：</p>
+<pre><code>车控请求
+→ 仅文本
+→ +当前车态
+→ +主屏视觉
+→ +副驾屏视觉
+→ +全部通道</code></pre>
+<p>每一对都检查工具名、参数、硬约束、授权和最终车态。视觉描述更充分不能抵消约束失败。 若全通道下降，应先做 query-dependent evidence gate，而不是继续加 prompt。</p>
+<h3>局限</h3>
+<ul>
+<li>场景是合成商业决策，不是座舱；没有音频、流式输入或真实 Action 执行。</li>
+<li>主结果 temperature=1、每 cell 单次推理；自动 scorer 虽有规则约束，仍不能替代</li>
+<p>车态执行器。</p>
+<li>论文存在主表与文字结果不一致，开放资产也尚未核验。</li>
+</ul>
+<p>建议优先级：<strong>P1（配对评测协议）</strong>。</p>
+<h2>6. HarnessOpt-Bench：用隐藏测试和预算约束自动改 Harness</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.06301v1" rel="noopener noreferrer">论文正文 / arXiv:2608.06301v1</a>； <a href="https://huggingface.co/papers/2608.06301" rel="noopener noreferrer">Hugging Face 论文页</a>； <a href="https://github.com/scaleapi/vero/tree/main/harness-engineering-bench" rel="noopener noreferrer">Scale 官方 VeRO 仓库</a>。</p>
+<h3>论文事实</h3>
+<p>HarnessOpt-Bench 把 prompt、工具定义、控制流、上下文、记忆和编排代码都视为可编辑 Harness。优化器可以读开发/验证反馈并提交多个候选，但模型、环境、verifier 和隐藏 测试集固定；所有候选在隔离 sandbox 中运行并版本化审计。</p>
+<p>论文在 OfficeQA、BrowseComp-Plus、Terminal-Bench 和 GAIA 上测试五个优化器模型， 共享/原生 coding harness 共 111 个 scored runs：</p>
+<ul>
+<li>固定任务和 Harness 时，更换优化器模型带来的平均 gain 变化为 0.142；固定任务和</li>
+<p>模型时，更换 coding harness 为 0.079，约相差 1.8×。</p>
+<li>20 个共享/原生配对中，共享 Harness 胜 11、原生胜 9，没有一致的原生优势。</li>
+<li>八类可修改杠杆包括 prompt、context、step cap、retry/timeout、tool schema、</li>
+<p>answer extraction、retrieval 和 reasoning effort；探索广度与 gain 的 Spearman 相关为 +0.34 到 +0.88，但论文明确说这不是因果证据。</p>
+<li>详细 trace 只在 111 个 cell 中请求 16 次；可见验证最好分数通常高于隐藏测试，</li>
+<p>支持保留不可见测试集。</p>
+</ul>
+<p>预算口径在正文内部存在不一致：协议段写每个 partition 最多 100 个 evaluation calls， 结果段写 200 个 invocations；两处都写开发/验证各最多四次完整 case pass。本报告不 自行猜测正确值。</p>
+<p>Scale 官方 VeRO 仓库已公开 <code>harness-engineering-bench</code>，仓库根许可证为 MIT；但论文 没有给出与 v1 实验一一对应的不可变 commit/tag，因此“当前仓库可用”和“可精确复现 论文版本”需分开。下游四个 benchmark 的数据仍遵循各自许可证，不因 VeRO 的 MIT 许可证而自动改变。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>先把现有 400 条文本、1,566 条语音、52 组近义工具和多人/回声/改口桶划成：</p>
+<ul>
+<li>开发集：允许读取逐条轨迹；</li>
+<li>验证集：只返回分桶指标和有限失败；</li>
+<li>隐藏测试：最终候选只跑一次，禁止优化器读取；</li>
+<li>固定安全不变量：未授权执行为 0、完成率 100%、最终车态不低于当前基线。</li>
+</ul>
+<p>优化器只能改 Harness，不能改 CarSim 初态、grader、音频或成功定义。所有候选保存 diff、token/调用预算、均值与重复测量差异。只有隐藏集增益超过噪声带且安全桶不退化， 才允许人工审阅。</p>
+<h3>局限</h3>
+<ul>
+<li>四个任务都不是实时语音或多模态车控，candidate 只允许 Python。</li>
+<li>每个任务只有一个固定 target model，跨模型泛化没有验证。</li>
+<li>seed Harness 有意较弱，不能把可用 headroom 外推到成熟 StreamingModelHarness。</li>
+<li>trusted sandbox 仍非绝对防作弊，固定 evaluator 可能被优化器过拟合。</li>
+</ul>
+<p>建议优先级：<strong>P2</strong>，前置条件是 P0 verifier 和安全不变量稳定。</p>
+<h2>7. SmartMage：按查询选择模态，再分配专家</h2>
+<p>来源：<a href="https://arxiv.org/abs/2608.05137v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05137v1</a>； <a href="https://yuecheong.github.io/SmartMage/" rel="noopener noreferrer">作者官方项目页</a>； <a href="https://github.com/YueCheong/SmartMage" rel="noopener noreferrer">作者官方仓库</a>。</p>
+<h3>论文事实</h3>
+<p>SmartMage 处理 RGB、depth、BEV、point cloud 和 voxel。SMART router 联合：</p>
+<ul>
+<li>从问题文本估计模态先验；</li>
+<li>计算 text-modality 对齐；</li>
+<li>用激活强度、稀疏度和稳定性估计模态质量；</li>
+</ul>
+<p>在固定保留 RGB 的同时选择辅助模态。随后 MAGE 把模态先验加入 sparse MoE gate， 引导 token 分配到不同专家。</p>
+<p>论文报告五个 3D benchmark 的 SOTA；相对 Ross3D，ScanRefer Acc@0.5 提高 5.1， Multi3DRefer F1@0.5 提高 6.4。作者项目页列出 ScanQA 32.6、SQA3D 66.8、 Scan2Cap 88.7、ScanRefer 59.5 和 Multi3DRefer 60.7。官方仓库当前只提供项目网页， 没有论文实现、权重、数据下载或许可证文件，因此这些资产的开放状态均为未知。</p>
+<h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
+<p>短期只借“先选择证据，再生成 Action”的原则：根据当前请求、模态质量和授权座位， 决定是否让主屏、副驾屏、车态、声纹或空间音频进入模型上下文。长期如果训练专用模型， 再比较固定全模态与 query-dependent gate。</p>
+<h3>局限</h3>
+<ul>
+<li>它使用完整 3D 场景表示，没有因果流、端点、打断或实时延迟结果。</li>
+<li>RGB 始终保留，不适合直接表达隐私关闭或摄像头失效。</li>
+<li>MAGE 增加 sparse MoE 路由；当前项目已经受 HF MoE 同步影响，不能直接移植热路径。</li>
+<li>结果针对室内 3D QA/grounding，不证明车控约束更可靠。</li>
+</ul>
+<p>建议优先级：<strong>P2</strong>。</p>
+<h2>三、今日建议路线</h2>
+<h3>立即执行</h3>
+<ol>
+<li>把 Resume Contract 的 EO/FD/CV/CO 变成车控回归，使用执行器外部 action ledger，</li>
+<p>优先覆盖 SIGKILL 和跨进程重复审批。</p>
+<li>在现有 VAmoS/MIST 证据链尾部加入 OneDayAgent 式 artifact-level verification：</li>
+<p>真正查询 CarSim 终态，再比较请求、参数、回执和口播。</p>
+<li>对光场屏/副驾屏做 C-SuiteBench 式同请求配对消融，先证明哪些模态会使硬约束退化。</li>
+</ol>
+<h3>受控实验</h3>
+<ol>
+<li>仅在隔离回放中比较 full cache、当前 B 和 RestoreKV；不要把 RULER 改善写成</li>
+<p>车控改善，也不要停止当前 MoE 无同步 fast path。</p>
+<li>构造小时级 StreamArena 风格座舱集，先做因果时间戳、主动触发和证据追溯，不追求</li>
+<p>复制其 397B 服务架构。</p>
+<li>待安全 verifier 固定后，再做小规模 HarnessOpt：只开放 prompt/context/retry/</li>
+<p>tool schema 四类杠杆，隐藏最终测试集。</p>
+</ol>
+<h3>持续跟踪</h3>
+<ul>
+<li>AEC/回声：继续等待真实双讲、播放参考和阵列条件下可核验的新结果。</li>
+<li>语义判停：继续影子评估 NAC endpointer；今天没有更直接的中文开放替代。</li>
+<li>TTS：继续本地 CosyVoice 首包 P50/P95、RTF、显存和打断残留实验。</li>
+<li>MoE：继续 <code>index_select</code>+<code>bmm</code> 无同步 fast path；RestoreKV 不替代该工作。</li>
+<li>原生全双工：继续 Lychee-FD 离线回放和确定性车控安全门。</li>
+<li>多乘员：将 REAL-2MIX 视为 QIANGDA 修订，不重复建项；跟踪其代码、数据和许可证。</li>
+</ul>
+<h2>风险提醒</h2>
+<ul>
+<li>StreamArena 的“流式”不等于低延迟全双工；27.5 秒平均回答时间不能用于当前首动作</li>
+<p>指标。</p>
+<li>Resume Contract 显示 framework state 可能掩盖重复副作用，验收必须使用外部账本和</li>
+<p>最终车态。</p>
+<li>OneDayAgent 完整方案的质量增益伴随近一倍平均延迟；当前应先取 verification-only。</li>
+<li>RestoreKV 要求先拥有完整 cache 并训练 adapter；它解决压缩质量，不解决同步次数。</li>
+<li>C-SuiteBench 主表与文字有数值冲突，且商业任务不能直接外推座舱；可借配对消融，</li>
+<p>不借绝对分数。</p>
+<li>HarnessOpt-Bench 的预算文本有 100/200 calls 冲突；实施时必须自行定义唯一口径。</li>
+<li>今天没有新证据表明 AEC、TTS、判停或当前 110ms/token 已改善。</li>
+</ul></div><section class="solution-feedback"><h2><span class="l-zh">实验反馈 / 保留组件</span><span class="l-en">Experiment feedback / retained components</span> · 2026-08-08</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/2026-08-08.html"><span class="l-zh">查看当日方案页</span><span class="l-en">Open daily solutions</span></a></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
