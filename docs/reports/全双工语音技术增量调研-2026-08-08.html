@@ -425,7 +425,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ul>
 <p>建议优先级：<strong>P1（配对评测协议）</strong>。</p>
 <h2>6. HarnessOpt-Bench：用隐藏测试和预算约束自动改 Harness</h2>
-<p>来源：<a href="https://arxiv.org/abs/2608.06301v1" rel="noopener noreferrer">论文正文 / arXiv:2608.06301v1</a>； <a href="https://huggingface.co/papers/2608.06301" rel="noopener noreferrer">Hugging Face 论文页</a>。</p>
+<p>来源：<a href="https://arxiv.org/abs/2608.06301v1" rel="noopener noreferrer">论文正文 / arXiv:2608.06301v1</a>； <a href="https://huggingface.co/papers/2608.06301" rel="noopener noreferrer">Hugging Face 论文页</a>； <a href="https://github.com/scaleapi/vero/tree/main/harness-engineering-bench" rel="noopener noreferrer">Scale 官方 VeRO 仓库</a>。</p>
 <h3>论文事实</h3>
 <p>HarnessOpt-Bench 把 prompt、工具定义、控制流、上下文、记忆和编排代码都视为可编辑 Harness。优化器可以读开发/验证反馈并提交多个候选，但模型、环境、verifier 和隐藏 测试集固定；所有候选在隔离 sandbox 中运行并版本化审计。</p>
 <p>论文在 OfficeQA、BrowseComp-Plus、Terminal-Bench 和 GAIA 上测试五个优化器模型， 共享/原生 coding harness 共 111 个 scored runs：</p>
@@ -439,7 +439,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>支持保留不可见测试集。</p>
 </ul>
 <p>预算口径在正文内部存在不一致：协议段写每个 partition 最多 100 个 evaluation calls， 结果段写 200 个 invocations；两处都写开发/验证各最多四次完整 case pass。本报告不 自行猜测正确值。</p>
-<p>论文称发布 benchmark，但本轮没有在允许来源中核验到精确公开仓库和许可证，均记未知。</p>
+<p>Scale 官方 VeRO 仓库已公开 <code>harness-engineering-bench</code>，仓库根许可证为 MIT；但论文 没有给出与 v1 实验一一对应的不可变 commit/tag，因此“当前仓库可用”和“可精确复现 论文版本”需分开。下游四个 benchmark 的数据仍遵循各自许可证，不因 VeRO 的 MIT 许可证而自动改变。</p>
 <h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
 <p>先把现有 400 条文本、1,566 条语音、52 组近义工具和多人/回声/改口桶划成：</p>
 <ul>
