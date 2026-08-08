@@ -353,7 +353,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ul>
 <p>建议优先级：<strong>P1</strong>。</p>
 <h2>4. StreamArena/StreamMind：小时级因果流评测，不是低延迟全双工后端</h2>
-<p>来源：<a href="https://arxiv.org/abs/2608.05703v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05703v1</a>。</p>
+<p>来源：<a href="https://arxiv.org/abs/2608.05703v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05703v1</a>； <a href="https://huggingface.co/datasets/hkuzxc/StreamArena" rel="noopener noreferrer">作者官方 Hugging Face 数据页</a>。</p>
 <h3>论文事实</h3>
 <p>StreamArena 含 243 个 60–134.2 分钟视频，平均 88.8 分钟；3,646 个经三阶段人工校验 的开放问答覆盖：</p>
 <ul>
@@ -373,7 +373,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>4.2/26.8/32.4。</p>
 <li>StreamMind 的历史回忆从 L2 到 L4 仍下降 63.4%，长时记忆远未解决。</li>
 </ul>
-<p>论文称 annotation 以 CC BY 4.0 发布，评测 Harness、baseline adapter 和 StreamMind 代码以 Apache-2.0 发布；原 YouTube 视频不再分发，只给视频 ID。当前正文转换未暴露 首屏精确仓库 URL，本轮也没有从作者官方入口独立核验资产，因此将“论文声明已发布” 和“当前可下载地址已核验”严格分开。</p>
+<p>论文称 annotation 以 CC BY 4.0 发布，评测 Harness、baseline adapter 和 StreamMind 代码以 Apache-2.0 发布；原 YouTube 视频不再分发，只给视频 ID。但作者官方 HF 数据页 当前标注 CC BY-NC 4.0，并实际列出约 321GB 的 <code>videos/*.tar</code> 原视频资产。论文和官方 数据页在许可证与视频分发两点上直接冲突；本报告不替作者选择口径，数据许可、原视频 再分发权和代码仓库状态均记为待澄清。当前仍未核验到论文所称代码仓库的精确 URL。</p>
 <h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
 <p>借评测协议，不借 27.5 秒服务延迟：</p>
 <ul>
@@ -387,6 +387,8 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <ul>
 <li>所谓“实时”最终回答仍以十几至几十秒计，远超当前 700–1,440ms 首动作区间。</li>
 <li>视频来自公开视频，不含真实车内 AEC、阵列、多人授权和有副作用车控。</li>
+<li>官方 HF 当前分发原视频，但公开视频版权不会因 benchmark 声明自动转移；在作者</li>
+<p>澄清许可与来源权利前，不应下载或重新分发这些视频资产。</p>
 <li>主要评分由单一 Gemini judge 完成，并非全人工最终判定。</li>
 <li>StreamMind 使用 397B-A17B 骨干；对较小流式基线的相对提升不能全归因于架构。</li>
 </ul>
@@ -456,7 +458,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ul>
 <p>建议优先级：<strong>P2</strong>，前置条件是 P0 verifier 和安全不变量稳定。</p>
 <h2>7. SmartMage：按查询选择模态，再分配专家</h2>
-<p>来源：<a href="https://arxiv.org/abs/2608.05137v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05137v1</a>； <a href="https://yuecheong.github.io/SmartMage/" rel="noopener noreferrer">作者官方项目页</a>。</p>
+<p>来源：<a href="https://arxiv.org/abs/2608.05137v1" rel="noopener noreferrer">论文正文 / arXiv:2608.05137v1</a>； <a href="https://yuecheong.github.io/SmartMage/" rel="noopener noreferrer">作者官方项目页</a>； <a href="https://github.com/YueCheong/SmartMage" rel="noopener noreferrer">作者官方仓库</a>。</p>
 <h3>论文事实</h3>
 <p>SmartMage 处理 RGB、depth、BEV、point cloud 和 voxel。SMART router 联合：</p>
 <ul>
@@ -465,7 +467,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>用激活强度、稀疏度和稳定性估计模态质量；</li>
 </ul>
 <p>在固定保留 RGB 的同时选择辅助模态。随后 MAGE 把模态先验加入 sparse MoE gate， 引导 token 分配到不同专家。</p>
-<p>论文报告五个 3D benchmark 的 SOTA；相对 Ross3D，ScanRefer Acc@0.5 提高 5.1， Multi3DRefer F1@0.5 提高 6.4。作者项目页列出 ScanQA 32.6、SQA3D 66.8、 Scan2Cap 88.7、ScanRefer 59.5 和 Multi3DRefer 60.7。项目页没有提供代码、权重、 数据下载或许可证链接，因此开放状态均为未知。</p>
+<p>论文报告五个 3D benchmark 的 SOTA；相对 Ross3D，ScanRefer Acc@0.5 提高 5.1， Multi3DRefer F1@0.5 提高 6.4。作者项目页列出 ScanQA 32.6、SQA3D 66.8、 Scan2Cap 88.7、ScanRefer 59.5 和 Multi3DRefer 60.7。官方仓库当前只提供项目网页， 没有论文实现、权重、数据下载或许可证文件，因此这些资产的开放状态均为未知。</p>
 <h3>编辑判断：对 StreamingModelHarness 的帮助</h3>
 <p>短期只借“先选择证据，再生成 Action”的原则：根据当前请求、模态质量和授权座位， 决定是否让主屏、副驾屏、车态、声纹或空间音频进入模型上下文。长期如果训练专用模型， 再比较固定全模态与 query-dependent gate。</p>
 <h3>局限</h3>
