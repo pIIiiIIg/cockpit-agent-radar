@@ -81,12 +81,53 @@ function Invoke-AgentRetry {
     throw "Agent failed to emit $Sentinel after $Attempts attempts"
 }
 
+function Save-DirtyRecovery {
+    param(
+        [string]$Git, [string]$RepoPath, [string]$Log,
+        [string]$ReturnBranch = "main")
+    $stamp = [DateTimeOffset]::UtcNow.ToString("yyyyMMddTHHmmssfffZ")
+    $recovery = "recovery/local-$stamp-$PID"
+    Write-AutomationLog $Log "RECOVERY creating $recovery"
+    Invoke-NativeLogged { & $Git -C $RepoPath switch -c $recovery } $Log
+    Invoke-NativeLogged { & $Git -C $RepoPath add -A } $Log
+    $staged = @(& $Git -C $RepoPath diff --cached --name-only)
+    if ($LASTEXITCODE -ne 0) { throw "could not inspect recovery files" }
+    if (-not $staged) {
+        throw "dirty worktree had no safe files eligible for recovery"
+    }
+    $unsafe = @($staged | Where-Object {
+        $_ -match '(^|/)(\.env[^/]*|[^/]+\.(log|lock|key|pem))$' -or
+        $_ -eq ".radar-agent.lock"
+    })
+    if ($unsafe) {
+        throw "refusing to commit sensitive runtime files: $($unsafe -join ', ')"
+    }
+    Invoke-NativeLogged {
+        & $Git -C $RepoPath -c user.name="radar-recovery-agent" `
+            -c user.email="radar-recovery-agent@users.noreply.github.com" `
+            commit -m "recovery: preserve failed automation run $stamp"
+    } $Log
+    Invoke-NativeLogged { & $Git -C $RepoPath switch $ReturnBranch } $Log
+    Write-AutomationLog $Log "RECOVERY saved $recovery"
+    return $recovery
+}
+
 function Update-FromMain {
     param([string]$Git, [string]$RepoPath, [string]$Log)
-    Invoke-NativeLogged { & $Git -C $RepoPath fetch origin main } $Log
     $dirty = & $Git -C $RepoPath status --porcelain
     if ($LASTEXITCODE -ne 0) { throw "git status failed" }
-    if ($dirty) { throw "automation clone is dirty before run; refusing to overwrite recovery data" }
+    if ($dirty) {
+        Save-DirtyRecovery -Git $Git -RepoPath $RepoPath -Log $Log `
+            -ReturnBranch "main"
+    }
+    else {
+        $branch = (& $Git -C $RepoPath branch --show-current).Trim()
+        if ($LASTEXITCODE -ne 0) { throw "could not inspect automation branch" }
+        if ($branch -ne "main") {
+            Invoke-NativeLogged { & $Git -C $RepoPath switch main } $Log
+        }
+    }
+    Invoke-NativeLogged { & $Git -C $RepoPath fetch origin main } $Log
     $env:GIT_COMMITTER_NAME = "radar-automation"
     $env:GIT_COMMITTER_EMAIL = "radar-automation@users.noreply.github.com"
     Invoke-NativeLogged { & $Git -C $RepoPath -c core.editor=true rebase origin/main } $Log
