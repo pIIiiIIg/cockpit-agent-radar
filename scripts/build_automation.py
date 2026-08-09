@@ -801,7 +801,7 @@ def overview(snapshot=None):
               f'<span class="badge script">{pair("蓝：确定性脚本","Blue: deterministic scripts")}</span>'
               f'<span class="badge mixed">{pair("金：脚本抓取/评分 + Cursor 全文精读","Gold: scripted fetch/score + Cursor full-text review")}</span>'
               f'<span class="badge verified">{pair("网站自动化：已实测","Site automation: verified")}</span>'
-              f'<span class="badge pending">{pair("Harness 00:30 首跑：待验证","Harness first 00:30 run: pending")}</span>')
+              f'<span class="badge pending">{pair("Harness 02:00 接续：待运行","Harness 02:00 resume: pending")}</span>')
     body = hero("从技术雷达到可验证改进", "From radar to verified improvements",
         "这不是“让模型自动改代码”一个动作，而是一条有证据、有隔离、有硬门、可回滚的闭环。点击节点看输入、输出、失败边界与责任归属。",
         "This is not one “let a model edit code” action. It is an evidence-backed, isolated, gated, reversible loop. Open any node for inputs, outputs, and failure boundaries.", badges)
@@ -836,7 +836,7 @@ def overview(snapshot=None):
 </div></section>
 <section class="section"><h2>{pair("当前证据状态","Current evidence status")}</h2><div class="grid">
 <article class="card"><h3 class="verified">{pair("已实测：Radar 网站自动化","Verified: Radar site automation")}</h3><p>{pair("三班抓取、摘要回填、测试、建站、推送、Pages smoke；本地日报/精读发布使用互斥锁、重试和完成哨兵。","Scheduled fetch, backfill, tests, build, push, and Pages smoke; local publishers use a mutex, retry, and completion sentinel.")}</p></article>
-<article class="card"><h3 class="pending">{pair("待验证：Harness 首次 00:30 定时实跑","Pending: first Harness 00:30 scheduled run")}</h3><p>{pair("设计、脚本与资源隔离可说明，但首次无人值守定时结果尚未发生，不能写成“已稳定运行”。","The design, scripts, and resource isolation can be documented, but the first unattended scheduled result has not happened and is not claimed as stable.")}</p></article>
+<article class="card"><h3 class="pending">{pair("待运行：Harness 02:00 从离线回放接续","Pending: Harness resumes offline replay at 02:00")}</h3><p>{pair("8月9日候选已 ACK；下一班从 offline_replay 恢复。离线门未通过前不申请 H20，不能写成“已稳定运行”。","The Aug 9 candidate is acknowledged; the next shift resumes at offline_replay. H20 is not requested before that gate passes, and stable operation is not claimed.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("按日期闭环状态","Daily closed-loop status")}</h2>
 <div class="card">{ledger_html}<p class="sub">{pair(
@@ -1035,7 +1035,7 @@ def h20(snapshot=None):
     body = hero("双 GPU H20 隔离评测", "Dual-GPU H20 evaluation",
         "评测把基线与候选放在两个独立 worker，先做便宜的失败筛查，再逐级扩大到真实音频与复杂意图。",
         "Baseline and candidate run in separate workers. Cheap failures are filtered first, then scope expands to real audio and complex intent.",
-        '<span class="badge script">Deterministic runner</span><span class="badge pending">First 00:30 unattended run pending</span>')
+        '<span class="badge script">Deterministic runner</span><span class="badge pending">Next 02:00 resume pending</span>')
     body += f"""<section class="section"><h2>{pair("资源拓扑","Resource topology")}</h2><div class="grid">
 <article class="card"><h3>Worker A · GPU 4/5</h3><p>{pair("基线或候选 A；188xx 端口段。CUDA 可见设备和服务 PID 明确记录。","Baseline or candidate A; 188xx port range. CUDA visibility and service PIDs are recorded.")}</p></article>
 <article class="card"><h3>Worker B · GPU 6/7</h3><p>{pair("候选或复验；189xx 端口段。端口、进程、日志与 worktree 不共享。","Candidate or confirmation; 189xx port range. Ports, processes, logs, and worktree are not shared.")}</p></article>
@@ -1050,7 +1050,7 @@ def h20(snapshot=None):
 <article class="card"><h3>e2e P95</h3><p>{pair("当前口径是 commit 到 Relay 首音频包，不是工具 call 或车态落地；1241.6ms 与 call P95 1818.7ms 必须同时展示。0.7s VAD 仅为 runner 元数据，未真实等待。","Current scope is commit to Relay first audio, not tool call or vehicle-state landing; 1241.6ms must be shown beside call P95 1818.7ms. The 0.7s VAD is runner metadata and is not actually waited.")}</p></article>
 <article class="card"><h3>{pair("安全清理","Safe cleanup")}</h3><p>{pair("只按启动记录中的 PID 与端口清理；校验归属后终止。禁止模糊匹配杀进程，失败也执行 finally 清理。","Clean only recorded PIDs and ports after ownership checks. No broad process matching; finally cleanup runs after failures.")}</p></article>
 </div></section>
-<div class="callout"><b>{pair("证据声明：","Evidence statement:")}</b> {pair("该隔离方案和手动案例数据可核验；“每天 00:30 已稳定无人值守运行”尚不能声称，首次定时实跑仍待验证。","The isolation design and manual case data are verifiable. Stable daily unattended 00:30 operation is not claimed; the first scheduled run remains pending.")}</div>
+<div class="callout"><b>{pair("证据声明：","Evidence statement:")}</b> {pair("该隔离方案和手动案例数据可核验；8月9日恢复点是 offline_replay，下一次 02:00 接续尚未发生，不能声称已稳定无人值守运行。","The isolation design and manual case data are verifiable. The Aug 9 recovery point is offline_replay; the next 02:00 resume has not happened, so stable unattended operation is not claimed.")}</div>
 <p><a href="{BASE}/automation/case-hybrid-c/#evaluation">{pair("案例关联：B 的 452 基线与 Hybrid C 的 4 条 smoke →","Case link: B's 452 baseline and Hybrid C's four-case smoke →")}</a></p>
 <p><a href="{BASE}/automation/limitations/">{pair("查看评测集、指标口径与统计有效性缺口 →","Audit evaluation-set, metric, and statistical-validity gaps →")}</a></p>"""
     return shell("H20 隔离评测", "H20 evaluation", "h20", body, snapshot)
