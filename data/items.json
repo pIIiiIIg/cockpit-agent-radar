@@ -86,7 +86,7 @@
     "multimodal"
    ],
    "summary_en": "Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning speed, quality of synthesized samples and lay foundation for later applications. This report presents series of KVAE tokenizers for audio, image and video, all designed for subsequent text-conditioned generation: KVAE-Audio, a continuous full-band 48 kHz tokenizer with a 50 Hz latent of 64 channels; KVAE-3D -- two causal video tokenizers for 4x16x16 and 4x8x8 compression; KVAE-2D, an image model, compressing input by factor of 8 with 32 channels. We demonstrate that reconstruction (PSNR, LPIPS, PESQ, etc.) and generation results on objective (Frechet Distance, CLIP score, CLAP score, etc.) and subjective (side-by-side evaluation) metrics matches or surpasses frontier opensource tokenizers, such as VAEs from Wan-2.2, HunyuanVideo-1.5, FLUX.2, MovieGen, StableAudio and MMAudio. Considering difficulty of development, we share with community training details, model selection method and ablation on design choices. The code is publicly available at https://github.com/kandinskylab/kvae and https://github.com/kandinskylab/kvae-audio.",
-   "summary_zh": "",
+   "summary_zh": "KVAE 将音频、图像和视频 tokenizer 放进统一的“重建—压缩—扩散可学习性”框架，并用固定生成器对照避免只凭重建指标选型。其音视频模型已开放多数权重，但训练数据、部分音频细节和 2D-2.0 权重仍不完整；对 StreamingModelHarness 主要是外置音频/视频基础设施参考，不改变 commit 后生成边界。",
    "demo": "",
    "stars": null
   },
@@ -344,7 +344,7 @@
     "multimodal"
    ],
    "summary_en": "Understanding 3D scenes is fundamental to embodied intelligence, requiring joint reasoning over heterogeneous information from multiple modalities, including visual and geometric cues. However, the relevance of these modalities often varies across queries. Existing Multimodal Large Language Models (MLLMs) typically rely on fixed modality combinations, overlooking query-dependent modality needs. Such a rigid design can introduce semantic noise from irrelevant modalities while underutilizing more informative ones, leading to wasted computation and diluted reasoning. To address these challenges, this paper proposes SmartMage, a unified MLLM that dynamically orchestrates heterogeneous modalities for semantic-aware 3D scene understanding. Specifically, SmartMage incorporates: (1) a Semantic-guided Modality Adaptive RouTng (SMART) module that selects task-relevant modalities using semantic priors, text-modality alignment, and modality quality; and (2) a Modality-Aware Gating Expert (MAGE) module that leverages modality priors to guide expert activation, fostering adaptive specialization in multimodal reasoning. Empirically, SmartMage achieves state-of-the-art performance across five 3D scene understanding benchmarks, and attains competitive results on RGB-only video understanding benchmarks. In our diagnostic benchmark ScanFacet, tasks are divided into fine-grained semantic categories, enabling analysis of modality combinations preferred by each semantic type. The observed modality-semantic patterns provide further evidence of SmartMage's effectiveness. Project page: https://yuecheong.github.io/SmartMage/.",
-   "summary_zh": "",
+   "summary_zh": "SmartMage 把 3D 推理拆成问题驱动的模态选择和模态感知专家路由，优于固定全模态融合。它可启发 StreamingModelHarness 在 commit 后选择输入或工具，但需要模型内部训练，且当前仓库仍是占位状态，不涉及流式语音或全双工。",
    "demo": "",
    "stars": null
   },
@@ -408,7 +408,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Training large language model agents for long-horizon tool use typically relies on interactions with real or synthesized executable environments, whose construction and verification are costly, or on external simulators that are difficult to ground. We introduce EnvACE, an agentic reinforcement learning method that replaces external environment interaction during training with world rehearsal. The policy alternates between acting and rehearsal: it first generates a tool call, then plays the role of the environment to produce the response induced by that action, and conditions subsequent decisions on the rehearsed response. Both roles are jointly optimized end-to-end using task-success rewards. Through world rehearsal, the policy internalizes the relationship between actions and their environment responses in its parameters, yielding an agent world model that directly supports decision making. Across BFCL-v4, tau^2-Bench, VitaBench, and FinMCP-Bench, EnvACE achieves strong and transferable performance, outperforming environment-scaling baselines in the overall evaluation. Controlled studies further show that world rehearsal consistently improves policy learning across model scales. At test time, the internalized world model enables private rehearsal before committed execution, yielding further gains under a moderate rehearsal budget without additional external interaction. Our findings establish world rehearsal as a new path toward scaling LLM agent training beyond the constraints of external environments. Our code is publicly available at https://github.com/Within-yao/EnvACE.",
-   "summary_zh": "",
+   "summary_zh": "EnvACE 让策略轮流扮演执行者和环境，以分角色 GRPO 内化工具响应，并在真实执行前做私有预演。它与 StreamingModelHarness 的 commit 后工具执行很契合，但会增加首响应延迟、未验证晚注入工具；论文中的 TTS 指 test-time scaling，不是语音合成。",
    "demo": "",
    "stars": null
   },
@@ -438,7 +438,7 @@
    "score": 3,
    "tags": [],
    "summary_en": "Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research. Financial research demands specialized knowledge to analyze historical patterns and forecast upcoming events. Automating financial deep research therefore requires both a layered harness to drive the research agent and a verifiable, point-in-time benchmark that prevents leakage of future information. We present FinanceHarness, a harness that runs finance-oriented tools and practitioner-guided workflows, automating financial deep research end to end: environment and data construction, the agent execution loop, and reward modeling. We further propose FinanceGym, comprising thesis-driven research questions and rubrics that combine pre-cutoff and post-cutoff criteria. Professional expert validation yields an 82% pass rate. Even leading LLMs and agents score below 40% on the rubrics, showing that FinanceGym is challenging and leaves substantial headroom. With the same open-weight backbone, FinanceHarness improves the overall rubric score from 25.3% to 32.4%. FinanceHarness is available at https://github.com/Yijia-Xiao/FinanceHarness.",
-   "summary_zh": "",
+   "summary_zh": "FinanceHarness 将时间截断检索、金融工具、按需 schema、引用约束和 rubric 训练统一到一个 agent 环境，在相同 27B 骨干上把总分从 25.3% 提至 32.4%。它是 StreamingModelHarness 晚工具注入和有界执行循环的直接参考，但关键语料、评分 rubrics 和专用权重未公开。",
    "demo": "",
    "stars": null
   },
@@ -453,7 +453,7 @@
    "score": 3,
    "tags": [],
    "summary_en": "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curation, and reinforcement learning. Neither human-written verifiers nor human annotators can provide such verification at scale, so the field increasingly turns to vision-language models (VLMs) as judges of CUA trajectories. But a fundamental question has long gone unexamined: are these VLM judges reliable enough? To study it systematically, we introduce OSReward, a realistic, high-quality benchmark that evaluates VLM judges on CUA trajectories. The trajectories come from diverse agent backbones executing human-verified instructions across platforms, then rigorously labeled with ground-truth verdicts through multi-stage human annotation. Building on it, we derive OSReward-Hard, a challenge set concentrating genuinely hard cases, and OSReward-Multi for fine-grained efficiency and alignment scoring. The most comprehensive evaluation of VLM judges to date finds even state-of-the-art models fall short of an ideal judge, sharing a systematic leniency bias that mislabels failed runs as successes. The few reliable enough to trust are too expensive to run at scale, while affordable open models trail far behind. To close this gap, we construct and release OS-Shepherd-100K, an open corpus of reasoning-annotated trajectory judgments for the CUA community. On it, we train OS-Shepherd (9B and 35B), open reward models that supply low-cost, stable, and reliable reward signals, matching commercial judges at 30-60% lower cost than the frontier. Extensive analyses further inform the design of reliable CUA reward at scale. Our code, benchmark, dataset, and model checkpoints are available at https://os-copilot.github.io/OSReward-Home/.",
-   "summary_zh": "",
+   "summary_zh": "OSReward 用跨平台人工金标揭示 CUA judge 普遍会把未完成轨迹误判为成功，并训练了更低成本的 OS-Shepherd。它适合在 StreamingModelHarness 一轮 post-commit 工具轨迹结束后做结果验证或奖励建模，但不负责实时编排，当前训练流水线和数据许可证仍不完整。",
    "demo": "",
    "stars": null
   },
@@ -531,7 +531,7 @@
     "multimodal"
    ],
    "summary_en": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
-   "summary_zh": "",
+   "summary_zh": "该文用 AES 按能力覆盖、冗余和梯度冲突选择紧凑环境集，再以 HDC 逐步扩大状态并撤除文本脚手架；实验显示单纯扩环境反而会退化。它可直接帮助 StreamingModelHarness 设计覆盖 endpoint、晚工具和中断能力的回归环境分布，但不是全双工推理技术。",
    "demo": "",
    "stars": null
   },
@@ -549,7 +549,7 @@
     "multimodal"
    ],
    "summary_en": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fail to capture nuanced cross-modal dependencies and remain vulnerable to market noise, due to limited multimodal modeling, ineffective fusion mechanisms, and inadequate robustness. To address these challenges, we propose F$^2$Agent, a novel multimodal agentic paradigm driven by the Financial Fusion of Agentic Intelligence. F$^2$Agent first deploys a hierarchy of specialized agents to comprehensively extract modality-specific signals. It further introduces a modality-aware adaptive fusion mechanism coupled with noise-robust consistency regularization to dynamically capture fine-grained inter-modality dependencies and generate noise-resilient trading signals. Extensive experiments on six stocks and cryptocurrency assets demonstrate that F$^2$Agent consistently outperforms 16 competitive baselines across multiple trading metrics, with over 20% relative improvement in annualized return on average. Notably, F$^2$Agent delivers returns of 120.48% on GOOG and 148.41% on TSLA, demonstrating its efficacy and robustness in varying market dynamics.",
-   "summary_zh": "",
+   "summary_zh": "F²Agent 用四类专门 agent 处理价格、指标、新闻和情绪，再以动态模态注意力及扰动一致性约束生成日频交易信号。历史回测成绩突出，但没有开放代码、权重或数据，且缺少真实交易摩擦验证；对 StreamingModelHarness 的价值限于 post-commit 多源路由。",
    "demo": "",
    "stars": null
   },
@@ -1373,7 +1373,7 @@
     "multimodal"
    ],
    "summary_en": "Text-to-image (T2I) models can produce visually compelling images, yet they remain limited on open-world tasks that require complex semantic understanding, multi-step reasoning, and the integration of external world knowledge. Existing efforts introduce agent capabilities into image generation, but they either prescribe a fixed workflow or place only a subset of the open-world image generation process under agent control. Consequently, reasoning, tool invocation, and image generation are not coordinated by a single policy. We propose ToolArtist, a fully agentic image generation model obtained by post-training a Unified Multimodal Model (UMM). ToolArtist dynamically orchestrates reasoning, external tool use, and native image generation within one unified policy. During Supervised Fine-Tuning (SFT), we equip a teacher agent with search tools alongside an image-generation tool. We then convert the collected trajectories into a UMM compatible format, where the image-generation tool is concealed while the resulting generated images are retained. During Reinforcement Learning (RL), we develop an agentic RL infrastructure for UMMs and introduce Reason-Act-Draw GRPO (RAD-GRPO), which uses complementary intent and quality rewards to jointly optimize the model. Experiments show that placing the entire open-world image-generation process under an agent policy consistently outperforms approaches with fixed pipelines or only partially agent-controlled components. We release the training data and the complete post-training infrastructure.",
-   "summary_zh": "",
+   "summary_zh": "ToolArtist 将搜索、推理和原生绘图变成同一 UMM policy 的动作，并用轨迹转换与 RAD-GRPO 做端到端 post-training。动态工具决策可借鉴到 StreamingModelHarness 的晚工具循环，但模型 checkpoint 和新增工件许可证缺失，也不是连续全双工系统。",
    "demo": "",
    "stars": null
   },
@@ -2073,7 +2073,7 @@
     "multimodal"
    ],
    "summary_en": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
-   "summary_zh": "",
+   "summary_zh": "该文用 AES 按能力覆盖、冗余和梯度冲突选择紧凑环境集，再以 HDC 逐步扩大状态并撤除文本脚手架；实验显示单纯扩环境反而会退化。它可直接帮助 StreamingModelHarness 设计覆盖 endpoint、晚工具和中断能力的回归环境分布，但不是全双工推理技术。",
    "demo": "",
    "stars": null
   },
@@ -4940,7 +4940,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal agents that think with images iteratively manipulate visual evidence and invoke tools across many steps. Existing reinforcement learning methods reduce trajectories to scalar rewards, forcing the policy to discover reusable tool-use patterns from scratch on every new task; memory-based alternatives retain past experience, yet they rely on test-time retrieval, without updating the policy to absorb reusable patterns from that experience. Our key insight is that multimodal reasoning trajectories should be distilled into reusable skills that co-evolve with the policy during training, rather than being consumed as rewards or retrieved from a static store. To this end, we propose SPyCE (Skill-Policy Co-evolution), a framework that distills trajectories into a hierarchical skill library and updates it throughout reinforcement learning. Execution skills capture local visual operations, while workflow skills encode high-level priors that orchestrate tool use. During training, the policy model conditions on retrieved skills to guide its rollouts, while the skill library evolves using valuable rollouts generated by the policy. This creates a closed loop in which improved policies yield better skills, and the evolving skill library, in turn, provides stronger priors for policy rollouts. Experiments across eight benchmarks demonstrate that SPyCE consistently outperforms both RL-based and memory-based baselines. Further analysis reveals that both the hierarchical skill design and the co-evolution mechanism are critical to our design. These results suggest joint skill-policy optimization as a promising paradigm for building capable multimodal agents.",
-   "summary_zh": "",
+   "summary_zh": "SPyCE 把多模态工具轨迹蒸馏成高层工作流与低层执行技能，并让技能库和策略在 RL 中共同演化。它对 StreamingModelHarness 的动态工具路由和经验沉淀有直接参考价值，但只测试静态图像任务，且自身代码、权重、技能库与处理后数据均未发布。",
    "demo": "",
    "stars": null
   },
@@ -5262,7 +5262,7 @@
     "multimodal"
    ],
    "summary_en": "Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next begins. We study this gap on a code-generation task: from a scientific paper section, the agent writes Python in the open-source Manim library to render a mathematical animation. We present ManimAgent, a self-evolving multimodal agent that carries reflection experience across tasks through a dual-channel Episodic Memory Bank grown entirely from its own task stream, with no weight updates and no human seeds. After each animation converges, a vision-language model scores the rendered keyframes; the resulting signals populate a positive channel M+ that stores success rationales as soft Reference Examples, and a negative channel M- that stores validated failure patterns as hard Known Pitfalls. On a fixed-probe evaluation against no-memory, matched-budget retrieval-augmented generation, and shuffled-memory baselines, blind human Pass@1 rises and reflection rounds fall as memory size grows. We will release the code, frozen memory snapshots, and the task stream.",
-   "summary_zh": "",
+   "summary_zh": "ManimAgent 将渲染成功经验和经改进验证的失败模式分别写入正负记忆，使 agent 无需更新权重也能跨任务减少修复。双通道记忆可用于 StreamingModelHarness 沉淀工具经验，但其输入完整提交、评价一致性偏弱，冻结快照和完整数据也尚未发布。",
    "demo": "",
    "stars": null
   },
@@ -5352,7 +5352,7 @@
     "multimodal"
    ],
    "summary_en": "Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent advances in large language models (LLMs) have driven significant progress in SDG agents, current approaches are predominantly text-based, overlooking the multimodal nature that is fundamental to human social interaction. To bridge this gap, we introduce CaM-Wolf, the first SDG agent that integrates multimodal perception and generation. CaM-Wolf processes video inputs from other players, employs a causal-aware Reasoner trained via reinforcement learning to establish logical chains between observable behaviors and hidden roles, and presents itself through an animated avatar. Our experiments and user study show that CaM-Wolf achieves superior agent gameplay performance and enhances the quality of human-AI interaction. This work represents a significant advancement towards creating more human-like AI agents capable of participating in nuanced social dynamics. Our code is available at https://3dagentworld.github.io/avatar_wolf.",
-   "summary_zh": "",
+   "summary_zh": "CaM-Wolf 把视频感知、证据约束推理和外部语音/头像生成组合成回合式狼人杀 agent，并用前提删除奖励约束角色判断。它与 StreamingModelHarness 一样先 commit 输入再生成且 TTS 外置，因此不能包装成原生全双工；自身代码、LoRA 和数据开放状态仍无法核验。",
    "demo": "",
    "stars": null
   },
@@ -5633,7 +5633,7 @@
     "multimodal"
    ],
    "summary_en": "Recent multimodal large language models (MLLMs) have strong potential as embodied agents, but their ability to collaborate in visually grounded environments remains underexplored. To address this gap, we introduce MECoBench, a multimodal embodied cooperation benchmark with an evaluation platform spanning diverse real-world tasks, two cooperation structures, and three collaboration modes. Through extensive experiments across various MLLMs, we summarize three key findings: (i) Collaboration generally improves embodied task completion, but its benefits depend on balancing collaborative gains against coordination complexity. (ii) Communication is essential to collaboration gains, while the best collaboration mode depends on team size and model capability. (iii) Moreover, collaboration improves robustness under noisy priors and exploration conditions. Generally, MECoBench provides a systematic testbed for understanding the mechanisms and limits of multimodal embodied collaboration. Code and dataset are available at https://github.com/q-i-n-g/MECoBench.",
-   "summary_zh": "",
+   "summary_zh": "MECoBench 在视觉具身环境中系统控制团队规模、通信协议和空间依赖，显示协作收益呈倒 U 型，通信可增益也会放大冲突和错误信念。它适合作为 StreamingModelHarness 多 agent 消息与工具编排的离散回归基准，而非实时语音或模型层全双工证据。",
    "demo": "",
    "stars": null
   },

@@ -183,29 +183,29 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-06-29 · ◈ 11
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next begins. We study this gap on a code-generation task: from a scientific paper section, the agent writes Python in the open-source Manim library to render a mathematical animation. We present ManimAgent, a self-evolving multimodal agent that carries reflection experience across tasks through a dual-channel Episodic Memory Bank grown entirely from its own task stream, with no weight updates and no human seeds. After each animation converges, a vision-language model scores the rendered keyframes; the resulting signals populate a positive channel M+ that stores success rationales as soft Reference Examples, and a negative channel M- that stores validated failure patterns as hard Known Pitfalls. On a fixed-probe evaluation against no-memory, matched-budget retrieval-augmented generation, and shuffled-memory baselines, blind human Pass@1 rises and reflection rounds fall as memory size grows. We will release the code, frozen memory snapshots, and the task stream. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">ManimAgent 将渲染成功经验和经改进验证的失败模式分别写入正负记忆，使 agent 无需更新权重也能跨任务减少修复。双通道记忆可用于 StreamingModelHarness 沉淀工具经验，但其输入完整提交、评价一致性偏弱，冻结快照和完整数据也尚未发布。</span>
     <span class="l-en">Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next begins. We study this gap on a code-generation task: from a scientific paper section, the agent writes Python in the open-source Manim library to render a mathematical animation. We present ManimAgent, a self-evolving multimodal agent that carries reflection experience across tasks through a dual-channel Episodic Memory Bank grown entirely from its own task stream, with no weight updates and no human seeds. After each animation converges, a vision-language model scores the rendered keyframes; the resulting signals populate a positive channel M+ that stores success rationales as soft Reference Examples, and a negative channel M- that stores validated failure patterns as hard Known Pitfalls. On a fixed-probe evaluation against no-memory, matched-budget retrieval-augmented generation, and shuffled-memory baselines, blind human Pass@1 rises and reflection rounds fall as memory size grows. We will release the code, frozen memory snapshots, and the task stream.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">ManimAgent 把单任务内的渲染和视觉反思蒸馏为跨任务双通道记忆：成功经验作为软参考，经过改进验证的失败模式作为硬约束，不更新模型权重。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>反思型 agent 能在一次任务内修复代码和画面，但任务结束后会丢弃布局、公式、节奏和 Manim 编译错误经验，后续任务重复付出相同修复成本。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next begins. We study this gap on a code-generation task: from a scientific paper section, the agent writes Python in the open-source Manim library to render a mathematical animation. We present ManimAgent, a self-evolving multimodal agent that carries reflection experience across tasks through a dual-channel Episodic Memory Bank grown entirely from its own task stream, with no weight updates and no human seeds. After each animation converges, a vision-language model scores the rendered keyframes; the resulting signals populate a positive channel M+ that stores success rationales as soft Reference Examples, and a negative channel M- that stores validated failure patterns as hard Known Pitfalls. On a fixed-probe evaluation against no-memory, matched-budget retrieval-augmented generation, and shuffled-memory baselines, blind human Pass@1 rises and reflection rounds fall as memory size grows. We will release the code, frozen memory snapshots, and the task stream.</p>
-
-
+  <p>系统由 Storyboarder、Coder、Renderer、文本 Reviewer、VLM Reviewer、Visual Reviser 等组成；每个场景从正记忆 M+ 检索 top-2、负记忆 M− 检索 top-3，Coder 生成完整 Scene，最多两次文本修复和两次视觉修订。VLM 对逻辑、布局和准确性评分，最佳候选达到阈值后，Rationale Writer 与 Lesson Distiller 将成功 rationale、代码和关键帧写入 M+，或把 crash→成功及视觉提升至少 5 分的转移写入 M−。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>把论文局部章节拆成场景及 claim/evidence/takeaway。</li><li>检索成功模板与已验证陷阱并注入 Coder。</li><li>执行静态检查、沙箱渲染和文本错误修复。</li><li>VLM 检查关键帧并驱动视觉修订，选择最佳可渲染候选。</li><li>把成功 rationale 和有效失败转移写入 Episodic Memory Bank。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>论文表 1 报告：固定 probe 上 EMB@0→EMB@200 时，Human Pass@1 从 62.0 升至 84.9，平均反思轮数从 12.2 降至 6.5，Human quality 从 3.26 升至 3.88。</li><li>同表报告：移除 M+ 后三项为 70.0/12.0/3.40，移除 M− 后为 80.9/11.6/3.52。</li><li>论文第 4.5 节报告：37 个配对视频上，VLM 与人工质量的 Pearson 为 -0.17、Spearman 为 -0.20、Cohen&#x27;s κ 为 -0.07。</li><li>附录表 12 估计 EMB@200 每任务需 36K LLM tokens、20K VLM tokens 和 31 分钟。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：双通道记忆适合沉淀 StreamingModelHarness 的工具成功模式和经验证失败模式，属于可借鉴的外部编排层。</li><li>编辑判断：输入是完整论文段落，记忆在代码生成前检索，不支持流式输入或运行中晚注入工具；没有音频/TTS，也不是模型层全双工。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>只验证 Manim、英文材料和五个科学领域，没有测试其他渲染器、语言或真实学习效果。</li><li>记忆规模只有约 10² 条，没有容量控制、语义去重或 memory-rot 防护。</li><li>VLM 与人工、以及人工评分者之间的一致性都很弱，固定 probe 和人工覆盖规模也有限。</li><li>官方仓库与论文结果发布时序不一致，冻结记忆快照和完整实验工件仍不能独立核验。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 仓库可见完整实现结构和部分任务数据，但未见明确代码许可证；论文对应的冻结记忆快照、完整 JSON 数据和 task stream 尚未确认发布，工作本身没有新增模型权重。</p>
+  <p><a class="btn" href="https://github.com/jwj1342/Paper2Manim" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
      · 2026-08-01 09:31</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2606.30296v2"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>

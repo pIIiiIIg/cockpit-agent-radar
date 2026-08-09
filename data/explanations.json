@@ -1669,27 +1669,42 @@
   "review_status": "editorial"
  },
  "ab4dbde172": {
-  "tl_dr": "Recent multimodal large language models (MLLMs) have strong potential as embodied agents, but their ability to collaborate in visually grounded environments remains underexplored. To address this gap, we introduce MECoBench, a multimodal em",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Recent multimodal large language models (MLLMs) have strong potential as embodied agents, but their ability to collaborate in visually grounded environments remains underexplored. To address this gap, we introduce MECoBench, a multimodal embodied cooperation benchmark with an evaluation platform spanning diverse real-world tasks, two cooperation structures, and three collaboration modes. Through extensive experiments across various MLLMs, we summarize three key findings: (i) Collaboration generally improves embodied task completion, but its benefits depend on balancing collaborative gains against coordination complexity. (ii) Communication is essential to collaboration gains, while the best collaboration mode depends on team size and model capability. (iii) Moreover, collaboration improves robustness under noisy priors and exploration conditions. Generally, MECoBench provides a systematic testbed for understanding the mechanisms and limits of multimodal embodied collaboration. Code and dataset are available at https://github.com/q-i-n-g/MECoBench.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "MECoBench 在 VirtualHome 中用 192 个视觉具身协作案例系统改变协作结构、团队规模和通信协议，发现协作收益呈倒 U 型，通信既是主要驱动力，也会传播冲突和错误信念。",
+  "problem": "既有多 agent benchmark 常用文本化或共享符号状态，难以同时测量第一视角视觉感知、探索、空间约束、通信和实体动作之间的耦合。",
+  "method": "96 个任务来自 8 种家庭活动模板，每个任务分别构造 parallel 和 sequential 设置，共 192 个案例；支持 isolated、decentralized、centralized 三类模式，以及 no communication、broadcast、discussion、leader-worker 协议。每步 agent 读取四视角第一人称图像、目标、先验、历史与记忆，先通信再生成语义动作，decoder grounding 到 simulator object ID 后并发执行，并以 SR、CR、Step-CR AUC、成本、分工和冲突指标评估。",
+  "workflow": [
+   "从任务模板采样目标并实例化合法场景。",
+   "指定 parallel 或区域隔离且需 handover 的 sequential 结构。",
+   "agent 获取全景视觉、目标、先验和记忆。",
+   "按协议通信，再规划、grounding 并执行动作。",
+   "更新环境与记忆，循环到成功或步数耗尽并计算协作指标。"
+  ],
+  "findings": [
+   "论文表 8 报告：parallel 中 Qwen3-32B-VL 的 SR 从单 agent 0.583 升至双 agent 0.802，但 InternVL-3.5-241B 从 0.833 降至 0.719。",
+   "论文表 9 报告：Qwen3-32B-VL 在 1–5 agent 时 SR 为 0.583/0.802/0.833/0.844/0.740，显示团队扩大后的倒 U 型。",
+   "论文表 11 报告：移除通信后，sequential SR 在 Gemma4-31B 上从 0.823 降至 0.177，在 Qwen3.5-9B 上从 0.615 降至 0.062。",
+   "论文表 22 报告：Qwen3-32B-VL 扩到 5 agent 时 duplicate-grab rate 达 57.4%；少量错误完成信念对应显著 SR 下降。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：每轮 observe→communicate→act 可映射为 StreamingModelHarness 中 endpoint 后的一次生成，晚注入工具或消息可承载其他 agent 报告、共享记忆和 leader 指令。",
+   "编辑判断：MECoBench 使用离散同步 timestep 和 simulator 动作，不测试输入未提交时的并行生成，也没有语音、打断、实时音频或模型层全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "实验只覆盖 VirtualHome 室内家庭任务，缺少户外、开放世界、导航和更长探索。",
+   "只有 96 个基础任务、8 个模板，团队最多 5 个 agent；默认位置先验也弱化真实探索。",
+   "总步数固定为 60/n，大团队的个人预算更少，倒 U 型同时受到协调开销和预算分配影响。",
+   "任务生成脚本、中间 task-knowledge 资产和部分内部运行脚本未公开。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/q-i-n-g/MECoBench",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "基准数据、评测与通信代码、修改版 VirtualHome API 和跨平台 simulator 均已发布，代码与数据采用 MIT；未发布任务生成脚本和部分中间资产，但不影响使用现有基准。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-07-31T19:41:28.503075+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "5af78d53e4": {
   "tl_dr": "Stream RAG 把检索查询从用户说完后前移到讲话过程中；模型触发版每 500ms 判断是否发起或替换查询，再在端点后融合最终问题与结果生成语音。",
@@ -1989,27 +2004,42 @@
   "review_status": "editorial"
  },
  "0f6fd313bd": {
-  "tl_dr": "Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Multi-round reflection lets agents built on large language models recover from failures within a single task, but each task remains an isolated episode: lessons learned across many reflection rounds on one task are discarded before the next begins. We study this gap on a code-generation task: from a scientific paper section, the agent writes Python in the open-source Manim library to render a mathematical animation. We present ManimAgent, a self-evolving multimodal agent that carries reflection experience across tasks through a dual-channel Episodic Memory Bank grown entirely from its own task stream, with no weight updates and no human seeds. After each animation converges, a vision-language model scores the rendered keyframes; the resulting signals populate a positive channel M+ that stores success rationales as soft Reference Examples, and a negative channel M- that stores validated failure patterns as hard Known Pitfalls. On a fixed-probe evaluation against no-memory, matched-budget retrieval-augmented generation, and shuffled-memory baselines, blind human Pass@1 rises and reflection rounds fall as memory size grows. We will release the code, frozen memory snapshots, and the task stream.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ManimAgent 把单任务内的渲染和视觉反思蒸馏为跨任务双通道记忆：成功经验作为软参考，经过改进验证的失败模式作为硬约束，不更新模型权重。",
+  "problem": "反思型 agent 能在一次任务内修复代码和画面，但任务结束后会丢弃布局、公式、节奏和 Manim 编译错误经验，后续任务重复付出相同修复成本。",
+  "method": "系统由 Storyboarder、Coder、Renderer、文本 Reviewer、VLM Reviewer、Visual Reviser 等组成；每个场景从正记忆 M+ 检索 top-2、负记忆 M− 检索 top-3，Coder 生成完整 Scene，最多两次文本修复和两次视觉修订。VLM 对逻辑、布局和准确性评分，最佳候选达到阈值后，Rationale Writer 与 Lesson Distiller 将成功 rationale、代码和关键帧写入 M+，或把 crash→成功及视觉提升至少 5 分的转移写入 M−。",
+  "workflow": [
+   "把论文局部章节拆成场景及 claim/evidence/takeaway。",
+   "检索成功模板与已验证陷阱并注入 Coder。",
+   "执行静态检查、沙箱渲染和文本错误修复。",
+   "VLM 检查关键帧并驱动视觉修订，选择最佳可渲染候选。",
+   "把成功 rationale 和有效失败转移写入 Episodic Memory Bank。"
+  ],
+  "findings": [
+   "论文表 1 报告：固定 probe 上 EMB@0→EMB@200 时，Human Pass@1 从 62.0 升至 84.9，平均反思轮数从 12.2 降至 6.5，Human quality 从 3.26 升至 3.88。",
+   "同表报告：移除 M+ 后三项为 70.0/12.0/3.40，移除 M− 后为 80.9/11.6/3.52。",
+   "论文第 4.5 节报告：37 个配对视频上，VLM 与人工质量的 Pearson 为 -0.17、Spearman 为 -0.20、Cohen's κ 为 -0.07。",
+   "附录表 12 估计 EMB@200 每任务需 36K LLM tokens、20K VLM tokens 和 31 分钟。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：双通道记忆适合沉淀 StreamingModelHarness 的工具成功模式和经验证失败模式，属于可借鉴的外部编排层。",
+   "编辑判断：输入是完整论文段落，记忆在代码生成前检索，不支持流式输入或运行中晚注入工具；没有音频/TTS，也不是模型层全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只验证 Manim、英文材料和五个科学领域，没有测试其他渲染器、语言或真实学习效果。",
+   "记忆规模只有约 10² 条，没有容量控制、语义去重或 memory-rot 防护。",
+   "VLM 与人工、以及人工评分者之间的一致性都很弱，固定 probe 和人工覆盖规模也有限。",
+   "官方仓库与论文结果发布时序不一致，冻结记忆快照和完整实验工件仍不能独立核验。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/jwj1342/Paper2Manim",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仓库可见完整实现结构和部分任务数据，但未见明确代码许可证；论文对应的冻结记忆快照、完整 JSON 数据和 task stream 尚未确认发布，工作本身没有新增模型权重。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-01T09:31:59.116114+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "0cc89f3e2e": {
   "tl_dr": "SimpleSearch-VL 用自适应 rollout 分配、可核验的区域反向图片搜索和策略模型自摘要，后训练一个轻量多模态深度搜索代理。",
@@ -2148,27 +2178,42 @@
   "review_status": "editorial"
  },
  "cf9f84810a": {
-  "tl_dr": "Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent advances in large language models (LLMs) ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Social deduction games (SDGs) such as Werewolf have become challenging testbeds for AI agents. These games require complex social skills such as reasoning, deception, and collaboration. While recent advances in large language models (LLMs) have driven significant progress in SDG agents, current approaches are predominantly text-based, overlooking the multimodal nature that is fundamental to human social interaction. To bridge this gap, we introduce CaM-Wolf, the first SDG agent that integrates multimodal perception and generation. CaM-Wolf processes video inputs from other players, employs a causal-aware Reasoner trained via reinforcement learning to establish logical chains between observable behaviors and hidden roles, and presents itself through an animated avatar. Our experiments and user study show that CaM-Wolf achieves superior agent gameplay performance and enhances the quality of human-AI interaction. This work represents a significant advancement towards creating more human-like AI agents capable of participating in nuanced social dynamics. Our code is available at https://3dagentworld.github.io/avatar_wolf.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "CaM-Wolf 把视频感知、证据约束的身份推理和外部语音/数字人生成组合成回合式狼人杀 agent，并用删除相关或无关前提的奖励约束推理依赖。",
+  "problem": "文本式社交推理 agent 忽略语音、表情和动作，也容易产生与实际证据没有正确依赖关系的身份解释。",
+  "method": "Qwen2.5-Omni-7B 将每段玩家视频转成转录、表情和手势日志；Reasoner 生成自由推理、结构化 premises/deduction/conclusion、发言和头像动作。训练时由 Qwen2.5-14B 分别删除相关前提与随机无关前提并重推角色，以正确结论、相关前提敏感性、无关前提稳定性和格式约束构成奖励，使用 GRPO+LoRA 训练 72B Reasoner；推理输出再交给 EmotiVoice 和 OmniAvatar。",
+  "workflow": [
+   "玩家完成一段视频发言。",
+   "Omni 模型提取文本、表情和手势并更新日志。",
+   "Reasoner 输出结构化身份推断与响应计划。",
+   "训练时执行前提删除干预并用复合奖励更新策略。",
+   "外部 TTS 与头像视频模型生成回合回复。"
+  ],
+  "findings": [
+   "论文表 1 报告：对战 ReAct-Qwen 时，CaM-Wolf 村民/狼人/总体胜率为 52.0%/88.0%/70.0%，LSPO 为 34.0%/82.0%/58.0%。",
+   "论文表 2 报告：第二天讨论后角色识别准确率为 32.6%，ReAct/ReCon/SLA/LSPO 为 22.4%/25.8%/27.2%/27.6%。",
+   "论文表 3 报告：完整模型总体胜率为 60.0%；去掉 free-form reasoning、faithfulness reward、无关干预、相关干预后分别为 50.0%/56.0%/59.0%/55.0%。",
+   "论文表 4 的人机混合对局中，CaM-Wolf 平均获票 0.21、来自人类的平均票 0.05、胜率 46.8%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：其实际流程与 StreamingModelHarness 相似，都是先录完一段输入并 commit，之后才推理，语音和头像输出也由外部模块生成。",
+   "编辑判断：这种 Video-Video 交互不等于模型层全双工；论文没有边听边生成、打断、输入输出重叠或运行中晚注入工具。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只覆盖狼人杀，agent 实验每设置 50 局且未报告置信区间；人类研究也只有 16 名参与者。",
+   "没有独立量化原始视频感知对胜率的贡献，基线也接收同一感知器生成的文本与视觉描述。",
+   "所谓因果奖励只检验预测对 LLM 编辑后文本前提的依赖，不等于识别真实行为中的无混杂因果效应。",
+   "论文没有端到端延迟、实时性、感知误差传播或隐私分析。"
   ],
   "open_source": {
    "status": "unknown",
-   "code_url": "",
+   "code_url": "https://github.com/3DAgentWorld/avatar_wolf",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方项目页和公共仓库入口存在，但截至核验日无法确认实际源码、CaM-Wolf 72B LoRA、500 局训练日志或项目许可证；上游 Qwen、EmotiVoice、OmniAvatar 的开放状态不能代替本项目。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-01T09:31:59.116173+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "410933a97d": {
   "tl_dr": "Wearable sensors, such as smartwatches, have become increasingly prevalent across domains like healthcare, sports, and education, enabling continuous monitoring of physiological and behavioral data. In the context of education, these techno",
@@ -2366,27 +2411,42 @@
   "review_status": "editorial"
  },
  "857d83c211": {
-  "tl_dr": "Multimodal agents that think with images iteratively manipulate visual evidence and invoke tools across many steps. Existing reinforcement learning methods reduce trajectories to scalar rewards, forcing the policy to discover reusable tool-",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Multimodal agents that think with images iteratively manipulate visual evidence and invoke tools across many steps. Existing reinforcement learning methods reduce trajectories to scalar rewards, forcing the policy to discover reusable tool-use patterns from scratch on every new task; memory-based alternatives retain past experience, yet they rely on test-time retrieval, without updating the policy to absorb reusable patterns from that experience. Our key insight is that multimodal reasoning trajectories should be distilled into reusable skills that co-evolve with the policy during training, rather than being consumed as rewards or retrieved from a static store. To this end, we propose SPyCE (Skill-Policy Co-evolution), a framework that distills trajectories into a hierarchical skill library and updates it throughout reinforcement learning. Execution skills capture local visual operations, while workflow skills encode high-level priors that orchestrate tool use. During training, the policy model conditions on retrieved skills to guide its rollouts, while the skill library evolves using valuable rollouts generated by the policy. This creates a closed loop in which improved policies yield better skills, and the evolving skill library, in turn, provides stronger priors for policy rollouts. Experiments across eight benchmarks demonstrate that SPyCE consistently outperforms both RL-based and memory-based baselines. Further analysis reveals that both the hierarchical skill design and the co-evolution mechanism are critical to our design. These results suggest joint skill-policy optimization as a promising paradigm for building capable multimodal agents.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SPyCE 把多模态工具轨迹蒸馏成高层 workflow skills 和低层 execution skills，并让技能库与策略在 RL 训练中相互改进。",
+  "problem": "普通 RL 只把轨迹压成标量奖励，策略需要反复从头发现工具模式；静态记忆又只在测试时检索，不能让策略权重与可复用经验共同演化。",
+  "method": "Execution skill 记录触发条件、工具动作模板和预期效果，Workflow skill 记录粗粒度瓶颈与工作流草图；新技能按 embedding 相似度 merge-or-add，并按匹配频率或经验成功率剪枝。每隔若干步保留按 GRPO 优势排序的成功轨迹，由大模型蒸馏技能；新任务先检索 workflow，再按局部瓶颈检索 execution skills，策略在两类技能条件下 rollout 并继续 GRPO 更新。",
+  "workflow": [
+   "先用约 5K CodeVision-SFT 建立基础视觉工具调用能力。",
+   "首轮 RL 生成成功轨迹并蒸馏两级技能库。",
+   "新任务先检索 workflow，再按局部瓶颈检索 execution skills。",
+   "技能条件化 rollout 经 GRPO 更新策略。",
+   "周期性从改进后的高优势轨迹合并、替换和剪枝技能。"
+  ],
+  "findings": [
+   "论文表 1 报告：8B SPyCE 在 V*、HRBench-4K/8K、ChartQAPro、MathVerse、MathVision、WeMath 上为 84.3/78.0/74.3/52.5/68.7/61.2/67.8。",
+   "论文表 2 报告：TIR-Bench 8B 上 SPyCE 总准确率 32.0%、平均工具调用 4.83；GRPO 为 27.7%/5.13，RLOO 为 26.7%/5.38。",
+   "论文表 3 报告：去掉 workflow skills、execution skills 或冻结技能时，总准确率分别为 28.0%、28.7%、28.9%，完整模型为 32.0%。",
+   "同表报告：去掉工具惩罚时为 29.4%/6.83 calls，对所有轨迹始终惩罚时为 26.1%/3.96 calls。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：两级技能检索和基于新观测继续选工具，对 StreamingModelHarness 的动态工具路由、晚注入工具和跨任务经验沉淀有直接价值。",
+   "编辑判断：论文在训练期让策略持续条件化于技能库，并非单纯在生成中途加入新 schema；输入是静态图片，无音频、外置 TTS 或全双工机制。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只测试静态图像上的离线工具循环，没有流式视频、实时环境或用户交互。",
+   "奖励依赖可验证答案，对开放式、主观或安全关键工具任务的适用性未验证。",
+   "技能蒸馏依赖 235B 模型，检索依赖外部 embedding，训练与维护成本未报告。",
+   "没有多随机种子方差；过滤后的约 12K 数据、技能库、训练代码和训练后权重也未发布。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至核验日未找到 SPyCE 官方仓库、权重、技能库或过滤后的训练数据；只有上游 Qwen 模型与原始 CodeVision 数据开放，不能据此认定 SPyCE 自身开源。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-01T14:47:15.088408+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "80e73f7a2c": {
   "tl_dr": "We present S1-Omni, a unified multimodal reasoning model for scientific understanding, prediction, and generation. AI for Science (AI4S) has advanced significantly through domain-specific models, tool-augmented LLMs, and scientific language",
@@ -5517,27 +5577,42 @@
   "review_status": "abstract_backfill"
  },
  "5474a9b921": {
-  "tl_dr": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimo",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "论文表明多模态 agent 训练不能只扩大环境数量，还要控制能力覆盖、冗余、梯度冲突和难度结构；AES 选择紧凑环境集，HDC 再逐步撤除脚手架并扩大状态规模。",
+  "problem": "固定算力下盲目增加环境会稀释单环境信号并引入能力冗余或梯度冲突；视觉状态提取和世界建模也使多模态混训比文本符号环境更容易负迁移。",
+  "method": "作者从 200 个环境的成功/失败轨迹中抽取并人工核验 72 个 core meta-abilities。Ability-aware Environment Selection 以加权新能力覆盖为收益，同时惩罚环境 profile 相似度和负梯度余弦冲突，选出 30 个环境；Hierarchical Difficulty Curriculum 为每个环境维护独立 frontier，先用文本 observation、state、hint 和 rule 提供强脚手架与小状态，再逐步扩大 grid、实体等规模并退火到原始视觉输入。",
+  "workflow": [
+   "在每个候选环境收集成功与失败轨迹。",
+   "分解原子能力并构建环境能力图和 profile。",
+   "AES 按能力覆盖、冗余和梯度冲突选择 30 个环境。",
+   "HDC 先在强文本脚手架和较小状态空间训练。",
+   "达到阈值后逐级扩大状态并撤除脚手架，最终回到原始视觉环境。"
+  ],
+  "findings": [
+   "论文表 1 报告：混训相对单环境训练，文本符号版由 70.4 降至 69.5，多模态版由 48.4 降至 43.2。",
+   "论文表 3 报告：AES 的平均相对增益为 95.6%，AES+HDC 在两种模型规模及 ID/OOD 组上的平均相对增益为 143.2%。",
+   "论文表 4 报告：AES 的 OOD 相对增益为 40.3%；去掉冗余控制后为 25.3%，去掉冲突控制后为 2.8%。",
+   "附录扩算力实验中，ID 表现从 40 环境的 66.3% 降到 160 环境的 42.1%，OOD 从 60 环境的 36.4% 降到 160 环境的 23.6%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：AES 可用于挑选覆盖 endpoint/commit、晚注入工具、输入中断等能力的最小回归环境集；HDC 可从显式 transcript/tool-state 脚手架逐步退火到真实流式界面。",
+   "编辑判断：论文贡献位于训练和评测环境分布，不提供推理期全双工，也不会绕过 StreamingModelHarness 的 commit 后生成和外置 TTS 边界。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "环境池主要复用现有工作，没有研究大规模环境合成，且部分环境可能因算力限制未充分训练。",
+   "AES 的梯度冲突估计有显著离线计算开销，能力 profile 又依赖闭源模型抽取和人工检查。",
+   "实验只覆盖受控虚拟环境，论文明确不建议未经安全处理直接部署到开放真实系统。",
+   "仓库仍标为 WIP/public preview，缺少 checkpoint、完整训练 recipes、原始轨迹和结果 bundle。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/GaryStack/Beyond-MMEnv-Scaling",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Apache-2.0 仓库已有 AES、HDC、梯度分析、评测代码和部分环境池，但尚未发布权重、完整 recipes、原始轨迹、私有数据和结果包；外部环境仍受各自许可证约束。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-05T09:31:57.550139+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "d5525b2a56": {
   "tl_dr": "扩展版 DAIEN-TTS 把说话人、时变噪声和混响拆成独立条件，再由 F5-TTS 式流匹配 DiT 合成指定声线与环境；真实数据微调改善环境还原，但计算量、延迟和开放资产尚不支持直接作为低延迟座舱 TTS。",
@@ -6317,27 +6392,42 @@
   "review_status": "abstract_backfill"
  },
  "fb41881aa5": {
-  "tl_dr": "Text-to-image (T2I) models can produce visually compelling images, yet they remain limited on open-world tasks that require complex semantic understanding, multi-step reasoning, and the integration of external world knowledge. Existing effo",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Text-to-image (T2I) models can produce visually compelling images, yet they remain limited on open-world tasks that require complex semantic understanding, multi-step reasoning, and the integration of external world knowledge. Existing efforts introduce agent capabilities into image generation, but they either prescribe a fixed workflow or place only a subset of the open-world image generation process under agent control. Consequently, reasoning, tool invocation, and image generation are not coordinated by a single policy. We propose ToolArtist, a fully agentic image generation model obtained by post-training a Unified Multimodal Model (UMM). ToolArtist dynamically orchestrates reasoning, external tool use, and native image generation within one unified policy. During Supervised Fine-Tuning (SFT), we equip a teacher agent with search tools alongside an image-generation tool. We then convert the collected trajectories into a UMM compatible format, where the image-generation tool is concealed while the resulting generated images are retained. During Reinforcement Learning (RL), we develop an agentic RL infrastructure for UMMs and introduce Reason-Act-Draw GRPO (RAD-GRPO), which uses complementary intent and quality rewards to jointly optimize the model. Experiments show that placing the entire open-world image-generation process under an agent policy consistently outperforms approaches with fixed pipelines or only partially agent-controlled components. We release the training data and the complete post-training infrastructure.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ToolArtist 把推理、文本/图像搜索和原生图像 token 生成统一到 Emu3.5 policy 中，再用 SFT 与 RAD-GRPO 训练模型自行决定何时搜索、绘图和修订。",
+  "problem": "开放世界图像生成需要外部知识和多步推理，但既有系统往往固定执行搜索流水线，或只让 agent 负责检索、再交给独立生成器，无法由同一 policy 联合控制搜索与绘图。",
+  "method": "teacher agent 可调用 TextSearch、ImageSearch 和外部绘图服务；转换轨迹时保留搜索结果，隐藏外部 draw 调用并改写为 UMM 原生 visual-caption 与 visual-token span，得到 7132 条 SFT 轨迹。RAD-GRPO 在线采样可变长 reason/search/draw 轨迹，以意图奖励和图像质量奖励联合评价，后者按 faithfulness、visual correctness、text accuracy、aesthetics 加权，并把同一 trajectory advantage 回传到推理、工具和图像 token。",
+  "workflow": [
+   "teacher 根据请求交替执行推理、文本搜索、图像搜索和外部绘图。",
+   "把 draw 结果转换成 UMM 原生图像 token 监督。",
+   "在 7132 条转换轨迹上执行 SFT。",
+   "用 RAD-GRPO 在线优化完整 reason–act–draw 轨迹。",
+   "推理时由模型自行搜索、生成、检查并按需再次修订。"
+  ],
+  "findings": [
+   "论文表 1 报告：ToolArtist 在 WISE overall 得 0.79，高于 Unify-Agent 和 GenSearcher 的 0.77，但低于 Nano Banana 的 0.89。",
+   "同表报告：WorldGenBench-Humanities 平均 KCS 为 22.10，Unify-Agent 为 15.58、GenSearcher 为 13.66、Nano Banana 为 29.67。",
+   "论文表 2 报告：去除 image-search 的 source-aware summary 后，WISE overall 从 0.79 降至 0.61，Biology 从 0.75 降至 0.25。",
+   "论文第 5.4 节报告：7132 条 SFT 轨迹平均/中位长度为 20.5k/20.2k tokens，平均和中位工具调用数均为 4.0。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：endpoint 后的 StreamingModelHarness 可承载离散 reason→tool→observation 循环，动态搜索决策对晚注入工具有直接参考价值。",
+   "编辑判断：论文核心还包括同一 UMM 原生输出图像 token；若 Harness 使用外部生成工具，只复现编排层。它也不是连续全双工系统，与外置 TTS 没有直接对应。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文未报告开放域用户偏好、编辑任务、运行时、搜索成本或端到端延迟。",
+   "没有 base→SFT→RL 的完整最终指标消融，难以单独归因 RAD-GRPO 的贡献。",
+   "评测和 RL 都依赖模型 judge/reward，teacher 数据又依赖搜索和闭源图像生成服务，存在偏差与版权边界。",
+   "ToolArtist checkpoint 尚未发布，当前无法直接复现实验模型。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/bubble65/EMU-Agentic-PostTrain",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "teacher rollout、转换、SFT、RL、agent loop 和约 9.42GB 数据已公开，但 ToolArtist 权重仍为 coming soon；代码与数据均未见明确许可证，Emu3.5 的 Apache-2.0 不能自动覆盖这些新增工件。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-06T11:57:26.260809+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "f70cccf2f1": {
   "tl_dr": "Vision offers a critical axis for advancing foundation models, driving a shift towards natively unified multimodal pretraining. Despite this momentum, the design space and the fundamental mechanisms of how modalities interact during unified",
@@ -6969,50 +7059,80 @@
   "review_status": "abstract_backfill"
  },
  "dec8c98235": {
-  "tl_dr": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimo",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "论文表明多模态 agent 训练不能只扩大环境数量，还要控制能力覆盖、冗余、梯度冲突和难度结构；AES 选择紧凑环境集，HDC 再逐步撤除脚手架并扩大状态规模。",
+  "problem": "固定算力下盲目增加环境会稀释单环境信号并引入能力冗余或梯度冲突；视觉状态提取和世界建模也使多模态混训比文本符号环境更容易负迁移。",
+  "method": "作者从 200 个环境的成功/失败轨迹中抽取并人工核验 72 个 core meta-abilities。Ability-aware Environment Selection 以加权新能力覆盖为收益，同时惩罚环境 profile 相似度和负梯度余弦冲突，选出 30 个环境；Hierarchical Difficulty Curriculum 为每个环境维护独立 frontier，先用文本 observation、state、hint 和 rule 提供强脚手架与小状态，再逐步扩大 grid、实体等规模并退火到原始视觉输入。",
+  "workflow": [
+   "在每个候选环境收集成功与失败轨迹。",
+   "分解原子能力并构建环境能力图和 profile。",
+   "AES 按能力覆盖、冗余和梯度冲突选择 30 个环境。",
+   "HDC 先在强文本脚手架和较小状态空间训练。",
+   "达到阈值后逐级扩大状态并撤除脚手架，最终回到原始视觉环境。"
+  ],
+  "findings": [
+   "论文表 1 报告：混训相对单环境训练，文本符号版由 70.4 降至 69.5，多模态版由 48.4 降至 43.2。",
+   "论文表 3 报告：AES 的平均相对增益为 95.6%，AES+HDC 在两种模型规模及 ID/OOD 组上的平均相对增益为 143.2%。",
+   "论文表 4 报告：AES 的 OOD 相对增益为 40.3%；去掉冗余控制后为 25.3%，去掉冲突控制后为 2.8%。",
+   "附录扩算力实验中，ID 表现从 40 环境的 66.3% 降到 160 环境的 42.1%，OOD 从 60 环境的 36.4% 降到 160 环境的 23.6%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：AES 可用于挑选覆盖 endpoint/commit、晚注入工具、输入中断等能力的最小回归环境集；HDC 可从显式 transcript/tool-state 脚手架逐步退火到真实流式界面。",
+   "编辑判断：论文贡献位于训练和评测环境分布，不提供推理期全双工，也不会绕过 StreamingModelHarness 的 commit 后生成和外置 TTS 边界。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "环境池主要复用现有工作，没有研究大规模环境合成，且部分环境可能因算力限制未充分训练。",
+   "AES 的梯度冲突估计有显著离线计算开销，能力 profile 又依赖闭源模型抽取和人工检查。",
+   "实验只覆盖受控虚拟环境，论文明确不建议未经安全处理直接部署到开放真实系统。",
+   "仓库仍标为 WIP/public preview，缺少 checkpoint、完整训练 recipes、原始轨迹和结果 bundle。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/GaryStack/Beyond-MMEnv-Scaling",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Apache-2.0 仓库已有 AES、HDC、梯度分析、评测代码和部分环境池，但尚未发布权重、完整 recipes、原始轨迹、私有数据和结果包；外部环境仍受各自许可证约束。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-07T14:21:53.579732+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "b4ea70f0c5": {
-  "tl_dr": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have ena",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fail to capture nuanced cross-modal dependencies and remain vulnerable to market noise, due to limited multimodal modeling, ineffective fusion mechanisms, and inadequate robustness. To address these challenges, we propose F$^2$Agent, a novel multimodal agentic paradigm driven by the Financial Fusion of Agentic Intelligence. F$^2$Agent first deploys a hierarchy of specialized agents to comprehensively extract modality-specific signals. It further introduces a modality-aware adaptive fusion mechanism coupled with noise-robust consistency regularization to dynamically capture fine-grained inter-modality dependencies and generate noise-resilient trading signals. Extensive experiments on six stocks and cryptocurrency assets demonstrate that F$^2$Agent consistently outperforms 16 competitive baselines across multiple trading metrics, with over 20% relative improvement in annualized return on average. Notably, F$^2$Agent delivers returns of 120.48% on GOOG and 148.41% on TSLA, demonstrating its efficacy and robustness in varying market dynamics.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "F²Agent 让专门模块分别处理价格、技术指标、新闻推理和情绪，再用可学习的模态注意力融合，并通过单模态随机污染的一致性损失增强历史回测中的噪声鲁棒性。",
+  "problem": "把数值和文本直接拼入 prompt 难以表达不同时间粒度与语义的跨模态关系，也容易被噪声新闻、短期波动和市场 regime shift 误导。",
+  "method": "Market/Technical agents 用因果 Transformer 编码 30 日 OHLCV 和技术指标；News agent 是用合成 QA/应用轨迹微调的 Qwen2.5-7B，Sentiment agent 使用 DeepSeek-R1 系列模型。新闻先经检索、去重、影响排序和 top-3 摘要，再把四类表征投影到共享空间，以 modality-specific Q/K/V、joint query 和模态先验动态融合；训练时随机污染一个模态，约束原始与污染 logits 一致，并惩罚模型增加对被污染模态的注意力。",
+  "workflow": [
+   "收集价格、指标和截至当日可见的新闻。",
+   "对新闻去重、排序、摘要并缓存。",
+   "四类专门 agent 独立生成定长表征和解释。",
+   "执行自适应跨模态融合，训练时加入单模态扰动一致性约束。",
+   "输出日频方向信号，并在下一交易日由回测引擎执行 long-or-flat 策略。"
+  ],
+  "findings": [
+   "论文表 1 报告：六个主资产上 F²Agent 的平均 ARR 排名为 1.00；AAPL、GOOG、TSLA、BTCUSD 的 ARR 分别为 50.08%、120.48%、148.41%、53.57%。",
+   "论文表 2 报告：AAPL 上 concat fusion 的 ARR/SR/MDD 为 19.21%/0.33/22.99%，完整模型为 50.08%/1.22/7.83%。",
+   "附录表 17 报告：三随机种子下 AAPL 为 51.0886±4.0922 ARR、1.2096±0.0102 SR；BTCUSD 为 50.3330±3.7992、1.4984±0.0858。",
+   "附录延长至 2026-03-20 的表 14 中，AAPL、GOOG、TSLA、BTCUSD ARR 分别为 30.15%、108.75%、78.49%、12.58%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：检索工具、专门 encoder 与 post-commit 融合的分工可借鉴到晚注入工具和结构化/文本信号路由。",
+   "编辑判断：论文实际是日级批处理回测，没有 token/audio 流式输入、抢答或内置 TTS，不能外推为 StreamingModelHarness 的原生 streaming 或全双工方案。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "回测未建模滑点、市场冲击或 turnover cap，也没有 live/paper trading，历史收益不能等同可实现收益。",
+   "主测试期只有 2025-04-01 至 2025-09-30，鲁棒统计也只覆盖 AAPL、BTCUSD 和三个 seed。",
+   "附录出现未在 baseline 章节定义的 PMRL_Finance，且 AAPL ACC/MCC 在表 11 与表 19 不一致。",
+   "新闻管线依赖外部 API 和闭源模型合成数据，论文未发布数据规模、完整工件或许可证。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至核验日只有论文全文，未找到作者官方项目仓库、F²Agent checkpoint、训练/回测数据或相应许可证。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-07T14:21:53.579756+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "42219959bd": {
   "tl_dr": "Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual bu",
@@ -7270,27 +7390,41 @@
   "review_status": "abstract_backfill"
  },
  "3997ecae60": {
-  "tl_dr": "Understanding 3D scenes is fundamental to embodied intelligence, requiring joint reasoning over heterogeneous information from multiple modalities, including visual and geometric cues. However, the relevance of these modalities often varies",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Understanding 3D scenes is fundamental to embodied intelligence, requiring joint reasoning over heterogeneous information from multiple modalities, including visual and geometric cues. However, the relevance of these modalities often varies across queries. Existing Multimodal Large Language Models (MLLMs) typically rely on fixed modality combinations, overlooking query-dependent modality needs. Such a rigid design can introduce semantic noise from irrelevant modalities while underutilizing more informative ones, leading to wasted computation and diluted reasoning. To address these challenges, this paper proposes SmartMage, a unified MLLM that dynamically orchestrates heterogeneous modalities for semantic-aware 3D scene understanding. Specifically, SmartMage incorporates: (1) a Semantic-guided Modality Adaptive RouTng (SMART) module that selects task-relevant modalities using semantic priors, text-modality alignment, and modality quality; and (2) a Modality-Aware Gating Expert (MAGE) module that leverages modality priors to guide expert activation, fostering adaptive specialization in multimodal reasoning. Empirically, SmartMage achieves state-of-the-art performance across five 3D scene understanding benchmarks, and attains competitive results on RGB-only video understanding benchmarks. In our diagnostic benchmark ScanFacet, tasks are divided into fine-grained semantic categories, enabling analysis of modality combinations preferred by each semantic type. The observed modality-semantic patterns provide further evidence of SmartMage's effectiveness. Project page: https://yuecheong.github.io/SmartMage/.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "SmartMage 先按问题选择 RGB、深度、BEV、点云和体素，再让稀疏 MoE 专家按模态分工，以减少固定全模态融合的冗余和干扰。",
+  "problem": "3D MLLM 常固定拼接所有模态，但颜色、计数、位置和形状问题依赖的证据不同；无差别加入模态会带来语义噪声、计算浪费和推理信号稀释。",
+  "method": "RGB、深度和 BEV 经 Qwen3-VL 视觉塔，点云经 PointNet++，体素经 Mask3D sparse U-Net，再统一投影到 4096 维。SMART 路由综合问题语义先验、文本—模态相似度、质量估计和 RGB evidence gate，推理时按累计概率 0.8 选最多三个辅助模态；MAGE 在 LLM 多层插入 8 专家、top-2 MoE，以 token 模态预测和模态—专家亲和约束促进专家分工。",
+  "workflow": [
+   "从 RGB-D 视频、mesh 和相机姿态构造五种模态。",
+   "用 FoVSR 选出 32 个覆盖率高且清晰的关键帧。",
+   "编码并对齐各模态 token。",
+   "SMART 根据问题选择辅助模态。",
+   "MAGE 将 token 路由到模态偏好的专家并生成答案、定位或描述。"
+  ],
+  "findings": [
+   "论文表 1 报告：ScanQA/SQA3D EM@1 为 32.6/66.8，ScanRefer Acc@0.25/0.5 为 65.9/59.5，Multi3DRefer F1@0.25/0.5 为 65.4/60.7。",
+   "论文表 4 报告：动态路由五项主指标为 32.6/66.8/88.7/59.5/60.7，固定融合全部模态为 30.7/64.5/83.8/57.8/57.2。",
+   "论文表 5 报告：训练为 47.44 秒/iter，TTFT 112.5ms、E2E 538.2ms；另需 48.5ms 的 2D 和 64.8ms 的 3D 预处理。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：问题驱动的动态模态选择可启发 StreamingModelHarness 在 endpoint/commit 后选择输入模态或工具。",
+   "编辑判断：SmartMage 需要训练模型内部路由和 MoE，且 3D 特征基本预先构造；它不处理流式输入、生成中晚注入工具、外置 TTS 或全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "实验集中在 ScanNet 派生的室内数据，没有验证室外、移动传感器或跨数据集泛化。",
+   "系统依赖 mesh、相机姿态、语义标签及 Mask3D proposals，部署前提较强。",
+   "正文与附录对 MQE descriptor 的描述不同，存在复现歧义；ScanFacet 材质类也只有 55 个样本。",
+   "官方仓库仍标注训练和评测代码 coming soon，专用权重与 ScanFacet 发布物也不可用。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "unavailable",
+   "code_url": "https://github.com/YueCheong/SmartMage",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "项目页和占位仓库已公开，但 SmartMage 训练/评测代码仍为 coming soon，没有专用权重、ScanFacet 发布物或项目许可证；上游 Qwen 与 ScanNet 的许可不能代替本项目许可。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-07T19:15:26.353475+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "74359d047e": {
   "tl_dr": "Vision-language-action (VLA) models often treat main-view and wrist-view observations as parallel visual inputs, overlooking their distinct roles in robot manipulation. Fine-grained manipulation, however, benefits from anticipating how wris",
@@ -7362,27 +7496,42 @@
   "review_status": "abstract_backfill"
  },
  "f2d3c1b4b1": {
-  "tl_dr": "Training large language model agents for long-horizon tool use typically relies on interactions with real or synthesized executable environments, whose construction and verification are costly, or on external simulators that are difficult t",
-  "problem": "全双工模型在追求低延迟交互时容易牺牲推理、指令遵循或长期状态一致性。",
-  "method": "Training large language model agents for long-horizon tool use typically relies on interactions with real or synthesized executable environments, whose construction and verification are costly, or on external simulators that are difficult to ground. We introduce EnvACE, an agentic reinforcement learning method that replaces external environment interaction during training with world rehearsal. The policy alternates between acting and rehearsal: it first generates a tool call, then plays the role of the environment to produce the response induced by that action, and conditions subsequent decisions on the rehearsed response. Both roles are jointly optimized end-to-end using task-success rewards. Through world rehearsal, the policy internalizes the relationship between actions and their environment responses in its parameters, yielding an agent world model that directly supports decision making. Across BFCL-v4, tau^2-Bench, VitaBench, and FinMCP-Bench, EnvACE achieves strong and transferable performance, outperforming environment-scaling baselines in the overall evaluation. Controlled studies further show that world rehearsal consistently improves policy learning across model scales. At test time, the internalized world model enables private rehearsal before committed execution, yielding further gains under a moderate rehearsal budget without additional external interaction. Our findings establish world rehearsal as a new path toward scaling LLM agent training beyond the constraints of external environments. Our code is publicly available at https://github.com/Within-yao/EnvACE.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "EnvACE 让同一个策略轮流扮演执行者和环境，自行预演工具调用结果，并用任务奖励联合训练；推理时可在真正执行前做私有 rehearsal。",
+  "problem": "长程工具 agent 训练依赖昂贵的真实/合成可执行环境，外部 LLM 模拟器又难以扎根；传统训练也没有把动作与环境响应之间的关系直接吸收到执行策略中。",
+  "method": "共享策略先以 Act 角色生成工具调用，再切换到 Rehearse 角色预测环境响应，并把预测结果加入历史继续决策。role-wise GRPO 为两个角色分别计算基线但共同更新参数；测试时可并行或顺序生成 N 条私有想象轨迹、自评并压缩成 rehearsal memory，随后只在真实环境执行一次。",
+  "workflow": [
+   "根据任务和工具白名单提出工具调用。",
+   "策略切换为环境角色，预测该动作的响应。",
+   "在预测历史上继续 act–rehearse 直至形成完整想象轨迹。",
+   "用任务奖励和分角色基线联合执行 GRPO。",
+   "推理时汇总少量预演，再提交一次真实工具执行。"
+  ],
+  "findings": [
+   "论文表 1 报告：EnvACE-8B 在 BFCL V4、τ²-Bench、VitaBench 的平均分为 46.04/36.7/16.0，Overall 为 32.91。",
+   "论文表 2 报告：FinMCP-Bench 的 TR/TP/TF1 为 41.23/54.04/46.78。",
+   "论文图 4 报告：相对标准 GRPO，τ²-Bench 从 31.2 提升到 36.7；共享角色参数相对双独立策略从 35.5 提升到 36.7。",
+   "论文表 3 在 N=2 时报告：parallel rehearsal Overall 为 40.9，无 test-time scaling 时为 36.7；N 增到 3 后反而回落。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：私有预演可放在 StreamingModelHarness 的 endpoint/commit 与真实工具执行之间，但会增加提交后的首响应延迟，论文未量化这项成本。",
+   "编辑判断：论文工具白名单和 schema 在样本开始时固定，未验证生成中晚注入工具；文中 TTS 指 test-time scaling，不是外置 text-to-speech，也不是原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文只验证到 8B，任务主要是工具交互，test-time scaling 实验因成本只运行一次。",
+   "N=3 性能下降，说明预演受上下文长度和压缩质量约束。",
+   "部分任务奖励来自 checklist LLM judge，论文未单独报告自生成环境响应的真实性或校准误差。",
+   "想象响应可能错误并被后续动作持续消费，这是该方法的固有风险。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Within-yao/EnvACE",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Apache-2.0 仓库已提供训练和验证 launcher；论文专用 EnvACE 权重尚未上传，也未发现独立训练数据发布及其许可证。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-07T19:15:26.353526+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "e87eea6e71": {
   "tl_dr": "HarnessOpt-Bench 用隔离执行、固定评测预算和全程不可见的测试集，衡量模型能否通过修改提示、工具、记忆与控制流真正提升另一个智能体的泛化表现。",
@@ -7425,50 +7574,80 @@
   "review_status": "editorial"
  },
  "17a9aaead5": {
-  "tl_dr": "Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research. Financial research demands specialized knowledge to analyze historical patterns and forecast upcoming events. Automating financial deep research therefore requires both a layered harness to drive the research agent and a verifiable, point-in-time benchmark that prevents leakage of future information. We present FinanceHarness, a harness that runs finance-oriented tools and practitioner-guided workflows, automating financial deep research end to end: environment and data construction, the agent execution loop, and reward modeling. We further propose FinanceGym, comprising thesis-driven research questions and rubrics that combine pre-cutoff and post-cutoff criteria. Professional expert validation yields an 82% pass rate. Even leading LLMs and agents score below 40% on the rubrics, showing that FinanceGym is challenging and leaves substantial headroom. With the same open-weight backbone, FinanceHarness improves the overall rubric score from 25.3% to 32.4%. FinanceHarness is available at https://github.com/Yijia-Xiao/FinanceHarness.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "FinanceHarness 把时间截断检索、金融工具、按需 schema、技能工作流、引用约束和 rubric 训练放进同一个 agent 环境，并配套可防未来信息泄漏的 FinanceGym。",
+  "problem": "通用 deep-research 缺乏金融数据工具、时间一致性和可核验的前瞻评价，容易把截止日后的信息泄漏进历史研究任务，也难以验证复杂报告中的事实与预测。",
+  "method": "系统以带发布日期的一亿余英文网页构建 point-in-time 检索库，服务器强制 publication_date 不晚于 cutoff。FinanceHarness runtime 提供有界 agent loop、解析与 schema 校验、工具分层、skill registry、恢复、引用和预算控制；核心工具常驻，模型选定工具族后才加载完整 deferred schema。FinanceGym 从 29,669 个候选筛成 400 题、2464 条 pre/post-cutoff rubrics，同一检索和评分 contract 也用于 GRPO。",
+  "workflow": [
+   "接收研究问题与截止日期。",
+   "选择研究模式和按需 skill，并只加载必要工具 schema。",
+   "通过 PIT 搜索、文档读取及金融数据/计算工具收集证据。",
+   "生成带编号引用的报告并做轻量 grounding review。",
+   "用私有 pre/post-cutoff rubrics 评测，或把同一信号用于训练。"
+  ],
+  "findings": [
+   "论文第 3.2 节报告：500 个专家审查问题中 411 个通过，最终形成 400 题和 2464 个 rubric items。",
+   "论文表 2 报告：FinanceHarness Overall/Pre/Post 为 32.4/45.7/11.8；表中所有系统 Overall 均低于 40%。",
+   "论文表 4 在同一 Qwen3.6-27B 上报告：Vanilla 25.3、Naive 29.6、完整 Harness 32.4、GRPO RFT 32.8。",
+   "论文第 4.1 节报告：禁用 URL pre-fetch 后 visit error 从 2.1% 升至 39.4%，最终分数变化较小但轨迹成本显著上升。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：小初始工具面加选定工具族后再加载完整 schema，与 StreamingModelHarness 的晚工具注入高度相关；有界循环、schema 校验、恢复和引用终结也可直接借鉴。",
+   "编辑判断：系统默认问题已经完整提交，不处理输入流期间生成，也没有模型层全双工；外置 TTS 与其架构正交。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "PIT sandbox 只覆盖自行收集的 2025 英文网页，对非英文、付费专业数据和结构化 filings 覆盖不足。",
+   "一亿余底层 corpus、2464 条 rubrics 和 172 个 RFT 实例未公开，完整评测无法本地独立复现。",
+   "评分依赖 Gemini judge，跨骨干覆盖实验只有 11 个任务×3 次运行。",
+   "Post-cutoff 得分约 12%，远低于 pre-cutoff 约 46%，说明 harness 未解决前瞻判断本身。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Yijia-Xiao/FinanceHarness",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "框架入口和 400 题 slim set 已公开，FinanceGym 为 CC-BY-NC-4.0；关键语料、评分 rubrics、训练集及专用 GRPO 权重未发布，代码仓库的独立许可证也未明确核验。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-07T19:15:26.353552+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "328b04b2d9": {
-  "tl_dr": "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curatio",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curation, and reinforcement learning. Neither human-written verifiers nor human annotators can provide such verification at scale, so the field increasingly turns to vision-language models (VLMs) as judges of CUA trajectories. But a fundamental question has long gone unexamined: are these VLM judges reliable enough? To study it systematically, we introduce OSReward, a realistic, high-quality benchmark that evaluates VLM judges on CUA trajectories. The trajectories come from diverse agent backbones executing human-verified instructions across platforms, then rigorously labeled with ground-truth verdicts through multi-stage human annotation. Building on it, we derive OSReward-Hard, a challenge set concentrating genuinely hard cases, and OSReward-Multi for fine-grained efficiency and alignment scoring. The most comprehensive evaluation of VLM judges to date finds even state-of-the-art models fall short of an ideal judge, sharing a systematic leniency bias that mislabels failed runs as successes. The few reliable enough to trust are too expensive to run at scale, while affordable open models trail far behind. To close this gap, we construct and release OS-Shepherd-100K, an open corpus of reasoning-annotated trajectory judgments for the CUA community. On it, we train OS-Shepherd (9B and 35B), open reward models that supply low-cost, stable, and reliable reward signals, matching commercial judges at 30-60% lower cost than the frontier. Extensive analyses further inform the design of reliable CUA reward at scale. Our code, benchmark, dataset, and m",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "OSReward 用跨 Web、Windows、Ubuntu 和 Android 的人工金标轨迹测试 computer-use judge，发现主流 VLM 普遍过度接受未完成任务；OS-Shepherd 再以一致性筛选、SFT 和定向 GRPO改善失败召回。",
+  "problem": "CUA 评测、数据筛选和 RL 都要判断整条 GUI 轨迹是否完成任务，但人工 verifier 难以扩展，现有 VLM judge 的跨平台可靠性和系统偏差此前缺乏人工金标测量。",
+  "method": "作者在四个平台构造真实应用状态和任务，由多种 agent 执行，过滤环境事故后让三名标注者读取完整截图、思考和动作，再由高级 reviewer 解决分歧，得到 1019 条金标轨迹及 284 条 Hard 子集。统一 judge 协议输入完整文本历史和默认最后五帧；OS-Shepherd-100K 则从 321631 个自动 judge instance 中按跨 judge/截图配置高一致性筛选，先 SFT，再从可恢复 false-success 中挖约 3100 条样本做短程 GRPO。",
+  "workflow": [
+   "构造真实跨平台环境和经审核任务。",
+   "运行多种 agent 并过滤网络阻断、应用崩溃等环境故障。",
+   "三人标注并经 meta-review 形成 Full、Hard 和 Multi 数据。",
+   "按固定输入与解码协议评测 VLM judge 并分析宽松偏差。",
+   "用一致性语料执行 SFT，再以 false-success 定向 GRPO 训练 OS-Shepherd。"
+  ],
+  "findings": [
+   "论文表 1 报告：Full 上最佳 judge 准确率/平衡准确率为 89.7%/90.0%，Hard 上降为 69.7%/69.7%；Hard 的平均准确率约 52%。",
+   "论文第 4.3 节报告：过度接受未完成任务约占全部错误的三分之二，对每个 judge 至少占其错误的 48%。",
+   "论文第 5 节报告：删去每步思考与动作文本平均损失 7.2 个百分点，并翻转 22.7% 的 verdict。",
+   "论文表 4 报告：OS-Shepherd-9B 的 Full/Hard 为 86.1%/60.2%，35B-A3B 为 85.6%/62.7%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：它适合作为 StreamingModelHarness 的离线评测和训练奖励层，在 endpoint/commit 后等一轮工具轨迹完成，再用完整文本历史和尾部画面判断结果。",
+   "编辑判断：晚注入工具可以写入轨迹后统一评分，但 OS-Shepherd 不负责实时工具编排；它也不提供边听边说、模型层流式或全双工能力。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "Full 只有 1019 条、覆盖四个平台且没有 macOS；Hard 按人工分歧和失败富集，不代表真实部署分布。",
+   "主协议只看最后五帧；论文外部分析中，轨迹超过 16 步时准确率由 0.76 降至 0.57。",
+   "OS-Shepherd-100K 是 judge ensemble 的高一致性自动标签，不是人工金标，仍可能保留共享偏差。",
+   "Multi 只覆盖成功轨迹，细粒度 alignment 样本有限，且与人工 verifier 的一致性不等于重新人工核验后的真实准确率。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/OS-Copilot/OSReward",
+   "model_url": "https://huggingface.co/OS-Copilot/OS-Shepherd-9B",
+   "note": "9B/35B-A3B 权重已按 Apache-2.0 开放，Full/Hard 与 OS-Shepherd-100K 可获取；训练流水线尚未齐全，代码仓库和数据卡未声明许可证，训练语料还需人工批准。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-07T19:15:26.353560+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "7e8f592a3d": {
   "tl_dr": "Model checkpoints are growing in both number and size, which makes archival, transfer, and deployment increasingly costly. General-purpose compressors can reduce storage requirements but ignore tensor structure, whereas existing tensor-spec",
@@ -7604,27 +7783,42 @@
   "review_status": "editorial"
  },
  "25004da864": {
-  "tl_dr": "Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning spe",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning speed, quality of synthesized samples and lay foundation for later applications. This report presents series of KVAE tokenizers for audio, image and video, all designed for subsequent text-conditioned generation: KVAE-Audio, a continuous full-band 48 kHz tokenizer with a 50 Hz latent of 64 channels; KVAE-3D -- two causal video tokenizers for 4x16x16 and 4x8x8 compression; KVAE-2D, an image model, compressing input by factor of 8 with 32 channels. We demonstrate that reconstruction (PSNR, LPIPS, PESQ, etc.) and generation results on objective (Frechet Distance, CLIP score, CLAP score, etc.) and subjective (side-by-side evaluation) metrics matches or surpasses frontier opensource tokenizers, such as VAEs from Wan-2.2, HunyuanVideo-1.5, FLUX.2, MovieGen, StableAudio and MMAudio. Considering difficulty of development, we share with community training details, model selection method and ablation on design choices. The code is publicly available at https://github.com/kandinskylab/kvae and https://github.com/kandinskylab/kvae-audio.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "KVAE 是面向潜空间扩散生成的一组音频、图像和视频连续 VAE tokenizer；它不只比较重建质量，还用固定生成器检验 latent 是否容易学习。",
+  "problem": "tokenizer 决定潜空间扩散模型的信息容量、压缩成本和生成难度，但高重建指标不保证 latent 适合扩散建模；视频还要兼顾因果处理与高时空压缩，音频则要保存 48kHz 全频带细节。",
+  "method": "KVAE-3D 采用无 attention 的因果 Conv3D、分离时空采样和推理缓存，提供 4×8×8/16ch 与 4×16×16/64ch 两档；KVAE-2D 以四层卷积残差 VAE 做 8×8/32ch 压缩；KVAE-Audio 则把 DAC 改成连续高斯瓶颈，以多级 stride、Snake 激活和瓶颈 attention 将 48kHz 音频压到 50Hz/64ch。候选模型先用 CDS 等 latent 诊断筛选，再冻结 tokenizer、用同一 0.6B DiT 和训练预算比较生成质量。",
+  "workflow": [
+   "把音频、图像或视频编码成连续高斯 latent。",
+   "以重建、KL、感知、频谱及对抗目标分阶段训练相应 tokenizer。",
+   "用 CDS 等低成本诊断筛除不利于生成建模的候选。",
+   "冻结 tokenizer，在相同数据、DiT 和步数下训练生成器进行 swap 对照。",
+   "综合重建、生成指标与盲测选择模型，并仅微调 decoder 回收重建质量。"
+  ],
+  "findings": [
+   "论文表 1 报告：MCL-JCV 上 KVAE-3D 4×8×8 的 PSNR/SSIM/LPIPS 为 36.0/0.92/0.047；4×16×16 版本为 35.2/0.91/0.058。",
+   "论文表 2 报告：KVAE-2D-2.0 在 OmniDoc-TokenBench 的 PSNR、SSIM、NED 为 28.05、0.957、0.976，但 LPIPS 0.028 和 FID 1.74 并非表中最佳。",
+   "论文表 4(a) 报告：固定 AudioCaps 生成器时，KVAE-Audio 的 CLAP 为 0.344、CE 为 3.982、PQ 为 6.242，三项 FAD 为 15.381/193.760/1.210。",
+   "论文第 5.1 节在 14 个图像 tokenizer 上得到 CDS 与 Bradley–Terry 视觉质量 Pearson r=0.906；作者明确将其限定为样本内关联。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：KVAE-Audio 可作为外置音频生成或压缩层候选，视频因果缓存也可为流式输入预处理提供实现参考。",
+   "编辑判断：它不是对话模型或 TTS，也不改变 StreamingModelHarness 在 endpoint/commit 后才生成、工具可晚注入且 TTS 外置的架构边界，不能作为原生全双工证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "CDS 只在 14 个已见配置上显示样本内相关，且训练动态仅展示一条轨迹，尚未证明样本外预测能力。",
+   "音频 FAD backbone 只处理 16–32kHz，不能验证 16kHz 以上的全频带生成优势；部分 alignment 训练细节留待后续论文。",
+   "视觉训练使用未发布的约 1000 万图像和 200 万视频，音频数据也混合开放与专有来源。",
+   "论文称所有模型采用 MIT，但 3D-2.0 和 2D-2.0 模型卡标为 Apache-2.0，许可证口径不一致。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/kandinskylab/kvae",
+   "model_url": "https://huggingface.co/kandinskylab/KVAE-Audio",
+   "note": "统一仓库和音频仓库提供推理实现，Audio 与两个 3D-2.0 权重可下载；2D-2.0 页面仍为 coming soon，训练数据未发布。代码为 MIT，Audio 模型卡为 MIT，3D/2D 模型卡为 Apache-2.0。"
   },
-  "source_depth": "abstract",
   "generated_at": "2026-08-09T19:07:31.969469+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "review_status": "editorial"
  },
  "79837be439": {
   "tl_dr": "Activity Frames 用零语言模型的确定性编译器，把本地屏幕捕获压缩为可审计的情景记忆，并将重复操作编译成带守卫的可重放流程。",

@@ -31,7 +31,7 @@
 <title>KVAE: Family of Tokenizers for Multimodal Generative Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/25004da864.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/25004da864.html</guid>
-<description>Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning speed, quality of synthesized samples and lay foundation for la</description>
+<description>KVAE 将音频、图像和视频 tokenizer 放进统一的“重建—压缩—扩散可学习性”框架，并用固定生成器对照避免只凭重建指标选型。其音视频模型已开放多数权重，但训练数据、部分音频细节和 2D-2.0 权重仍不完整；对 StreamingModelHarness 主要是外置音频/视频基础设施参考，不改变 commit 后生成边界。</description>
 </item>
 <item>
 <title>grapeV-ai/Qwen3-Omni-30B-A3B-Instruct-GGUF</title>
@@ -127,7 +127,7 @@
 <title>SmartMage: Dynamic Modality Orchestration for 3D Scene Understanding</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/3997ecae60.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3997ecae60.html</guid>
-<description>Understanding 3D scenes is fundamental to embodied intelligence, requiring joint reasoning over heterogeneous information from multiple modalities, including visual and geometric cues. However, the relevance of these modalities often varies across queries. Existing Multimodal Large Language Models (</description>
+<description>SmartMage 把 3D 推理拆成问题驱动的模态选择和模态感知专家路由，优于固定全模态融合。它可启发 StreamingModelHarness 在 commit 后选择输入或工具，但需要模型内部训练，且当前仓库仍是占位状态，不涉及流式语音或全双工。</description>
 </item>
 <item>
 <title>World-to-Wrist: Task-Conditioned Future Wrist Modeling for Fine-Grained Robot Manipulation</title>
@@ -151,7 +151,7 @@
 <title>EnvACE: Internalizing Environment Dynamics via World Rehearsal for Agentic Reinforcement Learning</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/f2d3c1b4b1.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f2d3c1b4b1.html</guid>
-<description>Training large language model agents for long-horizon tool use typically relies on interactions with real or synthesized executable environments, whose construction and verification are costly, or on external simulators that are difficult to ground. We introduce EnvACE, an agentic reinforcement lear</description>
+<description>EnvACE 让策略轮流扮演执行者和环境，以分角色 GRPO 内化工具响应，并在真实执行前做私有预演。它与 StreamingModelHarness 的 commit 后工具执行很契合，但会增加首响应延迟、未验证晚注入工具；论文中的 TTS 指 test-time scaling，不是语音合成。</description>
 </item>
 <item>
 <title>HarnessOpt-Bench: Evaluating LLMs at Harness Optimization</title>
@@ -163,13 +163,13 @@
 <title>FinanceHarness: Autonomous Financial Deep Research Framework</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/17a9aaead5.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/17a9aaead5.html</guid>
-<description>Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research. Financial research demands specialized knowledge to analyz</description>
+<description>FinanceHarness 将时间截断检索、金融工具、按需 schema、引用约束和 rubric 训练统一到一个 agent 环境，在相同 27B 骨干上把总分从 25.3% 提至 32.4%。它是 StreamingModelHarness 晚工具注入和有界执行循环的直接参考，但关键语料、评分 rubrics 和专用权重未公开。</description>
 </item>
 <item>
 <title>OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/328b04b2d9.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/328b04b2d9.html</guid>
-<description>Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent&#x27;s actions, states, and reasoning. Verifying whether it fulfilled the task instruction is central to CUA evaluation, data curation, and reinforcement learning. Neither human-written verifie</description>
+<description>OSReward 用跨平台人工金标揭示 CUA judge 普遍会把未完成轨迹误判为成功，并训练了更低成本的 OS-Shepherd。它适合在 StreamingModelHarness 一轮 post-commit 工具轨迹结束后做结果验证或奖励建模，但不负责实时编排，当前训练流水线和数据许可证仍不完整。</description>
 </item>
 <item>
 <title>Lossless Tensor Compression as Program Synthesis</title>
@@ -199,13 +199,13 @@
 <title>Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</guid>
-<description>Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiment</description>
+<description>该文用 AES 按能力覆盖、冗余和梯度冲突选择紧凑环境集，再以 HDC 逐步扩大状态并撤除文本脚手架；实验显示单纯扩环境反而会退化。它可直接帮助 StreamingModelHarness 设计覆盖 endpoint、晚工具和中断能力的回归环境分布，但不是全双工推理技术。</description>
 </item>
 <item>
 <title>F$^2$Agent: Financial Fusion of Agentic Intelligence for Multimodal Trading</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/b4ea70f0c5.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b4ea70f0c5.html</guid>
-<description>With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fa</description>
+<description>F²Agent 用四类专门 agent 处理价格、指标、新闻和情绪，再以动态模态注意力及扰动一致性约束生成日频交易信号。历史回测成绩突出，但没有开放代码、权重或数据，且缺少真实交易摩擦验证；对 StreamingModelHarness 的价值限于 post-commit 多源路由。</description>
 </item>
 <item>
 <title>nicedreamzapp/nemotron-omni-mlx</title>

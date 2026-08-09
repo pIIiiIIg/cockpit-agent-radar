@@ -2,7 +2,7 @@
   "schema_version": 1,
   "timezone": "Asia/Shanghai",
   "catchup_start": "2026-08-08",
-  "updated_at": "2026-08-09T21:30:00+08:00",
+  "updated_at": "2026-08-09T15:12:43.057904+00:00",
   "days": {
     "2026-08-08": {
       "stages": {
@@ -95,12 +95,13 @@
       "stages": {
         "fulltext_review": {
           "status": "complete",
-          "input_commit": "29538e2",
-          "output_commit": "SELF",
-          "artifact": "data/review_history.json#origin.catchup_for=2026-08-09",
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "data/review_history.json",
           "retries": 1,
-          "next_stage": "problem_report",
-          "updated_at": "2026-08-09T20:15:00+08:00"
+          "next_stage": "",
+          "updated_at": "2026-08-09T15:12:43.057904+00:00",
+          "error": ""
         },
         "problem_report": {
           "status": "complete",
