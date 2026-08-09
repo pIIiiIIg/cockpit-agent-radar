@@ -6883,5 +6883,143 @@
   "generated_at": "2026-08-06T20:49:43.971461+08:00",
   "generated_by": "deterministic abstract backfill",
   "review_status": "abstract_backfill"
+ },
+ "dec8c98235": {
+  "tl_dr": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimo",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-07T11:50:34.080812+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "b4ea70f0c5": {
+  "tl_dr": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have ena",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fail to capture nuanced cross-modal dependencies and remain vulnerable to market noise, due to limited multimodal modeling, ineffective fusion mechanisms, and inadequate robustness. To address these challenges, we propose F$^2$Agent, a novel multimodal agentic paradigm driven by the Financial Fusion of Agentic Intelligence. F$^2$Agent first deploys a hierarchy of specialized agents to comprehensively extract modality-specific signals. It further introduces a modality-aware adaptive fusion mechanism coupled with noise-robust consistency regularization to dynamically capture fine-grained inter-modality dependencies and generate noise-resilient trading signals. Extensive experiments on six stocks and cryptocurrency assets demonstrate that F$^2$Agent consistently outperforms 16 competitive baselines across multiple trading metrics, with over 20% relative improvement in annualized return on average. Notably, F$^2$Agent delivers returns of 120.48% on GOOG and 148.41% on TSLA, demonstrating its efficacy and robustness in varying market dynamics.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-07T11:50:34.080812+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "42219959bd": {
+  "tl_dr": "Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual bu",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual business evidence and effectively integrate it to improve decision quality. We introduce C-SUITEBENCH, a controlled multimodal benchmark that includes five decision tasks under paired text-only and multimodal conditions across 50 scenarios. We place nine frontier models in the role of a chief executive officer and evaluate their decision-making ability. Multimodal inputs consistently improve evidence-centric reasoning, with the largest and most reliable gains appearing in risk forecasting and board-facing justification. However, we uncover a multimodal integration paradox: adding visual business information degrades constrained resource allocation for all nine models, even as visual grounding itself improves. Ablation experiments reveal that this failure emerges from signal crowding, although each visual channel helps individually, their combination disrupts constraint satisfaction during decoding. These findings demonstrate that visual perception and constrained action are separable bottlenecks in multimodal agents, and that indiscriminate visual augmentation can harm high-stakes decision making, motivating selective grounding strategies for future executive AI systems.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-07T11:50:34.080812+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "7dc9a079ca": {
+  "tl_dr": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple",
+  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
+  "method": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-07T11:50:34.080812+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "e222d7b717": {
+  "tl_dr": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existin",
+  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
+  "method": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and attack diversity, typically covering only voice conversion (VC) or text-to-speech (TTS) attacks. We introduce AffectDF, the most comprehensive benchmark for emotionally expressive speech deepfakes, spanning TTS, VC, emotional VC, and LALM-based spoofing attacks across both acted and spontaneous emotional speech. AffectDF contains approximately 260 hours of speech generated using 21 spoofing attacks across five emotional states. We benchmark state-of-the-art SDD systems under conventional and emotional spoofing conditions, including LALM-based detectors evaluated with both inference-only prompting and supervised fine-tuning. Our experiments reveal severe robustness degradation when models trained on conventional benchmarks are evaluated on AffectDF, with several systems approaching near-random performance. Surprisingly, even large-scale emotional training does not consistently improve cross-domain robustness, indicating that current SDD systems fail to learn generalized spoof representations under emotional and prosodic variability. Robustness further varies substantially across emotional states, attack families, and acted vs spontaneous emotional speech conditions. These findings expose fundamental limitations of current SDD systems and establish AffectDF as a benchmark for developing more robust spoof detection models.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-07T11:50:34.080812+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
+ },
+ "8f3e4a91fb": {
+  "tl_dr": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of",
+  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
+  "method": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.",
+  "workflow": [],
+  "findings": [],
+  "project_fit": [
+   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+  ],
+  "limitations": [
+   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+  ],
+  "open_source": {
+   "status": "unknown",
+   "code_url": "",
+   "model_url": "",
+   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+  },
+  "source_depth": "abstract",
+  "generated_at": "2026-08-07T11:50:34.080812+08:00",
+  "generated_by": "deterministic abstract backfill",
+  "review_status": "abstract_backfill"
  }
 }

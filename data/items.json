@@ -1,6 +1,193 @@
 {
- "generated": "2026-08-06T20:49:33.489591+08:00",
+ "generated": "2026-08-09T16:19:20.833760+08:00",
  "items": [
+  {
+   "id": "2084e22174",
+   "kind": "repo",
+   "source": "github",
+   "title": "nrl-ai/edgevox",
+   "url": "https://github.com/nrl-ai/edgevox",
+   "published": "2026-08-09",
+   "found": "2026-08-09T16:19:20.833760+08:00",
+   "score": 8,
+   "tags": [
+    "voice agent"
+   ],
+   "summary_en": "Offline voice agent framework for robots — agents, skills, workflows, sub-second voice pipeline, 2D/3D simulation (IR-SIM + MuJoCo), 16 languages, 56 voices, ROS2-native. Runs on CPU/CUDA/Metal, no cloud. agent-framework edge-ai faster-whisper kokoro llama-cpp llm local-ai mujoco offline-ai piper python robotics ros2 simulation stt tts voice-assistant voice-pipeline whisper",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 12
+  },
+  {
+   "id": "200683e86b",
+   "kind": "repo",
+   "source": "github",
+   "title": "lance-format/lance-context",
+   "url": "https://github.com/lance-format/lance-context",
+   "published": "2026-08-07",
+   "found": "2026-08-09T16:19:20.833760+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Manage Multimodal Agentic Context Lifecycle with Lance",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 77
+  },
+  {
+   "id": "923f6e1098",
+   "kind": "repo",
+   "source": "github",
+   "title": "thekaifansari01/Jarvis-OS-Agent",
+   "url": "https://github.com/thekaifansari01/Jarvis-OS-Agent",
+   "published": "2026-08-09",
+   "found": "2026-08-09T16:19:20.833760+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Autonomous AI Agent for Windows — voice‑controlled coding, PC automation, Android control, email/WhatsApp, and lifelong memory. Zero line‑drift code editing. Open‑source. ai-agent android-control automation-tool autonomous-agents chromadb code-editor developer-tools gemini-api groq llm open-source personal-assistant python voice-assistant whatsapp-automation windows-automation",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "3bd65d3cc8",
+   "kind": "repo",
+   "source": "github",
+   "title": "phuetz/code-buddy",
+   "url": "https://github.com/phuetz/code-buddy",
+   "published": "2026-08-09",
+   "found": "2026-08-09T16:19:20.833760+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Open-source multi-provider AI coding agent — terminal + Electron desktop (Cowork) + 24/7 multi-AI fleet, free-first on local Ollama. Opt-in, human-gated evolutionary self-improvement that ingests research to set its own goals. 15 LLM providers (Claude, GPT, Gemini, Grok), ~110 tools, MCP, voice+vision companion. agentic ai-agent ai-coding-assistant autonomous-agents chatgpt claude cli coding-agent computer-use developer-tools electron free llm local-llm mcp multi-agent ollama self-hosted tui typescript",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 30
+  },
+  {
+   "id": "dec8c98235",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning",
+   "url": "https://arxiv.org/abs/2608.03571v2",
+   "published": "2026-08-04",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 12,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Recent works train agents by constructing large-scale multimodal environment pools. However, we find that simply increasing the number of multimodal environments does not always benefit. We further analyze the limitations in current multimodal environment distributions through a series of experiments. Based on these findings, we study how to build more effective training environment distributions from two dimensions: **diversity** and **difficulty structure**. For diversity, we propose **Ability-aware Environment Selection (AES)** to obtain diverse environment sets. For difficulty structure, we propose **Hierarchical Difficulty Curriculum (HDC)**, which organizes curriculum learning through two difficulty levels: harness weakening and state-scale progression. Experiments show that AES and HDC effectively improve multimodal agent training.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "b4ea70f0c5",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "F$^2$Agent: Financial Fusion of Agentic Intelligence for Multimodal Trading",
+   "url": "https://arxiv.org/abs/2608.05668v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 10,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "With increasingly diverse and heterogeneous information sources, effectively leveraging multimodal data is becoming pivotal for high-quality financial trading. Although recent advancements in Large Language Model (LLM)-based agents have enabled the ingestion of multimodal inputs, existing methods fail to capture nuanced cross-modal dependencies and remain vulnerable to market noise, due to limited multimodal modeling, ineffective fusion mechanisms, and inadequate robustness. To address these challenges, we propose F$^2$Agent, a novel multimodal agentic paradigm driven by the Financial Fusion of Agentic Intelligence. F$^2$Agent first deploys a hierarchy of specialized agents to comprehensively extract modality-specific signals. It further introduces a modality-aware adaptive fusion mechanism coupled with noise-robust consistency regularization to dynamically capture fine-grained inter-modality dependencies and generate noise-resilient trading signals. Extensive experiments on six stocks and cryptocurrency assets demonstrate that F$^2$Agent consistently outperforms 16 competitive baselines across multiple trading metrics, with over 20% relative improvement in annualized return on average. Notably, F$^2$Agent delivers returns of 120.48% on GOOG and 148.41% on TSLA, demonstrating its efficacy and robustness in varying market dynamics.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8d663c0ee6",
+   "kind": "repo",
+   "source": "github",
+   "title": "nicedreamzapp/nemotron-omni-mlx",
+   "url": "https://github.com/nicedreamzapp/nemotron-omni-mlx",
+   "published": "2026-08-06",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 10,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "Run NVIDIA's tri-modal Nemotron Omni (text+vision+audio) entirely on Apple Silicon — pure MLX runtime, parity-verified against NVIDIA's reference apple-silicon c-radio inference-engine local-llm macos mlx multimodal nemotron nvidia offline-ai omni on-device-ai parakeet speech-recognition vision-language-model",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "42219959bd",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Seeing Is Not Deciding: Can Multimodal LLMs Act as Effective CEOs?",
+   "url": "https://arxiv.org/abs/2608.05864v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual business evidence and effectively integrate it to improve decision quality. We introduce C-SUITEBENCH, a controlled multimodal benchmark that includes five decision tasks under paired text-only and multimodal conditions across 50 scenarios. We place nine frontier models in the role of a chief executive officer and evaluate their decision-making ability. Multimodal inputs consistently improve evidence-centric reasoning, with the largest and most reliable gains appearing in risk forecasting and board-facing justification. However, we uncover a multimodal integration paradox: adding visual business information degrades constrained resource allocation for all nine models, even as visual grounding itself improves. Ablation experiments reveal that this failure emerges from signal crowding, although each visual channel helps individually, their combination disrupts constraint satisfaction during decoding. These findings demonstrate that visual perception and constrained action are separable bottlenecks in multimodal agents, and that indiscriminate visual augmentation can harm high-stakes decision making, motivating selective grounding strategies for future executive AI systems.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7dc9a079ca",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "StreamArena: Toward Continuous, Interactive, and Long-Horizon Agentic Streaming Video Understanding",
+   "url": "https://arxiv.org/abs/2608.05703v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 6,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e222d7b717",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "AffectDF: The Most Comprehensive Benchmark for Speech Deepfake Detection against Emotionally Expressive Attacks",
+   "url": "https://arxiv.org/abs/2608.05507v1",
+   "published": "2026-08-06",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 5,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and attack diversity, typically covering only voice conversion (VC) or text-to-speech (TTS) attacks. We introduce AffectDF, the most comprehensive benchmark for emotionally expressive speech deepfakes, spanning TTS, VC, emotional VC, and LALM-based spoofing attacks across both acted and spontaneous emotional speech. AffectDF contains approximately 260 hours of speech generated using 21 spoofing attacks across five emotional states. We benchmark state-of-the-art SDD systems under conventional and emotional spoofing conditions, including LALM-based detectors evaluated with both inference-only prompting and supervised fine-tuning. Our experiments reveal severe robustness degradation when models trained on conventional benchmarks are evaluated on AffectDF, with several systems approaching near-random performance. Surprisingly, even large-scale emotional training does not consistently improve cross-domain robustness, indicating that current SDD systems fail to learn generalized spoof representations under emotional and prosodic variability. Robustness further varies substantially across emotional states, attack families, and acted vs spontaneous emotional speech conditions. These findings expose fundamental limitations of current SDD systems and establish AffectDF as a benchmark for developing more robust spoof detection models.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "8f3e4a91fb",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "Identity-Faithful Audio-Visual Target Speaker Extraction with REAL-2MIX and VOXBLINK2-AVSE",
+   "url": "https://arxiv.org/abs/2608.03964v2",
+   "published": "2026-08-04",
+   "found": "2026-08-07T11:49:16.820840+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "c663ef96e8",
    "kind": "paper",
@@ -396,7 +583,7 @@
    "summary_en": "An open research platform for wearable sensing, nearby-device local multimodal inference, and local-first visual assistance. ai-glasses hardware multimodel omni personas smartglasses wearable wearable-devices",
    "summary_zh": "",
    "demo": "",
-   "stars": 16
+   "stars": 17
   },
   {
    "id": "b8a6dfc35f",
@@ -533,7 +720,7 @@
    "summary_en": "I started thinking over why doesn&#x27;t fireworks support voice models. There are really good opensource models available now, like parakeet, kokoro, Qwen ASR etc but no way to use it without managing a bunch of GPUs yourself.<p>Even LLMs like Gemma 4 used by voice agents are not supported.<p>Then I figured that the inference platform needs to be optimized differently for the kind of usecase you are using. Lets take an example for LLMs, not even STT and TTS. - Coding agents -&gt; lot of cached input, needs to optimize for KV cache - Creation slides&#x2F;blogs -&gt; lots of output, needs to optimize for speculative decoding - Voice LLMs -&gt; Cached input small output, not yet figured out on how to optimize this.<p>So TTS and STT is a completely different ballgame.<p>What I don&#x27;t know is the timing, do people want to use open source models like kokoro, parakeet, Qwen etc RIGHT NOW?",
    "summary_zh": "",
    "demo": "",
-   "stars": 4
+   "stars": 5
   },
   {
    "id": "4ba62e8636",
@@ -776,7 +963,7 @@
    "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
    "summary_zh": "",
    "demo": "",
-   "stars": 30
+   "stars": 37
   },
   {
    "id": "032a32327f",
@@ -2863,7 +3050,7 @@
    "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
    "summary_zh": "",
    "demo": "",
-   "stars": 98
+   "stars": 135
   },
   {
    "id": "64bb628be2",
@@ -3006,7 +3193,7 @@
    "summary_en": "Private, on-device AI desktop app — GGUF (llama.cpp) & MLX models, a local coding agent, RAG knowledge base, Deep Research, vision and voice. 100% offline, no account, no telemetry. Windows & macOS. ai-agent ai-chat apple-silicon coding-agent desktop-app gguf huggingface llama-cpp llm local-llm mcp mlx model-context-protocol multimodal offline privacy rag rust tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 21
+   "stars": 23
   },
   {
    "id": "5e1194698a",
@@ -3531,7 +3718,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15070
+   "stars": 15091
   },
   {
    "id": "357904a773",
@@ -3742,7 +3929,7 @@
    "summary_en": "Wake Codex full-duplex voice work with “Hi Jarvis” on macOS codex full-duplex jarvis macos tauri voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 68
+   "stars": 70
   },
   {
    "id": "bd747fc4a6",
@@ -5008,7 +5195,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 11352
+   "stars": 11758
   },
   {
    "id": "be7f76beb6",
@@ -5026,7 +5213,7 @@
    "summary_en": "Create speech-to-speech voice agents that deliver personalized self-service experiences and natural-sounding voices, seamlessly integrated with telephony systems. ai-azd-templates azd-templates azure-speech-services conversational-ai javascript python",
    "summary_zh": "",
    "demo": "",
-   "stars": 86
+   "stars": 88
   },
   {
    "id": "a0731e6055",
@@ -5045,7 +5232,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7686
+   "stars": 7697
   },
   {
    "id": "5b176e49fe",
@@ -5102,7 +5289,7 @@
    "summary_en": "AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML apple-silicon asr coreml ios macos mlx neural-engine on-device speaker-diarization speech-enhancement speech-recognition speech-to-speech swift text-to-speech tts voice-activity-detection",
    "summary_zh": "",
    "demo": "",
-   "stars": 1104
+   "stars": 1111
   },
   {
    "id": "ac53c9cede",
@@ -5120,7 +5307,7 @@
    "summary_en": "Introducing Bimo 5 (Autonomous Multi-Modal AI Agent with real-time voice, vision processing, document analysis, image generation, and web search). ai-agent ai-assistant ai-chat ai-workspace autonomous-agents flask fullstack-ai image-generation llm multimodal-ai nvidia-nim openai-api python supabase voice-ai web-search",
    "summary_zh": "",
    "demo": "",
-   "stars": 7
+   "stars": 8
   },
   {
    "id": "c8b564d136",
@@ -5138,7 +5325,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5901
+   "stars": 5978
   },
   {
    "id": "293306d628",
@@ -5156,7 +5343,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 740
+   "stars": 761
   },
   {
    "id": "5d6e6e2b0a",
@@ -5192,7 +5379,7 @@
    "summary_en": "An Asynchronous Reinforcement Learning Engine for Omni-Modal Post-Training at Scale agentic-rl distributed-training grpo llm megatron-lm multi-agent multimodal post-training qwen ray-serve reinforcement-learning rlhf sglang vlm",
    "summary_zh": "",
    "demo": "",
-   "stars": 565
+   "stars": 566
   },
   {
    "id": "b8dde0aed2",
@@ -5245,7 +5432,7 @@
    "summary_en": "Specialized .NET Streams and pipes for full duplex in-proc communication, web sockets, and multiplexing",
    "summary_zh": "",
    "demo": "",
-   "stars": 711
+   "stars": 713
   },
   {
    "id": "bf76305254",
