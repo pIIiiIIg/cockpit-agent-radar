@@ -235,13 +235,13 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>运行，并为具体 backbone 和驱逐器训练 adapter；先做离线、同预算、同长会话回放。</p>
 <li><strong>OmniScope 只适合 endpoint 后 prefill。</strong> 它依赖已知 query，而 Harness 的工具</li>
 <p>schema 又是晚注入；若在 query 成熟前剪 token，可能恰好删掉工具消歧所需的音频或 乘员证据。</p>
-<li><strong>OPPO 更适合作为证据忠实度评测协议。</strong> 公开模型只是 Qwen2.5-Omni Thinker，</li>
-<p>不含已验证 Talker、打断、工具事务或实时性能，不应替换当前后端。</p>
 </ol>
 <h3>P2：训练级持续跟踪</h3>
 <ol>
 <li><strong>LS-MOPD</strong> 证明共享、冻结声学前缀的多教师蒸馏可以改善其多语 streaming ASR，</li>
 <p>但基座、教师和学生均未公开，训练依赖内部大规模数据；当前只借鉴语言分桶和路由 评测。</p>
+<li><strong>OPPO</strong> 只作为低优先证据忠实度旁线。公开模型是离线情绪推理 Thinker，没有</li>
+<p>流式、延迟、轮次、打断或工具事务证据；当前最多复用反事实遮蔽协议。</p>
 <li>今日没有直接命中 AEC、TTS 首 PCM、空间听觉或 HF MoE 同步的新候选。继续执行</li>
 <p>NAC/QIANGDA、CosyVoice 和无同步 <code>index_select</code>+<code>bmm</code> fast path 的既定实验。</p>
 </ol>
@@ -366,7 +366,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>110ms/token。</p>
 </ul>
 <h2>4. OmniScope：音频与视觉分别估计显著性的查询后压缩</h2>
-<p>来源：<a href="https://arxiv.org/abs/2607.23193v1" rel="noopener noreferrer">论文正文 / arXiv:2607.23193v1</a>； <a href="https://huggingface.co/papers/2607.23193" rel="noopener noreferrer">Hugging Face 论文页</a>； <a href="https://github.com/MAC-AutoML/OmniScope" rel="noopener noreferrer">官方代码仓库</a>。</p>
+<p>来源：<a href="https://arxiv.org/abs/2607.23193v3" rel="noopener noreferrer">论文正文 / arXiv:2607.23193v3</a>； <a href="https://huggingface.co/papers/2607.23193" rel="noopener noreferrer">Hugging Face 论文页</a>； <a href="https://github.com/MAC-AutoML/OmniScope" rel="noopener noreferrer">官方代码仓库</a>。</p>
 <h3>论文事实：问题与方法</h3>
 <p>OmniScope 观察到同一查询下音频和视觉的关键时刻经常错位，因此以 query 为共享语义 锚点，但分别估计两种模态显著性和预算。视觉执行 Anchor–Delta 空时剪枝，音频按秒 聚合相关性并在秒内做 bipartite soft matching。方法免训练，作用在送入 OmniLLM 前的 输入 token。</p>
 <h3>论文事实：明确结果</h3>
@@ -394,7 +394,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>query 必须预先存在；没有持续更新、barge-in、工具注入或多轮持久 KV。</li>
 <li>外部 CLIP 有固定成本；论文的离线 prefill 加速不等于生成阶段 token 加速。</li>
 </ul>
-<h2>5. OPPO：用模态遮蔽检查证据是否真的来自音频或视觉</h2>
+<h2>5. OPPO：低优先复用模态遮蔽，不作为全双工核心进展</h2>
 <p>来源：<a href="https://arxiv.org/abs/2606.25325v2" rel="noopener noreferrer">论文正文 / arXiv:2606.25325v2</a>； <a href="https://github.com/ZhiyuanHan-Aaron/OPPO" rel="noopener noreferrer">官方代码仓库</a>； <a href="https://huggingface.co/AaronHan/OPPO" rel="noopener noreferrer">官方模型页</a>。</p>
 <h3>论文事实：问题与方法</h3>
 <p>OPPO 面向多模态情绪推理：模型可能遗漏音频/视觉线索，也可能在对应模态被遮蔽后仍 编造该模态证据。方法先把参考推理拆成视觉、音频和情绪线索，以嵌入匹配给生成子句 计算覆盖奖励；训练时随机遮蔽 70% 视频或音频，只在对应证据 token 上约束完整输入与 遮蔽输入的分布差异，并在 SFT 后执行 GRPO。</p>
@@ -407,6 +407,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ul>
 <h3>开放状态</h3>
 <ul>
+<li>论文正文为 CC BY 4.0。</li>
 <li>官方仓库公开 SFT、GRPO、奖励、推理和评测代码，顶层为 Apache-2.0。</li>
 <li>官方 HF 页提供 Qwen2.5-Omni Thinker 权重，但模型卡没有 license 字段，权重许可</li>
 <p>记为未知。</p>
@@ -424,7 +425,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <h2>6. LS-MOPD：多语 ASR 的按语言专家蒸馏</h2>
 <p>来源：<a href="https://arxiv.org/abs/2608.03610v1" rel="noopener noreferrer">论文正文 / arXiv:2608.03610v1</a>。</p>
 <h3>论文事实：问题与方法</h3>
-<p>LS-MOPD 针对普通话、中文方言和英语联合训练时的优化冲突。未公开的 2.3B NIM4-ASR 由 0.6B FireRed Conformer、4× 下采样 adaptor 和 Qwen3-1.7B decoder 组成。三名 语言专家和一名 generalist 分别用 DAPO 训练；学生在自己的 on-policy 转写轨迹上按 输入语言选择验证集排名靠前的教师，并最小化多教师 token 分布的加权 reverse-KL。</p>
+<p>LS-MOPD 针对普通话、中文方言和英语联合训练时的优化冲突。未公开的 2.3B NIM4-ASR 由 0.6B FireRed Conformer、4× 下采样 adaptor 和 Qwen3-1.7B decoder 组成。三名 语言专家和一名 generalist 分别用 DAPO 训练；学生在自己的 on-policy 转写轨迹上按 输入语言选择验证集排名靠前的教师，并最小化多教师 token 分布的加权 reverse-KL。 论文的 streaming 设置使用 640ms chunk，并保留前四个 chunk 作左上下文。</p>
 <h3>论文事实：明确结果</h3>
 <ul>
 <li>共享冻结声学前缀的三教师方案，offline 平均错误率为 4.45%；基座、generalist RL</li>
@@ -442,7 +443,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <h3>局限</h3>
 <ul>
 <li>只验证一个未公开基座；复现依赖约 56 万小时内部预训练和多个 RL 教师。</li>
-<li>streaming 指 chunked encoder ASR，不代表同步听说、语义判停或 TTS。</li>
+<li>streaming 指 640ms chunked encoder ASR，不代表同步听说、语义判停或 TTS。</li>
 <li>方法不直接改善工具事务、打断、多乘员身份或车态安全。</li>
 </ul>
 <h2>今日执行顺序</h2>
@@ -468,6 +469,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>MoE 内核优化。</p>
 <li>OmniScope 与 RestoreKV 不是同一阶段：前者在 query 已知时减少输入 token，后者在</li>
 <p>query 未知时为驱逐后的 KV 补恢复状态。</p>
+<li>OmniScope 当前为同一 arXiv ID 的 v3 修订版，不因版本更新另建候选。</li>
 <li>OPPO 论文、GitHub 和 HF 权重是同一技术谱系；LS-MOPD 仅有论文来源，不拆分为</li>
 <p>“教师模型”和“学生模型”两个候选。</p>
 <li>今日没有重大新增的 AEC/降噪、空间听觉、在线语义判停、原生全双工后端或 TTS；</li>
