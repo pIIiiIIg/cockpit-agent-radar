@@ -121,7 +121,7 @@
 <title>Helping Music Co-Creation Agents &#x27;Listen&#x27; Well: Hierarchical Self-Supervised World Models for Understanding and Generation</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html</guid>
-<description>Collaborative music agents need internal representations rich enough to support both understanding and generation, yet flexible enough for a workflow where the human retains agency. We present a hierarchical self-supervised ``world model&#x27;&#x27; for symbolic music: a 2.55M-parameter Swin V2 encoder traine</description>
+<description>本文用无标签层级式 Swin V2 编码器学习符号音乐的多尺度表征，再用冻结表征驱动快速条件流匹配生成。它适合作为 commit 后生成建议的专用音乐模块，但不提供流式音频理解、原生全双工对话或语音输出。</description>
 </item>
 <item>
 <title>SmartMage: Dynamic Modality Orchestration for 3D Scene Understanding</title>
@@ -187,7 +187,7 @@
 <title>Recursive Synthesis for Long-Horizon Terminal Tasks</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</guid>
-<description>High-quality long-horizon training data for terminal agents is expensive to produce, often costing hundreds to thousands of dollars per task, because each task must keep the instruction, environment, reference solution, and verifier mutually consistent. Human authoring does not scale, and direct gen</description>
+<description>RST 把已验证终端任务当作下一轮种子，先增长可执行解法，再对齐环境、验证器和公开契约。任务难度和下游训练收益都随递归增加，但核心生成代码未发布，数据近重复尾部与论文内部数值冲突需要审慎处理。</description>
 </item>
 <item>
 <title>On-Policy Delta Distillation for Multilingual Math Reasoning</title>

@@ -4,6 +4,234 @@
   "description": "Only transitions to review_status=editorial and source_depth=fulltext; abstract_backfill and missing explanations are never reviews.",
   "entries": [
     {
+      "id": "f80e382d25",
+      "title": "ContinualSkillBench: Can LLM Agents Truly Evolve Their Capabilities?",
+      "paper_url": "https://huggingface.co/papers/2608.03874",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/f80e382d25.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "f80e382d25",
+      "mirror_of": null
+    },
+    {
+      "id": "eae2eebc10",
+      "title": "RIME: Enabling Large-Scale Agentic Music Post-Production",
+      "paper_url": "https://arxiv.org/abs/2607.19605v2",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/eae2eebc10.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "eae2eebc10",
+      "mirror_of": null
+    },
+    {
+      "id": "ea5ecf3351",
+      "title": "Σ-Mem: An Online Reliability Memory for LLM-based Multi-Agent Systems",
+      "paper_url": "https://huggingface.co/papers/2607.27958",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/ea5ecf3351.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "ea5ecf3351",
+      "mirror_of": null
+    },
+    {
+      "id": "e6151be63a",
+      "title": "PosterMELD: Multi-Agent Paper-to-Poster Generation for Controllable Design Diversity with Editable Print-Ready Outputs",
+      "paper_url": "https://huggingface.co/papers/2608.02218",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/e6151be63a.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "e6151be63a",
+      "mirror_of": null
+    },
+    {
+      "id": "be24365c7e",
+      "title": "Search, Inspect, Fetch: Exploiting Boolean Retrieval for Deep-Research Agents",
+      "paper_url": "https://huggingface.co/papers/2608.02751",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/be24365c7e.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "be24365c7e",
+      "mirror_of": null
+    },
+    {
+      "id": "af56961fe9",
+      "title": "GDPevo: Evaluating Agent Self-Evolution on Real Business Tasks",
+      "paper_url": "https://huggingface.co/papers/2608.03764",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/af56961fe9.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "af56961fe9",
+      "mirror_of": null
+    },
+    {
+      "id": "6b5610598c",
+      "title": "Helping Music Co-Creation Agents 'Listen' Well: Hierarchical Self-Supervised World Models for Understanding and Generation",
+      "paper_url": "https://huggingface.co/papers/2608.04378",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "6b5610598c",
+      "mirror_of": null
+    },
+    {
+      "id": "69549f8458",
+      "title": "ExplainBench: Evaluating Code Explanations from Agents",
+      "paper_url": "https://huggingface.co/papers/2607.26451",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/69549f8458.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "69549f8458",
+      "mirror_of": null
+    },
+    {
+      "id": "401cad35ea",
+      "title": "Filesystem-Based Memory for LLM Agents: Organization, Evolution, and Sustainability",
+      "paper_url": "https://huggingface.co/papers/2607.26637",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/401cad35ea.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "401cad35ea",
+      "mirror_of": null
+    },
+    {
+      "id": "2d089ea931",
+      "title": "Self-Evolving Coding Agents",
+      "paper_url": "https://huggingface.co/papers/2608.03392",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2d089ea931.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "2d089ea931",
+      "mirror_of": null
+    },
+    {
+      "id": "2562c5368a",
+      "title": "Recursive Synthesis for Long-Horizon Terminal Tasks",
+      "paper_url": "https://huggingface.co/papers/2608.05466",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "2562c5368a",
+      "mirror_of": null
+    },
+    {
+      "id": "02c84a448e",
+      "title": "MerchantBench: Benchmarking LLM Agents for Long-Term Coherence in E-Commerce Operations",
+      "paper_url": "https://huggingface.co/papers/2607.28956",
+      "detail_url": "https://piiiiiig.github.io/cockpit-agent-radar/items/02c84a448e.html",
+      "reviewed_at": "2026-08-10T02:10:12.391937+08:00",
+      "review_date": "2026-08-10",
+      "source_depth": "fulltext",
+      "review_status": "editorial",
+      "origin": {
+        "kind": "automation-batch",
+        "run_id": "deep-review-20260809T181012Z",
+        "batch": "deep-review",
+        "catchup_for": "2026-08-10"
+      },
+      "backfilled": false,
+      "canonical_id": "02c84a448e",
+      "mirror_of": null
+    },
+    {
       "id": "fb41881aa5",
       "title": "ToolArtist: Tool-Using Unified Multimodal Models for Agentic Image Generation",
       "paper_url": "https://huggingface.co/papers/2608.04436",

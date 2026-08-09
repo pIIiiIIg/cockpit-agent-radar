@@ -183,29 +183,29 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-02 · ◈ 3
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents from directly constraining retrieval to document fields and often carries irrelevant page content into their context. We introduce SIEVE, a search-inspect-fetch interface driven by fielded Boolean retrieval (BQL). SIEVE filters candidates over document fields, ranks the admitted set, presents structure-rich result cards for inspection, and fetches only selected sections. Across three QA collections, SIEVE achieves higher accuracy than the most accurate conventional Search-Visit configuration on each collection while using 20.7-50.6% fewer tokens. Further analyses show that BQL filtering improves all tested rankers and that the accuracy-context advantage persists across retriever choices and agent backbones. Code and data are available at https://github.com/ielab/skim-search-agent. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Sieve 把候选过滤、排序、检查和章节读取拆成独立决策，在三个 QA 集合上同时提高准确率并减少上下文。它适合 commit 后的检索注入，但仍依赖顺序工具循环、离线语料和较多零命中回退。</span>
     <span class="l-en">Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents from directly constraining retrieval to document fields and often carries irrelevant page content into their context. We introduce SIEVE, a search-inspect-fetch interface driven by fielded Boolean retrieval (BQL). SIEVE filters candidates over document fields, ranks the admitted set, presents structure-rich result cards for inspection, and fetches only selected sections. Across three QA collections, SIEVE achieves higher accuracy than the most accurate conventional Search-Visit configuration on each collection while using 20.7-50.6% fewer tokens. Further analyses show that BQL filtering improves all tested rankers and that the accuracy-context advantage persists across retriever choices and agent backbones. Code and data are available at https://github.com/ielab/skim-search-agent.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents fro</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Sieve 让代理先用字段化布尔条件筛选网页，再检查结构卡片并只取指定章节，在三个 QA 集合上同时提高准确率并减少 20.7%–50.6% token。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>常规 Search–Visit 会把结构化网页压成整页读取，无法按标题、章节或日期等字段限定候选，也会把无关内容带入上下文。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents from directly constraining retrieval to document fields and often carries irrelevant page content into their context. We introduce SIEVE, a search-inspect-fetch interface driven by fielded Boolean retrieval (BQL). SIEVE filters candidates over document fields, ranks the admitted set, presents structure-rich result cards for inspection, and fetches only selected sections. Across three QA collections, SIEVE achieves higher accuracy than the most accurate conventional Search-Visit configuration on each collection while using 20.7-50.6% fewer tokens. Further analyses show that BQL filtering improves all tested rankers and that the accuracy-context advantage persists across retriever choices and agent backbones. Code and data are available at https://github.com/ielab/skim-search-agent.</p>
-
-
+  <p>BQL 决定候选资格，BM25、稠密检索或 RRF 排序候选；结果卡展示标题、章节、匹配字段和 25-token 查询相关摘要，fetch 只返回命名章节。零结果时先按满足约束数量返回部分匹配，再用近似 BM25 回退。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>代理生成带字段、AND/OR/NOT、短语、通配符或日期范围的 BQL。</li><li>布尔条件过滤候选，再由可替换 ranker 排序。</li><li>代理检查结构卡和短摘要，选择网页及章节。</li><li>只 fetch 所选章节，并根据新证据继续检索或作答。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>相对各数据集最强 Search–Visit，默认 Sieve 在 HotpotQA、MuSiQue、BCP-S 上分别为 45.3 vs 43.7、29.2 vs 26.1、37.2 vs 36.5，同时少用 30.4%、50.6%、20.7% token。</li><li>与相同 ranker、相同章节读取的 Search–Fetch 对照相比，BQL 在全部 9 个“ranker×collection”组合中提高准确率。</li><li>移除 25-token 查询摘要使三个集合准确率下降 2.9–6.8 个点，三项差异均显著。</li><li>三种代理骨干的 9 个组合中，Sieve 在 7 个提高准确率、8 个减少上下文。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>适合作为 StreamingModelHarness 的检索层：在 endpoint/commit 后生成前，只注入已筛选章节可降低上下文和干扰。</li><li>论文假设严格顺序的 ReAct 工具观察，没有验证生成期间的迟到结果注入、结果撤回或并发竞态。</li><li>输出仍是文本；外置 TTS 可消费最终答案，但论文没有语音延迟、打断或全双工证据。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>主实验只有一个主要骨干和三个离线 QA 集合，未证明对实时 Web 或其他领域泛化。</li><li>不同条件间存在手册、最终答案恢复覆盖和后加 context early-stop 的不对称。</li><li>36.8%–53.7% 的搜索触发回退，近似 BM25 与 Lucene 的 top-5 Jaccard 仅为 0.546。</li><li>Sieve 同时改变候选构造、卡片和读取方式，控制实验不能完全分离每个布尔操作符的贡献。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
+  <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
+     &nbsp; Sieve 代码仓库明确采用 Apache-2.0；三个构建后的数据集也已发布，但其 Hugging Face 数据卡均未声明许可证。系统没有专属模型权重，实验使用第三方骨干和 embedding 模型。</p>
+  <p><a class="btn" href="https://github.com/ielab/skim-search-agent" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
      · 2026-08-06 20:49</p>
 </section>
   <p><a class="btn" href="https://huggingface.co/papers/2608.02751"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>

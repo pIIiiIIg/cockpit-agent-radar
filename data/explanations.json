@@ -3612,27 +3612,43 @@
   "review_status": "abstract_backfill"
  },
  "eae2eebc10": {
-  "tl_dr": "Almost every piece of recorded music you have ever heard was modified before it reached you; commercial releases rarely spring fully-formed from the mind of a musician. Despite the promise of music generation models for one-shot output, suc",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Almost every piece of recorded music you have ever heard was modified before it reached you; commercial releases rarely spring fully-formed from the mind of a musician. Despite the promise of music generation models for one-shot output, such fine-grained iterative refinement workflows are a complementary problem, and largely out of their reach. There is also a gap for musicians: while they can express what they want to hear, not all have the facility with studio production tools to implement the complex set of actions needed to realize these intuitions. We formalize this task as agentic post-production, wherein individual aspects of a song are targeted, refined, and combined into a final track. We argue the bottleneck is data: existing corpora do not reflect how realistic post-production chains map onto the vocabulary musicians and engineers actually use. We argue there is a language for modifying recorded music that is dense, consistent, and learnable. We introduce the Rule-based Instructions for Music Editing (RIME) framework, which generates realistic paired edit-instruction data from any baseline music dataset grounded in canonical methods, design patterns, and constraints derived from real production workflows. RIME leverages POEMS, a new toolkit that combines stem separation, mixing, and common studio effects for use by multimodal agents. We use RIME and POEMS to generate 3,000 pairs of edit instructions and ground truth audio, and use this data to evaluate existing multimodal LLMs as agents on this task, showing persistent challenges in current models' post-production capabilities. We also demonstrate RIME's ability to improve post-production agent performance via supervised fine-tuning. We see RIME as an early step toward iterative musical agents, collaborative ",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "RIME 用受约束编辑图和 MCP 音频工具制造“输入音频—编辑指令—目标音频”监督数据，并训练能反复试听和调用后期工具的代理。",
+  "problem": "现有音乐编辑数据多集中于增删乐器或整体变换，缺少把自然语言制作意图映射为分轨、效果器参数和重混链的真实后期监督。",
+  "method": "RIME 用配方、motif、链路顺序、情境策略和参数先验构造可执行编辑图；POEMS 提供分离、混音、均衡、动态、调制、空间和音高等二十余种 MCP 工具，并用三个抽象层级的自然语言指令训练和评估多模态工具代理。",
+  "workflow": [
+   "Music Flamingo 标注混音中的声部、风格和速度。",
+   "系统绑定适用配方，过滤前置条件并按制作先验抽样参数。",
+   "展开 motif 并验证效果链顺序，形成 separate→process→mix 编辑图。",
+   "POEMS 执行编辑图，并生成三个抽象层级的自然语言指令。",
+   "代理循环执行试听、规划、调用工具和再次试听，直到完成或达到 20 步。"
+  ],
+  "findings": [
+   "论文从两个互斥的 10000 曲目 MTG-Jamendo 子样本中筛得训练 549 首/37 小时、评测 297 首/20 小时，并形成训练和评测各 3000 个三元组及 300 个污染修复样本。",
+   "表 1 的 2922 个有效目标上，Gemini 3 Flash、GPT-4o Mini 和 Gemma 3n 的整体编辑方向相似度分别为 0.512、0.611、0.480，Graph F1 分别为 0.702、0.845、0.803。",
+   "指令从精确 AL0 变为抽象 AL2 后，GPT-4o Mini 相似度由 0.733 降到 0.449，Gemma 3n 由 0.673 降到 0.325。",
+   "Gemma 3n SFT 在 AL2 达到 FAD 0.066、KAD 0.162、编辑相似度 0.474、Graph F1 0.747，但平均仍只正确预测约一半操作参数。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "“试听—工具调用—再试听”与 late tool-result injection 高度相符，每次 POEMS 返回的音频都可在后续已提交推理轮次注入。",
+   "未完成 assignment 或仍有开放分轨 branch 时禁止返回，适合借鉴为 endpoint/commit gate。",
+   "该系统处理完整音频片段和离线 DSP，不是流式输入或原生全双工；外部 TTS 只能承担对话呈现。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "系统依赖人工编写配方和有限操作池，论文也没有可直接比较的同类外部基线。",
+   "Demucs 把可编辑声部限制在人声、鼓、贝斯、钢琴和吉他，开放词汇分离尝试效果不佳。",
+   "数据来自合成效果链和筛选后的 MTG-Jamendo，不能代表真实制作人的多轮工作流。",
+   "SFT 只微调规划步骤，整体 Graph F1 0.772 仍低于 GPT-4o Mini 的 0.845。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-10，论文和作者官方页面均未提供 RIME/POEMS 仓库；未找到 Gemma 3n SFT 权重、论文生成的训练/评测三元组或污染集，也未找到这些产物的许可证。MTG-Jamendo 只是外部源数据，不能视为本项目开放。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-02T19:25:58.375479+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "c90d454b37": {
   "tl_dr": "Mage-VL利用视频编码器已有的I/P帧、运动向量和残差，只编码真正变化的区域，实现主动式流视频理解。",
@@ -4149,27 +4165,43 @@
   "review_status": "abstract_backfill"
  },
  "ea5ecf3351": {
-  "tl_dr": "Memory is central to long-horizon LLM agents, yet existing memory systems primarily preserve interaction content rather than modeling which agents can be trusted and under what conditions. This limitation is particularly important in multi-",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Memory is central to long-horizon LLM agents, yet existing memory systems primarily preserve interaction content rather than modeling which agents can be trusted and under what conditions. This limitation is particularly important in multi-agent systems, where a central model may be unable to directly verify plausible or correlated peer responses. We introduce Σ-Mem, an online reliability memory that records historical competence evidence for individual peers and peer relationship evidence across the peer set. Both forms of evidence are maintained as real symmetric states and updated from post-decision correctness feedback. By Weyl's inequality, the spectral change caused by each event-level update is bounded, enabling stable online adaptation without retraining the underlying models. Σ-Mem provides a general write-and-read interface: the same memory can be used for residual steering of a central model, response-free peer routing, or reliability-weighted voting. Across five Qwen-family models, Σ-Mem adapts to counterfactual reliability shifts and generalizes to unseen peers and task domains. Direct memory readouts also outperform majority voting and the best fixed peer over the full OOD evaluation set. Moreover, performance improves consistently as more correctness feedback becomes available, indicating that Σ-Mem progressively accumulates actionable reliability information. These results establish reliability memory as a reusable foundation for adaptive coordination in LLM-based multi-agent systems.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Σ-Mem 在线记录每个 peer 的任务条件化可靠性和 peer 间正确性关系，让多 Agent 系统依据历史反馈路由、投票或选择答案。",
+  "problem": "内容记忆能保存“发生了什么”，却不能显式回答不同任务下“该信任哪个 Agent”，也难处理多个 peer 的相关错误。",
+  "method": "方法为每个 peer 维护对称矩阵 Mₚ，另维护关系矩阵 G；收到决策后的外部正确性标签后执行衰减、有界的秩一更新，并通过残差 steering、M-route 或 M-vote 读取可靠性。",
+  "workflow": [
+   "将当前任务编码为单位能力方向 φ(xₜ)。",
+   "从 Mₚ 和 G 读取历史可靠性，或把结果注入中心模型上半层残差流。",
+   "在看不到当前正确性标签时选择 peer、路由任务或加权投票。",
+   "决策完成后接收外部逐-peer 正确性反馈。",
+   "更新 Mₚ 和 G 供后续事件使用，底层 LLM 权重保持冻结。"
+  ],
+  "findings": [
+   "表 1 的 CF@90 条件下，Qwen3-0.6B 从 46.22% 提升至 71.10%，增加 24.88 个百分点。",
+   "六个 OOD 基准、五个中心模型共 30 个组合中提升 27 个；BBH 上 Qwen3-4B 从 20.38% 到 28.66%，Qwen3-8B 从 19.29% 到 28.17%。",
+   "M-route/M-vote 的总体准确率约为 60.67%–60.99%，高于多数投票的 59.12% 和最佳固定 peer 的 57.52%。",
+   "在三组随机反馈掩码下，M-route 与完整 Σ-Mem 均随反馈比例从 5% 增至 100% 而持续改善。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "适合在 commit 后把工具或子 Agent 的已验证结果写成下一次决策的可靠性状态。",
+   "主方法需要访问模型上层残差流，不适用于只调用外部 API 的 StreamingModelHarness；M-route/M-vote 更容易放在外部编排层。",
+   "反馈只影响后续事件，没有测试向正在生成的输出注入迟到结果，也不涉及外置 TTS 或全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "方法必须获得逐-peer 外部正确性标签；开放式任务中这种监督往往延迟、昂贵或不可得。",
+   "CF@50 的历史证据刻意冲突，多数模型反而下降，例如 Qwen3.5-4B 从 66.15% 降至 63.17%。",
+   "中心模型全部来自 Qwen 家族，训练只有三个 peer，扩展实验最多五个 peer。",
+   "主要结果来自离线基准流和合成反事实重分配，不是持续运行的真实多 Agent 系统。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/declare-lab/sigma-mem",
+   "model_url": "https://huggingface.co/Sssunset/Sigma-Mem",
+   "note": "训练/评测代码采用 MIT；模型页发布五组 sym_memory.pt 等 Σ-Mem 状态，而不是完整 Qwen 权重，且页面未明确独立许可证。数据页明确不重新许可上游数据，各记录仍受原数据集条款约束。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-03T15:01:28.340807+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "c8d10ef1c8": {
   "tl_dr": "Qwen-UI-Agent 把 GUI、CLI、API、用户确认和终止统一成可批处理的 Action 空间，并用持久 Harness 跨设备编排长流程。",
@@ -4524,27 +4556,43 @@
   "review_status": "abstract_backfill"
  },
  "401cad35ea": {
-  "tl_dr": "Deployed LLM agents increasingly keep their long-term memory as a filesystem: a directory tree of markdown files that the agent itself reads, writes, and reorganizes through generic file tools. Yet research has largely passed over this medi",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Deployed LLM agents increasingly keep their long-term memory as a filesystem: a directory tree of markdown files that the agent itself reads, writes, and reorganizes through generic file tools. Yet research has largely passed over this medium: prior systems design bespoke memory representations and study retrieval over them, leaving the default's two working assumptions untested: that an agent can keep a growing store organized as memories accumulate, conflict, and go stale, and that this organization pays. We present the first systematic exploration of filesystem-based memory for LLM agents. We formalize the setting as three roles around one memory filesystem: a management agent integrates and organizes incoming content, a search agent answers queries with cited sources, and an execution agent supplies task trajectories that are distilled into skills, unifying declarative memory and skills in a single store. Across long-conversation benchmarks and embodied tasks, we vary memory shape (agent-organized hierarchy, verbatim dump, chunk retrieval), stream scale, tool harness (sandboxed shell, memory-tool-style functions, varied search tooling), and the strengths of the management and search agents, tracking answer quality, cost, and store health as memory grows. What organization reliably buys is search economy: organized stores roughly halve retrieval cost where material is large. Today's agents, however, fall short of the default's promise: in our growth study, organization erodes for all but the strongest management agent, and no agent we measure converts organization itself into better answers. And the model is not the only lever over a store's shape: changing the tool set alone reshapes the store as strongly as swapping the model. The study turns the filesystem default",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "这项研究系统比较 Agent 自组织文件树、原样日志和分块检索，发现组织结构主要节省搜索成本，并不稳定提升答案质量。",
+  "problem": "文件系统已成为部署中常见的 Agent 记忆介质，但“Agent 能长期维持组织、且组织值得成本”此前缺少系统验证。",
+  "method": "作者把记忆拆成管理、搜索、执行三种角色，共享带路径、描述、Markdown 层级和引用的文件树；在 LoCoMo、PersonaMem、REALTALK 与 ALFWorld 上控制记忆形态、模型能力、规模和工具 harness。",
+  "workflow": [
+   "对话片段或执行轨迹按 chunk 到达管理 Agent。",
+   "管理 Agent 通过文件工具创建、编辑、合并、移动或删除记忆。",
+   "搜索 Agent 只读遍历文件树，返回带路径/行号引用的答案或技能。",
+   "ALFWorld 执行 Agent 消费检索技能，其轨迹再回写为下一轮记忆。",
+   "持续测量正确率、引用质量、token/调用成本、树形结构和早期记忆存活。"
+  ],
+  "findings": [
+   "表 1 没有统一最优形态：Agent-curated 在 LoCoMo 为 86.1%，但 PersonaMem-32k 仅 37.5%，原样 dump 则为 78.1%。",
+   "PersonaMem-32k 中重组存储每问成本为 1.4 美分、原样 dump 为 4.0 美分；128k 为 1.6 对 3.9 美分。",
+   "强执行模型下 Episode log 为 87.1%、GS 为 82.1%；弱执行模型下顺序反转，GS 为 76.4%、Episode log 为 66.4%。",
+   "仅将管理/搜索工具换成 Shell，弱执行模型成功率由默认工具的 76.4% 提升到 82.9%；同一材料的文件数也可从 1–2 个变为 147 个。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "与 StreamingModelHarness 的外部持久记忆和工具层直接相关，尤其说明工具接口本身会改变记忆形态。",
+   "论文按完整 chunk 管理、按完整 query 检索，适合 endpoint/commit 后生成；未研究未提交的流式前缀或生成中的迟到结果。",
+   "研究不涉及音频、外置 TTS 或原生全双工，不能据此评价声学交互延迟。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "LoCoMo 只测试一段对话，PersonaMem-128k 也只有一段对话和 42 个问题，小差距接近 judge 波动。",
+   "32k 与 128k 层级包含不同对话，不能作为纯规模对照。",
+   "最长增长实验只有一条 140-task 链和单段对话，未覆盖数月级记忆；增长期间也未测中间答案质量。",
+   "主要实验基于 gpt-5.4 系列和 ALFWorld，外部效度有限。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-10，论文没有发布声明；检索作者/标题、GitHub、Hugging Face Models/Datasets 后，未发现官方项目页、代码仓库、权重或数据页。许可证未知，不能因论文公开而推断其他产物开放。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-03T20:04:06.311857+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "54e4301e1f": {
   "tl_dr": "DrawAI 用显式解析计划和代码—渲染—验证—修订循环，把位图重建为可编辑 SVG/PPTX，并用 39 项指标同时衡量保真与可编辑性。",
@@ -6053,27 +6101,41 @@
   "review_status": "editorial"
  },
  "e6151be63a": {
-  "tl_dr": "Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs; direct image generation is not element-editable, while codin",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Scientific poster construction compresses a long multimodal paper into a readable, editable canvas. Existing systems hide request-level failures by scoring only completed outputs; direct image generation is not element-editable, while coding-agent workflows are costly. PosterMELD is a template-conditioned multi-agent pipeline: capacity-aware slots guide writing before rendering, and deterministic gates plus vision-language model (VLM) review route failures to bounded repair. Each accepted request exports editable PowerPoint (PPTX) and Portable Network Graphics (PNG) artifacts; explicit design controls yield same-paper variants. Across 621 papers, Print-Ready Rate (PRR) counts requests passing geometric, readability, asset-integrity, and obvious-factual-error checks, with native editability reported separately. A frozen VLM assigns conditional Craftsmanship-Harmony-Expressiveness (CHE) scores to print-ready outputs. PosterMELD attains 81.3% PRR, 3.4 times P2P's rate and 5.2 times PosterGen's, and the highest conditional CHE among generated methods with multiple print-ready outputs. Native editability and explicit design controls are retained at a mean cost of USD 0.38 per request, 3.5% of Codex+Skill's. Code and resources are available at https://github.com/Shannon4Science/PosterMELD.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "PosterMELD 先确定海报模板和每个槽位容量，再由多代理写作、布局、渲染和局部修复，输出可编辑且可直接打印的 PPTX。",
+  "problem": "论文转海报系统常在内容写完后硬塞布局、只统计成功输出，或生成不可编辑栅格；同时缺少显式、可复现的设计多样性控制。",
+  "method": "系统从真实海报聚类得到 24 种结构模板并加入 slot contract；Content、Template、Layout、Visual、Review 五个代理在共享类型状态上工作，再用确定性门禁、VLM 审查和限定动作集进行局部修复。",
+  "workflow": [
+   "MinerU 或 Marker 解析论文，保留文本、图表、公式和来源位置。",
+   "固定模板、样式、密度、资产开关与 seed，生成槽位容量预算。",
+   "内容代理提炼 keypoint，布局和视觉代理放置原生 PPTX 元素。",
+   "渲染 PNG，执行几何、可读性、资产完整性和 VLM 检查。",
+   "仅对失败区域 rewrite、reflow、resize 或 rerender；通过后输出 PPTX、PNG 和 provenance manifest。"
+  ],
+  "findings": [
+   "621 个请求上，PosterMELD 的 Print-Ready Rate 为 81.3%，P2P、PosterGen 和 Paper2Poster 分别为 24.2%、15.8% 和 0.2%。",
+   "PosterMELD 保持原生可编辑，conditional CHE 为 3.247、平均成本 0.38 美元；Codex+Skill 的 PRR 为 82.8%、CHE 为 2.716、成本为 10.78 美元。",
+   "冻结 GPT-5.5 评审器相对人类共识的 PRR accuracy 为 0.840、κ 为 0.683；CHE 的 Pearson r 为 0.592、MAE 为 0.361。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "只有所有硬门禁通过才提交最终工件，与 StreamingModelHarness 的 endpoint/commit 后生成或发布语义一致。",
+   "共享类型状态、结构化故障记录和局部修复适合在阶段边界注入晚到解析、渲染或视觉审查结果。",
+   "这是批处理 PDF→工件流程，不涉及流式输入、外部 TTS 或模型级全双工；可借鉴的是控制平面。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "系统依赖外部基础模型和解析器，异常论文布局的解析错误会向后传播。",
+   "自动门禁主要认证几何与可读性，不能保证科学正确性，最终仍需作者核验。",
+   "冻结评审器可能与生成器共享偏差；模板也偏向常见学术设计，竖版成熟度较低。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Shannon4Science/PosterMELD",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "生成代码、评测代码和 24 个模板以 MIT 许可证公开，系统依赖外部 API/模型，没有专属权重。仓库明确排除 API 凭据、生成结果和完整 621 篇 benchmark corpus，仅提供 manifest/annotation 格式示例。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-05T16:14:50.674596+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "b4c812b608": {
   "tl_dr": "Recent advances in image generation have demonstrated the potential of unified multimodal models that integrate understanding, generation, and editing. However, unified 3D modeling remains constrained by scarce multimodal data, particularly",
@@ -6099,50 +6161,82 @@
   "review_status": "abstract_backfill"
  },
  "02c84a448e": {
-  "tl_dr": "Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments often require Long-Term Coherence, the capacity to preserve ",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Large language model agents are increasingly evaluated as autonomous tool users, yet most benchmarks focus on bounded tasks with immediate success criteria. Real-world deployments often require Long-Term Coherence, the capacity to preserve purposeful behavior across extended horizons while adapting decisions to accumulated evidence. Evaluating this capacity requires a persistent environment in which actions constrain future choices, feedback arrives at heterogeneous delays, and incoherent behavior produces measurable cumulative effects. Seller-side e-commerce provides a suitable setting for this evaluation through recurrent and interdependent decisions over Product Sourcing, Listing and Pricing Control, Cash-Flow Management, and Mixed-Latency Feedback Adaptation. We introduce MerchantBench, a 365-day order-level simulation grounded in 98,843 real e-commerce product records and equipped with 26 tools for agent interaction. MerchantBench couples promptly observable Upstream Supplier Events with delayed Downstream Order Outcomes, requiring agents to follow individual order lifecycles and revisit earlier decisions. We evaluate eight LLMs under two agent frameworks in 48 runs, each spanning 365 simulated days. Our results reveal a substantial gap between even the latest LLMs and human participants, with the best LLM configuration attaining only 27.3\\% of the mean final net assets achieved by human participants.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "MerchantBench 用一年期电商仿真衡量 Agent 能否持续追求资产目标并根据延迟订单反馈修正策略；最佳 LLM 仅达到人类平均最终净资产的 27.3%。",
+  "problem": "现有 Agent 基准多为短期、即时反馈任务，无法测量跨数百天保持目标、跟踪订单因果和适应非平稳需求的能力。",
+  "method": "论文基于 98843 条 1688 商品记录构建 365 天、小时级 POMDP，包含 26 个工具、三类上游事件和六类下游异常，并比较八个模型在 ReAct 与 Hermes 下的长期经营轨迹。",
+  "workflow": [
+   "每 12 个模拟小时向 Agent 提交店铺、资金、订单和供应商观察。",
+   "Agent 通过工具选品、上架、定价、下架和查询订单。",
+   "环境逐小时演化需求、库存、供应商事件和订单生命周期。",
+   "延迟退款、差评、罚款等结果出现后，Agent 应回溯并调整产品组合。",
+   "365 天后结算未完订单，以现金、保证金、在途资金和应收款计算净资产。"
+  ],
+  "findings": [
+   "表 1 中最佳配置 Qwen3.7-Max/Hermes 的最终净资产为 59.46 千元，人类为 217.61 千元，即只达到 27.3%。",
+   "跨八个模型平均，Hermes 相比 ReAct 的净资产、GMV、订单分别高 53.3%、71.5%、71.2%；但 Kimi K2.6 的净资产反而下降 4.1%。",
+   "人类 SWR 为 100%；LLM 在 ReAct 下为 10.6%–99.4%，Hermes 下为 17.8%–66.1%。",
+   "Qwen3.7-Max/Hermes 虽均值最高，三次运行净资产变异系数仍达 55.1%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "决策窗口对应“输入流结束/commit 后才生成”，适合测试外部编排器的长期状态和工具闭环。",
+   "延迟订单结果可映射为后续 commit 前的 late tool-result injection；论文没有测试把结果注入正在生成的响应。",
+   "这是纯文本工具环境，与外置 TTS 正交，不构成原生模型级全双工证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "数据只覆盖 1688、十个一级品类和单件代发模型，跨市场外推有限。",
+   "每个模型×框架只有三次运行，人类基线也只有三名无电商经验参与者，且实验已显示高方差。",
+   "只比较 ReAct 与功能更丰富的 Hermes，框架差异同时包含代码、规划、记忆和技能能力。",
+   "公开仓库不含论文使用的真实业务数据，无法从公开材料完整复现实验。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/KhanCold/merchantbench",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仿真器、SDK、基线、评测器和测试源码可见，但仓库根目录无 LICENSE，不能推断代码许可。仓库只提供默认含 1000 商品/200 供应商的合成生成器；98843 条真实数据未发布，也没有官方权重或独立数据集页。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-05T16:14:50.674616+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "f80e382d25": {
-  "tl_dr": "Modern agent frameworks equip large language models with external skill libraries to solve complex tasks. However, it remains unclear whether these systems can effectively evolve their skills and whether the resulting skills improve task-so",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Modern agent frameworks equip large language models with external skill libraries to solve complex tasks. However, it remains unclear whether these systems can effectively evolve their skills and whether the resulting skills improve task-solving capabilities. To bridge this gap, we introduce ContinualSkillBench, a dynamic evaluation framework for in-context continual skill learning. It covers five representative domains, each containing 100 interconnected subtasks ordered by increasing difficulty and opportunities for cross-task skill reuse. Our experiments show that sequential execution generally improves performance, but the gains vary substantially across models and domains. Moreover, in-context learning performs comparably to explicit skill maintenance on average, suggesting that much of the improvement arises from adaptation to prior context and feedback rather than reusable skill abstraction alone. Explicit skills nevertheless provide selective benefits for tasks requiring reusable procedures or precise outputs. We further find that less capable models tend to accumulate larger, more fragmented collections of task-specific skills. These findings show that current in-context skill evolution mechanisms can support continual adaptation, but still struggle to consistently consolidate experience into robust and transferable skills.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ContinualSkillBench 用五条各含 100 个递进任务的领域序列，区分“保留上下文带来的适应”与“显式技能库真正带来的能力扩展”。",
+  "problem": "Agent 顺序执行任务时的提升究竟来自可复用技能，还是只来自保留上下文、反馈和输出格式适应，此前缺少系统评测。",
+  "method": "作者从约 3 万个候选任务构造 Finance、Healthcare、Law、Math、Office 五条技能依赖序列，比较 independent、纯 ICL、显式 skill-maintaining sequential 和 RAG 条件。",
+  "workflow": [
+   "汇集多层难度的领域 benchmark 任务。",
+   "由 LLM 标注技能与难度、判断成对迁移方向并图排序，再人工审核。",
+   "Agent 接收任务和当前技能库，执行后由外部 evaluator 评分。",
+   "将评分反馈注入反思回合，创建或修改技能。",
+   "新技能从下一子任务开始可用，并与独立执行和 ICL 基线比较。"
+  ],
+  "findings": [
+   "顺序执行在 15 个模型×领域组合中提高了 13 个 raw reward 和 14 个 normalized reward；宏平均绝对增益为 +0.071/+0.078，相对增益为 16.2%/16.9%。",
+   "GPT-5.3-Codex 平均 normalized 增益最大，为 +0.098；Healthcare 跨模型平均增益最大，为 +0.149。",
+   "三个消融领域中，Independent、纯 ICL、显式技能 Seq 的平均 normalized reward 分别为 0.466、0.605、0.602，显式技能没有稳定超过 ICL。",
+   "GPT-4o 生成 384 个技能、平均质量 5.68；GPT-5.3-Codex 只生成 205 个，但平均质量为 7.94。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "最直接的 Harness 实验是按 commit 边界比较 Independent、保留上下文 ICL 和显式技能库；应先证明技能库超过简单上下文保留。",
+   "三回合协议可映射为“提交—执行—迟到工具/评分结果注入—下一次提交”，不要求输入流期间生成。",
+   "benchmark 不涉及语音、外置 TTS 或模型级全双工，只能支持跨回合持续适应。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "任务来自固定来源，只测试三种模型和有限 harness，未覆盖长尾分布和更多 Agent 框架。",
+   "ICL 对照只测试 GPT-5.3-Codex 的三个领域，RAG 消融只报告 Opus 4.7/Healthcare。",
+   "评测混用 exact、numeric、程序测试和 LLM rubric；normalized reward 只计算双方都有有效输出的交集。",
+   "公开仓库还含论文五领域实验未报告的 science-100，论文与仓库数据范围缺少清晰版本标记。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/gtynnn060110-hash/continual-skill-bench-final",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "仓库包含 Harbor harness、构造脚本、实验配置和任务目录，根仓库声明 Apache-2.0；没有独立数据许可证或逐项上游条款说明。论文未发布专属模型或权重，也没有独立 Hugging Face 数据集页。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-05T16:14:50.674630+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "b1d0c5c355": {
   "tl_dr": "Latent Softmax 在中英联合 CTC 音素识别中，把带调元音作为细粒度子类、无调基本元音作为粗粒度主类；英语训练时边缘化未知声调子类，使无调语料也能更新普通话声调空间。",
@@ -6369,27 +6463,42 @@
   "review_status": "editorial"
  },
  "69549f8458": {
-  "tl_dr": "Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes, spanning tens to hundreds of lines. This makes manual review",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Large Language Model (LLM) agents have seen rapid adoption in software engineering. As agents take a greater role in the actual generation of code, they are making larger changes, spanning tens to hundreds of lines. This makes manual review of agent results increasingly infeasible, leading developers to turn to explanations to understand enacted changes. Despite this, there are no benchmarks that evaluate the trustworthiness of agent-generated explanations. To bridge this gap, we propose ExplainBench, a benchmark to automatically evaluate explanations from coding agents. ExplainBench is based on the intuition that informative explanations should enable an LLM to correctly answer questions, allowing quantitative comparison of explanation quality between agents. With this observation, we construct a suite of questions that evaluates whether explanations accurately describe (1) the intended behavior of buggy code and (2) the effect of applying the agent patch itself. Experiments first reveal that explanation quality is a distinct axis of agent evaluation: ExplainBench ranks agents differently from the widely-used SWE-bench Verified benchmark. A deeper breakdown of explanation quality in agents shows frequent problems in explanations, such that explanations often claim that a patch is correct when it is not. Based on this insight, we implement and evaluate an explanation audit agent which runs additional tests to validate and refine explanations. This agent improved the explanations of all evaluated agents, demonstrating agent explanations can be automatically made more trustworthy.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ExplainBench 用四类具有可执行真值的选择题衡量代码代理解释是否准确描述开发者意图和补丁实际效果，并用差分测试校准过度自信的解释。",
+  "problem": "SWE-bench 等基准只衡量补丁是否解决问题，不能判断代理最终自然语言说明是否完整、准确或与补丁真实行为一致。",
+  "method": "基准从开发者补丁、代理补丁、属性测试和执行 trace 构造“端到端/局部×意图/效果”四类 MCQ；另一个 LLM 只根据解释和题目上下文作答。ExplanationAuditAgent 则生成差分测试、比较补丁前后执行结果和调用链，再确认或修订解释。",
+  "workflow": [
+   "从公开代理轨迹最后一步原样提取解释。",
+   "用开发者补丁构造意图题，用代理补丁和差分 trace 构造效果题。",
+   "QA 模型仅依据解释回答四类 MCQ，并按客观答案计算 explanation score。",
+   "审计代理执行差分测试和调用链检查，用证据修订或确认解释。"
+  ],
+  "findings": [
+   "297 个 SWE-bench Verified 实例上，OpenHands 解释分 0.597、排名第一，但补丁 efficacy 0.727、排名第四；trae-agent 的 efficacy 0.818、排名第一，解释分却为 0.558、排名第四。",
+   "五个代理的端到端意图/效果分数都明显高于局部意图/效果，说明解释更擅长全局叙述而非函数级行为。",
+   "对未通过补丁，解释仍使判题模型预测 bug 测试会通过的平均比例为 79.30%，各代理范围为 71.60%–83.65%。",
+   "ExplanationAuditAgent 以平均约 0.05 美元/解释的成本提高全部五个代理总分，增幅为 3.1%–33.5%；论文结论报告平均提升 10.9%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "适合在 endpoint/commit 后把最终工作总结视为独立于补丁成功率的待验证产物。",
+   "差分测试结果可作为晚到工具证据注入最终解释；论文是在测试完成后再修订，没有证明 TTS 已开始后仍能安全改口。",
+   "基准只评分最终文本，不覆盖流式输入、首 token 时延、语音播报或原生全双工交互。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "500 个 SWE-bench Verified 实例中排除 203 个，只保留 297 个可稳定复现实例。",
+   "数据限于具有可复现测试的 Python 开源项目及五个开放脚手架代理，外部效度有限。",
+   "explanation score 只覆盖行为内容对齐，不测可读性、开发者满意度或实际有用性。",
+   "意图以开发者补丁为 oracle，评分也依赖随机 LLM；多次运行和第二模型复核只能缓解而不能消除依赖。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/explainbench/explainbench",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Zenodo v1 复现包包含代码、数据和结果并标注 CC BY 4.0；CLI 仓库明确采用 MIT。主 GitHub 复现仓库本身没有 LICENSE，不能因公开可见就推断其代码许可证；项目使用外部 API，没有作者训练权重。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-05T20:46:49.620386+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "fb41881aa5": {
   "tl_dr": "ToolArtist 把推理、文本/图像搜索和原生图像 token 生成统一到 Emu3.5 policy 中，再用 SFT 与 RAD-GRPO 训练模型自行决定何时搜索、绘图和修订。",
@@ -6860,27 +6969,43 @@
   "review_status": "abstract_backfill"
  },
  "af56961fe9": {
-  "tl_dr": "Agent self-evolution updates an agent's persistent state from prior experience and reuses it to solve related tasks more effectively. Evaluating self-evolution is difficult: existing benchmarks provide limited coverage of economically valua",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Agent self-evolution updates an agent's persistent state from prior experience and reuses it to solve related tasks more effectively. Evaluating self-evolution is difficult: existing benchmarks provide limited coverage of economically valuable task domains, do not always design training and test tasks such that test-time gains can be attributed to training experience, and remain vulnerable to data contamination. We present GDPevo, an evolution-native benchmark grounded in GDP-related enterprise workflows, together with the fully automated data pipeline that generates it. Its core mechanism, rule hybridization, decomposes each enterprise workflow into atomic business rules, distributes subsets of these rules across training tasks, and recombines them in held-out test tasks so that test-time gains are attributable. GDPevo spans CRM, ERP, finance, healthcare, legal, and data-centric workflows. Its V1 release contains 120 tasks in 12 groups, with five training and five held-out test tasks per group. Full automation enables the pipeline to expand the suite to 240 tasks in 24 groups (V2) within two days, providing a practical response to contamination. Using GDPevo, we evaluate four agents, each comprising a harness and a model, under four supervision types. Self-evolution consistently improves held-out accuracy by up to 16.44 percentage points. But the best evolved agents remain far below the fully informed oracle ceiling of 91.6%, indicating that the self-evolution ability of current agents remains far from fully realized. We publicly release the pipeline, benchmark, and full evaluation results at https://github.com/Prism-Shadow/GDPevo.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "GDPevo 通过“规则杂交”构造企业任务的训练—测试关系，检验 Agent 能否把先前经验沉淀为持久技能并组合迁移到新任务。",
+  "problem": "既有自进化评测缺少高价值企业任务、训练经验与测试增益之间的可归因关系，也容易受到公开静态题集污染。",
+  "method": "系统把企业流程拆成原子隐藏规则，将规则分散到训练任务并在测试任务重新组合；确定性规则评分器再在 base、fewshot、self、reflect-3 四种条件下比较四组 harness+model Agent。",
+  "workflow": [
+   "从 GDPval、SOP-Bench、JobBench 等抽取种子场景。",
+   "自动生成共享环境及每组 5 个训练、5 个测试任务，并实施规则杂交。",
+   "校准基础难度与进化增益，交给 6 个独立 Reviewer Agent 审核，至少 5 票通过。",
+   "以 base、fewshot、self 或 reflect-3 生成或不生成 SKILL.md。",
+   "在隔离容器中重复测试三次，统计规则准确率、轮次、token 和成本。"
+  ],
+  "findings": [
+   "Opus-4.8/Claude Code 从 50.63% 提升至 67.07%，即最高增加 16.44 个百分点；所有进化组合增益为 2.59–16.44 个百分点。",
+   "GPT-5.5 fewshot 提升 15.14 个百分点，同时测试成本下降 20.88%；计入一次性技能成本后约为 1.296 美元/任务，接近 base 的 1.294 美元。",
+   "全信息 human+Codex 条件达到 91.6%，仍显著高于最佳进化 Agent 的 67.07%。",
+   "跨域 fewshot 的 6 个非对角迁移中 5 个为负、最差为 −5.0 个百分点；reflect 一半为正、最好为 +6.5、最差仅 −1.0 个百分点。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可用于评测“commit 后演化”：把一次已提交请求、执行轨迹和迟到工具结果视为完整 episode，再生成技能供下一次提交使用。",
+   "“Agent=harness+model”及成本指标适合比较 StreamingModelHarness 的上下文、技能加载和工具注入策略。",
+   "论文是离散任务/反馈循环，与流式输入、外置 TTS 或模型级并发听说无关。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "实验只验证文本技能演化，没有实测参数、代码、工作流或其他持久状态更新。",
+   "任务生成、校准和审查主要使用同一 Codex/GPT-5.5 系列，可能留下生成模型偏置。",
+   "91.6% 是非专家人工操作员配合 Codex 的全信息条件，不是真正领域专家上界。",
+   "跨域实验只选 CRM、ERP、Finance 各一个 V1 任务组。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/Prism-Shadow/GDPevo",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "构造流程、评测代码、240 个任务、评分器和实验结果均已公开；仓库根许可证为 Apache-2.0，但没有单独的数据许可证说明。论文没有专属模型或权重，也没有独立数据集页或 tagged release。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-06T20:49:43.971356+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "2613c89501": {
   "tl_dr": "SpatialSTALE 在动态 FrozenLake 中把“检测陈旧空间记忆”与“陈旧记忆是否真的导致危险动作”放进同一受控评测。",
@@ -7013,50 +7138,80 @@
   "review_status": "abstract_backfill"
  },
  "be24365c7e": {
-  "tl_dr": "Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents fro",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Existing deep-research agents use a search-visit workflow that retrieves and reads whole pages, without considering the addressable structure that web sources expose through titles, headings, sections, and metadata. This prevents agents from directly constraining retrieval to document fields and often carries irrelevant page content into their context. We introduce SIEVE, a search-inspect-fetch interface driven by fielded Boolean retrieval (BQL). SIEVE filters candidates over document fields, ranks the admitted set, presents structure-rich result cards for inspection, and fetches only selected sections. Across three QA collections, SIEVE achieves higher accuracy than the most accurate conventional Search-Visit configuration on each collection while using 20.7-50.6% fewer tokens. Further analyses show that BQL filtering improves all tested rankers and that the accuracy-context advantage persists across retriever choices and agent backbones. Code and data are available at https://github.com/ielab/skim-search-agent.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Sieve 让代理先用字段化布尔条件筛选网页，再检查结构卡片并只取指定章节，在三个 QA 集合上同时提高准确率并减少 20.7%–50.6% token。",
+  "problem": "常规 Search–Visit 会把结构化网页压成整页读取，无法按标题、章节或日期等字段限定候选，也会把无关内容带入上下文。",
+  "method": "BQL 决定候选资格，BM25、稠密检索或 RRF 排序候选；结果卡展示标题、章节、匹配字段和 25-token 查询相关摘要，fetch 只返回命名章节。零结果时先按满足约束数量返回部分匹配，再用近似 BM25 回退。",
+  "workflow": [
+   "代理生成带字段、AND/OR/NOT、短语、通配符或日期范围的 BQL。",
+   "布尔条件过滤候选，再由可替换 ranker 排序。",
+   "代理检查结构卡和短摘要，选择网页及章节。",
+   "只 fetch 所选章节，并根据新证据继续检索或作答。"
+  ],
+  "findings": [
+   "相对各数据集最强 Search–Visit，默认 Sieve 在 HotpotQA、MuSiQue、BCP-S 上分别为 45.3 vs 43.7、29.2 vs 26.1、37.2 vs 36.5，同时少用 30.4%、50.6%、20.7% token。",
+   "与相同 ranker、相同章节读取的 Search–Fetch 对照相比，BQL 在全部 9 个“ranker×collection”组合中提高准确率。",
+   "移除 25-token 查询摘要使三个集合准确率下降 2.9–6.8 个点，三项差异均显著。",
+   "三种代理骨干的 9 个组合中，Sieve 在 7 个提高准确率、8 个减少上下文。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "适合作为 StreamingModelHarness 的检索层：在 endpoint/commit 后生成前，只注入已筛选章节可降低上下文和干扰。",
+   "论文假设严格顺序的 ReAct 工具观察，没有验证生成期间的迟到结果注入、结果撤回或并发竞态。",
+   "输出仍是文本；外置 TTS 可消费最终答案，但论文没有语音延迟、打断或全双工证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主实验只有一个主要骨干和三个离线 QA 集合，未证明对实时 Web 或其他领域泛化。",
+   "不同条件间存在手册、最终答案恢复覆盖和后加 context early-stop 的不对称。",
+   "36.8%–53.7% 的搜索触发回退，近似 BM25 与 Lucene 的 top-5 Jaccard 仅为 0.546。",
+   "Sieve 同时改变候选构造、卡片和读取方式，控制实验不能完全分离每个布尔操作符的贡献。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/ielab/skim-search-agent",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Sieve 代码仓库明确采用 Apache-2.0；三个构建后的数据集也已发布，但其 Hugging Face 数据卡均未声明许可证。系统没有专属模型权重，实验使用第三方骨干和 embedding 模型。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-06T20:49:43.971453+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "2d089ea931": {
-  "tl_dr": "Large language models are increasingly embedded in software engineering workflows as coding agents that can inspect repositories, invoke tools, execute tests, debug failures, and generate patches. Yet most existing agents remain largely sta",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Large language models are increasingly embedded in software engineering workflows as coding agents that can inspect repositories, invoke tools, execute tests, debug failures, and generate patches. Yet most existing agents remain largely static after deployment, even though software development is a dynamic, feedback-rich process in which repositories evolve, dependencies change, tests fail, and repair attempts leave reusable experience. This tension has motivated a growing body of work on self-evolving coding agents, where the agent improves its future behavior by updating its framework, memory, skills, tools, models, or collaboration structures from prior coding interactions. In this survey, we provide a systematic synthesis of this emerging area. We first define self-evolving coding agents and distinguish them from conventional coding agents and general self-evolving agents. We then develop an object-centered taxonomy that characterizes what evolves in these systems, and complement it with two orthogonal perspectives: when evolution occurs and what software-specific evidence drives it. Across the literature, we find that executable feedback, repository-level context, and coding trajectories give software engineering a distinctive role as a natural domain for agent self-evolution, but also introduce new challenges in feedback reliability, benchmark overfitting, safety, maintainability, cost, and generalization. By organizing existing work around these dimensions, this survey aims to clarify the conceptual boundaries of self-evolving coding agents and provide a foundation for designing more adaptive, reliable, and software-aware agentic systems. The papers we collect can be found at https://github.com/zhouhao1024/Awesome-Self-Evolving-Coding-Agents.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "这篇综述界定“自进化编码 Agent”的边界，并按演化对象、发生时机和软件证据组织现有工作。",
+  "problem": "编码 Agent 面对持续变化的仓库、依赖和反馈，但大部分部署后仍保持模型、记忆、工具及控制流静态，领域也缺少统一术语和比较框架。",
+  "method": "作者对代表性文献作面向对象的指导性综合，把演化对象分为框架、记忆、技能/工具、模型、工作流/拓扑，再按 task-time、post-task、stage-wise 时机及 outcome、environmental、trajectory-derived 证据交叉分析。",
+  "workflow": [
+   "区分代码生成模型、传统编码 Agent、通用自进化 Agent和自进化编码 Agent。",
+   "按框架、记忆、技能/工具、模型、工作流/拓扑五类演化对象整理系统。",
+   "再按 task-time、post-task、stage-wise 时机和三类软件证据交叉分析。",
+   "汇总评测、可靠性、安全、维护性、成本和泛化问题。"
+  ],
+  "findings": [
+   "表 2 将 30 个代表系统归入 5 类主要演化对象，并明确类别可以重叠。",
+   "论文把演化时机分为 task-time、post-task、stage-wise，把证据分为 outcome、environmental、trajectory-derived 三类。",
+   "作者将仓库级问题解决视为核心评测场景，函数级和竞赛编程只提供互补证据。",
+   "现有评测擅长功能正确性和 benchmark success，却较少覆盖长期维护性、鲁棒性、安全性及误导反馈下的学习质量。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "五类演化对象可映射到 StreamingModelHarness 的上下文记忆、迟到工具结果、技能库和工作流控制层，而不必修改模型权重。",
+   "流式输入阶段应只积累证据；持久更新放在 endpoint/commit 后，迟到结果进入下一次已提交周期或受控重开流程。",
+   "论文不研究语音时序、外置 TTS 或原生模型全双工，不能作为这些能力的证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "论文没有披露系统化检索式、数据库、纳入/排除标准、质量评级或完整统计口径。",
+   "主要贡献是分类与观点综合，没有统一复现实验或效应量比较。",
+   "分类之间明显重叠，部分“自进化”与普通后训练、重试或系统优化的边界仍依赖作者判断。",
+   "领域变化很快，持续更新的配套清单也使覆盖范围容易过时。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/zhouhao1024/Awesome-Self-Evolving-Coding-Agents",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "配套仓库只是论文、系统和 benchmark 的 Awesome 清单，不是方法实现；没有论文专属模型、权重或数据集。仓库只有 README，未找到 LICENSE，也没有 tagged release。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-06T20:49:43.971461+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "dec8c98235": {
   "tl_dr": "论文表明多模态 agent 训练不能只扩大环境数量，还要控制能力覆盖、冗余、梯度冲突和难度结构；AES 选择紧凑环境集，HDC 再逐步撤除脚手架并扩大状态规模。",
@@ -7367,27 +7522,41 @@
   "review_status": "editorial"
  },
  "6b5610598c": {
-  "tl_dr": "Collaborative music agents need internal representations rich enough to support both understanding and generation, yet flexible enough for a workflow where the human retains agency. We present a hierarchical self-supervised ``world model'' ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Collaborative music agents need internal representations rich enough to support both understanding and generation, yet flexible enough for a workflow where the human retains agency. We present a hierarchical self-supervised ``world model'' for symbolic music: a 2.55M-parameter Swin V2 encoder trained on MIDI piano-roll images with JEPA-style objectives (pitch- and time-shift equivariance, masked embedding prediction, and a distributional regularizer), using no labels and no music-theory vocabulary. Probing the frozen embeddings shows that the level at which a musical property becomes decodable tracks its musical time scale: phrase boundaries are read off the coarsest levels, note density and harmonic detail off the finest. Temporal and phrase structure emerge from the self-supervised objectives alone, while harmonic content must be asked for; a small chord-supervision head raises joint chord recovery from .18 to .54, and key detection, which is never supervised, from .16 to .70. Following the Representation AutoEncoder paradigm, a conditional flow-matching model stands in for a trained decoder, flowing in pixel space from PCA-reduced conditioning: it reproduces a target window at pixel F1 0.996, and the same per-level conditioning dropout that controls how far variations stray also enables graphical prompting for masked inpainting with no inpainting-specific sampler. The pipeline runs on CPU producing a suggestion in 2.8 s, or 0.6 s on Apple MPS, which we demonstrate in a live interactive demo. In concert with an LLM-based brain, these capabilities supply the core of a collaborative music creation agent in service of, rather than in place of, human agency.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "这项工作用轻量层级式 MIDI 表征模型充当协作音乐代理的“耳朵”，再以条件流匹配模型生成可控、低延迟的局部音乐建议。",
+  "problem": "协作音乐代理既要理解音符、和声和乐句等多尺度结构，又要据此生成建议；大型音频模型、压缩式自编码器和慢速扩散模型难同时满足可解释表征、可控生成与本地低延迟。",
+  "method": "作者将 MIDI 转为 128×128 二值钢琴卷帘图，以 2.55M 参数、六层级 Swin V2 编码器联合优化位移等变、SIGReg、跨层掩码嵌入预测和软因子化目标。冻结编码器后，再用 PCA 压缩条件和像素空间流匹配模型完成重建、变奏与掩码修补。",
+  "workflow": [
+   "上游 audio-to-MIDI 将音乐量化到三十二分音符，并截取四小节窗口。",
+   "层级编码器提取从全局乐句到细粒度音符的六级表征。",
+   "冻结表征供线性探针或未来的 LLM“brain”理解音乐。",
+   "用户指定掩码、层级 dropout、guidance 或随机种子，流匹配模型用 10 个 Euler 步生成候选。",
+   "用户试听和选择候选，再自行决定是否采用。"
+  ],
+  "findings": [
+   "表 1 显示，无监督 MRJS 的 chroma R² 为 0.65、Phrase AP 为 0.27；DINOv2 对应为 0.36 和 0.21，多尺度探针还显示乐句信息偏粗层、音符密度与色度偏细层。",
+   "加入和弦监督后，根音准确率由 0.24 提升到 0.59、联合和弦由 0.18 提升到 0.54，未直接监督的调性检测由 0.16 提升到 0.70，但 Phrase AP 从 0.27 略降到 0.25。",
+   "PCA 将条件从 16128 降至 4835 个浮点数后，重建 pixel F1 为 0.996±0.004；默认 guidance=1 时，一份完整建议在 CPU、M1 Max MPS 和笔记本 RTX 4090 上分别约需 2.8 秒、0.6 秒和 0.10 秒。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "四小节窗口先完整编码、随后才生成，适合 StreamingModelHarness 的 endpoint/commit 后生成，而不是输入流期间同步输出。",
+   "“耳朵—brain—mouth”分工可让音乐分析结果作为晚到工具上下文进入后续推理，但论文没有实测生成中的 late-result injection。",
+   "文中的“流式变奏”是候选预取与排序，不是模型级全双工；口头交互仍需外部 LLM 和 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "输入是速度归一化的单一钢琴二值卷帘，丢弃力度、演奏细节和多乐器信息，时间域也仅四小节。",
+   "audio-to-MIDI 和负责对话规划的 LLM brain 均不在论文范围内。",
+   "生成评估只覆盖 6 首歌曲、每首 3 个随机种子；作者也报告修补会出现落错音或填充不足。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/drscotthawley/midi-rae",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "实验仓库以 Apache-2.0 公开，但 README 明示尚未整理到可供他人直接使用；论文权重暂不开放，也未找到 checkpoint/model card。POP909、Lakh 和 EMOPIA 是外部数据集，代码许可证不覆盖这些数据及作者处理后的切分。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-07T19:15:26.353445+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "3997ecae60": {
   "tl_dr": "SmartMage 先按问题选择 RGB、深度、BEV、点云和体素，再让稀疏 MoE 专家按模态分工，以减少固定全模态融合的冗余和干扰。",
@@ -7696,27 +7865,43 @@
   "review_status": "abstract_backfill"
  },
  "2562c5368a": {
-  "tl_dr": "High-quality long-horizon training data for terminal agents is expensive to produce, often costing hundreds to thousands of dollars per task, because each task must keep the instruction, environment, reference solution, and verifier mutuall",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "High-quality long-horizon training data for terminal agents is expensive to produce, often costing hundreds to thousands of dollars per task, because each task must keep the instruction, environment, reference solution, and verifier mutually consistent. Human authoring does not scale, and direct generation with large language models (LLMs) often breaks these dependencies. We present Recursive Synthetic Terminal Tasks (RST), a recursive verified synthesis framework for constructing long-horizon terminal-agent tasks at scale. Starting from verified seed tasks, RST extends the reference solution, realigns the verifier and instruction to the new workflow, validates the result in a fresh sandbox, and reuses accepted tasks as seeds for subsequent rounds. Across fifteen recursive rounds, RST produces 37,484 synthesized terminal-agent tasks at roughly \\0.05 per task. Task difficulty increases substantially over rounds: the median reference solution grows from 67 to 374 lines, the median number of executed commands grows from 40 to 244, and DeepSeek-V4-Pro pass@4 drops from 90% at R_1 to 2.5% at R_{15}$. To demonstrate training utility, we collect rejection-sampled Qwen3.5 trajectories on the synthesized tasks and use them for supervised fine-tuning. Fine-tuning on these trajectories improves Qwen3.5-27B and Qwen3.5-122B-A10B by up to 10 points on Terminal-Bench~2, Terminal-Bench Hard, and Long-Horizon Terminal Bench, while agentic PPO lifts Qwen3.5-27B to 49.44\\%, 32.00\\%, and 22.07\\% on the three benchmarks, corresponding to relative gains of 20.0\\%, 41.2\\%, and 21.9\\% over the base model. Moreover, after 15 rounds, the recursion shows no ceiling: synthesis yield and validation rates remain stable as difficulty keeps climbing, indicating that the process can continue well beyo",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "RST 从已验证终端任务递归扩展参考解法，并同步重写环境、验证器和公开指令，15 轮生成 37484 个可执行任务及 327189 条轨迹。",
+  "problem": "长时程终端任务必须保证指令、工作区、参考解和验证器一致；人工制作成本高，直接由 LLM 生成又容易破坏这些依赖关系。",
+  "method": "RST 采用 solution-first 的递归验证合成：从前一轮通过的任务选择种子，用 5 类、40 个重写算子扩展工作流，再做跨文件对齐、静态过滤、反捷径检查和全新 Daytona sandbox 的 oracle 验证；通过项进入下一轮种子池及 SFT/PPO 数据池。",
+  "workflow": [
+   "按父系、领域、重写族和 cohort 上限选择已验证种子。",
+   "先扩展参考 solve.sh 与环境，再对齐验证器、公开指令和任务元数据。",
+   "运行静态一致性、泄漏和捷径检查，可修复失败最多反馈两轮。",
+   "在全新 sandbox 中执行参考解和私有验证器，并检查公开契约可发现性。",
+   "接受任务继续递归，并收集 Qwen3.5 轨迹用于 SFT 和 PPO。"
+  ],
+  "findings": [
+   "15 轮共得到 37484 个任务；每千次尝试通过产量保持在 498.2–572.2，候选通过率为 74.5%–81.5%。",
+   "R1 到 R15 的中位参考解由 67 增至 374 行、命令数由 40 增至 244、CLI 工具由 17 增至 71；DeepSeek-V4-Pro pass@4 从 90% 降至 2.5%。",
+   "三阶段 SFT 后，Qwen3.5-27B 在 TB2、TB-Hard、LHTB 上由 41.20/22.67/18.10 升至 47.94/28.33/22.44；122B-A10B 由 43.82/20.00/18.85 升至 49.44/30.00/23.63。",
+   "Qwen3.5-27B-RL 在三项评测上达到 49.44/32.00/22.07，相对基座提升 20.00%/41.16%/21.93%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "适合作为 commit 后长时程终端代理的训练和回归数据，最终工作区验证可对应统一提交判定。",
+   "论文代理会反复生成命令并同步等待工具结果；只允许单一最终 commit 后才生成的 Harness 不能直接复现这个循环。",
+   "论文未研究流式输入、迟到工具结果注入或语音输出，外置 TTS 与方法正交。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "R15 最近邻相似度 p95 已达 0.703，PPO 池还明确保留重写变体而不去重。",
+   "公开数据隐藏原始生成 provenance，任务本身可审计，但无法完整重建生成来源。",
+   "SFT 配置使用 64 GPU、262145 最大上下文及 Daytona/Harbor 基础设施，完整复现门槛高。",
+   "结论中的 TB2 RL 数值与摘要、表 4 和项目页冲突，应以表格为准并保留疑点。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "partial",
    "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "model_url": "https://huggingface.co/Zhongzhi1228/Qwen3.5-27B-RL",
+   "note": "37484 个任务、327189 条轨迹及三个模型权重已发布，数据卡和权重页标注 CC BY 4.0，并另受基础模型条款约束。未找到 RST 核心合成/训练实现；项目站仓库只有网站、viewer 和案例适配器，且没有可识别许可证。"
   },
-  "source_depth": "abstract",
+  "source_depth": "fulltext",
   "generated_at": "2026-08-07T19:15:26.353587+08:00",
   "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "review_status": "editorial"
  },
  "f2f8889349": {
   "tl_dr": "On-Policy Distillation (OPD) is emerging as a promising alternative to reinforcement learning for LLM post-training, yet its effectiveness in multilingual settings remains underexplored. We study OPD and its advanced variant, On-Policy Delt",

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "timezone": "Asia/Shanghai",
   "catchup_start": "2026-08-08",
-  "updated_at": "2026-08-09T15:12:43.057904+00:00",
+  "updated_at": "2026-08-09T18:10:12.698971+00:00",
   "days": {
     "2026-08-08": {
       "stages": {
@@ -176,6 +176,20 @@
           "retries": 0,
           "next_stage": "result_manifest",
           "updated_at": "2026-08-09T21:25:00+08:00"
+        }
+      }
+    },
+    "2026-08-10": {
+      "stages": {
+        "fulltext_review": {
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "data/review_history.json",
+          "error": "",
+          "next_stage": "",
+          "status": "complete",
+          "retries": 0,
+          "updated_at": "2026-08-09T18:10:12.697964+00:00"
         }
       }
     }
