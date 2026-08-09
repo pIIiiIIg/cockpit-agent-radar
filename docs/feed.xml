@@ -4,6 +4,84 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>AXERA-TECH/jina-embeddings-v5-omni-nano</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/553ef78269.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/553ef78269.html</guid>
+<description>feature-extraction transformers axera ax650 embedding feature-extraction multimodal vision audio lora multilingual base_model:jinaai/jina-embeddings-v5-omni-nano base_model:adapter:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:us</description>
+</item>
+<item>
+<title>AXERA-TECH/jina-embeddings-v5-omni-small</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/560b509049.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/560b509049.html</guid>
+<description>feature-extraction transformers axera ax650 embedding feature-extraction multimodal vision audio lora multilingual base_model:jinaai/jina-embeddings-v5-omni-small base_model:adapter:jinaai/jina-embeddings-v5-omni-small license:cc-by-nc-4.0 region:us</description>
+</item>
+<item>
+<title>mradermacher/OPOD-Qwen3-Omni-30B-A3B-i1-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/99d7fd730d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/99d7fd730d.html</guid>
+<description>reinforcement-learning transformers gguf omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni en zh base_model:Tung111/OPOD-Qwen3-Omni-30B-A3B base_model:quantized:Tung111/OPOD-Qwen3-Omni-30B-A3B license:other endpoints_compatible region:us imatrix conversational</description>
+</item>
+<item>
+<title>DataSpace: Benchmarking Data Agents for Verifiable Analytics over Heterogeneous Workspaces</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5573f30b32.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5573f30b32.html</guid>
+<description>Data agents enable natural-language analytics over organizational workspaces, where relevant evidence may be scattered across databases, structured files, long documents, and multimedia. Existing benchmarks largely isolate structured querying, retrieval, or open-ended analysis, leaving heterogeneous</description>
+</item>
+<item>
+<title>KVAE: Family of Tokenizers for Multimodal Generative Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/25004da864.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/25004da864.html</guid>
+<description>Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning speed, quality of synthesized samples and lay foundation for la</description>
+</item>
+<item>
+<title>grapeV-ai/Qwen3-Omni-30B-A3B-Instruct-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fd4fe6502b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fd4fe6502b.html</guid>
+<description>gguf license:apache-2.0 endpoints_compatible region:us conversational</description>
+</item>
+<item>
+<title>Activity Frames: Deterministic Screen-Activity Compilation for Agent Memory and Replay</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/79837be439.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/79837be439.html</guid>
+<description>Computer-use agents pay full frontier inference to re-derive routines their user has already performed, because an agent&#x27;s memory today records what the user said, not what the user did. We compile passively captured screen activity into agent memory with a deterministic, zero-model pipeline: it seg</description>
+</item>
+<item>
+<title>FactorJEPA: Factorizing Monolithic Futures into Layout-Agent-Interaction Channels for Crowded and Chaotic Global South Urban Worlds</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/833ce4e396.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/833ce4e396.html</guid>
+<description>World models have attracted significant attention for their ability to capture and predict the structure and dynamics of the physical world. In this emerging landscape, Joint Embedding Predictive Architectures (JEPA) offer a particularly compelling direction. We study a largely unexplored regime: po</description>
+</item>
+<item>
+<title>Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/168880ed49.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/168880ed49.html</guid>
+<description>Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytic</description>
+</item>
+<item>
+<title>chuonghm/OmniRet</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d4ccbb7471.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d4ccbb7471.html</guid>
+<description>feature-extraction pytorch safetensors omniret multimodal embedding retrieval audio image video feature-extraction dataset:chuonghm/ACM dataset:chuonghm/OmniRet arxiv:2603.02098 base_model:Alibaba-NLP/gte-Qwen2-1.5B-instruct base_model:finetune:Alibaba-NLP/gte-Qwen2-1.5B-instruct license:other regio</description>
+</item>
+<item>
+<title>Interpretable MEG Decoding of Perceived Speech: Cortical Sources and the Stimulus Features That Drive Retrieval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/629b97e3eb.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/629b97e3eb.html</guid>
+<description>Short segments of perceived speech can be retrieved from non-invasive magnetoencephalographic (MEG) recordings by deep networks trained with a CLIP-style objective against wav2vec 2.0 audio embeddings. Yet their weights do not map onto electrophysiological quantities, and it remains unclear which sp</description>
+</item>
+<item>
+<title>MASS: Multiplayer World Models with Authoritative Shared State</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dc7e2d7fd3.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dc7e2d7fd3.html</guid>
+<description>Current video world models struggle in multiplayer environments because they entangle world state with view-dependent visual latents, leading to redundant compute, view inconsistencies, and poor scalability. We propose MAS (Multiplayer world models with Authoritative Shared State) to resolve this li</description>
+</item>
+<item>
+<title>CalibForge: Adversarial Solver Calibration for Scaling Learnable Terminal Tasks</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4740b01b7e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4740b01b7e.html</guid>
+<description>Training terminal agents requires executable and verifiable tasks that are not merely solvable, but appropriately challenging for learning. Executable validation establishes feasibility, yet does not reveal how a task behaves relative to a given solver setting. In this paper, we present CalibForge, </description>
+</item>
+<item>
 <title>nrl-ai/edgevox</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/2084e22174.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2084e22174.html</guid>
@@ -164,83 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/367a22b152.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/367a22b152.html</guid>
 <description>text-generation peft safetensors qwen omni lora dapt barbados text-generation conversational base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct base_model:adapter:Qwen/Qwen3-Omni-30B-A3B-Instruct region:us</description>
-</item>
-<item>
-<title>SIGNPOST-Bench: Benchmarking Text-Vision Conflict Resolution in Multimodal Large Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/76ffc2986d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/76ffc2986d.html</guid>
-<description>Multimodal large language models (MLLMs) make grounded predictions in real-world scenes by combining visual and textual cues, yet existing benchmarks rarely reveal how they arbitrate between these evidence sources when they conflict. We introduce SIGNPOST-Bench, a controlled counterfactual benchmark</description>
-</item>
-<item>
-<title>Learning from Failures: Retrieval-Centric CoT via Hard Negatives for Unified Multimodal Retrieval</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dae611bf98.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dae611bf98.html</guid>
-<description>Unified multimodal retrieval aims to identify candidates that satisfy complex user intent expressed through heterogeneous inputs. Although Large Vision-Language Model (LVLM)-based retrievers are efficient and scalable, directly encoding raw multimodal inputs often misses fine-grained discriminative </description>
-</item>
-<item>
-<title>AffectDF: The Most Comprehensive Benchmark for Speech Deepfake Detection against Emotionally Expressive Attacks</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e222d7b717.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e222d7b717.html</guid>
-<description>Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and </description>
-</item>
-<item>
-<title>DyPES-VLA: Learning Shared Dynamics Priors and Embodiment-Specific Control for Cross-Embodiment Manipulation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/886fba2835.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/886fba2835.html</guid>
-<description>Vision-Language-Action (VLA) models have become a powerful paradigm for robot manipulation, but training a single generalist policy for heterogeneous robot embodiments remains an open problem. Existing methods have two main limitations. First, they underuse dynamics priors shared across diverse visu</description>
-</item>
-<item>
-<title>Identity-Faithful Audio-Visual Target Speaker Extraction with REAL-2MIX and VOXBLINK2-AVSE</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8f3e4a91fb.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8f3e4a91fb.html</guid>
-<description>Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronize</description>
-</item>
-<item>
-<title>COSS-India/voicera_mono_repository</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a34fe1ab83.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a34fe1ab83.html</guid>
-<description>A complete voice AI building block with telephony integration, featuring real-time speech-to-text, text-to-speech, and LLM-powered conversational agents.</description>
-</item>
-<item>
-<title>Resume Means Resume: A Machine-Checked Conformance Contract for Checkpoint, Interrupt, and Resume Semantics in Workflow Persistence Layers</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/06e0a0eb35.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/06e0a0eb35.html</guid>
-<description>A framework that persists execution state so a run can be interrupted, survive a crash, and continue must decide what a resume means for effects that already fired. Five widely deployed agent workflow frameworks answer differently, none exposes a machine-checkable contract, and behavior violates eve</description>
-</item>
-<item>
-<title>FocusMem: Factorizing Content, Readout, and Trust in Latent GUI Memory</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c663ef96e8.html</guid>
-<description>FocusMem 将 GUI 潜在记忆拆成角色化内容保存、按当前决策动态读出和块级证据信任，使同一轨迹在不同步骤暴露不同信息并过滤无关历史。五基准和受控诊断支持这种分解优于固定压缩，但结果均为单次、由专有模型判分，且代码、权重和评测 manifest 尚未发布。</description>
-</item>
-<item>
-<title>Chenxi-Li24/UIEAclub_ThirdHand_VLA</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c5477308e4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c5477308e4.html</guid>
-<description>UIEA ThirdHand VLA — Desktop robotic arm vision-language-action system with Lumos Touch R1. Vision perception + Cloud VLA + Local ASR/TTS + Web console.</description>
-</item>
-<item>
-<title>Better, Stronger, Faster, and Broader: Structured All-Mask Prediction for MLLM-Based Segmentation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ba82e8799b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ba82e8799b.html</guid>
-<description>MLLM-based segmentation faces a core segmentation trilemma: high segmentation performance, preserved dialogue ability, and fast inference. Embedding-prediction methods may disrupt language modeling through pixel-level objectives, whereas next-token generation is inefficient for dense masks. We propo</description>
-</item>
-<item>
-<title>CURV: Enhancing Chart Understanding Through Curriculum Visual Grounded Reasoning</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ffc94a3a05.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ffc94a3a05.html</guid>
-<description>Chart question answering (CQA) requires multimodal large language models (MLLMs) to integrate visual comprehension with logical reasoning, yet current models struggle with accurate visual grounding and coherent reasoning chains. While extrinsic chain-of-thought prompting and visual cues significantl</description>
-</item>
-<item>
-<title>DRIFT: Derailing Denoising Trajectories of Flow-Matching VLAs with Adversarial Patch Attack</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/1069ae17c5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/1069ae17c5.html</guid>
-<description>Flow-matching vision-language-action (VLA) models such as pi0 generate robot actions by integrating a learned denoising velocity field, and have been reported to resist adversarial perturbations that readily fool autoregressive VLAs. We show that this robustness is largely illusory: it stems from pr</description>
-</item>
-<item>
-<title>GDPevo: Evaluating Agent Self-Evolution on Real Business Tasks</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/af56961fe9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/af56961fe9.html</guid>
-<description>Agent self-evolution updates an agent&#x27;s persistent state from prior experience and reuses it to solve related tasks more effectively. Evaluating self-evolution is difficult: existing benchmarks provide limited coverage of economically valuable task domains, do not always design training and test tas</description>
 </item>
 </channel></rss>

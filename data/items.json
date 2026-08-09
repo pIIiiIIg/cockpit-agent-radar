@@ -1,6 +1,221 @@
 {
- "generated": "2026-08-09T16:56:18.266373+08:00",
+ "generated": "2026-08-09T19:07:25.604532+08:00",
  "items": [
+  {
+   "id": "553ef78269",
+   "kind": "model",
+   "source": "hf",
+   "title": "AXERA-TECH/jina-embeddings-v5-omni-nano",
+   "url": "https://huggingface.co/AXERA-TECH/jina-embeddings-v5-omni-nano",
+   "published": "2026-08-09",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers axera ax650 embedding feature-extraction multimodal vision audio lora multilingual base_model:jinaai/jina-embeddings-v5-omni-nano base_model:adapter:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 2
+  },
+  {
+   "id": "560b509049",
+   "kind": "model",
+   "source": "hf",
+   "title": "AXERA-TECH/jina-embeddings-v5-omni-small",
+   "url": "https://huggingface.co/AXERA-TECH/jina-embeddings-v5-omni-small",
+   "published": "2026-08-09",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers axera ax650 embedding feature-extraction multimodal vision audio lora multilingual base_model:jinaai/jina-embeddings-v5-omni-small base_model:adapter:jinaai/jina-embeddings-v5-omni-small license:cc-by-nc-4.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1
+  },
+  {
+   "id": "99d7fd730d",
+   "kind": "model",
+   "source": "hf",
+   "title": "mradermacher/OPOD-Qwen3-Omni-30B-A3B-i1-GGUF",
+   "url": "https://huggingface.co/mradermacher/OPOD-Qwen3-Omni-30B-A3B-i1-GGUF",
+   "published": "2026-08-07",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 8,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "reinforcement-learning transformers gguf omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni en zh base_model:Tung111/OPOD-Qwen3-Omni-30B-A3B base_model:quantized:Tung111/OPOD-Qwen3-Omni-30B-A3B license:other endpoints_compatible region:us imatrix conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "5573f30b32",
+   "kind": "paper",
+   "source": "hf",
+   "title": "DataSpace: Benchmarking Data Agents for Verifiable Analytics over Heterogeneous Workspaces",
+   "url": "https://huggingface.co/papers/2608.03451",
+   "published": "2026-08-03",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal",
+    "agent harness"
+   ],
+   "summary_en": "Data agents enable natural-language analytics over organizational workspaces, where relevant evidence may be scattered across databases, structured files, long documents, and multimedia. Existing benchmarks largely isolate structured querying, retrieval, or open-ended analysis, leaving heterogeneous evidence discovery, complete tabular outputs, and deterministic evaluation insufficiently unified. We introduce DataSpace, a benchmark in which data agents produce verifiable tabular results from task-local heterogeneous workspaces. It contains 410 cross-language tasks and 7,439 artifacts totaling 15.01 GB across CSV, JSON, SQLite, Markdown, PDF, and video. DataSpace also served as the official evaluation benchmark for the KDD Cup 2026 Data Agents for Complex Data Analysis competition. Each agent receives only a question and workspace and returns the complete requested tabular result. We construct DataSpace with DataSpace-Builder, an execution-grounded framework comprising cross-language transformation, constraint-aware relational sampling, modality routing and artifact rendering, and human review and task repair by 11 domain experts. A deterministic evaluator performs header-invariant column alignment, type- and precision-aware normalization, and order-aware row comparison. Across six recently released frontier multimodal models and five widely used agent harnesses, the best accuracy reaches 66.34%, while harness choice creates a 15.36-point spread with the backbone fixed. Multimodal evidence integration and joins consistently reduce accuracy across all six backbones. These results show that DataSpace remains unsaturated and identify key challenges for improving data-agent reliability.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "25004da864",
+   "kind": "paper",
+   "source": "hf",
+   "title": "KVAE: Family of Tokenizers for Multimodal Generative Models",
+   "url": "https://huggingface.co/papers/2608.05798",
+   "published": "2026-08-05",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning speed, quality of synthesized samples and lay foundation for later applications. This report presents series of KVAE tokenizers for audio, image and video, all designed for subsequent text-conditioned generation: KVAE-Audio, a continuous full-band 48 kHz tokenizer with a 50 Hz latent of 64 channels; KVAE-3D -- two causal video tokenizers for 4x16x16 and 4x8x8 compression; KVAE-2D, an image model, compressing input by factor of 8 with 32 channels. We demonstrate that reconstruction (PSNR, LPIPS, PESQ, etc.) and generation results on objective (Frechet Distance, CLIP score, CLAP score, etc.) and subjective (side-by-side evaluation) metrics matches or surpasses frontier opensource tokenizers, such as VAEs from Wan-2.2, HunyuanVideo-1.5, FLUX.2, MovieGen, StableAudio and MMAudio. Considering difficulty of development, we share with community training details, model selection method and ablation on design choices. The code is publicly available at https://github.com/kandinskylab/kvae and https://github.com/kandinskylab/kvae-audio.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "fd4fe6502b",
+   "kind": "model",
+   "source": "hf",
+   "title": "grapeV-ai/Qwen3-Omni-30B-A3B-Instruct-GGUF",
+   "url": "https://huggingface.co/grapeV-ai/Qwen3-Omni-30B-A3B-Instruct-GGUF",
+   "published": "2026-08-07",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "gguf license:apache-2.0 endpoints_compatible region:us conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "79837be439",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Activity Frames: Deterministic Screen-Activity Compilation for Agent Memory and Replay",
+   "url": "https://huggingface.co/papers/2608.05784",
+   "published": "2026-08-05",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Computer-use agents pay full frontier inference to re-derive routines their user has already performed, because an agent's memory today records what the user said, not what the user did. We compile passively captured screen activity into agent memory with a deterministic, zero-model pipeline: it segments a local capture stream into typed activity frames, bounded episodes carrying application, site, timing, input volume, and evidence pointers back to the raw rows, with no model in the loop, so the output is byte-identical, cacheable, and mechanically auditable. On one professional's single-user corpus of 128,756 frames over 51 active days, the compiler reduces a day of raw capture to a prompt-ready context block 86x smaller in 68 ms, and an agent reading that block answers questions about the day at 98.4% accuracy (Wilson 95% CI 91.7-99.7%) against an independent oracle, versus 66-80% for an LLM summary of the same capture, a mid-tier model reading the block matching a frontier one. The same compiler doubles as a demand-side cost instrument. Read off passive, pre-delegation human activity rather than agent rollouts, it supplies two parameters that agent-cost models assume but, to our knowledge, have not measured: the Routine Overhead Ratio R and the routine recurrence h. We report first values of R, a modeled upper bound, at 60-343x, and a delegable recurrence of 9.0% in-sample and 7.7% out-of-sample, for a realistic all-fleet token ceiling near 8%; a compiled routine replays deterministically with the model out of the loop, demonstrated live at zero model tokens on a guard-matched hit. Schema, compiler, and evaluation harness are open.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "833ce4e396",
+   "kind": "paper",
+   "source": "hf",
+   "title": "FactorJEPA: Factorizing Monolithic Futures into Layout-Agent-Interaction Channels for Crowded and Chaotic Global South Urban Worlds",
+   "url": "https://huggingface.co/papers/2608.01049",
+   "published": "2026-08-01",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "World models have attracted significant attention for their ability to capture and predict the structure and dynamics of the physical world. In this emerging landscape, Joint Embedding Predictive Architectures (JEPA) offer a particularly compelling direction. We study a largely unexplored regime: populous, crowded, and chaotic Global South urban environments, which we call DENSEWORLD. Unlike the lower-density, lane-structured settings that dominate existing evaluations, these scenes exhibit soft spatial boundaries, extreme agent heterogeneity, persistent occlusion, and rapid social negotiation under mixed traffic. We introduce the first large-scale dataset for this regime: 1,000 hours of drive-through, walk-through, and aerial video across 22 cities. Existing JEPA formulations struggle to preserve dense interaction dynamics under heterogeneity and partial observability. We introduce FactorJEPA, which makes world structure a first-class predictive primitive. Rather than encoding the future in a monolithic latent, it composes layout, entities, and interactions, using a visibility gate and separated subspaces to preserve partially observed agents and discourage cross-factor shortcuts. FactorJEPA improves (i) future-latent accuracy (Future-frame L1), (ii) intervention-sensitive prediction (Causal L1), and (iii) robustness to reduced visual evidence (Mask-ratio slope), while exposing (iv) a reproducible motion-information trade-off (Motion cosine). Method rankings replicate across 2B and 1B V-JEPA 2.1 backbones, with rho = 0.895 to 0.978. We publicly release the DENSEWORLD-115k dataset (https://huggingface.co/datasets/anonymousML123/denseworld-115k) and the surgery-trained FactorJEPA checkpoints (https://huggingface.co/datasets/anonymousML123/factorjepa-outputs/tree/main/outputs/full/vjepa_2_1_vitg_1B/train/m09c_surgery_3stage_DI_diheavy_encoder).",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "168880ed49",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+   "url": "https://huggingface.co/papers/2608.01851",
+   "published": "2026-08-02",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "d4ccbb7471",
+   "kind": "model",
+   "source": "hf",
+   "title": "chuonghm/OmniRet",
+   "url": "https://huggingface.co/chuonghm/OmniRet",
+   "published": "2026-08-07",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 3,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction pytorch safetensors omniret multimodal embedding retrieval audio image video feature-extraction dataset:chuonghm/ACM dataset:chuonghm/OmniRet arxiv:2603.02098 base_model:Alibaba-NLP/gte-Qwen2-1.5B-instruct base_model:finetune:Alibaba-NLP/gte-Qwen2-1.5B-instruct license:other region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "629b97e3eb",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Interpretable MEG Decoding of Perceived Speech: Cortical Sources and the Stimulus Features That Drive Retrieval",
+   "url": "https://huggingface.co/papers/2608.01481",
+   "published": "2026-08-01",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Short segments of perceived speech can be retrieved from non-invasive magnetoencephalographic (MEG) recordings by deep networks trained with a CLIP-style objective against wav2vec 2.0 audio embeddings. Yet their weights do not map onto electrophysiological quantities, and it remains unclear which speech properties drive retrieval. We build on a high-performing MEG-to-audio retrieval architecture but redesign both its front end and decoder. Its spatial attention operates on a flattened sensor layout; we replace it with spherical harmonics defined on the three-dimensional MEG helmet geometry. We reduce the subject-specific representation from 270 to 25 branches, add a temporal filter to each branch to match it to a neuronal source in space and time, and make the convolutional decoder shallower. Ocular and cardiac components are removed before training to reduce the risk of stimulus-locked shortcuts. On MEG-MASC, the model reaches 39.75 +/- 0.34% Top-1 accuracy among 1005 candidates across six trained solutions, with about 20 times fewer decoder parameters. Its weights map to source space, recovering generators consistent with the speech-perception network, while left-lateralized branches carry higher-frequency rhythmic components not evident on the right. Paired MEG occlusion shows that 15 of 19 stimulus features contribute, with the largest effects for silence, sound intensity, vowels, and acoustic onsets. Random word lists behave oppositely: substituting narrative MEG into them improves retrieval, indicating that activity without narrative structure carries less recoverable information than activity during coherent speech. The wav2vec target can be reduced to about twelve learned feature dimensions without loss of accuracy, whereas strong temporal compression causes a clear loss. Together, source mapping and input interventions reveal what drives retrieval.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "dc7e2d7fd3",
+   "kind": "paper",
+   "source": "hf",
+   "title": "MASS: Multiplayer World Models with Authoritative Shared State",
+   "url": "https://huggingface.co/papers/2608.06257",
+   "published": "2026-08-05",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Current video world models struggle in multiplayer environments because they entangle world state with view-dependent visual latents, leading to redundant compute, view inconsistencies, and poor scalability. We propose MAS (Multiplayer world models with Authoritative Shared State) to resolve this limitation. Inspired by multiplayer game architectures, MAS disentangles world dynamics and view rendering. A learned Logic Engine advances a global, authoritative typed state from joint actions without any hand-written transition function, acting as the sole recurrent memory and synchronization reference. From this shared state, a learned Rendering Engine generates independent and consistent views for any requested camera on demand. This explicit disentangling allows MAS to achieve superior state accuracy and lower cross-view inconsistency compared to state-of-the-art multi-view baselines on a matched multiplayer Snake benchmark. It advances predicted worlds with 1,024 concurrent players for 10,000 recurrent steps. Our results show that explicit, authoritative state modeling provides a practical foundation for scalable and consistent multi-agent world simulation.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "4740b01b7e",
+   "kind": "paper",
+   "source": "hf",
+   "title": "CalibForge: Adversarial Solver Calibration for Scaling Learnable Terminal Tasks",
+   "url": "https://huggingface.co/papers/2608.06352",
+   "published": "2026-08-05",
+   "found": "2026-08-09T19:07:25.604532+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Training terminal agents requires executable and verifiable tasks that are not merely solvable, but appropriately challenging for learning. Executable validation establishes feasibility, yet does not reveal how a task behaves relative to a given solver setting. In this paper, we present CalibForge, an autonomous terminal-task synthesis system that uses verified solver behavior to revise candidate tasks through adversarial solver calibration. Multi-solver calibration targets disagreement within a heterogeneous solver pool, whereas contrastive solver calibration targets a designated strong-pass/weak-fail relation; both operationalize a solver-relative learnable zone anchored in demonstrated solvability. Using CalibForge, we construct 5,431 calibrated terminal tasks. Our ablations show that both strategies yield more effective supervision than authoring and validation alone or ordinary single-solver feedback. Models trained on the full collection achieve 32.58% and 47.57% on Terminal-Bench 2.0. The largest improvements over the corresponding base model reach 24.71 percentage points on Terminal-Bench 2.0, 27.68 points on SWE-bench Pro, and 30.04 points on Doc2Repo. Together, these results support solver-relative learnability as a practical target for constructing effective and transferable agent training data.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "2084e22174",
    "kind": "repo",
@@ -3420,7 +3635,7 @@
    "summary_en": "Open-source realtime voice agent server in Go with WebRTC (WHIP), barge-in, streaming STT/LLM/TTS pipelines, plugin system, multi-language SDKs, SIP telephony, ESP32 support & fully local mode. agent-framework ai-voice-agent conversational-ai esp32 go golang local-ai open-source-ai realtime-ai realtime-voice-agent sip speech-to-text stt telephony text-to-speech tts voice-agent voice-ai webrtc webrtc-whip",
    "summary_zh": "",
    "demo": "",
-   "stars": 135
+   "stars": 136
   },
   {
    "id": "64bb628be2",
@@ -3666,7 +3881,7 @@
    "summary_en": "Your calls, handled by AI — open-source AI phone agent on a Quectel EC20/EG25 4G modem. Auto-answers calls with realtime voice AI (Qwen/OpenAI/Doubao), dials out, sends SMS, navigates IVR menus. 4g-modem ai ai-agent ec20 macos phone-agent python quectel qwen realtime speech-to-speech telephony voice-ai voice-assistant",
    "summary_zh": "",
    "demo": "",
-   "stars": 13
+   "stars": 14
   },
   {
    "id": "1f6cd0317b",
@@ -4088,7 +4303,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15091
+   "stars": 15092
   },
   {
    "id": "357904a773",
@@ -5565,7 +5780,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 11766
+   "stars": 11788
   },
   {
    "id": "be7f76beb6",
@@ -5695,7 +5910,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5978
+   "stars": 5981
   },
   {
    "id": "293306d628",
