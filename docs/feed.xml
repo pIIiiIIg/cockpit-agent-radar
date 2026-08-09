@@ -4,6 +4,30 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>nrl-ai/edgevox</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2084e22174.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2084e22174.html</guid>
+<description>Offline voice agent framework for robots — agents, skills, workflows, sub-second voice pipeline, 2D/3D simulation (IR-SIM + MuJoCo), 16 languages, 56 voices, ROS2-native. Runs on CPU/CUDA/Metal, no cloud. agent-framework edge-ai faster-whisper kokoro llama-cpp llm local-ai mujoco offline-ai piper py</description>
+</item>
+<item>
+<title>lance-format/lance-context</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/200683e86b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/200683e86b.html</guid>
+<description>Manage Multimodal Agentic Context Lifecycle with Lance</description>
+</item>
+<item>
+<title>thekaifansari01/Jarvis-OS-Agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/923f6e1098.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/923f6e1098.html</guid>
+<description>Autonomous AI Agent for Windows — voice‑controlled coding, PC automation, Android control, email/WhatsApp, and lifelong memory. Zero line‑drift code editing. Open‑source. ai-agent android-control automation-tool autonomous-agents chromadb code-editor developer-tools gemini-api groq llm open-source p</description>
+</item>
+<item>
+<title>phuetz/code-buddy</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3bd65d3cc8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3bd65d3cc8.html</guid>
+<description>Open-source multi-provider AI coding agent — terminal + Electron desktop (Cowork) + 24/7 multi-AI fleet, free-first on local Ollama. Opt-in, human-gated evolutionary self-improvement that ingests research to set its own goals. 15 LLM providers (Claude, GPT, Gemini, Grok), ~110 tools, MCP, voice+visi</description>
+</item>
+<item>
 <title>mradermacher/OPOD-Qwen3-Omni-30B-A3B-GGUF</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/34e3999f6c.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/34e3999f6c.html</guid>
@@ -218,29 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/af56961fe9.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/af56961fe9.html</guid>
 <description>Agent self-evolution updates an agent&#x27;s persistent state from prior experience and reuses it to solve related tasks more effectively. Evaluating self-evolution is difficult: existing benchmarks provide limited coverage of economically valuable task domains, do not always design training and test tas</description>
-</item>
-<item>
-<title>When Memory Lies: An Empirical Study of Spatial Memory Staleness in VLM Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2613c89501.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2613c89501.html</guid>
-<description>SpatialSTALE 用动态 FrozenLake 同时测量陈旧空间记忆的识别及其导航伤害：GPT-4o 在 L2 使用未过滤旧记忆时死亡率由无记忆的 28.0% 升至 74.4%，OMCD 读时过滤降至 31.6%。但视觉审计 F1 在不同模型间从 0.887 到 0.067，可靠过滤后也仍有动作选择错误。</description>
-</item>
-<item>
-<title>OPD-V: Visual On-Policy Self-Distillation with Modality Balance</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c5f55d7979.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c5f55d7979.html</guid>
-<description>On-Policy Self-Distillation (OPSD) has become a standard post-training approach for improving visual reasoning in multimodal large language models (MLLMs). Existing methods draw privileged information from diverse input sources to guide self-distillation. Yet these designs overlook Modality Imbalanc</description>
-</item>
-<item>
-<title>AudioVisual-Caption/ASID-Captioner-3B</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/690dd39f48.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/690dd39f48.html</guid>
-<description>image-text-to-text transformers safetensors qwen2_5_omni video-captioning audiovisual qwen2.5-omni instruction-tuning attribute-structured quality-verified image-text-to-text conversational en arxiv:2602.13013 base_model:Qwen/Qwen2.5-Omni-3B base_model:finetune:Qwen/Qwen2.5-Omni-3B license:apache-2.</description>
-</item>
-<item>
-<title>AudioVisual-Caption/ASID-Captioner-7B</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/11a12d2691.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/11a12d2691.html</guid>
-<description>image-text-to-text transformers safetensors qwen2_5_omni video-captioning audiovisual qwen2.5-omni instruction-tuning attribute-structured quality-verified image-text-to-text conversational en arxiv:2602.13013 base_model:Qwen/Qwen2.5-Omni-7B base_model:finetune:Qwen/Qwen2.5-Omni-7B license:apache-2.</description>
 </item>
 </channel></rss>
