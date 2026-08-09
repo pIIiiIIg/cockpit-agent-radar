@@ -26,6 +26,6 @@
   "candidate_records": [
     "data/handoff/candidates/2026-08-09.json"
   ],
-  "next_required_event": "offline_replay",
+  "next_required_event": "closed",
   "stale_after_hours": 24
 }

@@ -1735,6 +1735,85 @@
     {
       "artifacts": [
         {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/conditional-top2-tool-verifier-v1/summary.json",
+          "hash": "sha256:a2ca69314697afcc8b8d149a371b3b955c51c8f5b089debe694dc3af793e1894",
+          "path": "evolution/experiments/artifacts/conditional-top2-tool-verifier-v1/summary.json",
+          "summary": {
+            "actual_execution_success_rate": 0.0,
+            "commit_to_call_p95_ms": null,
+            "completed": 414,
+            "completion_rate": 1.0,
+            "dangerous_miscalls": 0,
+            "e2e_p95_ms": null,
+            "errors": 0,
+            "profile": "offline_replay",
+            "samples": 414
+          }
+        },
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/conditional-top2-tool-verifier-v1/manifest.json",
+          "hash": "sha256:fd8e5e0511033f71e7363fb8ad5cde223087702a68a3824567e974aa82826d9d",
+          "path": "evolution/experiments/artifacts/conditional-top2-tool-verifier-v1/manifest.json"
+        }
+      ],
+      "baseline_id": null,
+      "branch": "experiment/action-safety-20260809-4bff8703",
+      "buckets": {
+        "complex_samples": null,
+        "scope": "summary"
+      },
+      "commit": "ebbac4c10f22364a76b14d6ae58d9186527dc461",
+      "complex_intent": {},
+      "conclusion": "H20 outcome archived under serialized registry lock.",
+      "delta": {
+        "accuracy": null,
+        "actual_execution_success_rate": null,
+        "call_p50_ms": null,
+        "call_p95_ms": null,
+        "commit_to_call_p50_ms": null,
+        "commit_to_call_p95_ms": null,
+        "completion_rate": null,
+        "complex_success_rate": null,
+        "e2e_p50_ms": null,
+        "e2e_p95_ms": null,
+        "withheld_reason": "baseline_missing"
+      },
+      "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/action-safety-20260809-4bff8703",
+      "id": "conditional-top2-tool-verifier-v1",
+      "known_limitations": "Component combinations retain their registry evidence labels.",
+      "metrics": {
+        "accuracy": null,
+        "actual_execution_success_rate": 0.0,
+        "call_p50_ms": null,
+        "call_p95_ms": null,
+        "completion_rate": 1.0,
+        "complex_success_rate": null,
+        "e2e_p50_ms": null,
+        "e2e_p95_ms": null
+      },
+      "parent_id": null,
+      "profile": "offline_replay",
+      "qualified": false,
+      "recorded_at": "2026-08-09T14:25:12.163297+00:00",
+      "reproduce": "python -m evolution.auto_loop --config <private-config>",
+      "retention_reason": "Preserve positive, partial, rejected, and invalid evidence.",
+      "safety": {
+        "chit_chat_miscall_rate": 0.0,
+        "dangerous_miscalls": 0,
+        "errors": 0,
+        "evidence_complete": true,
+        "passed": true
+      },
+      "sample_count": 414,
+      "single_variable": "action_safety",
+      "sources": [
+        "unattended parallel Agent-H20 loop"
+      ],
+      "status": "rejected"
+    },
+    {
+      "artifacts": [
+        {
           "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/summary.json",
           "hash": "sha256:6b16a998b05ceff87177447697dec29844f8045f57d77de39f8ca78b285b87cc",
           "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/summary.json",
@@ -1983,11 +2062,11 @@
   "schema_version": 2,
   "source": {
     "branch": "automation/agent-h20-loop",
-    "commit": "47caca84e449fdff478cd06f152fd885ae229f13",
+    "commit": "da70b41bcac3648696443e027ce9d5d8c8e03e32",
     "component_path": "evolution/retained_components.json",
     "registry_path": "evolution/experiments/registry.json",
     "repository": "https://github.com/ISS-2030Lab/StreamingModelHarness",
     "status": "fresh",
-    "synced_at": "2026-08-09T20:00:07+08:00"
+    "synced_at": "2026-08-09T22:28:50+08:00"
   }
 }
