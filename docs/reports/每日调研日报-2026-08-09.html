@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2026-08-07 · Solutions</title>
+<title>每日调研日报 · 2026-08-09</title>
 <link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
       href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
 <style>
@@ -161,7 +161,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 })();
 </script>
 </head>
-<body data-page="solutions"><div class="wrap">
+<body data-page=""><div class="wrap">
 <header class="site">
   <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
   <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
@@ -175,6 +175,17 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<h2 class="day"><span class="l-zh">每日方案变化</span><span class="l-en">Daily solution changes</span> · 2026-08-07 · 0</h2><p class="solution-source ok"><span class="l-zh">Harness 数据源已同步</span><span class="l-en">Harness source synchronized</span> · <code>4b63258a340c</code></p><p class="no-updates"><span class="l-zh">当日新增/更新：0</span><span class="l-en">Added/updated that day: 0</span></p><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">← 全部组件</span><span class="l-en">← All solutions</span></a></p>
+<div class="item-page"><h2>每日调研日报 · 2026-08-09</h2><div class="report-body"><h1>每日调研日报 · 2026-08-09</h1>
+<p>Harness 回归：HarnessOpt-Bench（当前 A/B/C 容易在可见回归集上反复调参，且小样本差异可能落在运行噪声内；论文用开发轨迹、聚合验证分、隐藏测试集、固定预算和候选版本账本隔离过拟合；准备建立开发/验证/隐藏测试三层发布门，并同时记录最终车态、调用预算和重复运行噪声）</p>
+<p>最终状态：OneDayAgent verification-only（当前严格工具成功率约80%，增加规划和调用可能累积失败；论文消融中仅验证与仅分解都从0.771升到0.804，但平均耗时分别为29.7和38.1分钟；准备先只核对原请求、typed call、CarSim终态和口播，失败最多一次有界修复）</p>
+<p>KV 恢复：RestoreKV（B路径持久KV累积曾损失约22个百分点；论文在固定5% KV预算下把Qwen3-4B的KVzip RULER-4K从38.2恢复到73.2；准备离线对比full cache、当前驱逐和同预算恢复缓存，但需自训Qwen3-Omni adapter，且不能解决110ms/token的MoE同步）</p>
+<p>音视频压缩：OmniScope（当前音频流在endpoint后才形成完整查询，未来视觉和音频关键时刻又可能错位；论文7B模型保留25% token时平均分只降0.35点、prefill加速3.53×；准备仅在commit后试音频分支，迟到工具schema触发重算，不把离线MCQ结果当实时收益）</p>
+<p>低优先证据忠实度：OPPO 反事实遮蔽（多模态模型可能在移除音频或视觉后仍编造对应证据；论文用模态遮蔽和定向token目标提高线索覆盖与遮蔽辨别，但没有流式、延迟、打断或工具实验；只持续跟踪其遮蔽协议，不作为当前全双工核心进展）</p>
+<p>多语 ASR：LS-MOPD（普通话、方言和英语联合优化可能顾此失彼；论文共享冻结声学前缀的三教师方案在640ms chunk流式设置下把混合平均错误率从5.74%降到5.18%；当前代码、基座和权重均未开放，准备只建立语言与code-switch分桶，不启动多教师训练）</p>
+<p>语义判停：持续 NAC Endpointer（今日没有新的在线语义判停结果可替换8月6日结论；准备继续以AEC后用户流和播放参考做影子单流/双流测试，覆盖中文停顿、回声和双讲）</p>
+<p>多人座舱：持续 QIANGDA 成对身份回归（今日没有新的因果多乘员前端；准备继续对同一主驾/副驾混音分别指定目标，要求背景未授权工具执行为0，不接入其非因果整句模型）</p>
+<p>本地 TTS：无重大新增（A/B首音频P50仍为2,918/3,491ms，今日候选没有可比的首PCM结果；准备继续测CosyVoice的中文忠实度、首音频P50/P95、RTF、显存和打断残留）</p>
+<p>MoE 解码：无重大新增（当前约110ms/token，项目剖析仍指向每token约816次GPU→CPU同步；RestoreKV和OmniScope分别改善缓存质量与prefill，不能解释该根因；准备继续在5090/H200验证无同步 <code>index_select</code>+<code>bmm</code> fast path）</p>
+<p>AEC、空间听觉与原生全双工：无重大新增（本次Radar缺口内没有新的可核验主候选；继续跟踪LMPAN、空间音频、多乘员因果前端和Lychee-FD离线回放，不用弱相关条目填充结论）</p></div><section class="solution-feedback"><h2><span class="l-zh">实验反馈 / 保留组件</span><span class="l-en">Experiment feedback / retained components</span> · 2026-08-09</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/2026-08-09.html"><span class="l-zh">查看当日方案页</span><span class="l-en">Open daily solutions</span></a></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>
