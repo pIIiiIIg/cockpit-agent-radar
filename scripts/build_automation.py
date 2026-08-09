@@ -801,7 +801,7 @@ def overview(snapshot=None):
               f'<span class="badge script">{pair("蓝：确定性脚本","Blue: deterministic scripts")}</span>'
               f'<span class="badge mixed">{pair("金：脚本抓取/评分 + Cursor 全文精读","Gold: scripted fetch/score + Cursor full-text review")}</span>'
               f'<span class="badge verified">{pair("网站自动化：已实测","Site automation: verified")}</span>'
-              f'<span class="badge pending">{pair("Harness 02:00 接续：待运行","Harness 02:00 resume: pending")}</span>')
+              f'<span class="badge verified">{pair("8/8–8/9 闭环：已完成","Aug 8–9 loop: closed")}</span>')
     body = hero("从技术雷达到可验证改进", "From radar to verified improvements",
         "这不是“让模型自动改代码”一个动作，而是一条有证据、有隔离、有硬门、可回滚的闭环。点击节点看输入、输出、失败边界与责任归属。",
         "This is not one “let a model edit code” action. It is an evidence-backed, isolated, gated, reversible loop. Open any node for inputs, outputs, and failure boundaries.", badges)
@@ -836,7 +836,7 @@ def overview(snapshot=None):
 </div></section>
 <section class="section"><h2>{pair("当前证据状态","Current evidence status")}</h2><div class="grid">
 <article class="card"><h3 class="verified">{pair("已实测：Radar 网站自动化","Verified: Radar site automation")}</h3><p>{pair("三班抓取、摘要回填、测试、建站、推送、Pages smoke；本地日报/精读发布使用互斥锁、重试和完成哨兵。","Scheduled fetch, backfill, tests, build, push, and Pages smoke; local publishers use a mutex, retry, and completion sentinel.")}</p></article>
-<article class="card"><h3 class="pending">{pair("待运行：Harness 02:00 从离线回放接续","Pending: Harness resumes offline replay at 02:00")}</h3><p>{pair("8月9日候选已 ACK；下一班从 offline_replay 恢复。离线门未通过前不申请 H20，不能写成“已稳定运行”。","The Aug 9 candidate is acknowledged; the next shift resumes at offline_replay. H20 is not requested before that gate passes, and stable operation is not claimed.")}</p></article>
+<article class="card"><h3 class="verified">{pair("已闭环：8月8–9日补跑","Closed: Aug 8–9 catch-up")}</h3><p>{pair("两个候选均在离线门终止并回写；下一次 02:00 从缺失日期扫描开始，不会重复精读、候选或同 candidate/commit 实验。","Both candidates terminated at the offline gate and were written back. The next 02:00 run starts with missing-date scanning and will not repeat reviews, candidates, or the same candidate/commit experiment.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("按日期闭环状态","Daily closed-loop status")}</h2>
 <div class="card">{ledger_html}<p class="sub">{pair(

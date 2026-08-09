@@ -149,7 +149,7 @@ class AutomationPageTests(unittest.TestCase):
                      "188xx", "189xx", "452", "122", "pure audio"):
             with self.subTest(fact=fact):
                 self.assertIn(fact, all_html)
-        self.assertIn("02:00 接续", self.pages["index"])
+        self.assertIn("8/8–8/9 闭环：已完成", self.pages["index"])
         self.assertIn("待验证", self.pages["index"])
         self.assertNotIn("已稳定无人值守运行", self.pages["index"])
 
