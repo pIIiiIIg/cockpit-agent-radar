@@ -57,7 +57,16 @@
       "research_value": "候选召回与候选内决策的可归因消融；若失败，形成 verifier 触发率/翻转精度负结果章节。",
       "patent_value": "公开安全标签：条件式候选验证；仅记录研究贡献，不公开未申请实现细节。",
       "source_commit": "29538e2",
-      "status": "ready_for_implementation",
+      "status": "rejected",
+      "offline_result": {
+        "canary_414_regressions": 0,
+        "trigger_count": 5,
+        "historical_corrected": 4,
+        "historical_regressed": 0,
+        "expected_net_fixes": 4,
+        "h20_consumed": false,
+        "result_commit": "a5843643fc1ea51b4cdfd09368c7b0b91cf7807d"
+      },
       "evidence_score": 0.93
     }
   ]
