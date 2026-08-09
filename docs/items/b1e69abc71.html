@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-04 · ◈ 6
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforcement learning (RL), producing attacker models that often generalize poorly to new target LLMs. In this work, we develop PIMiner, an agentic system for prompt injection red-teaming. During training, PIMiner is trained on a sequence of (dataset, target model) pairs and builds a strategy library from scratch. At test time, the learned strategy library can be directly transferred to a previously unseen target LLM without additional training. PIMiner requires only a small number of queries to a target agent (e.g., 10) per test sample. Experimental results demonstrate that PIMiner achieves strong performance. On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1, and 42.9% ASR against Claude-Sonnet-4.5. On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro, 53.3% ASR against GPT-5.1, and 40.0% ASR against Claude-Sonnet-4.5. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">PIMiner 把成功与失败的提示注入历史蒸馏成可路由策略库，以最多十次目标查询迁移到未见模型；对 Gemini-2.5-Pro 的 IPIArena/AgentDojo ASR@10 为 76.2%/86.7%。它适合红队 Harness 的晚到工具内容，但成功标准应改为未经授权的 typed action 是否真正进入执行。</span>
     <span class="l-en">Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforcement learning (RL), producing attacker models that often generalize poorly to new target LLMs. In this work, we develop PIMiner, an agentic system for prompt injection red-teaming. During training, PIMiner is trained on a sequence of (dataset, target model) pairs and builds a strategy library from scratch. At test time, the learned strategy library can be directly transferred to a previously unseen target LLM without additional training. PIMiner requires only a small number of queries to a target agent (e.g., 10) per test sample. Experimental results demonstrate that PIMiner achieves strong performance. On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1, and 42.9% ASR against Claude-Sonnet-4.5. On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro, 53.3% ASR against GPT-5.1, and 40.0% ASR against Claude-Sonnet-4.5.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prom</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">PIMiner 把搜索式提示注入红队历史蒸馏为可路由的 Markdown 策略库，以三级记忆和最多十轮反馈搜索替代目标专属 RL；它对多个未见目标模型取得较高攻击成功率，但依赖小型公开沙箱和闭源 Claude 骨干。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>RL 红队通常需要大量目标查询、为每个目标单独训练且迁移有限；PAIR、TAP 等搜索方法则会在每个样本重新开始。论文研究如何跨样本、数据集和目标模型持续积累攻击机制，同时控制上下文与查询成本。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforcement learning (RL), producing attacker models that often generalize poorly to new target LLMs. In this work, we develop PIMiner, an agentic system for prompt injection red-teaming. During training, PIMiner is trained on a sequence of (dataset, target model) pairs and builds a strategy library from scratch. At test time, the learned strategy library can be directly transferred to a previously unseen target LLM without additional training. PIMiner requires only a small number of queries to a target agent (e.g., 10) per test sample. Experimental results demonstrate that PIMiner achieves strong performance. On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1, and 42.9% ASR against Claude-Sonnet-4.5. On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro, 53.3% ASR against GPT-5.1, and 40.0% ASR against Claude-Sonnet-4.5.</p>
-
-
+  <p>训练依次处理八个数据集—目标模型对，并可读取逐步代理轨迹；测试时冻结知识库，只观察最终输出和成功标签。长期记忆保存策略机制、适用范围、成功实例和失败条件；路由器选择 Top-3。攻击器还读取同一数据集的压缩历史和当前样本完整轨迹，最多尝试十次。训练结束后 digester 按机制聚类案例并修订策略，测试期禁止更新。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>从 AgentDojo、IPIArena 或 InjecAgent 抽取任务、注入槽位与恶意目标。</li><li>路由器按目标模型、任务表面和注入位置选择最多三条策略。</li><li>攻击器结合三级记忆生成注入，调用目标代理并读取轨迹与判定。</li><li>最多迭代十轮，根据失败机制改写载荷。</li><li>完成样本被压缩进同数据集记忆；训练阶段再由 digester 更新策略库。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>IPIArena 上对 Gemini-2.5-Pro、GPT-5.1、Claude-Sonnet-4.5 的 ASR@10 为 76.2%、61.9%、42.9%；AgentDojo 上为 86.7%、53.3%、40.0%。</li><li>30 个 InjecAgent 测试样本上，对 GPT-4o-mini、GPT-4.1-nano 和 GPT-5-nano 均达到 1.00 ASR@10。</li><li>完整三级记忆相对只保留样本内历史，在 Haiku-4.5 上由 13.1% 升至 32.9%，在 Sonnet-4.6 上由 50.6% 升至 68.4%。</li><li>路由器将 Haiku 平均输入从 237K 降至 136K token，将 Sonnet 从 236K 降至 92K；Sonnet ASR 同时由 60.9% 升至 68.4%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：PIMiner 直接适合测试 endpoint/commit 后返回的网页、文档和 late tool 结果能否通过间接注入改写已提交意图。</li><li>编辑判断：Harness 应把成功 oracle 改为“未经候选授权的 typed action 是否进入执行阶段”，并区分模型尝试、类型校验拒绝和真实执行。</li><li>编辑判断：candidate-authorized actions 与确定性执行检查可为策略库提供比自然语言裁判更强的复现证据。</li><li>编辑判断：论文不覆盖音频端点、外部 TTS 或并发听说，只是提交后工具注入红队层，不是全双工验证。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>IPIArena 仅 21 例、AgentDojo 仅 30 例，未给置信区间或重采样稳定性。</li><li>训练期可见逐步代理轨迹，强于完全外部攻击者的知识条件。</li><li>默认攻击、路由和 digest 均依赖 Claude Code 与 Claude Opus 4.7，成本和模型漂移限制复现。</li><li>未测试检测器、净化器、安全策略层或真实生产执行边界，公开攻击库也有双用风险。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-06 16:13</p>
+  <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
+     &nbsp; 官方仓库以 MIT 发布 Python/Shell 实现、协议、数据适配器和十个 Markdown 策略文件；没有自研模型权重，运行依赖外部 Claude 与目标模型 API。上游 AgentDojo、InjecAgent、IPIArena 仓库也标注 MIT；论文为 CC BY 4.0。</p>
+  <p><a class="btn" href="https://github.com/Wang-Yanting/PIMiner" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-09 20:15</p>
 </section>
   <p><a class="btn" href="https://huggingface.co/papers/2608.05108"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

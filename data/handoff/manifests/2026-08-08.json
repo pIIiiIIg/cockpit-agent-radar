@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "event": "radar_research_published",
+  "date": "2026-08-08",
+  "actual_completed_at": "2026-08-09T21:30:00+08:00",
+  "input_commit": "29538e2",
+  "output_commit": "SELF",
+  "fulltext_review": {
+    "actual_review_date": "2026-08-09",
+    "catchup_for": "2026-08-08",
+    "ids": [
+      "5c3479442c",
+      "f169a1c3cf",
+      "88c1d889be",
+      "8b7e72d84e",
+      "b1e69abc71",
+      "7dc9a079ca"
+    ],
+    "abstract_or_github_only_counted": false
+  },
+  "reports": [
+    "reports/每日调研日报-2026-08-08.md",
+    "reports/全双工语音技术增量调研-2026-08-08.md"
+  ],
+  "candidate_records": [
+    "data/handoff/candidates/2026-08-08.json"
+  ],
+  "next_required_event": "closed",
+  "stale_after_hours": 24
+}

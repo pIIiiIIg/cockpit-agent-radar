@@ -161,6 +161,25 @@ def load_snapshot(root):
         solution_payload.get("components", [])
         if isinstance(solution_payload, dict) else [])
     solution_rows = [row for row in solution_rows if isinstance(row, dict)]
+    ledger_payload = safe_json(
+        os.path.join(data_dir, "handoff", "ledger.json"), {})
+    ledger_days = []
+    if isinstance(ledger_payload, dict):
+        for day, value in sorted(
+                ledger_payload.get("days", {}).items(), reverse=True):
+            if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(day)):
+                continue
+            stages = value.get("stages", {}) if isinstance(value, dict) else {}
+            ledger_days.append({
+                "date": day,
+                "stages": {
+                    stage: str(stages.get(stage, {}).get("status", "missing"))
+                    for stage in (
+                        "fulltext_review", "problem_report", "duplex_report",
+                        "candidate_publish", "candidate_ack", "offline_replay",
+                        "h20_evaluation", "result_manifest", "radar_writeback")
+                },
+            })
     build_time = datetime.now().astimezone()
     return {
         "available": has_items,
@@ -181,6 +200,7 @@ def load_snapshot(root):
         "solution_status": (
             solution_payload.get("source", {}).get("status", "stale")
             if isinstance(solution_payload.get("source"), dict) else "stale"),
+        "ledger_days": ledger_days,
         "build_date": build_time.date().isoformat(),
         "build_time": build_time.isoformat(timespec="minutes"),
     }
@@ -785,6 +805,23 @@ def overview(snapshot=None):
     body = hero("从技术雷达到可验证改进", "From radar to verified improvements",
         "这不是“让模型自动改代码”一个动作，而是一条有证据、有隔离、有硬门、可回滚的闭环。点击节点看输入、输出、失败边界与责任归属。",
         "This is not one “let a model edit code” action. It is an evidence-backed, isolated, gated, reversible loop. Open any node for inputs, outputs, and failure boundaries.", badges)
+    ledger_rows = []
+    labels = {
+        "fulltext_review": "精读", "problem_report": "日报",
+        "duplex_report": "全双工", "candidate_publish": "候选",
+        "candidate_ack": "ACK", "offline_replay": "离线",
+        "h20_evaluation": "H20", "result_manifest": "结果",
+        "radar_writeback": "回写",
+    }
+    for row in snapshot.get("ledger_days", []):
+        statuses = " · ".join(
+            f"{labels.get(stage, stage)}={status}"
+            for stage, status in row["stages"].items())
+        ledger_rows.append(
+            f'<li><b>{esc(row["date"])}</b> · {esc(statuses)}</li>')
+    ledger_html = (
+        "<ul>" + "".join(ledger_rows) + "</ul>"
+        if ledger_rows else f"<p>{pair('尚无 handoff ledger','No handoff ledger yet')}</p>")
     body += f"""<div class="controls" aria-label="Flow animation">
 <button class="btn" onclick="playFlow()">▶ {pair("逐步播放","Play")}</button>
 <button class="btn" onclick="pauseFlow()">Ⅱ {pair("暂停","Pause")}</button>
@@ -801,6 +838,10 @@ def overview(snapshot=None):
 <article class="card"><h3 class="verified">{pair("已实测：Radar 网站自动化","Verified: Radar site automation")}</h3><p>{pair("三班抓取、摘要回填、测试、建站、推送、Pages smoke；本地日报/精读发布使用互斥锁、重试和完成哨兵。","Scheduled fetch, backfill, tests, build, push, and Pages smoke; local publishers use a mutex, retry, and completion sentinel.")}</p></article>
 <article class="card"><h3 class="pending">{pair("待验证：Harness 首次 00:30 定时实跑","Pending: first Harness 00:30 scheduled run")}</h3><p>{pair("设计、脚本与资源隔离可说明，但首次无人值守定时结果尚未发生，不能写成“已稳定运行”。","The design, scripts, and resource isolation can be documented, but the first unattended scheduled result has not happened and is not claimed as stable.")}</p></article>
 </div></section>
+<section class="section"><h2>{pair("按日期闭环状态","Daily closed-loop status")}</h2>
+<div class="card">{ledger_html}<p class="sub">{pair(
+    "missing/pending/failed/stale 都是显式未完成；只有 complete/rejected/not_applicable 是终态。",
+    "missing/pending/failed/stale are explicit non-terminal states; only complete/rejected/not_applicable are terminal.")}</p></div></section>
 <section class="section"><h2>{pair("实验反馈回到下一轮","Experiment feedback closes the loop")}</h2>
 <div class="card"><p>{pair(
     f"当前公开 {snapshot.get('solution_count', 0)} 个严格筛选的保留/条件保留组件。日报读取实验 registry，组件页保存证据范围与下一验证门，再反馈候选生成；数据源状态：{snapshot.get('solution_status','stale')}。",

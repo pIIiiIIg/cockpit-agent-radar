@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-16 · ◈ 6
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based multimodal agents improve flexibility by operating directly over screenshots and natural language instructions, but planning and adaptation often remain internal, limiting users&#x27; ability to inspect, supervise, or correct system behavior. We present Plover, a plan-centric vision-based GUI automation system that externalizes task plans and replanning as persistent, inspectable, and revisable artifacts. Through a planner--executor architecture, Plover supports explicit supervision of evolving execution, localized correction through editable plans, natural-language guidance, and screenshot-grounded interventions, while preserving prior progress during repair. A formative study with six participants informed the interaction design. We then evaluate Plover through benchmark failure-case repair and scenario-based workflow analyses. Our results show that many autonomous GUI-agent failures are structurally repairable when plans remain visible and interventions are localized, and that explicit replanning helps make GUI automation more transparent, controllable, and adaptable. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">Plover 把 GUI 计划外显为版本化共享状态，锁定已执行前缀，只允许用户通过文本、截图或计划编辑修订待执行后缀；26 个失败案例中 23 个经专家干预改善。该语义适合 Harness 处理晚到工具和播报取消，但论文不是语音或原生全双工系统。</span>
     <span class="l-en">Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based multimodal agents improve flexibility by operating directly over screenshots and natural language instructions, but planning and adaptation often remain internal, limiting users&#x27; ability to inspect, supervise, or correct system behavior. We present Plover, a plan-centric vision-based GUI automation system that externalizes task plans and replanning as persistent, inspectable, and revisable artifacts. Through a planner--executor architecture, Plover supports explicit supervision of evolving execution, localized correction through editable plans, natural-language guidance, and screenshot-grounded interventions, while preserving prior progress during repair. A formative study with six participants informed the interaction design. We then evaluate Plover through benchmark failure-case repair and scenario-based workflow analyses. Our results show that many autonomous GUI-agent failures are structurally repairable when plans remain visible and interventions are localized, and that explicit replanning helps make GUI automation more transparent, controllable, and adaptable.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based mu</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">Plover 把 GUI 智能体计划变成持续可见、可编辑和可追溯的共享状态，让用户通过文本、截图标注或计划修改局部修复执行漂移，同时保留已经完成的工作。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。</p>
+  <p>视觉 GUI 智能体面对动态布局、弹窗和长流程时容易偏离意图，但计划与重新规划通常隐藏在模型内部；用户难以判断进度，也无法在不丢失已完成工作的情况下精确修正错误步骤。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based multimodal agents improve flexibility by operating directly over screenshots and natural language instructions, but planning and adaptation often remain internal, limiting users&#x27; ability to inspect, supervise, or correct system behavior. We present Plover, a plan-centric vision-based GUI automation system that externalizes task plans and replanning as persistent, inspectable, and revisable artifacts. Through a planner--executor architecture, Plover supports explicit supervision of evolving execution, localized correction through editable plans, natural-language guidance, and screenshot-grounded interventions, while preserving prior progress during repair. A formative study with six participants informed the interaction design. We then evaluate Plover through benchmark failure-case repair and scenario-based workflow analyses. Our results show that many autonomous GUI-agent failures are structurally repairable when plans remain visible and interventions are localized, and that explicit replanning helps make GUI automation more transparent, controllable, and adaptable.</p>
-
-
+  <p>系统分离 Planner、Executor 与交互界面，用版本化结构计划协调三者。计划由不可修改的已完成前缀和可编辑的待执行后缀组成。用户可用自然语言、直接编辑和带几何区域的截图标注触发重规划；运行时也联合检测重复动作和截图 dHash 稳定性。所有修改先以提案展示，批准后才从当前状态继续。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>Planner 根据任务与历史生成版本化结构计划。</li><li>界面展示步骤、约束和候选计划，用户检查并锁定。</li><li>Executor 执行鼠标、键盘、滚动、等待与截图动作并持续回传状态。</li><li>用户干预或无进展检测触发局部修复。</li><li>Planner 只修改待执行后缀并给出理由；批准后恢复，完成前缀和修订历史保持不变。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>形成性研究含 6 名参与者，每次 30–60 分钟；所有人都认为截图标注比纯语言更适合空间纠错。</li><li>38 个 OSWorld-Verified 挑战任务产生 26 个非成功案例；专家干预后 23 个改善，其中 17 个完全成功、6 个部分成功，平均每任务 2.04 次干预。</li><li>10 个自主部分成功案例全部转为完全成功；浏览器和 Writer 非成功案例改善率为 100%，Calc 为 86%，跨应用为 80%。</li><li>自主计划 actionability 为 0.97，但 phase coverage 仅 0.62、顺序一致度 0.41；12/26 的失败属于执行漂移。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：可借鉴为 Harness 的动作计划、审批与 provenance 控制层；流式输入仍需先达到 endpoint，之后才能稳定生成并锁定本轮计划。</li><li>编辑判断：“已执行前缀不可改、待执行后缀可重规划”适合处理 late tool injection：迟到结果应形成版本化修订提案，不能静默改写已播报或执行的状态。</li><li>编辑判断：外挂 TTS 只应朗读已批准步骤，并在重规划时取消旧播报。Plover 没有同时听说或音频打断机制，不是原生全双工方案。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>26 个修复案例由第一作者干预，只表示结构可恢复性上界。</li><li>形成性研究仅 6 人，未验证最终界面对监督负担或信任校准的影响。</li><li>38 项是已知困难/失败子集，不是完整 OSWorld 成功率，也没有多随机种子或显著性检验。</li><li>局部修复难以挽救已扩散的复合错误；系统依赖闭源 Claude 4.5 Sonnet computer-use API。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 论文公开了 React、FastAPI、gRPC、VNC 和 Claude 4.5 Sonnet 等实现信息，但截至 2026-08-09 未发布官方代码、许可证、模型权重、38 项任务材料、干预记录或场景轨迹；OSWorld 公开不等于 Plover 已开源。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-02 19:25</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-09 20:15</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.15193v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

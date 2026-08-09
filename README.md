@@ -9,6 +9,21 @@ HackerNews 上与**全双工语音、流式多模态模型、agent harness、座
 **高收益组件**: [Solutions](https://piiiiiig.github.io/cockpit-agent-radar/solutions/) ·
 **订阅**: [RSS](https://piiiiiig.github.io/cockpit-agent-radar/feed.xml)
 
+## Radar → Harness 证据交接
+
+`data/handoff/ledger.json` 按研究日期保存可公开的恢复点。每个定时任务先调用
+`scripts/handoff_ledger.py next` 找出最早缺失日期，因此漏跑日优先于“今天”。每阶段记录
+输入/输出 commit、产物、状态、重试和下一阶段，终态写入幂等。
+
+Radar 只有在全文证据和两份报告都存在后才发布
+`data/handoff/manifests/YYYY-MM-DD.json`。Harness ack 结构化候选，先离线回放，再决定是否
+向动态 H20 池排队，并返回 result manifest；Radar 下一班把正/负结果回写 Solutions/Reports。
+`check-stale` 在任何必需事件超过 24 小时无终态时非零退出。
+
+补精读不伪造历史时间：`review_date/reviewed_at` 保留实际执行时间，
+`origin.catchup_for` 只记录所补调度日期。公开 manifest 禁止密钥、私网 IP 和私有路径。
+publication/patent 对接只公开贡献标签，申请前不公开独立分支的实现细节。
+
 ## 架构：两层解耦
 
 ```

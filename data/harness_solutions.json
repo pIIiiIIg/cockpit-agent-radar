@@ -1,6 +1,381 @@
 {
   "components": [
     {
+      "compatibility": "只做候选授权内的局部修复；当前不是完整生产Typed Action，缺身份权限、持久幂等和真实车态契约。",
+      "conditional_reason": "候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。",
+      "dependencies": [
+        "RAG候选集合",
+        "CarSim工具schema",
+        "候选TTL"
+      ],
+      "evidence": [
+        {
+          "attribution": "combined",
+          "baseline": {
+            "label": "20260805-tool-description-enhancement",
+            "value": "0/31"
+          },
+          "confidence": "combined_only",
+          "current": {
+            "label": "组合修复",
+            "value": "24/31"
+          },
+          "delta": {
+            "label": "fixed_errors",
+            "value": 24
+          },
+          "direction": "higher_is_better",
+          "evidence": {
+            "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
+            "experiment": "20260805-hybrid-c-voice-memory-resolver"
+          },
+          "hardware": "unknown",
+          "independent_ab": false,
+          "metric": "组合修复",
+          "metric_definition": "组合修复",
+          "sample_count": 31,
+          "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
+          "unit": ""
+        }
+      ],
+      "evidence_maturity": "conditional",
+      "evidence_scope": "候选授权边界有实现与单测；2026-08-07 两次 formal452/122 与父基线准确率相同，且 action_safety runtime trigger=0，因此端到端候选均 rejected，组件仅条件保留。",
+      "experiment_records": [
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
+              "hash": "sha256:14fa5daa9f722e2b668290c3cd1e5ec04244ec96fde3e442be6717bce5297892",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.7741935483870968,
+                "commit_to_call_p95_ms": 1972.4,
+                "completed": 31,
+                "completion_rate": 1.0,
+                "e2e_p95_ms": 1831.3,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 31
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md",
+              "hash": "sha256:2ed4dbdbc791bef943b60f1d65a9dbfeb96dde2da1f5662fd1f245814b932249",
+              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md"
+            }
+          ],
+          "baseline_id": "20260805-tool-description-enhancement",
+          "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
+          "buckets": {
+            "samples": 31,
+            "scope": "prior_error_bucket"
+          },
+          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
+          "complex_intent": {
+            "status": "not_run"
+          },
+          "conclusion": "31条历史错误桶修复24条（77.4%），e2e P95 1831.3ms；不是全量结论。",
+          "delta": {
+            "actual_execution_success_rate": 0.7741935483870968,
+            "call_p95_ms": 80.9,
+            "e2e_p95_ms": 465.6,
+            "fixed_errors": 24
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-hybrid-c-voice-memory-resolver",
+          "id": "20260805-hybrid-c-voice-memory-resolver",
+          "known_limitations": "错误桶局部结果；组合实验不能单独归因；时延未过1600ms硬门。",
+          "metrics": {
+            "accuracy": 0.7741935483870968,
+            "actual_execution_success_rate": 0.7741935483870968,
+            "call_p95_ms": 1972.4,
+            "completion_rate": 1.0,
+            "e2e_p95_ms": 1831.3
+          },
+          "parent_id": "20260805-tool-description-enhancement",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-05T10:21:23.768356+00:00",
+          "reproduce": "run_h20_evolution.ps1 -AsrPrefetch -VoiceMemoryRelative evolution/voice_memory_rules.json -SampleIds <31 ids> -SmokeOnly",
+          "retention_reason": "相对同一31条0/31基线有明确局部准确率收益。",
+          "safety": {
+            "dangerous_miscalls": 0,
+            "infrastructure_errors": 0,
+            "passed": true
+          },
+          "sample_count": 31,
+          "single_variable": "Voice Memory + candidate-authorized typed resolver（组合证据）",
+          "sources": [
+            "evolution/runs/h20-20260805T070122Z/smoke.summary.json"
+          ],
+          "status": "partial_improvement"
+        },
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/summary.json",
+              "hash": "sha256:6b16a998b05ceff87177447697dec29844f8045f57d77de39f8ca78b285b87cc",
+              "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.915929203539823,
+                "commit_to_call_p95_ms": 1788.6,
+                "completed": 452,
+                "completion_rate": 1.0,
+                "dangerous_miscalls": 0,
+                "e2e_p95_ms": 1444.3,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 452
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/complex.summary.json",
+              "hash": "sha256:5bd53735172246f9137e58acefa900387f14da46686b941334286733208dc1dc",
+              "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/complex.summary.json",
+              "summary": {
+                "completed": 122,
+                "errors": 0,
+                "samples": 122
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/manifest.json",
+              "hash": "sha256:8bb0becca13b51c8987a639b50bef50007f2005c68e725ad0ce5605be2ca8374",
+              "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/manifest.json"
+            }
+          ],
+          "baseline_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+          "branch": "experiment/action-safety-20260807-93359655",
+          "buckets": {
+            "complex_samples": 122,
+            "scope": "full_452+complex_122"
+          },
+          "commit": "2f8e953f7d35cf976cd0a3656ace2e351c76657d",
+          "complex_intent": {
+            "completed": 122,
+            "errors": 0,
+            "samples": 122,
+            "success_rate": 0.11475409836065574,
+            "turn_e2e_p50_ms": 786.3,
+            "turn_e2e_p95_ms": 1229.2
+          },
+          "conclusion": "No execution or complex-intent lift versus the formal parent baseline; runtime trigger count was zero, so latency variation is not attributable to action_safety.",
+          "delta": {
+            "accuracy": null,
+            "actual_execution_success_rate": 0.0,
+            "call_p50_ms": -14.35,
+            "call_p95_ms": -93.8,
+            "completion_rate": 0.0,
+            "complex_success_rate": 0.0,
+            "e2e_p50_ms": -14.35,
+            "e2e_p95_ms": -26.4
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/action-safety-20260807-93359655",
+          "id": "typed-action-state-verification-03bb1c2d41",
+          "known_limitations": "Configuration/data/tools hashes match, but this older candidate parent was 4b63258; delta is descriptive and the action_safety runtime trigger was zero.",
+          "metrics": {
+            "accuracy": null,
+            "actual_execution_success_rate": 0.915929203539823,
+            "call_p50_ms": 908.95,
+            "call_p95_ms": 1788.6,
+            "completion_rate": 1.0,
+            "complex_success_rate": 0.11475409836065574,
+            "e2e_p50_ms": 1135.95,
+            "e2e_p95_ms": 1444.3
+          },
+          "parent_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-07T11:30:00+00:00",
+          "reproduce": "Use archived formal summaries and hashes; no truth prefetch.",
+          "retention_reason": "Retain as a negative formal result and keep the disconnected safety component conditional only.",
+          "safety": {
+            "chit_chat_miscall_rate": 0.0,
+            "dangerous_miscalls": 0,
+            "errors": 0,
+            "evidence_complete": true,
+            "passed": true
+          },
+          "sample_count": 452,
+          "single_variable": "action_safety",
+          "sources": [
+            "H20 full452 + complex122 recovered evidence"
+          ],
+          "status": "rejected"
+        },
+        {
+          "artifacts": [
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-5361493efb/summary.json",
+              "hash": "sha256:4b8778700ee1bf8a0ac9a31678615572c18f92515a853aad3f9653e1150e91bb",
+              "path": "evolution/experiments/artifacts/typed-action-state-verification-5361493efb/summary.json",
+              "summary": {
+                "actual_execution_success_rate": 0.915929203539823,
+                "commit_to_call_p95_ms": 1931.1,
+                "completed": 452,
+                "completion_rate": 1.0,
+                "dangerous_miscalls": 0,
+                "e2e_p95_ms": 1519.5,
+                "errors": 0,
+                "profile": "pure_audio",
+                "samples": 452
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-5361493efb/complex.summary.json",
+              "hash": "sha256:b8625ca33482332d839632b589a94912690d817ff6d61fe723a4cf4059b18112",
+              "path": "evolution/experiments/artifacts/typed-action-state-verification-5361493efb/complex.summary.json",
+              "summary": {
+                "completed": 122,
+                "errors": 0,
+                "samples": 122
+              }
+            },
+            {
+              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-5361493efb/manifest.json",
+              "hash": "sha256:1607f727c3a0c8eaa7bf890045711848a78700656aff264b8c5af48cb978524a",
+              "path": "evolution/experiments/artifacts/typed-action-state-verification-5361493efb/manifest.json"
+            }
+          ],
+          "baseline_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+          "branch": "experiment/action-safety-20260807-15850d8c",
+          "buckets": {
+            "complex_samples": 122,
+            "scope": "full_452+complex_122"
+          },
+          "commit": "2e91725f53dd790f7ff9245295ccab1140686da5",
+          "complex_intent": {
+            "completed": 122,
+            "errors": 0,
+            "samples": 122,
+            "success_rate": 0.11475409836065574,
+            "turn_e2e_p50_ms": 841.3499999999999,
+            "turn_e2e_p95_ms": 1322.2
+          },
+          "conclusion": "No execution or complex-intent lift versus the formal parent baseline; runtime trigger count was zero, so latency variation is not attributable to action_safety.",
+          "delta": {
+            "accuracy": null,
+            "actual_execution_success_rate": 0.0,
+            "call_p50_ms": 45.35,
+            "call_p95_ms": 48.7,
+            "completion_rate": 0.0,
+            "complex_success_rate": 0.0,
+            "e2e_p50_ms": 41.45,
+            "e2e_p95_ms": 48.8
+          },
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/action-safety-20260807-15850d8c",
+          "id": "typed-action-state-verification-5361493efb",
+          "known_limitations": "Exact parent baseline comparison.",
+          "metrics": {
+            "accuracy": null,
+            "actual_execution_success_rate": 0.915929203539823,
+            "call_p50_ms": 968.65,
+            "call_p95_ms": 1931.1,
+            "completion_rate": 1.0,
+            "complex_success_rate": 0.11475409836065574,
+            "e2e_p50_ms": 1191.75,
+            "e2e_p95_ms": 1519.5
+          },
+          "parent_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+          "profile": "pure_audio",
+          "qualified": false,
+          "recorded_at": "2026-08-07T11:30:00+00:00",
+          "reproduce": "Use archived formal summaries and hashes; no truth prefetch.",
+          "retention_reason": "Retain as a negative formal result and keep the disconnected safety component conditional only.",
+          "safety": {
+            "chit_chat_miscall_rate": 0.0,
+            "dangerous_miscalls": 0,
+            "errors": 0,
+            "evidence_complete": true,
+            "passed": true
+          },
+          "sample_count": 452,
+          "single_variable": "action_safety",
+          "sources": [
+            "H20 full452 + complex122 recovered evidence"
+          ],
+          "status": "rejected"
+        }
+      ],
+      "experiments": [
+        "20260805-hybrid-c-voice-memory-resolver",
+        "typed-action-state-verification-03bb1c2d41",
+        "typed-action-state-verification-5361493efb"
+      ],
+      "history": [
+        {
+          "date": "2026-08-06",
+          "kind": "added",
+          "summary": "Initial public solution snapshot"
+        },
+        {
+          "date": "2026-08-06",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
+        },
+        {
+          "date": "2026-08-08",
+          "kind": "updated",
+          "summary": "Source registry evidence updated"
+        }
+      ],
+      "human_review": {
+        "decision": "conditional",
+        "notes": "保留安全边界与局部修复，不宣称完整Typed Action。",
+        "reviewed_at": "2026-08-06",
+        "reviewed_by": "automation/harness-evolution"
+      },
+      "id": "candidate-authorized-typed-resolver",
+      "improvement": {
+        "attribution": "combined",
+        "component_evidence": "执行层只允许最近候选内工具；局部resolver仅在目标工具已获候选授权时修复近义调用，稳定rule_id可审计。",
+        "metrics": [
+          {
+            "attribution": "combination_only",
+            "direction": "higher_is_better",
+            "name": "组合修复",
+            "sample_count": 31,
+            "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
+            "shared": true,
+            "unit": "",
+            "value": "24/31"
+          }
+        ]
+      },
+      "name": "candidate-authorized Typed Action resolver",
+      "next_validation_gate": "先把 verifier 接入真实执行路径并证明 trigger>0，再以相同正式基线做单变量452/122验证。",
+      "recommended": true,
+      "retention_reason": "候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。",
+      "risks": [
+        "规则扩张可能绕过模型意图",
+        "不完整schema不能代表生产安全"
+      ],
+      "runtime": {
+        "files": [
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/action_resolver.py",
+            "path": "harness_b/action_resolver.py"
+          },
+          {
+            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/agent_backend.py",
+            "path": "harness_b/agent_backend.py"
+          }
+        ],
+        "switch": "AGENT_TOOL_SEEN_TTL=3（候选授权窗）；resolver当前随harness_b启用"
+      },
+      "selection_basis": {
+        "eligible_experiment_outcome": true,
+        "positive_metric": true,
+        "safety_not_regressed": true,
+        "status_allowed": true
+      },
+      "sources": [
+        "Qwen-UI-Agent arXiv:2607.28227",
+        "docs/TYPED_ACTION.md#4-本项目已经实现什么"
+      ],
+      "status": "conditional",
+      "updated_at": "2026-08-08"
+    },
+    {
       "compatibility": "只修复有真实音频证据且范围明确的混淆，不覆盖原始音频输入，不直接生成动作。",
       "conditional_reason": "局部组合收益明确且规则可审计，但必须等待独立消融与保留集。",
       "dependencies": [
@@ -1144,188 +1519,6 @@
       "updated_at": "2026-08-06"
     },
     {
-      "compatibility": "只做候选授权内的局部修复；当前不是完整生产Typed Action，缺身份权限、持久幂等和真实车态契约。",
-      "conditional_reason": "候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。",
-      "dependencies": [
-        "RAG候选集合",
-        "CarSim工具schema",
-        "候选TTL"
-      ],
-      "evidence": [
-        {
-          "attribution": "combined",
-          "baseline": {
-            "label": "20260805-tool-description-enhancement",
-            "value": "0/31"
-          },
-          "confidence": "combined_only",
-          "current": {
-            "label": "组合修复",
-            "value": "24/31"
-          },
-          "delta": {
-            "label": "fixed_errors",
-            "value": 24
-          },
-          "direction": "higher_is_better",
-          "evidence": {
-            "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
-            "experiment": "20260805-hybrid-c-voice-memory-resolver"
-          },
-          "hardware": "unknown",
-          "independent_ab": false,
-          "metric": "组合修复",
-          "metric_definition": "组合修复",
-          "sample_count": 31,
-          "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
-          "unit": ""
-        }
-      ],
-      "evidence_maturity": "conditional",
-      "evidence_scope": "安全边界有实现与单测；24/31是与Voice Memory组合的局部错误桶结果，不能单独归因。",
-      "experiment_records": [
-        {
-          "artifacts": [
-            {
-              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
-              "hash": "sha256:14fa5daa9f722e2b668290c3cd1e5ec04244ec96fde3e442be6717bce5297892",
-              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/summary.json",
-              "summary": {
-                "actual_execution_success_rate": 0.7741935483870968,
-                "commit_to_call_p95_ms": 1972.4,
-                "completed": 31,
-                "completion_rate": 1.0,
-                "e2e_p95_ms": 1831.3,
-                "errors": 0,
-                "profile": "pure_audio",
-                "samples": 31
-              }
-            },
-            {
-              "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md",
-              "hash": "sha256:2ed4dbdbc791bef943b60f1d65a9dbfeb96dde2da1f5662fd1f245814b932249",
-              "path": "evolution/experiments/artifacts/20260805-hybrid-c-voice-memory-resolver/failure_buckets.md"
-            }
-          ],
-          "baseline_id": "20260805-tool-description-enhancement",
-          "branch": "experiment/20260805-hybrid-c-voice-memory-resolver",
-          "buckets": {
-            "samples": 31,
-            "scope": "prior_error_bucket"
-          },
-          "commit": "89430f2e96816c3f40cd192827bfbe06821cc539",
-          "complex_intent": {
-            "status": "not_run"
-          },
-          "conclusion": "31条历史错误桶修复24条（77.4%），e2e P95 1831.3ms；不是全量结论。",
-          "delta": {
-            "actual_execution_success_rate": 0.7741935483870968,
-            "call_p95_ms": 80.9,
-            "e2e_p95_ms": 465.6,
-            "fixed_errors": 24
-          },
-          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/20260805-hybrid-c-voice-memory-resolver",
-          "id": "20260805-hybrid-c-voice-memory-resolver",
-          "known_limitations": "错误桶局部结果；组合实验不能单独归因；时延未过1600ms硬门。",
-          "metrics": {
-            "accuracy": 0.7741935483870968,
-            "actual_execution_success_rate": 0.7741935483870968,
-            "call_p95_ms": 1972.4,
-            "completion_rate": 1.0,
-            "e2e_p95_ms": 1831.3
-          },
-          "parent_id": "20260805-tool-description-enhancement",
-          "profile": "pure_audio",
-          "qualified": false,
-          "recorded_at": "2026-08-05T10:21:23.768356+00:00",
-          "reproduce": "run_h20_evolution.ps1 -AsrPrefetch -VoiceMemoryRelative evolution/voice_memory_rules.json -SampleIds <31 ids> -SmokeOnly",
-          "retention_reason": "相对同一31条0/31基线有明确局部准确率收益。",
-          "safety": {
-            "dangerous_miscalls": 0,
-            "infrastructure_errors": 0,
-            "passed": true
-          },
-          "sample_count": 31,
-          "single_variable": "Voice Memory + candidate-authorized typed resolver（组合证据）",
-          "sources": [
-            "evolution/runs/h20-20260805T070122Z/smoke.summary.json"
-          ],
-          "status": "partial_improvement"
-        }
-      ],
-      "experiments": [
-        "20260805-hybrid-c-voice-memory-resolver"
-      ],
-      "history": [
-        {
-          "date": "2026-08-06",
-          "kind": "added",
-          "summary": "Initial public solution snapshot"
-        },
-        {
-          "date": "2026-08-06",
-          "kind": "updated",
-          "summary": "Source registry evidence updated"
-        }
-      ],
-      "human_review": {
-        "decision": "conditional",
-        "notes": "保留安全边界与局部修复，不宣称完整Typed Action。",
-        "reviewed_at": "2026-08-06",
-        "reviewed_by": "automation/harness-evolution"
-      },
-      "id": "candidate-authorized-typed-resolver",
-      "improvement": {
-        "attribution": "combined",
-        "component_evidence": "执行层只允许最近候选内工具；局部resolver仅在目标工具已获候选授权时修复近义调用，稳定rule_id可审计。",
-        "metrics": [
-          {
-            "attribution": "combination_only",
-            "direction": "higher_is_better",
-            "name": "组合修复",
-            "sample_count": 31,
-            "sample_scope": "prior_error_bucket，Voice Memory + typed resolver组合",
-            "shared": true,
-            "unit": "",
-            "value": "24/31"
-          }
-        ]
-      },
-      "name": "candidate-authorized Typed Action resolver",
-      "next_validation_gate": "固定Voice Memory做resolver单变量452条回归，并补参数schema、权限、幂等和最终状态验证。",
-      "recommended": true,
-      "retention_reason": "候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。",
-      "risks": [
-        "规则扩张可能绕过模型意图",
-        "不完整schema不能代表生产安全"
-      ],
-      "runtime": {
-        "files": [
-          {
-            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/action_resolver.py",
-            "path": "harness_b/action_resolver.py"
-          },
-          {
-            "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/harness_b/agent_backend.py",
-            "path": "harness_b/agent_backend.py"
-          }
-        ],
-        "switch": "AGENT_TOOL_SEEN_TTL=3（候选授权窗）；resolver当前随harness_b启用"
-      },
-      "selection_basis": {
-        "eligible_experiment_outcome": true,
-        "positive_metric": true,
-        "safety_not_regressed": true,
-        "status_allowed": true
-      },
-      "sources": [
-        "Qwen-UI-Agent arXiv:2607.28227",
-        "docs/TYPED_ACTION.md#4-本项目已经实现什么"
-      ],
-      "status": "conditional",
-      "updated_at": "2026-08-06"
-    },
-    {
       "compatibility": "只接受audio_derived_text证据；manifest q真值预取属于assisted_diagnostic，不能进入pure_audio口径。",
       "conditional_reason": "真实链路已有正向冒烟证据，但证据量不足，条件保留等待全量。",
       "dependencies": [
@@ -1542,6 +1735,192 @@
     {
       "artifacts": [
         {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/summary.json",
+          "hash": "sha256:6b16a998b05ceff87177447697dec29844f8045f57d77de39f8ca78b285b87cc",
+          "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/summary.json",
+          "summary": {
+            "actual_execution_success_rate": 0.915929203539823,
+            "commit_to_call_p95_ms": 1788.6,
+            "completed": 452,
+            "completion_rate": 1.0,
+            "dangerous_miscalls": 0,
+            "e2e_p95_ms": 1444.3,
+            "errors": 0,
+            "profile": "pure_audio",
+            "samples": 452
+          }
+        },
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/complex.summary.json",
+          "hash": "sha256:5bd53735172246f9137e58acefa900387f14da46686b941334286733208dc1dc",
+          "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/complex.summary.json",
+          "summary": {
+            "completed": 122,
+            "errors": 0,
+            "samples": 122
+          }
+        },
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/manifest.json",
+          "hash": "sha256:8bb0becca13b51c8987a639b50bef50007f2005c68e725ad0ce5605be2ca8374",
+          "path": "evolution/experiments/artifacts/typed-action-state-verification-03bb1c2d41/manifest.json"
+        }
+      ],
+      "baseline_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+      "branch": "experiment/action-safety-20260807-93359655",
+      "buckets": {
+        "complex_samples": 122,
+        "scope": "full_452+complex_122"
+      },
+      "commit": "2f8e953f7d35cf976cd0a3656ace2e351c76657d",
+      "complex_intent": {
+        "completed": 122,
+        "errors": 0,
+        "samples": 122,
+        "success_rate": 0.11475409836065574,
+        "turn_e2e_p50_ms": 786.3,
+        "turn_e2e_p95_ms": 1229.2
+      },
+      "conclusion": "No execution or complex-intent lift versus the formal parent baseline; runtime trigger count was zero, so latency variation is not attributable to action_safety.",
+      "delta": {
+        "accuracy": null,
+        "actual_execution_success_rate": 0.0,
+        "call_p50_ms": -14.35,
+        "call_p95_ms": -93.8,
+        "completion_rate": 0.0,
+        "complex_success_rate": 0.0,
+        "e2e_p50_ms": -14.35,
+        "e2e_p95_ms": -26.4
+      },
+      "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/action-safety-20260807-93359655",
+      "id": "typed-action-state-verification-03bb1c2d41",
+      "known_limitations": "Configuration/data/tools hashes match, but this older candidate parent was 4b63258; delta is descriptive and the action_safety runtime trigger was zero.",
+      "metrics": {
+        "accuracy": null,
+        "actual_execution_success_rate": 0.915929203539823,
+        "call_p50_ms": 908.95,
+        "call_p95_ms": 1788.6,
+        "completion_rate": 1.0,
+        "complex_success_rate": 0.11475409836065574,
+        "e2e_p50_ms": 1135.95,
+        "e2e_p95_ms": 1444.3
+      },
+      "parent_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+      "profile": "pure_audio",
+      "qualified": false,
+      "recorded_at": "2026-08-07T11:30:00+00:00",
+      "reproduce": "Use archived formal summaries and hashes; no truth prefetch.",
+      "retention_reason": "Retain as a negative formal result and keep the disconnected safety component conditional only.",
+      "safety": {
+        "chit_chat_miscall_rate": 0.0,
+        "dangerous_miscalls": 0,
+        "errors": 0,
+        "evidence_complete": true,
+        "passed": true
+      },
+      "sample_count": 452,
+      "single_variable": "action_safety",
+      "sources": [
+        "H20 full452 + complex122 recovered evidence"
+      ],
+      "status": "rejected"
+    },
+    {
+      "artifacts": [
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-5361493efb/summary.json",
+          "hash": "sha256:4b8778700ee1bf8a0ac9a31678615572c18f92515a853aad3f9653e1150e91bb",
+          "path": "evolution/experiments/artifacts/typed-action-state-verification-5361493efb/summary.json",
+          "summary": {
+            "actual_execution_success_rate": 0.915929203539823,
+            "commit_to_call_p95_ms": 1931.1,
+            "completed": 452,
+            "completion_rate": 1.0,
+            "dangerous_miscalls": 0,
+            "e2e_p95_ms": 1519.5,
+            "errors": 0,
+            "profile": "pure_audio",
+            "samples": 452
+          }
+        },
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-5361493efb/complex.summary.json",
+          "hash": "sha256:b8625ca33482332d839632b589a94912690d817ff6d61fe723a4cf4059b18112",
+          "path": "evolution/experiments/artifacts/typed-action-state-verification-5361493efb/complex.summary.json",
+          "summary": {
+            "completed": 122,
+            "errors": 0,
+            "samples": 122
+          }
+        },
+        {
+          "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/typed-action-state-verification-5361493efb/manifest.json",
+          "hash": "sha256:1607f727c3a0c8eaa7bf890045711848a78700656aff264b8c5af48cb978524a",
+          "path": "evolution/experiments/artifacts/typed-action-state-verification-5361493efb/manifest.json"
+        }
+      ],
+      "baseline_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+      "branch": "experiment/action-safety-20260807-15850d8c",
+      "buckets": {
+        "complex_samples": 122,
+        "scope": "full_452+complex_122"
+      },
+      "commit": "2e91725f53dd790f7ff9245295ccab1140686da5",
+      "complex_intent": {
+        "completed": 122,
+        "errors": 0,
+        "samples": 122,
+        "success_rate": 0.11475409836065574,
+        "turn_e2e_p50_ms": 841.3499999999999,
+        "turn_e2e_p95_ms": 1322.2
+      },
+      "conclusion": "No execution or complex-intent lift versus the formal parent baseline; runtime trigger count was zero, so latency variation is not attributable to action_safety.",
+      "delta": {
+        "accuracy": null,
+        "actual_execution_success_rate": 0.0,
+        "call_p50_ms": 45.35,
+        "call_p95_ms": 48.7,
+        "completion_rate": 0.0,
+        "complex_success_rate": 0.0,
+        "e2e_p50_ms": 41.45,
+        "e2e_p95_ms": 48.8
+      },
+      "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/action-safety-20260807-15850d8c",
+      "id": "typed-action-state-verification-5361493efb",
+      "known_limitations": "Exact parent baseline comparison.",
+      "metrics": {
+        "accuracy": null,
+        "actual_execution_success_rate": 0.915929203539823,
+        "call_p50_ms": 968.65,
+        "call_p95_ms": 1931.1,
+        "completion_rate": 1.0,
+        "complex_success_rate": 0.11475409836065574,
+        "e2e_p50_ms": 1191.75,
+        "e2e_p95_ms": 1519.5
+      },
+      "parent_id": "h20-action-safety-parent-cb40b2079d-full452-complex122",
+      "profile": "pure_audio",
+      "qualified": false,
+      "recorded_at": "2026-08-07T11:30:00+00:00",
+      "reproduce": "Use archived formal summaries and hashes; no truth prefetch.",
+      "retention_reason": "Retain as a negative formal result and keep the disconnected safety component conditional only.",
+      "safety": {
+        "chit_chat_miscall_rate": 0.0,
+        "dangerous_miscalls": 0,
+        "errors": 0,
+        "evidence_complete": true,
+        "passed": true
+      },
+      "sample_count": 452,
+      "single_variable": "action_safety",
+      "sources": [
+        "H20 full452 + complex122 recovered evidence"
+      ],
+      "status": "rejected"
+    },
+    {
+      "artifacts": [
+        {
           "github_url": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json",
           "hash": "sha256:9aa1ea80204ccec622bf1a1a7e96288aa0367edbd5197ec96105d38ec83453f5",
           "path": "evolution/experiments/artifacts/20260805-tool-description-enhancement/summary.json",
@@ -1604,11 +1983,11 @@
   "schema_version": 2,
   "source": {
     "branch": "automation/agent-h20-loop",
-    "commit": "4b63258a340c9206f4e455f9374d765242757263",
+    "commit": "47caca84e449fdff478cd06f152fd885ae229f13",
     "component_path": "evolution/retained_components.json",
     "registry_path": "evolution/experiments/registry.json",
     "repository": "https://github.com/ISS-2030Lab/StreamingModelHarness",
     "status": "fresh",
-    "synced_at": "2026-08-07T11:44:47+08:00"
+    "synced_at": "2026-08-09T20:00:07+08:00"
   }
 }

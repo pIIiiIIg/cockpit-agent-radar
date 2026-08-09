@@ -153,6 +153,15 @@ class AutomationPageTests(unittest.TestCase):
         self.assertIn("待验证", self.pages["index"])
         self.assertNotIn("已稳定无人值守运行", self.pages["index"])
 
+    def test_daily_handoff_status_is_rendered(self):
+        page = build_automation.overview(self.snapshot)
+        for fact in (
+                "按日期闭环状态", "2026-08-08", "2026-08-09",
+                "精读=complete", "候选=complete", "ACK=complete",
+                "H20=not_applicable", "离线=rejected"):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, page)
+
     def test_limitations_audits_baselines_and_claim_boundaries(self):
         page = self.pages["limitations"]
         for fact in (

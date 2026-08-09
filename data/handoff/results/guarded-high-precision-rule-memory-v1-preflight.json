@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "event": "offline_preflight_result",
+  "candidate_id": "guarded-high-precision-rule-memory-v1",
+  "source_date": "2026-08-08",
+  "classification": "rejected",
+  "implementation_started": false,
+  "h20_consumed": false,
+  "reason": "The measured failure bucket contains only 9 retrieval-missing rows, below the immutable minimum expected net-fix gate of 16.",
+  "evidence": {
+    "baseline_success": "414/452",
+    "retrieval_recall": "443/452",
+    "retrieval_missing": 9,
+    "minimum_expected_net_fixes": 16
+  },
+  "non_regression_claim": "none; no implementation or evaluation was run",
+  "research_value": "Records the upper bound before implementation and prevents an uneconomic GPU run.",
+  "patent_value": "public-safe contribution label only",
+  "recorded_at": "2026-08-09T21:30:00+08:00"
+}

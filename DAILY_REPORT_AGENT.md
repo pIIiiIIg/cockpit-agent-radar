@@ -27,6 +27,7 @@
 
 - `reports/全双工语音技术增量调研-YYYY-MM-DD.md`
 - `reports/每日调研日报-YYYY-MM-DD.md`
+- `data/handoff/candidates/YYYY-MM-DD.json`
 
 详细报告必须严格遵循 `REPORT_FORMAT.md`，尤其包含：
 
@@ -42,11 +43,19 @@
 方向：技术名（当前项目问题；技术怎么解决；准备怎样实验）
 ```
 
+候选 JSON 必须逐条包含：公开论文/报告 URL、问题 bucket、可证伪假设、单变量、预计修复数、
+时延预算、风险、依赖、离线门、H20 门、research value 和 public-safe patent value。
+没有清晰单变量或可测指标的建议只留在报告，不进入候选。冻结 414 canary 零退化且预计净修
+至少 16（复杂/endpoint 使用候选明确门）之前，不得请求 H20。已运行/已拒绝的
+candidate fingerprint 或 candidate/commit 不得重复。
+
 ## 边界
 
 - 禁止调用 Kimi/Moonshot。
 - 禁止运行陌生论文仓库代码。
 - 禁止修改 `StreamingModelHarness`。
+- 禁止把 candidate-ID/CMTF 已有负结果重新包装成“强制 ID 覆盖”。
+- 参数化本体、云监督、SoulX 等独立实验只消费 result manifest，不重复启动。
 - 只允许修改当前仓库的 `reports/`、`project_status/` 和由
   `scripts/build_site.py` 生成的 `docs/`。
 - 没有证据的数字、开源状态和许可证写“未知”。

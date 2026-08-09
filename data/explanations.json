@@ -1914,27 +1914,44 @@
   "review_status": "editorial"
  },
  "5c3479442c": {
-  "tl_dr": "Research on agent memory has matured rapidly, but almost entirely on the text side: few existing benchmarks ask, in an interactive environment, when an agent genuinely needs to remember what it saw rather than what it could write down. We i",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Research on agent memory has matured rapidly, but almost entirely on the text side: few existing benchmarks ask, in an interactive environment, when an agent genuinely needs to remember what it saw rather than what it could write down. We introduce DMV-Bench (Code: https://github.com/yyyujintang/DMV-Bench), the first interactive benchmark for multimodal-agent visual memory. DMV-Bench is built on a controlled home-furnishing e-commerce catalogue of 1,000 product variants in which a text-leakage contract keeps the discriminative signal of each task in the pixels alone. Across a chain of autonomous shopping sessions, every visited product image carries a unique, pre-rendered incidental cue, and the agent is later asked to recall a particular cued product and navigate to its URL. Inspired by dual-coding theory, we propose DualMem, a memory architecture that maintains a visual and a verbal code in parallel. On DMV-Bench, DualMem outperforms a caption baseline and three recent multimodal agent-memory systems at every chain length J in {5, 10, 15, 50} on both Gemini 2.5 Flash and Qwen2.5-VL-7B, with the lead surviving controls for memory-bank size and encoding-position bias, and an asymmetric dual-coding regime in which vision carries the cue end-to-end while the verbal channel plays a smaller query-grounding role.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DMV-Bench 用严格排除文本泄漏的偶发视觉线索，诊断智能体能否跨会话记住真正看过的细节；DualMem 以原图和视觉向量为主、caption 和文本向量为辅，在两种 VLM 与全部测试链长上取得最高主表成绩。",
+  "problem": "既有智能体记忆多把经历压缩成文本，视觉基准又常可从标题、alt-text 或 URL 猜答案，无法证明模型保留了视觉证据。论文要求智能体在任务未提示线索重要性的情况下浏览商品，跨多次上下文清空后再找回唯一视觉线索。",
+  "method": "环境含 10 个家具品类、10 种风格和每组合 10 个变体，共 1000 个商品；每张图预渲染全局唯一的颜色—物体线索，并以 L2 契约确保线索不出现在标题、描述、alt-text、URL、元标签或评论。每轮 ReAct 浏览后清空对话与站点历史，只保留待测记忆。DualMem 同时保存原图、VLM caption、SigLIP-2 视觉向量与 SBERT 文本向量；查询进入两个空间，分数分别归一化后按 0.75/0.25 融合，再把最高项的图像与 caption 注入导航模型。",
+  "workflow": [
+   "生成 1000 个商品变体和唯一视觉线索，并执行文本泄漏审计。",
+   "让智能体完成 5、10、15 或 50 段购物会话；线索在浏览时不被特别提示。",
+   "DualMem 为商品观察保存原图、caption 及视觉/文本向量。",
+   "会话边界清空模型上下文和页面历史，只保留外部记忆库。",
+   "收到线索查询后执行双空间检索，把最高项重新注入 VLM 并导航到商品 URL。",
+   "按最终 URL 精确匹配计算成功率，并按回溯距离、库大小和编码位置做分层统计。"
+  ],
+  "findings": [
+   "Qwen2.5-VL-7B 在 J=5/10/15/50 时，DualMem 成功率为 81.1%/77.2%/75.1%/68.3%；Gemini 2.5 Flash 为 82.7%/75.2%/71.3%/65.1%，八个主表单元均为最高。",
+   "相对 M2A，J=5/10/15 的提升在 Qwen 上为 12.2/11.1/12.0 个百分点，在 Gemini 上为 17.0/10.1/12.4 个百分点，六项配对检验均 p≤0.003。",
+   "Gemini、J=5 消融中，视觉/文本融合得 82.7%，纯视觉 80.1%，纯文本 59.5%；把 SigLIP-2 换成 CLIP 后对应配置由 76.9% 降至 65.4%。",
+   "caption 仅在 16.5% 的商品图上完整写出颜色与物体；混合检索时重新注入图像得 75.9%，只注入 caption 得 65.1%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可把 DualMem 迁移为 voice memory 模板：原始音频或声学 embedding 保留音色、韵律和环境声，转写文本 embedding 负责语义定位；本文视觉编码器本身不能直接处理音频。",
+   "编辑判断：StreamingModelHarness 应在流式输入完成 endpoint 后、generation 前检索稳定记忆，避免把助手回答反写为用户证据；晚到的记忆工具只能进入下一轮，或触发受控取消与重生成。",
+   "编辑判断：检索结果可交给现有外挂 TTS 播报，但论文不含边听边说、语音打断或音频状态同步，不能作为原生全双工证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "数据仅覆盖合成家具电商，主实验只有两个 VLM 后端，也没有人类上限。",
+   "融合权重只在 Gemini、J=5 上扫描；J=50 每个后端仅五个链干，相对 M2A 的优势不显著。",
+   "查询总给出全局唯一线索，没有覆盖歧义、记忆更新、冲突、遗忘策略或自然语音噪声。",
+   "仓库使用多个 lite 适配器并允许上游失败时回退，完整结果日志与轨迹缓存未发布。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/yyyujintang/DMV-Bench",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "代码和小型目录以 Apache-2.0 开放，1000 组带线索与原始图像也在 Hugging Face 以 Apache-2.0 发布。DualMem 是训练外组合，没有专属 checkpoint；完整复现仍需 Gemini 等 API 和重新生成任务轨迹。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T09:31:59.116089+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "90cd95064f": {
   "tl_dr": "GPTNT 把真实 KTANE 游戏包装成限时、异步、信息不对称的双多模态智能体基准；受测模型在完整实时任务中全部 0/10，解除生成延迟后单模块平均成功率也只有 24.4%。",
@@ -3813,27 +3830,43 @@
   "review_status": "abstract_backfill"
  },
  "f169a1c3cf": {
-  "tl_dr": "Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based mu",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "Graphical user interface (GUI) automation remains challenging in real-world environments, where dynamic layouts, unexpected dialogs, and evolving interface states can cause autonomous agents to drift from user intent. Recent vision-based multimodal agents improve flexibility by operating directly over screenshots and natural language instructions, but planning and adaptation often remain internal, limiting users' ability to inspect, supervise, or correct system behavior. We present Plover, a plan-centric vision-based GUI automation system that externalizes task plans and replanning as persistent, inspectable, and revisable artifacts. Through a planner--executor architecture, Plover supports explicit supervision of evolving execution, localized correction through editable plans, natural-language guidance, and screenshot-grounded interventions, while preserving prior progress during repair. A formative study with six participants informed the interaction design. We then evaluate Plover through benchmark failure-case repair and scenario-based workflow analyses. Our results show that many autonomous GUI-agent failures are structurally repairable when plans remain visible and interventions are localized, and that explicit replanning helps make GUI automation more transparent, controllable, and adaptable.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Plover 把 GUI 智能体计划变成持续可见、可编辑和可追溯的共享状态，让用户通过文本、截图标注或计划修改局部修复执行漂移，同时保留已经完成的工作。",
+  "problem": "视觉 GUI 智能体面对动态布局、弹窗和长流程时容易偏离意图，但计划与重新规划通常隐藏在模型内部；用户难以判断进度，也无法在不丢失已完成工作的情况下精确修正错误步骤。",
+  "method": "系统分离 Planner、Executor 与交互界面，用版本化结构计划协调三者。计划由不可修改的已完成前缀和可编辑的待执行后缀组成。用户可用自然语言、直接编辑和带几何区域的截图标注触发重规划；运行时也联合检测重复动作和截图 dHash 稳定性。所有修改先以提案展示，批准后才从当前状态继续。",
+  "workflow": [
+   "Planner 根据任务与历史生成版本化结构计划。",
+   "界面展示步骤、约束和候选计划，用户检查并锁定。",
+   "Executor 执行鼠标、键盘、滚动、等待与截图动作并持续回传状态。",
+   "用户干预或无进展检测触发局部修复。",
+   "Planner 只修改待执行后缀并给出理由；批准后恢复，完成前缀和修订历史保持不变。"
+  ],
+  "findings": [
+   "形成性研究含 6 名参与者，每次 30–60 分钟；所有人都认为截图标注比纯语言更适合空间纠错。",
+   "38 个 OSWorld-Verified 挑战任务产生 26 个非成功案例；专家干预后 23 个改善，其中 17 个完全成功、6 个部分成功，平均每任务 2.04 次干预。",
+   "10 个自主部分成功案例全部转为完全成功；浏览器和 Writer 非成功案例改善率为 100%，Calc 为 86%，跨应用为 80%。",
+   "自主计划 actionability 为 0.97，但 phase coverage 仅 0.62、顺序一致度 0.41；12/26 的失败属于执行漂移。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可借鉴为 Harness 的动作计划、审批与 provenance 控制层；流式输入仍需先达到 endpoint，之后才能稳定生成并锁定本轮计划。",
+   "编辑判断：“已执行前缀不可改、待执行后缀可重规划”适合处理 late tool injection：迟到结果应形成版本化修订提案，不能静默改写已播报或执行的状态。",
+   "编辑判断：外挂 TTS 只应朗读已批准步骤，并在重规划时取消旧播报。Plover 没有同时听说或音频打断机制，不是原生全双工方案。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "26 个修复案例由第一作者干预，只表示结构可恢复性上界。",
+   "形成性研究仅 6 人，未验证最终界面对监督负担或信任校准的影响。",
+   "38 项是已知困难/失败子集，不是完整 OSWorld 成功率，也没有多随机种子或显著性检验。",
+   "局部修复难以挽救已扩散的复合错误；系统依赖闭源 Claude 4.5 Sonnet computer-use API。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文公开了 React、FastAPI、gRPC、VNC 和 Claude 4.5 Sonnet 等实现信息，但截至 2026-08-09 未发布官方代码、许可证、模型权重、38 项任务材料、干预记录或场景轨迹；OSWorld 公开不等于 Plover 已开源。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-02T19:25:58.375668+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "3b810c834f": {
   "tl_dr": "Kawaii is the Japanese instantiation of cuteness. As a multimodal percept theoretically derived from the notion of baby schema, kawaii can be a property of voice and sound, visual appearance and form factor, and movement and expression. How",
@@ -3923,27 +3956,45 @@
   "review_status": "editorial"
  },
  "88c1d889be": {
-  "tl_dr": "Smart-city airspace is transforming Uncrewed Aerial Vehicles (UAVs) from passive sensing platforms into cyber-physical decision makers that must follow operational rules under degraded observations and ambiguous language. Existing UAV and m",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Smart-city airspace is transforming Uncrewed Aerial Vehicles (UAVs) from passive sensing platforms into cyber-physical decision makers that must follow operational rules under degraded observations and ambiguous language. Existing UAV and multimodal benchmarks evaluate perception, navigation, collaboration, and reasoning, but few assess whether physical evidence, protocol constraints, and action risk remain coupled during critical decisions. We introduce MulRobBench, an offline, protocol-conditioned benchmark for Vision-Language-Action (VLA) UAV agents in smart-city environments. MulRobBench integrates real UAV multimodal observations, protocol-level security policies, and action-level cyber-physical safety into a unified evaluation framework. The benchmark contains 3,024 samples spanning 17 task taxonomy nodes and 12 scoring dimensions across four stages: operational context understanding, multimodal evidence arbitration, degradation-aware reasoning, and risk-aware action planning. Evaluation combines semantic scoring with structural diagnostics, including policy compliance, format compliance, unsafe actions, parsing failures, and dimension-level validity. Across 17 multimodal models, the best semantic protocol-decision score reaches only 0.5141, while the best strict mean scoring-dimension accuracy is 0.1599. A controlled 20-anchor modality-ablation study changes 4-15 action selections per model, confirming that both visual and textual inputs influence decisions. Analysis identifies modality-trust selection, constraint extraction, glare, missing data, and operator shorthand as the primary causes of decision instability. MulRobBench provides a reproducible benchmark for trustworthy multimodal UAV decision making under realistic operational constraints.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "MulRobBench 是离线单步决策审计：它把真实 UAV 观测、人工协议约束和动作风险组合起来，分别衡量语义理解、动作安全与结构可执行性；17 个模型在证据取舍、约束提取和协作/中止阈值上仍不可靠。",
+  "problem": "既有 UAV 与多模态基准多以感知、导航或任务完成为终点，较少检查退化观测、含糊指令、安全协议和动作风险能否在关键决策点保持一致。论文要测量模型能否把物理证据与给定规则稳定映射为安全、可解析的下一动作。",
+  "method": "每个样本由物理观测、协议/任务规则、视觉或语言压力，以及动作标签包组成；标签包同时给出标准安全动作、可接受替代和禁止动作。作者从 UAVScenes 筛选多模态观测，叠加七类协议上下文与退化条件，再按 17 个任务节点和 12 个评分维度标注。输出限制为十种动作语义；评测先做允许同义表达的语义评分，再检查格式、解析、禁止动作、弃权、协作与模态信任。",
+  "workflow": [
+   "从 UAVScenes 选择带图像、距离/位姿、地图或时间上下文的可追溯观测。",
+   "注入城市任务协议、访问/隐私/禁区规则及视觉或高熵语言压力。",
+   "标注标准动作、安全替代、禁止动作、弃权和协作要求。",
+   "要求模型从十种受控动作语义中输出结构化决策。",
+   "分别计算语义得分与严格结构、解析、授权和安全诊断。",
+   "在 3024 个样本上比较 17 个模型，并在 20 个锚点上做模态移除。"
+  ],
+  "findings": [
+   "Qwen3-VL-8B 的协议决策语义分最高，为 0.5141；Qwen3.5-9B 的平均维度分和严格平均维度准确率最高，分别为 0.4815 和 0.1599。",
+   "20 个锚点的模态移除使每个模型改变 4–15 次动作选择；Qwen3-VL-8B 的 image-only 安全动作率为 1.00，高于 full 输入的 0.80。",
+   "Qwen3-VL-8B 的上下文组得分为 0.7686，但证据仲裁仅 0.2935；Qwen3.5-9B 对应为 0.7611 和 0.3271。",
+   "Qwen3-VL-8B 在强眩光和缺失数据下的安全动作率均为 0.2857；operator shorthand 条件下约束提取为 0、目标消歧为 0.1746。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：“标准动作＋安全替代＋禁止动作”契约可直接映射到 Harness 的 candidate-authorized typed actions、拒绝集合和执行偏差审计。",
+   "编辑判断：语义评分与严格解析分离适合确定性执行检查：模型解释正确不等于动作类型、参数和授权边界可执行。",
+   "编辑判断：可把流式输入到 endpoint/commit 建模为证据逐步到达，检查提交前后动作是否稳定；原论文只给离线完整输入，未测 late tool injection。",
+   "编辑判断：论文没有在线重规划、语音、外部 TTS 或闭环控制，不能作为 Harness 原生全双工证据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只评估关键点的离线单步动作，不覆盖连续控制、长期记忆、通信延迟或闭环稳定性。",
+   "机场、隐私和敏感场所主要是人工协议覆盖层，不是原图中独立核验的实体标签。",
+   "模态消融仅 20 个锚点、两个模型；600 例专家参考也未报告正式一致性。",
+   "PACS、替代动作惩罚和归一化阈值是基准内约定，未经真实飞行风险校准。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-09 未找到官方 MulRobBench 项目、代码、3024 个样本、评分器或输出日志；没有专属模型权重。底层 UAVScenes 采用 CC BY-NC-SA 4.0 且限学术用途，但不能替代对派生协议数据和实现的授权。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T09:32:24.745120+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "a7ac14b936": {
   "tl_dr": "Large language models and multimodal foundation models are enabling medical artificial intelligence (AI) systems to move beyond isolated prediction and undertake multistep clinical tasks that require planning, tool use, memory, iterative co",
@@ -5098,27 +5149,43 @@
   "review_status": "editorial"
  },
  "8b7e72d84e": {
-  "tl_dr": "Sparse retrieval underpins modern search systems, from web search to retrieval-augmented generation. Existing work has introduced Learned Sparse Retrieval (LSR) to push beyond exact lexical matching toward richer semantics. Yet LSR has so f",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Sparse retrieval underpins modern search systems, from web search to retrieval-augmented generation. Existing work has introduced Learned Sparse Retrieval (LSR) to push beyond exact lexical matching toward richer semantics. Yet LSR has so far remained tied to encoder-style bidirectional architectures, and its extension to multimodal settings still relies heavily on auxiliary cross-modal modules. To address these limitations, we introduce UEmbed (Unified Embedding), a decoder-only multimodal embedding model that produces both sparse lexical and dense representations in one causal forward pass. UEmbed appends N learnable special tokens to the input and partitions the vocabulary into N disjoint subsets. Each token's causal hidden state predicts sparse weights over its assigned subset, and the N subsets are concatenated into the full sparse vector. Trained on public data, we release UEmbed at 2B, 4B, and 9B scales. UEmbed-9B reaches 71.8 (dense) and 71.0 (sparse) on MMEB-v2, outperforming multimodal embedding models trained on publicly available data (e.g., RzenEmbed). On BEIR, UEmbed also remains competitive with strong dense and sparse baselines. Furthermore, we demonstrate the practical utility of UEmbed across three dimensions: effectiveness, efficiency, and agentic applications. Overall, UEmbed offers a new paradigm: it unifies dense and sparse embeddings in one model, while further extending sparse retrieval to unify text and multimodal inputs.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "UEmbed 用一个因果多模态骨干同时生成稠密向量和可进入倒排索引的稀疏词项向量；9B 版本在 MMEB-v2 得到 71.8/71.0，稀疏模式在代理搜索中还能减少检索轮次。",
+  "problem": "学习式稀疏检索通常依赖双向文本编码器；因果解码器的中间位置看不到后续 token，传统最大池化难以获得全局表示。多模态稀疏方案又常需额外跨模态模块，增加训练与部署复杂度。",
+  "method": "模型先把 248320 个 tokenizer 条目规范化为 184016 个词项，再用语义 k-means 分成 16 个子词表。输入末尾追加 16 个可学习 token，每个 token 通过独立稀疏头预测一个子词表并拼接成 SPLADE 式向量；此前的 EOS 隐状态作为稠密向量。训练联合使用稠密/稀疏 InfoNCE、查询/文档 FLOPS 正则，并用 Qwen3-VL-Embedding-8B 挖掘多模态困难负例。",
+  "workflow": [
+   "把文本、图像、视频或混合输入整理为带任务指令的多模态序列。",
+   "在序列末尾追加 16 个稀疏 token，并保留 EOS 作为稠密表示位置。",
+   "执行一次因果 Qwen3.5 多模态前向，让末尾 token 汇总完整输入。",
+   "读取并归一化 EOS 稠密向量，拼接 16 个稀疏头的词项权重。",
+   "使用余弦、稀疏内积或按模态调权的混合分数检索。"
+  ],
+  "findings": [
+   "MMEB-v2 的 78 个数据集上，UEmbed-9B 稠密/稀疏总分为 71.8/71.0；公开数据对照 RzenEmbed-V2-7B 为 71.1，但使用专有数据的 Qwen3-VL-Embedding-8B 为 77.8。",
+   "2B、4B、9B 的稠密总分为 66.5/70.4/71.8，稀疏总分为 65.5/69.7/71.0，各规模双表示差距不超过 1.0 分。",
+   "九个 BEIR 数据集平均 nDCG@10 中，9B 稠密为 56.3，稀疏为 55.2。",
+   "BrowseComp-Plus 上，9B 稀疏与稠密准确率同为 49.76%，但平均搜索轮次由 33.68 降至 31.05。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：UEmbed 适合作为 Harness 的检索 sidecar；它不能随流式输入增量维护表示，宜在 endpoint 后、generation 前编码已定稿轮次。",
+   "编辑判断：迟到工具结果可以重新编码和重排，但会增加一次前向；该模型只提供候选证据，不负责工具授权、调度或副作用控制。",
+   "编辑判断：模型没有音频或声码器能力，外挂 TTS 路径不受影响；因果编码也不等于原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "训练语料偏向英文和中文，其他语言的稀疏词项覆盖有限。",
+   "超大词表会激活异常或非标准 token，生产环境仍需剪枝与后处理。",
+   "长视频、动作识别和时序定位仍弱，混合评分收益也较小且需按模态调权。",
+   "论文未给出大规模倒排索引的端到端延迟、显存和吞吐实验。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/Alibaba-NLP/UEmbed",
+   "model_url": "https://huggingface.co/collections/Alibaba-NLP/uembed",
+   "note": "2B、4B、9B 权重和稀疏配置已以 CC BY 4.0 发布；仓库目前主要提供推理封装，缺训练、困难负例挖掘、完整评测脚本和 3.94M 训练混合快照，且封装一次只选择一种 pooling。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T19:42:39.603272+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "b53cfd0acb": {
   "tl_dr": "Model or Harness? 用“交互边 + 责任侧 + 最早未恢复故障”把 41 类智能体失败定位到模型、上下文、记忆、工具、用户、评测器或环境。",
@@ -6464,27 +6531,44 @@
   "review_status": "abstract_backfill"
  },
  "b1e69abc71": {
-  "tl_dr": "Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prom",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Prompt injection poses significant security risks to LLM agents. Efficient and effective red-teaming is therefore critical, both for evaluating these risks and for collecting training data to improve defenses. Existing state-of-the-art prompt injection red-teaming methods primarily rely on reinforcement learning (RL), producing attacker models that often generalize poorly to new target LLMs. In this work, we develop PIMiner, an agentic system for prompt injection red-teaming. During training, PIMiner is trained on a sequence of (dataset, target model) pairs and builds a strategy library from scratch. At test time, the learned strategy library can be directly transferred to a previously unseen target LLM without additional training. PIMiner requires only a small number of queries to a target agent (e.g., 10) per test sample. Experimental results demonstrate that PIMiner achieves strong performance. On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1, and 42.9% ASR against Claude-Sonnet-4.5. On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro, 53.3% ASR against GPT-5.1, and 40.0% ASR against Claude-Sonnet-4.5.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "PIMiner 把搜索式提示注入红队历史蒸馏为可路由的 Markdown 策略库，以三级记忆和最多十轮反馈搜索替代目标专属 RL；它对多个未见目标模型取得较高攻击成功率，但依赖小型公开沙箱和闭源 Claude 骨干。",
+  "problem": "RL 红队通常需要大量目标查询、为每个目标单独训练且迁移有限；PAIR、TAP 等搜索方法则会在每个样本重新开始。论文研究如何跨样本、数据集和目标模型持续积累攻击机制，同时控制上下文与查询成本。",
+  "method": "训练依次处理八个数据集—目标模型对，并可读取逐步代理轨迹；测试时冻结知识库，只观察最终输出和成功标签。长期记忆保存策略机制、适用范围、成功实例和失败条件；路由器选择 Top-3。攻击器还读取同一数据集的压缩历史和当前样本完整轨迹，最多尝试十次。训练结束后 digester 按机制聚类案例并修订策略，测试期禁止更新。",
+  "workflow": [
+   "从 AgentDojo、IPIArena 或 InjecAgent 抽取任务、注入槽位与恶意目标。",
+   "路由器按目标模型、任务表面和注入位置选择最多三条策略。",
+   "攻击器结合三级记忆生成注入，调用目标代理并读取轨迹与判定。",
+   "最多迭代十轮，根据失败机制改写载荷。",
+   "完成样本被压缩进同数据集记忆；训练阶段再由 digester 更新策略库。"
+  ],
+  "findings": [
+   "IPIArena 上对 Gemini-2.5-Pro、GPT-5.1、Claude-Sonnet-4.5 的 ASR@10 为 76.2%、61.9%、42.9%；AgentDojo 上为 86.7%、53.3%、40.0%。",
+   "30 个 InjecAgent 测试样本上，对 GPT-4o-mini、GPT-4.1-nano 和 GPT-5-nano 均达到 1.00 ASR@10。",
+   "完整三级记忆相对只保留样本内历史，在 Haiku-4.5 上由 13.1% 升至 32.9%，在 Sonnet-4.6 上由 50.6% 升至 68.4%。",
+   "路由器将 Haiku 平均输入从 237K 降至 136K token，将 Sonnet 从 236K 降至 92K；Sonnet ASR 同时由 60.9% 升至 68.4%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：PIMiner 直接适合测试 endpoint/commit 后返回的网页、文档和 late tool 结果能否通过间接注入改写已提交意图。",
+   "编辑判断：Harness 应把成功 oracle 改为“未经候选授权的 typed action 是否进入执行阶段”，并区分模型尝试、类型校验拒绝和真实执行。",
+   "编辑判断：candidate-authorized actions 与确定性执行检查可为策略库提供比自然语言裁判更强的复现证据。",
+   "编辑判断：论文不覆盖音频端点、外部 TTS 或并发听说，只是提交后工具注入红队层，不是全双工验证。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "IPIArena 仅 21 例、AgentDojo 仅 30 例，未给置信区间或重采样稳定性。",
+   "训练期可见逐步代理轨迹，强于完全外部攻击者的知识条件。",
+   "默认攻击、路由和 digest 均依赖 Claude Code 与 Claude Opus 4.7，成本和模型漂移限制复现。",
+   "未测试检测器、净化器、安全策略层或真实生产执行边界，公开攻击库也有双用风险。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/Wang-Yanting/PIMiner",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库以 MIT 发布 Python/Shell 实现、协议、数据适配器和十个 Markdown 策略文件；没有自研模型权重，运行依赖外部 Claude 与目标模型 API。上游 AgentDojo、InjecAgent、IPIArena 仓库也标注 MIT；论文为 CC BY 4.0。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-06T16:13:08.255934+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "b8a6dfc35f": {
   "tl_dr": "While instruction-based video editing has advanced rapidly, real-world videos contain tightly coupled audio and visual signals, and editing one modality often requires coordinated changes in the other. Existing benchmarks primarily evaluate",
@@ -6954,27 +7038,43 @@
   "review_status": "abstract_backfill"
  },
  "7dc9a079ca": {
-  "tl_dr": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "StreamArena 用小时级连续视频、开放式问答和严格因果时间戳测试实时感知、历史回溯、主动交互与工具调用；StreamMind 通过前台响应、异步记忆和后端检索分层，在四项能力上领先流式基线并降低查询后等待。",
+  "problem": "短视频和选择题允许模型只看最近几帧或利用答案捷径，无法证明其持续观看、保存远期证据并在无人再次提示时主动响应。真实助手还需联合音视频、多轮上下文和外部搜索，并禁止查询时访问未来画面。",
+  "method": "基准为每个开放式任务标注查询时间与证据时间。StreamMind 的 Front 与 Monitor Workers 负责低延迟交互和持续监测；Memory Writer 异步生成微观、宏观及超事件、实体关系和关键帧；Router 协调 Recall 与 Search Workers，从持久多模态记忆及 Google 图文搜索取证。系统从零时刻以 2 fps 顺序摄取视频，不为回答而倒带。",
+  "workflow": [
+   "以 2 fps 顺序接收视频帧，音频按 5 秒窗口做字幕读取或 ASR，并保留最近 60 秒环形缓冲。",
+   "Memory Writer 每 4 秒异步更新分层事件、实体关系与关键帧。",
+   "请求到达后，Front Worker 直接回答、创建检索任务或启动独立 Monitor。",
+   "Router 并行拆分历史 Recall 与文本/整帧/裁剪图像 Search。",
+   "汇总证据回答；主动任务先记录触发帧时间，再生成通知。"
+  ],
+  "findings": [
+   "基准含 243 个视频，平均 88.8 分钟，共 3646 个任务：263 个实时感知、877 个历史回溯、1732 个工具任务和 774 个主动任务。",
+   "历史证据到查询的中位间隔为 12.1 分钟；49 题的最近证据早于查询超过一小时，189 题需联合至少两个证据片段。",
+   "StreamMind 的 RTP、HR、Tool、Proactive 准确率为 44.5%、34.9%、56.1%、11.6%，相对各项最强流式基线提高 58.4%、53.7%、228.1%、54.7%。",
+   "同用 Qwen3.5-397B-A17B 时，加权查询后延迟由 81.4 秒降至 27.5 秒，同时保留离线方案 89.7% 的加权准确率。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：前台触发、异步记忆和后端检索可映射到 Harness 的流式输入、endpoint-before-generation 与 late tools，并把触发时延和后续解码分开计量。",
+   "编辑判断：论文没有原生语音输出，可继续使用 Harness 的外挂 TTS，但需自行计量首音频、背压和取消。",
+   "编辑判断：StreamMind 是事件驱动的连续输入多工作者系统，不是原生同时听说的全双工 speech-to-speech 模型。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主结果每个单元格只运行一次，没有置信区间或显著性检验。",
+   "StreamMind 使用 397B MoE，而多项流式基线更小，架构收益与模型规模未完全分离。",
+   "开放式答案依赖闭源 Gemini 3.1 Pro 判分，Tool 指标只验证答案，不证明工具路径正确。",
+   "长程回溯从 5–15 分钟档 46.7% 降至超过 30 分钟档 17.1%，且部署依赖 8×H800 和外部搜索 API。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "partial",
    "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "model_url": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B",
+   "note": "项目页 https://hkuzxc.github.io/StreamArena_web/ 与约 321GB 数据公开，但论文所列 GitHub 当前不可访问，也没有专属 StreamMind 权重。数据许可存在冲突：论文写注释 CC BY 4.0，Hugging Face 元数据写 CC BY-NC 4.0，原视频版权仍归上传者；Qwen 主干为 Apache-2.0。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-07T14:21:53.579779+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "76ffc2986d": {
   "tl_dr": "Multimodal large language models (MLLMs) make grounded predictions in real-world scenes by combining visual and textual cues, yet existing benchmarks rarely reveal how they arbitrate between these evidence sources when they conflict. We int",
@@ -7069,50 +7169,82 @@
   "review_status": "abstract_backfill"
  },
  "8f3e4a91fb": {
-  "tl_dr": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "REAL-2MIX 用同一真实双人重叠录音分别查询两张嘴，检查模型是否真的跟随视觉目标；配套 VoxBlink2-AVSE 和逐层 FiLM 明显降低视觉旁路与残留重叠。",
+  "problem": "合成混音不能覆盖共享房间的混响、背景噪声和真实重叠；分离器还可能忽略嘴部视频，无论查询谁都输出声学上更强的同一个人，而普通单输出质量指标看不出这种视觉旁路。",
+  "method": "REAL-2MIX 在固定场景中依次录制 A 单讲、B 单讲和 A+B 同讲，并对同一重叠片段分别使用 A、B 嘴部视频查询。模型冻结 AV-HuBERT 视觉分支，得到 25Hz、1280 维嘴部特征；这些特征既在输入端与 128 点 STFT 融合，又在六个 TF-GridNet block 后通过 FiLM 重新注入。训练从 VoxBlink2-AVSE 在线采样三秒目标和干扰语音；评测联合使用 Qwen3-ASR CER、WeSpeaker 声纹相似度和 WavLM OSD。",
+  "workflow": [
+   "对同步多视角视频做人脸跟踪、身份聚类、Viterbi 纠错和 96×96 嘴部 ROI 对齐。",
+   "冻结 AV-HuBERT 并预计算 1280 维目标嘴部特征。",
+   "在输入层及每个 TF-GridNet block 中持续调制混合语音表示。",
+   "对每段真实混音分别查询 A、B，联合检查内容、身份、残留重叠和成对成功率。"
+  ],
+  "findings": [
+   "REAL-2MIX 含 77 个场景、14 对说话人、7598 段 16kHz 音频和 11.84 小时内容；6038 个可评测混音形成 12076 个目标输出。",
+   "VoxBlink2-AVSE 筛选后含 250828 对同步音频—嘴部 ROI、28421 个身份和 766.17 小时，训练/开发身份互斥。",
+   "最佳 checkpoint 的 CER 为 0.2261，目标/干扰相似度为 0.6425/0.3114，严格正确率 82.22%，双目标均正确率 69.53%。",
+   "该 checkpoint 残留重叠率为 12.45%、错误说话人率 5.33%；只做输入融合而无 FiLM 时残留重叠率为 63.85%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：论文模型明确使用 full-utterance、noncausal 推理，只能作为多人座舱前端和离线评测参考，不能直接带来边听边说或原生全双工。",
+   "编辑判断：成对身份测试适合改造成主驾/副驾对同一混音分别查询的回归，避免分离器总输出近场或音量更大的乘员。",
+   "编辑判断：若将嘴部、座位和波束信息注入因果分离器，可提高写入 Harness 流式输入的目标身份纯度；它不改变 endpoint 后生成、late tools 或外挂 TTS。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "正文明确说明推理为完整语句、非因果，无法据此推断流式延迟或实时算力。",
+   "数据只有 14 对固定位置普通话朗读者，并排除非语言发声，不能代表自由交谈、遮挡、儿童或移动乘员。",
+   "没有真实隔离的重叠源，严格正确率依赖自动 OSD、声纹和 ASR 阈值。",
+   "论文声称发布新数据与模型，却未给出可访问的官方资源链接。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "未找到官方代码、checkpoint、REAL-2MIX 或 VoxBlink2-AVSE 下载页，也无法确认这些新资产的许可证。底层 VoxBlink2 只开放元数据和下载脚本，采用 CC BY-NC-SA 4.0 且禁止商业使用。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-07T14:21:53.579838+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "06e0a0eb35": {
-  "tl_dr": "A framework that persists execution state so a run can be interrupted, survive a crash, and continue must decide what a resume means for effects that already fired. Five widely deployed agent workflow frameworks answer differently, none exp",
-  "problem": "传统能量 VAD 和轮次式流水线难以区分停顿、附和、真正插话和语义结束，容易造成抢话或漏响应。",
-  "method": "A framework that persists execution state so a run can be interrupted, survive a crash, and continue must decide what a resume means for effects that already fired. Five widely deployed agent workflow frameworks answer differently, none exposes a machine-checkable contract, and behavior violates even the fragments they state. The RESUME CONTRACT states six properties over the persistence API (prefix continuation, effect exactly-once, fork determinism, checkpoint validity, consume-once, recovery determinism), plus fork-intent and liveness obligations. A TLA+ model checks a reference semantics exhaustively, unchanged at scaled bounds (7.4 million states); a 39-cell fault matrix yields the separating models independence requires, and consume-once splits, its consumption clause independent of all six others. A deterministic, LLM-free harness measures them at pinned releases. LangGraph 1.2.9 durably records a second resume value and never consults it, persists schema-invalid state silently, and re-executes durably recorded work after a real SIGKILL: exactly-once across interrupts, at-least-once across crashes, on one API. CrewAI 1.15.2 re-executes completed effect-bearing methods against its written claim; pydantic-graph 1.x cannot resume after a mid-node crash; no two probed frameworks share a conformance profile. Consume-once holds sequentially and fails under concurrent delivery: k processes resuming one parked interrupt fire the gated effect k times, saturation 1.0 in 36 of 40 cells, and the failure crosses hosts. REMIT, a reference sequencer whose Verus-verified recovery core is line-identical to the shipped executable, repairs the fork and validity cells. The cross-process cell is repaired at the read path, and that repair ships: an opt-in gate claims consumption in th",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "五个智能体工作流框架对“恢复执行”具有互不兼容、甚至违反自身文档的语义。论文提出六项 Resume Contract 属性，用 TLA+、无 LLM 故障探针和外部副作用账本测量它们，并以 Remit 修复分支、状态有效性和跨进程重复消费。",
+  "problem": "检查点、人工审批和崩溃恢复决定已经执行的付款、消息、文件写入或工具调用会不会再次发生，但现有框架没有统一、可机器验证的契约。相似 resume API 可能分别提供恰好一次、至少一次、静默重放或无法恢复。",
+  "method": "作者把恢复平面抽象为任务、持久前沿、检查点、带值中断和恢复，定义 prefix continuation、effect exactly-once、fork determinism、checkpoint validity、consume-once、recovery determinism 六项安全属性，以及 fork-intent 和活性义务。TLA+ 检查参考语义及故障变体；47 个探针、11 个 campaign、SIGKILL、SQLite/PostgreSQL 与独立效果账本测量真实框架。Remit 的 Rust/PyO3 shim 在读取路径声明消费、过滤旧 resume 写入并校验状态。",
+  "workflow": [
+   "把 checkpoint、interrupt、resume 与外部副作用映射为统一可观察接口。",
+   "将参考语义、六类故障和消费竞态编码为 TLA+ 并用 TLC 穷举。",
+   "在固定版本上运行 LLM-free 探针，以独立账本记录副作用。",
+   "通过异常、SIGKILL、多后端、多进程和跨主机竞态区分恢复语义。",
+   "以 Remit 在读取路径声明消费、过滤旧值并校验状态，再做形式与压力验证。"
+  ],
+  "findings": [
+   "扩展 TLA+ 配置遍历约 1470 万个生成状态、740 万个不同状态，六项属性结论不变。",
+   "五个框架没有任何两个共享相同合规画像，十个框架配对全部可区分。",
+   "跨进程扫描覆盖 40 个单元、400 次协议执行，本应发生 400 次的副作用实际发生 2628 次；36 个单元 racer 饱和率为 1.0。",
+   "两主机同时恢复时，原始路径 10/10 次均执行两次副作用；Remit 门控 10/10 次均只允许一名竞争者执行。",
+   "Remit 的 6400 次并发端到端执行全部保持逐协议恰好一次，完整中断微基准相对原生 SQLiteSaver 开销低于 5%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：Harness 的 endpoint-before-generation 是明确检查点；late tools、真实车控和外挂 TTS 都可能产生非幂等副作用，应纳入 exactly-once、consume-once 和幂等键设计。",
+   "编辑判断：流式输入状态跨崩溃恢复时不能重放已经提交的车控或播报；必须区分中断恢复与进程崩溃恢复。",
+   "编辑判断：Harness 不是原生全双工，反而使 endpoint、生成、工具和 TTS 阶段边界更清楚；本文是恢复语义规范，不评价实时理解能力。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只覆盖五个框架的固定版本和有限公开路径，部分矩阵单元尚未测试。",
+   "副作用主要以计数器或 SQLite 账本代理，不含真实支付、网络分区、掉电或 torn write。",
+   "TLC 只在有限常量范围内穷举，没有无界证明；模型到 LangGraph 的映射也非机械提取。",
+   "Verus 未覆盖 PyO3、Python shim 和跨进程 gate 的完整端到端 refinement。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://pypi.org/project/remit-contract/",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "Remit v0.1.2 以 MIT 发布 manylinux wheel 和源码包，不需要模型权重；PyPI 所列源码仓库和论文制品仓库当前均不可访问，完整探针、TLA+ 配置、原始结果和复现脚本仍为私有，因此不能独立复算全部结果。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-07T14:21:53.579847+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "6b5610598c": {
   "tl_dr": "Collaborative music agents need internal representations rich enough to support both understanding and generation, yet flexible enough for a workflow where the human retains agency. We present a hierarchical self-supervised ``world model'' ",
@@ -7253,27 +7385,44 @@
   "review_status": "abstract_backfill"
  },
  "e87eea6e71": {
-  "tl_dr": "As LLMs are increasingly deployed within agentic systems, their capabilities depend not only on the model weights but also on the harness: the prompts, tools, control flow, memory, and orchestration code surrounding them. This makes automat",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "As LLMs are increasingly deployed within agentic systems, their capabilities depend not only on the model weights but also on the harness: the prompts, tools, control flow, memory, and orchestration code surrounding them. This makes automated harness optimization -- the iterative and evaluation-guided improvement of a harness by an AI system -- both an important route to improving AI systems and a demanding capability for AI systems themselves. Yet the community lacks a common protocol for measuring how well frontier LLMs perform at this task. We introduce HarnessOpt-Bench, a benchmark for end-to-end harness optimization under expensive and stochastic evaluation. An optimizer, an LLM paired with a coding harness, receives a target agent's seed harness, graded evaluation feedback, and a fixed target-evaluation budget. It edits the harness and nominates a final candidate, which is scored by its normalized gain over the seed on a held-out test partition that remains inaccessible throughout search. A trusted execution environment enforces the evaluation boundary, meters target-agent resource use, and preserves candidate versions for audit. We evaluate 5 frontier LLMs as optimizers both under a shared coding harness and under their native harnesses across 4 downstream tasks, over 111 scored runs. Experiment results show that optimizer models separate more than the coding harnesses they act through, native harnesses are not consistently superior, and gains vary substantially across tasks and seed regimes. These results establish harness optimization as a measurable and discriminative capability with large space for improvement.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "HarnessOpt-Bench 用隔离执行、固定评测预算和全程不可见的测试集，衡量模型能否通过修改提示、工具、记忆与控制流真正提升另一个智能体的泛化表现。",
+  "problem": "既有 harness 优化研究使用不同种子、模型、预算和披露规则，成绩混合了优化模型、编码工具、目标智能体与评测协议。智能体评测又昂贵且随机，优化器必须从有限反馈中诊断失败并避免过拟合验证噪声。",
+  "method": "每项任务固定目标模型、环境、验证器和未调优的 Python seed harness，并划分开发、验证和不可见测试集。优化器可修改整个 harness：开发集返回逐题分数与轨迹，验证集只给聚合分数，测试集搜索期间不可访问。可信执行环境隔离候选、统一计量模型调用并保存每个 Git 版本；最终只评测提名候选，以相对 seed 所剩提升空间计算 normalized gain。",
+  "workflow": [
+   "固定 seed harness、目标模型、环境、验证器与三段数据划分。",
+   "优化器修改提示、工具、上下文、重试策略或控制流并提交候选。",
+   "在固定调用、样例遍历和目标 token 预算内查询开发或验证反馈。",
+   "可信侧车隔离执行、阻断测试数据与凭据，并保存候选版本。",
+   "优化器提名最终版本；服务器对每个测试样例运行三次并计算 normalized gain。"
+  ],
+  "findings": [
+   "实验覆盖 5 个优化模型、4 项任务和 111 次计分运行。",
+   "控制任务后，更换优化模型使 normalized gain 平均变化 0.142，更换编码 harness 为 0.079，前者约 1.8 倍。",
+   "OfficeQA、BrowseComp-Plus、Terminal-Bench、GAIA 的最佳平均 normalized gain 为 0.63、0.48、0.29、0.49。",
+   "固定 OfficeQA seed、预算和编码 harness 时，五个 GPT 版本的 gain 从 0.03 单调升至 0.49。",
+   "触及的 harness 杠杆比例与测试增益在四项任务上的 Spearman ρ 为 0.34–0.88，但这是未排除修改量混杂的相关性。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可直接复用其“修改—评测—提名”外循环与隐藏测试边界，优化 StreamingModelHarness 的流式输入、endpoint、late tools、上下文和外挂 TTS 调度。",
+   "编辑判断：当前论文任务都是文本或终端式离线交互，需要另建流式事件回放、首音频、工具晚到和 TTS 取消的正确性/时延联合验证器。",
+   "编辑判断：协议衡量的是 harness 优化能力，不能把论文 gain 外推为原生全双工语音能力。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "系统强调抗攻击而非绝对防攻击，稳定开发/验证环境仍可能被利用。",
+   "seed harness 是强任务先验，套件未系统控制其完整度与架构复杂度。",
+   "候选只限 Python，每项任务也只固定一个目标模型。",
+   "评测昂贵且随机，重复次数有限；小于任务分辨带的差异不能支持精细排名。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/scaleapi/vero/tree/main/harness-engineering-bench",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方 VeRO 仓库以 MIT 发布优化内核、可信评测设施、seed harness、分区清单和任务目录；部分大型任务文件需脚本从固定来源取得并受上游许可约束。没有专属模型权重，实验还依赖闭源第三方模型端点。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-07T19:15:26.353537+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "17a9aaead5": {
   "tl_dr": "Powered by advances in LLMs and autonomous agents, deep research has become one of the most widely adopted agentic products. However, most deep research systems write general-purpose reports, which are inadequate for financial deep research",
@@ -7414,27 +7563,45 @@
   "review_status": "abstract_backfill"
  },
  "5573f30b32": {
-  "tl_dr": "Data agents enable natural-language analytics over organizational workspaces, where relevant evidence may be scattered across databases, structured files, long documents, and multimedia. Existing benchmarks largely isolate structured queryi",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Data agents enable natural-language analytics over organizational workspaces, where relevant evidence may be scattered across databases, structured files, long documents, and multimedia. Existing benchmarks largely isolate structured querying, retrieval, or open-ended analysis, leaving heterogeneous evidence discovery, complete tabular outputs, and deterministic evaluation insufficiently unified. We introduce DataSpace, a benchmark in which data agents produce verifiable tabular results from task-local heterogeneous workspaces. It contains 410 cross-language tasks and 7,439 artifacts totaling 15.01 GB across CSV, JSON, SQLite, Markdown, PDF, and video. DataSpace also served as the official evaluation benchmark for the KDD Cup 2026 Data Agents for Complex Data Analysis competition. Each agent receives only a question and workspace and returns the complete requested tabular result. We construct DataSpace with DataSpace-Builder, an execution-grounded framework comprising cross-language transformation, constraint-aware relational sampling, modality routing and artifact rendering, and human review and task repair by 11 domain experts. A deterministic evaluator performs header-invariant column alignment, type- and precision-aware normalization, and order-aware row comparison. Across six recently released frontier multimodal models and five widely used agent harnesses, the best accuracy reaches 66.34%, while harness choice creates a 15.36-point spread with the backbone fixed. Multimodal evidence integration and joins consistently reduce accuracy across all six backbones. These results show that DataSpace remains unsaturated and identify key challenges for improving data-agent reliability.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "DataSpace 以 410 个中英跨语言任务测试数据智能体能否从数据库、结构化文件、长文档和视频中发现并整合证据，最终生成可由确定性规则完整验证的表格。",
+  "problem": "既有数据智能体基准通常分别测试 SQL、检索或开放分析，较少同时覆盖异构工作区的证据发现、跨载体关联、完整表格输出与无模型裁判的确定性评测。",
+  "method": "DataSpace-Builder 从 EHRSQL 与 BULL 的问题、数据库和可执行 SQL 出发，联合转换问题、模式、实体和值的语言，再做保留谓词、边界与连接关系的任务级采样。采样表渲染为 CSV、JSON、SQLite、Markdown、PDF 和视频，SQL 结果形成候选金标。每项任务由两名专家盲解并配置类型、精度与顺序语义。评测器忽略列名和列顺序，按类型与精度规范化单元格，再按有序序列或无序多重集比较完整表格。",
+  "workflow": [
+   "取得自然语言问题、关系数据库和可执行 SQL。",
+   "联合转换问题、schema 与值，并通过结构检查和 SQL 重执行验证。",
+   "按主外键、谓词、边界值和目标实体进行约束感知采样。",
+   "把采样数据渲染为六类载体并做字段/证据原子校验。",
+   "两名专家盲解、核验金标和配置评测语义，分歧时修复复审。",
+   "智能体提交 CSV，评测器完成列对齐、类型规范化和完整行比较。"
+  ],
+  "findings": [
+   "基准含 410 个任务、7439 个文件和 15.01GB 数据；265 项跨语言，134 项需组合多种模态。",
+   "固定 DataSpace-Agent 后，最强骨干完成 272/410，准确率 66.34%；六个骨干的 oracle 并集为 81.46%。",
+   "固定 MiMo-V2.5 后，五种 harness 准确率为 30.98%–46.34%，相差 15.36 个百分点。",
+   "六个骨干在多模态任务上比单模态低 1.8–14.0 点，需要 join 的任务低 9.7–19.8 点。",
+   "最强骨干 136 个失败中 71 个属于结果物化；输出目标理解与错误列投影合计 77/136。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：可作为 Harness 的异构工具与最终产物压力测试，尤其适合检查 late tool 结果接入后的实体、类型和 schema 一致性。",
+   "编辑判断：基准在开始时给完整工作区并一次性提交 CSV，不覆盖流式输入、endpoint-before-generation 或运行中才出现的工具，需改造成事件回放。",
+   "编辑判断：其价值位于数据与确定性验证层，与外挂 TTS 正交，也不评测原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "任务只从 EHRSQL 和 BULL 转换，领域集中于金融、宏观经济与医疗。",
+   "文档和视频多由关系数据程序化或模型辅助渲染，缺少真实企业历史噪声与权限结构。",
+   "全部输入公开，但只有 60 项开放金标与冻结配置，另 350 项只能走官方评测。",
+   "完整表格二元匹配没有部分分，也不覆盖交互澄清或开放式报告。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/HKUSTDial/DataSpace",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库和 Hugging Face 数据以 MIT 发布评测器、DataSpace-Agent、五类 harness 适配器和全部 410 项输入；仅 60 项金标开放，350 项保留评测。没有专属模型权重，基线调用第三方模型端点。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-09T19:07:31.969417+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "25004da864": {
   "tl_dr": "Latent diffusion modeling (LDM), a prominent paradigm, utilizes tokenizers to map input signal to compressed representation. This dependency positions tokenizer as an integral part of generation process itself, since it affects learning spe",
@@ -7460,27 +7627,43 @@
   "review_status": "abstract_backfill"
  },
  "79837be439": {
-  "tl_dr": "Computer-use agents pay full frontier inference to re-derive routines their user has already performed, because an agent's memory today records what the user said, not what the user did. We compile passively captured screen activity into ag",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Computer-use agents pay full frontier inference to re-derive routines their user has already performed, because an agent's memory today records what the user said, not what the user did. We compile passively captured screen activity into agent memory with a deterministic, zero-model pipeline: it segments a local capture stream into typed activity frames, bounded episodes carrying application, site, timing, input volume, and evidence pointers back to the raw rows, with no model in the loop, so the output is byte-identical, cacheable, and mechanically auditable. On one professional's single-user corpus of 128,756 frames over 51 active days, the compiler reduces a day of raw capture to a prompt-ready context block 86x smaller in 68 ms, and an agent reading that block answers questions about the day at 98.4% accuracy (Wilson 95% CI 91.7-99.7%) against an independent oracle, versus 66-80% for an LLM summary of the same capture, a mid-tier model reading the block matching a frontier one. The same compiler doubles as a demand-side cost instrument. Read off passive, pre-delegation human activity rather than agent rollouts, it supplies two parameters that agent-cost models assume but, to our knowledge, have not measured: the Routine Overhead Ratio R and the routine recurrence h. We report first values of R, a modeled upper bound, at 60-343x, and a delegable recurrence of 9.0% in-sample and 7.7% out-of-sample, for a realistic all-fleet token ceiling near 8%; a compiled routine replays deterministically with the model out of the loop, demonstrated live at zero model tokens on a guard-matched hit. Schema, compiler, and evaluation harness are open.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "Activity Frames 用零语言模型的确定性编译器，把本地屏幕捕获压缩为可审计的情景记忆，并将重复操作编译成带守卫的可重放流程。",
+  "problem": "计算机智能体通常只记得对话，无法利用用户已经完成的真实桌面活动；直接传入原始捕获记录成本过高，而 LLM 摘要又有非确定性、重复计费和长上下文失真。",
+  "method": "系统按应用与站点对逐显示器快照分段，通过固定驻留计时、会话间隔和短暂切换合并规则生成 activity frames；随后校正输入事件归属、解析点击目标和 URL 实体，输出覆盖范围、盲区及原始行证据指针。推断内容只能进入有命名空间、置信度和证据链接的第二层。同一捕获还能挖掘重复动作 n-gram，编译为带元素、角色和应用守卫的参数化重放计划。",
+  "workflow": [
+   "本地捕获屏幕、应用、URL、输入事件和可访问性树并写入 SQLite。",
+   "按显示器与 application-site 分段，驻留上限 90 秒，超过 300 秒形成会话或缺口。",
+   "合并不超过 20 秒的 A→B→A 切换，同时保留 B 为可审计 interruption。",
+   "按最近快照重新归属输入事件，解析点击和 URL 实体。",
+   "输出 JSON、Markdown、紧凑上下文或 MCP 工具，并挖掘带守卫的重复流程。"
+  ],
+  "findings": [
+   "代表性一天 2066 条快照需 126812 tokens；完整 frames JSON 为 34815，紧凑块为 1469，压缩 86 倍；编译中位耗时 68ms。",
+   "8 天 64 题评测中，Activity Frames 在 Sonnet 4.5 和 Opus 4.5 上均为 98.4%，Wilson 95% 区间 91.7%–99.7%；LLM 摘要为 66.1% 和 80.4%。",
+   "5120 个不同 URL 中 81.3% 被解析为 46 种非通用实体，18.7% 回退为通用页面引用。",
+   "20 个高频流程的 operational Routine Overhead Ratio 中位数为 60 倍；可委派动作样本内复现率 9.0%，时间外命中率 7.7%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：最适合作为 Harness 的本地 voice-memory sidecar；当前回答所需上下文应在流式输入完成、endpoint 触发 generation 前预取。",
+   "编辑判断：生成开始后才返回的 Activity Frames 结果不能自然修正当前输出，只能进入下一轮或触发受控取消与重生成。",
+   "编辑判断：守卫式重放可接确定性动作层，但必须保留权限、安全验证和 guard-miss 回退；外挂 TTS 只播报确认。论文不处理边听边说，因此不是原生全双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "核心数据来自一名用户和一台机器，无法代表不同职业、平台与人群。",
+   "前台驻留时间不等于真实注意力，双显示器会重复计时，线下活动完全不可见。",
+   "问答只测试两个 Claude 层级各一次，且 Activity Frames 直接提供部分基线需自行计算的时长。",
+   "成本比的分子为建模值，现场重放只验证一个两步流程；私人约 9.5GB 捕获库未发布。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/nossa-y/activity-frames",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方仓库以 MIT 发布编译器、schema、MCP、重放器、研究脚本和 QA harness，PyPI 包及默认 nocta-recorder 也开放。编译路径不需模型；论文的私人屏幕捕获数据库未发布，只能用自有数据复跑。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-09T19:07:31.969483+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "833ce4e396": {
   "tl_dr": "World models have attracted significant attention for their ability to capture and predict the structure and dynamics of the physical world. In this emerging landscape, Joint Embedding Predictive Architectures (JEPA) offer a particularly co",
@@ -7552,49 +7735,84 @@
   "review_status": "abstract_backfill"
  },
  "dc7e2d7fd3": {
-  "tl_dr": "Current video world models struggle in multiplayer environments because they entangle world state with view-dependent visual latents, leading to redundant compute, view inconsistencies, and poor scalability. We propose MAS (Multiplayer worl",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Current video world models struggle in multiplayer environments because they entangle world state with view-dependent visual latents, leading to redundant compute, view inconsistencies, and poor scalability. We propose MAS (Multiplayer world models with Authoritative Shared State) to resolve this limitation. Inspired by multiplayer game architectures, MAS disentangles world dynamics and view rendering. A learned Logic Engine advances a global, authoritative typed state from joint actions without any hand-written transition function, acting as the sole recurrent memory and synchronization reference. From this shared state, a learned Rendering Engine generates independent and consistent views for any requested camera on demand. This explicit disentangling allows MAS to achieve superior state accuracy and lower cross-view inconsistency compared to state-of-the-art multi-view baselines on a matched multiplayer Snake benchmark. It advances predicted worlds with 1,024 concurrent players for 10,000 recurrent steps. Our results show that explicit, authoritative state modeling provides a practical foundation for scalable and consistent multi-agent world simulation.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "MASS 将多人世界模型拆成推进全局 typed state 的 Logic Engine 和按需生成视图的 Rendering Engine；权威状态同时是唯一递归记忆、版本化同步消息和所有视图真值，显著改善状态恢复与跨视图一致性。",
+  "problem": "视频世界模型把世界记忆和单一摄像机 latent 绑定，导致多人场景重复维护视图历史、同一实体跨视图冲突，世界推进成本还会随观看视图数增加。",
+  "method": "每个游戏声明实体、字段、合法值域、排序和固定宽度 schema。Tokenizer 把每条实体记录与局部邻域、玩家动作和外生随机输入编码。六层 decoder-only Logic Engine 按记录批处理并受 schema mask 约束，统一组装下一版本状态；运动与碰撞等转移仍由模型学习。Rendering Engine 把同一状态投影成相机局部 16 通道张量，再由残差 U-Net 生成 RGB，不读取图像历史。更新中断时客户端短时推测，收到新版本后直接以权威状态覆盖。",
+  "workflow": [
+   "声明实体、字段、计数、值域、规范序列化与局部上下文 schema。",
+   "把当前权威状态拆成 typed records，并附联合动作与外生输入。",
+   "Logic Engine 按 schema mask 解码各字段，统一组装下一状态并增加版本号。",
+   "每个相机从同一状态生成局部投影，再独立渲染画面。",
+   "服务器缺失时客户端短时推测；新版本到达后覆盖推测结果。"
+  ],
+  "findings": [
+   "Snake 测试中 MASS 的 LPIPS 为 0.098，Parser 状态恢复 0.764，跨视图不一致 0.000；次优视频基线状态恢复仅 0.128。",
+   "直接状态预测在 H=1 时 semantic/position 为 97.9%/99.1%、冲突 0%；H=32 与 H=128 的位置准确率仍为 90.2% 和 72.3%。",
+   "只知道本地动作时，更新中断一致率由 k=1 的 0.815 降至 k=8 的 0.429；完整联合输入则始终 1.000。",
+   "千人 Snake 每 tick 预测 5121 条记录；单 H100 上，请求视图从 1 增至 1024 时总渲染耗时由 189.6ms 增至 842.4ms。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：单一版本化 typed state 可映射到 Harness 的候选授权动作和确定性执行器：动作先验权、提交，再推进状态，输出只读取已提交版本。",
+   "编辑判断：Logic/Rendering 分离可类比语义/动作状态与外挂 TTS：TTS 只是可替换渲染层，不能反向改写执行结果。",
+   "编辑判断：endpoint-before-generation 可采用其顺序约束；late tool 结果应作为下一版本的显式输入，不能静默修改已提交状态。",
+   "编辑判断：MASS 是 tick 驱动快照系统，不是异步 token/audio 全双工，只提供权威状态设计依据。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "每个游戏都需人工设计 schema、上下文、tokenizer 和独立权重，并非一个跨游戏通用模型。",
+   "typed mask、排序和唯一性 selector 直接保证部分结构有效性，零 invalid 不等于动力学正确。",
+   "长时误差明显累积，Snake Parser 到 tick 128 降至 0.642，压力测试还会进入周期吸引子。",
+   "千人规模不是完整实时网络系统：单视图已有 189.6ms，未知远端动作也快速降低一致率。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "截至 2026-08-09，论文所列项目页不可访问，Alaya Lab 官方 GitHub 与 Hugging Face 均未找到 MASS 代码、权重或实验数据；许可证无法审计。Hugging Face 摘要中的 MAS 是转录错误，论文正式名称为 MASS。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-09T19:07:31.969534+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  },
  "4740b01b7e": {
-  "tl_dr": "Training terminal agents requires executable and verifiable tasks that are not merely solvable, but appropriately challenging for learning. Executable validation establishes feasibility, yet does not reveal how a task behaves relative to a ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Training terminal agents requires executable and verifiable tasks that are not merely solvable, but appropriately challenging for learning. Executable validation establishes feasibility, yet does not reveal how a task behaves relative to a given solver setting. In this paper, we present CalibForge, an autonomous terminal-task synthesis system that uses verified solver behavior to revise candidate tasks through adversarial solver calibration. Multi-solver calibration targets disagreement within a heterogeneous solver pool, whereas contrastive solver calibration targets a designated strong-pass/weak-fail relation; both operationalize a solver-relative learnable zone anchored in demonstrated solvability. Using CalibForge, we construct 5,431 calibrated terminal tasks. Our ablations show that both strategies yield more effective supervision than authoring and validation alone or ordinary single-solver feedback. Models trained on the full collection achieve 32.58% and 47.57% on Terminal-Bench 2.0. The largest improvements over the corresponding base model reach 24.71 percentage points on Terminal-Bench 2.0, 27.68 points on SWE-bench Pro, and 30.04 points on Doc2Repo. Together, these results support solver-relative learnability as a practical target for constructing effective and transferable agent training data.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "CalibForge 不把“环境可执行且作者能自解”视为合格训练题终点，而是让多个求解器反复尝试并据验证结果修订指令、环境和测试，把任务推入相对于指定求解器的可学习区间。",
+  "problem": "任务生成通常只能证明环境能构建、测试能运行和存在一个可行解，不能判断任务对目标代理是否过易、过难、有捷径、说明含糊或验证器过度限定实现。",
+  "method": "作者代理先检索真实工程问题并联合生成 instruction、Docker 初始环境与测试。候选必须满足环境可构建、初始状态全失败，并由作者自解通过。随后每个求解器在独立沙箱中尝试：多求解器模式要求至少一成一败，对照模式要求强模型通过、弱模型失败。不满足时作者根据摘要和完整轨迹修改指令、环境或验证器，最多 50 轮。最终只保留通过测试和格式过滤的成功轨迹做 SFT。",
+  "workflow": [
+   "从领域线索检索真实工程问题并验证依赖与工具。",
+   "联合编写指令、Docker 环境、初始制品和可执行测试。",
+   "确认初始状态全失败，再由作者代理自解证明一致性。",
+   "在隔离沙箱中做多求解器或强/弱对照探测。",
+   "不满足目标组合时修订指令、环境或验证器并重新验证。",
+   "保留校准任务，蒸馏成功轨迹并进行全参数 SFT。"
+  ],
+  "findings": [
+   "最终数据含 5431 个任务：多求解器 1263 个、强弱对照 4168 个，覆盖 16 类领域。",
+   "30B 模型在 TB2/SWE-bench Pro/Doc2Repo 由 7.87/3.26/5.94 升至 32.58/30.94/35.98；35B 由 39.10/41.29/44.92 升至 47.57/44.32/48.77。",
+   "固定 1300 题时，无外部求解器、单求解器、多求解器、强弱对照的 TB2 准确率为 22.47%、24.34%、29.21%、31.09%。",
+   "所有候选虽已结构验证和自解，首轮只有 19% 满足强过弱败；反复修改后累计保留率达 96%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "编辑判断：Harness 的确定性执行检查可承担最终 verifier，用强过弱败或多实现分歧校准 failure buckets，而不只确认 happy path。",
+   "编辑判断：candidate-authorized typed actions 应按授权与最终状态语义验证，不能锁死一种动作序列。",
+   "编辑判断：可把 endpoint/commit 顺序、流式分块和 late tool 可见性设为受控 solver 条件；公开 scaffold 本身尚未验证这些协议。",
+   "编辑判断：论文与外部 TTS、音频并行或原生全双工没有直接关系。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "难度完全相对于指定模型、提示、工具和预算，更换求解器后可学习区间可能消失。",
+   "保留信号是全测试通过/失败的二元量，质量强依赖验证器完整性。",
+   "每次尝试最多 100 步、30 分钟，每候选最多 50 轮，论文未给完整成本核算。",
+   "只验证两个相近 Qwen MoE 主干，作者、强求解器和轨迹教师又集中使用 DeepSeek-V4 系列。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "partial",
+   "code_url": "https://github.com/AweAI-Team/AweAgent/tree/main/recipes/terminal_bench_v2",
+   "model_url": "https://huggingface.co/AweAI-Team/CalibForge-30B-A3B",
+   "note": "AweAgent 以 Apache-2.0 提供可运行 eval scaffold，两个完整模型权重公开并声明 Apache-2.0；主 CalibForge 仓只有 README/图片且无 LICENSE，缺论文的任务研究与校准流水线。5431 个任务已发布，但数据卡许可徽章与缺失的 LICENSE 文件不一致。另有 35B 权重：https://huggingface.co/AweAI-Team/CalibForge-35B-A3B。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-09T19:07:31.969551+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-09T20:15:00+08:00",
+  "generated_by": "GPT-5.6 Sol editorial review",
+  "review_status": "editorial"
  }
 }

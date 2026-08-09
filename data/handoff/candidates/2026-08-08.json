@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-08",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "candidates": [
+    {
+      "id": "guarded-high-precision-rule-memory-v1",
+      "title": "守卫式高精度规则记忆",
+      "module": "voice_memory",
+      "source_date": "2026-08-08",
+      "source_urls": [
+        "https://arxiv.org/abs/2607.26410v1",
+        "https://huggingface.co/papers/2608.05784"
+      ],
+      "problem_bucket": "retrieval_missing",
+      "hypothesis": "只对稳定、可审计且 guard 全命中的历史同音/别名混淆启用规则记忆，可修复部分 9 条召回缺失而不改变其余候选排序。",
+      "single_variable": "在现有检索前只增加一层 exact guard 命中的规则记忆别名展开",
+      "implementation_scope": [
+        "版本化规则记录",
+        "guard miss 原样回退",
+        "不改变 RAG top-k、模型提示、candidate-ID 或执行器"
+      ],
+      "evidence": [
+        "正式 full452 失败分解：9/38 为 expected tool 未进入 seen_tools",
+        "既有 Voice Memory 与 typed resolver 的 24/31 是组合局部证据，不能单独归因",
+        "Activity Frames 正文支持确定性编译、证据指针和 guard-miss 回退，但没有测试语音车控"
+      ],
+      "expected_fixes": 9,
+      "latency_budget_ms": 10,
+      "risks": [
+        "规则过拟合历史错误桶",
+        "别名冲突可能降低 414 canary",
+        "9 条理论上限低于默认 16 条 H20 门"
+      ],
+      "dependencies": [
+        "冻结 414 canary",
+        "保留现有 candidate authorization",
+        "不得与参数化本体、云监督或 SoulX 同轮启动"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "minimum_expected_net_fixes": 16,
+        "required_bucket_recall": "9/9"
+      },
+      "h20_gate": {
+        "minimum_full_fixes": 16,
+        "dangerous_miscalls": 0,
+        "profile": "pure_audio",
+        "sequence": "smoke->quick->full452->complex122"
+      },
+      "research_value": "用于量化规则记忆对召回缺失的上限和过拟合边界；负结果也进入论文错误分层章节。",
+      "patent_value": "公开安全标签：守卫式可审计记忆；不披露未申请实现细节。",
+      "source_commit": "29538e2",
+      "status": "rejected",
+      "evidence_score": 0.74
+    }
+  ]
+}

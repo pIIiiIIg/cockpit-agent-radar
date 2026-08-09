@@ -25,7 +25,7 @@
 <title>DataSpace: Benchmarking Data Agents for Verifiable Analytics over Heterogeneous Workspaces</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/5573f30b32.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5573f30b32.html</guid>
-<description>Data agents enable natural-language analytics over organizational workspaces, where relevant evidence may be scattered across databases, structured files, long documents, and multimedia. Existing benchmarks largely isolate structured querying, retrieval, or open-ended analysis, leaving heterogeneous</description>
+<description>DataSpace 用 410 个中英任务和 7439 个异构文件测试数据智能体产出可确定性验证的完整表格；固定 MiMo-V2.5 时，不同 harness 的准确率相差 15.36 个百分点。它适合为 StreamingModelHarness 的晚到工具、类型/schema 一致性和最终产物验证提供压力测试，但不覆盖流式语音或 TTS。</description>
 </item>
 <item>
 <title>KVAE: Family of Tokenizers for Multimodal Generative Models</title>
@@ -43,7 +43,7 @@
 <title>Activity Frames: Deterministic Screen-Activity Compilation for Agent Memory and Replay</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/79837be439.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/79837be439.html</guid>
-<description>Computer-use agents pay full frontier inference to re-derive routines their user has already performed, because an agent&#x27;s memory today records what the user said, not what the user did. We compile passively captured screen activity into agent memory with a deterministic, zero-model pipeline: it seg</description>
+<description>Activity Frames 用零模型确定性编译器把屏幕活动压成带原始证据指针的 typed memory，并把重复流程编译成守卫式重放；紧凑上下文压缩 86 倍，64 题准确率为 98.4%。其记忆 sidecar 和 guard-miss 回退可借鉴到 Harness，但结果应在 endpoint 前预取，不能把系统变成原生全双工。</description>
 </item>
 <item>
 <title>FactorJEPA: Factorizing Monolithic Futures into Layout-Agent-Interaction Channels for Crowded and Chaotic Global South Urban Worlds</title>
@@ -73,13 +73,13 @@
 <title>MASS: Multiplayer World Models with Authoritative Shared State</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/dc7e2d7fd3.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dc7e2d7fd3.html</guid>
-<description>Current video world models struggle in multiplayer environments because they entangle world state with view-dependent visual latents, leading to redundant compute, view inconsistencies, and poor scalability. We propose MAS (Multiplayer world models with Authoritative Shared State) to resolve this li</description>
+<description>MASS 用唯一版本化 typed state 推进多人世界，再从同一状态按需渲染各视图；Snake 测试的状态恢复为 0.764、跨视图冲突为 0。对 Harness 的价值是“动作先授权并提交，TTS 只渲染已提交状态”的权威状态设计，而非可直接采用的实时全双工模型。</description>
 </item>
 <item>
 <title>CalibForge: Adversarial Solver Calibration for Scaling Learnable Terminal Tasks</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/4740b01b7e.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4740b01b7e.html</guid>
-<description>Training terminal agents requires executable and verifiable tasks that are not merely solvable, but appropriately challenging for learning. Executable validation establishes feasibility, yet does not reveal how a task behaves relative to a given solver setting. In this paper, we present CalibForge, </description>
+<description>CalibForge 让多个求解器反复尝试并按可执行验证结果修订题目，把任务校准到“至少一成一败”或“强过弱败”的可学习区间；最终构造 5431 题。它可用于 Harness 的确定性 failure bucket 与 endpoint/late-tool 条件校准，但论文没有语音、TTS 或全双工证据。</description>
 </item>
 <item>
 <title>nrl-ai/edgevox</title>
@@ -157,7 +157,7 @@
 <title>HarnessOpt-Bench: Evaluating LLMs at Harness Optimization</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/e87eea6e71.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e87eea6e71.html</guid>
-<description>As LLMs are increasingly deployed within agentic systems, their capabilities depend not only on the model weights but also on the harness: the prompts, tools, control flow, memory, and orchestration code surrounding them. This makes automated harness optimization -- the iterative and evaluation-guid</description>
+<description>HarnessOpt-Bench 用固定预算、隔离执行和不可见测试集，评估模型能否修改提示、工具、记忆与控制流来提升目标智能体；优化模型带来的平均差异约为编码 harness 的 1.8 倍。它可直接规范 StreamingModelHarness 的演化外循环，但需另建流式端点、晚到工具和外挂 TTS 验证器。</description>
 </item>
 <item>
 <title>FinanceHarness: Autonomous Financial Deep Research Framework</title>
@@ -223,7 +223,7 @@
 <title>StreamArena: Toward Continuous, Interactive, and Long-Horizon Agentic Streaming Video Understanding</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/7dc9a079ca.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7dc9a079ca.html</guid>
-<description>Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that p</description>
+<description>StreamArena 用 243 段平均 88.8 分钟的视频和 3646 个开放任务评测实时感知、历史回溯、主动触发与工具调用；StreamMind 通过前台响应和异步记忆/检索把同主干加权查询延迟从 81.4 秒降至 27.5 秒。其分层适合 Harness，但不是原生语音全双工。</description>
 </item>
 <item>
 <title>encredible/Qwen2.5-1.5B-Omni-Fleet</title>

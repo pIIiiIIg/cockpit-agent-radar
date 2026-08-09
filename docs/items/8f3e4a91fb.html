@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-04 · ◈ 4
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">REAL-2MIX 对同一真实双人混音分别查询两张嘴，显式检测分离器是否忽略视觉目标；最佳 checkpoint 达到 82.22% 严格正确率和 69.53% 成对成功率。模型采用完整语句非因果推理，当前价值是多人座舱前端研究和身份忠实度回归，而非直接接入流式全双工链路。</span>
     <span class="l-en">Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">REAL-2MIX 用同一真实双人重叠录音分别查询两张嘴，检查模型是否真的跟随视觉目标；配套 VoxBlink2-AVSE 和逐层 FiLM 明显降低视觉旁路与残留重叠。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>合成混音不能覆盖共享房间的混响、背景噪声和真实重叠；分离器还可能忽略嘴部视频，无论查询谁都输出声学上更强的同一个人，而普通单输出质量指标看不出这种视觉旁路。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Audio-visual target speaker extraction should return the speaker indicated by the video, yet a separator can ignore the visual cue and repeatedly output the acoustically dominant voice. We introduce REAL-2MIX, a Mandarin AV-TSE benchmark of jointly recorded real two-speaker mixtures with synchronized multi-view video. Each scene also contains preceding A-only and B-only stages that provide in-scene speaker references. It contains 77 scenes and 7,598 clips (11.84 hours), including 6,042 dual-annotated mixtures. After processing there leave 6,038 evaluable mixtures and 12,076 target-speaker rows. We additionally curate VOXBLINK2-AVSE from VoxBlink2, comprising 250,828 synchronized audio--lip-ROI pairs from 28,421 identities and 766.17 hours of speech. Our extractor uses frozen, 1,280-dimensional projected AV-HuBERT features, target-conditioned training, and layer-wise feature modulation. We jointly evaluate content with Qwen3-ASR-1.7B CER and target identity with WeSpeaker ResNet34 plus Overlapped Speech Detection (OSD). On the complete manifest, the best archived checkpoint obtains 0.2261 CER, 82.22% strict output correctness, and 69.53% both-output strict success.</p>
-
-
+  <p>REAL-2MIX 在固定场景中依次录制 A 单讲、B 单讲和 A+B 同讲，并对同一重叠片段分别使用 A、B 嘴部视频查询。模型冻结 AV-HuBERT 视觉分支，得到 25Hz、1280 维嘴部特征；这些特征既在输入端与 128 点 STFT 融合，又在六个 TF-GridNet block 后通过 FiLM 重新注入。训练从 VoxBlink2-AVSE 在线采样三秒目标和干扰语音；评测联合使用 Qwen3-ASR CER、WeSpeaker 声纹相似度和 WavLM OSD。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>对同步多视角视频做人脸跟踪、身份聚类、Viterbi 纠错和 96×96 嘴部 ROI 对齐。</li><li>冻结 AV-HuBERT 并预计算 1280 维目标嘴部特征。</li><li>在输入层及每个 TF-GridNet block 中持续调制混合语音表示。</li><li>对每段真实混音分别查询 A、B，联合检查内容、身份、残留重叠和成对成功率。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>REAL-2MIX 含 77 个场景、14 对说话人、7598 段 16kHz 音频和 11.84 小时内容；6038 个可评测混音形成 12076 个目标输出。</li><li>VoxBlink2-AVSE 筛选后含 250828 对同步音频—嘴部 ROI、28421 个身份和 766.17 小时，训练/开发身份互斥。</li><li>最佳 checkpoint 的 CER 为 0.2261，目标/干扰相似度为 0.6425/0.3114，严格正确率 82.22%，双目标均正确率 69.53%。</li><li>该 checkpoint 残留重叠率为 12.45%、错误说话人率 5.33%；只做输入融合而无 FiLM 时残留重叠率为 63.85%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：论文模型明确使用 full-utterance、noncausal 推理，只能作为多人座舱前端和离线评测参考，不能直接带来边听边说或原生全双工。</li><li>编辑判断：成对身份测试适合改造成主驾/副驾对同一混音分别查询的回归，避免分离器总输出近场或音量更大的乘员。</li><li>编辑判断：若将嘴部、座位和波束信息注入因果分离器，可提高写入 Harness 流式输入的目标身份纯度；它不改变 endpoint 后生成、late tools 或外挂 TTS。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>正文明确说明推理为完整语句、非因果，无法据此推断流式延迟或实时算力。</li><li>数据只有 14 对固定位置普通话朗读者，并排除非语言发声，不能代表自由交谈、遮挡、儿童或移动乘员。</li><li>没有真实隔离的重叠源，严格正确率依赖自动 OSD、声纹和 ASR 阈值。</li><li>论文声称发布新数据与模型，却未给出可访问的官方资源链接。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 未找到官方代码、checkpoint、REAL-2MIX 或 VoxBlink2-AVSE 下载页，也无法确认这些新资产的许可证。底层 VoxBlink2 只开放元数据和下载脚本，采用 CC BY-NC-SA 4.0 且禁止商业使用。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-07 14:21</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-09 20:15</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.03964v2"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

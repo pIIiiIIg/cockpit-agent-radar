@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-09",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "candidates": [
+    {
+      "id": "conditional-top2-tool-verifier-v1",
+      "title": "条件式 Top-2 Tool Verifier",
+      "module": "action_safety",
+      "source_date": "2026-08-09",
+      "source_urls": [
+        "https://arxiv.org/abs/2607.23870v1",
+        "https://huggingface.co/papers/2608.06352",
+        "https://huggingface.co/papers/2607.28802"
+      ],
+      "problem_bucket": "candidate_selection",
+      "hypothesis": "仅在 top-2 工具分差低且二者属于已知混淆族时，用现有音频派生文本和参数约束做一次确定性二选一，可修复 25 条候选内选错中的至少 16 条，同时不制造 4 条 no-call 和闲聊误调用。",
+      "single_variable": "在候选已召回后增加一个只处理低分差 top-2 的条件式确定性 verifier",
+      "implementation_scope": [
+        "只读现有 top-2 候选、分差、音频派生 ASR 和公开工具 schema",
+        "分差高或不在混淆族时保持原结果",
+        "禁止强制 candidate-ID 覆盖，禁止读取 manifest 真值"
+      ],
+      "evidence": [
+        "正式 full452：25/38 为 expected tool 已在候选内但执行了另一个候选",
+        "另有 4/38 candidate-present no-call，不能由强制 ID 覆盖安全修复",
+        "MulRobBench 正文把标准动作、安全替代和禁止动作分开，并证明语义解释不等于严格可执行",
+        "CMTF/candidate-ID 路线已出现负结果；typed action 两次 formal452/122 runtime trigger=0 且零净提升"
+      ],
+      "expected_fixes": 16,
+      "latency_budget_ms": 25,
+      "risks": [
+        "verifier 误翻转本来正确的 top-1",
+        "ASR 文本不足以区分工具参数或最终车态",
+        "若触发率为零会重演 typed action/CMTF 负结果"
+      ],
+      "dependencies": [
+        "冻结 baseline 414/452 与 audio/tool/hash",
+        "先记录 verifier trigger、flip、corrected、regressed",
+        "不得重复启动参数化本体、云监督、SoulX 或 CMTF"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "minimum_expected_net_fixes": 16,
+        "minimum_trigger_count": 16,
+        "forbid_manifest_truth": true
+      },
+      "h20_gate": {
+        "minimum_full_fixes": 16,
+        "dangerous_miscalls": 0,
+        "chit_chat_regressions": 0,
+        "latency_p95_budget_ms": 25,
+        "profile": "pure_audio",
+        "same_baseline_and_hash": true,
+        "sequence": "smoke->quick->full452->complex122"
+      },
+      "research_value": "候选召回与候选内决策的可归因消融；若失败，形成 verifier 触发率/翻转精度负结果章节。",
+      "patent_value": "公开安全标签：条件式候选验证；仅记录研究贡献，不公开未申请实现细节。",
+      "source_commit": "29538e2",
+      "status": "ready_for_implementation",
+      "evidence_score": 0.93
+    }
+  ]
+}

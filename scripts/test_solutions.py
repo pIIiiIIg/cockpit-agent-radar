@@ -322,7 +322,11 @@ class PublishedSolutionPageTests(unittest.TestCase):
 
     def test_index_daily_and_detail_pages_exist(self):
         self.assertEqual(self.result["recommended"], 7)
-        self.assertEqual(self.result["negative"], 1)
+        expected_negative = sum(
+            isinstance(row, dict) and row.get("status") in {"rejected", "invalid"}
+            for row in self.snapshot.get("negative_results", []))
+        self.assertEqual(self.result["negative"], expected_negative)
+        self.assertGreaterEqual(self.result["negative"], 1)
         self.assertTrue((self.docs / "solutions/index.html").is_file())
         self.assertTrue((self.docs / "solutions/2026-08-06.html").is_file())
         today = datetime.now(build_solutions.CST).date().isoformat()

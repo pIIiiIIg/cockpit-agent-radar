@@ -1,6 +1,7 @@
 param(
     [string]$RepoPath = "",
     [string]$Since = "",
+    [string]$TargetDate = "",
     [string]$HarnessPath = "C:\Users\Administrator\Projects\StreamingModelHarness",
     [string]$HarnessSolutionsPath = "",
     [string]$HarnessSolutionsBranch = "automation/agent-h20-loop"
@@ -31,6 +32,10 @@ try {
         if (-not (Test-Path $required)) { throw "required executable missing: $required" }
     }
     Update-FromMain -Git $Git -RepoPath $RepoPath -Log $Log
+    if (-not $TargetDate) {
+        $TargetDate = (& $Python (Join-Path $RepoPath "scripts\handoff_ledger.py") next).Trim()
+        if ($LASTEXITCODE -ne 0) { throw "could not determine catch-up date" }
+    }
     Invoke-NativeLogged {
         & $Python (Join-Path $RepoPath "scripts\sync_harness_solutions.py") `
             --source $HarnessSolutionsPath --branch $HarnessSolutionsBranch --git $Git
@@ -70,14 +75,19 @@ try {
     Invoke-NativeLogged {
         & $Python (Join-Path $RepoPath "scripts\review_history.py") record `
             --before $Snapshot --reviewed-at $reviewedAt --run-id $runId `
-            --batch "deep-review"
+            --batch "deep-review" --catchup-for $TargetDate
+    } $Log
+    Invoke-NativeLogged {
+        & $Python (Join-Path $RepoPath "scripts\handoff_ledger.py") stage `
+            --date $TargetDate --stage fulltext_review --status complete `
+            --artifact "data/review_history.json"
     } $Log
     Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\test_explanations.py") } $Log
     Invoke-NativeLogged { & $Python (Join-Path $RepoPath "scripts\build_site.py") } $Log
     Invoke-NativeLogged { & $Git -C $RepoPath diff --check } $Log
     Invoke-NativeLogged {
         & $Git -C $RepoPath add data/explanations.json data/items.json `
-            data/review_history.json data/harness_solutions.json docs
+            data/review_history.json data/harness_solutions.json data/handoff docs
     } $Log
     $staged = & $Git -C $RepoPath diff --cached --name-only
     if ($LASTEXITCODE -ne 0) { throw "could not inspect staged files" }
@@ -90,7 +100,7 @@ try {
     } $Log
     $Committed = $true
     Publish-WithRetry -Git $Git -Python $Python -RepoPath $RepoPath -Log $Log
-    Write-AutomationLog $Log "SUCCESS"
+    Write-AutomationLog $Log "SUCCESS date=$TargetDate"
     exit 0
 }
 catch {

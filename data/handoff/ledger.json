@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "timezone": "Asia/Shanghai",
+  "catchup_start": "2026-08-08",
+  "updated_at": "2026-08-09T21:30:00+08:00",
+  "days": {
+    "2026-08-08": {
+      "stages": {
+        "fulltext_review": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "data/review_history.json#origin.catchup_for=2026-08-08",
+          "retries": 1,
+          "next_stage": "problem_report",
+          "updated_at": "2026-08-09T20:15:00+08:00"
+        },
+        "problem_report": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "reports/每日调研日报-2026-08-08.md",
+          "retries": 1,
+          "next_stage": "duplex_report",
+          "updated_at": "2026-08-09T21:20:00+08:00"
+        },
+        "duplex_report": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "reports/全双工语音技术增量调研-2026-08-08.md",
+          "retries": 1,
+          "next_stage": "candidate_publish",
+          "updated_at": "2026-08-09T21:20:00+08:00"
+        },
+        "candidate_publish": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "data/handoff/candidates/2026-08-08.json",
+          "retries": 0,
+          "next_stage": "candidate_ack",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "candidate_ack": {
+          "status": "complete",
+          "input_commit": "SELF",
+          "output_commit": "HARNESS_SELF",
+          "artifact": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/handoff/acks/2026-08-08-guarded-high-precision-rule-memory-v1.json",
+          "retries": 0,
+          "next_stage": "candidate_ack",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "offline_replay": {
+          "status": "rejected",
+          "input_commit": "SELF",
+          "output_commit": "SELF",
+          "artifact": "data/handoff/results/guarded-high-precision-rule-memory-v1-preflight.json",
+          "error": "expected repair ceiling 9 is below immutable gate 16",
+          "retries": 0,
+          "next_stage": "result_manifest",
+          "updated_at": "2026-08-09T21:30:00+08:00"
+        },
+        "h20_evaluation": {
+          "status": "not_applicable",
+          "input_commit": "SELF",
+          "output_commit": "SELF",
+          "artifact": "data/handoff/results/guarded-high-precision-rule-memory-v1-preflight.json",
+          "error": "offline preflight rejected before GPU allocation",
+          "retries": 0,
+          "next_stage": "result_manifest",
+          "updated_at": "2026-08-09T21:30:00+08:00"
+        },
+        "result_manifest": {
+          "status": "complete",
+          "input_commit": "SELF",
+          "output_commit": "SELF",
+          "artifact": "data/handoff/results/guarded-high-precision-rule-memory-v1-preflight.json",
+          "retries": 0,
+          "next_stage": "radar_writeback",
+          "updated_at": "2026-08-09T21:30:00+08:00"
+        },
+        "radar_writeback": {
+          "status": "complete",
+          "input_commit": "SELF",
+          "output_commit": "SELF",
+          "artifact": "reports/全双工语音技术增量调研-2026-08-09.md",
+          "retries": 0,
+          "next_stage": "",
+          "updated_at": "2026-08-09T21:30:00+08:00"
+        }
+      }
+    },
+    "2026-08-09": {
+      "stages": {
+        "fulltext_review": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "data/review_history.json#origin.catchup_for=2026-08-09",
+          "retries": 1,
+          "next_stage": "problem_report",
+          "updated_at": "2026-08-09T20:15:00+08:00"
+        },
+        "problem_report": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "reports/每日调研日报-2026-08-09.md",
+          "retries": 0,
+          "next_stage": "duplex_report",
+          "updated_at": "2026-08-09T21:20:00+08:00"
+        },
+        "duplex_report": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "reports/全双工语音技术增量调研-2026-08-09.md",
+          "retries": 0,
+          "next_stage": "candidate_publish",
+          "updated_at": "2026-08-09T21:20:00+08:00"
+        },
+        "candidate_publish": {
+          "status": "complete",
+          "input_commit": "29538e2",
+          "output_commit": "SELF",
+          "artifact": "data/handoff/candidates/2026-08-09.json",
+          "retries": 0,
+          "next_stage": "candidate_ack",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "candidate_ack": {
+          "status": "complete",
+          "input_commit": "SELF",
+          "output_commit": "HARNESS_SELF",
+          "artifact": "https://github.com/ISS-2030Lab/StreamingModelHarness/blob/automation/agent-h20-loop/evolution/handoff/acks/2026-08-09-conditional-top2-tool-verifier-v1.json",
+          "retries": 0,
+          "next_stage": "candidate_ack",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "offline_replay": {
+          "status": "pending",
+          "input_commit": "SELF",
+          "output_commit": "",
+          "artifact": "",
+          "retries": 0,
+          "next_stage": "offline_replay",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "h20_evaluation": {
+          "status": "pending",
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "",
+          "retries": 0,
+          "next_stage": "offline_replay",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "result_manifest": {
+          "status": "pending",
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "",
+          "retries": 0,
+          "next_stage": "h20_evaluation",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        },
+        "radar_writeback": {
+          "status": "pending",
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "",
+          "retries": 0,
+          "next_stage": "result_manifest",
+          "updated_at": "2026-08-09T21:25:00+08:00"
+        }
+      }
+    }
+  },
+  "candidate_fingerprints": {},
+  "experiment_identities": {}
+}

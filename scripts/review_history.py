@@ -145,9 +145,14 @@ def atomic_write(path, payload):
             os.remove(temp_path)
 
 
-def record_upgrades(history, before, after, items, reviewed_at, run_id, batch):
+def record_upgrades(
+        history, before, after, items, reviewed_at, run_id, batch,
+        catchup_for=""):
     rows = item_map(items)
-    origin = {"kind": "automation-batch", "run_id": run_id, "batch": batch}
+    origin = {
+        "kind": "automation-batch", "run_id": run_id, "batch": batch,
+        "catchup_for": catchup_for or None,
+    }
     additions = [
         make_entry(iid, rows[iid], reviewed_at, origin)
         for iid in upgraded_ids(before, after) if iid in rows
@@ -193,6 +198,9 @@ def main():
     record.add_argument("--reviewed-at", default="")
     record.add_argument("--run-id", default="")
     record.add_argument("--batch", default="deep-review")
+    record.add_argument(
+        "--catchup-for", default="",
+        help="Missed schedule date; reviewed_at remains the truthful execution time")
     sub.add_parser("backfill")
     args = parser.parse_args()
 
@@ -215,7 +223,8 @@ def main():
         run_id = args.run_id or (
             reviewed_at.strftime("%Y%m%dT%H%M%S%z") + "-" + file_hash(args.before))
         history, count = record_upgrades(
-            history, before, explanations, items, reviewed_at, run_id, args.batch)
+            history, before, explanations, items, reviewed_at, run_id,
+            args.batch, args.catchup_for)
     atomic_write(HISTORY_PATH, history)
     print(f"review history: {count} candidate entries, {len(history['entries'])} total")
 
