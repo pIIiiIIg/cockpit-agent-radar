@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "outputs": [
+    {
+      "id": "low-latency-full-duplex-tool-control",
+      "title_zh": "低时延全双工语音工具调用研究",
+      "title_en": "Low-latency full-duplex voice tool use",
+      "status": "idea",
+      "experiments": [],
+      "evidence_completeness": 0.0,
+      "paper_url": null,
+      "wechat_url": null,
+      "patent_drafting": "in_progress",
+      "patent_filed": false,
+      "human_approved": false,
+      "public_release_allowed": false,
+      "updated_at": "2026-08-09T00:00:00+00:00"
+    }
+  ]
+}

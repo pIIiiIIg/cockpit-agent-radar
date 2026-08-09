@@ -98,6 +98,12 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.evidence { height:7px; background:var(--line); border-radius:5px; overflow:hidden;
+            margin:8px 0 4px; }
+.evidence span { display:block; height:100%; background:var(--acc); }
+.status-ready { color:#3fb46b; }
+.status-preliminary { color:#e0a23f; }
+.status-idea { color:var(--dim); }
 .report-body { background:var(--card); border:1px solid var(--line);
                border-radius:10px; padding:18px 20px; margin-top:14px; }
 .report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
@@ -163,6 +169,7 @@ SHELL = """<!DOCTYPE html>
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="__BASE__/feed.xml">RSS</a>
+    <a class="btn" href="__BASE__/research-outputs/">__OUTPUTS_LABEL__</a>
     <a class="btn" href="__BASE__/reports/">__REPORTS_LABEL__</a>
     <a class="btn" href="__BASE__/archive.html">__ARCHIVE_LABEL__</a>
   </span>
@@ -185,6 +192,7 @@ def shell(title, body, page=""):
             .replace("__BASE__", BASE)
             .replace("__STYLE__", STYLE).replace("__JS__", JS)
             .replace("__SUB__", sub).replace("__FOOTER__", foot)
+            .replace("__OUTPUTS_LABEL__", pair("论文与公众号", "Research outputs"))
             .replace("__REPORTS_LABEL__", pair("日报", "Reports"))
             .replace("__ARCHIVE_LABEL__", pair("存档", "Archive"))
             .replace("__BODY__", body))
@@ -552,6 +560,50 @@ def rss(items):
     return "\n".join(out)
 
 
+def build_research_outputs():
+    path = os.path.join(ROOT, "data", "research_outputs.json")
+    target = os.path.join(DOCS, "research-outputs")
+    os.makedirs(target, exist_ok=True)
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+    except (OSError, ValueError):
+        data = {"outputs": []}
+    cards = []
+    for item in data.get("outputs", []):
+        evidence = max(0.0, min(1.0, float(item.get("evidence_completeness", 0))))
+        status = item.get("status", "idea")
+        links = []
+        release = bool(item.get("patent_filed") and item.get("human_approved")
+                       and item.get("public_release_allowed"))
+        if release and item.get("paper_url"):
+            links.append(f'<a href="{esc(item["paper_url"])}">{pair("论文草稿", "Paper draft")}</a>')
+        if release and item.get("wechat_url"):
+            links.append(f'<a href="{esc(item["wechat_url"])}">{pair("公众号草稿", "WeChat draft")}</a>')
+        if not links:
+            links.append(pair("公开链接待 IP 与人工审核", "Public links pending IP and human review"))
+        experiments = ", ".join(item.get("experiments") or []) or "进行中 / in progress"
+        cards.append(
+            '<div class="card">'
+            f'<div class="t"><span class="l-zh">{esc(item.get("title_zh"))}</span>'
+            f'<span class="l-en">{esc(item.get("title_en"))}</span></div>'
+            f'<div class="meta"><span class="badge status-{esc(status)}">{esc(status)}</span>'
+            f'<span>{pair("更新", "updated")} {esc(item.get("updated_at"))}</span></div>'
+            f'<div class="sum">{pair("对应实验", "experiments")}: {esc(experiments)}<br>'
+            f'{pair("专利草拟", "patent drafting")}: {esc(item.get("patent_drafting") or "not_started")}'
+            f'<div class="evidence"><span style="width:{evidence * 100:.1f}%"></span></div>'
+            f'{pair("证据完整度", "evidence completeness")}: {evidence:.0%}<br>'
+            + " · ".join(links) + "</div></div>")
+    body = (
+        f'<h2 class="day">{pair("Research Outputs / 论文与公众号", "Research Outputs")}</h2>'
+        '<p>' + pair(
+            "状态来自证据门禁；投稿、专利提交和公众号发布均需人工操作。未申请专利的核心内容不会出现在本站。",
+            "Statuses are evidence-gated. Submission and publication are always manual; confidential IP is never mirrored here."
+        ) + "</p>" + ("".join(cards) if cards else no_updates()))
+    open(os.path.join(target, "index.html"), "w", encoding="utf-8").write(
+        shell("Research Outputs · cockpit-agent-radar", body))
+    return len(cards)
+
+
 def main():
     data = json.load(open(os.path.join(ROOT, "data", "items.json"), encoding="utf-8"))
     items = data["items"]
@@ -567,6 +619,7 @@ def main():
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
     reports = build_reports()
+    research_outputs = build_research_outputs()
 
     # 按发现日期分组；首页放最近 6 天，每天另出独立子页 days/<date>.html
     by_day = {}
@@ -639,7 +692,8 @@ def main():
                     if item.get("kind") == "paper")
     papers = sum(item.get("kind") == "paper" for item in items)
     print(f"site built: {len(items)} items, {len(days)} days on index, "
-          f"paper deep dives {explained}/{papers}, reports {len(reports)}")
+          f"paper deep dives {explained}/{papers}, reports {len(reports)}, "
+          f"research outputs {research_outputs}")
 
 
 if __name__ == "__main__":

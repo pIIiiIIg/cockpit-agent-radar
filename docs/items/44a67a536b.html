@@ -69,6 +69,12 @@ h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:6
                    border-radius:9px; padding:12px 14px; margin-top:20px; }
 .no-updates { background:var(--card); border:1px dashed var(--line);
               border-radius:10px; padding:16px; color:var(--dim); }
+.evidence { height:7px; background:var(--line); border-radius:5px; overflow:hidden;
+            margin:8px 0 4px; }
+.evidence span { display:block; height:100%; background:var(--acc); }
+.status-ready { color:#3fb46b; }
+.status-preliminary { color:#e0a23f; }
+.status-idea { color:var(--dim); }
 .report-body { background:var(--card); border:1px solid var(--line);
                border-radius:10px; padding:18px 20px; margin-top:14px; }
 .report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
@@ -122,6 +128,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
   <span class="toolbar">
     <button class="btn" onclick="toggleLang()">中 / EN</button>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/research-outputs/"><span class="l-zh">论文与公众号</span><span class="l-en">Research outputs</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>

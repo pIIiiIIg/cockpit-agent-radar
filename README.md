@@ -47,6 +47,18 @@ python scripts/build_site.py    # 生成 docs/
 python -m http.server 8099 --directory docs
 ```
 
+## Research Outputs / 论文与公众号
+
+`data/research_outputs.json` 只接收公开安全的研究状态，站点页面位于
+`docs/research-outputs/`。同步脚本会移除尚未申请或未获人工批准的论文/公众号链接，并拒绝
+本地路径、密钥、主机凭据和 `private_ip` 内容。专利交底书、权利要求、未公开附图和核心
+实施参数不得进入本仓库或 Pages。
+
+自动顺序是“实验归档 → 私密专利草稿 → 人工 IP 审核/申请 → 论文与公众号人工审核 →
+公开安全同步”。只有 `patent_filed=true`、`human_approved=true` 和
+`public_release_allowed=true` 同时成立，页面才展示稿件链接。脚本不会自动投稿、发布
+公众号或向专利局提交。
+
 ## 打分怎么调
 
 `fetch_rank.py` 顶部 `KW` 三层关键词（3=项目核心 / 2=强相关 / 1=泛背景），
