@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-10",
+  "evidence_cutoff": "2026-08-10T10:30:16+08:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "candidates": [
+    {
+      "id": "omnivoice-local-tts-16step-v1",
+      "candidate_fingerprint": "tts|edge-to-official-omnivoice|16-step|frozen-text-player-timing",
+      "title": "OmniVoice 16-step 本地外挂 TTS",
+      "module": "tts",
+      "source_date": "2026-08-10",
+      "source_work_date": "2026-04-01",
+      "source_urls": [
+        "https://arxiv.org/abs/2604.00688",
+        "https://zhu-han.github.io/omnivoice",
+        "https://huggingface.co/k2-fsa/OmniVoice"
+      ],
+      "problem_bucket": "tts_first_audio_latency",
+      "hypothesis": "在冻结生成文本、工具结果、音色提示、播放器和计时起点的条件下，仅把 Edge TTS 替换为官方 OmniVoice 16-step，可把 commit 到首音频 P90 降到 1000ms 以内，同时保持中文 CER 不劣于 Edge，且不改变任何工具调用或最终车态。",
+      "single_variable": "外置 TTS backend 从 Edge TTS 切换为官方 OmniVoice，推理步数固定为 16",
+      "implementation_scope": [
+        "只使用 k2-fsa/OmniVoice 官方模型，不使用 2026-08-10 Radar 发现的第三方 GGUF 镜像",
+        "冻结生成文本、工具结果、音色提示、播放器、样本集和 commit 计时点",
+        "不修改 Qwen3-Omni、音频 KV、RAG、候选工具、执行器或 endpoint",
+        "本报告任务不运行陌生仓库代码；任何离线回放前先完成依赖和许可证审查"
+      ],
+      "evidence": [
+        "项目 2026-08-03 A/B：首音频 P50 为 2918/3491ms，P90 为 3453/4171ms，项目判断 Edge TTS 是主要瓶颈",
+        "OmniVoice 正文：H20、PyTorch、3秒提示生成10秒音频时，16-step、batch=1 的完整波形 RTF 为 0.0319",
+        "OmniVoice 正文：16-step 在 Seed-TTS test-zh 的 SIM-o、WER/CER口径值、UTMOS 分别为 0.773、0.99、3.00",
+        "论文未报告 TTFA、流式 chunk 时间、取消或打断残留，因此 RTF 不能作为项目首音频结论"
+      ],
+      "expected_fixes": 0,
+      "latency_budget_ms": 1000,
+      "risks": [
+        "离散 NAR 可能必须完成整句波形后才能播放，RTF 很低仍不等于首包很快",
+        "5090、Windows、当前播放器和与 Qwen3-Omni 并发时的性能未知",
+        "16-step 相对 32-step 存在中文可懂度和自然度退化",
+        "官方预训练权重为 CC-BY-NC，不能直接进入量产商业链路",
+        "未知依赖或完整波形缓冲可能增加显存、取消延迟和打断残留"
+      ],
+      "dependencies": [
+        "官方 k2-fsa/OmniVoice 权重和固定 16-step 配置",
+        "冻结现有 A/B 文本、工具结果、播放器与 commit 计时口径",
+        "非 H20 隔离 GPU 环境和依赖/许可证审查",
+        "不得重复启动参数化本体、云监督、SoulX、CMTF 或已拒绝 verifier"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "text_and_tool_output_exact_match": true,
+        "expected_net_fixes": 0,
+        "first_audio_p90_max_ms": 1000,
+        "chinese_cer_not_worse_than_edge": true,
+        "interruption_residual_not_worse_than_current_player": true,
+        "record_p50_p90_p95_rtf_vram": true,
+        "dependency_and_license_review_required": true
+      },
+      "h20_gate": {
+        "request_allowed": false,
+        "reason": "该候选预计正确性净修为0，且不是 complex/endpoint 候选；不满足 414 零退化且预计净修至少16的 H20 请求门。",
+        "minimum_expected_net_fixes_for_future_request": 16,
+        "same_baseline_and_hash": true,
+        "gpu_consumed": false
+      },
+      "research_value": "可区分完整波形 RTF、真实首音频和可打断性，形成 NAR 外挂 TTS 在座舱交互链中的时延—忠实度消融；失败同样应进入负结果。",
+      "patent_value": "public-safe：仅记录“冻结上游的外挂 TTS 单变量评测”研究标签，不公开未申请实现细节。",
+      "source_commit": null,
+      "status": "proposed_offline_only",
+      "evidence_score": 0.86
+    }
+  ]
+}

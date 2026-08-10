@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-10</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-10</h2><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-10.html"><span class="l-zh">→ 当天精读来源</span><span class="l-en">→ full-text reviews for this day</span></a></p><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-10</p>
+<p>证据日期：</p>
+<ul>
+<li>项目状态快照生成于 2026-08-10 10:30（UTC+8）；其中最新提交实际日期为 2026-08-04，最近 H20 A/B 基准实际日期为 2026-08-03。</li>
+<li>Radar 数据生成于 2026-08-10 09:29（UTC+8）。</li>
+<li>本报告未使用 2026-08-10 之后的证据。论文原始发表日期、Radar 发现日期和复核日期分别标注，不把后发现的镜像当成新工作。</li>
+</ul>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-09.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<h3>项目实测事实</h3>
+<ul>
+<li>当前快照没有 2026-08-04 之后的新提交或新基准。最新提交 <code>0a1d84e</code> 增加相位埋点、前向代价探针和紧凑回执；<code>768c60e</code>、<code>22edce8</code> 分别补齐 token/引擎耗时和真实车控落地时刻。</li>
+<li>2026-08-03 H20 公平对照使用同一批 100 条音频。A/B 严格工具召回/执行成功率为 80.49%/79.27%，差异的置信区间高度重叠；日常对话误车控均为 0%。</li>
+<li>A/B 首动作 P50/P90 为 1,094/1,440ms 与 700/850ms；首音频为 2,918/3,453ms 与 3,491/4,171ms。项目结论是 Edge TTS 而非首 token 构成约 3 秒首音频的主要瓶颈。</li>
+<li>单 token 解码约 110ms；项目剖析把根因定位到 HF MoE 每 token 约 816 次 GPU→CPU 同步，而不是当前 KV 长度。<code>DynamicCache.update()</code> 在 KV=2500 时约 0.2ms，不是当前同量级瓶颈。</li>
+<li>闲聊工具门槛在 6,478 条真实车控指令上需要提高到 T=5 才能滤净闲聊，但会误伤 6.25% 真指令，因此没有启用。上下文引力和聚合意图展开不全仍未闭环。</li>
+<li>前一份 2026-08-09 报告另记载 baseline 414/452、召回 443/452，以及 conditional top-2 verifier 离线仅触发 5 次、净修 4、因此拒绝 H20。当前 2026-08-10 项目状态快照没有附该 run manifest，本报告只把它作为前日报告的已记录负结果用于防重复，不声称产生了新的 Harness 运行。</li>
+</ul>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>MoE 单 token 解码约 110ms</td><td>速度不随 KV 长度变化；项目估算约 816 次同步/token，5090 实测约为理论带宽下限 36 倍</td><td>今日 Radar 没有直接命中 HF 单 token 路由同步的新内核</td><td>继续项目自有 <code>index_select</code>+<code>bmm</code> 无同步 fast path，与原 HF 实现分别在 5090/H200 跑 <code>tests/stress_multiturn.py</code></td><td>输出一致；ms/token 显著下降；不能用批吞吐或 TTS RTF 代替单请求门</td></tr>
+<tr><td>首音频约 3 秒</td><td>A/B 首音频 P50 为 2,918/3,491ms，P90 为 3,453/4,171ms；项目判断 Edge TTS 是主因</td><td>OmniVoice 官方 0.8B NAR TTS；2026-08-10 新增的是第三方 GGUF 镜像，原工作发表于 2026-04-01</td><td>仅把 TTS backend 从 Edge 换为官方 OmniVoice 16-step，文本、工具、播放器和样本冻结；先在非 H20 隔离环境测完整波形与首包</td><td>编辑门：首音频 P90≤1,000ms；中文 CER 不劣于 Edge；工具/文本逐条一致；打断残留不劣于现有播放器</td></tr>
+<tr><td>聚合意图展开不全，参数/最终车态尚未成为主指标</td><td>当前快照只列问题，没有给出独立失败数；下一步要求升级为“参数+最终车态”成功率</td><td>RIME 的 assignment state、开放 branch 与 return gate</td><td>先把多动作车控写成 typed assignment/branch 回放规范；只消费既有参数化本体 result manifest，不重复启动</td><td>每个子动作、参数和最终车态均可核验；失败可归因；因缺少当前失败桶基数，暂不进入 handoff candidate</td></tr>
+<tr><td>上下文引力仍在</td><td>光场屏偶被选成副驾屏；工具淘汰仅缓解</td><td>Filesystem-Based Memory 给出“组织不自动提高正确率”的反证</td><td>不新增自动整理层；先对原始证据、摘要、候选说明做同样本消融</td><td>只在冻结错误桶上判断；不得以文件更整齐替代工具正确率提升</td></tr>
+<tr><td>多轮跟随、打断改口和取消/补偿未完成</td><td>当前下一步明确要求增加这些评测</td><td>2026-08-10 新增的 GenPark/JAX-Realtime 等小型仓库只有项目描述，缺少可核验论文和基准</td><td>沿用项目自有回放，不运行陌生仓库代码；记录 stop latency、残留音频、取消后车态和重复执行</td><td>零重复/危险执行；停止与残留音频有确定口径；今天没有足够一手数字设新门</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：直接命中当前工程短板</h3>
+<ol>
+<li><strong>继续项目自有的 Qwen3-Omni MoE 无同步 fast path。</strong> 2026-08-10 Radar 没有出现可替代该判别实验的新内核；不要用 KV 压缩、服务吞吐或另一模型的 RTF 解释现有 110ms/token。</li>
+<li><strong>新增一个仅离线的 OmniVoice 16-step 外挂 TTS 候选。</strong> 论文的 H20、batch=1、10 秒完整音频 RTF 为 0.0319，说明有速度潜力，但不是 TTFA 或流式首包证据。候选只验证“Edge→官方 OmniVoice”这一变量，预计正确性修复数为 0，因此明确禁止请求 H20。</li>
+</ol>
+<h3>P1：适合形成下一阶段架构</h3>
+<ol>
+<li><strong>用 RIME 的 assignment/branch/return gate 设计聚合意图回放契约。</strong> 它支持“未完成 assignment 或仍有开放 branch 时禁止返回”，但音乐编辑结果不能外推为车控准确率。</li>
+<li><strong>参数和最终车态仍优先于工具名。</strong> 在当前错误桶没有按聚合意图量化之前，只形成评测规范，不重复启动参数化本体、云监督、SoulX 或其他独立实验。</li>
+</ol>
+<h3>P2：长期模型研究</h3>
+<ol>
+<li><strong>文件系统记忆只作为负面设计证据。</strong> 论文显示组织主要节省大材料搜索成本，并不稳定提高答案正确率；不能拿它直接修复当前上下文引力。</li>
+<li><strong>2026-08-10 的小型全双工仓库和第三方模型镜像不进入候选。</strong> 它们缺少与当前 100 条 A/B、110ms/token 或约 3 秒首音频可比较的一手基准，也没有形成可安全归因的单变量。</li>
+</ol>
+<h2>1. OmniVoice: Towards Omnilingual Zero-Shot Text-to-Speech with Diffusion Language Models</h2>
+<p>论文（2026-04-01）：https://arxiv.org/abs/2604.00688 作者项目页：https://zhu-han.github.io/omnivoice 官方代码：https://github.com/k2-fsa/OmniVoice 官方模型：https://huggingface.co/k2-fsa/OmniVoice Radar 于 2026-08-10 发现的第三方 GGUF 镜像：https://huggingface.co/jiangzhuo9357/omnivoice-0-6b-gguf</p>
+<h3>它是什么</h3>
+<p>OmniVoice 是约 0.8B 总参数的零样本多语种 TTS。2026-08-10 的 Radar 条目是第三方 GGUF 转换，并不是新论文或新官方版本；本报告只用论文、作者项目页和官方模型页核验，不把镜像的量化质量或许可证外推到官方模型。</p>
+<h3>核心方法</h3>
+<p>模型以 Qwen3-0.6B 初始化双向 Transformer，直接从文本和参考音频条件预测八码本声学 token。它采用单阶段、离散 masked-diffusion NAR 路径，以全码本随机 mask 训练，并在推理时迭代解 mask。候选固定为论文公开的 16-step 设置，避免同时改变模型和推理步数。</p>
+<h3>论文结果</h3>
+<ul>
+<li>H20、PyTorch、3 秒提示生成 10 秒音频时，16-step、batch=1 的完整波形 RTF 为 0.0319；32-step 为 0.0598。论文没有报告首包时间、流式 chunk 时间或打断后残留。</li>
+<li>16-step 在 Seed-TTS test-zh 上报告 SIM-o 0.773、WER/CER 口径值 0.99、UTMOS 3.00；32-step 对应 0.777、0.84、3.11。这说明速度和质量存在可测取舍，不证明在项目中文车控文本上优于 Edge。</li>
+<li>完整 32-step 官方模型在 Seed-TTS test-zh 的 WER/CER 口径值为 0.84；论文中的 CosyVoice3 对照为 1.14，但二者训练数据、结构和推理方式不同。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：它只替换判停和文本生成后的外挂 TTS，直接对准当前约 3 秒首音频，不改变 Qwen 音频 KV、工具选择或车控执行。实验应冻结生成文本、音色提示、播放器、100 条样本和计时起点，记录完整波形可用时间、真正首音频时间、P50/P90/P95、RTF、显存、中文 CER、重复/漏词与打断残留。</p>
+<p>编辑判断：论文 RTF 给出了值得测的上界线索，但 NAR 完整波形可能没有可增量播放的首包。若实际必须等整句完成，即使 RTF 很低，也需按真实 commit→首音频口径判断，不能把 RTF 当 TTFA。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>论文公开；官方代码公开并标 Apache-2.0；官方预训练权重因训练数据约束标为 CC-BY-NC，不能作为量产商业后端直接采用。训练数据逐项许可证仍需独立审查。</li>
+<li>当前官方说明返回完整 <code>np.ndarray</code>；流式接口、首包、取消和生成中断能力未知。</li>
+<li>论文速度只在 H20 上测过；5090、Windows、当前播放器和并发 Qwen3-Omni 条件下未知。</li>
+<li>第三方 GGUF 镜像的转换正确性、速度、实现完整性和许可证传递均未知，不进入实验依赖。</li>
+</ul>
+<h2>2. RIME: Enabling Large-Scale Agentic Music Post-Production</h2>
+<p>论文 v2：https://arxiv.org/abs/2607.19605v2</p>
+<h3>它是什么</h3>
+<p>RIME 把音乐后期制作表示为受约束编辑图，并用 POEMS 的 20 余个 MCP 音频工具生成“输入音频—编辑指令—目标音频”三元组。该工作由 Radar 于 2026-08-02 发现；2026-08-10 完成开放状态复核，不是 2026-08-10 新发表的工作。</p>
+<h3>核心方法</h3>
+<p>系统先按曲目元数据绑定 recipe，检查前置条件和效果链顺序，再展开 motif、按工程先验采样参数并执行 <code>separate→process→mix</code>。Agent 维护 working audio、assignment、execution 和 failure/repair 四类状态；未完成 assignment 或仍有开放分支时，运行时 gate 阻止提前返回。</p>
+<h3>论文结果</h3>
+<ul>
+<li>作者从互斥的 10,000 曲目子样本筛得训练 549 首/37 小时、评测 297 首/20 小时，训练和评测各生成 3,000 个三元组，另有 300 个污染修复样本。</li>
+<li>2,922 个有效目标上，GPT-4o Mini、Gemini 3 Flash、Gemma 3n 的编辑方向相似度分别为 0.611、0.512、0.480，Graph F1 为 0.845、0.702、0.803。</li>
+<li>指令从精确 AL0 变为抽象 AL2 后，GPT-4o Mini 相似度从 0.733 降到 0.449，Gemma 3n 从 0.673 降到 0.325。</li>
+<li>Gemma 3n SFT 在 AL2 达到 FAD 0.066、KAD 0.162、编辑方向相似度 0.474、Graph F1 0.747，但平均仍只正确预测约一半操作参数。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：聚合车控可借鉴 assignment state 和 branch gate，把每个子意图、前置条件、参数、执行结果和补偿状态变成 typed ledger；只有所有 assignment 有终态、无开放分支且最终车态通过 verifier 时才允许口播成功。</p>
+<p>编辑判断：这只是评测和执行契约。当前快照没有聚合意图独立失败数，也没有参数/最终车态基线，因此无法写出可信的预计修复数，不进入候选 JSON。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>任务是完整音乐片段上的离线多步 DSP，不是流式语音车控；最多 20 步工具循环无法满足座舱动作时延。</li>
+<li>数据和目标编辑由人工 recipe 与合成效果链构造，不能代表真实用户聚合指令。</li>
+<li>截至 2026-08-10，论文和作者页面未提供 RIME/POEMS 官方仓库、Gemma 3n SFT 权重或生成的训练/评测三元组；代码、权重、派生数据和许可证未知。</li>
+</ul>
+<h2>3. Filesystem-Based Memory for LLM Agents: Organization, Evolution, and Sustainability</h2>
+<p>论文：https://arxiv.org/abs/2607.26637</p>
+<h3>它是什么</h3>
+<p>该工作把一个文件系统记忆拆成管理、搜索和执行三种角色，在长对话与 ALFWorld 技能任务上比较 Agent 自组织层级、原样日志、分块检索和不同工具 harness。Radar 于 2026-08-03 发现，开放状态于 2026-08-10 复核。</p>
+<h3>核心方法</h3>
+<p>管理 Agent 按 chunk 写入和重组 Markdown 文件树，搜索 Agent 只读检索并返回带路径/行号的证据，执行 Agent 消费技能后把轨迹回写。论文控制记忆形态、模型能力、规模和工具接口，并同时测正确率、引用、token/调用成本和存储健康。</p>
+<h3>论文结果</h3>
+<ul>
+<li>没有统一最优记忆形态：LoCoMo 上 Agent-curated 与 Foldered sessions 均为 86.1%，Verbatim dump 为 84.2%；PersonaMem-32k 上 Agent-curated 仅 37.5%，Verbatim dump 为 78.1%。</li>
+<li>PersonaMem-32k 每问成本中 Agent-curated 为 2.5 美分，Verbatim dump 为 4.0 美分；组织结构较确定的收益是搜索经济性，不是稳定提高正确率。</li>
+<li>技能任务中，强执行模型下 Episode log 为 87.1%、Guidance Synthesis 为 82.1%；弱执行模型下顺序反转为 66.4% 与 76.4%。</li>
+<li>仅更换工具 harness 就能显著改变文件数量和组织形态；Shell 在技能任务达到 82.9%，但长对话中的不同组织质量基本持平。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：它提醒项目不要把工具说明自动整理、摘要层级或记忆树视为“上下文引力”的默认修复。应在相同错误桶上分别比较原始证据、摘要、候选说明和工具接口；只有严格工具、参数和最终车态改善才算有效。</p>
+<p>编辑判断：论文处理 endpoint 后的文本记忆，不涉及流式音频 KV、MoE 同步或 TTS，不能解释当前 110ms/token 和约 3 秒首音频。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>长对话主实验样本很少，PersonaMem 32k/128k 不是纯规模对照；部分小差异与 judge 或单次运行波动同量级。</li>
+<li>主要模型与任务域不等于 Qwen3-Omni 车控，长期增长实验也只覆盖一条 140-task 链。</li>
+<li>截至 2026-08-10 未发现作者官方项目页、代码、模型或数据发布；相关许可证未知。</li>
+</ul>
+<h2>4. 2026-08-10 Radar 新增工程仓库与模型镜像</h2>
+<p>仓库：</p>
+<ul>
+<li>https://github.com/alphaparkinc/genpark-realtime-voice-duplex-conversational-copilot-skill</li>
+<li>https://github.com/keybodhi/AoiVR</li>
+<li>https://github.com/sachinkesiraju/jax-realtime</li>
+<li>https://github.com/mahimailabs/shipvoice</li>
+<li>https://github.com/csakytech/YggdrasilAI</li>
+</ul>
+<p>第三方模型页：</p>
+<ul>
+<li>https://huggingface.co/mlinmg/Qwen3-Omni-30B-A3B-Instruct</li>
+<li>https://huggingface.co/azrock25/omni</li>
+<li>https://huggingface.co/hammertoe/Qwen3-Omni-30B-A3B-Barbados-fused-bf16</li>
+</ul>
+<h3>它是什么</h3>
+<p>这些是 Radar 在 2026-08-10 发现的五个小型语音应用仓库和三个第三方模型页。Qwen3-Omni 条目是现有模型家族的复制、融合或再发布，不是新基础工作；当前项目已直接使用 Qwen3-Omni，不能把镜像计为新增技术。</p>
+<h3>核心架构</h3>
+<p>当前可核验一手材料不足以确认它们的完整时序、端点、AEC、TTS 首包或安全执行架构；没有证据的实现细节均记为未知。</p>
+<h3>论文结果</h3>
+<p>未知。没有发现与当前 100 条 pure-audio A/B、110ms/token、首动作或首音频口径可比较的论文正文结果。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：它们最多提供 WebRTC/浏览器/VR/LiveKit 产品编排线索。现阶段应继续项目自有的多轮、打断、取消和补偿回放，不运行陌生仓库代码，也不把“full-duplex”标签当作模型级全双工证据。</p>
+<h3>局限与开放状态</h3>
+<p>论文、权重、数据、基准和许可证未能逐项由当前一手材料确认，均记为未知。它们没有清晰的单变量和项目可比指标，因此不进入候选 JSON。</p>
+<h2>今日建议路线</h2>
+<h3>第一阶段</h3>
+<ol>
+<li>继续原 HF MoE 与 <code>index_select</code>+<code>bmm</code> fast path 的 5090/H200 输出一致性和 ms/token 判别；这是项目内核实验，不重复包装为新 candidate。</li>
+<li>对 OmniVoice 先做依赖、模型许可和完整波形接口审查；本次报告不运行其仓库代码。</li>
+</ol>
+<h3>第二阶段</h3>
+<ol>
+<li>若审查通过，只在非 H20 隔离环境执行 <code>Edge TTS→官方 OmniVoice 16-step</code> 单变量回放。</li>
+<li>冻结文本、工具结果、音色提示、播放器和计时点，联合记录首音频、完整波形、CER、重复/漏词、显存和打断残留。</li>
+<li>候选预计正确性修复数为 0，故无论离线时延结果如何，本轮都不请求 H20；H20 只能按既定 414 零退化和净修门另行决定。</li>
+</ol>
+<h3>第三阶段</h3>
+<ol>
+<li>为聚合意图建立 typed assignment/branch/final-state 回放规范，等待既有参数化本体 result manifest。</li>
+<li>只有得到独立错误桶、单变量和预计净修数后，才把 RIME 式 gate 转成候选；不得用强制 candidate-ID、CMTF 或已拒绝 verifier 扩大触发面。</li>
+</ol>
+<h2>风险提醒</h2>
+<ul>
+<li><strong>指标偷换风险</strong>：OmniVoice 的 RTF 是完整音频生成速度，不是首包时间；MoE 的目标是 batch=1 ms/token，不是服务吞吐。</li>
+<li><strong>许可证风险</strong>：OmniVoice 代码是 Apache-2.0，但官方权重为 CC-BY-NC；第三方 GGUF 不会自动消除上游限制。</li>
+<li><strong>重复实验风险</strong>：candidate-ID/CMTF、conditional top-2 verifier 已有负结果；参数化本体、云监督和 SoulX 只消费 result manifest。</li>
+<li><strong>安全风险</strong>：TTS 替换不得改变工具选择和最终车态；聚合意图未完成分支不能提前口播成功。</li>
+<li><strong>证据日期风险</strong>：2026-08-10 新发现的镜像不等于 2026-08-10 新论文；本报告没有使用或伪装任何 2026-08-10 之后的证据。</li>
+</ul></div><section class="solution-feedback"><h2><span class="l-zh">实验反馈 / 保留组件</span><span class="l-en">Experiment feedback / retained components</span> · 2026-08-10</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/2026-08-10.html"><span class="l-zh">查看当日方案页</span><span class="l-en">Open daily solutions</span></a></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>

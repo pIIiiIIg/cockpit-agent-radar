@@ -2,7 +2,7 @@
   "schema_version": 1,
   "timezone": "Asia/Shanghai",
   "catchup_start": "2026-08-08",
-  "updated_at": "2026-08-09T18:10:12.698971+00:00",
+  "updated_at": "2026-08-10T02:39:39.135873+00:00",
   "days": {
     "2026-08-08": {
       "stages": {
@@ -190,6 +190,26 @@
           "status": "complete",
           "retries": 0,
           "updated_at": "2026-08-09T18:10:12.697964+00:00"
+        },
+        "problem_report": {
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "reports/*-2026-08-10.md",
+          "error": "",
+          "next_stage": "",
+          "status": "complete",
+          "retries": 0,
+          "updated_at": "2026-08-10T02:39:39.008086+00:00"
+        },
+        "duplex_report": {
+          "input_commit": "",
+          "output_commit": "",
+          "artifact": "reports/*-2026-08-10.md",
+          "error": "",
+          "next_stage": "",
+          "status": "complete",
+          "retries": 0,
+          "updated_at": "2026-08-10T02:39:39.135873+00:00"
         }
       }
     }
