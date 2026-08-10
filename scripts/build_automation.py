@@ -1062,9 +1062,9 @@ def candidates(snapshot=None):
 <article class="step"><h3>{pair("登记可组合组件","Register composable components")}</h3><p>{pair("Typed Action、Voice Memory、紧凑回执、安全前缀等按组件登记，便于之后组合，而不是把一次实验写成不可拆的补丁。","Typed Action, Voice Memory, compact receipts, and safety prefixes are registered as components for later composition, not one inseparable patch.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("为什么强调单变量","Why single-variable candidates")}</h2><p class="callout bad">{pair("多个机制一起变化即使指标上升，也无法知道谁有效；指标下降时更无法安全回退。组合候选只能在各组件已有独立证据后进入。","If several mechanisms change together, neither gains nor regressions are attributable. Combination candidates enter only after each component has independent evidence.")}</p></section>
-<section class="section"><h2>complex_control_cases v2</h2><p class="callout">{pair("实验分支 / 待 canary；独立 Agent 运行期间不覆盖其文件。canary 通过前正式 bench/complex_control_cases.jsonl 保持 v1。",
-"Experiment branch / awaiting canary. The formal v1 file remains unchanged until canary passes.")}</p>
-<p><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/complex-control-cases-v2">{pair("打开实验分支","Open experiment branch")}</a></p></section>
+<section class="section"><h2>complex_control_cases v2</h2><p class="callout">{pair("实验分支 canary 已通过：full 434/452 零退化、complex strict 43/122，因此仅 safe_partial_improvement，不是 qualified；正式 v1 结果未改。",
+"The experiment branch passed the full canary with 434/452 preserved, but complex strict is 43/122, so it is a safe partial improvement, not qualified; formal v1 results remain untouched.")}</p>
+<p><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/complex-v2-fair-ab-20260809">{pair("打开实验分支","Open experiment branch")}</a></p></section>
 <p><a href="{BASE}/automation/case-hybrid-c/#candidate">{pair("案例关联：Hybrid C 的六个组件怎样逐步进入 →","Case link: how six Hybrid C components entered →")}</a></p>
 <p><a href="{BASE}/automation/limitations/">{pair("证据审计：组合组件如何归因、哪些结论仍不能说 →","Evidence audit: component attribution and claims not yet supported →")}</a></p>"""
     return shell("实验候选", "Candidates", "candidates", body, snapshot)

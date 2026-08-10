@@ -284,7 +284,8 @@ class AutomationPageTests(unittest.TestCase):
                 "四层状态模型", "候选实验室", "offline compared",
                 "conditional component", "动态 gap=14", "+1、+4",
                 "negative evidence", "complex_control_cases v2",
-                "实验分支 / 待 canary", "experiment/complex-control-cases-v2"):
+                "canary 已通过", "43/122",
+                "experiment/complex-v2-fair-ab-20260809"):
             with self.subTest(fact=fact):
                 self.assertIn(fact, page)
 

@@ -361,7 +361,8 @@ class PublishedSolutionPageTests(unittest.TestCase):
             self.assertIn(fact, index)
         for fact in (
                 "OmniVoice 16-step", "complex_control_cases v2",
-                "实验分支/待 canary", "未启动 H20", "运行中/未合并",
+                "full canary 已通过", "H20 complex122 + full452 canary",
+                "strict 43/122", "4d84220",
                 "当天产出", "Pairwise 修正 / 退化"):
             self.assertIn(fact, day)
 
