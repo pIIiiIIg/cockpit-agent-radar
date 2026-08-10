@@ -1,6 +1,167 @@
 {
- "generated": "2026-08-09T19:07:25.604532+08:00",
+ "generated": "2026-08-10T09:29:54.323928+08:00",
  "items": [
+  {
+   "id": "4ba01b8f9f",
+   "kind": "repo",
+   "source": "github",
+   "title": "alphaparkinc/genpark-realtime-voice-duplex-conversational-copilot-skill",
+   "url": "https://github.com/alphaparkinc/genpark-realtime-voice-duplex-conversational-copilot-skill",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 18,
+   "tags": [
+    "full-duplex",
+    "duplex",
+    "voice agent",
+    "barge-in"
+   ],
+   "summary_en": "Full-duplex real-time streaming voice agent with barge-in detection",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 9
+  },
+  {
+   "id": "d3ad1b3c69",
+   "kind": "repo",
+   "source": "github",
+   "title": "keybodhi/AoiVR",
+   "url": "https://github.com/keybodhi/AoiVR",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 11,
+   "tags": [
+    "streaming tts",
+    "voice assistant"
+   ],
+   "summary_en": "Aoi VR Agent - AI voice assistant that lives in your SteamVR hand: holographic hand panel (OpenVR overlay) driven by a native C++ agent (LLM, streaming TTS, ASR, simultaneous interpretation, VR screenshots). Unity IL2CPP + C++20, MIT licensed. agent ai-assistant cplusplus cpp digital-assistant hologram il2cpp llm openvr overlay simultaneous-interpretation speech-to-text steam steamvr tts unity virtual-reality voice-assistant vr windows",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "d39d263e14",
+   "kind": "repo",
+   "source": "github",
+   "title": "sachinkesiraju/jax-realtime",
+   "url": "https://github.com/sachinkesiraju/jax-realtime",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 10,
+   "tags": [
+    "duplex",
+    "realtime voice",
+    "voice assistant"
+   ],
+   "summary_en": "Full‑duplex realtime voice assistant in your browser with jax‑js",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "3f1a438f5b",
+   "kind": "repo",
+   "source": "github",
+   "title": "mahimailabs/shipvoice",
+   "url": "https://github.com/mahimailabs/shipvoice",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 9,
+   "tags": [
+    "voice agent",
+    "text-to-speech"
+   ],
+   "summary_en": "Full-stack LiveKit voice agent starter: a Python voice worker, FastAPI token server, and React frontend. Run, deploy, and swap each piece on its own. Ask for ShipVoice pro ai-agents cartesia conversational-ai deepgram fastapi livekit llm openai python react realtime sip speech-to-text starter-template text-to-speech typescript voice-agent voice-ai voice-assistant webrtc",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 18
+  },
+  {
+   "id": "2079db21dc",
+   "kind": "model",
+   "source": "hf",
+   "title": "mlinmg/Qwen3-Omni-30B-A3B-Instruct",
+   "url": "https://huggingface.co/mlinmg/Qwen3-Omni-30B-A3B-Instruct",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "any-to-any transformers safetensors qwen3_omni_moe text-to-audio multimodal any-to-any en license:other endpoints_compatible region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "2e3ad053a3",
+   "kind": "repo",
+   "source": "github",
+   "title": "csakytech/YggdrasilAI",
+   "url": "https://github.com/csakytech/YggdrasilAI",
+   "published": "2026-08-10",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 6,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "ThorOS - a voice-controlled, AI-first Linux distribution built on Debian 13. Say what you want; on-device AI plans it and permissioned agents carry it out. Built so people who cannot use a keyboard or mouse can work independently. 100% local, no cloud required. a11y accessibility ai-agents assistive-technology debian gnome linux-distribution llm local-first multi-agent-systems offline-ai ollama privacy python self-hosted speech-recognition text-to-speech voice-assistant voice-control whisper",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 6
+  },
+  {
+   "id": "708682cf83",
+   "kind": "model",
+   "source": "hf",
+   "title": "azrock25/omni",
+   "url": "https://huggingface.co/azrock25/omni",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "license:gpl-3.0 region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "d4cf128a86",
+   "kind": "model",
+   "source": "hf",
+   "title": "hammertoe/Qwen3-Omni-30B-A3B-Barbados-fused-bf16",
+   "url": "https://huggingface.co/hammertoe/Qwen3-Omni-30B-A3B-Barbados-fused-bf16",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "safetensors qwen3_omni_moe region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "df61cd70da",
+   "kind": "model",
+   "source": "hf",
+   "title": "jiangzhuo9357/omnivoice-0-6b-gguf",
+   "url": "https://huggingface.co/jiangzhuo9357/omnivoice-0-6b-gguf",
+   "published": "2026-08-09",
+   "found": "2026-08-10T09:29:54.323928+08:00",
+   "score": 4,
+   "tags": [
+    "text-to-speech"
+   ],
+   "summary_en": "text-to-speech synthesize.cpp gguf text-to-speech tts omnivoice diffusion-language-model voice-cloning voice-design non-commercial cpu cuda en zh ja arxiv:2604.00688 license:other region:us",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
   {
    "id": "553ef78269",
    "kind": "model",
@@ -4285,7 +4446,7 @@
    "summary_en": "The open-source profiler for voice agents cost-tracking fastapi livekit llm mcp observability open-source self-hosted stt tts voice-ai voicegateway",
    "summary_zh": "",
    "demo": "",
-   "stars": 15
+   "stars": 33
   },
   {
    "id": "8f0eb6d836",
@@ -4303,7 +4464,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15092
+   "stars": 15091
   },
   {
    "id": "357904a773",
@@ -5910,7 +6071,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 5981
+   "stars": 5994
   },
   {
    "id": "293306d628",
@@ -5928,7 +6089,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 761
+   "stars": 763
   },
   {
    "id": "5d6e6e2b0a",
@@ -5999,7 +6160,7 @@
    "summary_en": "MOSS-Audio-Tokenizer is a Causal Transformer-based audio tokenizer built on the CAT architecture. Trained on 3M hours of diverse audio, it supports streaming and variable bitrates, delivering SOTA reconstruction and strong performance in generation and understanding—serving as a unified interface for next-generation native audio language models. audio music speech speech-representation tokenizer tts unified",
    "summary_zh": "",
    "demo": "",
-   "stars": 249
+   "stars": 250
   },
   {
    "id": "6b724ee4dd",
@@ -6371,7 +6532,7 @@
    "summary_en": "面向智能座舱的云边协同 AI Agent：端侧毫秒级车控，云端声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI；LLM 只负责理解与规划，VAL 负责确定性安全执行。 agent-orchestration automotive-ai cloud-edge cockpit-agent edge-ai grpc hmi in-vehicle-infotainment intelligent-cockpit large-language-models llm-agent microservices model-context-protocol multi-agent multimodal-ai observability semantic-memory speech-to-speech vehicle-control voice-assistant",
    "summary_zh": "一个面向智能座舱的云边协同 AI Agent 开源项目：端侧负责毫秒级车控，云端做声明式 Multi-Agent 与 Skill/DAG 编排，支持 S2S 实时语音、声纹多用户、视觉与 HMI。其'LLM 只管理解与规划、VAL 负责确定性安全执行'的分层思路，与本站 harness 的架构理念高度同构，可作为座舱语音助手工程化（尤其车控安全边界与云边分工）的直接参照。",
    "demo": "",
-   "stars": 9
+   "stars": 10
   },
   {
    "id": "a298114cb1",
@@ -6664,7 +6825,7 @@
    "summary_en": "X-Talk is an open-source full-duplex cascaded spoken dialogue system framework enabling low-latency, interruptible, and human-like speech interaction with a lightweight, pure-Python, production-ready architecture. ai conversational-ai python real-time speech-to-speech voice voice-assistant websocket",
    "summary_zh": "X-Talk 是一个开源的全双处级联式口语对话系统框架，纯 Python、轻量、面向生产，主打低延迟、可打断、拟人化的语音交互，基于 WebSocket 提供服务。与自研 harness 路线高度同构：其级联流水线中打断处理、状态管理与流式调度的工程实现可作为直接参考，也可用作对照基线来验证自研全双工方案的延迟与打断体验。",
    "demo": "",
-   "stars": 235
+   "stars": 236
   },
   {
    "id": "fdc2fde8d1",

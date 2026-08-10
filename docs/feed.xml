@@ -4,6 +4,60 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>alphaparkinc/genpark-realtime-voice-duplex-conversational-copilot-skill</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4ba01b8f9f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4ba01b8f9f.html</guid>
+<description>Full-duplex real-time streaming voice agent with barge-in detection</description>
+</item>
+<item>
+<title>keybodhi/AoiVR</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d3ad1b3c69.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d3ad1b3c69.html</guid>
+<description>Aoi VR Agent - AI voice assistant that lives in your SteamVR hand: holographic hand panel (OpenVR overlay) driven by a native C++ agent (LLM, streaming TTS, ASR, simultaneous interpretation, VR screenshots). Unity IL2CPP + C++20, MIT licensed. agent ai-assistant cplusplus cpp digital-assistant holog</description>
+</item>
+<item>
+<title>sachinkesiraju/jax-realtime</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d39d263e14.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d39d263e14.html</guid>
+<description>Full‑duplex realtime voice assistant in your browser with jax‑js</description>
+</item>
+<item>
+<title>mahimailabs/shipvoice</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3f1a438f5b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3f1a438f5b.html</guid>
+<description>Full-stack LiveKit voice agent starter: a Python voice worker, FastAPI token server, and React frontend. Run, deploy, and swap each piece on its own. Ask for ShipVoice pro ai-agents cartesia conversational-ai deepgram fastapi livekit llm openai python react realtime sip speech-to-text starter-templa</description>
+</item>
+<item>
+<title>mlinmg/Qwen3-Omni-30B-A3B-Instruct</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2079db21dc.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2079db21dc.html</guid>
+<description>any-to-any transformers safetensors qwen3_omni_moe text-to-audio multimodal any-to-any en license:other endpoints_compatible region:us</description>
+</item>
+<item>
+<title>csakytech/YggdrasilAI</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2e3ad053a3.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2e3ad053a3.html</guid>
+<description>ThorOS - a voice-controlled, AI-first Linux distribution built on Debian 13. Say what you want; on-device AI plans it and permissioned agents carry it out. Built so people who cannot use a keyboard or mouse can work independently. 100% local, no cloud required. a11y accessibility ai-agents assistive</description>
+</item>
+<item>
+<title>azrock25/omni</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/708682cf83.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/708682cf83.html</guid>
+<description>license:gpl-3.0 region:us</description>
+</item>
+<item>
+<title>hammertoe/Qwen3-Omni-30B-A3B-Barbados-fused-bf16</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d4cf128a86.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d4cf128a86.html</guid>
+<description>safetensors qwen3_omni_moe region:us</description>
+</item>
+<item>
+<title>jiangzhuo9357/omnivoice-0-6b-gguf</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/df61cd70da.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/df61cd70da.html</guid>
+<description>text-to-speech synthesize.cpp gguf text-to-speech tts omnivoice diffusion-language-model voice-cloning voice-design non-commercial cpu cuda en zh ja arxiv:2604.00688 license:other region:us</description>
+</item>
+<item>
 <title>AXERA-TECH/jina-embeddings-v5-omni-nano</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/553ef78269.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/553ef78269.html</guid>
@@ -188,59 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</guid>
 <description>RST 把已验证终端任务当作下一轮种子，先增长可执行解法，再对齐环境、验证器和公开契约。任务难度和下游训练收益都随递归增加，但核心生成代码未发布，数据近重复尾部与论文内部数值冲突需要审慎处理。</description>
-</item>
-<item>
-<title>On-Policy Delta Distillation for Multilingual Math Reasoning</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f2f8889349.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f2f8889349.html</guid>
-<description>On-Policy Distillation (OPD) is emerging as a promising alternative to reinforcement learning for LLM post-training, yet its effectiveness in multilingual settings remains underexplored. We study OPD and its advanced variant, On-Policy Delta Distillation (OPD^2), for mathematical reasoning in Englis</description>
-</item>
-<item>
-<title>Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/dec8c98235.html</guid>
-<description>该文用 AES 按能力覆盖、冗余和梯度冲突选择紧凑环境集，再以 HDC 逐步扩大状态并撤除文本脚手架；实验显示单纯扩环境反而会退化。它可直接帮助 StreamingModelHarness 设计覆盖 endpoint、晚工具和中断能力的回归环境分布，但不是全双工推理技术。</description>
-</item>
-<item>
-<title>F$^2$Agent: Financial Fusion of Agentic Intelligence for Multimodal Trading</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b4ea70f0c5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b4ea70f0c5.html</guid>
-<description>F²Agent 用四类专门 agent 处理价格、指标、新闻和情绪，再以动态模态注意力及扰动一致性约束生成日频交易信号。历史回测成绩突出，但没有开放代码、权重或数据，且缺少真实交易摩擦验证；对 StreamingModelHarness 的价值限于 post-commit 多源路由。</description>
-</item>
-<item>
-<title>nicedreamzapp/nemotron-omni-mlx</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8d663c0ee6.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8d663c0ee6.html</guid>
-<description>Run NVIDIA&#x27;s tri-modal Nemotron Omni (text+vision+audio) entirely on Apple Silicon — pure MLX runtime, parity-verified against NVIDIA&#x27;s reference apple-silicon c-radio inference-engine local-llm macos mlx multimodal nemotron nvidia offline-ai omni on-device-ai parakeet speech-recognition vision-lang</description>
-</item>
-<item>
-<title>Seeing Is Not Deciding: Can Multimodal LLMs Act as Effective CEOs?</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/42219959bd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/42219959bd.html</guid>
-<description>Large language models are increasingly applied as autonomous decision-making agents. However, in executive business decisions, existing benchmarks are limited to textonly settings. This makes it unclear whether models can perceive visual business evidence and effectively integrate it to improve deci</description>
-</item>
-<item>
-<title>StreamArena: Toward Continuous, Interactive, and Long-Horizon Agentic Streaming Video Understanding</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7dc9a079ca.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7dc9a079ca.html</guid>
-<description>StreamArena 用 243 段平均 88.8 分钟的视频和 3646 个开放任务评测实时感知、历史回溯、主动触发与工具调用；StreamMind 通过前台响应和异步记忆/检索把同主干加权查询延迟从 81.4 秒降至 27.5 秒。其分层适合 Harness，但不是原生语音全双工。</description>
-</item>
-<item>
-<title>encredible/Qwen2.5-1.5B-Omni-Fleet</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/9e9dc9f352.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/9e9dc9f352.html</guid>
-<description>text-generation mlx safetensors qwen2 text-generation conversational en base_model:Qwen/Qwen2.5-1.5B base_model:finetune:Qwen/Qwen2.5-1.5B license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>encredible/Qwen2.5-7B-Omni-Fleet</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8432529fe7.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8432529fe7.html</guid>
-<description>text-generation mlx safetensors qwen2 text-generation conversational en base_model:Qwen/Qwen2.5-7B base_model:finetune:Qwen/Qwen2.5-7B license:apache-2.0 region:us</description>
-</item>
-<item>
-<title>hammertoe/Qwen3-Omni-30B-A3B-Barbados-LoRA</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/367a22b152.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/367a22b152.html</guid>
-<description>text-generation peft safetensors qwen omni lora dapt barbados text-generation conversational base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct base_model:adapter:Qwen/Qwen3-Omni-30B-A3B-Instruct region:us</description>
 </item>
 </channel></rss>
