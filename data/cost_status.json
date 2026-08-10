@@ -23,6 +23,123 @@
   "retry_waste_usd": 0,
   "token_accounting": "actual where cursor_cli_final_usage is present; otherwise estimated reservation",
   "blocked_or_queued_count": 0,
+  "dashboard_baseline": {
+    "source": "Cursor Usage Dashboard",
+    "source_timezone": "UTC",
+    "range": {
+      "from": "2026-08-04",
+      "to": "2026-08-10",
+      "partial_last_day": true,
+      "partial_through": "2026-08-10 is partial through 06:35 UTC"
+    },
+    "daily": [
+      {
+        "date": "2026-08-04",
+        "calls": 87,
+        "tokens": 208430400,
+        "cost_usd": 299.28,
+        "partial": false
+      },
+      {
+        "date": "2026-08-05",
+        "calls": 63,
+        "tokens": 290553500,
+        "cost_usd": 451.46,
+        "partial": false
+      },
+      {
+        "date": "2026-08-06",
+        "calls": 136,
+        "tokens": 413575500,
+        "cost_usd": 595.18,
+        "partial": false
+      },
+      {
+        "date": "2026-08-07",
+        "calls": 96,
+        "tokens": 262740700,
+        "cost_usd": 338.5,
+        "partial": false
+      },
+      {
+        "date": "2026-08-08",
+        "calls": 2,
+        "tokens": 15200900,
+        "cost_usd": 17.37,
+        "partial": false
+      },
+      {
+        "date": "2026-08-09",
+        "calls": 142,
+        "tokens": 426533500,
+        "cost_usd": 537.34,
+        "partial": false
+      },
+      {
+        "date": "2026-08-10",
+        "calls": 59,
+        "tokens": 221420400,
+        "cost_usd": 298.54,
+        "partial": true
+      }
+    ],
+    "totals": {
+      "calls": 585,
+      "tokens": 1838454900,
+      "cost_usd": 2537.67,
+      "completed_days": 6,
+      "completed_days_average_cost_usd": 373.19
+    },
+    "targets": {
+      "soft_usd": 180.0,
+      "hard_usd": 200.0,
+      "reduction_to_soft_pct": 51.77,
+      "reduction_to_hard_pct": 46.41
+    },
+    "model_costs": [
+      {
+        "model": "gpt-5.6-sol-medium",
+        "cost_usd": 2128.99,
+        "share": 0.8389
+      },
+      {
+        "model": "gpt-5.6-sol-xhigh",
+        "cost_usd": 350.63,
+        "share": 0.1382
+      },
+      {
+        "model": "gpt-5.6-sol-high",
+        "cost_usd": 57.9,
+        "share": 0.0228
+      },
+      {
+        "model": "claude-4.5-sonnet",
+        "cost_usd": 0.15,
+        "share": 0.0001
+      },
+      {
+        "model": "Cursor included models",
+        "cost_usd": 0.0,
+        "share": 0.0
+      }
+    ],
+    "primary_cost_driver": {
+      "model": "gpt-5.6-sol-medium",
+      "cost_usd": 2128.99,
+      "share": 0.8389
+    },
+    "attribution": {
+      "historical_pipeline_stage_available": false,
+      "scope": "manual chats/subagents plus scheduled automation",
+      "future_attribution": "shared ledger pipeline/stage fields"
+    },
+    "caveats": [
+      "Dashboard totals include manual chats/subagents as well as scheduled automation.",
+      "The dashboard rows do not expose a pipeline/task label, so historical stage attribution is not exact.",
+      "Included-model usage is shown as zero on-demand cost but may consume plan-included capacity.",
+      "The local shared cost ledger is required for future exact Radar/Harness attribution."
+    ]
+  },
   "queued_fulltext_papers": 0,
   "queued_harness_candidates": 0
 }

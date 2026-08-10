@@ -73,6 +73,91 @@ def ledger_root() -> Path:
     return Path(local) / "CursorCostGovernance"
 
 
+def dashboard_baseline_path() -> Path | None:
+    override = os.environ.get("CURSOR_COST_BASELINE")
+    if override:
+        return Path(override).expanduser().resolve()
+    local = os.environ.get("LOCALAPPDATA")
+    if not local:
+        local = str(Path.home() / "AppData/Local")
+    directory = Path(local) / "StreamingModelHarness"
+    preferred = directory / "cost-baseline-2026-08-04-10.json"
+    if preferred.is_file():
+        return preferred
+    candidates = sorted(directory.glob("cost-baseline-*.json"), reverse=True)
+    return candidates[0] if candidates else None
+
+
+def load_dashboard_baseline() -> dict[str, Any] | None:
+    """Load only public-safe aggregate Dashboard facts, never account identity."""
+    path = dashboard_baseline_path()
+    if path is None or not path.is_file():
+        return None
+    raw = json.loads(path.read_text(encoding="utf-8-sig"))
+    daily_raw = raw.get("daily", [])
+    if not isinstance(daily_raw, list) or not daily_raw:
+        raise ValueError("Dashboard baseline daily rows are missing")
+    daily = []
+    for row in daily_raw:
+        if not isinstance(row, dict):
+            raise ValueError("Dashboard baseline daily row must be an object")
+        daily.append({
+            "date": str(row["date"]),
+            "calls": int(row["calls"]),
+            "tokens": int(row["tokens"]),
+            "cost_usd": round(float(row["cost_usd"]), 2),
+            "partial": bool(row.get("partial", False)),
+        })
+    complete = [row for row in daily if not row["partial"]]
+    if not complete:
+        raise ValueError("Dashboard baseline has no complete days")
+    total_cost = round(sum(row["cost_usd"] for row in daily), 2)
+    total_tokens = sum(row["tokens"] for row in daily)
+    total_calls = sum(row["calls"] for row in daily)
+    completed_average = sum(row["cost_usd"] for row in complete) / len(complete)
+    models = []
+    for row in raw.get("model_costs", []):
+        if not isinstance(row, dict):
+            continue
+        models.append({
+            "model": str(row.get("model", "")),
+            "cost_usd": round(float(row.get("cost_usd", 0)), 2),
+            "share": round(float(row.get("share", 0)), 4),
+        })
+    soft = DEFAULT_SOFT_USD
+    hard = DEFAULT_HARD_USD
+    return {
+        "source": "Cursor Usage Dashboard",
+        "source_timezone": str(raw.get("timezone", "UTC")),
+        "range": {
+            "from": daily[0]["date"], "to": daily[-1]["date"],
+            "partial_last_day": daily[-1]["partial"],
+            "partial_through": raw.get("range", {}).get("note", ""),
+        },
+        "daily": daily,
+        "totals": {
+            "calls": total_calls, "tokens": total_tokens,
+            "cost_usd": total_cost, "completed_days": len(complete),
+            "completed_days_average_cost_usd": round(completed_average, 2),
+        },
+        "targets": {
+            "soft_usd": soft, "hard_usd": hard,
+            "reduction_to_soft_pct": round((1 - soft / completed_average) * 100, 2),
+            "reduction_to_hard_pct": round((1 - hard / completed_average) * 100, 2),
+        },
+        "model_costs": models,
+        "primary_cost_driver": max(models, key=lambda row: row["cost_usd"]) if models else None,
+        "attribution": {
+            "historical_pipeline_stage_available": False,
+            "scope": "manual chats/subagents plus scheduled automation",
+            "future_attribution": "shared ledger pipeline/stage fields",
+        },
+        "caveats": [
+            str(value) for value in raw.get("caveats", []) if isinstance(value, str)
+        ],
+    }
+
+
 def beijing_now() -> datetime:
     return datetime.now(BEIJING)
 
@@ -410,6 +495,7 @@ class CostLedger:
                 "actual where cursor_cli_final_usage is present; otherwise estimated reservation"
             ),
             "rates": self.config["rates"],
+            "dashboard_baseline": load_dashboard_baseline(),
         }
 
     def write_reports(self, date: str | None = None) -> tuple[Path, Path]:
@@ -429,10 +515,32 @@ class CostLedger:
             f"- Models: {json.dumps(report['models'], ensure_ascii=False, sort_keys=True)}",
             f"- Retry waste: ${report['retry_waste_usd']:.4f}",
             f"- Budget decisions: {len(report['blocked_or_queued'])}",
+        ]
+        baseline = report.get("dashboard_baseline")
+        if baseline:
+            driver = baseline.get("primary_cost_driver") or {}
+            lines.extend([
+                "",
+                "## Cursor Usage Dashboard baseline",
+                "",
+                f"- Range: {baseline['range']['from']} through {baseline['range']['to']} "
+                f"({baseline['source_timezone']}; last day partial={baseline['range']['partial_last_day']})",
+                f"- Total: ${baseline['totals']['cost_usd']:.2f}; "
+                f"{baseline['totals']['tokens']:,} tokens; {baseline['totals']['calls']} calls",
+                f"- Complete-day average: ${baseline['totals']['completed_days_average_cost_usd']:.2f}",
+                f"- Required reduction: {baseline['targets']['reduction_to_soft_pct']:.2f}% "
+                f"to soft / {baseline['targets']['reduction_to_hard_pct']:.2f}% to hard",
+                f"- Primary model cost driver: {driver.get('model', 'unknown')} "
+                f"${float(driver.get('cost_usd', 0)):.2f} "
+                f"({float(driver.get('share', 0)) * 100:.2f}%)",
+                "- Attribution caveat: historical Dashboard totals combine manual chats/subagents "
+                "and scheduled automation; exact pipeline/stage attribution begins with this ledger.",
+            ])
+        lines.extend([
             "",
             "Token accounting is actual only when Cursor CLI final usage is available; "
             "otherwise the report explicitly retains the conservative estimate.",
-        ]
+        ])
         _atomic_write(markdown_path, "\n".join(lines) + "\n")
         return json_path, markdown_path
 
@@ -448,6 +556,7 @@ class CostLedger:
             )
         }
         safe["blocked_or_queued_count"] = len(report["blocked_or_queued"])
+        safe["dashboard_baseline"] = report.get("dashboard_baseline")
         prior: dict[str, Any] = {}
         if path.is_file():
             try:

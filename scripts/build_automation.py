@@ -936,10 +936,14 @@ def research(snapshot=None):
     snapshot = snapshot or empty_snapshot()
     queued_reviews = int(
         snapshot.get("cost_status", {}).get("queued_fulltext_papers", 0) or 0)
+    cost_baseline = snapshot.get("cost_status", {}).get("dashboard_baseline") or {}
+    baseline_totals = cost_baseline.get("totals", {})
+    baseline_targets = cost_baseline.get("targets", {})
+    baseline_driver = cost_baseline.get("primary_cost_driver") or {}
     body = hero("论文调研", "Research",
         "调研层先用确定性脚本扩大召回，再让 Cursor 只处理值得全文精读的证据；“摘要速读”和“正文精读”在页面上明确分级。",
         "Deterministic scripts maximize recall; Cursor spends time only on evidence worth full-text review. Abstract briefs and full-text reviews remain visibly distinct.",
-        '<span class="badge mixed">Mixed ownership</span><span class="badge script">Fetch/score: scripts</span><span class="badge cursor">Full text: Cursor</span><span class="badge verified">3 runs/day verified</span>')
+        '<span class="badge mixed">Mixed ownership</span><span class="badge script">Fetch/score: scripts</span><span class="badge cursor">Full text: Cursor</span><span class="badge verified">1 full-text run/day</span>')
     body += f"""<section class="section"><h2>{pair("当前真实数据","Current live data")}</h2>
 <div class="metrics">
 <div class="metric"><b>{metric_value(snapshot, "total_items")}</b><small>{pair("总收录条目","collected items")}</small></div>
@@ -953,6 +957,17 @@ def research(snapshot=None):
 <p class="sub">{pair(
     "定义：收录仅计 items.json 的对象；有效论文为其中 kind=paper 且 ID 可发布的条目；正文精读来自 explanations.json 的 editorial+fulltext；摘要速读仅计 abstract_backfill；历史记录还须关联有效论文且状态、深度和日期合法。镜像只在链接列表合并，不篡改原始记录计数。构建时间：",
     "Definitions: collected counts object rows in items.json; valid papers have kind=paper and a publishable ID; full-text reviews are editorial+fulltext in explanations.json; abstract briefs count only abstract_backfill; history records must also reference a valid paper with valid status, depth, and date. Mirrors are merged only in the link list, without altering source-record counts. Built:")} {esc(snapshot["build_time"])}</p>
+</section>
+<section class="section"><h2>{pair("真实成本基线与目标","Observed cost baseline and targets")}</h2>
+<div class="metrics">
+<div class="metric"><b>${float(baseline_totals.get("completed_days_average_cost_usd", 0)):.2f}</b><small>{pair("8/4–8/9 完整日均","Aug 4–9 complete-day average")}</small></div>
+<div class="metric"><b>{float(baseline_targets.get("reduction_to_soft_pct", 0)):.2f}%</b><small>{pair("降至 $180 soft 所需降幅","reduction required for $180 soft")}</small></div>
+<div class="metric"><b>{float(baseline_targets.get("reduction_to_hard_pct", 0)):.2f}%</b><small>{pair("降至 $200 hard 所需降幅","reduction required for $200 hard")}</small></div>
+<div class="metric"><b>{float(baseline_driver.get("share", 0)) * 100:.2f}%</b><small>{esc(baseline_driver.get("model") or "unknown")} {pair("历史费用占比","historical cost share")}</small></div>
+</div>
+<p class="callout">{pair(
+    "Dashboard 共计 $2,537.67、1.838B tokens、585 calls；历史包含手工聊天/子 Agent 和自动化，且没有 pipeline/stage 标签，不能精确归因。medium 占 83.89%，首要措施是减少调用和上下文并把 Radar 迁到 Included Composer，而不是只压缩 xhigh。",
+    "Dashboard totals are $2,537.67, 1.838B tokens, and 585 calls. History mixes manual chats/subagents with automation and has no pipeline/stage labels, so exact historical attribution is impossible. Medium drove 83.89%; the primary controls are fewer calls, smaller contexts, and moving Radar to included Composer—not only reducing xhigh.")}</p>
 </section>
 <section class="section"><h2>{pair("动态调研漏斗","Live research funnel")}</h2><div class="card funnel">{funnel(snapshot)}</div></section>
 <section class="section"><h2>{pair("查看真实产物","Open real artifacts")}</h2><div class="card artifacts">{artifact_links(snapshot)}</div></section>

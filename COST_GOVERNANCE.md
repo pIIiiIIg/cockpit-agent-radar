@@ -45,3 +45,20 @@ written to the ledger.
 The public `data/cost_status.json` contains aggregates only, including the
 number of canonical reviews and Harness candidates queued by daily cost/count
 limits.
+
+## Observed Dashboard baseline
+
+The local, uncommitted Cursor Usage Dashboard export for August 4–10 records
+$2,537.67, 1.838B tokens and 585 calls. The six complete days averaged
+$373.19/day. Reaching $180 therefore requires a 51.8% reduction; reaching $200
+requires 46.4%.
+
+`gpt-5.6-sol-medium` was $2,128.99 (83.89%), compared with xhigh at $350.63
+(13.82%) and high at $57.90 (2.28%). Cost control must primarily reduce medium
+call count and context size and migrate Radar to included Composer; reducing
+xhigh alone cannot meet the target.
+
+Historical Dashboard rows mix manual chats/subagents and scheduled automation
+and contain no pipeline/stage field. The baseline is valid for total spend but
+not exact automation attribution. Future calls are attributable through the
+shared ledger's `pipeline` and `stage` columns.
