@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-31 · ◈ 6
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs&#x27; reasoning capabilities by capturing temporal information, encoding the long-context history causes an efficiency-decreasing issue. To reconcile the conflict between capturing temporal information and maintaining inference efficiency in VLAs, this paper introduces FibVLA, an efficient framework featuring temporal perception of long-context history. Specifically, we leverage logarithmic hindsight sampling to both proprioceptive states and visual frames to capture long-term temporal dependencies with minimal redundancy. For the action expert, we introduce the flow matching to produce action distributions, and the Fibonacci recurrent inference strategy to generate long-range planning steps based on real-time closed-loop feedback. Experiments demonstrate that FibVLA significantly improves action smoothness and success rates without retraining large-scale visual encoders. Efficiency analysis demonstrates superior real-time responsiveness compared to video-based baselines in real-world evaluations. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">FibVLA 用对数后见采样与斐波那契递归推理兼顾长时序与低延迟动作生成，在 LIBERO-Long 达95.2%成功率、平均96.8%。对 Harness 的启发主要在历史采样与 KV 复用，而非直接迁移到语音双工。</span>
     <span class="l-en">Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs&#x27; reasoning capabilities by capturing temporal information, encoding the long-context history causes an efficiency-decreasing issue. To reconcile the conflict between capturing temporal information and maintaining inference efficiency in VLAs, this paper introduces FibVLA, an efficient framework featuring temporal perception of long-context history. Specifically, we leverage logarithmic hindsight sampling to both proprioceptive states and visual frames to capture long-term temporal dependencies with minimal redundancy. For the action expert, we introduce the flow matching to produce action distributions, and the Fibonacci recurrent inference strategy to generate long-range planning steps based on real-time closed-loop feedback. Experiments demonstrate that FibVLA significantly improves action smoothness and success rates without retraining large-scale visual encoders. Efficiency analysis demonstrates superior real-time responsiveness compared to video-based baselines in real-world evaluations.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digi</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">FibVLA 用对数后见采样与斐波那契递归推理做高效时序 VLA，在 LIBERO-Long 成功率95.2%、全套平均96.8%，单步推理约177ms。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。</p>
+  <p>VLA 若编码长历史可提升时序推理，但会显著降低推理效率；需要在长上下文与实时闭环控制间取得平衡。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs&#x27; reasoning capabilities by capturing temporal information, encoding the long-context history causes an efficiency-decreasing issue. To reconcile the conflict between capturing temporal information and maintaining inference efficiency in VLAs, this paper introduces FibVLA, an efficient framework featuring temporal perception of long-context history. Specifically, we leverage logarithmic hindsight sampling to both proprioceptive states and visual frames to capture long-term temporal dependencies with minimal redundancy. For the action expert, we introduce the flow matching to produce action distributions, and the Fibonacci recurrent inference strategy to generate long-range planning steps based on real-time closed-loop feedback. Experiments demonstrate that FibVLA significantly improves action smoothness and success rates without retraining large-scale visual encoders. Efficiency analysis demonstrates superior real-time responsiveness compared to video-based baselines in real-world evaluations.</p>
-
-
+  <p>提出 FibVLA：对视觉与本体感觉做对数后见采样；动作专家用 flow matching；推理期用斐波那契递归复用历史 action chunk/KV，使稀疏采样与闭环反馈对齐。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>按对数刻度采样历史帧与状态，保留高频近邻与低频远史。</li><li>通道式时序编码后送入视觉-语言骨干。</li><li>flow matching 生成动作分布。</li><li>按斐波那契步长推进，复用可对齐的历史 token 以降低开销。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>LIBERO-Long 成功率95.2%，较次优基线高7.21个百分点；全套平均成功率96.8%。</li><li>真实机器人评测均分85.7，较次优 π0 高11.4分。</li><li>长时程任务上单次推理约177ms，较对照采样策略降低约9.69%与27.16%延迟。</li><li>消融显示去掉关键时序组件会损害 LIBERO-Long 与真机分数。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>对数历史采样与 KV/片段复用思路，可类比 Harness 对长音频/事件历史的稀疏保留。</li><li>对象是机器人 VLA，不是语音双工；不能直接嵌入判停后生成主链。</li><li>若座舱未来接具身动作，可作时序效率参考，但仍需单独验证工具晚注入接口。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>依赖仿真与特定真机平台，车载座舱场景未覆盖。</li><li>未找到官方代码或权重发布。</li><li>成功率和时延数字绑定其动作 chunk 设定，迁移需重测。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+     &nbsp; 正文强调方法与实验，未检索到作者官方代码/模型页。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-03 09:32</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-10 14:28</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.29596v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
