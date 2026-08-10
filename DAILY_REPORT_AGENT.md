@@ -1,12 +1,14 @@
 # 每日问题驱动调研任务
 
-在当前 `cockpit-agent-radar` 仓库生成今天的两份报告。严格读取：
+在当前 `cockpit-agent-radar` 仓库生成今天的两份报告。事实输入以运行器提供的
+deterministic fact skeleton 为准，并严格读取：
 
 - `REPORT_FORMAT.md`
 - `project_status/StreamingModelHarness.md`
-- `data/items.json`
-- `data/explanations.json`
 - `reports/` 中最近一份详细报告和精简日报
+
+不得扫描 `docs/`、`docs/items/` 或完整历史数据；输入无变化由运行器直接复用缓存，
+不会启动 Agent。
 
 ## 目标
 

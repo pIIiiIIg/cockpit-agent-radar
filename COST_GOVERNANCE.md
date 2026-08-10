@@ -1,0 +1,47 @@
+# Radar cost controls
+
+Radar shares `%LOCALAPPDATA%\CursorCostGovernance\cost-ledger.sqlite3` with
+StreamingModelHarness. The local gate is $180 soft / $200 hard per Beijing day.
+It is a second line of defense; configure the account-level on-demand spend
+limit in Cursor Dashboard. Automation never changes account billing settings.
+
+- Agent-free GitHub fetch/build remains at 09:00, 14:00 and 19:00.
+- ProblemDrivenDaily remains at 10:30 and defaults to `composer-2.5`.
+- Full-text review runs only at 20:00, defaults to `composer-2.5`, and processes at
+  most six canonical papers. Mirror IDs do not consume another slot.
+- Both tasks exit without Agent when their deterministic input hash is unchanged.
+- No high-value pending paper means zero review calls.
+- Each task gets at most two attempts; retry resumes one chat.
+- Missing configured models fail closed and never fall back to a more expensive
+  model.
+
+The 2026-08-10 CLI list confirms `composer-2.5`, `auto`,
+`glm-5.2-high` (GLM 5.2), and `glm-5.2-max`. Official effective rates make
+standard Composer the cheapest of the requested options:
+
+- Composer 2.5: $0.50/M input, $0.20/M cache read, $2.50/M output.
+- Auto Cost: $1.25/M input/cache write, $0.25/M cache read, $6/M output.
+  The CLI exposes `auto`, but does not identify the account's Auto optimization
+  mode, so the automation does not assume that every `auto` request is Auto Cost.
+- GLM 5.2: $1.40/M input, $0.26/M cache read, $4.40/M output. Teams and
+  Enterprise add the official $0.25/M Cursor Token Rate to third-party tokens;
+  the local rate table conservatively includes it.
+
+Set `RADAR_AGENT_MODEL=glm-5.2-high` to prefer GLM. Any configured model must
+first pass both fixed canaries with:
+
+`python scripts/model_canary.py run --agent <cursor-agent> --workspace <repo> --model <id>`
+
+The canaries validate output schema, exact citation, sentinel and supplied-fact
+consistency for one review and one daily-report packet. A missing/failed canary
+queues work for manual choice; it never upgrades to xhigh.
+
+Every call reserves before launch and reconciles final Cursor CLI JSON usage.
+The CLI probe on 2026-08-10 confirmed input, output, cache-read and cache-write
+token fields. If a future CLI omits usage, `actual_usd` remains null and the
+conservative reservation remains charged. Prompt text and secrets are never
+written to the ledger.
+
+The public `data/cost_status.json` contains aggregates only, including the
+number of canonical reviews and Harness candidates queued by daily cost/count
+limits.

@@ -1,0 +1,52 @@
+{
+  "soft_usd": 180,
+  "hard_usd": 200,
+  "pools": {
+    "harness_implementation": 110,
+    "radar_review_report": 45,
+    "publication": 10,
+    "recovery_reserve": 15
+  },
+  "rates": {
+    "source": "https://cursor.com/docs/models-and-pricing",
+    "effective_date": "2026-08-10",
+    "currency": "USD",
+    "per_million_tokens": {
+      "auto": {
+        "input": 1.25,
+        "cache_read": 0.25,
+        "cache_write": 1.25,
+        "output": 6,
+        "pricing_mode": "Auto Cost only"
+      },
+      "composer-2.5": {
+        "input": 0.5,
+        "cache_read": 0.2,
+        "cache_write": 0.5,
+        "output": 2.5
+      },
+      "glm-5.2-high": {
+        "input": 1.65,
+        "cache_read": 0.51,
+        "cache_write": 1.65,
+        "output": 4.65,
+        "base_api_rate": {
+          "input": 1.4,
+          "cache_read": 0.26,
+          "output": 4.4
+        },
+        "cursor_token_rate": 0.25,
+        "pricing_note": "conservative Teams/Enterprise effective rate"
+      },
+      "gpt-5.6-sol-xhigh": {
+        "input": 5,
+        "cache_read": 0.5,
+        "cache_write": 6.25,
+        "output": 30,
+        "long_context_threshold": 272000,
+        "long_input_multiplier": 2,
+        "long_output_multiplier": 1.5
+      }
+    }
+  }
+}

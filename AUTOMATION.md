@@ -19,15 +19,15 @@ Scheduled tasks must use the dedicated clone:
 
 The report, full-text review and local-sync scripts share an atomic PID lock.
 Busy tasks queue for up to six hours instead of returning a false success.
-Stale locks are recovered. Cursor Agent calls retry three times and require an
-explicit completion sentinel. Push rejection triggers fetch/rebase/retry.
+Stale locks are recovered. Cursor Agent calls make at most two attempts in the
+same chat and require an explicit completion sentinel. Push rejection triggers
+fetch/rebase/retry.
 
-Recommended Beijing schedule:
+Beijing schedule:
 
-- 02:00 full-text review
 - 10:30 problem-driven daily report
 - 12:00 local report sync
-- 15:00, 20:00 and 23:00 full-text review
+- 20:00 full-text review (at most six canonical papers)
 
 Windows tasks run as `SYSTEM`, while `automation_common.ps1` pins
 `USERPROFILE`/`HOME`/`APPDATA` to the dedicated Administrator automation
@@ -40,7 +40,8 @@ configured to run as soon as the host becomes available.
 
 - Lock timeout, network failure, missing sentinel, test failure, non-generated
   merge conflict, push exhaustion and Pages smoke failure all return non-zero.
-- A skipped task is never reported as success.
+- Normal no-change/no-high-value work exits zero with an explicit cached,
+  research-exhausted, or cost-queued status; infrastructure failures do not.
 - Existing local modifications in the publisher clone stop the task so recovery
   data is not overwritten.
 - Runtime logs and locks remain ignored by Git.

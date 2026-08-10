@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-10",
+  "timezone": "Asia/Shanghai",
+  "budget": {
+    "soft_usd": 180,
+    "hard_usd": 200,
+    "pools": {
+      "harness_implementation": 110,
+      "radar_review_report": 45,
+      "publication": 10,
+      "recovery_reserve": 15
+    }
+  },
+  "actual_usd": 0.0123685,
+  "active_reservations_usd": 0,
+  "hard_gate_exposure_usd": 3.0,
+  "calls": 6,
+  "models": {
+    "composer-2.5": 6
+  },
+  "cache_hits": 0,
+  "retry_waste_usd": 0,
+  "token_accounting": "actual where cursor_cli_final_usage is present; otherwise estimated reservation",
+  "blocked_or_queued_count": 0,
+  "queued_fulltext_papers": 0,
+  "queued_harness_candidates": 0
+}

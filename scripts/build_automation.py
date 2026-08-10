@@ -165,6 +165,7 @@ def load_snapshot(root):
         os.path.join(data_dir, "handoff", "ledger.json"), {})
     activity_payload = safe_json(
         os.path.join(data_dir, "experiment_activity.json"), {})
+    cost_status = safe_json(os.path.join(data_dir, "cost_status.json"), {})
     ledger_days = []
     if isinstance(ledger_payload, dict):
         for day, value in sorted(
@@ -207,6 +208,7 @@ def load_snapshot(root):
             activity_payload.get("days", {})
             if isinstance(activity_payload, dict)
             and isinstance(activity_payload.get("days"), dict) else {}),
+        "cost_status": cost_status if isinstance(cost_status, dict) else {},
         "build_date": build_time.date().isoformat(),
         "build_time": build_time.isoformat(timespec="minutes"),
     }
@@ -932,6 +934,8 @@ def funnel(snapshot):
 
 def research(snapshot=None):
     snapshot = snapshot or empty_snapshot()
+    queued_reviews = int(
+        snapshot.get("cost_status", {}).get("queued_fulltext_papers", 0) or 0)
     body = hero("论文调研", "Research",
         "调研层先用确定性脚本扩大召回，再让 Cursor 只处理值得全文精读的证据；“摘要速读”和“正文精读”在页面上明确分级。",
         "Deterministic scripts maximize recall; Cursor spends time only on evidence worth full-text review. Abstract briefs and full-text reviews remain visibly distinct.",
@@ -942,6 +946,7 @@ def research(snapshot=None):
 <div class="metric"><b>{metric_value(snapshot, "paper_count")}</b><small>{pair("有效论文数","valid papers")}</small></div>
 <div class="metric"><b>{metric_value(snapshot, "fulltext_count")}</b><small>{pair("editorial + fulltext 精读","editorial + fulltext reviews")}</small></div>
 <div class="metric"><b>{metric_value(snapshot, "abstract_count")}</b><small>abstract_backfill</small></div>
+<div class="metric"><b>{queued_reviews}</b><small>{pair("因每日成本/数量上限排队的 canonical 精读","canonical reviews queued by daily cost/count cap")}</small></div>
 <div class="metric"><b>{metric_value(snapshot, "history_count")}</b><small>{pair("review history 有效记录","valid review-history records")}</small></div>
 <div class="metric"><b>{esc(snapshot.get("latest_review_date") or "—")} · {snapshot.get("latest_review_count", 0) if snapshot.get("latest_review_date") else "—"}</b><small>{pair("最新精读日期 · 当天数量","latest review date · count")}</small></div>
 </div>
@@ -971,8 +976,8 @@ def research(snapshot=None):
 <article class="step"><h3>review_history.json</h3><p>{pair("只有 editorial + fulltext 的状态迁移才入历史；北京时间、来源、详情页和 automation run 可核验。","Only an editorial + fulltext transition enters history, with Beijing time, source, detail route, and automation run.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("失败不是静默成功","Failure is not silent success")}</h2><div class="grid">
-<article class="card"><h3>{pair("定时","Schedule")}</h3><p>{pair("云端 09:00 / 14:00 / 19:00；本地全文精读建议 02:00 / 15:00 / 20:00 / 23:00。","Cloud at 09:00 / 14:00 / 19:00; local full-text review recommended at 02:00 / 15:00 / 20:00 / 23:00.")}</p></article>
-<article class="card"><h3>{pair("重试与锁","Retry and locking")}</h3><p>{pair("本地任务共享原子 PID 锁，可排队六小时；Cursor 调用重试三次且必须输出完成哨兵。","Local tasks share an atomic PID lock and may queue six hours. Cursor retries three times and must emit a completion sentinel.")}</p></article>
+<article class="card"><h3>{pair("定时","Schedule")}</h3><p>{pair("无 Agent 的 GitHub 抓取保留 09:00 / 14:00 / 19:00；本地全文精读仅 20:00 一次，每日最多6篇 canonical 论文。","Agent-free GitHub fetches remain at 09:00 / 14:00 / 19:00; local full-text review runs once at 20:00, capped at six canonical papers/day.")}</p></article>
+<article class="card"><h3>{pair("重试与锁","Retry and locking")}</h3><p>{pair("本地任务共享原子 PID 锁；Cursor 最多两次尝试且重试复用同一 chat。","Local tasks share an atomic PID lock. Cursor gets at most two attempts and retries resume the same chat.")}</p></article>
 <article class="card"><h3>{pair("停止条件","Fail closed")}</h3><p>{pair("锁超时、无哨兵、测试失败、非生成文件冲突或 push 耗尽均返回非零；不会把跳过说成成功。","Lock timeout, missing sentinel, test failure, source conflict, or exhausted push retry returns non-zero; skip is never success.")}</p></article>
 </div></section><p><a href="{BASE}/automation/case-hybrid-c/#radar">{pair("案例关联：Radar 建议如何进入 Hybrid C →","Case link: how Radar advice entered Hybrid C →")}</a></p>"""
     return shell("论文调研", "Research", "research", body, snapshot)
@@ -1020,6 +1025,8 @@ def reports(snapshot=None):
 
 def candidates(snapshot=None):
     snapshot = snapshot or empty_snapshot()
+    queued_candidates = int(
+        snapshot.get("cost_status", {}).get("queued_harness_candidates", 0) or 0)
     body = hero("实验候选与隔离实现", "Candidates and isolated implementation",
         "把日报建议拆成一次只改变一个机制的候选。Cursor Agent 可以写代码，但不能改真值、降低阈值或在共享工作树里覆盖别人的实验。",
         "Report advice is decomposed into candidates that change one mechanism at a time. Cursor may write code, but cannot edit truth, lower thresholds, or overwrite another experiment.",
@@ -1052,6 +1059,7 @@ def candidates(snapshot=None):
 "Qualified requires every full, complex, latency, safety, and zero-regression gate; local gains cannot simply be added.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("候选实验室","Candidate laboratory")} · {esc(latest_day)}</h2>
+<p class="callout">{pair("因每日成本/数量上限排队的 Harness 候选：","Harness candidates queued by the daily cost/count cap:")} <b>{queued_candidates}</b></p>
 <p class="callout">{pair("Solutions 只展示正式保留；这里展示 proposed、offline compared、conditional component、H20 eligible、qualified、rejected/invalid。",
 "Solutions shows retained work only; this lab includes proposed through rejected/invalid states.")}</p>
 <div class="grid">{"".join(cards) or pair("research_exhausted：无可行候选，但精读/筛选计数已记录。","Research exhausted; review and screening counts remain recorded.")}</div></section>

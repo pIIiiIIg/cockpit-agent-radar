@@ -60,21 +60,95 @@ function Invoke-NativeLogged {
     return $output
 }
 
+function Test-AgentModelAvailable {
+    param([string]$Agent, [string]$Model, [string]$Python, [string]$Log)
+    $models = & $Agent --list-models 2>&1
+    $code = $LASTEXITCODE
+    if ($code -ne 0) { throw "Cursor model discovery failed closed (exit $code)" }
+    $available = @($models | ForEach-Object {
+        if ($_ -match '^(\S+)\s+-\s+') { $Matches[1] }
+    })
+    if ($available -notcontains $Model) {
+        throw "configured Cursor model is unavailable: $Model"
+    }
+    & $Python (Join-Path $PSScriptRoot "model_canary.py") verify --model $Model | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "configured model has no passing fixed Radar canary: $Model"
+    }
+    Write-AutomationLog $Log "MODEL_AVAILABLE: $Model"
+}
+
 function Invoke-AgentRetry {
     param(
         [string]$Agent, [string]$RepoPath, [string]$Prompt,
-        [string]$Sentinel, [string]$Log, [int]$Attempts = 3)
+        [string]$Sentinel, [string]$Log, [string]$Python,
+        [string]$Pipeline, [string]$Stage, [string]$Model,
+        [string]$InputHash, [string]$PromptVersion,
+        [string]$CacheKind, [string]$CacheArtifact,
+        [double]$ReservationUsd, [int]$Attempts = 2)
+    $CostScript = Join-Path $PSScriptRoot "cost_governance.py"
+    $cache = & $Python $CostScript cache-get --kind $CacheKind `
+        --input-hash $InputHash --prompt-version $PromptVersion --model $Model 2>$null
+    if ($LASTEXITCODE -eq 0 -and (Test-Path $CacheArtifact)) {
+        Write-AutomationLog $Log "CACHE_HIT: kind=$CacheKind input=$InputHash"
+        return [pscustomobject]@{
+            Decision = "cached"; Output = @(); ChatId = ""; Attempts = 0
+        }
+    }
+    Test-AgentModelAvailable -Agent $Agent -Model $Model -Python $Python -Log $Log
+    $chatOutput = @(& $Agent create-chat 2>&1)
+    if ($LASTEXITCODE -ne 0 -or -not $chatOutput) {
+        throw "Cursor Agent failed to create one resumable chat"
+    }
+    $chatId = ($chatOutput[-1] | Out-String).Trim()
+    if (-not $chatId) { throw "Cursor Agent returned an empty chat id" }
     for ($attempt = 1; $attempt -le $Attempts; $attempt++) {
-        Write-AutomationLog $Log "AGENT attempt $attempt/$Attempts"
+        Write-AutomationLog $Log "AGENT attempt $attempt/$Attempts chat=$chatId model=$Model"
+        $reservationJson = @(& $Python $CostScript reserve `
+            --pipeline $Pipeline --stage $Stage --pool "radar_review_report" `
+            --model $Model --chat-session $chatId --attempt $attempt `
+            --reservation-usd $ReservationUsd --input-hash $InputHash 2>&1)
+        $reserveCode = $LASTEXITCODE
+        if ($reserveCode -in @(3, 4)) {
+            $decision = (($reservationJson -join "`n") | ConvertFrom-Json)
+            Write-AutomationLog $Log (
+                "BUDGET_$($decision.decision.ToUpper()): $($decision.reason)")
+            return [pscustomobject]@{
+                Decision = $decision.decision; Reason = $decision.reason
+                Output = @(); ChatId = $chatId; Attempts = ($attempt - 1)
+            }
+        }
+        if ($reserveCode -ne 0) { throw "cost reservation failed closed" }
+        $reservation = (($reservationJson -join "`n") | ConvertFrom-Json)
         $old = $ErrorActionPreference
         $ErrorActionPreference = "Continue"
-        $output = & $Agent --print --force --trust --workspace $RepoPath `
-            --model "gpt-5.6-sol-xhigh" --output-format text $Prompt 2>&1
+        $output = @(& $Agent --resume $chatId --print --force --trust `
+            --workspace $RepoPath --model $Model --output-format json $Prompt 2>&1)
         $code = $LASTEXITCODE
         $ErrorActionPreference = $old
-        $output | ForEach-Object { Write-AutomationLog $Log "$_" }
-        if ($code -eq 0 -and ($output -join "`n") -match [regex]::Escape($Sentinel)) {
-            return $output
+        $outputPath = Join-Path ([IO.Path]::GetTempPath()) (
+            "radar-agent-output-$PID-$attempt.json")
+        Set-Content -Path $outputPath -Value ($output -join "`n") -Encoding UTF8
+        $reconcileArgs = @(
+            $CostScript, "reconcile", "--call-id", $reservation.call_id,
+            "--output-file", $outputPath)
+        if ($code -ne 0) {
+            $reconcileArgs += @("--failed", "--error", "Cursor Agent exit code $code")
+        }
+        $reconciledJson = @(& $Python @reconcileArgs 2>&1)
+        $reconcileCode = $LASTEXITCODE
+        Remove-Item $outputPath -Force -ErrorAction SilentlyContinue
+        if ($reconcileCode -ne 0) { throw "cost reconciliation failed closed" }
+        $reconciled = (($reconciledJson -join "`n") | ConvertFrom-Json)
+        Write-AutomationLog $Log (
+            "AGENT_USAGE source=$($reconciled.usage_source) " +
+            "actual_usd=$($reconciled.actual_usd) tools=$($reconciled.tool_calls)")
+        $resultText = $output -join "`n"
+        if ($code -eq 0 -and $resultText -match [regex]::Escape($Sentinel)) {
+            return [pscustomobject]@{
+                Decision = "completed"; Output = $output; ChatId = $chatId
+                Attempts = $attempt; ResultHash = $reconciled.result_hash
+            }
         }
         if ($attempt -lt $Attempts) { Start-Sleep -Seconds (30 * $attempt) }
     }

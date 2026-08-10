@@ -1,11 +1,11 @@
 # 批量论文全文精读任务
 
-读取 `RADAR_AGENT.md`、`data/items.json`、`data/explanations.json`、
-`scripts/pending_explanations.py` 和已有高质量 `review_status=editorial` 样例。
+读取运行器提供的最小 evidence packet、`RADAR_AGENT.md` 和一个已有高质量
+`review_status=editorial` 样例。不得扫描生成的 `docs/` 或 `docs/items/`。
 
 ## 本批目标
 
-从 `review_status=abstract_backfill` 的论文中选择最多12篇进行全文精读：
+只处理 evidence packet 选出的最多6篇 canonical 论文；镜像 ID 不重复计数：
 
 1. 优先级依次为：与StreamingModelHarness直接相关、score高、日期新。
 2. 识别相同arXiv编号或同标题的镜像/重复条目；一次研究后同步升级所有重复ID，
