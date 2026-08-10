@@ -13,13 +13,13 @@
 <title>Stockmark-Nemotron-3-Nano-Omni-JapanDocReader: Structured Document Parsing via Capability Injection and Forgetting Control</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/3d93f6ce30.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3d93f6ce30.html</guid>
-<description>We present Stockmark-Nemotron-3-Nano-Omni-JapanDocReader, a Japanese document understanding model built from Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16. The central goal of this work is structured document parsing via capability injection and forgetting control: we inject Japanese structured docume</description>
+<description>Stockmark-Nemotron-3-Nano-Omni-JapanDocReader 通过混合 SFT 与 DAPO 解析向强化学习，把日文结构化文档解析注入推理型多模态基座，并把 DocParse-Overall 从70.43提升到87.67。对 StreamingModelHarness 几乎无直接接口，仅在“能力注入 vs 遗忘控制”的后训练取舍上有弱相关。</description>
 </item>
 <item>
 <title>Understand Before Detect: Vision--Language Learning for Omni-Domain Infrared Small Target Detection</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/610efa57aa.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/610efa57aa.html</guid>
-<description>Omni-domain infrared small target (IRST) detection is crucial for infrared surveillance, yet remains challenging due to heterogeneous imaging domains and inconsistent target characteristics. Previous deep learning-based methods have been developed for visual-only paradigms and achieved promising per</description>
+<description>JinSight 提出先理解再检测的红外小目标视觉-语言框架，并构建逾39k标注的 OmniIRST-VL 基准，在 WideIRSTD 上相对既有方法报告超过14%的 IoU 提升。对 StreamingModelHarness 基本无关，属红外感知而非语音双工。</description>
 </item>
 <item>
 <title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-2bit</title>
@@ -193,13 +193,13 @@
 <title>FactorJEPA: Factorizing Monolithic Futures into Layout-Agent-Interaction Channels for Crowded and Chaotic Global South Urban Worlds</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/833ce4e396.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/833ce4e396.html</guid>
-<description>World models have attracted significant attention for their ability to capture and predict the structure and dynamics of the physical world. In this emerging landscape, Joint Embedding Predictive Architectures (JEPA) offer a particularly compelling direction. We study a largely unexplored regime: po</description>
+<description>FactorJEPA 把全局南方拥挤城市场景的未来预测拆成布局、智能体与交互等通道，而不是单一整体未来表征。摘要显示其面向世界模型的结构化预测；与 StreamingModelHarness 的语音双工主链关系间接，更偏场景预测而非判停/TTS。</description>
 </item>
 <item>
 <title>Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/168880ed49.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/168880ed49.html</guid>
-<description>Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytic</description>
+<description>这篇综述对比机器人学习的两条路线：把能力固化进权重的 VLA，以及能自行编写与复用技能的智能体。对座舱 harness 的启发主要在“权重能力 vs 可编排技能/工具”的取舍，而非流式语音本身。</description>
 </item>
 <item>
 <title>chuonghm/OmniRet</title>
@@ -211,7 +211,7 @@
 <title>Interpretable MEG Decoding of Perceived Speech: Cortical Sources and the Stimulus Features That Drive Retrieval</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/629b97e3eb.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/629b97e3eb.html</guid>
-<description>Short segments of perceived speech can be retrieved from non-invasive magnetoencephalographic (MEG) recordings by deep networks trained with a CLIP-style objective against wav2vec 2.0 audio embeddings. Yet their weights do not map onto electrophysiological quantities, and it remains unclear which sp</description>
+<description>该文用可解释方法分析 MEG 非侵入脑信号中感知语音的可解码皮层来源与刺激特征。属于神经解码研究，对 StreamingModelHarness 无直接工程接口，只提供语音感知表征层面的远缘参考。</description>
 </item>
 <item>
 <title>MASS: Multiplayer World Models with Authoritative Shared State</title>

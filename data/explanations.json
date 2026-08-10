@@ -2622,27 +2622,41 @@
   "review_status": "editorial"
  },
  "e78b666cc0": {
-  "tl_dr": "World models aim to endow AI systems with the ability to represent, generate, and interact with dynamic environments in a coherent and temporally consistent manner. While recent video generation models have demonstrated impressive visual qu",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "World models aim to endow AI systems with the ability to represent, generate, and interact with dynamic environments in a coherent and temporally consistent manner. While recent video generation models have demonstrated impressive visual quality, they remain limited in real-time interaction, long-horizon consistency, and persistent memory of dynamic scenes, hindering their evolution into practical world models. In this report, we present TeleWorld, a real-time multimodal 4D world modeling framework that unifies video generation, dynamic scene reconstruction, and long-term world memory within a closed-loop system. TeleWorld introduces a novel generation-reconstruction-guidance paradigm, where generated video streams are continuously reconstructed into a dynamic 4D spatio-temporal representation, which in turn guides subsequent generation to maintain spatial, temporal, and physical consistency. To support long-horizon generation with low latency, we employ an autoregressive diffusion-based video model enhanced with Macro-from-Micro Planning (MMPL)--a hierarchical planning method that reduces error accumulation from frame-level to segment-level-alongside efficient Distribution Matching Distillation (DMD), enabling real-time synthesis under practical computational budgets. Our approach achieves seamless integration of dynamic object modeling and static scene representation within a unified 4D framework, advancing world models toward practical, interactive, and computationally accessible systems. Extensive experiments demonstrate that TeleWorld achieves strong performance in both static and dynamic world understanding, long-term consistency, and real-time generation efficiency, positioning it as a practical step toward interactive, memory-enabled world models for multimodal ",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "TeleWorld 以生成-重建-引导闭环做实时多模态4D世界模型，结合 MMPL 与 DMD，并报告 TeleWorld-18B 约8 FPS 的高分辨率生成。",
+  "problem": "视频生成模型画质强，但在实时交互、长程一致性与动态场景持久记忆上不足，难成为可互动的世界模型。",
+  "method": "提出 TeleWorld：自回归扩散视频生成、实时4D重建与长期记忆闭环；用 Macro-from-Micro Planning 降低误差累积，并用 Distribution Matching Distillation 与系统优化支持实时合成。",
+  "workflow": [
+   "根据用户指令自回归生成视频片段。",
+   "将生成流实时重建为动态4D表征/点云记忆。",
+   "用重建结果回导后续生成以维持时空一致。",
+   "通过分层规划与蒸馏维持长程低延迟吞吐。"
+  ],
+  "findings": [
+   "文称 TeleWorld-1.3B 长程生成吞吐可超32 FPS；TeleWorld-18B 在四卡设定下对960×1760视频稳定约8 FPS。",
+   "超分解码约17 FPS（960×1760）。",
+   "在 WorldScores 等相关评测中报告领先，静态世界生成比最强基线高0.61分，动态相关项高7.61分（按正文表述）。",
+   "训练系统可把 TeleWorld-18B 的 DMD 训练压到32×H100 量级。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "对生成后回写世界状态再指导下一步的闭环记忆有概念价值。",
+   "远超当前 StreamingModelHarness 的语音主业；不宜把它写成可直接替换判停/TTS 管线的方案。",
+   "若未来座舱需要场景级多模态记忆，可参考其重建-引导接口，而不是端到端搬用18B视频栈。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "算力与系统复杂度高，边缘座舱难直接部署。",
+   "论文引用 TeleTron 训练基础设施，但不等于 TeleWorld 完整权重/应用代码已开源。",
+   "评测偏世界生成与一致性，不含语音全双工交互指标。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://github.com/Tele-AI/TeleTron",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "正文链接 TeleTron 作为长上下文多模态训练基础设施且仓库可访问；未核验到完整 TeleWorld-18B 应用代码与官方模型权重页。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T14:47:15.088476+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "bc994c827b": {
   "tl_dr": "Chroma 1.0 以 1:2 文本—音频 token 调度和分层 RVQ 解码流式生成 24kHz 克隆语音，论文报告低生成延迟，但没有证明原生全双工、轮次检测或用户打断。",
@@ -3134,27 +3148,41 @@
   "review_status": "editorial"
  },
  "630dc13e5c": {
-  "tl_dr": "Smart Voice assistants (SVAs) are widely adopted by youth, yet privacy decision-making in these environments is often characterized by competing considerations rather than clear-cut preferences. While our prior research has examined privacy",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Smart Voice assistants (SVAs) are widely adopted by youth, yet privacy decision-making in these environments is often characterized by competing considerations rather than clear-cut preferences. While our prior research has examined privacy risks, benefits, trust, and self-efficacy as distinct predictors of behavior, less attention has been paid to how these factors combine into higher-level tension that shapes privacy outcomes. This study introduces a negotiation-based framework for understanding youth privacy decision-making with SVAs by operationalizing two composite indices: the Risk-Benefit Tension Index (RBTI) and the Control-Acceptance Tension Index (CATI), using survey data from 469 Canadian youth aged 16-24. We examine the distribution of these indices and their relationship with privacy-protective behavior and SVA usage. Results show that both indices are meaningfully associated with protective action. Frequent SVA usage exhibits more benefit-dominant and acceptance-leaning negotiation profiles, suggesting that convenience-driven engagement may come at the expense of perceived control. By reframing privacy decision-making as a process of negotiation rather than inconsistency, this study offers a complementary perspective on the privacy paradox and provides a compact measurement approach for capturing how youth navigate competing privacy pressures in voice-enabled ecosystems.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "基于469名加拿大青年调查，RBTI/CATI 两套隐私张力指数与隐私保护行为显著相关，高频语音助手用户更偏向收益与接受一侧。",
+  "problem": "青年使用智能语音助手时的隐私决策常是风险与收益、控制与接受之间的拉扯，既有研究多把各因素拆开建模，难刻画这种谈判式权衡。",
+  "method": "用 N=469 的加拿大16–24岁用户调查，定义 RBTI=z(风险)-z(收益)、CATI=控制相关量-z(收益)，分析分布，并以回归预测隐私保护行为（PPB），同时比较不同使用频率组别。",
+  "workflow": [
+   "收集感知风险、收益、控制/效能与隐私保护行为等量表。",
+   "标准化后合成 RBTI 与 CATI。",
+   "描述分布并做与 PPB、使用频率的相关/回归。",
+   "比较稀用与日用用户的张力剖面。"
+  ],
+  "findings": [
+   "RBTI 与 PPB 相关 r=.26（p<0.001），CATI 与 PPB 相关 r=.29（p<0.001）。",
+   "回归中 CATI β=0.209（p<0.001），RBTI β=0.074（p=0.006），模型 R²=0.133。",
+   "使用频率显著影响指数：F_RBTI(3,463)=44.76，F_CATI(3,463)=36.93，均 p<0.001；日用者 RBTI 更低（更偏收益）。",
+   "样本中日用26.9%、周用24.1%、少用40.5%。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "对座舱始终可听麦克风与云端日志策略，可用张力指数思维设计透明控制与默许风险提示。",
+   "高频用户更偏接受便利，说明仅靠风险提示不够，需要可感知的控制能力。",
+   "这是社科问卷研究，不提供可运行的 Harness 组件。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "横断调查，不能推断因果。",
+   "样本限加拿大青年，文化与车载场景外推有限。",
+   "指数是线性合成，可能简化真实谈判过程。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "问卷研究论文；未发现官方数据/代码发布页。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-01T19:26:26.961802+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "937de94bbb": {
   "tl_dr": "论文用同文本、单说话人的声学硬负例，迫使语音模型真正依据说话人变化识别第三方打断，并学习何时采纳或忽略插话；任务仍是轮次式语音输入、文本输出。",
@@ -3444,27 +3472,41 @@
   "review_status": "abstract_backfill"
  },
  "bc126ad677": {
-  "tl_dr": "Speech emotion recognition is an important component of modern human-computer interaction systems. However, many state-of-the-art approaches rely on large pretrained models with high computational and memory requirements, limiting their app",
-  "problem": "仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。",
-  "method": "Speech emotion recognition is an important component of modern human-computer interaction systems. However, many state-of-the-art approaches rely on large pretrained models with high computational and memory requirements, limiting their applicability. This paper proposes ResLSTM-SA, a lightweight architecture that integrates residual connections with soft attention within an LSTM-based framework. Evaluated on the RAVDESS dataset under strict speaker-independent partitioning, the proposed model outperforms conventional attention-based LSTM baselines and several previously reported CNN- and hybrid CNN-LSTM architectures in terms of unweighted average recall (UAR). The best-performing variant (ResLSTM-SA-h64) achieves a maximum UAR of 0.6517 with only 46.8k trainable parameters, delivering competitive accuracy with three orders of magnitude fewer parameters than large-scale self-supervised alternatives, thereby enabling efficient deployment on edge devices and real-time voice assistants. The source code is available at https://github.com/Mak-Sim/ResLSTM-SER.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ResLSTM-SA 把残差与 soft attention 引入轻量 LSTM 语音情感识别，在 RAVDESS 说话人无关设置上以46.8k参数达到最高 UAR 0.6517。",
+  "problem": "许多先进 SER 依赖大规模自监督预训练模型，参数与算力高，难以部署到边缘或实时语音交互设备。",
+  "method": "提出 ResLSTM-SA：在 LSTM-SA 基础上为初始 LSTM 层引入残差连接，并结合 soft attention；输入为 MFCC 与 chroma，在 RAVDESS 上严格说话人无关划分，比较不同隐藏维与基线。",
+  "workflow": [
+   "从语音提取 MFCC 与 chromagram 特征。",
+   "经带残差的 LSTM 与 soft attention 聚合序列表示。",
+   "在说话人无关划分上训练并报告 UAR。",
+   "与 LSTM-SA、CNN/混合模型及大参数自监督方案对照。"
+  ],
+  "findings": [
+   "最佳配置 ResLSTM-SA-h64 平均 UAR 0.6232±0.0119，最高 UAR 0.6517，参数量46.8k。",
+   "相对无残差 LSTM-SA，残差可带来最高约7.7个百分点的提升。",
+   "同设定下，ResLSTM-SA-h32 等配置能在更少或相近参数下超过更大 LSTM-SA-h128。",
+   "作者强调相对 wav2vec 等千万至上亿参数方案，该模型低三个数量级参数仍具竞争力。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "适合作为 Harness 外挂的轻量情感旁路，为播报策略或打断优先级提供标签，不必改主生成模型。",
+   "RAVDESS 表演语音与车内噪声条件差距大，上车前需重标定。",
+   "情感标签不应直接等价于用户意图或安全相关决策。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只在 RAVDESS 报告主结果，泛化到其他语料未充分证明。",
+   "特征工程式前端，未利用大规模自监督音频表示。",
+   "实时端到端时延与车载麦克风阵列效果未测。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "open",
+   "code_url": "https://github.com/Mak-Sim/ResLSTM-SER",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "论文给出官方 GitHub 实现；仓库可访问。未见单独官方模型卡页面。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-02T09:32:33.607517+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "1181cb0b20": {
   "tl_dr": "OmniVideo-100K用实体锚定脚本和证据链生成10万音视频QA，强化跨片段、跨模态推理。",
@@ -3500,27 +3542,41 @@
   "review_status": "editorial"
  },
  "6d96a5894b": {
-  "tl_dr": "Sleep diaries are central to behavioral sleep medicine and cognitive behavioral therapy for insomnia, yet daily completion is difficult to sustain, and static forms often provide limited context for interpreting night-to-night sleep variati",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Sleep diaries are central to behavioral sleep medicine and cognitive behavioral therapy for insomnia, yet daily completion is difficult to sustain, and static forms often provide limited context for interpreting night-to-night sleep variation. We designed an LLM-powered conversational voice diary that delivers clinically grounded morning and evening sleep diary questions through proactive smart-speaker prompts, structured conversational intake, and adaptive follow-up dialogue. We evaluated the system in a four-week between-subjects field study with 30 university students, comparing it with a text-based mobile diary using matched diary items, reporting windows, and reminder intervals. Compared with the text-based diary, the conversational voice diary showed higher adherence and elicited more detailed contextual self-report about routines, stressors, environmental conditions, and other sleep-related factors. Participants also described the voice diary as easier to integrate into daily routines, despite longer perceived completion time. However, voice-based conversational intake produced lower completeness for some structured diary fields, revealing a trade-off between expressive richness and structured precision. These findings show both the promise and the challenge of using LLM-powered conversational voice assistants for longitudinal health self-report.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "四周实地研究显示，LLM 智能音箱对话式睡眠日记比文本日记依从性更高、情境更丰富，但部分结构化字段完整度更低。",
+  "problem": "睡眠日记对失眠行为治疗很关键，但每日填写难持续，静态表格也缺少解释夜间波动的情境信息。",
+  "method": "设计基于智能音箱的 LLM 对话式日记：主动晨晚提醒、结构化问项与自适应追问；在 N=30 大学生中做四周组间对照，与匹配题项/窗口的文本手机日记比较依从、可用性、完整度与披露。",
+  "workflow": [
+   "按临床睡眠日记项配置晨/晚会话与可填写时间窗。",
+   "智能音箱主动提示并用对话状态机跟踪完成进度。",
+   "LLM 解析口语回答，必要时追问模糊项并写入结构化表。",
+   "四周后用完成率、SUS、编码完整度/披露与访谈评估。"
+  ],
+  "findings": [
+   "语音组完成率均值92.00%（SD=7.82）显著高于文本组70.79%（SD=28.54），t(16.09)=2.78，p=.007。",
+   "语音组回答更长更密：token 数均值99.26 vs 23.95（p<.001），名词短语词数36.11 vs 4.02（p<.001）。",
+   "结构化字段完整度反而文本更高：76.89% vs 55.48%（p<.001）。",
+   "感知完成时间语音更长（约6.06 vs 3.13分钟量级），但参与者仍认为更易嵌入日常。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "对座舱主动式语音采集有直接启发：主动提醒+追问可提升依从与情境披露。",
+   "StreamingModelHarness 若采集结构化槽位，需在对话后增加显式确认/回填，避免聊得多但字段缺。",
+   "该系统面向睡眠日记场景与家用音箱，不是全双工座舱助手；延迟与打断策略未按车载双工评估。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "样本为30名大学生，四周、单一健康场景，外部效度有限。",
+   "依赖商业智能音箱与 LLM 后端，论文未开源完整系统。",
+   "更长会话可能增加座舱认知负荷与隐私暴露。"
   ],
   "open_source": {
-   "status": "unknown",
+   "status": "unavailable",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "实地系统描述充分，但未找到官方代码仓库或模型发布页。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-02T09:32:33.607535+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "721ff9a0ae": {
   "tl_dr": "Rapid advancements in video diffusion models and temporal editing tools have enabled the generation of highly realistic human-centric videos, posing unprecedented challenges to digital content forensics. Existing benchmarks primarily focus ",
@@ -4119,27 +4175,41 @@
   "review_status": "abstract_backfill"
  },
  "e226d59e8b": {
-  "tl_dr": "Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digi",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Vision-language-action models (VLAs), which leverage the cognition of multimodal information to infer physical-world actions, provide a generalized solution for embodied AI applications. Conventional VLAs usually concentrate on current digital cognition. While some efforts are made to enhance VLAs' reasoning capabilities by capturing temporal information, encoding the long-context history causes an efficiency-decreasing issue. To reconcile the conflict between capturing temporal information and maintaining inference efficiency in VLAs, this paper introduces FibVLA, an efficient framework featuring temporal perception of long-context history. Specifically, we leverage logarithmic hindsight sampling to both proprioceptive states and visual frames to capture long-term temporal dependencies with minimal redundancy. For the action expert, we introduce the flow matching to produce action distributions, and the Fibonacci recurrent inference strategy to generate long-range planning steps based on real-time closed-loop feedback. Experiments demonstrate that FibVLA significantly improves action smoothness and success rates without retraining large-scale visual encoders. Efficiency analysis demonstrates superior real-time responsiveness compared to video-based baselines in real-world evaluations.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "FibVLA 用对数后见采样与斐波那契递归推理做高效时序 VLA，在 LIBERO-Long 成功率95.2%、全套平均96.8%，单步推理约177ms。",
+  "problem": "VLA 若编码长历史可提升时序推理，但会显著降低推理效率；需要在长上下文与实时闭环控制间取得平衡。",
+  "method": "提出 FibVLA：对视觉与本体感觉做对数后见采样；动作专家用 flow matching；推理期用斐波那契递归复用历史 action chunk/KV，使稀疏采样与闭环反馈对齐。",
+  "workflow": [
+   "按对数刻度采样历史帧与状态，保留高频近邻与低频远史。",
+   "通道式时序编码后送入视觉-语言骨干。",
+   "flow matching 生成动作分布。",
+   "按斐波那契步长推进，复用可对齐的历史 token 以降低开销。"
+  ],
+  "findings": [
+   "LIBERO-Long 成功率95.2%，较次优基线高7.21个百分点；全套平均成功率96.8%。",
+   "真实机器人评测均分85.7，较次优 π0 高11.4分。",
+   "长时程任务上单次推理约177ms，较对照采样策略降低约9.69%与27.16%延迟。",
+   "消融显示去掉关键时序组件会损害 LIBERO-Long 与真机分数。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "对数历史采样与 KV/片段复用思路，可类比 Harness 对长音频/事件历史的稀疏保留。",
+   "对象是机器人 VLA，不是语音双工；不能直接嵌入判停后生成主链。",
+   "若座舱未来接具身动作，可作时序效率参考，但仍需单独验证工具晚注入接口。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "依赖仿真与特定真机平台，车载座舱场景未覆盖。",
+   "未找到官方代码或权重发布。",
+   "成功率和时延数字绑定其动作 chunk 设定，迁移需重测。"
   ],
   "open_source": {
    "status": "unknown",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "正文强调方法与实验，未检索到作者官方代码/模型页。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T09:32:24.745148+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "47b8659e2a": {
   "tl_dr": "Multimodal large language models increasingly use sketches, annotations, tools, and intermediate images during reasoning, but it remains unclear whether they truly rely on these visual states. Existing benchmarks are limited both by task co",
@@ -4240,27 +4310,41 @@
   "review_status": "editorial"
  },
  "ceea0ea38b": {
-  "tl_dr": "State-of-the-art spoken dialogue models (Défossez et al. 2024; Schalkwyk et al. 2025) use neural audio codecs to \"tokenize\" audio signals into a lower-frequency stream of vectorial latent representations, each quantized using a hierarchy of",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "State-of-the-art spoken dialogue models (Défossez et al. 2024; Schalkwyk et al. 2025) use neural audio codecs to \"tokenize\" audio signals into a lower-frequency stream of vectorial latent representations, each quantized using a hierarchy of vector codebooks. A transformer layer allows these representations to reflect some time- and context-dependent patterns. We train probes on labeled audio data from Cole et al. (2023) to test whether the pitch trajectories that characterize English phrase-final (nuclear) intonational tunes are among these patterns. Results: Linear probes trained on the unquantized latents or some of the associated codewords yield above-chance accuracy in distinguishing eight phonologically specified nuclear tunes with monotonal pitch accents (top average test accuracy (TATA): 0.31) and the five clusters of these tunes that are robust in human speech production and perception (TATA: 0.45). Greater accuracy (TATAs: 0.74-0.89) is attained for binary distinctions between classes of rising vs. falling tunes, respectively used for questions and assertions. Information about tunes is spread among all codebooks, which calls into question a distinction between 'semantic' and 'acoustic' codebooks found in the literature. Accuracies improve with nonlinear probes, but discrimination among the five clusters remains far from human performance, suggesting a fundamental limitation of current codecs.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "对因果神经音频编解码器 Mimi 的探针显示：升降调易分，但英语句末核调细类区分远弱于人类，韵律信息分散在多个码本中。",
+  "problem": "主流口语对话模型用神经音频 codec 把波形量化成低频离散 token；尚不清楚这些表示是否保留英语短语末核调（nuclear tunes）等韵律对比，而这影响疑问/陈述等言语行为。",
+  "method": "作者在 Cole 等人标注的语调数据上，对 Mimi 的未量化潜变量与多层 RVQ 码字训练线性/非线性探针，区分八类核调、五类稳健簇，以及升/降调二分类；并比较各 codebook 的可探测性。",
+  "workflow": [
+   "用因果卷积的 Mimi 编码器提取流式潜变量与 Codebook 0–7。",
+   "对帧表示做加权聚合与降维后训练探针分类器。",
+   "在测试集上报告 top average test accuracy（TATA），并与 ZeroR 基线比较。",
+   "分析不同码本与线性/非线性探针的信息分布。"
+  ],
+  "findings": [
+   "线性探针对八类核调的 TATA 最高约0.31，对五类稳健簇约0.45，均高于随机但仍有限。",
+   "升/降调二分类 TATA 达0.74–0.89。",
+   "调型信息分散在多个 codebook，削弱了文献中“语义码本 vs 声学码本”的简单二分。",
+   "非线性探针可提升，但对五类簇仍远低于人类辨别，作者据此指出当前 codec 的根本限制。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "对 StreamingModelHarness 选择/评估语音 tokenizer 有直接提醒：离散音频 token 不一定可靠承载打断意图、疑问语气等韵律线索。",
+   "可把韵律敏感能力（升降调、核调簇）加入 codec/LAM 准入评测，而不是默认 token 层已足够。",
+   "这是解释性研究，不能当作现成的座舱韵律检测模块。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "只探测 Mimi 与英语核调材料，未覆盖车内噪声、多语种与真实双工对话。",
+   "探针可分不等于生成侧会保留或使用该信息。",
+   "论文未提供可复现探针代码或额外权重。"
   ],
   "open_source": {
    "status": "unknown",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "正文为探针研究；未找到作者发布的官方探针代码或数据集打包页，Mimi 本身来自既有工作。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T15:01:28.340835+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "dc028051f2": {
   "tl_dr": "Recent Large Vision-Language Models (LVLMs) have demonstrated remarkable performance across various multimodal tasks that require understanding both visual and linguistic inputs. However, object hallucination -- the generation of nonexisten",
@@ -4322,27 +4406,41 @@
   "review_status": "editorial"
  },
  "46fcb251fd": {
-  "tl_dr": "The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reduc",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection methods with 18 audio models across 40 tasks covering major LAM evaluation dimensions, we show that subsets of just 50 examples (0.3% of data) can achieve over 0.93 Pearson correlation with full benchmark scores. To understand how well these scores align with what practitioners ultimately care about, user satisfaction, we collect 776 human preference ratings from realistic voice assistant conversations, finding that both subsets and full benchmark achieve only 0.85 correlation with human. To better predict preferences, we trained regression models on these selected subsets, achieving 0.98 correlation -- outperforming regression models trained on both random subsets and the full benchmark. This demonstrates that in regression modeling, well-curated subsets outpredict the full benchmark, showing quality over quantity. We open-source these regression-weighted subsets as the HUMANS benchmark, an efficient proxy for LAM evaluation that captures both benchmark performance and user preferences.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "HUMANS 用约50条精选子集近似全量 LAM 评测（Pearson约0.93），并经回归加权后与真人语音助手偏好达到约0.98相关。",
+  "problem": "大音频模型评测任务多、成本高；需要在降本同时尽量保持与全量基准及真实用户满意度一致的排序信号。",
+  "method": "在18个音频模型、40项任务上比较10种子集选择法；另收集776条真实语音助手对话的人类偏好，训练回归把子集分数映射到满意度，并开源 HUMANS 加权子集。",
+  "workflow": [
+   "先跑全量任务得到参考分数。",
+   "用多种选择策略抽取极小子集并计算与全量分数相关。",
+   "组织真人语音助手对话并收集偏好评分。",
+   "在精选子集上拟合回归，发布 HUMANS 作为高效代理基准。"
+  ],
+  "findings": [
+   "仅50条样本（约全量0.3%）可达与全量基准 Pearson 相关约0.934。",
+   "子集与全量相对真人偏好都只有约0.85相关，说明静态基准与真实满意度仍有缺口。",
+   "在精选子集上训练的回归可达约0.978相关，优于随机子集与直接用全量分数的回归。",
+   "作者开源不同规模的回归加权子集作为 HUMANS benchmark。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可用于低成本初筛座舱候选 LAM/语音助手栈，减少全量复测开销。",
+   "0.85 的人类相关说明不能替代 StreamingModelHarness 在真实双工、噪声与工具调用场景的实测。",
+   "子集优化目标是偏好/基准代理，不直接优化打断、晚注入工具或外挂 TTS 时延。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "人类偏好来自约10分钟场景化对话，不等于长时车载使用。",
+   "不同源数据集许可证不一，需按官方说明逐项核验。",
+   "处理后的原始音频按文仅可控申请，不随子集无限制公开。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://huggingface.co/datasets/woodygan/humans-benchmark",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "HUMANS 加权子集已在 Hugging Face 公开；完整交互音频需按论文说明受控申请。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-03T15:01:28.340863+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "9ca85357c8": {
   "tl_dr": "Modeling the bidirectional correspondence between external sensory stimuli and internal neural activity has emerged as a critical frontier in neuroscience. However, existing approaches predominantly treat brain encoding and decoding as isol",
@@ -5406,27 +5504,41 @@
   "review_status": "abstract_backfill"
  },
  "2f896129ea": {
-  "tl_dr": "Recent advances in generative artificial intelligence have made it easier to fabricate statements and amplify political disinformation during elections. We introduce ParlaSpoof-BR, an audio deepfake dataset derived from recordings of the Br",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Recent advances in generative artificial intelligence have made it easier to fabricate statements and amplify political disinformation during elections. We introduce ParlaSpoof-BR, an audio deepfake dataset derived from recordings of the Brazilian Chamber of Deputies and expanded with synthetic utterances from diverse text-to-speech and voice conversion models. Using ParlaSpoof-BR, we benchmark state-of-the-art audio deepfake detectors, examine their ability to generalize to Brazilian Portuguese political speech, and investigate potential biases in their predictions. Our analysis reveals that current systems struggle to provide consistent decisions across the diversity represented in the dataset, with methodological factors (synthesis model choice, manipulation extent) dominating over demographic disparities. ParlaSpoof-BR provides a domain-specific benchmark for studying audio deepfake detection in a socially consequential and underrepresented setting, supporting the development of more robust detection systems for electoral integrity in Brazil.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "ParlaSpoof-BR 面向巴西议会政治语音构建深度伪造基准，显示检测器跨域失败，且合成方法偏差通常大于人口统计偏差。",
+  "problem": "选举场景下葡萄牙语政治语音深度伪造资源稀缺；现有检测器在 ASVspoof 上接近完美，却难迁移到真实议会口语与部分篡改攻击。",
+  "method": "从巴西众议院录音构建含40名说话人、2000条真实语句的 ParlaSpoof-BR，并用多种 TTS/VC 生成全句与部分填充伪造；评测 AASIST 等检测器的 EER/AUC，并分析性别、地区与合成器偏差。",
+  "workflow": [
+   "采集并平衡性别与五大地理区的议会发言。",
+   "用 OmniVoice、XTTS、Chatterbox 等生成跨说话人伪造与部分篡改。",
+   "在核心集上报告 EER、AUC、macro-F1 等。",
+   "按人口统计与合成方法拆解误差，比较偏差来源。"
+  ],
+  "findings": [
+   "数据集含40名说话人、2000条真实议会语句，并扩展多种合成攻击。",
+   "AASIST 与 AASIST-L 在该域 EER 约50.98%与53.70%，接近失效；DF-Arena-1B 为32.30%（AUC 0.715）。",
+   "文称方法论因素（合成模型、篡改比例）对误差的影响通常大于人口统计差异；性别 EER 差距多低于0.7个百分点。",
+   "部分操纵协议比全句合成更难检；不同合成器难度差异大。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "提醒座舱语音防伪不能只看英文中性基准，需覆盖本地语种、部分篡改与多合成器。",
+   "可借鉴其偏差审计方式，检查 Harness 音频准入门对特定口音/合成器的误杀与漏检。",
+   "场景是选举政治语音，不是车载双工交互本身。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "语言与领域特异，直接迁移到中文座舱需重做数据。",
+   "检测器评估为主，不提供新的通用防伪模型。",
+   "声学条件来自议会存档，不等于车内噪声与回声。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://huggingface.co/datasets/freds0/ParlaSpoof-BR",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方演示页与 Hugging Face 数据集可访问；本工作重点是数据与评测，而非单一官方检测器权重。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-04T19:42:39.603325+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "8c85d4ceba": {
   "tl_dr": "SR-CEM 仅利用胜出假设在波束搜索中的分数、排名和上下文累积分数，以不到千参数的 MLP 输出 token/word 置信度；它显著改善最坏分桶校准误差，但依赖完整 beam-search 假设，并非在线端点检测器。",
@@ -6638,27 +6750,41 @@
   "review_status": "editorial"
  },
  "8159bacb10": {
-  "tl_dr": "Leveraging pre-trained vision-language models (VLMs) to construct vision-language-action (VLA) models has emerged as a promising paradigm for 3D robot manipulation. However, existing 3D VLA methods remain data-hungry, exhibit limited genera",
-  "problem": "实时多模态推理同时受到延迟、KV cache 增长和计算资源约束，需要在质量与持续流式处理之间取舍。",
-  "method": "Leveraging pre-trained vision-language models (VLMs) to construct vision-language-action (VLA) models has emerged as a promising paradigm for 3D robot manipulation. However, existing 3D VLA methods remain data-hungry, exhibit limited generalization under distribution shifts, and lack explicit memory of past observations. These limitations hinder their application to data-scarce, open-world, and memory-dependent manipulation scenarios. Our previous work, BridgeVLA, improves data efficiency and generalization by preserving the input--output alignment of a pre-trained VLM during 3D action learning: raw point clouds are projected into multi-view images, and intermediate heatmaps are predicted before generating robot actions. In this work, we develop BridgeVLA++ by equipping BridgeVLA with a unified spatio-temporal memory architecture that models persistent spatial context and temporal interaction history. The resulting memory-augmented framework can reason over observation histories while preserving BridgeVLA's data efficiency and generalization capabilities. Extensive experiments show that our framework achieves strong performance on spatial manipulation tasks while exhibiting robust generalization. BridgeVLA++ further achieves state-of-the-art performance on two challenging memory-dependent manipulation benchmarks without sacrificing the data efficiency and generalization of the original BridgeVLA. In addition, BridgeVLA++ performs effectively in bimanual manipulation settings and is validated on an additional real-world robotic platform, demonstrating its scalability across tasks, environments, and robotic platforms. These results establish BridgeVLA++ as a unified 3D vision-language-action framework that simultaneously supports data-efficient learning, robust generaliza",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "BridgeVLA++ 为3D VLA 增加统一时空记忆，在保持原 BridgeVLA 数据效率与泛化的同时，把真实记忆依赖任务平均成功率从20.0%提升到93.3%。",
+  "problem": "语言条件操作常需跨时刻记忆与遮挡下的空间坚持；既有3D VLA 在记忆依赖任务上弱，而强行堆历史又易损害效率与泛化。",
+  "method": "在 BridgeVLA 的多视图2D热图对齐框架上，加入时间记忆（锚点视图、历史关键帧、自适应子目标关键帧）与空间记忆（遮挡鲁棒细定位），并扩展双臂设置。",
+  "workflow": [
+   "点云投影为多视图图像，沿用2D热图预训练与3D动作微调。",
+   "时间记忆保存锚点与历史关键帧 token 以支持粗阶段推理。",
+   "空间记忆维持可重渲染的空间上下文以细化定位。",
+   "在 RLBench/COLOSSEUM/GemBench/RMBench/MemoryBench 与真机上评估。"
+  ],
+  "findings": [
+   "原 BridgeVLA 在真机通用操作上平均比强基线高32%，并保持扰动/未见物体与指令鲁棒。",
+   "BridgeVLA++ 在记忆依赖真机任务上把平均成功率从20.0%提升到93.3%。",
+   "在 RMBench/MemoryBench 等记忆基准上达到正文所称 SOTA，同时不牺牲原基准表现。",
+   "消融显示去掉空间或时间记忆会损害遮挡高精度与记忆任务。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "时空记忆分层（历史关键帧 + 空间缓存）可类比 Harness 对跨轮状态与晚到工具结果的外挂记忆。",
+   "主战场是机器人3D操作，不是语音流式判停；不要直接当作座舱对话模型。",
+   "若座舱接具身执行，可借鉴其记忆依赖评测拆分，而不是假设 VLA 能替代双工语音栈。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "依赖多视图投影与热图监督，系统复杂度高于纯语音 harness。",
+   "真机结果绑定 Franka/Dobot 等平台与任务集。",
+   "开源以 BridgeVLA 家族仓库/项目页为主，需按任务确认 ++ 权重是否齐全。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://github.com/BridgeVLA/BridgeVLA",
+   "model_url": "https://huggingface.co/datasets/LPY/BridgeVLA",
+   "note": "官方项目页与 GitHub 声明包含 BridgeVLA/BridgeVLA++ 实现；另有相关数据卡。许可证以仓库为准。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-06T11:57:26.260876+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "92bbf72d7e": {
   "tl_dr": "Skill-based prompting has become a practical mechanism for improving large language model (LLM) agents, yet existing skill acquisition methods often treat skills as experience summaries, memory entries, or direct summaries of successful dem",
@@ -7398,27 +7524,41 @@
   "review_status": "abstract_backfill"
  },
  "e222d7b717": {
-  "tl_dr": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existin",
-  "problem": "现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。",
-  "method": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and attack diversity, typically covering only voice conversion (VC) or text-to-speech (TTS) attacks. We introduce AffectDF, the most comprehensive benchmark for emotionally expressive speech deepfakes, spanning TTS, VC, emotional VC, and LALM-based spoofing attacks across both acted and spontaneous emotional speech. AffectDF contains approximately 260 hours of speech generated using 21 spoofing attacks across five emotional states. We benchmark state-of-the-art SDD systems under conventional and emotional spoofing conditions, including LALM-based detectors evaluated with both inference-only prompting and supervised fine-tuning. Our experiments reveal severe robustness degradation when models trained on conventional benchmarks are evaluated on AffectDF, with several systems approaching near-random performance. Surprisingly, even large-scale emotional training does not consistently improve cross-domain robustness, indicating that current SDD systems fail to learn generalized spoof representations under emotional and prosodic variability. Robustness further varies substantially across emotional states, attack families, and acted vs spontaneous emotional speech conditions. These findings expose fundamental limitations of current SDD systems and establish AffectDF as a benchmark for developing more robust spoof detection models.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "AffectDF 是覆盖约260小时、21种攻击与五种情绪的语音深度伪造基准，显示常规反欺诈模型在情绪化与 LALM 攻击下会严重退化。",
+  "problem": "现有语音深度伪造检测基准对情绪表达与大音频语言模型（LALM）攻击覆盖不足；情绪伪造数据也多局限于少量 VC 或 TTS 攻击，难衡量真实富情绪伪造场景。",
+  "method": "作者构建 AffectDF，跨 TTS、VC、情绪 VC 与 LALM 伪造，覆盖 acted/spontaneous 情绪语音与中性、高兴、愤怒、悲伤、惊讶五态。随后在常规与情绪伪造设定下评测 RawNet2、AASIST、XLSR-SLS、XLSR-Mamba、ProSDD 等，并包含仅推理提示与监督微调的 LALM 检测器。",
+  "workflow": [
+   "用多种合成/转换与 LALM 情绪语音生成攻击样本，形成约260小时、21类攻击数据。",
+   "按情绪、攻击族与 acted/spontaneous 条件组织评测协议。",
+   "以 EER 为主指标，比较在 ASVspoof 等常规训练集上训练的检测器迁移到 AffectDF 的表现。",
+   "进一步在 AffectDF 上训练/微调，观察跨情绪与跨攻击族鲁棒性变化。"
+  ],
+  "findings": [
+   "AffectDF 约含260小时语音、21种伪造攻击与五种情绪状态。",
+   "在 AffectDF 上，RawNet2 与 AASIST 的 EER 分别升至59.71%与56.40%，接近随机。",
+   "在所评系统中，ProSDD 在 AffectDF 上表现最强，EER 为12.49%。",
+   "即便大规模情绪训练，也不总能稳定提升跨域鲁棒性；不同情绪、攻击族与 acted/spontaneous 条件下差距显著。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "可作为座舱外挂 TTS/语音克隆防伪门的压力测试集，尤其覆盖情绪化播报与指令仿冒。",
+   "不应假设中性 ASVspoof 训练的检测器可直接挂到 StreamingModelHarness；需按情绪与合成器族单独校准阈值。",
+   "Harness 仍是输入流式、判停后生成、晚注入工具与外挂 TTS，防伪应放在音频准入旁路，而不是改成模型内原生双工。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "主贡献是基准与评测，不提供可直接部署的端到端座舱防伪服务。",
+   "攻击来自公开合成模型与数据集协议，真实车内噪声、回声与多说话人场景仍需另测。",
+   "数据按 CC BY-NC 4.0 研究非商用发布，商用复用需另行核验。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
+   "status": "partial",
+   "code_url": "https://affectdf33-data.github.io/AffectDF-Data/",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "官方项目页声明 AffectDF 数据与协议公开（CC BY-NC 4.0）；未见统一官方检测器权重作为本工作主产物。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-07T14:21:53.579808+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:28:02+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "886fba2835": {
   "tl_dr": "Vision-Language-Action (VLA) models have become a powerful paradigm for robot manipulation, but training a single generalist policy for heterogeneous robot embodiments remains an open problem. Existing methods have two main limitations. Fir",
@@ -8195,49 +8335,77 @@
   "review_status": "editorial"
  },
  "3d93f6ce30": {
-  "tl_dr": "We present Stockmark-Nemotron-3-Nano-Omni-JapanDocReader, a Japanese document understanding model built from Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16. The central goal of this work is structured document parsing via capability injection ",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "We present Stockmark-Nemotron-3-Nano-Omni-JapanDocReader, a Japanese document understanding model built from Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16. The central goal of this work is structured document parsing via capability injection and forgetting control: we inject Japanese structured document parsing capability into a reasoning-oriented multimodal model while preserving its document VQA capability as much as possible. We study parsing-centric SFT, which uses only structured document parsing data; mixed SFT, which combines structured document parsing and VQA data; and parsing-centric RL, which optimizes structured parsing with a task-level reward. Our experiments show that parsing-centric SFT substantially improves structured document parsing performance but causes measurable VQA forgetting. Mixed SFT mitigates this forgetting while preserving nearly the same structured parsing performance. Applying DAPO-based parsing-centric RL on top of the mixed SFT checkpoint further improves structured document parsing beyond the SFT ceiling, producing the final released model. The training data is constructed with a data engine consisting of two complementary synthetic streams: a Japanese Document VQA Stream and a programmatic structured document parsing stream. We also discuss reward design and variance-based prompt filtering for continuous structured document parsing rewards, highlighting their importance for making RL effective in long-reasoning structured document parsing tasks.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "该报告用混合 SFT 控制遗忘，再用 DAPO 解析向 RL 把日文结构化文档解析注入 Nemotron-3-Nano-Omni，最终 DocParse-Overall 达87.67。",
+  "problem": "要把结构化文档解析能力注入以推理为导向的多模态基座，同时又尽量保留原有日文文档 VQA，避免解析中心微调造成明显遗忘。",
+  "method": "构建日文文档 VQA 与程序化结构化解析两条数据流；比较解析中心 SFT 与混合 SFT；再在混合 SFT 检查点上做 DAPO/GSPO 解析向 RL，奖励含文本编辑、表格 TEDS、公式 CDM 等元素匹配分量。",
+  "workflow": [
+   "用数据引擎生成日文文档 VQA 与结构化解析样本。",
+   "先做能力注入式 SFT，重点比较纯解析 SFT 与混合 SFT。",
+   "以混合 SFT 为参考策略，进行解析向强化学习并过滤高方差提示。",
+   "按 DocParse-Overall 与 VQA-Overall 选择最终发布模型。"
+  ],
+  "findings": [
+   "解析中心 SFT 把 DocParse-Overall 从70.43提到86.56，但 VQA-Overall 从0.863降到0.826。",
+   "混合 SFT 的 DocParse-Overall 约86.60，同时把 VQA-Overall 恢复到0.844量级。",
+   "混合 SFT + DAPO 进一步把 DocParse-Overall 提到87.67，公式 CDM 从89.48到92.87；GSPO 反而降到84.01。",
+   "最终模型 Table TEDS 87.25，Reading Order Edit 0.2366，并在开放权重对比中报告领先。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "与座舱语音双工主链关系很弱；不应用于改写 StreamingModelHarness 的判停/TTS 路径。",
+   "可借鉴其“混合数据缓解遗忘、再 RL 推高专项能力”的后训练次序，若未来要给 Harness 侧车视觉文档能力做增量注入。",
+   "发布模型面向日文文档 JSON 结构化输出，不是实时语音交互系统。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "评测以文档解析/VQA 为主，无车载噪声、打断或工具调用指标。",
+   "能力与遗忘的平衡仍存在：最终 RL 后 VQA-Overall 会相对混合 SFT 有所回落。",
+   "依赖较大多模态基座与专用数据引擎，部署成本高。"
   ],
   "open_source": {
-   "status": "unknown",
-   "code_url": "",
-   "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "status": "open",
+   "code_url": "https://huggingface.co/stockmark/Stockmark-Nemotron-3-Nano-Omni-JapanDocReader",
+   "model_url": "https://huggingface.co/stockmark/Stockmark-Nemotron-3-Nano-Omni-JapanDocReader",
+   "note": "正文声明最终模型发布于 Hugging Face，页面可访问；另引用相关日文评测/合成数据集卡。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-10T14:23:58.980799+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:31:13+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  },
  "610efa57aa": {
-  "tl_dr": "Omni-domain infrared small target (IRST) detection is crucial for infrared surveillance, yet remains challenging due to heterogeneous imaging domains and inconsistent target characteristics. Previous deep learning-based methods have been de",
-  "problem": "论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。",
-  "method": "Omni-domain infrared small target (IRST) detection is crucial for infrared surveillance, yet remains challenging due to heterogeneous imaging domains and inconsistent target characteristics. Previous deep learning-based methods have been developed for visual-only paradigms and achieved promising performance on domain-specific tasks. However, existing methods follow the task-specific supervised learning paradigm. This paradigm simplifies the full-scene infrared observations to sparse target supervision, discarding the semantics that remain invariant across heterogeneous domains. Consequently, detection performance suffers substantially under domain shifts. To handle this issue, we introduce \\textbf{``understand before detect''}, a paradigm that formulates omni-domain IRST detection as an understanding-driven process, where holistic infrared target understanding precedes precise detection. Building on this paradigm, we propose \\textbf{JinSight}, which first develops holistic IRST understanding through language supervision and then transfers the learned cross-domain representations to precise small-target detection. By grounding infrared representations in language semantics, JinSight enables a single model to generalize across heterogeneous infrared domains. We then introduce Latent Semantic Interaction (LSI), which exchanges language-aligned global semantics with fine-grained spatial features in a compact low-rank space. To address the lack of multimodal omni-domain IRST benchmarks, we build \\textbf{OmniIRST-VL}, the first large-scale, highly diverse vision--language dataset for omni-domain IRST detection. It comprises over 39k annotations across six complementary instruction tasks covering both scene-level understanding and target-centric reasoning.",
-  "workflow": [],
-  "findings": [],
+  "tl_dr": "JinSight 用 IRST 定向视觉指令微调与潜语义交互做全域红外小目标检测，并发布 OmniIRST-VL；在 WideIRSTD 上相对 SOTA 报告逾14% IoU 提升。",
+  "problem": "全域红外小目标检测面临成像域异构与目标特性不一致；既有视觉专用监督把全场景简化为稀疏监督，缺少“先理解场景再检测”的多模态基准与方法。",
+  "method": "构建 OmniIRST-VL（基于 WideIRSTD，含逾39k图像-指令-回答）；提出 JinSight：IRST 定向视觉指令微调，并用 Latent Semantic Interaction 把全局语义与细粒度空间特征交互，再用于检测。",
+  "workflow": [
+   "收集/标注全域红外图像并生成场景向与目标向指令。",
+   "在 VLM 上做 IRST 定向指令微调。",
+   "通过 LSI 模块融合全局语义与局部空间特征。",
+   "在 OmniIRST-VL 与 WideIRSTD/跨数据集设定上评测理解与检测指标。"
+  ],
+  "findings": [
+   "OmniIRST-VL 含逾39k图像-指令-回答标注，覆盖多种红外成像设定。",
+   "作者报告 JinSight 在 WideIRSTD 上相对既有方法 IoU 提升超过14%。",
+   "相对其基线，完整方法相对提升 IoU 5.45%、Pd 4.94%；单独指令或 LSI 也有较小正增益。",
+   "跨 NUDT-SIRST、NUAA-SIRST、IRSTD-1K 的留一迁移中，文称 JinSight 在 Pd 与 IoU 上均最高。"
+  ],
   "project_fit": [
-   "需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。"
+   "主题是红外监视小目标检测，与座舱语音 StreamingModelHarness 无直接工程接口。",
+   "“先理解再检测”的指令监督思路，至多对未来视觉事件旁路有概念启发，不应写入语音判停主链。",
+   "不提供双工、打断或外挂 TTS 相关结果。"
   ],
   "limitations": [
-   "当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。"
+   "数据与评测围绕红外小目标，不覆盖车内座舱交互。",
+   "正文写数据集与权重将在发表后公开，当前开放状态仍待核验。",
+   "IoU 提升幅度依赖所选 SOTA 对照与 WideIRSTD 协议。"
   ],
   "open_source": {
    "status": "unknown",
    "code_url": "",
    "model_url": "",
-   "note": "摘要未提供足够证据，等待正文与官方项目页核验。"
+   "note": "正文写 OmniIRST-VL 与权重将在发表后公开；截至本次核验未找到已上线的官方代码/模型页。"
   },
-  "source_depth": "abstract",
-  "generated_at": "2026-08-10T14:23:58.980833+08:00",
-  "generated_by": "deterministic abstract backfill",
-  "review_status": "abstract_backfill"
+  "source_depth": "fulltext",
+  "generated_at": "2026-08-10T14:31:13+08:00",
+  "generated_by": "Cursor Grok 4.5 editorial review",
+  "review_status": "editorial"
  }
 }
