@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>WayneJin0918/Omni-Rewriter</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fd0558301c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fd0558301c.html</guid>
+<description>Open agentic prompt-expansion harness for image and video generation, bridging polished demos, public APIs, and deployable workflows. agentic-ai ai-agents image-generation llm-agents multimodal prompt-engineering prompt-expansion video-generation</description>
+</item>
+<item>
+<title>Stockmark-Nemotron-3-Nano-Omni-JapanDocReader: Structured Document Parsing via Capability Injection and Forgetting Control</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3d93f6ce30.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3d93f6ce30.html</guid>
+<description>We present Stockmark-Nemotron-3-Nano-Omni-JapanDocReader, a Japanese document understanding model built from Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16. The central goal of this work is structured document parsing via capability injection and forgetting control: we inject Japanese structured docume</description>
+</item>
+<item>
+<title>Understand Before Detect: Vision--Language Learning for Omni-Domain Infrared Small Target Detection</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/610efa57aa.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/610efa57aa.html</guid>
+<description>Omni-domain infrared small target (IRST) detection is crucial for infrared surveillance, yet remains challenging due to heterogeneous imaging domains and inconsistent target characteristics. Previous deep learning-based methods have been developed for visual-only paradigms and achieved promising per</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-2bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e7a8007d8d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e7a8007d8d.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-3bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d76a7a76de.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d76a7a76de.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-4bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/99124075f1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/99124075f1.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-5bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2b720a695c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2b720a695c.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-6bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4eaa1176ed.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4eaa1176ed.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-8bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4c317604e4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4c317604e4.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-2bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/179a93adc4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/179a93adc4.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-3bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2667f28c18.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2667f28c18.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-4bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d56f27e41c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d56f27e41c.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-5bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4dd499d610.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4dd499d610.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-6bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/591ef008bd.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/591ef008bd.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
+<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-8bit</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ea91e49196.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ea91e49196.html</guid>
+<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
+</item>
+<item>
 <title>alphaparkinc/genpark-realtime-voice-duplex-conversational-copilot-skill</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/4ba01b8f9f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4ba01b8f9f.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/923f6e1098.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/923f6e1098.html</guid>
 <description>Autonomous AI Agent for Windows — voice‑controlled coding, PC automation, Android control, email/WhatsApp, and lifelong memory. Zero line‑drift code editing. Open‑source. ai-agent android-control automation-tool autonomous-agents chromadb code-editor developer-tools gemini-api groq llm open-source p</description>
-</item>
-<item>
-<title>phuetz/code-buddy</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3bd65d3cc8.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3bd65d3cc8.html</guid>
-<description>Open-source multi-provider AI coding agent — terminal + Electron desktop (Cowork) + 24/7 multi-AI fleet, free-first on local Ollama. Opt-in, human-gated evolutionary self-improvement that ingests research to set its own goals. 15 LLM providers (Claude, GPT, Gemini, Grok), ~110 tools, MCP, voice+visi</description>
-</item>
-<item>
-<title>mradermacher/OPOD-Qwen3-Omni-30B-A3B-GGUF</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/34e3999f6c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/34e3999f6c.html</guid>
-<description>reinforcement-learning transformers gguf omni-modal multimodal reasoning on-policy-distillation reinforcement-learning qwen3-omni en zh base_model:Tung111/OPOD-Qwen3-Omni-30B-A3B base_model:quantized:Tung111/OPOD-Qwen3-Omni-30B-A3B license:other endpoints_compatible region:us conversational</description>
-</item>
-<item>
-<title>3trilla/ayesha-portfolio</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/859a03fc0d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/859a03fc0d.html</guid>
-<description>🤖 Build AI systems to enhance education with a Virtual Teaching Assistant and voice agents that ensure secure and accurate support for students and faculty. ai azure cloud data-science database devops docker fastapi jrf llm machine-learning nlp pgvector portfolio rag research sql voice-ai</description>
-</item>
-<item>
-<title>Helping Music Co-Creation Agents &#x27;Listen&#x27; Well: Hierarchical Self-Supervised World Models for Understanding and Generation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6b5610598c.html</guid>
-<description>本文用无标签层级式 Swin V2 编码器学习符号音乐的多尺度表征，再用冻结表征驱动快速条件流匹配生成。它适合作为 commit 后生成建议的专用音乐模块，但不提供流式音频理解、原生全双工对话或语音输出。</description>
-</item>
-<item>
-<title>SmartMage: Dynamic Modality Orchestration for 3D Scene Understanding</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3997ecae60.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3997ecae60.html</guid>
-<description>SmartMage 把 3D 推理拆成问题驱动的模态选择和模态感知专家路由，优于固定全模态融合。它可启发 StreamingModelHarness 在 commit 后选择输入或工具，但需要模型内部训练，且当前仓库仍是占位状态，不涉及流式语音或全双工。</description>
-</item>
-<item>
-<title>World-to-Wrist: Task-Conditioned Future Wrist Modeling for Fine-Grained Robot Manipulation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/74359d047e.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/74359d047e.html</guid>
-<description>Vision-language-action (VLA) models often treat main-view and wrist-view observations as parallel visual inputs, overlooking their distinct roles in robot manipulation. Fine-grained manipulation, however, benefits from anticipating how wrist-local interactions may evolve under the global task contex</description>
-</item>
-<item>
-<title>ChronoVision: Temporal Reasoning via Latent State Reconstruction</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4629d381d1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4629d381d1.html</guid>
-<description>Multimodal large language models excel at passive perception but struggle with complex visual cognitive tasks requiring multi-step temporal reasoning. This degradation largely stems from the inherent ambiguity of language-based reasoning, which often fails to accurately articulate continuous visual </description>
-</item>
-<item>
-<title>From Economic Agents to Agentic Economies: A Systems Blueprint for Economic World Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c306ee6946.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c306ee6946.html</guid>
-<description>Economic World Models (EWMs) are generative economic models that simulate how economies evolve from within by modeling heterogeneous agents, their beliefs and actions, and the market and institutional mechanisms through which their interactions produce aggregate outcomes. This paper develops an impl</description>
-</item>
-<item>
-<title>EnvACE: Internalizing Environment Dynamics via World Rehearsal for Agentic Reinforcement Learning</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f2d3c1b4b1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f2d3c1b4b1.html</guid>
-<description>EnvACE 让策略轮流扮演执行者和环境，以分角色 GRPO 内化工具响应，并在真实执行前做私有预演。它与 StreamingModelHarness 的 commit 后工具执行很契合，但会增加首响应延迟、未验证晚注入工具；论文中的 TTS 指 test-time scaling，不是语音合成。</description>
-</item>
-<item>
-<title>HarnessOpt-Bench: Evaluating LLMs at Harness Optimization</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e87eea6e71.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e87eea6e71.html</guid>
-<description>HarnessOpt-Bench 用固定预算、隔离执行和不可见测试集，评估模型能否修改提示、工具、记忆与控制流来提升目标智能体；优化模型带来的平均差异约为编码 harness 的 1.8 倍。它可直接规范 StreamingModelHarness 的演化外循环，但需另建流式端点、晚到工具和外挂 TTS 验证器。</description>
-</item>
-<item>
-<title>FinanceHarness: Autonomous Financial Deep Research Framework</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/17a9aaead5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/17a9aaead5.html</guid>
-<description>FinanceHarness 将时间截断检索、金融工具、按需 schema、引用约束和 rubric 训练统一到一个 agent 环境，在相同 27B 骨干上把总分从 25.3% 提至 32.4%。它是 StreamingModelHarness 晚工具注入和有界执行循环的直接参考，但关键语料、评分 rubrics 和专用权重未公开。</description>
-</item>
-<item>
-<title>OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/328b04b2d9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/328b04b2d9.html</guid>
-<description>OSReward 用跨平台人工金标揭示 CUA judge 普遍会把未完成轨迹误判为成功，并训练了更低成本的 OS-Shepherd。它适合在 StreamingModelHarness 一轮 post-commit 工具轨迹结束后做结果验证或奖励建模，但不负责实时编排，当前训练流水线和数据许可证仍不完整。</description>
-</item>
-<item>
-<title>Lossless Tensor Compression as Program Synthesis</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7e8f592a3d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7e8f592a3d.html</guid>
-<description>Model checkpoints are growing in both number and size, which makes archival, transfer, and deployment increasingly costly. General-purpose compressors can reduce storage requirements but ignore tensor structure, whereas existing tensor-specific compressors rely on fixed and format-specific pipelines</description>
-</item>
-<item>
-<title>When Teachers Mislead: Spurious-Signal-Aware On-Policy Distillation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b8aab3a8b6.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b8aab3a8b6.html</guid>
-<description>On-Policy distillation (OPD) transfers teacher capabilities by supervising student-sampled trajectories with dense token-level teacher signals. Recent selective OPD methods improve this process by prioritizing signals that are confident, informative, or learnable. However, the assumptions overlook a</description>
-</item>
-<item>
-<title>Recursive Synthesis for Long-Horizon Terminal Tasks</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2562c5368a.html</guid>
-<description>RST 把已验证终端任务当作下一轮种子，先增长可执行解法，再对齐环境、验证器和公开契约。任务难度和下游训练收益都随递归增加，但核心生成代码未发布，数据近重复尾部与论文内部数值冲突需要审慎处理。</description>
 </item>
 </channel></rss>
