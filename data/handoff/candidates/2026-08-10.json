@@ -19,6 +19,12 @@
       "problem_bucket": "tts_first_audio_latency",
       "hypothesis": "在冻结生成文本、工具结果、音色提示、播放器和计时起点的条件下，仅把 Edge TTS 替换为官方 OmniVoice 16-step，可把 commit 到首音频 P90 降到 1000ms 以内，同时保持中文 CER 不劣于 Edge，且不改变任何工具调用或最终车态。",
       "single_variable": "外置 TTS backend 从 Edge TTS 切换为官方 OmniVoice，推理步数固定为 16",
+      "baseline_id": "edge-tts-frozen-text-v1",
+      "profile": "offline_tts_ab",
+      "offline_baseline_scope": {
+        "dataset": "冻结现有 A/B 文本、工具结果、音色提示与播放器",
+        "metric": "commit-to-first-audio P50/P90/P95、中文 CER、打断残留"
+      },
       "implementation_scope": [
         "只使用 k2-fsa/OmniVoice 官方模型，不使用 2026-08-10 Radar 发现的第三方 GGUF 镜像",
         "冻结生成文本、工具结果、音色提示、播放器、样本集和 commit 计时点",
@@ -58,8 +64,8 @@
       },
       "h20_gate": {
         "request_allowed": false,
-        "reason": "该候选预计正确性净修为0，且不是 complex/endpoint 候选；不满足 414 零退化且预计净修至少16的 H20 请求门。",
-        "minimum_expected_net_fixes_for_future_request": 16,
+        "reason": "该候选先进入离线 TTS A/B；正确性净修不是 TTS 研究准入门，full H20 仅在相关组合需要时按动态 gap 申请。",
+        "dynamic_full_gap": 14,
         "same_baseline_and_hash": true,
         "gpu_consumed": false
       },

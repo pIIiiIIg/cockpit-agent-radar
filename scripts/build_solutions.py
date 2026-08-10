@@ -99,6 +99,46 @@ def load_snapshot(root: str | Path) -> dict[str, Any]:
         }
 
 
+def load_activity(root: str | Path) -> dict[str, Any]:
+    try:
+        value = json.loads(
+            (Path(root) / "data" / "experiment_activity.json").read_text(
+                encoding="utf-8"))
+        return value if isinstance(value, dict) else {"days": {}}
+    except (OSError, ValueError, json.JSONDecodeError):
+        return {"schema_version": 1, "days": {}}
+
+
+def activities_on(activity: dict[str, Any], date: str) -> list[dict[str, Any]]:
+    day = activity.get("days", {}).get(date, {})
+    rows = day.get("activities", []) if isinstance(day, dict) else []
+    result, seen = [], set()
+    for row in rows:
+        if not isinstance(row, dict) or not SAFE_ID.fullmatch(str(row.get("id") or "")):
+            continue
+        if row["id"] in seen:
+            continue
+        seen.add(row["id"])
+        result.append(row)
+    return sorted(result, key=lambda row: (
+        str(row.get("time") or ""), row["id"]), reverse=True)
+
+
+def validate_activity_coverage(root: Path, activity: dict[str, Any]) -> None:
+    """Fail if a published candidate-ledger day has no experiment activity."""
+    try:
+        ledger = json.loads(
+            (root / "data/handoff/ledger.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError, json.JSONDecodeError):
+        return
+    for date, value in ledger.get("days", {}).items():
+        stage = value.get("stages", {}).get("candidate_publish", {})
+        if stage.get("status") in {"complete", "rejected", "not_applicable"}:
+            if not activities_on(activity, date):
+                raise ValueError(
+                    f"candidate ledger event has no activity record: {date}")
+
+
 def recommended(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         row for row in snapshot.get("components", [])
@@ -142,9 +182,62 @@ def status_label(status: str) -> str:
         "qualified": ("已过门", "Qualified"),
         "rejected": ("未采用", "Rejected"),
         "invalid": ("无效证据", "Invalid"),
+        "blocked": ("阻塞", "Blocked"),
+        "proposed": ("待验证", "Proposed"),
+        "offline_compared": ("已离线比较", "Offline compared"),
+        "component_candidate": ("条件组件", "Conditional component"),
     }
     zh, en = labels.get(status, ("未知", "Unknown"))
     return f'<span class="badge solution-status {esc(status)}">{pair(zh,en)}</span>'
+
+
+def _links(values: list[Any]) -> str:
+    rows = []
+    for value in values:
+        text = str(value)
+        if text.startswith(("https://", "http://")):
+            rows.append(f'<a href="{esc(text)}" rel="noopener noreferrer">{esc(text)}</a>')
+    return " · ".join(rows) or pair("未记录", "Not recorded")
+
+
+def activity_card(row: dict[str, Any]) -> str:
+    offline, gpu = row.get("offline", {}), row.get("gpu", {})
+    metrics, pairwise = row.get("metrics", {}), row.get("pairwise", {})
+    return f"""<article class="card experiment-activity" id="activity-{esc(row['id'])}">
+<div class="meta">{status_label(str(row.get('status') or 'invalid'))}
+<span class="badge">{esc(row.get('time') or '时间未记录')}</span></div>
+<div class="t">{esc(row.get('name') or row['id'])}</div>
+<p><b>{pair("来源","Sources")}:</b> {_links(row.get('source_links', []))}</p>
+<p><b>{pair("解决的问题","Problem")}:</b> {esc(row.get('problem') or '未记录')}</p>
+<p><b>{pair("父基线 / 单变量","Parent baseline / single variable")}:</b>
+{esc(row.get('baseline_id') or 'preliminary')} / {esc(row.get('single_variable') or '未记录')}</p>
+<p><b>{pair("离线比较","Offline comparison")}:</b> n={esc(offline.get('samples', '未测'))} ·
+{esc(offline.get('result', '未测'))}</p>
+<p><b>H20/GPU:</b> {esc('是' if gpu.get('used') is True else '否')} · {esc(gpu.get('stage', '未测'))}</p>
+<p><b>full / complex / latency / safety:</b>
+{esc(metrics.get('full', '未测'))} / {esc(metrics.get('complex', '未测'))} /
+{esc(metrics.get('latency', '未测'))} / {esc(metrics.get('safety', '未测'))}</p>
+<p><b>{pair("Pairwise 修正 / 退化","Pairwise fixes / regressions")}:</b>
+{esc(pairwise.get('fixes', '未测'))} / {esc(pairwise.get('regressions', '未测'))}</p>
+<p><b>{pair("分类原因","Classification reason")}:</b> {esc(row.get('reason') or '未记录')}</p>
+<p><b>{pair("分支 / commit / artifact","Branch / commit / artifact")}:</b>
+{esc(row.get('branch') or '未创建')} / {esc(row.get('commit') or '未提交')} /
+{esc(row.get('artifact') or '未记录')}</p>
+<p><b>{pair("当天产出","Output today")}:</b> {esc(row.get('output') or '未记录')}</p>
+<p><b>{pair("下一步","Next step")}:</b> {esc(row.get('next_step') or '未记录')}</p>
+</article>"""
+
+
+def activity_summary(activity: dict[str, Any], date: str) -> str:
+    summary = activity.get("days", {}).get(date, {}).get("summary", {})
+    labels = (
+        ("fulltext_reviews", "精读"), ("candidates_generated", "候选"),
+        ("offline_experiments", "离线实验"), ("h20_experiments", "H20实验"),
+        ("retained", "保留"), ("rejected", "拒绝"), ("blocked", "阻塞"))
+    values = " · ".join(
+        f"{label}={summary.get(key, 0)}" for key, label in labels)
+    gpu = "是" if summary.get("gpu_consumed") is True else "否"
+    return f'<p class="solution-source"><b>{esc(date)}</b> · {esc(values)} · GPU消耗={gpu}</p>'
 
 
 def scope_badge(component: dict[str, Any]) -> str:
@@ -372,7 +465,8 @@ def stale_banner(snapshot: dict[str, Any]) -> str:
             "Harness source unavailable; existing data was preserved") + "</p>")
 
 
-def feedback_section(snapshot: dict[str, Any], date: str, base: str) -> str:
+def feedback_section(snapshot: dict[str, Any], date: str, base: str,
+                     activity: dict[str, Any] | None = None) -> str:
     events = events_on(snapshot, date)
     body = "".join(
         component_card(row["component"], base, row["event"]) for row in events)
@@ -381,11 +475,28 @@ def feedback_section(snapshot: dict[str, Any], date: str, base: str) -> str:
             '<p class="no-updates">'
             + pair("当日新增/更新的保留组件：0。", "Retained components added/updated today: 0.")
             + "</p>")
+    activity = activity or {}
+    experiment_rows = activities_on(activity, date)
+    experiment_body = "".join(activity_card(row) for row in experiment_rows[:5])
+    if not experiment_body:
+        summary = activity.get("days", {}).get(date, {}).get("summary", {})
+        exhausted = summary.get("research_exhausted") is True
+        experiment_body = '<p class="no-updates">' + pair(
+            f"research_exhausted：精读 {summary.get('fulltext_reviews', 0)} 篇，"
+            f"筛选 {summary.get('candidates_generated', 0)} 个候选。",
+            "Research exhausted after documented review and screening."
+        ) + "</p>" if exhausted else (
+            '<p class="no-updates">' + pair(
+                "当日实验活动未记录。", "No experiment activity recorded.") + "</p>")
     return (
         '<section class="solution-feedback"><h2>'
-        + pair("实验反馈 / 保留组件", "Experiment feedback / retained components")
-        + f' · {esc(date)}</h2>{body}<p><a class="btn" href="{base}/solutions/{esc(date)}.html">'
-        + pair("查看当日方案页", "Open daily solutions") + "</a></p></section>")
+        + pair("正式保留 / 高收益组件", "Retained / high-value components")
+        + f' · {esc(date)}</h2>{body}</section>'
+        + '<section class="solution-feedback"><h2>'
+        + pair("每日实验工作台", "Daily experiment workbench")
+        + f' · {esc(date)}</h2>{activity_summary(activity, date)}{experiment_body}'
+        + f'<p><a class="btn" href="{base}/solutions/{esc(date)}.html">'
+        + pair("查看全部每日实验", "Open all daily experiments") + "</a></p></section>")
 
 
 def detail_page(component: dict[str, Any], snapshot: dict[str, Any], base: str) -> str:
@@ -474,6 +585,8 @@ def build(root: str | Path, docs: str | Path, base: str,
           shell: Callable[[str, str, str], str]) -> dict[str, Any]:
     root, docs = Path(root), Path(docs)
     snapshot = load_snapshot(root)
+    activity = load_activity(root)
+    validate_activity_coverage(root, activity)
     target = docs / "solutions"
     target.mkdir(parents=True, exist_ok=True)
     expected = {"index.html"}
@@ -497,13 +610,23 @@ def build(root: str | Path, docs: str | Path, base: str,
             f'<p>{pair(row.get("conclusion") or "未知",row.get("conclusion") or "Unknown")}</p></article>'
             for row in negatives)
     today = datetime.now(CST).date().isoformat()
+    latest_activity_dates = sorted(activity.get("days", {}), reverse=True)
+    activity_date = today if activities_on(activity, today) else (
+        latest_activity_dates[0] if latest_activity_dates else today)
+    recent_activity = activities_on(activity, activity_date)[:5]
     index_body = (
-        f'<h2 class="day">{pair("高收益组件","High-value components")} · {len(good)}</h2>'
+        f'<h2 class="day">{pair("第一层：正式保留 / 高收益组件","Tier 1: retained / high-value components")} · {len(good)}</h2>'
         + stale_banner(snapshot)
-        + f'<p><a class="btn" href="{base}/solutions/{today}.html">'
-        + pair("今日新增 / 更新", "Added / updated today")
-        + f' · {len(events_on(snapshot,today))}</a></p>'
+        + f'<p>{pair("今日新增高收益","New high-value today")}={len(events_on(snapshot,today))} · '
+        + pair("候选实验不会冒充好方案", "Candidate experiments never impersonate retained solutions") + "</p>"
         + (cards or f'<p class="no-updates">{pair("暂无符合严格门槛的组件","No components meet the strict gate")}</p>')
+        + f'<h2 class="day">{pair("第二层：每日实验工作台","Tier 2: daily experiment workbench")}</h2>'
+        + activity_summary(activity, activity_date)
+        + f'<p><a class="btn" href="{base}/solutions/{activity_date}.html">'
+        + pair(f"今日实验活动={len(recent_activity)} · 查看全部每日实验",
+               f"Experiment activity={len(recent_activity)} · Open all daily experiments")
+        + "</a></p>"
+        + "".join(activity_card(row) for row in recent_activity)
         + f'<h2 class="day">{pair("负结果 / 未采用","Negative results / not adopted")}</h2>'
         + (negative_cards or f'<p class="no-updates">{pair("暂无记录","No records")}</p>'))
     (target / "index.html").write_text(
@@ -516,7 +639,7 @@ def build(root: str | Path, docs: str | Path, base: str,
             f"{component.get('name')} · Solutions",
             stale_banner(snapshot) + detail_page(component, snapshot, base),
             "solutions"), encoding="utf-8")
-    dates = set(all_dates(snapshot, today))
+    dates = set(all_dates(snapshot, today)) | set(activity.get("days", {}))
     report_dir = root / "reports"
     if report_dir.is_dir():
         for path in report_dir.glob("*.md"):
@@ -528,12 +651,17 @@ def build(root: str | Path, docs: str | Path, base: str,
         name = date + ".html"
         expected.add(name)
         events = events_on(snapshot, date)
+        experiment_rows = activities_on(activity, date)
         body = (
-            f'<h2 class="day">{pair("每日方案变化","Daily solution changes")} · '
+            f'<h2 class="day">{pair("正式保留 / 高收益组件","Retained / high-value components")} · '
             f'{esc(date)} · {len(events)}</h2>{stale_banner(snapshot)}'
             + ("".join(component_card(
                 row["component"], base, row["event"]) for row in events)
-               or f'<p class="no-updates">{pair("当日新增/更新：0","Added/updated that day: 0")}</p>')
+               or f'<p class="no-updates">{pair("当日新增高收益：0","New high-value that day: 0")}</p>')
+            + f'<h2 class="day">{pair("每日实验工作台","Daily experiment workbench")} · '
+            f'{len(experiment_rows)}</h2>{activity_summary(activity, date)}'
+            + ("".join(activity_card(row) for row in experiment_rows)
+               or f'<p class="no-updates">{pair("research_exhausted 或无候选；筛选工作见摘要","Research exhausted or no candidate; see screening summary")}</p>')
             + f'<p><a class="btn" href="{base}/solutions/">{pair("← 全部组件","← All solutions")}</a></p>')
         (target / name).write_text(
             shell(f"{date} · Solutions", body, "solutions"), encoding="utf-8")
@@ -544,6 +672,7 @@ def build(root: str | Path, docs: str | Path, base: str,
         "recommended": len(good),
         "negative": len(negatives),
         "today": len(events_on(snapshot, today)),
+        "activity": len(recent_activity),
         "pages": len(expected),
         "status": snapshot.get("source", {}).get("status", "stale"),
     }

@@ -163,6 +163,8 @@ def load_snapshot(root):
     solution_rows = [row for row in solution_rows if isinstance(row, dict)]
     ledger_payload = safe_json(
         os.path.join(data_dir, "handoff", "ledger.json"), {})
+    activity_payload = safe_json(
+        os.path.join(data_dir, "experiment_activity.json"), {})
     ledger_days = []
     if isinstance(ledger_payload, dict):
         for day, value in sorted(
@@ -201,6 +203,10 @@ def load_snapshot(root):
             solution_payload.get("source", {}).get("status", "stale")
             if isinstance(solution_payload.get("source"), dict) else "stale"),
         "ledger_days": ledger_days,
+        "experiment_days": (
+            activity_payload.get("days", {})
+            if isinstance(activity_payload, dict)
+            and isinstance(activity_payload.get("days"), dict) else {}),
         "build_date": build_time.date().isoformat(),
         "build_time": build_time.isoformat(timespec="minutes"),
     }
@@ -1018,13 +1024,47 @@ def candidates(snapshot=None):
         "把日报建议拆成一次只改变一个机制的候选。Cursor Agent 可以写代码，但不能改真值、降低阈值或在共享工作树里覆盖别人的实验。",
         "Report advice is decomposed into candidates that change one mechanism at a time. Cursor may write code, but cannot edit truth, lower thresholds, or overwrite another experiment.",
         '<span class="badge cursor">Cursor Agent implementation</span><span class="badge verified">Worktree isolation</span>')
-    body += f"""<section class="section"><h2>{pair("候选合同","Candidate contract")}</h2><div class="steps">
+    latest_day = max(snapshot.get("experiment_days", {}), default="")
+    activities = snapshot.get("experiment_days", {}).get(
+        latest_day, {}).get("activities", [])
+    cards = []
+    for row in activities:
+        status = esc(row.get("status", "invalid"))
+        link = next((url for url in row.get("source_links", [])
+                     if isinstance(url, str) and url.startswith("https://")), "")
+        cards.append(
+            f'<article class="card"><h3>{esc(row.get("name") or row.get("id"))}'
+            f' · <span class="badge {status}">{status}</span></h3>'
+            f'<p>{esc(row.get("problem") or "未记录")}</p>'
+            f'<p>baseline={esc(row.get("baseline_id") or "preliminary")} · '
+            f'{esc(row.get("single_variable") or "未记录")}</p>'
+            f'<p>{esc(row.get("reason") or "未记录")}</p>'
+            + (f'<a href="{esc(link)}">{pair("分支/来源","Branch/source")}</a>'
+               if link else "") + "</article>")
+    body += f"""<section class="section"><h2>{pair("四层状态模型","Four separate state layers")}</h2><div class="grid">
+<article class="card"><h3>candidate / evidence pool</h3><p>{pair("只要绑定可比基线或明确离线范围、单变量、指标和复现信息即可进入；缺基线标 preliminary。",
+"Admission needs a comparable baseline or explicit offline scope, one variable, metrics, and reproduction; missing baselines are preliminary.")}</p></article>
+<article class="card"><h3>offline compared / component candidate</h3><p>{pair("+1、+4 且成功集零退化也可条件保留并进入组合队列；负收益留作 negative evidence，不进入执行队列。",
+"Even +1 or +4 with zero regression may be conditionally retained and composed; negative evidence is archived but not executed.")}</p></article>
+<article class="card"><h3>H20 eligible</h3><p>{pair("当前最佳434/452、目标448/452，动态 gap=14。小收益先 smoke/quick/targeted，不被固定16挡在研究入口。",
+"Current best is 434/452 and target 448/452, so the dynamic gap is 14. Smaller gains use smoke/quick/targeted first.")}</p></article>
+<article class="card"><h3>qualified</h3><p>{pair("只有 full、complex、时延、安全及同口径零退化硬门全部通过才能使用；不能由局部数字相加得到。",
+"Qualified requires every full, complex, latency, safety, and zero-regression gate; local gains cannot simply be added.")}</p></article>
+</div></section>
+<section class="section"><h2>{pair("候选实验室","Candidate laboratory")} · {esc(latest_day)}</h2>
+<p class="callout">{pair("Solutions 只展示正式保留；这里展示 proposed、offline compared、conditional component、H20 eligible、qualified、rejected/invalid。",
+"Solutions shows retained work only; this lab includes proposed through rejected/invalid states.")}</p>
+<div class="grid">{"".join(cards) or pair("research_exhausted：无可行候选，但精读/筛选计数已记录。","Research exhausted; review and screening counts remain recorded.")}</div></section>
+<section class="section"><h2>{pair("候选合同","Candidate contract")}</h2><div class="steps">
 <article class="step"><h3>{pair("先写假设","State one hypothesis")}</h3><p>{pair("例：确定性确认可修复确认语句，不改变生成模型；typed resolver 只负责结构化动作消歧。","Example: deterministic confirmation fixes confirmations without changing generation; typed resolver only disambiguates structured actions.")}</p></article>
 <article class="step"><h3>{pair("独立 worktree","Isolated worktree")}</h3><p>{pair("每个候选有自己的分支、依赖和运行目录；实现失败可直接丢弃，不污染基线。","Each candidate gets its own branch, dependencies, and runtime directory. A failed implementation can be discarded without contaminating baseline.")}</p></article>
 <article class="step"><h3>{pair("保护真值与门槛","Protect truth and gates")}</h3><p>{pair("禁止改测试期望、删除难例、放宽 99% / 1.6s 门槛或用缓存答案伪造命中。","Do not alter expectations, remove hard cases, relax 99% / 1.6s, or fake hits with answer caching.")}</p></article>
 <article class="step"><h3>{pair("登记可组合组件","Register composable components")}</h3><p>{pair("Typed Action、Voice Memory、紧凑回执、安全前缀等按组件登记，便于之后组合，而不是把一次实验写成不可拆的补丁。","Typed Action, Voice Memory, compact receipts, and safety prefixes are registered as components for later composition, not one inseparable patch.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("为什么强调单变量","Why single-variable candidates")}</h2><p class="callout bad">{pair("多个机制一起变化即使指标上升，也无法知道谁有效；指标下降时更无法安全回退。组合候选只能在各组件已有独立证据后进入。","If several mechanisms change together, neither gains nor regressions are attributable. Combination candidates enter only after each component has independent evidence.")}</p></section>
+<section class="section"><h2>complex_control_cases v2</h2><p class="callout">{pair("实验分支 / 待 canary；独立 Agent 运行期间不覆盖其文件。canary 通过前正式 bench/complex_control_cases.jsonl 保持 v1。",
+"Experiment branch / awaiting canary. The formal v1 file remains unchanged until canary passes.")}</p>
+<p><a href="https://github.com/ISS-2030Lab/StreamingModelHarness/tree/experiment/complex-control-cases-v2">{pair("打开实验分支","Open experiment branch")}</a></p></section>
 <p><a href="{BASE}/automation/case-hybrid-c/#candidate">{pair("案例关联：Hybrid C 的六个组件怎样逐步进入 →","Case link: how six Hybrid C components entered →")}</a></p>
 <p><a href="{BASE}/automation/limitations/">{pair("证据审计：组合组件如何归因、哪些结论仍不能说 →","Evidence audit: component attribution and claims not yet supported →")}</a></p>"""
     return shell("实验候选", "Candidates", "candidates", body, snapshot)

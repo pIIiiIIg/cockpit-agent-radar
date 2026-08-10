@@ -18,6 +18,11 @@ HackerNews 上与**全双工语音、流式多模态模型、agent harness、座
 Radar 只有在全文证据和两份报告都存在后才发布
 `data/handoff/manifests/YYYY-MM-DD.json`。Harness ack 结构化候选，先离线回放，再决定是否
 向动态 H20 池排队，并返回 result manifest；Radar 下一班把正/负结果回写 Solutions/Reports。
+Solutions 使用双层展示：第一层只列正式保留/高收益组件；第二层每日实验工作台记录 proposed、
+offline compared、conditional、H20 tested、rejected 与 invalid/blocked。即使当天新增高收益为
+0，也显示实验活动、失败结论和节省的 GPU 成本，绝不把候选冒充好方案。
+`data/experiment_activity.json` 是每日工作台事实源；candidate ledger 某日已有发布事件而该日
+没有 activity 时，建站必须失败。没有候选时写 `research_exhausted` 和精读/筛选数量。
 `check-stale` 在任何必需事件超过 24 小时无终态时非零退出。
 
 补精读不伪造历史时间：`review_date/reviewed_at` 保留实际执行时间，

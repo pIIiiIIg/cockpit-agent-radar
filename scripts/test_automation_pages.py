@@ -280,6 +280,13 @@ class AutomationPageTests(unittest.TestCase):
                 "0/31 无收益保持 rejected"):
             with self.subTest(fact=fact):
                 self.assertIn(fact, page)
+        for fact in (
+                "四层状态模型", "候选实验室", "offline compared",
+                "conditional component", "动态 gap=14", "+1、+4",
+                "negative evidence", "complex_control_cases v2",
+                "实验分支 / 待 canary", "experiment/complex-control-cases-v2"):
+            with self.subTest(fact=fact):
+                self.assertIn(fact, page)
 
     def test_detail_controls_print_and_safe_javascript(self):
         for slug, page in self.pages.items():

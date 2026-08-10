@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>每日调研日报 · 2026-08-08</title>
+<title>2026-08-08 · cockpit-agent-radar</title>
 <link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
       href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
 <style>
@@ -175,21 +175,21 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
   </span>
 </header>
-<div class="item-page"><h2>每日调研日报 · 2026-08-08</h2><div class="report-body"><h1>每日调研日报｜2026-08-08（补跑）</h1>
-<blockquote>本报告于 2026-08-09 补跑。精读执行时间如实记为 8 月 9 日，</blockquote>
-<blockquote><code>review_history.origin.catchup_for=2026-08-08</code>，不把 GitHub/摘要抓取冒充 8 月 8 日全文精读。</blockquote>
-<p>当前事实：同口径 pure-audio 基线为 414/452；召回覆盖 443/452。38 个失败进一步分为 9 个召回缺失、25 个候选已出现但选错、4 个候选已出现但不调用。candidate-ID/CMTF 与 两次 Typed Action formal452/122 没有净提升，后者 runtime trigger=0；因此禁止再次推荐 “强制 ID 覆盖”。</p>
-<ul>
-<li>方向：守卫式高精度规则记忆（只处理 9 个召回缺失；规则有证据指针且 guard miss 原样回退；</li>
-<p>冻结 414 canary 必须零退化，理论净修上限 9&lt;16，当前不得进 H20）</p>
-<li>方向：条件式 Top-2 verifier（面向 25 个候选内选错；仅低分差且已知混淆族触发，不处理</li>
-<p>4 个 no-call；离线至少净修 16 且 414 零退化才申请动态 GPU）</p>
-<li>方向：复杂意图显式状态/计划（complex122 仅 14/122 全约束通过；与参数化本体独立实验去重，</li>
-<p>本班不重复启动）</p>
-<li>方向：语义判停（SoulX 正在独立实验且已有停止条件；本班只接收结果，不重复拉起）</li>
-<li>方向：云监督（独立实验已运行；候选依赖中声明互斥，不把监督组合收益归因给本候选）</li>
-</ul>
-<p>详细证据与门见《全双工语音技术增量调研-2026-08-08》。</p></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-08</h2><article class="card solution-card" id="solution-candidate-authorized-typed-resolver"><div class="meta"><span class="badge solution-status conditional"><span class="l-zh">条件保留</span><span class="l-en">Conditional</span></span> <span class="l-zh">更新</span><span class="l-en">Updated</span><span class="badge"><span class="l-zh">组合证据</span><span class="l-en">Combined evidence</span></span></div><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/candidate-authorized-typed-resolver.html">candidate-authorized Typed Action resolver</a></div><p><b><span class="l-zh">条件保留原因</span><span class="l-en">Conditional retention reason</span>:</b> <span class="l-zh">候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。</span><span class="l-en">Source rationale: 候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。</span></p><p class="solution-comparison"><b><span class="l-zh">相对基线：组合实验有收益，单组件提升未知</span><span class="l-en">Versus baseline: the combined experiment improved; the component-specific gain is unknown</span></b></p><div class="meta"><span class="badge evidence-scope"><span class="l-zh">样本 n=31 · prior_error_bucket，Voice Memory + typed resolver组合</span><span class="l-en">Sample n=31 · prior_error_bucket，Voice Memory + typed resolver组合</span></span></div><div class="solution-metric"><div><b>组合修复</b> <span>24/31</span></div><div class="metric-strip shared" aria-label="higher_is_better"></div><small><span class="l-zh">组合上下文，不能归因</span><span class="l-en">Combination context; not attributable</span> · <span class="l-zh">样本</span><span class="l-en">scope</span>: prior_error_bucket，Voice Memory + typed resolver组合 · n=31</small></div></article></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-08</h2><p class="solution-source"><b>2026-08-08</b> · 精读=3 · 候选=5 · 离线实验=3 · H20实验=2 · 保留=0 · 拒绝=4 · 阻塞=1 · GPU消耗=是</p><article class="card experiment-activity" id="activity-retrieval-ceiling-20260808">
+
+<div class="datebar">
+  <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-07.html" title="前一天 2026-08-07">◀</a>
+  <input type="date" id="dp" value="2026-08-08" min="2026-07-30" max="2026-08-10">
+  <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-09.html" title="后一天 2026-08-09">▶</a>
+  <span style="color:var(--dim);font-size:12.5px"><span class="l-zh">选日期看当天内容</span><span class="l-en">pick a date</span></span>
+</div>
+<script>
+var DATES = new Set(["2026-08-10", "2026-08-09", "2026-08-08", "2026-08-07", "2026-08-06", "2026-08-05", "2026-08-04", "2026-08-03", "2026-08-02", "2026-08-01", "2026-07-31", "2026-07-30"]);
+document.getElementById("dp").onchange = function () {
+  if (DATES.has(this.value)) location.href = "https://piiiiiig.github.io/cockpit-agent-radar/days/" + this.value + ".html";
+  else { this.style.borderColor = "#e0a23f";
+         this.title = "该日期无内容 / no items on that day"; }
+};
+</script><section class="reviews"><h2><span class="l-zh">今日完成精读</span><span class="l-en">Full-text reviews completed today</span> · 0</h2><div style="color:var(--dim)"><span class="l-zh">0 篇；摘要速读不计入精读。</span><span class="l-en">0 papers; abstract briefs are not counted.</span></div></section><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-08</h2><article class="card solution-card" id="solution-candidate-authorized-typed-resolver"><div class="meta"><span class="badge solution-status conditional"><span class="l-zh">条件保留</span><span class="l-en">Conditional</span></span> <span class="l-zh">更新</span><span class="l-en">Updated</span><span class="badge"><span class="l-zh">组合证据</span><span class="l-en">Combined evidence</span></span></div><div class="t"><a href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/candidate-authorized-typed-resolver.html">candidate-authorized Typed Action resolver</a></div><p><b><span class="l-zh">条件保留原因</span><span class="l-en">Conditional retention reason</span>:</b> <span class="l-zh">候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。</span><span class="l-en">Source rationale: 候选授权收紧可执行面，局部修复遵守不扩权原则；组合收益需继续拆分验证。</span></p><p class="solution-comparison"><b><span class="l-zh">相对基线：组合实验有收益，单组件提升未知</span><span class="l-en">Versus baseline: the combined experiment improved; the component-specific gain is unknown</span></b></p><div class="meta"><span class="badge evidence-scope"><span class="l-zh">样本 n=31 · prior_error_bucket，Voice Memory + typed resolver组合</span><span class="l-en">Sample n=31 · prior_error_bucket，Voice Memory + typed resolver组合</span></span></div><div class="solution-metric"><div><b>组合修复</b> <span>24/31</span></div><div class="metric-strip shared" aria-label="higher_is_better"></div><small><span class="l-zh">组合上下文，不能归因</span><span class="l-en">Combination context; not attributable</span> · <span class="l-zh">样本</span><span class="l-en">scope</span>: prior_error_bucket，Voice Memory + typed resolver组合 · n=31</small></div></article></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-08</h2><p class="solution-source"><b>2026-08-08</b> · 精读=3 · 候选=5 · 离线实验=3 · H20实验=2 · 保留=0 · 拒绝=4 · 阻塞=1 · GPU消耗=是</p><article class="card experiment-activity" id="activity-retrieval-ceiling-20260808">
 <div class="meta"><span class="badge solution-status offline_compared"><span class="l-zh">已离线比较</span><span class="l-en">Offline compared</span></span>
 <span class="badge">18:30</span></div>
 <div class="t">Retrieval 缺失桶修复</div>
@@ -299,6 +299,6 @@ experiment/cmtf-formal / 未公开 /
 experiment registry</p>
 <p><b><span class="l-zh">当天产出</span><span class="l-en">Output today</span>:</b> 确认该约束在当前运行路径没有可归因触发收益</p>
 <p><b><span class="l-zh">下一步</span><span class="l-en">Next step</span>:</b> 只有出现新的触发路径证据才重开</p>
-</article><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/2026-08-08.html"><span class="l-zh">查看全部每日实验</span><span class="l-en">Open all daily experiments</span></a></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+</article><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/2026-08-08.html"><span class="l-zh">查看全部每日实验</span><span class="l-en">Open all daily experiments</span></a></p></section><h2 class="day">2026-08-08 · 0 <span class="l-zh">条</span><span class="l-en">items</span></h2><div class="no-updates"><span class="l-zh">本日扫描已完成，没有达到相关度门槛的新条目；持续跟踪项仍在更新。</span><span class="l-en">Scan completed: no new items crossed the relevance threshold. Existing watch items remain monitored.</span></div><p style="margin-top:18px"><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 最新</span><span class="l-en">← latest</span></a></p>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>

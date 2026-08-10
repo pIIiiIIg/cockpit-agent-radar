@@ -281,6 +281,17 @@ class SolutionSyncTests(unittest.TestCase):
         self.assertIn("保留", detail)
         self.assertIn("Retained", detail)
 
+    def test_build_fails_when_candidate_day_has_no_activity(self):
+        root = self.root / "coverage"
+        write_json(root / "data/harness_solutions.json", {"components": []})
+        write_json(root / "data/experiment_activity.json", {"days": {}})
+        write_json(root / "data/handoff/ledger.json", {"days": {
+            "2026-08-10": {"stages": {
+                "candidate_publish": {"status": "complete"}}}}})
+        with self.assertRaisesRegex(ValueError, "no activity record"):
+            build_solutions.build(
+                root, root / "docs", "https://example.test", test_shell)
+
     def test_combined_evidence_is_not_component_attributed(self):
         self.sync()
         build_solutions.build(
@@ -334,12 +345,31 @@ class PublishedSolutionPageTests(unittest.TestCase):
         today_page = (self.docs / f"solutions/{today}.html").read_text(
             encoding="utf-8")
         if today != "2026-08-06":
-            self.assertIn("当日新增/更新：0", today_page)
+            self.assertIn("当日新增高收益：0", today_page)
         for component in build_solutions.recommended(self.snapshot):
             self.assertTrue(
                 (self.docs / "solutions" / f"{component['id']}.html").is_file())
         self.assertTrue(
             (self.docs / "solutions/tool-description-enhancement.html").is_file())
+
+    def test_daily_workbench_does_not_impersonate_solutions(self):
+        index = (self.docs / "solutions/index.html").read_text(encoding="utf-8")
+        day = (self.docs / "solutions/2026-08-10.html").read_text(encoding="utf-8")
+        for fact in (
+                "第一层：正式保留 / 高收益组件", "第二层：每日实验工作台",
+                "候选实验不会冒充好方案", "今日实验活动=", "查看全部每日实验"):
+            self.assertIn(fact, index)
+        for fact in (
+                "OmniVoice 16-step", "complex_control_cases v2",
+                "实验分支/待 canary", "未启动 H20", "运行中/未合并",
+                "当天产出", "Pairwise 修正 / 退化"):
+            self.assertIn(fact, day)
+
+    def test_candidate_ledger_days_have_activity(self):
+        activity = build_solutions.load_activity(ROOT)
+        build_solutions.validate_activity_coverage(ROOT, activity)
+        for date in ("2026-08-08", "2026-08-09", "2026-08-10"):
+            self.assertTrue(build_solutions.activities_on(activity, date))
 
     def test_detail_pages_have_required_sections_and_source_numbers(self):
         page = (self.docs / "solutions/voice-memory-rules.html").read_text(
@@ -402,7 +432,8 @@ class PublishedSolutionPageTests(unittest.TestCase):
     def test_report_feedback_is_separate_and_date_scoped(self):
         block = build_solutions.feedback_section(
             self.snapshot, "2026-08-06", build_site.BASE)
-        self.assertIn("实验反馈 / 保留组件", block)
+        self.assertIn("正式保留 / 高收益组件", block)
+        self.assertIn("每日实验工作台", block)
         self.assertIn("/solutions/", block)
         empty = build_solutions.feedback_section(
             self.snapshot, "2099-01-01", build_site.BASE)

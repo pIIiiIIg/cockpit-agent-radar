@@ -641,7 +641,7 @@ def markdown_to_html(text):
     return "\n".join(out)
 
 
-def build_reports(by_review_day, solution_snapshot=None):
+def build_reports(by_review_day, solution_snapshot=None, activity=None):
     source = os.path.join(ROOT, "reports")
     target = os.path.join(DOCS, "reports")
     os.makedirs(target, exist_ok=True)
@@ -666,7 +666,7 @@ def build_reports(by_review_day, solution_snapshot=None):
             body = (f'<div class="item-page"><h2>{esc(title)} · {esc(date)}</h2>'
                     f'{review_source}'
                     f'<div class="report-body">{markdown_to_html(text)}</div>'
-                    f'{build_solutions.feedback_section(solution_snapshot or {}, date, BASE)}'
+                    f'{build_solutions.feedback_section(solution_snapshot or {}, date, BASE, activity)}'
                     f'<p><a class="btn" href="{BASE}/reports/">'
                     + pair("← 返回日报", "← reports") + "</a></p></div>")
             output_name = stem + ".html"
@@ -726,6 +726,7 @@ def main():
     for item in items:
         item["explanation"] = explanations.get(item["id"], {})
     solution_snapshot = build_solutions.load_snapshot(ROOT)
+    experiment_activity = build_solutions.load_activity(ROOT)
     history = load_review_history({item["id"] for item in items})
     by_review_day = {}
     for row in history:
@@ -739,7 +740,7 @@ def main():
     os.makedirs(os.path.join(DOCS, "demos"), exist_ok=True)
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
     solution_result = build_solutions.build(ROOT, DOCS, BASE, shell)
-    reports = build_reports(by_review_day, solution_snapshot)
+    reports = build_reports(by_review_day, solution_snapshot, experiment_activity)
     build_reviews_page(by_review_day)
     automation_pages = build_automation.build(ROOT)
 
@@ -749,6 +750,7 @@ def main():
         by_day.setdefault(it["found"][:10], []).append(it)
     scan_day = (data.get("generated") or "")[:10]
     all_days = sorted(set(by_day) | set(by_review_day)
+                      | set(experiment_activity.get("days", {}))
                       | ({scan_day} if scan_day else set()),
                       reverse=True)
     days = all_days[:6]
@@ -761,6 +763,8 @@ def main():
         rows = by_day.get(d, [])
         body = (datebar(d, all_days)
                 + review_block(by_review_day.get(d, []))
+                + build_solutions.feedback_section(
+                    solution_snapshot, d, BASE, experiment_activity)
                 + f'<h2 class="day">{d} · {len(rows)} ' + pair("条", "items") + "</h2>"
                 + ("\n".join(day_cards(rows)) if rows else no_updates())
                 + f'<p style="margin-top:18px"><a class="btn" href="{BASE}/">'
@@ -779,10 +783,11 @@ def main():
                  + "</a></p>")
     today = datetime.now(CST).date().isoformat()
     today_solutions = len(build_solutions.events_on(solution_snapshot, today))
+    today_activity = len(build_solutions.activities_on(experiment_activity, today))
     parts.append(
         f'<p><a class="demo-link" href="{BASE}/solutions/{today}.html">'
-        + pair(f"★ 今日好方案：{today_solutions}",
-               f"★ Today’s high-value solutions: {today_solutions}")
+        + pair(f"★ 今日新增高收益={today_solutions} · 今日实验活动={today_activity}",
+               f"★ New high-value={today_solutions} · experiment activity={today_activity}")
         + "</a></p>")
     primer = os.path.join(DOCS, "demos", "full-duplex-primer.html")
     if os.path.exists(primer):

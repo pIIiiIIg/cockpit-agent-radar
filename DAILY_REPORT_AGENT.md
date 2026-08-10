@@ -46,7 +46,10 @@
 候选 JSON 必须逐条包含：公开论文/报告 URL、问题 bucket、可证伪假设、单变量、预计修复数、
 时延预算、风险、依赖、离线门、H20 门、research value 和 public-safe patent value。
 没有清晰单变量或可测指标的建议只留在报告，不进入候选。冻结 414 canary 零退化且预计净修
-至少 16（复杂/endpoint 使用候选明确门）之前，不得请求 H20。已运行/已拒绝的
+达到动态 full gap（当前 434/452 到 448/452，即 14）之前不得直接请求 full H20；小收益
+先进入 smoke/quick/targeted 与 composition queue。+1/+4 且零退化仍是有效
+component_candidate/conditional 证据，负收益记录为 negative evidence。组合前必须做
+interaction/zero-regression，不能把局部数字相加。已运行/已拒绝的
 candidate fingerprint 或 candidate/commit 不得重复。
 
 ## 边界
