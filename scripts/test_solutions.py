@@ -149,7 +149,8 @@ def fixture_source(root: Path, malicious: bool = False) -> None:
 
 def test_shell(title: str, body: str, page: str = "") -> str:
     return (
-        '<!doctype html><html data-lang="zh"><head><style>'
+        '<!doctype html><html data-lang="zh"><head><title>' + title + '</title>'
+        '<meta name="description" content="' + title + '"><style>'
         '@media(prefers-reduced-motion:reduce){*{transition:none}}'
         '</style></head><body data-page="' + page + '">'
         + body + "</body></html>")
@@ -339,13 +340,9 @@ class PublishedSolutionPageTests(unittest.TestCase):
         self.assertEqual(self.result["negative"], expected_negative)
         self.assertGreaterEqual(self.result["negative"], 1)
         self.assertTrue((self.docs / "solutions/index.html").is_file())
-        self.assertTrue((self.docs / "solutions/2026-08-06.html").is_file())
-        today = datetime.now(build_solutions.CST).date().isoformat()
-        self.assertTrue((self.docs / f"solutions/{today}.html").is_file())
-        today_page = (self.docs / f"solutions/{today}.html").read_text(
-            encoding="utf-8")
-        if today != "2026-08-06":
-            self.assertIn("当日新增高收益：0", today_page)
+        for date in ("2026-08-08", "2026-08-09", "2026-08-10"):
+            self.assertTrue(
+                (self.docs / f"solutions/days/{date}.html").is_file())
         for component in build_solutions.recommended(self.snapshot):
             self.assertTrue(
                 (self.docs / "solutions" / f"{component['id']}.html").is_file())
@@ -354,7 +351,8 @@ class PublishedSolutionPageTests(unittest.TestCase):
 
     def test_daily_workbench_does_not_impersonate_solutions(self):
         index = (self.docs / "solutions/index.html").read_text(encoding="utf-8")
-        day = (self.docs / "solutions/2026-08-10.html").read_text(encoding="utf-8")
+        day = (self.docs / "solutions/days/2026-08-10.html").read_text(
+            encoding="utf-8")
         for fact in (
                 "第一层：正式保留 / 高收益组件", "第二层：每日实验工作台",
                 "候选实验不会冒充好方案", "今日实验活动=", "查看全部每日实验"):
@@ -415,7 +413,7 @@ class PublishedSolutionPageTests(unittest.TestCase):
         self.assertEqual(rejected["evidence"][0]["delta"]["value"], 0)
 
     def test_internal_solution_links_resolve_and_no_runtime_cdn(self):
-        pages = list((self.docs / "solutions").glob("*.html"))
+        pages = list((self.docs / "solutions").rglob("*.html"))
         hrefs = set()
         for path in pages:
             text = path.read_text(encoding="utf-8")
@@ -429,6 +427,85 @@ class PublishedSolutionPageTests(unittest.TestCase):
             if parsed.path.startswith(prefix):
                 name = parsed.path[len(prefix):] or "index.html"
                 self.assertTrue((self.docs / "solutions" / name).is_file(), href)
+
+    def test_activity_dates_sort_newest_first_and_use_stable_urls(self):
+        activity = build_solutions.load_activity(ROOT)
+        self.assertEqual(
+            build_solutions.activity_dates(activity),
+            ["2026-08-10", "2026-08-09", "2026-08-08"])
+        index = (self.docs / "solutions/index.html").read_text(encoding="utf-8")
+        positions = [
+            index.index(f"/solutions/days/{date}.html")
+            for date in build_solutions.activity_dates(activity)]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("/solutions/days/2026-08-10.html", index)
+
+    def test_prev_next_boundaries_and_research_links(self):
+        newest = (self.docs / "solutions/days/2026-08-10.html").read_text(
+            encoding="utf-8")
+        middle = (self.docs / "solutions/days/2026-08-09.html").read_text(
+            encoding="utf-8")
+        oldest = (self.docs / "solutions/days/2026-08-08.html").read_text(
+            encoding="utf-8")
+        self.assertIn('aria-disabled="true"', newest)
+        self.assertIn("/solutions/days/2026-08-09.html", newest)
+        self.assertIn("/solutions/days/2026-08-08.html", middle)
+        self.assertIn("/solutions/days/2026-08-10.html", middle)
+        self.assertIn('aria-disabled="true"', oldest)
+        for date, page in (("2026-08-10", newest), ("2026-08-08", oldest)):
+            self.assertIn(f"/days/{date}.html", page)
+            self.assertIn(f"<title>{date}", page)
+            self.assertIn(f'<meta name="description" content="{date}', page)
+
+    def test_exhausted_day_without_experiments_is_published(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            write_json(root / "data/harness_solutions.json", {"components": []})
+            write_json(root / "data/experiment_activity.json", {"days": {
+                "2026-08-11": {
+                    "summary": {
+                        "fulltext_reviews": 7,
+                        "candidates_generated": 0,
+                        "research_exhausted": True,
+                    },
+                    "activities": [],
+                }}})
+            write_json(root / "data/handoff/ledger.json", {"days": {
+                "2026-08-11": {"stages": {
+                    "candidate_publish": {"status": "complete"}}}}})
+            build_solutions.build(
+                root, root / "docs", "https://example.test", test_shell)
+            page = (root / "docs/solutions/days/2026-08-11.html").read_text(
+                encoding="utf-8")
+            self.assertIn("当天研究已穷尽", page)
+            self.assertIn("精读=7", page)
+            self.assertNotIn("当日实验活动未记录", page)
+
+    def test_build_is_idempotent_and_generated_pages_have_no_secrets(self):
+        first = {
+            path.relative_to(self.docs): path.read_bytes()
+            for path in (self.docs / "solutions").rglob("*.html")}
+        build_solutions.build(ROOT, self.docs, build_site.BASE, test_shell)
+        second = {
+            path.relative_to(self.docs): path.read_bytes()
+            for path in (self.docs / "solutions").rglob("*.html")}
+        self.assertEqual(first, second)
+        rendered = b"\n".join(second.values()).decode("utf-8")
+        for forbidden in ("MOONSHOT_API_KEY=", "BEGIN PRIVATE KEY",
+                          r"C:\Users\\", ".moonshot_key"):
+            self.assertNotIn(forbidden, rendered)
+
+    def test_every_navigation_link_has_a_generated_file(self):
+        for page in (self.docs / "solutions").rglob("*.html"):
+            text = page.read_text(encoding="utf-8")
+            for href in re.findall(
+                    rf'href="{re.escape(build_site.BASE)}/solutions/([^"#?]+)"',
+                    text):
+                target = self.docs / "solutions" / (
+                    href if href else "index.html")
+                if href.endswith("/"):
+                    target = target / "index.html"
+                self.assertTrue(target.is_file(), f"{page.name}: {href}")
 
     def test_report_feedback_is_separate_and_date_scoped(self):
         block = build_solutions.feedback_section(

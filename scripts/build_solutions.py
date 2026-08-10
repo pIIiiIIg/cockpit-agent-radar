@@ -84,6 +84,15 @@ def pair(zh: Any, en: Any) -> str:
     return f'<span class="l-zh">{esc(zh)}</span><span class="l-en">{esc(en)}</span>'
 
 
+def with_meta_description(page: str, description: str) -> str:
+    if '<meta name="description"' in page:
+        return page
+    return page.replace(
+        "</title>",
+        f'</title>\n<meta name="description" content="{esc(description)}">',
+        1)
+
+
 def load_snapshot(root: str | Path) -> dict[str, Any]:
     try:
         value = json.loads(
@@ -124,6 +133,66 @@ def activities_on(activity: dict[str, Any], date: str) -> list[dict[str, Any]]:
         str(row.get("time") or ""), row["id"]), reverse=True)
 
 
+def activity_dates(activity: dict[str, Any]) -> list[str]:
+    """Publish recorded experiment days plus explicit exhausted-research days."""
+    dates = []
+    for date, day in activity.get("days", {}).items():
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(date)) or not isinstance(day, dict):
+            continue
+        summary = day.get("summary", {})
+        if activities_on(activity, date) or (
+                isinstance(summary, dict) and summary.get("research_exhausted") is True):
+            dates.append(date)
+    return sorted(dates, reverse=True)
+
+
+def date_navigation(dates: list[str], current: str, base: str,
+                    *, include_day_link: bool = False) -> str:
+    """Render deterministic static links; dates are newest first."""
+    if not dates or current not in dates:
+        return ""
+    index = dates.index(current)
+    newer = dates[index - 1] if index > 0 else None
+    older = dates[index + 1] if index + 1 < len(dates) else None
+
+    def day_link(date: str | None, zh: str, en: str) -> str:
+        if date is None:
+            return f'<span class="btn off" aria-disabled="true">{pair(zh,en)}</span>'
+        return (
+            f'<a class="btn" href="{base}/solutions/days/{esc(date)}.html">'
+            f'{pair(zh,en)}</a>')
+
+    date_link_rows = []
+    for date in dates:
+        active = " active" if date == current else ""
+        current_attr = ' aria-current="page"' if date == current else ""
+        date_link_rows.append(
+            f'<a class="btn{active}" '
+            f'href="{base}/solutions/days/{esc(date)}.html"{current_attr}>'
+            f'{esc(date)}</a>')
+    date_links = "".join(date_link_rows)
+    research = (
+        f'<a class="btn" href="{base}/days/{esc(current)}.html">'
+        + pair("当天研究页", "Research day") + "</a>"
+        if include_day_link else "")
+    return (
+        '<style>.solution-date-nav{background:var(--card);border:1px solid var(--line);'
+        'border-radius:10px;padding:10px;margin:10px 0 14px}'
+        '.solution-date-nav .date-links,.solution-date-nav .date-controls{display:flex;'
+        'gap:7px;flex-wrap:wrap}.solution-date-nav .date-controls{margin-top:8px;'
+        'padding-top:8px;border-top:1px solid var(--line)}'
+        '.solution-date-nav .btn.active{border-color:var(--acc);color:var(--acc)}'
+        '.solution-date-nav .btn.off{opacity:.45;cursor:default}</style>'
+        '<nav class="solution-date-nav" aria-label="Experiment dates">'
+        f'<div class="date-links">{date_links}</div>'
+        f'<div class="date-controls">{day_link(older, "← 上一天", "← Older day")}'
+        f'{day_link(newer, "下一天 →", "Newer day →")}'
+        f'<a class="btn" href="{base}/solutions/days/{esc(dates[0])}.html">'
+        f'{pair("返回最新","Latest")}</a>'
+        f'<a class="btn" href="{base}/solutions/">{pair("全部日期","All dates")}</a>'
+        f'{research}</div></nav>')
+
+
 def validate_activity_coverage(root: Path, activity: dict[str, Any]) -> None:
     """Fail if a published candidate-ledger day has no experiment activity."""
     try:
@@ -134,7 +203,7 @@ def validate_activity_coverage(root: Path, activity: dict[str, Any]) -> None:
     for date, value in ledger.get("days", {}).items():
         stage = value.get("stages", {}).get("candidate_publish", {})
         if stage.get("status") in {"complete", "rejected", "not_applicable"}:
-            if not activities_on(activity, date):
+            if date not in activity_dates(activity):
                 raise ValueError(
                     f"candidate ledger event has no activity record: {date}")
 
@@ -488,6 +557,10 @@ def feedback_section(snapshot: dict[str, Any], date: str, base: str,
         ) + "</p>" if exhausted else (
             '<p class="no-updates">' + pair(
                 "当日实验活动未记录。", "No experiment activity recorded.") + "</p>")
+    all_experiments_link = (
+        f'<p><a class="btn" href="{base}/solutions/days/{esc(date)}.html">'
+        + pair("查看全部每日实验", "Open all daily experiments") + "</a></p>"
+        if date in activity_dates(activity) else "")
     return (
         '<section class="solution-feedback"><h2>'
         + pair("正式保留 / 高收益组件", "Retained / high-value components")
@@ -495,8 +568,7 @@ def feedback_section(snapshot: dict[str, Any], date: str, base: str,
         + '<section class="solution-feedback"><h2>'
         + pair("每日实验工作台", "Daily experiment workbench")
         + f' · {esc(date)}</h2>{activity_summary(activity, date)}{experiment_body}'
-        + f'<p><a class="btn" href="{base}/solutions/{esc(date)}.html">'
-        + pair("查看全部每日实验", "Open all daily experiments") + "</a></p></section>")
+        + all_experiments_link + "</section>")
 
 
 def detail_page(component: dict[str, Any], snapshot: dict[str, Any], base: str) -> str:
@@ -589,7 +661,10 @@ def build(root: str | Path, docs: str | Path, base: str,
     validate_activity_coverage(root, activity)
     target = docs / "solutions"
     target.mkdir(parents=True, exist_ok=True)
+    days_target = target / "days"
+    days_target.mkdir(parents=True, exist_ok=True)
     expected = {"index.html"}
+    expected_days: set[str] = set()
     good = recommended(snapshot)
     negatives = [
         row for row in snapshot.get("negative_results", [])
@@ -610,10 +685,10 @@ def build(root: str | Path, docs: str | Path, base: str,
             f'<p>{pair(row.get("conclusion") or "未知",row.get("conclusion") or "Unknown")}</p></article>'
             for row in negatives)
     today = datetime.now(CST).date().isoformat()
-    latest_activity_dates = sorted(activity.get("days", {}), reverse=True)
-    activity_date = today if activities_on(activity, today) else (
-        latest_activity_dates[0] if latest_activity_dates else today)
+    recorded_dates = activity_dates(activity)
+    activity_date = recorded_dates[0] if recorded_dates else today
     recent_activity = activities_on(activity, activity_date)[:5]
+    date_nav = date_navigation(recorded_dates, activity_date, base)
     index_body = (
         f'<h2 class="day">{pair("第一层：正式保留 / 高收益组件","Tier 1: retained / high-value components")} · {len(good)}</h2>'
         + stale_banner(snapshot)
@@ -621,8 +696,9 @@ def build(root: str | Path, docs: str | Path, base: str,
         + pair("候选实验不会冒充好方案", "Candidate experiments never impersonate retained solutions") + "</p>"
         + (cards or f'<p class="no-updates">{pair("暂无符合严格门槛的组件","No components meet the strict gate")}</p>')
         + f'<h2 class="day">{pair("第二层：每日实验工作台","Tier 2: daily experiment workbench")}</h2>'
+        + date_nav
         + activity_summary(activity, activity_date)
-        + f'<p><a class="btn" href="{base}/solutions/{activity_date}.html">'
+        + f'<p><a class="btn" href="{base}/solutions/days/{activity_date}.html">'
         + pair(f"今日实验活动={len(recent_activity)} · 查看全部每日实验",
                f"Experiment activity={len(recent_activity)} · Open all daily experiments")
         + "</a></p>"
@@ -639,21 +715,23 @@ def build(root: str | Path, docs: str | Path, base: str,
             f"{component.get('name')} · Solutions",
             stale_banner(snapshot) + detail_page(component, snapshot, base),
             "solutions"), encoding="utf-8")
-    dates = set(all_dates(snapshot, today)) | set(activity.get("days", {}))
-    report_dir = root / "reports"
-    if report_dir.is_dir():
-        for path in report_dir.glob("*.md"):
-            match = re.search(r"(\d{4}-\d{2}-\d{2})$", path.stem)
-            if match:
-                dates.add(match.group(1))
-    dates = sorted(dates, reverse=True)
-    for date in dates:
+    for date in recorded_dates:
         name = date + ".html"
-        expected.add(name)
+        expected_days.add(name)
         events = events_on(snapshot, date)
         experiment_rows = activities_on(activity, date)
+        day = activity.get("days", {}).get(date, {})
+        summary = day.get("summary", {}) if isinstance(day, dict) else {}
+        exhausted = isinstance(summary, dict) and summary.get("research_exhausted") is True
+        empty_note = pair(
+            "当天研究已穷尽：完成精读与候选筛选，未发现值得启动的实验。",
+            "Research exhausted after full-text review and candidate screening; "
+            "no experiment was worth starting."
+        ) if exhausted else pair(
+            "当日没有有效实验记录。", "No valid experiment activity was recorded.")
         body = (
-            f'<h2 class="day">{pair("正式保留 / 高收益组件","Retained / high-value components")} · '
+            date_navigation(recorded_dates, date, base, include_day_link=True)
+            + f'<h2 class="day">{pair("正式保留 / 高收益组件","Retained / high-value components")} · '
             f'{esc(date)} · {len(events)}</h2>{stale_banner(snapshot)}'
             + ("".join(component_card(
                 row["component"], base, row["event"]) for row in events)
@@ -661,18 +739,23 @@ def build(root: str | Path, docs: str | Path, base: str,
             + f'<h2 class="day">{pair("每日实验工作台","Daily experiment workbench")} · '
             f'{len(experiment_rows)}</h2>{activity_summary(activity, date)}'
             + ("".join(activity_card(row) for row in experiment_rows)
-               or f'<p class="no-updates">{pair("research_exhausted 或无候选；筛选工作见摘要","Research exhausted or no candidate; see screening summary")}</p>')
-            + f'<p><a class="btn" href="{base}/solutions/">{pair("← 全部组件","← All solutions")}</a></p>')
-        (target / name).write_text(
-            shell(f"{date} · Solutions", body, "solutions"), encoding="utf-8")
+               or f'<p class="no-updates">{empty_note}</p>'))
+        title = f"{date} · Radar Solutions daily experiments"
+        rendered = with_meta_description(
+            shell(title, body, "solutions"),
+            f"{date} Radar Solutions daily experiment workbench")
+        (days_target / name).write_text(rendered, encoding="utf-8")
     for path in target.glob("*.html"):
         if path.name not in expected:
+            path.unlink()
+    for path in days_target.glob("*.html"):
+        if path.name not in expected_days:
             path.unlink()
     return {
         "recommended": len(good),
         "negative": len(negatives),
         "today": len(events_on(snapshot, today)),
         "activity": len(recent_activity),
-        "pages": len(expected),
+        "pages": len(expected) + len(expected_days),
         "status": snapshot.get("source", {}).get("status", "stale"),
     }

@@ -783,12 +783,14 @@ def main():
                  + "</a></p>")
     today = datetime.now(CST).date().isoformat()
     today_solutions = len(build_solutions.events_on(solution_snapshot, today))
-    today_activity = len(build_solutions.activities_on(experiment_activity, today))
-    parts.append(
-        f'<p><a class="demo-link" href="{BASE}/solutions/{today}.html">'
-        + pair(f"★ 今日新增高收益={today_solutions} · 今日实验活动={today_activity}",
-               f"★ New high-value={today_solutions} · experiment activity={today_activity}")
-        + "</a></p>")
+    experiment_dates = build_solutions.activity_dates(experiment_activity)
+    if experiment_dates:
+        latest_experiment_date = experiment_dates[0]
+        parts.append(
+            f'<p><a class="demo-link" href="{BASE}/solutions/days/{latest_experiment_date}.html">'
+            + pair(f"★ 今日新增高收益={today_solutions} · 最新实验日={latest_experiment_date}",
+                   f"★ New high-value={today_solutions} · latest experiment={latest_experiment_date}")
+            + "</a></p>")
     primer = os.path.join(DOCS, "demos", "full-duplex-primer.html")
     if os.path.exists(primer):
         parts.append('<p><a class="demo-link" href="' + BASE
