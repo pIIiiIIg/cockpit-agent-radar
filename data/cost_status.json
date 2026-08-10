@@ -3,13 +3,13 @@
   "date": "2026-08-10",
   "timezone": "Asia/Shanghai",
   "budget": {
-    "soft_usd": 180,
-    "hard_usd": 200,
+    "soft_usd": 100,
+    "hard_usd": 120,
     "pools": {
-      "harness_implementation": 110,
-      "radar_review_report": 45,
-      "publication": 10,
-      "recovery_reserve": 15
+      "harness_implementation": 70,
+      "radar_review_report": 20,
+      "publication": 5,
+      "recovery_reserve": 5
     }
   },
   "actual_usd": 0.0123685,
@@ -91,10 +91,10 @@
       "completed_days_average_cost_usd": 373.19
     },
     "targets": {
-      "soft_usd": 180.0,
-      "hard_usd": 200.0,
-      "reduction_to_soft_pct": 51.77,
-      "reduction_to_hard_pct": 46.41
+      "soft_usd": 100.0,
+      "hard_usd": 120.0,
+      "reduction_to_soft_pct": 73.2,
+      "reduction_to_hard_pct": 67.84
     },
     "model_costs": [
       {

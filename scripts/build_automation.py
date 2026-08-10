@@ -961,13 +961,14 @@ def research(snapshot=None):
 <section class="section"><h2>{pair("真实成本基线与目标","Observed cost baseline and targets")}</h2>
 <div class="metrics">
 <div class="metric"><b>${float(baseline_totals.get("completed_days_average_cost_usd", 0)):.2f}</b><small>{pair("8/4–8/9 完整日均","Aug 4–9 complete-day average")}</small></div>
-<div class="metric"><b>{float(baseline_targets.get("reduction_to_soft_pct", 0)):.2f}%</b><small>{pair("降至 $180 soft 所需降幅","reduction required for $180 soft")}</small></div>
-<div class="metric"><b>{float(baseline_targets.get("reduction_to_hard_pct", 0)):.2f}%</b><small>{pair("降至 $200 hard 所需降幅","reduction required for $200 hard")}</small></div>
+<div class="metric"><b>{float(baseline_targets.get("reduction_to_soft_pct", 0)):.2f}%</b><small>{pair("降至 $100 soft 所需降幅（3.73倍）","reduction required for $100 soft (3.73x)")}</small></div>
+<div class="metric"><b>{float(baseline_targets.get("reduction_to_hard_pct", 0)):.2f}%</b><small>{pair("降至 $120 hard 所需降幅（3.11倍）","reduction required for $120 hard (3.11x)")}</small></div>
 <div class="metric"><b>{float(baseline_driver.get("share", 0)) * 100:.2f}%</b><small>{esc(baseline_driver.get("model") or "unknown")} {pair("历史费用占比","historical cost share")}</small></div>
 </div>
 <p class="callout">{pair(
     "Dashboard 共计 $2,537.67、1.838B tokens、585 calls；历史包含手工聊天/子 Agent 和自动化，且没有 pipeline/stage 标签，不能精确归因。medium 占 83.89%，首要措施是减少调用和上下文并把 Radar 迁到 Included Composer，而不是只压缩 xhigh。",
     "Dashboard totals are $2,537.67, 1.838B tokens, and 585 calls. History mixes manual chats/subagents with automation and has no pipeline/stage labels, so exact historical attribution is impossible. Medium drove 83.89%; the primary controls are fewer calls, smaller contexts, and moving Radar to included Composer—not only reducing xhigh.")}</p>
+<p class="sub">{pair("本地 $120 门只约束计划任务；手工聊天和手工子 Agent 不受本地调度器控制，仍必须设置账户级 spend limit。","The local $120 gate covers scheduled tasks only. Manual chats and manual subagents remain outside the local scheduler, so an account-level spend limit is still required.")}</p>
 </section>
 <section class="section"><h2>{pair("动态调研漏斗","Live research funnel")}</h2><div class="card funnel">{funnel(snapshot)}</div></section>
 <section class="section"><h2>{pair("查看真实产物","Open real artifacts")}</h2><div class="card artifacts">{artifact_links(snapshot)}</div></section>

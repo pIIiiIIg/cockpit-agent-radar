@@ -20,13 +20,13 @@ from typing import Any, Iterable
 
 BEIJING = timezone(timedelta(hours=8))
 SCHEMA_VERSION = 1
-DEFAULT_SOFT_USD = 180.0
-DEFAULT_HARD_USD = 200.0
+DEFAULT_SOFT_USD = 100.0
+DEFAULT_HARD_USD = 120.0
 DEFAULT_POOLS = {
-    "harness_implementation": 110.0,
-    "radar_review_report": 45.0,
-    "publication": 10.0,
-    "recovery_reserve": 15.0,
+    "harness_implementation": 70.0,
+    "radar_review_report": 20.0,
+    "publication": 5.0,
+    "recovery_reserve": 5.0,
 }
 DEFAULT_RATES = {
     "source": "https://cursor.com/docs/models-and-pricing",

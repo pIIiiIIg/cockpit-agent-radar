@@ -85,7 +85,7 @@ try {
         -Prompt $prompt -Sentinel "DEEP_REVIEW_COMPLETE" -Log $Log `
         -Python $Python -Pipeline "radar" -Stage "deep_review" -Model $Model `
         -InputHash $packetMeta.input_hash -PromptVersion "radar-deep-review-v2" `
-        -CacheKind "deep_review" -CacheArtifact $History -ReservationUsd 15 -Attempts 2
+        -CacheKind "deep_review" -CacheArtifact $History -ReservationUsd 6 -Attempts 2
     if ($agentRun.Decision -eq "cached") {
         Write-AutomationLog $Log "SUCCESS: unchanged review input reused"
         exit 0

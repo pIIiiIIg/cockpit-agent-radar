@@ -1,7 +1,7 @@
 # Radar cost controls
 
 Radar shares `%LOCALAPPDATA%\CursorCostGovernance\cost-ledger.sqlite3` with
-StreamingModelHarness. The local gate is $180 soft / $200 hard per Beijing day.
+StreamingModelHarness. The local gate is $100 soft / $120 hard per Beijing day.
 It is a second line of defense; configure the account-level on-demand spend
 limit in Cursor Dashboard. Automation never changes account billing settings.
 
@@ -50,8 +50,8 @@ limits.
 
 The local, uncommitted Cursor Usage Dashboard export for August 4–10 records
 $2,537.67, 1.838B tokens and 585 calls. The six complete days averaged
-$373.19/day. Reaching $180 therefore requires a 51.8% reduction; reaching $200
-requires 46.4%.
+$373.19/day. Reaching $100 therefore requires a 73.2% reduction (3.73x lower);
+reaching $120 requires 67.8% (3.11x lower).
 
 `gpt-5.6-sol-medium` was $2,128.99 (83.89%), compared with xhigh at $350.63
 (13.82%) and high at $57.90 (2.28%). Cost control must primarily reduce medium
@@ -62,3 +62,7 @@ Historical Dashboard rows mix manual chats/subagents and scheduled automation
 and contain no pipeline/stage field. The baseline is valid for total spend but
 not exact automation attribution. Future calls are attributable through the
 shared ledger's `pipeline` and `stage` columns.
+
+The $120 local gate covers scheduled Harness/Radar calls only. Manual chats and
+manually launched subagents are not controlled by the local scheduler, so an
+account-level Cursor Dashboard spend limit remains necessary.

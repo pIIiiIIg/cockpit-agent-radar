@@ -1,11 +1,11 @@
 {
-  "soft_usd": 180,
-  "hard_usd": 200,
+  "soft_usd": 100,
+  "hard_usd": 120,
   "pools": {
-    "harness_implementation": 110,
-    "radar_review_report": 45,
-    "publication": 10,
-    "recovery_reserve": 15
+    "harness_implementation": 70,
+    "radar_review_report": 20,
+    "publication": 5,
+    "recovery_reserve": 5
   },
   "rates": {
     "source": "https://cursor.com/docs/models-and-pricing",

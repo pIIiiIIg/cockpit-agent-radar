@@ -74,7 +74,7 @@ try {
         -Python $Python -Pipeline "radar" -Stage "daily_report" -Model $Model `
         -InputHash $packetMeta.input_hash -PromptVersion "radar-daily-report-v2" `
         -CacheKind "daily_report" -CacheArtifact $reportArtifact `
-        -ReservationUsd 7.5 -Attempts 2
+        -ReservationUsd 4 -Attempts 2
     if ($agentRun.Decision -eq "cached") {
         Write-AutomationLog $Log "SUCCESS: unchanged daily-report input reused"
         exit 0
