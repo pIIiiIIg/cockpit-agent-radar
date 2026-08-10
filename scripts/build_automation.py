@@ -961,14 +961,14 @@ def research(snapshot=None):
 <section class="section"><h2>{pair("真实成本基线与目标","Observed cost baseline and targets")}</h2>
 <div class="metrics">
 <div class="metric"><b>${float(baseline_totals.get("completed_days_average_cost_usd", 0)):.2f}</b><small>{pair("8/4–8/9 完整日均","Aug 4–9 complete-day average")}</small></div>
-<div class="metric"><b>{float(baseline_targets.get("reduction_to_soft_pct", 0)):.2f}%</b><small>{pair("降至 $100 soft 所需降幅（3.73倍）","reduction required for $100 soft (3.73x)")}</small></div>
-<div class="metric"><b>{float(baseline_targets.get("reduction_to_hard_pct", 0)):.2f}%</b><small>{pair("降至 $120 hard 所需降幅（3.11倍）","reduction required for $120 hard (3.11x)")}</small></div>
+<div class="metric"><b>{float(baseline_targets.get("reduction_to_soft_pct", 0)):.2f}%</b><small>{pair("降至 $60 soft 所需降幅（6.22倍）","reduction required for $60 soft (6.22x)")}</small></div>
+<div class="metric"><b>{float(baseline_targets.get("reduction_to_hard_pct", 0)):.2f}%</b><small>{pair("降至 $80 hard 所需降幅（4.66倍）","reduction required for $80 hard (4.66x)")}</small></div>
 <div class="metric"><b>{float(baseline_driver.get("share", 0)) * 100:.2f}%</b><small>{esc(baseline_driver.get("model") or "unknown")} {pair("历史费用占比","historical cost share")}</small></div>
 </div>
 <p class="callout">{pair(
     "Dashboard 共计 $2,537.67、1.838B tokens、585 calls；历史包含手工聊天/子 Agent 和自动化，且没有 pipeline/stage 标签，不能精确归因。medium 占 83.89%，首要措施是减少调用和上下文并把 Radar 迁到 Included Composer，而不是只压缩 xhigh。",
     "Dashboard totals are $2,537.67, 1.838B tokens, and 585 calls. History mixes manual chats/subagents with automation and has no pipeline/stage labels, so exact historical attribution is impossible. Medium drove 83.89%; the primary controls are fewer calls, smaller contexts, and moving Radar to included Composer—not only reducing xhigh.")}</p>
-<p class="sub">{pair("本地 $120 门只约束计划任务；手工聊天和手工子 Agent 不受本地调度器控制，仍必须设置账户级 spend limit。","The local $120 gate covers scheduled tasks only. Manual chats and manual subagents remain outside the local scheduler, so an account-level spend limit is still required.")}</p>
+<p class="sub">{pair("frugal 周计划：Harness 仅周一/三/五实现，Radar 每天一次三篇批处理，正常保守预留约 $21/天，带每日可选 schema fallback 约 $25/天。本地 $80 门只约束计划任务；手工聊天和手工子 Agent 仍需账户级 spend limit。","Frugal week: Harness implements only Monday/Wednesday/Friday and Radar runs one three-paper batch daily. Conservative normal reservation is about $21/day, or $25/day with an optional daily schema fallback. The local $80 gate covers scheduled tasks only; manual chats and subagents still require an account-level spend limit.")}</p>
 </section>
 <section class="section"><h2>{pair("动态调研漏斗","Live research funnel")}</h2><div class="card funnel">{funnel(snapshot)}</div></section>
 <section class="section"><h2>{pair("查看真实产物","Open real artifacts")}</h2><div class="card artifacts">{artifact_links(snapshot)}</div></section>
@@ -992,7 +992,7 @@ def research(snapshot=None):
 <article class="step"><h3>review_history.json</h3><p>{pair("只有 editorial + fulltext 的状态迁移才入历史；北京时间、来源、详情页和 automation run 可核验。","Only an editorial + fulltext transition enters history, with Beijing time, source, detail route, and automation run.")}</p></article>
 </div></section>
 <section class="section"><h2>{pair("失败不是静默成功","Failure is not silent success")}</h2><div class="grid">
-<article class="card"><h3>{pair("定时","Schedule")}</h3><p>{pair("无 Agent 的 GitHub 抓取保留 09:00 / 14:00 / 19:00；本地全文精读仅 20:00 一次，每日最多6篇 canonical 论文。","Agent-free GitHub fetches remain at 09:00 / 14:00 / 19:00; local full-text review runs once at 20:00, capped at six canonical papers/day.")}</p></article>
+<article class="card"><h3>{pair("定时","Schedule")}</h3><p>{pair("无 Agent 的 GitHub 抓取保留 09:00 / 14:00 / 19:00；本地全文精读仅 20:00 一次，每日最多3篇 canonical 论文；日报默认确定性0-Agent。","Agent-free GitHub fetches remain at 09:00 / 14:00 / 19:00; local full-text review runs once at 20:00, capped at three canonical papers/day; daily reports default to deterministic 0-Agent generation.")}</p></article>
 <article class="card"><h3>{pair("重试与锁","Retry and locking")}</h3><p>{pair("本地任务共享原子 PID 锁；Cursor 最多两次尝试且重试复用同一 chat。","Local tasks share an atomic PID lock. Cursor gets at most two attempts and retries resume the same chat.")}</p></article>
 <article class="card"><h3>{pair("停止条件","Fail closed")}</h3><p>{pair("锁超时、无哨兵、测试失败、非生成文件冲突或 push 耗尽均返回非零；不会把跳过说成成功。","Lock timeout, missing sentinel, test failure, source conflict, or exhausted push retry returns non-zero; skip is never success.")}</p></article>
 </div></section><p><a href="{BASE}/automation/case-hybrid-c/#radar">{pair("案例关联：Radar 建议如何进入 Hybrid C →","Case link: how Radar advice entered Hybrid C →")}</a></p>"""
@@ -1043,6 +1043,10 @@ def candidates(snapshot=None):
     snapshot = snapshot or empty_snapshot()
     queued_candidates = int(
         snapshot.get("cost_status", {}).get("queued_harness_candidates", 0) or 0)
+    harness_schedule_status = str(
+        snapshot.get("cost_status", {}).get("harness_schedule_status", "unknown"))
+    harness_no_agent_day = bool(
+        snapshot.get("cost_status", {}).get("harness_no_agent_day", False))
     body = hero("实验候选与隔离实现", "Candidates and isolated implementation",
         "把日报建议拆成一次只改变一个机制的候选。Cursor Agent 可以写代码，但不能改真值、降低阈值或在共享工作树里覆盖别人的实验。",
         "Report advice is decomposed into candidates that change one mechanism at a time. Cursor may write code, but cannot edit truth, lower thresholds, or overwrite another experiment.",
@@ -1076,6 +1080,7 @@ def candidates(snapshot=None):
 </div></section>
 <section class="section"><h2>{pair("候选实验室","Candidate laboratory")} · {esc(latest_day)}</h2>
 <p class="callout">{pair("因每日成本/数量上限排队的 Harness 候选：","Harness candidates queued by the daily cost/count cap:")} <b>{queued_candidates}</b></p>
+<p class="callout">{pair("Harness 调度状态：","Harness schedule status:")} <b>{esc(harness_schedule_status)}</b> · no_agent_day=<b>{str(harness_no_agent_day).lower()}</b> · {pair("非周一/三/五时确定性步骤正常完成，候选保留到下个实现日。","On non-Monday/Wednesday/Friday days, deterministic work completes normally and candidates remain queued for the next implementation day.")}</p>
 <p class="callout">{pair("Solutions 只展示正式保留；这里展示 proposed、offline compared、conditional component、H20 eligible、qualified、rejected/invalid。",
 "Solutions shows retained work only; this lab includes proposed through rejected/invalid states.")}</p>
 <div class="grid">{"".join(cards) or pair("research_exhausted：无可行候选，但精读/筛选计数已记录。","Research exhausted; review and screening counts remain recorded.")}</div></section>

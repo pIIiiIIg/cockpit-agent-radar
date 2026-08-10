@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 import build_agent_packet
+import build_deterministic_daily
 from cost_governance import CostLedger, sha256_text
 
 
@@ -74,6 +75,38 @@ class RadarCostGovernanceTests(unittest.TestCase):
         self.assertIn("--resume $chatId", script)
         self.assertIn("--output-format json", script)
         self.assertNotIn("--model \"gpt-5.6-sol-xhigh\"", script)
+
+    def test_deterministic_daily_is_zero_agent_and_idempotent(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            packet = {
+                "schema_version": 1, "kind": "daily_report",
+                "target_date": "2026-08-11",
+                "project_status": "# Status\n- measured fact",
+                "latest_items": [{
+                    "id": "p1", "title": "Verified paper",
+                    "url": "https://example.test/p1", "score": 9,
+                    "summary_zh": "结构化摘要",
+                }],
+            }
+            checked = build_deterministic_daily.validate_packet(
+                packet, "2026-08-11")
+            first = build_deterministic_daily.render(root, checked, "2026-08-11")
+            second = build_deterministic_daily.render(root, checked, "2026-08-11")
+            self.assertTrue(first["reports_changed"])
+            self.assertFalse(second["reports_changed"])
+            self.assertTrue(
+                (root / "reports/每日调研日报-2026-08-11.md").is_file())
+            candidate = json.loads((root /
+                "data/handoff/candidates/2026-08-11.json").read_text(encoding="utf-8"))
+            self.assertEqual(candidate["generation"], "deterministic_no_agent")
+            self.assertEqual(candidate["candidates"], [])
+
+    def test_uncovered_daily_schema_has_deterministic_queue_fallback(self):
+        with self.assertRaisesRegex(ValueError, "unsupported packet schema"):
+            build_deterministic_daily.validate_packet({
+                "schema_version": 2, "kind": "daily_report",
+            }, "2026-08-11")
 
 
 if __name__ == "__main__":

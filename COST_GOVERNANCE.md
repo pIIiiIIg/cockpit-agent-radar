@@ -1,17 +1,20 @@
 # Radar cost controls
 
 Radar shares `%LOCALAPPDATA%\CursorCostGovernance\cost-ledger.sqlite3` with
-StreamingModelHarness. The local gate is $100 soft / $120 hard per Beijing day.
+StreamingModelHarness. The local gate is $60 soft / $80 hard per Beijing day.
 It is a second line of defense; configure the account-level on-demand spend
 limit in Cursor Dashboard. Automation never changes account billing settings.
 
 - Agent-free GitHub fetch/build remains at 09:00, 14:00 and 19:00.
-- ProblemDrivenDaily remains at 10:30 and defaults to `composer-2.5`.
+- ProblemDrivenDaily remains at 10:30 and renders a deterministic structured
+  report by default (0-Agent). Only an uncovered schema may request one
+  budgeted Composer fallback.
 - Full-text review runs only at 20:00, defaults to `composer-2.5`, and processes at
-  most six canonical papers. Mirror IDs do not consume another slot.
+  most three canonical papers in one batch. Mirror IDs do not consume another slot.
 - Both tasks exit without Agent when their deterministic input hash is unchanged.
 - No high-value pending paper means zero review calls.
-- Each task gets at most two attempts; retry resumes one chat.
+- Review and optional daily fallback get one attempt each. Harness alone may
+  use a same-chat second attempt as a hard-capped continuation.
 - Missing configured models fail closed and never fall back to a more expensive
   model.
 
@@ -50,8 +53,8 @@ limits.
 
 The local, uncommitted Cursor Usage Dashboard export for August 4–10 records
 $2,537.67, 1.838B tokens and 585 calls. The six complete days averaged
-$373.19/day. Reaching $100 therefore requires a 73.2% reduction (3.73x lower);
-reaching $120 requires 67.8% (3.11x lower).
+$373.19/day. Reaching $60 therefore requires an 83.9% reduction (6.22x lower);
+reaching $80 requires 78.6% (4.66x lower).
 
 `gpt-5.6-sol-medium` was $2,128.99 (83.89%), compared with xhigh at $350.63
 (13.82%) and high at $57.90 (2.28%). Cost control must primarily reduce medium
@@ -63,6 +66,12 @@ and contain no pipeline/stage field. The baseline is valid for total spend but
 not exact automation attribution. Future calls are attributable through the
 shared ledger's `pipeline` and `stage` columns.
 
-The $120 local gate covers scheduled Harness/Radar calls only. Manual chats and
+The $80 local gate covers scheduled Harness/Radar calls only. Manual chats and
 manually launched subagents are not controlled by the local scheduler, so an
 account-level Cursor Dashboard spend limit remains necessary.
+
+The frugal weekly projection reserves one $35 Harness implementation on Monday,
+Wednesday and Friday plus one $6 Radar review per day: $147/week or $21/day.
+Allowing a $4 schema fallback every day raises the conservative upper projection
+to $175/week or $25/day. A Harness retry day can reach $70 plus Radar, but the
+shared hard gate stops all new/continuation calls at $80.

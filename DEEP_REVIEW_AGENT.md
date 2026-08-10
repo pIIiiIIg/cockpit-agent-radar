@@ -5,7 +5,7 @@
 
 ## 本批目标
 
-只处理 evidence packet 选出的最多6篇 canonical 论文；镜像 ID 不重复计数：
+只处理 evidence packet 选出的最多3篇 canonical 论文；镜像 ID 不重复计数：
 
 1. 优先级依次为：与StreamingModelHarness直接相关、score高、日期新。
 2. 识别相同arXiv编号或同标题的镜像/重复条目；一次研究后同步升级所有重复ID，

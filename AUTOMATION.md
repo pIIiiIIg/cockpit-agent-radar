@@ -19,15 +19,15 @@ Scheduled tasks must use the dedicated clone:
 
 The report, full-text review and local-sync scripts share an atomic PID lock.
 Busy tasks queue for up to six hours instead of returning a false success.
-Stale locks are recovered. Cursor Agent calls make at most two attempts in the
-same chat and require an explicit completion sentinel. Push rejection triggers
-fetch/rebase/retry.
+Stale locks are recovered. Full-text review is one Composer batch; daily reports
+are deterministic with at most one optional Composer schema fallback. Harness
+owns its same-chat implementation retry. Push rejection triggers fetch/rebase/retry.
 
 Beijing schedule:
 
 - 10:30 problem-driven daily report
 - 12:00 local report sync
-- 20:00 full-text review (at most six canonical papers)
+- 20:00 full-text review (at most three canonical papers)
 
 Windows tasks run as `SYSTEM`, while `automation_common.ps1` pins
 `USERPROFILE`/`HOME`/`APPDATA` to the dedicated Administrator automation

@@ -20,13 +20,13 @@ from typing import Any, Iterable
 
 BEIJING = timezone(timedelta(hours=8))
 SCHEMA_VERSION = 1
-DEFAULT_SOFT_USD = 100.0
-DEFAULT_HARD_USD = 120.0
+DEFAULT_SOFT_USD = 60.0
+DEFAULT_HARD_USD = 80.0
 DEFAULT_POOLS = {
-    "harness_implementation": 70.0,
-    "radar_review_report": 20.0,
-    "publication": 5.0,
-    "recovery_reserve": 5.0,
+    "harness_implementation": 40.0,
+    "radar_review_report": 10.0,
+    "publication": 3.0,
+    "recovery_reserve": 7.0,
 }
 DEFAULT_RATES = {
     "source": "https://cursor.com/docs/models-and-pricing",
@@ -352,14 +352,31 @@ class CostLedger:
     def reserve(
         self, *, pipeline: str, stage: str, pool: str, model: str,
         chat_session: str, attempt: int, reservation_usd: float, input_hash: str,
+        continuation: bool = False,
     ) -> Reservation:
         if reservation_usd <= 0:
             raise ValueError("reservation_usd must be positive")
         if pool not in self.config["pools"]:
             raise ValueError(f"unknown cost pool: {pool}")
+        if continuation and attempt <= 1:
+            raise ValueError("continuation is only valid for attempt 2+")
         call_id = str(uuid.uuid4())
         with self.connection() as db:
             db.execute("BEGIN IMMEDIATE")
+            if continuation:
+                prior = db.execute("""
+                    SELECT 1 FROM calls
+                    WHERE date=? AND pipeline=? AND stage=? AND model=?
+                      AND chat_session=? AND input_hash=? AND attempt<?
+                    LIMIT 1
+                """, (
+                    self.date, pipeline, stage, model, chat_session,
+                    input_hash, attempt,
+                )).fetchone()
+                if prior is None:
+                    db.rollback()
+                    raise ValueError(
+                        "continuation requires a prior same-chat same-input attempt")
             used = float(db.execute("""
                 SELECT COALESCE(SUM(MAX(estimated_usd, COALESCE(actual_usd, 0))), 0)
                 FROM calls WHERE date=? AND status IN ('reserved','completed','failed')
@@ -373,9 +390,9 @@ class CostLedger:
             decision, reason = "allowed", "within budget"
             if projected > float(self.config["hard_usd"]):
                 decision, reason = "blocked", "daily hard budget would be exceeded"
-            elif projected > float(self.config["soft_usd"]):
+            elif not continuation and projected > float(self.config["soft_usd"]):
                 decision, reason = "queued", "daily soft budget reached; no new Agent calls"
-            elif pool_projected > float(self.config["pools"][pool]):
+            elif not continuation and pool_projected > float(self.config["pools"][pool]):
                 decision, reason = "queued", f"{pool} pool would be exceeded"
             if decision != "allowed":
                 db.execute("""
@@ -545,7 +562,7 @@ class CostLedger:
         return json_path, markdown_path
 
     def write_public_status(
-        self, path: Path, date: str | None = None, extra: dict[str, int] | None = None
+        self, path: Path, date: str | None = None, extra: dict[str, Any] | None = None
     ) -> None:
         report = self.summary(date)
         safe = {
@@ -567,6 +584,10 @@ class CostLedger:
             prior.get("queued_fulltext_papers", 0))
         safe["queued_harness_candidates"] = int(
             prior.get("queued_harness_candidates", 0))
+        safe["harness_schedule_status"] = str(
+            prior.get("harness_schedule_status", "unknown"))
+        safe["harness_no_agent_day"] = bool(
+            prior.get("harness_no_agent_day", False))
         safe.update(extra or {})
         _atomic_write(path, json.dumps(safe, ensure_ascii=False, indent=2) + "\n")
 
@@ -579,6 +600,7 @@ def _main() -> int:
         reserve.add_argument(f"--{name}", required=name not in {"chat-session"})
     reserve.add_argument("--attempt", type=int, required=True)
     reserve.add_argument("--reservation-usd", type=float, required=True)
+    reserve.add_argument("--continuation", action="store_true")
     reconcile = sub.add_parser("reconcile")
     reconcile.add_argument("--call-id", required=True)
     reconcile.add_argument("--output-file", type=Path, required=True)
@@ -597,6 +619,8 @@ def _main() -> int:
     report.add_argument("--public-status", type=Path)
     report.add_argument("--queued-fulltext-papers", type=int)
     report.add_argument("--queued-harness-candidates", type=int)
+    report.add_argument("--harness-schedule-status")
+    report.add_argument("--harness-no-agent-day", choices=("true", "false"))
     args = parser.parse_args()
     ledger = CostLedger()
     if args.command == "reserve":
@@ -605,6 +629,7 @@ def _main() -> int:
                 pipeline=args.pipeline, stage=args.stage, pool=args.pool, model=args.model,
                 chat_session=args.chat_session or "", attempt=args.attempt,
                 reservation_usd=args.reservation_usd, input_hash=args.input_hash,
+                continuation=args.continuation,
             )
             print(json.dumps(value.__dict__))
             return 0
@@ -633,6 +658,10 @@ def _main() -> int:
             extra["queued_fulltext_papers"] = max(0, args.queued_fulltext_papers)
         if args.queued_harness_candidates is not None:
             extra["queued_harness_candidates"] = max(0, args.queued_harness_candidates)
+        if args.harness_schedule_status is not None:
+            extra["harness_schedule_status"] = args.harness_schedule_status
+        if args.harness_no_agent_day is not None:
+            extra["harness_no_agent_day"] = args.harness_no_agent_day == "true"
         ledger.write_public_status(args.public_status, extra=extra)
     print(json.dumps(ledger.summary(), ensure_ascii=False))
     return 0

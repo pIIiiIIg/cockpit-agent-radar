@@ -5,7 +5,7 @@ param(
     [string]$HarnessPath = "C:\Users\Administrator\Projects\StreamingModelHarness",
     [string]$HarnessSolutionsPath = "",
     [string]$HarnessSolutionsBranch = "automation/agent-h20-loop",
-    [ValidateRange(1, 6)][int]$MaxCanonicalPapers = 6,
+    [ValidateRange(1, 6)][int]$MaxCanonicalPapers = 3,
     [string]$Model = $(if ($env:RADAR_AGENT_MODEL) {
         $env:RADAR_AGENT_MODEL
     } else { "composer-2.5" })
@@ -85,7 +85,7 @@ try {
         -Prompt $prompt -Sentinel "DEEP_REVIEW_COMPLETE" -Log $Log `
         -Python $Python -Pipeline "radar" -Stage "deep_review" -Model $Model `
         -InputHash $packetMeta.input_hash -PromptVersion "radar-deep-review-v2" `
-        -CacheKind "deep_review" -CacheArtifact $History -ReservationUsd 6 -Attempts 2
+        -CacheKind "deep_review" -CacheArtifact $History -ReservationUsd 6 -Attempts 1
     if ($agentRun.Decision -eq "cached") {
         Write-AutomationLog $Log "SUCCESS: unchanged review input reused"
         exit 0

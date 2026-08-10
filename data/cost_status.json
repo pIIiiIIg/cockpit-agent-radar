@@ -3,13 +3,13 @@
   "date": "2026-08-10",
   "timezone": "Asia/Shanghai",
   "budget": {
-    "soft_usd": 100,
-    "hard_usd": 120,
+    "soft_usd": 60,
+    "hard_usd": 80,
     "pools": {
-      "harness_implementation": 70,
-      "radar_review_report": 20,
-      "publication": 5,
-      "recovery_reserve": 5
+      "harness_implementation": 40,
+      "radar_review_report": 10,
+      "publication": 3,
+      "recovery_reserve": 7
     }
   },
   "actual_usd": 0.0123685,
@@ -91,10 +91,10 @@
       "completed_days_average_cost_usd": 373.19
     },
     "targets": {
-      "soft_usd": 100.0,
-      "hard_usd": 120.0,
-      "reduction_to_soft_pct": 73.2,
-      "reduction_to_hard_pct": 67.84
+      "soft_usd": 60.0,
+      "hard_usd": 80.0,
+      "reduction_to_soft_pct": 83.92,
+      "reduction_to_hard_pct": 78.56
     },
     "model_costs": [
       {
@@ -141,5 +141,7 @@
     ]
   },
   "queued_fulltext_papers": 0,
-  "queued_harness_candidates": 0
+  "queued_harness_candidates": 0,
+  "harness_schedule_status": "unknown",
+  "harness_no_agent_day": false
 }
