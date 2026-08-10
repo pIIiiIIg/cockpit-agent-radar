@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-10</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-10</h2><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/days/2026-08-10.html"><span class="l-zh">→ 当天精读来源</span><span class="l-en">→ full-text reviews for this day</span></a></p><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-10</p>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-09.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<p>项目状态快照仍生成于 2026-08-07，本次没有更新的 Harness 提交可供核验。以下“项目证据” 沿用该快照和前一日报告：A/B 的首音频 P50 分别为 2918/3491ms，当前主要瓶颈被定位为 外挂 Edge TTS；单 token 解码约 110ms，已定位到 HF MoE 路径每 token 约 816 次 GPU→CPU 同步；后续明确要求增加多轮跟随、打断改口和取消/补偿评测。前一日报告另记录 baseline 414/452、召回 443/452，以及条件式 Top-2 verifier 离线仅净修 4、未进 H20。</p>
+<p>因此，今日新项目的价值主要在“交互状态机、打断评测、TTS 分块和实时服务边界”，不能被 解释成对 38 个工具失败或 110ms/token 根因的直接修复。</p>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>缺少可回放的打断、续说和自回声门</td><td>项目下一步要求增加打断改口、取消/补偿评测</td><td>jax-realtime</td><td>加入“回复前续说合并、回复中打断、工具播报打断、自回声”四类事件回放</td><td><strong>编辑建议</strong>：冻结 452 条任务零退化；可听回环中自打断为 0；打断停止 P95 先以 500ms 为门</td></tr>
+<tr><td>首音频约 3 秒，外挂 TTS 是主瓶颈</td><td>A/B 首音频 P50 为 2918/3491ms</td><td>jax-realtime 的 TTS 预热、标点分块与单时钟经验</td><td>对相同文本比较 Edge TTS、候选本地 TTS，并同时记录首音频、句间断裂和被打断残音</td><td><strong>编辑建议</strong>：先要求 P50 首音频下降且主观断句盲听不退化，不把“任意首声”算成功</td></tr>
+<tr><td>生成前后状态边界不完整</td><td>Harness C 需要 late tool、typed call 和确定性执行器</td><td>jax-realtime、ShipVoice</td><td>把 <code>listen/commit/respond/tool/abort/resume</code> 作为显式事件写入回放账本</td><td><strong>编辑建议</strong>：取消后不再播旧音频、不执行旧动作；同一 action 只提交一次</td></tr>
+<tr><td>单卡资源争用与形状抖动</td><td>当前 Qwen 解码瓶颈是同步；KV 拼接目前仅约 0.2ms</td><td>jax-realtime</td><td>只借鉴分阶段埋点、固定容量和 warm-shape 对照，不直接移植 WebGPU 实现</td><td><strong>编辑建议</strong>：先证明同步次数或 P95 首 token 下降；否则不声称“KV 优化有效”</td></tr>
+<tr><td>多模态输入不能阻塞座舱主循环</td><td>Harness 目标包含视觉、音频、文本与车控</td><td>AoiVR</td><td>低优先级视觉/系统音频任务与动作通道并行回放，验证背压和过期丢弃</td><td><strong>编辑建议</strong>：车控 action 延迟不因视觉任务显著上升，过期感知结果不得覆盖新状态</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<p>今日没有新的论文级重大突破，也没有可信的新 AEC/降噪、空间听觉、多乘员身份解析或原生 全双工模型结果。Radar 的 9 个新增条目中，真正值得进入工程调研的是三个官方仓库； 其中只有 jax-realtime 提供了较完整的实验日志，且仍是作者自测而非同行评审结果。</p>
+<h3>P0：直接命中当前工程短板</h3>
+<ul>
+<li><strong>jax-realtime</strong>：最值得借鉴的是“回复前续说”和“回复中打断”分流、按实际播放校准的</li>
+<p>回声底噪、Silero VAD 与能量打断双信号，以及把负结果保留在同一评测日志中。建议只移植 协议、埋点和回放用例，不直接移植浏览器模型栈。</p>
+</ul>
+<h3>P1：适合形成下一阶段架构</h3>
+<ul>
+<li><strong>AoiVR</strong>：原生 C++ agent、Unity 前端、流式 TTS、滚动视觉/系统音频上下文和进程内</li>
+<p>C ABI 的分层方式接近座舱“实时 UI 不被 agent 阻塞”的问题，但没有量化时延或打断证据。</p>
+<li><strong>ShipVoice Lite</strong>：可作为 WebRTC/SIP、worker 排空和组件可替换的服务参考，不是模型或</li>
+<p>全双工算法创新。</p>
+</ul>
+<h3>P2：长期模型研究</h3>
+<ul>
+<li>今日无新增候选。第三方 Qwen3-Omni 镜像、GGUF 量化与来源不明的模型页不是作者官方发布，</li>
+<p>不进入结论；它们也没有新增的模型方法或可核验评测。</p>
+</ul>
+<h3>与前一日的明确差异</h3>
+<p>前一日重点是 HarnessOpt-Bench、CalibForge、MulRobBench、MASS、DataSpace 等“候选选择、 确定性验证和 handoff”证据；今日不重复这些工作。今日新增价值集中在<strong>语音交互运行时</strong>： 如何区分停顿续说与真正打断、如何避免助手听见自己、如何让工具播报可取消、以及如何防止 TTS 分块为了首声指标牺牲韵律。它补的是前一日报告未覆盖的交互状态机和可听评测层，不改变 前一日 verifier 已离线失败、不得进入 H20 的结论。</p>
+<h2>1. jax-realtime</h2>
+<ul>
+<li>项目与代码：<a href="https://github.com/sachinkesiraju/jax-realtime" rel="noopener noreferrer">sachinkesiraju/jax-realtime</a></li>
+<li>作者实验日志：<a href="https://github.com/sachinkesiraju/jax-realtime/blob/main/docs/BENCHMARKS.md" rel="noopener noreferrer">Benchmarks &amp; latency hill-climb</a></li>
+<li>项目权重页：<a href="https://huggingface.co/sachink98/jax-realtime-weights" rel="noopener noreferrer">sachink98/jax-realtime-weights</a></li>
+</ul>
+<h3>它是什么</h3>
+<p><strong>项目事实</strong>：这是浏览器内运行的英语级联语音助手，组合 Whisper base.en、SmolLM2-360M、 Pocket TTS/Mimi、Silero VAD 和可选 D-FINE 视觉检测。仓库将约 150ms 的策略 tick、流式 ASR、LLM、TTS、视觉和天气/Wikipedia/计算器/时钟工具组织为一个确定性微轮次状态机。 它不是端到端语音模型，也没有论文。</p>
+<h3>核心方法（或核心架构）</h3>
+<p><strong>项目事实</strong>：</p>
+<ol>
+<li>监听阶段用 Silero VAD v5 的 TypeScript 移植版做起声、静音和 phantom-turn 判断；</li>
+<p>回复阶段仍用能量打断，因为作者观察到 Silero 会把扬声器回声也判为语音。</p>
+<li>回声底噪只在 TTS 分析器确认“实际有声播放”时采样；连续约两个 tick 超过</li>
+<p><code>max(绝对门槛, 回声底噪×1.8)</code> 才打断。这样避免在首音频前的静默区错误校准。</p>
+<li>若 endpoint 后 700ms 内、首音频前恢复说话，则取消未被听见的回复，把前后两段转写</li>
+<p>合并为一轮；窗口外或第二次恢复则走普通 barge-in。工具播报和定时提醒也有独立 <code>AbortController</code>，可被同一打断路径停止。</p>
+<li>LLM prefill 采用固定 256-token shape bucket，并把历史限制在 8 条消息；TTS 在加载期</li>
+<p>预热常见长度。TTS 只在标点处分块，避免在词边界截断时生成“句末降调+停顿”。</p>
+<li>工具请求可以先播 holding line，再后台查询并在下一次静音后返回；动作、回复和工具播报</li>
+<p>都经过同一可取消音频通道。</p>
+</ol>
+<h3>论文结果</h3>
+<p>本项没有论文。以下均为<strong>作者仓库自报实验</strong>，不是独立复现：</p>
+<ul>
+<li>Silero 移植与 ONNX Runtime 参考在状态序列上的最坏绝对差为 <code>6.2e-7</code>；作者报告每</li>
+<p>32ms 帧约 2.3ms CPU 开销。</p>
+<li>Cycle 22 的 12 轮固定假麦克风回放报告 turn latency P50/P95 为 1418/1540ms，</li>
+<p>12/12 转写一致；60 秒键盘输入从能量基线的 20–21 次 phantom discard 降为 0。</p>
+<li>700ms 的 continuation-merge 在作者的 mid-pause 用例中 3/3 完整合并；无限窗口曾让</li>
+<p>噪声取消回复并拼坏转写，因此被收紧且每轮只允许一次。</p>
+<li>只按标点切 TTS 后，作者报告 sentence P50 从 217ms 增至 460ms、整轮 P50 从</li>
+<p>1324ms 增至 1585ms；这是为了韵律主动接受的时延代价。</p>
+<li>预填充投机在单 WebGPU 上因与 ASR 争用而变慢，早期实验从 1731ms 增至</li>
+<p>2012–2425ms，已撤回。这个负结果说明“并行启动”不等于“关键路径重叠”。</p>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>编辑判断</strong>：</p>
+<ul>
+<li>第一优先级不是换模型，而是把 <code>endpoint-fired</code>、<code>first-audio</code>、<code>continuation-resume</code>、</li>
+<p><code>barge-detected</code>、<code>tts-aborted</code>、<code>tool-committed</code> 写成统一事件。这样可明确区分“用户只是 续说”和“用户撤销/修改已听见的回复”，也能验证旧 action 是否真的停止。</p>
+<li>回声底噪必须以播放端实际有声为采样门，而不是以“回复状态已开始”为门。建议加入真实</li>
+<p>扬声器→麦克风回环、不同音量、车内音乐和双讲用例；这比只在静音 WAV 上测 barge-in 更接近 座舱。</p>
+<li>可复用其负结果纪律：首声指标不能奖励无意义 filler；单卡上 ASR/LLM/TTS 的“并发”必须</li>
+<p>由阶段时间线证明。对当前 110ms/token 问题，应先消除 HF MoE 同步，再讨论 shape bucket 或 KV；两者不能混为一个根因。</p>
+<li>TTS 候选应同时报告首音频、句间空洞、截断残音和韵律盲听。当前项目约 3 秒首音频可先把</li>
+<p>jax-realtime 的字段设计当作测量模板，但其浏览器数字不能与 H20/5090 直接横比。</p>
+</ul>
+<p>建议优先级：<strong>P0（协议与评测）</strong>；不建议直接替换 Harness 推理栈。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li><strong>项目事实</strong>：代码仓库为 MIT；作者权重页可访问，但没有 model card，页面未给整包许可证。</li>
+<p>仓库说明各底层权重仍服从各自许可证，因此“所有权重可商用”未知。</p>
+<li><strong>项目事实</strong>：当前 ASR 是 <code>base.en</code>，不代表中文座舱；视觉只做 COCO 对象检测，不处理</li>
+<p>多乘员身份、说话人定位或空间听觉。</p>
+<li><strong>项目事实</strong>：实验日志说明假麦克风会静音播放，现有探针不能测真实扬声器泄漏；可听</li>
+<p>loopback 仍是待办。仓库公开了日志和运行代码，但日志提到的部分 bench clip/harness 是本地产物或 gitignored，完整逐项复现材料不齐。</p>
+<li><strong>编辑判断</strong>：其“full-duplex”是可打断的级联系统，不是模型同时听说；AEC、远场降噪和</li>
+<p>双讲质量仍未知。</p>
+</ul>
+<h2>2. AoiVR</h2>
+<ul>
+<li>项目与代码：<a href="https://github.com/keybodhi/AoiVR" rel="noopener noreferrer">keybodhi/AoiVR</a></li>
+</ul>
+<h3>它是什么</h3>
+<p><strong>项目事实</strong>：AoiVR 是 Windows/SteamVR 助手，使用 Unity overlay 展示界面，并把 LLM、ASR、流式 TTS、系统音频转写、VR 截图和工具放进 C++20 原生 agent DLL。Unity 与 agent 通过进程内 C ABI 交换长度前缀 JSON；仓库声明 agent 循环不阻塞 Unity 渲染线程。</p>
+<h3>核心方法（或核心架构）</h3>
+<p><strong>项目事实</strong>：音频层使用环形缓冲和分块 SSE PCM，支持串行句子播放和 abort；环境层按 时间窗口处理最新视觉帧、限制并发描述、归档过期上下文，并把视觉时间线和系统音频分区。 协议层为消息设置类型、ID 和时间戳，并拒绝畸形或超 64MB 消息。</p>
+<h3>论文结果</h3>
+<p>没有论文，也没有官方仓库给出的端到端时延、ASR 准确率、打断成功率、帧率影响或并发压力 数字。仓库中的 feature/test 文件说明预期行为和单元测试范围，不能等同于量化结果。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>编辑判断</strong>：其价值是座舱形态参考：把 UI/渲染、agent 状态、流式音频和低优先级视觉任务 解耦，并为每条消息保留 ID/时间戳。可将 VR 控制器映射为座舱显示/旋钮，把截图与系统音频 映射为相机和媒体流，测试视觉任务背压是否影响车控 action。建议只抽取协议和压力测试思想， 不运行或接入该陌生仓库。</p>
+<p>建议优先级：<strong>P1（多模态运行时参考）</strong>。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li><strong>项目事实</strong>：代码为 MIT，仓库包含原生、Unity、feature 和测试文件；依赖外部 LLM/TTS</li>
+<p>服务，未发布专属模型权重。</p>
+<li><strong>项目事实</strong>：仓库没有给出 AEC、降噪、语义判停、barge-in、多说话人归属或空间音频方法。</li>
+<li><strong>编辑判断</strong>：持续视觉和系统音频并不自动构成多乘员智能座舱；在没有资源隔离、隐私门和</li>
+<p>说话人/座位绑定前，只能算单用户多模态助手。</p>
+</ul>
+<h2>3. ShipVoice Lite</h2>
+<ul>
+<li>项目与代码：<a href="https://github.com/mahimailabs/shipvoice" rel="noopener noreferrer">mahimailabs/shipvoice</a></li>
+</ul>
+<h3>它是什么</h3>
+<p><strong>项目事实</strong>：这是 LiveKit 语音 agent 模板，将 Python worker、FastAPI token 服务和 React 前端拆开，默认串联 Deepgram STT、Cerebras LLM、Inworld TTS、Silero VAD 和 LiveKit 多语言 turn detector，同时支持 WebRTC 与 SIP。</p>
+<h3>核心方法（或核心架构）</h3>
+<p><strong>项目事实</strong>：worker 可显式 dispatch，并在 SIGTERM 时排空正在进行的会话；模型供应商可 替换，工具通过 <code>@function_tool</code> 或 <code>AgentTask</code> 接入。仓库也明确提示：backend 默认无认证， LiveKit signing secret 会以未加密形式进入 Postgres，不能直接暴露公网。</p>
+<h3>论文结果</h3>
+<p>没有论文，也没有公开的首音频、打断、丢包、并发、成本或工具成功率结果。所谓“可用于生产” 只能视为项目定位，不能视为已经通过座舱实时门。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>编辑判断</strong>：可借鉴 transport/worker/会话排空的服务边界，并用同一 Harness 驱动本地与 WebRTC 路径，比较网络抖动、断连重入和取消语义。它不解决当前 110ms/token、TTS 首音频或 38 个工具错误；默认云服务也不适合作为离线座舱基线。</p>
+<p>建议优先级：<strong>P1（实时服务与故障注入）</strong>。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li><strong>项目事实</strong>：仓库 LICENSE 对项目自有代码授予 MIT，但 vendored UI、品牌和部分图片另有</li>
+<p>范围说明；依赖服务与模型的许可证需分别审计。</p>
+<li><strong>项目事实</strong>：默认 backend 无认证且 signing secret 未加密，是明确安全风险。</li>
+<li><strong>编辑判断</strong>：在补齐认证、密钥存储、离线降级和确定性 action verifier 前，不应直接用于</li>
+<p>车控生产链路。</p>
+</ul>
+<h2>候选去重与未纳入项</h2>
+<ul>
+<li><code>genpark-realtime-voice-duplex-conversational-copilot-skill</code> 虽是今日最高 Radar 分，但官方</li>
+<p>仓库只有极薄客户端；<code>client.py</code> 固定返回示例 URL、<code>user_interrupted: false</code> 和 <code>latency_ms: 95</code>。这不是实测全双工或 95ms 证据，许可证也未知，故不纳入技术建议。</p>
+<li><code>mlinmg/Qwen3-Omni-30B-A3B-Instruct</code>、两个 Qwen/OmniVoice GGUF 与 Barbados fused 页面</li>
+<p>都不是原作者官方模型页；它们是既有模型的镜像、融合或量化，不计作新模型。</p>
+<li>AoiVR、jax-realtime 和 ShipVoice 是三个独立项目，没有发现同一论文改名或修订关系。</li>
+<li>今日没有可核验的新 AEC/降噪、空间听觉、多乘员、流式音视频 benchmark 或原生全双工论文；</li>
+<p>继续跟踪，但不以无来源数字填充。</p>
+</ul>
+<h2>今日建议路线</h2>
+<h3>第一阶段</h3>
+<p>先在现有 Harness 增加统一交互事件和四类离线回放：首音频前 700ms 内续说、首音频后打断、 工具播报打断、真实扬声器回环自打断。只改评测和协议，不动模型；与 452 冻结任务一起检查 action 是否 exactly-once。</p>
+<h3>第二阶段</h3>
+<p>把 TTS 测试从“首声”升级为多目标：首音频、句间间隙、取消后残音、标点韵律盲听。并行 比较本地 TTS 与现有 Edge TTS，但不得把不同硬件上的 jax-realtime 数字当目标值。</p>
+<h3>第三阶段</h3>
+<p>建立低优先级视觉/系统音频任务与 action 主通道的资源隔离和过期策略；随后再用 WebRTC/SIP 故障注入验证断连、排空、恢复和重复 action。多乘员与空间音频必须等待有说话人/座位真值的 新数据或论文，今日无足够证据启动。</p>
+<h2>风险提醒</h2>
+<ul>
+<li>GitHub README 和项目实验日志是作者自报，不是论文结果；本报告已按“项目事实”标注。</li>
+<li>“full-duplex”标签可能只表示可打断级联，不代表模型同时听说，也不代表已有 AEC。</li>
+<li>能量打断在真实车舱会受 AGC、音乐、路噪和扬声器位置影响；没有可听 loopback 就不能发布。</li>
+<li>TTS 首声、整轮时延和自然度存在直接冲突；任何优化都必须同时过数值门与盲听门。</li>
+<li>shape bucket/KV 技巧不能替代当前已定位的 HF MoE 同步修复；根因不同，必须分别测量。</li>
+</ul></div><section class="solution-feedback"><h2><span class="l-zh">实验反馈 / 保留组件</span><span class="l-en">Experiment feedback / retained components</span> · 2026-08-10</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/2026-08-10.html"><span class="l-zh">查看当日方案页</span><span class="l-en">Open daily solutions</span></a></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
