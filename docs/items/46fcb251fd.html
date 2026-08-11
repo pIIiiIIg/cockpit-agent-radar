@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-04-20 · ◈ 5
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection methods with 18 audio models across 40 tasks covering major LAM evaluation dimensions, we show that subsets of just 50 examples (0.3% of data) can achieve over 0.93 Pearson correlation with full benchmark scores. To understand how well these scores align with what practitioners ultimately care about, user satisfaction, we collect 776 human preference ratings from realistic voice assistant conversations, finding that both subsets and full benchmark achieve only 0.85 correlation with human. To better predict preferences, we trained regression models on these selected subsets, achieving 0.98 correlation -- outperforming regression models trained on both random subsets and the full benchmark. This demonstrates that in regression modeling, well-curated subsets outpredict the full benchmark, showing quality over quantity. We open-source these regression-weighted subsets as the HUMANS benchmark, an efficient proxy for LAM evaluation that captures both benchmark performance and user preferences. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">HUMANS 通过从大型音频模型基准中挑选少量高信息样本，再用人类偏好校准回归权重，以更低成本近似完整评测并预测真实语音助手满意度。它适合为 StreamingModelHarness 建立跨架构离线回归集，但衡量的是回合式交互质量，不应被当作原生全双工能力证明。</span>
     <span class="l-en">The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection methods with 18 audio models across 40 tasks covering major LAM evaluation dimensions, we show that subsets of just 50 examples (0.3% of data) can achieve over 0.93 Pearson correlation with full benchmark scores. To understand how well these scores align with what practitioners ultimately care about, user satisfaction, we collect 776 human preference ratings from realistic voice assistant conversations, finding that both subsets and full benchmark achieve only 0.85 correlation with human. To better predict preferences, we trained regression models on these selected subsets, achieving 0.98 correlation -- outperforming regression models trained on both random subsets and the full benchmark. This demonstrates that in regression modeling, well-curated subsets outpredict the full benchmark, showing quality over quantity. We open-source these regression-weighted subsets as the HUMANS benchmark, an efficient proxy for LAM evaluation that captures both benchmark performance and user preferences.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reduc</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">精心挑选的 50 个音频样本已能较好复现完整基准排名，而用人类评分训练的子集回归器比完整基准更能预测用户满意度。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。</p>
+  <p>大型音频模型的输入 token 和计算成本远高于文本模型，完整基准不适合频繁比较模型、检查点或配置；同时，静态任务得分未必反映真实语音助手中的自然度、简洁度、工具完成度和总体满意度。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection methods with 18 audio models across 40 tasks covering major LAM evaluation dimensions, we show that subsets of just 50 examples (0.3% of data) can achieve over 0.93 Pearson correlation with full benchmark scores. To understand how well these scores align with what practitioners ultimately care about, user satisfaction, we collect 776 human preference ratings from realistic voice assistant conversations, finding that both subsets and full benchmark achieve only 0.85 correlation with human. To better predict preferences, we trained regression models on these selected subsets, achieving 0.98 correlation -- outperforming regression models trained on both random subsets and the full benchmark. This demonstrates that in regression modeling, well-curated subsets outpredict the full benchmark, showing quality over quantity. We open-source these regression-weighted subsets as the HUMANS benchmark, an efficient proxy for LAM evaluation that captures both benchmark performance and user preferences.</p>
-
-
+  <p>论文汇集五个基准的 40 项任务，在 18 个音频模型上比较随机、难度、IRT、锚点及语义/声学联合嵌入等 10 种子集选择方法，并用留出模型验证子集与完整基准的相关性。作者又让用户与 7 个代表性模型进行含工具调用、任务对话和开放聊天的交互，收集偏好评分，再以所选样本得分训练 Ridge 回归器预测总体满意度及理解、自然度、回答质量和任务有效性。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>在统一任务池上运行候选模型，形成模型—样本得分矩阵。</li><li>用锚点或联合语义/声学嵌入等方法选择不同规模的最小评测子集。</li><li>通过三折交叉验证和重复抽样，在未参与选择的模型上比较子集分数与完整基准分数。</li><li>收集真实语音助手会话后的用户评分，并分析静态基准与人类偏好的差距。</li><li>在精选子集得分上训练 Ridge 回归权重，输出人类偏好预测分和完整基准代理分。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>研究比较了 18 个音频模型、40 项任务和 10 种子集选择方法；联合嵌入方法的 Pearson AUCC 为 0.943。</li><li>50 个样本约占完整 15,964 样本基准的 0.3%，与完整基准得分的 Pearson 相关系数达到 0.934。</li><li>作者收集了 776 份来自 10 分钟交互会话的人类偏好评分，覆盖 7 个模型以及工具调用、任务型对话和开放聊天场景。</li><li>精选子集和完整静态基准与人类偏好的相关性都在约 0.85 处趋于饱和；定性反馈还暴露了过度冗长和机器人式语音等基准未突出的问题。</li><li>HUMANS 的 Ridge 回归方案与用户满意度的相关系数达到 0.978，高于随机子集和完整基准上的回归方案。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：HUMANS 可作为 StreamingModelHarness 的低成本模型与配置回归集；架构 A 可按音频输入—文本输出或转写文本—文本输出路径接入，架构 B 可按直接音频输入路径接入。</li><li>编辑判断：论文的人类实验统一了工具与会话场景，适合比较 ASR、RAG、晚期工具结果和 Qwen3-Omni KV 路径的端到端用户结果；但现成回归权重只在论文所评 7 个模型上学习，新增架构应重新做人类校准。</li><li>编辑判断：Harness 在话尾后才生成并使用外部 TTS，仍是回合式系统；HUMANS 没有验证同时听说、重叠语音、打断恢复或模型层原生全双工，相关能力需要另设时序基准。</li><li>编辑判断：外部 TTS、迟到工具注入和搜索/状态/call hop 会引入论文静态子集未隔离的延迟与声学变量，应把首包、工具后重生成、TTS 自然度和任务完成分别记录。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>人类评测只覆盖美国本土英语母语者，具体子集与回归权重不能直接外推到其他语言和地区。</li><li>人类偏好只评了 7 个模型，留一模型协议可能高估绝对泛化性能，对新模型架构的稳健性有限。</li><li>子集针对对话型音频场景优化，不保证适用于音乐理解、音乐生成或其他音频领域。</li><li>选择方法基于当前模型，面对能力分布显著不同的未来模型可能出现外推失效；公开固定题目也存在过拟合风险。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-03 15:01</p>
+  <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
+     &nbsp; 核验：论文正文明确给出 https://huggingface.co/datasets/woodygan/humans-benchmark；该公开数据集页可访问，并链接作者的评测代码仓库。论文发布的是子集、权重和人类偏好数据，不是新的生成模型；数据集页当时仍标注许可证信息待补。</p>
+  <p><a class="btn" href="https://github.com/Woodygan/humans-benchmark" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-11 14:35</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2605.00022v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

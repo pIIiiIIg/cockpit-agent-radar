@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-07 · ◈ 25
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generative Context Mis-anchoring (GCM). To address GCM issues, we present PACE, a provider-independent middleware layer that anchors model-facing context to the client playback boundary, a system-observable proxy for what the user could have heard. After an interruption, PACE repairs this context to exclude assistant content that never reached playback, while preserving low-latency generation across heterogeneous voice runtimes. We implement PACE&#x27;s audio-only projection path end to end in a browser-based realtime voice assistant using a black-box speech model, without modifying the model service. We also construct GCM-Bench, a new controlled benchmark dataset of 108 playback-relative referent-anchoring cases. On GCM-Bench, PACE raises Referent Anchoring Accuracy from 25.0% to 96.3% over a cancellation-only baseline. On 200 Full-Duplex-Bench v1 interruption samples, it preserves interruption response quality. These results show that grounding model-facing context in actual playback is a practical way to maintain consistency in full-duplex voice dialogue. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">PACE 是面向全双工语音服务的播放对齐上下文中间件，用客户端实际播放边界修复被服务端预生成内容提前推进的对话状态。它不要求原生模型层全双工，因此与 StreamingModelHarness 的外部 TTS、客户端播放和打断链路高度相关，但前提是补充逐轮音频账本与播放确认。</span>
     <span class="l-en">LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generative Context Mis-anchoring (GCM). To address GCM issues, we present PACE, a provider-independent middleware layer that anchors model-facing context to the client playback boundary, a system-observable proxy for what the user could have heard. After an interruption, PACE repairs this context to exclude assistant content that never reached playback, while preserving low-latency generation across heterogeneous voice runtimes. We implement PACE&#x27;s audio-only projection path end to end in a browser-based realtime voice assistant using a black-box speech model, without modifying the model service. We also construct GCM-Bench, a new controlled benchmark dataset of 108 playback-relative referent-anchoring cases. On GCM-Bench, PACE raises Referent Anchoring Accuracy from 25.0% to 96.3% over a cancellation-only baseline. On 200 Full-Duplex-Bench v1 interruption samples, it preserves interruption response quality. These results show that grounding model-facing context in actual playback is a practical way to maintain consistency in full-duplex voice dialogue.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on </p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">PACE 用“用户实际播放到哪里”而非“模型生成到哪里”提交上下文，避免打断后指代落到用户尚未听到的内容。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>全双工服务中的生成速度通常快于播放速度，服务端历史可能已经写入多句未播放内容；用户打断并说“那里”或“下一项”时，即使 ASR 和生成各自正确，模型也会在错误的上下文位置解析指代，论文称之为生成式上下文错锚（GCM）。仅停止播放或取消生成不能撤销已经推进的模型上下文。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generative Context Mis-anchoring (GCM). To address GCM issues, we present PACE, a provider-independent middleware layer that anchors model-facing context to the client playback boundary, a system-observable proxy for what the user could have heard. After an interruption, PACE repairs this context to exclude assistant content that never reached playback, while preserving low-latency generation across heterogeneous voice runtimes. We implement PACE&#x27;s audio-only projection path end to end in a browser-based realtime voice assistant using a black-box speech model, without modifying the model service. We also construct GCM-Bench, a new controlled benchmark dataset of 108 playback-relative referent-anchoring cases. On GCM-Bench, PACE raises Referent Anchoring Accuracy from 25.0% to 96.3% over a cancellation-only baseline. On 200 Full-Duplex-Bench v1 interruption samples, it preserves interruption response quality. These results show that grounding model-facing context in actual playback is a practical way to maintain consistency in full-duplex voice dialogue.</p>
-
-
+  <p>PACE 将边界跟踪与上下文投影解耦：服务端为每个助手轮次维护输出音频账本，客户端回报最新已渲染采样点；确认打断后冻结该边界、暂存新用户音频、取消生成并抑制迟到输出、撤销边界后的客户端缓冲，再按运行时能力重写文本历史、调用供应商截断接口，或向黑盒语音模型重注入最近已播放音频。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>为助手生成的音频建立逐轮账本，并持续接收客户端播放采样点确认。</li><li>确认用户打断时快照播放边界，关闭用户音频前向门并取消当前生成。</li><li>丢弃迟到输出与尚未播放的客户端缓冲，只保留边界前可被听到的内容。</li><li>通过文本重写、供应商截断或已播放音频重注入完成上下文投影。</li><li>修复完成后释放暂存的用户音频，继续识别与生成。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>GCM-Bench 含 108 个播放相对指代锚定样例；PACE 将 RAA 从仅取消基线的 25.0% 提升到 96.3%（104/108）。</li><li>在 200 个 Full-Duplex-Bench v1 打断样例上，基线与 PACE 的响应率均为 1.000，平均质量分分别为 4.975 和 4.995。</li><li>打断路径平均响应延迟由 0.771 秒增至 0.830 秒，论文报告额外开销为 58.7 毫秒。</li><li>5 秒回看为 104/108（96.30%），2.5 秒为 103/108（95.37%），10 秒降至 71/108（65.74%）。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：这是本批次与 StreamingModelHarness 最直接的系统层改造方向；外部 TTS 使播放进度可观测，也使生成历史领先播放的风险真实存在。</li><li>编辑判断：可在架构 A 的 ASR、RAG 与迟到工具注入之外增加 playback commit；工具结果及其生成文本也应在真正播放后再视为面向用户的已提交语义。</li><li>编辑判断：它修复的是打断后的分布式一致性，不提供端到端同时听说、回声消除、端点检测或自然 backchannel。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>论文指出 GCM-Bench 使用 TTS 构造的用户轨迹，集中于列表任务，并只采用一个评审器和一个实时模型。</li><li>播放边界只证明音频已渲染，不证明用户确实注意或理解；缺少可靠音频—语义映射时只能做采样级承诺。</li><li>PACE 的四个错误中，三个出现在流程型场景并错锚到相邻子动作，细粒度语义边界仍困难。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-11 14:15</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 正文只明确给出作者的 GCM-Bench 数据集仓库；未发现 PACE 实现或模型页，仓库许可证未核验。</p>
+  <p><a class="btn" href="https://github.com/CodeForZzc/GCM-Bench" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-11 14:29</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.07631v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
