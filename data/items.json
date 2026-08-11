@@ -1,6 +1,216 @@
 {
- "generated": "2026-08-11T14:15:29.630536+08:00",
+ "generated": "2026-08-11T19:14:27.712882+08:00",
  "items": [
+  {
+   "id": "d7af3656a6",
+   "kind": "repo",
+   "source": "github",
+   "title": "AreevAI/flowcat",
+   "url": "https://github.com/AreevAI/flowcat",
+   "published": "2026-08-10",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 10,
+   "tags": [
+    "speech-to-speech",
+    "real-time voice",
+    "voice agent"
+   ],
+   "summary_en": "Self-hosted native-Rust runtime for real-time voice agents. Own the stack: one binary in your own VPC or air-gapped, no hosted control plane. pipecat-compatible pipeline, in-process SIP/RTP, single-process call density. Apache-2.0. on-premise pipecat realtime rust self-hosted sip speech-to-speech telephony voice-agents voice-ai webrtc",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 94
+  },
+  {
+   "id": "ef912b158d",
+   "kind": "paper",
+   "source": "hf",
+   "title": "A^2E : An End-to-End Agent Auditing Engine",
+   "url": "https://huggingface.co/papers/2608.07346",
+   "published": "2026-08-09",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 6,
+   "tags": [
+    "agent harness"
+   ],
+   "summary_en": "With the rapid advancement of large language models (LLMs), harnesses have become essential infrastructure for deploying agents across a wide range of domains. The fast-evolving harness ecosystem has also made rigorous capability evaluation increasingly important. However, efficiently building an end-to-end, systematic, and comprehensive evaluation pipeline remains a significant challenge. To address this challenge, we introduce A^2E (Agent Auditing Engine), an end-to-end evaluation engine designed for agent harnesses. A^2E leverages our newly proposed Agent Task Protocol (ATP) to enable the rapid integration of evaluation tasks with different harnesses. Through an automatically instrumented Monitor, it captures and generates standardized execution traces during experiments. In the Evaluation stage, A^2E systematically assesses harness capabilities using a suite of multidimensional metrics. Compared with correctness alone, these metrics provide a more fine-grained characterization of differences among harnesses in execution efficiency, tool use, task planning, and error recovery. Experiments conducted with A^2E further reveal that model-harness combinations exhibit substantial performance variation across different types of tasks, and that no single combination consistently outperforms all others across every task. These findings not only demonstrate the necessity of systematic evaluation but also provide useful guidance for the co-evolving of models and harnesses. Our code is available at https://github.com/datamllab/A2E.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6d009cbc35",
+   "kind": "repo",
+   "source": "github",
+   "title": "pipecat-ai/nemotron-voicechat-dgx-spark",
+   "url": "https://github.com/pipecat-ai/nemotron-voicechat-dgx-spark",
+   "published": "2026-08-10",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 5,
+   "tags": [
+    "speech-to-speech",
+    "speech model"
+   ],
+   "summary_en": "Run NVIDIA NemotronLabs VoiceChat speech-to-speech model on DGX Spark",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "e2ad52c7be",
+   "kind": "paper",
+   "source": "hf",
+   "title": "What to Edit Next: Visually Aligned Image-Editing Follow-Up Suggestions in Conversational Systems",
+   "url": "https://huggingface.co/papers/2608.07565",
+   "published": "2026-08-02",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Conversational assistants increasingly recommend follow-up edits to help users continue a task. Existing systems primarily target text-only interactions, leaving image-creation conversations underexplored. In image-creation tasks, useful follow-up edit suggestions must reflect user preferences, offer diverse directions, and remain executable on the current image. We collected 100,000 real multi-turn image-creation conversation samples from Qwen App and found that 80.1% are image-dependent, underscoring the need for multimodal recommendation. We address this setting with a three-stage framework. In Stage 1, we use real online data to build a human-reviewed table of appropriate follow-up editing intents, then create SFT targets and fine-tune a multimodal policy. In Stage 2, to align rule-guided SFT suggestions with actual user choices, we use user click feedback to optimize the policy through multi-objective reinforcement learning. In Stage 3, to reduce visual inconsistencies between suggested edits and the current image, we introduce a visual verifier as additional training supervision. Extensive experiments demonstrate that our framework significantly outperforms baselines on both automatic and human evaluations. In a live user-randomized A/B test with millions of users, our final framework reduces visual inconsistency from 3.7% to 0.9%. Furthermore, it significantly improves recommendation CTR by 32.70%, image take-away rate by 16.32%, and average conversation turns per user by 39.90% (all p<0.05).",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "f95cdbce57",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "LIRA: Local Cross-Layer Information Routing for Vision-Language-Action Decoding",
+   "url": "https://arxiv.org/abs/2608.07596v1",
+   "published": "2026-08-06",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Vision-Language-Action (VLA) models transform representations from pretrained vision-language models (VLMs) into robot actions, yet the interface that routes intermediate VLM features into action decoders remains underexplored. Existing designs either expose only a narrow part of the representation hierarchy or rigidly match each decoder block to one VLM layer, restricting access to complementary task evidence across depths. We introduce LIRA, a local cross-layer action-conditioning mechanism that formulates VLM-to-action conditioning as depth-aware information routing. LIRA operates on task-token features and LIRA Query features derived from intermediate VLM states, then assigns each Parallel Fusion Block a depth-aligned local window centered on its corresponding VLM layer. Parallel Fusion Blocks aggregate neighboring LIRA Query features and integrate them with task-token features and proprioceptive inputs before action prediction. This routing interface leaves the backbone architecture, action decoder, and supervised training recipe unchanged. Across LIBERO, LIBERO-Plus, CALVIN ABC$\\rightarrow$D, and real-world manipulation, LIRA improves the principal aggregate metrics over the VLA-Adapter baseline under the same 0.5B-parameter configuration. In zero-shot transfer to LIBERO-Plus, LIRA increases average success from 59.1% to 78.0%, an 18.9-point gain indicating improved robustness under controlled distribution shifts.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "109bac540c",
+   "kind": "paper",
+   "source": "arxiv",
+   "title": "VANE: Reliable Test-Time Training for Vision-Language-Action Models via Future Visual Representation Prediction",
+   "url": "https://arxiv.org/abs/2608.09448v1",
+   "published": "2026-08-10",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 4,
+   "tags": [
+    "vision-language-action"
+   ],
+   "summary_en": "Test-time training (TTT) offers a lightweight way to adapt vision--language--action (VLA) policies from unlabeled deployment streams, but it remains difficult to use reliably in closed-loop manipulation. A shared adaptation space can mix incompatible task corrections, while an online update can alter subsequent actions before its consequences are known. We introduce a reliable TTT framework for VLA policies (VANE). VANE conditions prompt adaptation on the current vision--language context and learns from the future visual consequences of executed actions. Candidate updates are isolated from the live policy, evaluated on subsequent observations, and committed only when supported by future evidence, making adaptation selective and reversible. On SimplerEnv WidowX, VANE improves average success by $3.2$ percentage points over the corresponding TTT baseline. Results on Google Robot further show that deployment-time gains remain task- and embodiment-dependent. Together, these results demonstrate a constrained, evidence-based approach to adapting VLA policies during interaction.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "bdd841f7a4",
+   "kind": "paper",
+   "source": "hf",
+   "title": "WeClawArena: An Auditable Sandbox and Benchmark for Cross-User Agents Collaboration and Security in Human-Centered Agent Networks",
+   "url": "https://huggingface.co/papers/2608.03499",
+   "published": "2026-08-03",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Recent advances in persistent personal-agent frameworks are making human-centered agent networks realistic deployment targets: each user can be served by an AI agent that acts on the user's behalf, maintains state, and communicates with other agents through social and task relations. In these networks, everyday tool use becomes multi-party owned-agent collaboration over personal workspaces, where files, records, tools, and policies are not directly visible across owners. Existing agent benchmarks study tool use and collaboration, but they do not provide an end-to-end sandbox for verifiable cross-user agent collaboration with realistic user digital workspaces or test how harmful actions can travel through the human-centered agent network. We introduce WeClawArena, an auditable benchmark and runtime sandbox for multi-party owned-agent collaboration over personal workspaces. WeClawArena targets collaborative tool-use tasks in which personal workspaces serve as both operational tools and personal constraints. The benchmark contains 124 base tasks across six cross-user task domains and expands them into 620 scenario variants, with one benign control and four attack-vector variants per base task. The sandbox records peer messages, tool calls, resource operations, governed decisions, and final workspace states. WeClawArena reports utility and attack success rate separately and audits attack success from bounded runtime evidence, supporting diagnosis of task breakdown, privacy leakage, poisoned evidence, and invalid authority paths.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "6f4c7adc6c",
+   "kind": "paper",
+   "source": "hf",
+   "title": "SimWAM: A Simple World Action Model for End-to-End Autonomous Driving",
+   "url": "https://huggingface.co/papers/2608.07468",
+   "published": "2026-08-06",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "World-Action Models (WAMs) improve end-to-end autonomous driving by transferring video dynamics priors to action prediction, but existing methods require costly future generation at inference. We present SimWAM, a simple yet effective WAM that uses video generation purely as a training signal. It co-trains a pretrained video expert and a lightweight action expert with joint flow matching. An isolated attention mask keeps action prediction independent of future frames, allowing the video branch to be discarded after training and leaving a self-contained planner that directly predicts trajectories. Since the two experts share no parameters and interact only through a unified attention interface, the video backbone could be replaced and the action expert scaled independently without modifying the learning objective or inference pipeline. We further apply reinforcement learning to optimize a compositional driving reward beyond trajectory imitation. Our SimWAM achieves 91.5 PDMS on NAVSIM, surpasses state-of-the-art WAM-based planners with substantially lower latency, and transfers zero-shot to nuScenes. These results position SimWAM as a simple yet solid baseline that could readily benefit from advances in video generation for efficient autonomous driving. The code and model weights are available at https://github.com/H-EmbodVis/SimWAM/",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "11c757a849",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Stealing Reasoning Traces from Proprietary LLM APIs",
+   "url": "https://huggingface.co/papers/2608.09867",
+   "published": "2026-08-09",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Leading large language model providers now conceal their models' step-by-step reasoning, or chain-of-thought, to protect intellectual property and limit information leakage. Rather than storing these traces server-side, providers return them to the client as blocks of encrypted text, which the client passes back with each subsequent request. Building on prior research, we identify an architectural vulnerability: these encrypted blocks are fully compatible and interchangeable across different sessions, users, and models within a provider's ecosystem. We exploit this compatibility to develop a scalable decryption jailbreak. By injecting an encrypted reasoning trace from a given model into a weaker, and less safeguarded model from the same provider, we force it to decode and output the trace verbatim in plaintext, without ever jailbreaking the more capable model directly. This vulnerability enables four distinct attack vectors. First, it circumvents anti-distillation mechanisms, allowing adversaries to extract a proprietary model's reasoning, as we demonstrate across Anthropic, OpenAI, and Google. Second, it allows for large-scale private data extraction. Developers frequently share session logs publicly, unaware of contents of the encrypted blocks. By decoding 315,320 reasoning blocks scraped from public repositories, we recovered 367 Personally Identifiable Information (PII) artifacts and 182 credentials. Third, it inadvertently reveals hazardous information hidden within the reasoning process, even in cases where the model's final, visible output safely rejects a malicious request. Fourth, attackers can leverage this flaw to execute invisible prompt injections, embedding malicious payloads entirely within encrypted blocks to poison public agentic rollouts. Following responsible disclosure, we propose concrete cryptographic and system-level mitigations to secure client-side reasoning.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "e393ae98f2",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Intent Speaks Louder: Controllable User Simulation Beyond Response Imitation",
+   "url": "https://huggingface.co/papers/2608.09420",
+   "published": "2026-08-09",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "User simulators are widely used as scalable environments for training and evaluating interactive assistants. Generating the next user turn is inherently one-to-many: the same profile and dialogue context may support multiple plausible continuations with different local interaction intents. A fluent response may therefore advance the dialogue through an inappropriate intent, such as acceptance rather than repair. Our key insight is that controllable user simulation should separate which local interaction intent the next user turn should realize from how that intent is expressed in language. We introduce UserIDA (User Intent-Directive Alignment), which exposes interaction intent as an explicit per-turn directive. UserIDA defines a six-way intent interface, learns directive-conditioned generation through supervised fine-tuning, and uses intent-calibrated policy optimization during group-based reinforcement learning. The reward preserves composite response quality while ensuring that intent-violating candidates rank below compliant alternatives in mixed groups. On LMSYS-USP, UserIDA achieves 86.6\\% intent accuracy, outperforming the strongest dedicated user-simulator baseline by 24.3 percentage points while improving semantic and stylistic similarity. In within-context interventions, it realizes at least four of the six target intents in 91.7\\% of evaluated dialogue states, compared with 22.9\\% for the strongest external baseline. These results establish per-turn intent control as a complementary dimension to response fidelity in user simulation.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "bce586d468",
+   "kind": "paper",
+   "source": "hf",
+   "title": "SWE-Bench ProMax: Benchmarking Agents on Large-Scale Multilingual Code Refactoring",
+   "url": "https://huggingface.co/papers/2608.09802",
+   "published": "2026-08-09",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "As AI coding agents take on increasingly complex, long-horizon software engineering tasks, existing benchmarks are rapidly saturating and their evaluation quality has come under serious scrutiny: a recent audit found that nearly 60% of unsolved SWE-bench Verified instances contain flawed tests -- either overly narrow tests that reject correct solutions or overly broad tests that check unstated requirements -- and that frontier models can verbatim reproduce gold patches from training data. Code refactoring, which requires coordinated, behavior-preserving changes across many files, offers a substantially harder and more realistic test of agent capability, yet remains underserved by current benchmarks. We introduce SWE-Bench ProMax, an expert-curated, multilingual code refactoring benchmark of 170 instances drawn from real commits across seven programming languages (Python, Java, TypeScript, Go, C, C++, and Rust). Every instance undergoes rigorous, multi-stage curation that directly addresses the quality problems identified in prior benchmarks: issue descriptions are rewritten from scratch to provide precise, unambiguous specifications, and test suites are manually reviewed to remove overly narrow and overly broad tests. Tasks with insufficient complexity or limited cross-file scope are filtered out, yielding a benchmark of challenging, large-scale refactoring tasks that average 11.4 modified files and 261.6 lines of code per instance, substantially exceeding the scale of existing benchmarks. Experiments with frontier models under two agent scaffolds show that the best model achieves only 41.2% resolve rate, confirming that SWE-Bench ProMax presents a meaningful and unsaturated challenge for current AI coding agents. Our benchmark is available at https://huggingface.co/datasets/swe-bench-promax/SWE-Bench-ProMax.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "ce6309ffcf",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Macaron-V1: Towards Open Continual Learning with Self-Improvement and Mixture-of-LoRA",
+   "url": "https://huggingface.co/papers/2608.09819",
+   "published": "2026-08-09",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "Macaron-V1 is an open agent-model family for experiential intelligence: learning from experience in real environments and continuing to learn after deployment. It is organized around two system goals. Adaptation is pursued through recursive improvement of versioned model-harness pairs, where experience from one configuration is evaluated under an external contract and used to construct its successor. Collaboration is pursued via the Mixture-of-LoRA (MoL) architecture that freezes a base model, composes specialist LoRA adapters, and selects one LoRA per user turn. The flagship Macaron-V1-Venti combines a 744B GLM-5.2 base with four LoRAs for chat, agent, coding, and GenUI; the Qwen3.6-based Macaron-V1-Tall (50B) uses the same design for local deployment. This report presents Macaron-V1 as a co-designed system spanning architecture, algorithms, and infrastructure. The MoL architecture supports continual learning through extensible LoRA specialists. The algorithm combines Model-Harness Co-design and recursive self-improvement loop, including the UI4A component-native GenUI harness, a stateful action substrate, versioned HCP contract, and the agentic RL framework MindForge. The supporting infrastructure includes the post-training platform MinT, the long-context RL method LongStraw, and stability techniques for sparse MoE and DSA base models. We evaluate Macaron-V1 on Personal Intelligence, GenUI, and general capability benchmarks against frontier baselines. Our results validate the current system, while compounding gains from continual learning and collective intelligence remain open questions.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "491a8e5df1",
+   "kind": "paper",
+   "source": "hf",
+   "title": "CEAA: A Cognitive Embodied Agents Architecture for Interactive Computing Systems",
+   "url": "https://huggingface.co/papers/2608.09848",
+   "published": "2026-08-09",
+   "found": "2026-08-11T19:14:27.712882+08:00",
+   "score": 3,
+   "tags": [],
+   "summary_en": "The development of embodied Intelligent Virtual Agents (IVAs) that have cognitive capabilities in real-time interactive virtual environments remains a challenge, even with today's advancements in technology. Existing architectures are often focused on either the implementation of low-level reactive control systems that are constrained by commercial game engines, or high-level representations of reasoning models that can be difficult to implement in virtual worlds. This paper builds on that notion and proposes a modular cognitive architecture for deploying embodied IVAs. This architecture builds on existing, pre-established frameworks such as the Sense-Think-Act paradigm and the Belief-Desire-Intention cognitive model, among others, and aims to provide a reusable implementation-oriented framework as a template for deploying IVA \"brains\" in interactive 3D computing systems. The proposed architecture contributes by providing a modular, implementation-oriented framework for the deployment of embodied, cognitive-capable IVAs and bridges the gap between high-level agent reasoning models with real-time embodied execution, for scalable, adaptive, and explainable agents in complex interactive virtual environments.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "20449de022",
    "kind": "paper",
@@ -712,7 +922,7 @@
    "summary_en": "Hey HN!<p>I&#x27;m excited to show off this really fun project I put together. I originally built this project 2-3 years ago, AI was already booming at the time, however voice AI agents were still very early. I loved my proof of concept at the time, but wasn&#x27;t quite happy with it.<p>I recently had the desire to check out the tech again, and know many of you will be interested.<p>Interviews are speech to speech with OpenAI&#x27;s gpt-realtime-2.1 over WebRTC. This model is... expensive, and because of that, I have to add some amount of restrictions, conversations are tied to a authenticated Clerk user id. I have also added a 30 minute timer because well, I really don&#x27;t want to go broke while I sleep tonight.<p>Each suspect has a tool they call when you make a direct accusation. It captures who you accused and a faithful list of the evidence you actually stated.<p>A separate gpt-5-mini judge then decides which of the case&#x27;s required evidence facts you genuinely presented. Paraphrasing counts, vague suspicion and fishing don&#x27;t.<p>The rest is Next.js, MongoDB, and Clerk.<p>Let me know whether the suspects hold up under a real interrogation.",
    "summary_zh": "",
    "demo": "",
-   "stars": 197
+   "stars": 203
   },
   {
    "id": "ccb8d5d280",
@@ -781,7 +991,7 @@
    "summary_en": "Open agentic prompt-expansion harness for image and video generation, bridging polished demos, public APIs, and deployable workflows. agentic-ai ai-agents image-generation llm-agents multimodal prompt-engineering prompt-expansion video-generation",
    "summary_zh": "",
    "demo": "",
-   "stars": 30
+   "stars": 34
   },
   {
    "id": "3d93f6ce30",
@@ -2743,7 +2953,7 @@
    "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
    "summary_zh": "",
    "demo": "",
-   "stars": 37
+   "stars": 40
   },
   {
    "id": "032a32327f",
@@ -5480,7 +5690,7 @@
    "summary_en": "The open-source profiler for voice agents cost-tracking fastapi livekit llm mcp observability open-source self-hosted stt tts voice-ai voicegateway",
    "summary_zh": "",
    "demo": "",
-   "stars": 41
+   "stars": 43
   },
   {
    "id": "8f0eb6d836",
@@ -5498,7 +5708,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15110
+   "stars": 15115
   },
   {
    "id": "357904a773",
@@ -6975,7 +7185,7 @@
    "summary_en": "Build local voice agents with open-source models ai assistant language-model machine-learning python speech speech-synthesis speech-to-text speech-translation",
    "summary_zh": "",
    "demo": "",
-   "stars": 12054
+   "stars": 12075
   },
   {
    "id": "be7f76beb6",
@@ -7105,7 +7315,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 6028
+   "stars": 6035
   },
   {
    "id": "293306d628",
@@ -7123,7 +7333,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 770
+   "stars": 774
   },
   {
    "id": "5d6e6e2b0a",
