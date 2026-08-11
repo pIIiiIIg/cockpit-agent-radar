@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>PACE: A Playback-Aligned Context Engine for LLM-Based Full-Duplex Voice Dialogue</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/20449de022.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/20449de022.html</guid>
+<description>LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generativ</description>
+</item>
+<item>
+<title>Hierarchical Acoustic-Semantic Modeling: Modality Separation and Semantic Coherence for Full-Duplex SLMs</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d7e856a646.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d7e856a646.html</guid>
+<description>Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which ca</description>
+</item>
+<item>
+<title>Deferred Audio Pruning with Local Audio-Visual Dynamics for Omni-LLMs</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c6bb6c7df5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c6bb6c7df5.html</guid>
+<description>Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We prop</description>
+</item>
+<item>
+<title>Large Multimodal Agents for Intelligent Transportation Systems: Architectures, Evidence, and Deployment Challenges</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5d52c70ce3.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5d52c70ce3.html</guid>
+<description>Large multimodal agents (LMAs) are increasingly proposed for intelligent transportation systems (ITS), but existing studies often conflate multimodality, agency, empirical performance, and deployment readiness. This review provides an auditable evidence map of 42 primary study families released betw</description>
+</item>
+<item>
+<title>CMU-Drive and V2V-VLA: Cooperative Multi-agent Unified Driving with Reasoning Benchmark and Vehicle-to-Vehicle Vision-Language-Action Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/0c74887215.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/0c74887215.html</guid>
+<description>Vision-Language-Action (VLA) models have recently achieved impressive performance for end-to-end autonomous driving, yet existing approaches are primarily designed for an individual single autonomous driving agent with limited support for cooperative perception, reasoning, and planning. We present C</description>
+</item>
+<item>
+<title>VTO: Visual Tool Orchestration for Video Anomaly Detection</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/771aed54c9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/771aed54c9.html</guid>
+<description>Video anomaly detection (VAD) is a critical yet challenging task due to the complex and diverse nature of real-world scenarios. Traditional deep learning approaches are fundamentally limited by poor generalization across diverse scenarios. While multimodal agents offer a promising tool-learning para</description>
+</item>
+<item>
+<title>SraVaani 1.0: Scaling Inclusive Speech Recognition for Indic Languages</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/6a577c7b9f.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6a577c7b9f.html</guid>
+<description>India&#x27;s linguistic landscape spans over 700 languages and thousands of dialects, yet the vast majority of automatic speech recognition (ASR) systems support only a small fraction of this diversity. We present SraVaani-1.0, a multilingual ASR model covering 65 Indian languages and dialects, many of w</description>
+</item>
+<item>
+<title>CtrlSpeech: Coarse-to-Fine Control for Expressive Speech Synthesis</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/eb46e82455.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/eb46e82455.html</guid>
+<description>Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. B</description>
+</item>
+<item>
+<title>Evo-Bench: Can Language Models Improve Agent Harness?</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f18bbff1e8.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f18bbff1e8.html</guid>
+<description>Large Language Models (LLMs) have driven rapid progress in autonomous agents, yet standard evaluations remain confined to static task solving. An emerging frontier is harness evolution---the agent&#x27;s capacity to autonomously optimize its own operating harness. However, systematically benchmarking thi</description>
+</item>
+<item>
+<title>OasisKV: Scaling In-Decode KV Cache Beyond HBM with Lookahead Sparse Prefetching</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/744769a2bb.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/744769a2bb.html</guid>
+<description>Large language model (LLM) inference serving is increasingly constrained by memory rather than compute. As long-context and long-form reasoning workloads become more prevalent, the key-value (KV) cache dominates both memory footprint and memory traffic during LLM token generation, i.e., decode. In p</description>
+</item>
+<item>
+<title>Agent Memory Distillation: Empowering Small LLM Agents with Hierarchical Teacher Memory</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2f70621c92.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2f70621c92.html</guid>
+<description>Memory systems have shown promise for improving agent performance, but their potential remains largely unexplored for small language models, which struggle to generate sufficient successful trajectories on their own. We propose Agent Memory Distillation (AMD), a training-free framework that transfer</description>
+</item>
+<item>
+<title>Ouroboros: A Self-Developing Frontier Coding Agent with Reviewed Core Evolution</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/076878a8fc.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/076878a8fc.html</guid>
+<description>We present Ouroboros, a self-developing agent harness whose tools, prompts, context assembly, and core implementation improve through reviewed commits that become the runtime for later work. Core evolution proceeds in two modes. In recursive free evolution, improvement is itself a task, and completi</description>
+</item>
+<item>
+<title>OpenVisTool: An Open Recipe for Synthesizing Instructive Visual Tool-Use Trajectories</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d2caa58b19.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d2caa58b19.html</guid>
+<description>Visual tool use has emerged as a fundamental capability for multimodal agents to actively acquire evidence beyond a fixed image encoding. The prevailing recipe learns this capability from teacher-generated trajectories filtered for answer correctness, implicitly assuming that every successful demons</description>
+</item>
+<item>
+<title>RoMeRL: Balancing Feedback Coverage and the Memory-Reward Trap in Self-Evolving Agent Memory via Reduced-Order Utility States</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cc938acc86.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cc938acc86.html</guid>
+<description>Learning-based memory systems for self-evolving LLM agents face two tightly coupled challenges. First, trajectory-indexed utilities grow with the interaction history, thereby dispersing limited feedback over an ever-expanding state space. Second, because trajectory-level rewards are jointly assigned</description>
+</item>
+<item>
+<title>SemBridge: Semantic Token Anchoring for Continuous-Latent Autoregressive Speech Generation</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c5b9baa199.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c5b9baa199.html</guid>
+<description>Continuous-latent autoregressive speech generation has emerged as a promising alternative to discrete-token modeling by avoiding quantization loss and preserving richer acoustic information. However, continuous acoustic targets do not ex- pose linguistic structure as explicit token-level prediction </description>
+</item>
+<item>
 <title>DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/f45ce908d7.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f45ce908d7.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/ba195159e9.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ba195159e9.html</guid>
 <description>Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying</description>
-</item>
-<item>
-<title>PrivacyPeek: Auditing What LLM-Based Agents Acquire, Not Just What They Say</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/78639d71a2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/78639d71a2.html</guid>
-<description>LLM-based agents are rapidly advancing, autonomously invoking external tools to complete multi-step tasks for users. However, agents often acquire more sensitive information than the task requires. Existing privacy benchmarks audit what the agent&#x27;s response or outgoing actions disclose, but overlook</description>
-</item>
-<item>
-<title>Show HN: Voice driven murder mystery, Interview AI suspects with your voice</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d620868b24.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d620868b24.html</guid>
-<description>Hey HN!&lt;p&gt;I&amp;#x27;m excited to show off this really fun project I put together. I originally built this project 2-3 years ago, AI was already booming at the time, however voice AI agents were still very early. I loved my proof of concept at the time, but wasn&amp;#x27;t quite happy with it.&lt;p&gt;I recently </description>
-</item>
-<item>
-<title>WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ccb8d5d280.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ccb8d5d280.html</guid>
-<description>Vision-Language-Action (VLA) models have emerged as a prominent paradigm for end-to-end autonomous driving; however, their efficient deployment is severely constrained by high computational latency and exposure bias arising from sequential autoregressive decoding. Conversely, while specialized diffu</description>
-</item>
-<item>
-<title>AtlasVLA: Persistent World-Ego State Modeling for Vision-Language-Action Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4995029778.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4995029778.html</guid>
-<description>While Vision-Language-Action (VLA) models have advanced embodied AI, their fundamentally reactive paradigm severely limits performance in partially observable and long-horizon tasks. When restricted to a single wrist-mounted camera, they inevitably suffer from perception forgetting as objects exit t</description>
-</item>
-<item>
-<title>TEMPO: Semantic-Action Decoupled RL Post-Training for Vision-Language-Action Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8dc106ca17.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8dc106ca17.html</guid>
-<description>Vision-language-action (VLA) models are commonly adapted to downstream manipulation tasks via supervised fine-tuning (SFT) or online reinforcement learning (RL) post-training. SFT is prone to distribution mismatch, and existing RL approaches typically apply a single, uniform update strategy to all m</description>
-</item>
-<item>
-<title>WayneJin0918/Omni-Rewriter</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/fd0558301c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/fd0558301c.html</guid>
-<description>Open agentic prompt-expansion harness for image and video generation, bridging polished demos, public APIs, and deployable workflows. agentic-ai ai-agents image-generation llm-agents multimodal prompt-engineering prompt-expansion video-generation</description>
-</item>
-<item>
-<title>Stockmark-Nemotron-3-Nano-Omni-JapanDocReader: Structured Document Parsing via Capability Injection and Forgetting Control</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3d93f6ce30.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3d93f6ce30.html</guid>
-<description>We present Stockmark-Nemotron-3-Nano-Omni-JapanDocReader, a Japanese document understanding model built from Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16. The central goal of this work is structured document parsing via capability injection and forgetting control: we inject Japanese structured docume</description>
-</item>
-<item>
-<title>Understand Before Detect: Vision--Language Learning for Omni-Domain Infrared Small Target Detection</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/610efa57aa.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/610efa57aa.html</guid>
-<description>Omni-domain infrared small target (IRST) detection is crucial for infrared surveillance, yet remains challenging due to heterogeneous imaging domains and inconsistent target characteristics. Previous deep learning-based methods have been developed for visual-only paradigms and achieved promising per</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-2bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/e7a8007d8d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/e7a8007d8d.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-3bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d76a7a76de.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d76a7a76de.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-4bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/99124075f1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/99124075f1.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-5bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2b720a695c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2b720a695c.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-6bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4eaa1176ed.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4eaa1176ed.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-RotorQuant-MLX-8bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4c317604e4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4c317604e4.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized rotorquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-2bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/179a93adc4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/179a93adc4.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
 </item>
 </channel></rss>
