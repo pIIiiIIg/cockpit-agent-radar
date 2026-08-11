@@ -18,7 +18,7 @@
     "voice assistant"
    ],
    "summary_en": "LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generative Context Mis-anchoring (GCM). To address GCM issues, we present PACE, a provider-independent middleware layer that anchors model-facing context to the client playback boundary, a system-observable proxy for what the user could have heard. After an interruption, PACE repairs this context to exclude assistant content that never reached playback, while preserving low-latency generation across heterogeneous voice runtimes. We implement PACE's audio-only projection path end to end in a browser-based realtime voice assistant using a black-box speech model, without modifying the model service. We also construct GCM-Bench, a new controlled benchmark dataset of 108 playback-relative referent-anchoring cases. On GCM-Bench, PACE raises Referent Anchoring Accuracy from 25.0% to 96.3% over a cancellation-only baseline. On 200 Full-Duplex-Bench v1 interruption samples, it preserves interruption response quality. These results show that grounding model-facing context in actual playback is a practical way to maintain consistency in full-duplex voice dialogue.",
-   "summary_zh": "",
+   "summary_zh": "PACE 是面向全双工语音服务的播放对齐上下文中间件，用客户端实际播放边界修复被服务端预生成内容提前推进的对话状态。它不要求原生模型层全双工，因此与 StreamingModelHarness 的外部 TTS、客户端播放和打断链路高度相关，但前提是补充逐轮音频账本与播放确认。",
    "demo": "",
    "stars": null
   },
@@ -36,7 +36,7 @@
     "duplex"
    ],
    "summary_en": "Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which causes substantial knowledge degradation and compromises semantic integrity -- ultimately making full-duplex SLMs feel unnatural and unintelligent. In this paper, through an exhaustive fine-grained analysis of model optimization dynamics, we uncover the root cause of such performance degradation, revealing that modality interference arises from inherent gradient conflicts between acoustic and semantic modeling when the two modalities are forced to share a deep parameter space. Guided by this key insight, we introduce Lychee-FD, a native end-to-end full-duplex framework designed to mitigate modality interference. Importantly, we propose a hierarchical parameter separation strategy that decouples conflicting modalities in deep layers while preserving cross-modality coherence via a dedicated semantic alignment channel. Extensive experiments on multiple full-duplex benchmarks demonstrate that our method significantly advances the state of the art, yielding substantial improvements in both speech intelligence (+7.4% on Spoken QA) and full-duplex interaction fluidity (+28.5% on FullDuplexBench 1.5) without compromising inference efficiency. To the best of our knowledge, this work is the first to achieve two key advances: 1) uncovering and elucidating the root cause of modality interference in full-duplex SLMs, and 2) designing an elegant hierarchical model together with a practical solution for seamless, high-performance, native intelligent full-duplex SLMs.",
-   "summary_zh": "",
+   "summary_zh": "Lychee-FD 是原生端到端全双工语音语言模型，通过深层声学/语义参数分离和独立语义对齐通道缓解多目标梯度冲突。它代表模型层同时听说路线，和依赖 ASR、端点检测、外部 TTS 的 StreamingModelHarness 架构本质不同，可作为架构 B 的研究参照。",
    "demo": "",
    "stars": null
   },
@@ -54,7 +54,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We propose A-PACK, a two-stage framework that defers audio pruning until query-conditioned multimodal interactions emerge. Our analysis shows that audio exhibits higher task-relevant information density and representational diversity per token than video. We further find that local audio-visual dynamics provide a more effective cue for visual selection than token-wise matching. We therefore preserve audio and compress video with local dynamics before the LLM, then progressively prune low-relevance audio and visual tokens and their KV-cache entries inside the LLM. Across four benchmarks on Qwen2.5-Omni-7B/3B, A-PACK achieves the strongest average performance among the evaluated prior methods while reducing prefill FLOPs by up to 78% and improving decoding throughput by up to 2.21x.",
-   "summary_zh": "",
+   "summary_zh": "A-PACK 是 Qwen2.5-Omni 上的免训练两阶段音视频 token 与 KV-cache 压缩方法：LLM 前保留信息密度较高的音频、先压视频，模态融合后再延迟裁剪音频。它不是语音对话或全双工方案，但对架构 B 的长音频 KV 成本控制有直接启发，对架构 A 的 ASR 文本链路则关系较弱。",
    "demo": "",
    "stars": null
   },
@@ -72,7 +72,7 @@
     "multimodal"
    ],
    "summary_en": "Large multimodal agents (LMAs) are increasingly proposed for intelligent transportation systems (ITS), but existing studies often conflate multimodality, agency, empirical performance, and deployment readiness. This review provides an auditable evidence map of 42 primary study families released between January 2023 and 3 August 2026 within a corpus of 91 mapped sources. It distinguishes model-level, system-level, and hybrid multimodality and classifies each family by system architecture and action authority. Evidence is assessed independently through functional capability (C0-C3), validation setting (E0-E4), three evidence propositions (P1-P3), and eight methodological-concern domains (Q1-Q8). Transportation semantics (P1) are directly evaluated in 23 families and multidimensional integration (P3) in 24; 19 families directly evaluate both. Evidence reconciliation (P2) remains unresolved because no family demonstrates the complete provenance-challenge-handling-comparison-outcome chain. Fourteen families reach C3, but 13 remain at E2; only one reaches E3 and none reaches E4. Across ITS domains, LMAs are best supported for semantic interpretation, intent translation, evidence organisation, scenario authoring, explanation, and specialist-tool coordination. Numerical forecasting, optimisation, simulation fidelity, hard constraints, low-level control, safety fallback, and final authority should remain with independently verifiable specialist systems or accountable humans. The review therefore supports bounded orchestration rather than replacement and provides a matched comparative evaluation protocol and staged roadmap for accountable deployment. The living evidence repository is available at https://github.com/pangjunbiao/ITS-LMA-Review.",
-   "summary_zh": "",
+   "summary_zh": "这是一篇面向智能交通系统的 LMA 证据综述，用独立维度区分多模态架构、功能能力、验证成熟度、命题证据、方法学问题和行动权限。它不研究语音流式或全双工，但其“受限编排而非替代专业系统”的结论适合约束 StreamingModelHarness 的 RAG、状态和工具调用边界。",
    "demo": "",
    "stars": null
   },
@@ -89,7 +89,7 @@
     "vision-language-action"
    ],
    "summary_en": "Vision-Language-Action (VLA) models have recently achieved impressive performance for end-to-end autonomous driving, yet existing approaches are primarily designed for an individual single autonomous driving agent with limited support for cooperative perception, reasoning, and planning. We present Cooperative Multi-agent Unified Driving with Reasoning (CMU-Drive), a closed-loop end-to-end benchmark for evaluating cooperative autonomous driving with multiple connected autonomous vehicles (CAVs) operating in safety-critical driving scenarios with background traffic participants. We further propose Vehicle-to-Vehicle Vision-Language-Action (V2V-VLA), a cooperative VLA model that integrates cooperative driving into a single forward pass by jointly generating driving actions, future waypoints, language reasoning, and communication policies. Experiments on CMU-Drive establish the first benchmark and baseline for cooperative VLA driving and provide a foundation for future research on multi-agent, closed-loop, end-to-end cooperative autonomous driving. Our code, benchmark, and model checkpoint will be publicly released to facilitate open-source research.",
-   "summary_zh": "",
+   "summary_zh": "CMU-Drive 是 CARLA 中的多车协作闭环驾驶基准，V2V-VLA 则在一次前向中联合生成动作、未来轨迹点、语言推理和通信策略。它与语音全双工无关，但“按需选择邻车并融合补充观测”可类比架构 B 的状态/调用 hop；其安全控制结论不能直接迁移到车舱助手。",
    "demo": "",
    "stars": null
   },
@@ -108,7 +108,7 @@
     "vad"
    ],
    "summary_en": "Video anomaly detection (VAD) is a critical yet challenging task due to the complex and diverse nature of real-world scenarios. Traditional deep learning approaches are fundamentally limited by poor generalization across diverse scenarios. While multimodal agents offer a promising tool-learning paradigm for VAD, current systems relying on supervised fine-tuning struggle with complex orchestration, and standard reinforcement learning often causes premature termination due to coarse-grained outcome rewards. To address these challenges, we propose VTO, a process-supervised reinforcement learning framework. Moving beyond static tool usage, VTO enables the agent to dynamically explore and interact with the environment. Specifically, we introduce a foundation model-driven cognitive evaluator to provide context-aware semantic feedback, which is seamlessly integrated into a Process-Supervised Cognitive Alignment that delivers fine-grained, step-wise supervision. By explicitly penalizing logical truncation and rewarding complete causal chains, the agent optimizes its multi-step reasoning policy for interrelated tool orchestration. To support our proposed framework, we meticulously crafted VAD-Tool, a hierarchical visual tool set comprising 12 specialized vision tools spanning from entity tracking to high-stakes hazard detection, and established the corresponding benchmark for rigorous multi-step reasoning evaluation. Extensive experiments on VAD-Tool demonstrate that VTO significantly outperforms baselines, achieving up to a 10.2\\% absolute accuracy improvement in tool scheduling. Code and data are available at https://github.com/MICLAB-BUPT/VTO.",
-   "summary_zh": "",
+   "summary_zh": "VTO 将视频异常检测重构为多步视觉工具编排，用过程监督强化学习抑制“找到一个异常就过早结束”的策略。它不是语音或全双工模型，但与 StreamingModelHarness 的迟到工具注入、搜索/状态/调用链规划相关；约 30 秒单样本推理使其当前实现不适合实时车舱。",
    "demo": "",
    "stars": null
   },
@@ -126,7 +126,7 @@
     "speech recognition"
    ],
    "summary_en": "India's linguistic landscape spans over 700 languages and thousands of dialects, yet the vast majority of automatic speech recognition (ASR) systems support only a small fraction of this diversity. We present SraVaani-1.0, a multilingual ASR model covering 65 Indian languages and dialects, many of which currently have no publicly available or competing ASR system. SraVaani-1.0 is built on a FastConformer architecture and trained from scratch through a three-stage pipeline.In the first stage, we perform self-supervised pretraining on 31,255 hours of unlabelled speech from the VAANI corpus using a contrastive learning objective. In the second stage, we introduce an audio-image representation alignment stage that leverages the paired images and speech available in the VAANI corpus. This multimodal alignment encourages the speech encoder to learn semantically richer representations by exploiting the relationship between visual context and spoken content, thereby improving downstream recognition, particularly for low-resource languages.In the final stage, the aligned encoder is fine-tuned end-to-end using a Hybrid Token-and-Duration Transducer (TDT)-CTC decoder on 31,263 hours of labelled multilingual Indian speech compiled from 24 public datasets spanning 65 languages and dialects. We evaluate SraVaani-1.0 against three state-of-the-art multilingual ASR systems across eight benchmarks. SraVaani-1.0 achieves the lowest word error rate (WER) on a large number of language-dataset pairs while remaining competitive with the best-performing systems on high-resource languages.Most importantly, it is the only open-source evaluated model that provides transcription capability for multiple low-resource and tribal Indian languages, which are assessed exclusively on the VAANI benchmark.",
-   "summary_zh": "",
+   "summary_zh": "SraVaani-1.0 是覆盖 65 种印度语言与方言的 FastConformer 多语种 ASR，通过自监督预训练、音频—图像语义对齐和 Hybrid TDT–CTC 监督微调扩展低资源识别。它可作为 StreamingModelHarness 架构 A 的 ASR 前端候选，但不是全双工或语音生成模型，也没有验证流式端点和车舱实时性能。",
    "demo": "",
    "stars": null
   },
@@ -144,7 +144,7 @@
     "text-to-speech"
    ],
    "summary_en": "Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. Built on the DiTAR architecture, CtrlSpeech combines global speaker conditioning with phone-aligned pitch, loudness, and duration signals, enabling localized prosodic control while preserving the target speaker's timbre. This design allows users to adjust expressive attributes at a fine temporal granularity, making speech refinement more flexible and controllable. Experimental results show that CtrlSpeech achieves competitive zero-shot TTS performance and improves controllability over expressive attributes, demonstrating its effectiveness for flexible and practical expressive speech synthesis.",
-   "summary_zh": "",
+   "summary_zh": "CtrlSpeech 是一个可控表达型语音合成框架，把全局说话人音色与音素对齐的音高、响度和时长控制结合起来。它支持先生成、再局部调节韵律的粗到细迭代流程，同时保持目标说话人的音色。",
    "demo": "",
    "stars": null
   },
@@ -161,7 +161,7 @@
     "agent harness"
    ],
    "summary_en": "Large Language Models (LLMs) have driven rapid progress in autonomous agents, yet standard evaluations remain confined to static task solving. An emerging frontier is harness evolution---the agent's capacity to autonomously optimize its own operating harness. However, systematically benchmarking this capability remains challenging, as existing evaluations fail to isolate harness improvements from base model strength, prevent task-specific overfitting, or capture long-horizon iterative research. To address these challenges, we introduce Evo-Bench, the first benchmark designed to evaluate models' intrinsic harness-evolving capabilities across Search, Office, and General agent domains. To rigorously isolate this capability, Evo-Bench employs a novel harness-guided construction framework: it leverages auxiliary-task evolution to identify tasks genuinely sensitive to framework improvements, followed by sensitivity-aware stratified splitting to ensure robust cross-suite generalization. Extensive evaluations across nine frontier and open-weight models reveal that top models achieve massive absolute gains reaching 16.6 points, closely approaching state-of-the-art human-engineered baselines. Crucially, while autonomous evolution outpeforms artificial harness in General tasks and excels in Search tasks, it struggles in Office tasks that demand highly specific processing workflows. Furthermore, our analysis exposes critical temporal anomalies like early saturation, while demonstrating that the synthesized harnesses act as highly transferable reasoning structures, consistently boosting diverse policy models.",
-   "summary_zh": "",
+   "summary_zh": "Evo-Bench 用固定策略模型和隔离的验证/评测任务，衡量语言模型能否自主改进可执行 agent harness，而不是把基础模型能力误算成框架进步。其任务覆盖搜索、办公和通用代理，并通过辅助任务演化与敏感度分层构造真正对 harness 变化敏感的评测集。",
    "demo": "",
    "stars": null
   },
@@ -178,7 +178,7 @@
     "kv cache"
    ],
    "summary_en": "Large language model (LLM) inference serving is increasingly constrained by memory rather than compute. As long-context and long-form reasoning workloads become more prevalent, the key-value (KV) cache dominates both memory footprint and memory traffic during LLM token generation, i.e., decode. In particular, HBM capacity has become a scarce and costly resource that heavily limits inference batch size and system throughput. This paper presents OasisKV, a memory-centric LLM inference system design that alleviates HBM capacity pressure by decoupling full KV-cache storage from HBM during LLM decoding. Because decode-time attention is naturally sparse, OasisKV keeps only the KV entries of the most relevant tokens in HBMs for attention computation. We observe that future important tokens can be predicted accurately in advance using lookahead tokens drafted by speculative decoding (SD). OasisKV employs an efficient attention background pipeline to identify important KV blocks. They are then prefetched from higher-capacity memory tiers (e.g., host or remote memory) and staged in HBMs before being used in the next decode step. We implement OasisKV based on vLLM. The lookahead prediction is accurate enough to keep accuracy within 0.7 points of full attention under a 2,048-token KV budget. This lets OasisKV turn sparsity into throughput gain: 1.69times over dense vLLM on the reasoning workload at 0.1 points of accuracy loss, and up to 2.1times on multi-GPU long-context serving. Under prefill--decode disaggregation, OasisKV reaches about 2times dense throughput while admitting each request with 6.5--9.7times less KV and holding 2.2-2.6 less decode-node host memory than full KV transfer.",
-   "summary_zh": "",
+   "summary_zh": "OasisKV 是一个面向长上下文 LLM 解码的分层 KV 缓存系统，只把下一步注意力最需要的 KV 块暂存到 GPU HBM。它利用推测解码产生的前瞻 token 预测未来重要块，并在后台从主机或远端内存预取，以减少 HBM 容量压力和关键路径上的传输。",
    "demo": "",
    "stars": null
   },
@@ -193,7 +193,7 @@
    "score": 6,
    "tags": [],
    "summary_en": "Memory systems have shown promise for improving agent performance, but their potential remains largely unexplored for small language models, which struggle to generate sufficient successful trajectories on their own. We propose Agent Memory Distillation (AMD), a training-free framework that transfers structured knowledge from a large teacher agent to a small student agent through hierarchical memory. AMD constructs three complementary memory types from successful teacher trajectories: Workflow memory encodes task-level strategies, Subtask memory provides concrete behavioral examples at an intermediate granularity, and Function memory captures per-function calling conventions and common pitfalls. Workflow and Subtask memories are injected proactively at the start of each task, while Function memory is retrieved reactively upon tool-calling errors. We evaluate AMD on three tool-use benchmarks using four student models (4B-8B parameters) with GPT-5-mini as the teacher, achieving average accuracy gains of 27.2%p, 11.2%p, and 3.4%p on AppWorld, BFCL V3, and ToolSandbox, while consistently outperforming existing memory-based baselines. Further analysis shows that Subtask memory contributes the largest gains, teacher effectiveness depends on both teacher capability and student compatibility, and 4B-sized students benefit most from AMD.",
-   "summary_zh": "",
+   "summary_zh": "Agent Memory Distillation 用大教师 agent 的成功轨迹，为 4B–8B 小模型构造工作流、子任务和函数三级记忆，无需更新学生模型参数。规划与行为示例在执行前主动注入，函数调用指南则在工具报错时按需检索。",
    "demo": "",
    "stars": null
   },
@@ -210,7 +210,7 @@
     "agent harness"
    ],
    "summary_en": "We present Ouroboros, a self-developing agent harness whose tools, prompts, context assembly, and core implementation improve through reviewed commits that become the runtime for later work. Core evolution proceeds in two modes. In recursive free evolution, improvement is itself a task, and completing one evolution cycle can schedule the next. In experience-driven core evolution, ordinary work and social interaction expose bugs, rough edges, and inefficient context construction that lead to reviewed structural changes. On Terminal-Bench 2.1, an Opus 5 run scores 86.74%, the best result reported on the benchmark. On OSWorld-Verified, an Opus 5 run reaches 90.69%, exceeding the best previously reported score. A five-rollout CL-Bench campaign achieves a normalized reward of 0.2301, setting a new state of the art. Hope is the longest-running publicly documented Ouroboros deployment. It is a 161-day living agent experiment in free evolution under governed human communication across seven surfaces. Human interaction surfaces faults and generates proposals, but the agent decides which changes to pursue. Because a self-developing agent may rewrite its own code and select new model APIs, operational safety becomes a primary design problem: guardrails must remain authoritative under evolutionary and public social pressure. Benchmark campaigns use frozen system snapshots, while Hope continues live evolution on a separate lineage.",
-   "summary_zh": "",
+   "summary_zh": "Ouroboros 把 agent 的提示、工具、上下文组装和核心实现都纳入版本控制，通过受审查的提交让后续任务运行在改进后的 harness 上。它既支持以自我改进为任务的递归演化，也能从日常任务和用户反馈中提炼维护变更，并用治理边界约束自修改。",
    "demo": "",
    "stars": null
   },
@@ -228,7 +228,7 @@
     "multimodal"
    ],
    "summary_en": "Visual tool use has emerged as a fundamental capability for multimodal agents to actively acquire evidence beyond a fixed image encoding. The prevailing recipe learns this capability from teacher-generated trajectories filtered for answer correctness, implicitly assuming that every successful demonstration provides effective supervision. We argue this assumption is flawed: a strong teacher often reaches the correct answer without needing its tool calls, and imitating such trajectories teaches a student that tool calls accompany correct answers, not that tool observations ground them. We present OpenVisTool, an open framework for constructing instructive visual tool-use trajectories that provide effective supervision for tool learning. The key insight is that a trajectory should be retained only if its answer is correct (outcome validity) and its tool observations causally contribute to that answer (causal utility). The framework operates in three stages: difficulty screening to select queries that are not reliably answerable without tools, domain-specific trajectory synthesis to elicit coherent tool-use trajectories, and supervision verification to jointly test both conditions. Rather than encouraging models to imitate tool calls, the resulting supervision teaches when and how visual evidence should be acquired. Using this framework, we construct OpenVisTool-42K, a dataset spanning five visual reasoning domains, together with OpenVisTool-Bench, a benchmark covering the same domains. Across four backbones (4B-27B), fine-tuning on OpenVisTool-42K consistently improves visual tool-use performance and yields gains on two out-of-distribution benchmarks; the larger models approach leading closed-source systems. The evidence suggests that effective visual tool use is learned from causally grounded supervision rather than tool-calling patterns.",
-   "summary_zh": "",
+   "summary_zh": "OpenVisTool 认为“答案正确”不足以构成好的视觉工具训练轨迹，工具观察还必须对答案有可测的因果贡献。它以难度筛选、分领域轨迹合成和双重监督验证构建 OpenVisTool-42K，让模型学习何时、为何以及如何主动获取视觉证据。",
    "demo": "",
    "stars": null
   },
@@ -243,7 +243,7 @@
    "score": 5,
    "tags": [],
    "summary_en": "Learning-based memory systems for self-evolving LLM agents face two tightly coupled challenges. First, trajectory-indexed utilities grow with the interaction history, thereby dispersing limited feedback over an ever-expanding state space. Second, because trajectory-level rewards are jointly assigned to co-retrieved memories, irrelevant experiences may receive misleading utility updates and consequently enter the memory-reward trap. To address these challenges, we introduce Reduced-Order Memory Reinforcement Learning (RoMeRL), which represents the growing trajectory-indexed utility space using a fixed-dimensional per-task memory state factorized by outcome polarity and memory dynamics. RoMeRL incorporates new experiences through a fixed set of semantic coordinates whose contents are updated or replaced over time, thereby concentrating feedback over a bounded utility support. Theoretically, we show that this reduced-order parameterization increases the average feedback received by each utility coordinate and characterize the steady-state occupancy of erroneous coordinates under a generic coordinate-transition model. Empirically, across ALFWorld and LifelongAgentBench, RoMeRL improves task performance, reduces the Cold-Q ratio by 80.0%, increases feedback density by approximately 6.0 times, reduces the maintained memory size by 84.4%, and cuts LLM calls by 21.1%. These results show that reduced-order utility states support efficient self-evolving agent memory while limiting persistent reward contamination. Code is available at: https://github.com/YOUNG-fnxm/RoMeRL",
-   "summary_zh": "",
+   "summary_zh": "RoMeRL 针对自演化 agent 记忆中的“反馈越来越稀”和“无关记忆被共享奖励误强化”问题，把随轨迹增长的效用表压缩为每任务固定维度的语义坐标。坐标同时按成功/失败与巩固/自适应两轴分解，新经验更新或替换代表内容，而效用反馈始终集中在有界状态上。",
    "demo": "",
    "stars": null
   },
@@ -260,7 +260,7 @@
     "text-to-speech"
    ],
    "summary_en": "Continuous-latent autoregressive speech generation has emerged as a promising alternative to discrete-token modeling by avoiding quantization loss and preserving richer acoustic information. However, continuous acoustic targets do not ex- pose linguistic structure as explicit token-level prediction tar- gets. Consequently, the autoregressive language model (LM) must acquire linguistic structure indirectly through acous- tic prediction, which can compromise the content fidelity of generated speech. We propose SemBridge, a training-only semantic-token anchoring framework for continuous-latent autoregressive speech generation. SemBridge uses discrete se- mantic tokens to directly supervise autoregressive LM states and employs a Semantic-Aligned Acoustic VAE to organize the continuous target space under the same semantic refer- ence. The semantic supervision is used only during train- ing, while inference remains entirely continuous. We evalu- ate SemBridge on zero-shot text-to-speech (TTS) and score- conditioned singing voice synthesis (SVS). Across multi- ple benchmarks, SemBridge improves content accuracy, as measured by word and character error rates (WER/CER), while maintaining competitive speaker similarity and percep- tual quality. Experimental results demonstrate that explicit semantic-token supervision for autoregressive state learning is an effective and general direction for continuous speech generation. Speech samples are available.1 The model code and checkpoints will be available at https://github.com/ASLP- lab/SemBridge",
-   "summary_zh": "",
+   "summary_zh": "SemBridge 用离散语义 token 在训练期监督连续潜变量自回归语音模型，让隐藏状态和声学潜空间共享同一语义锚点，而推理时仍只生成连续潜变量。论文在零样本 TTS 和歌声合成上报告内容准确性提升，同时保持有竞争力的说话人相似度与感知质量。",
    "demo": "",
    "stars": null
   },
@@ -279,7 +279,7 @@
     "turn-taking"
    ],
    "summary_en": "Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phenomena but provide little role grounding or scenario-specific norms, while heuristic or prompted synthesis methods inject turn-taking behaviors without basing them on human preferences. We introduce DuplexGen, a framework for generating dialogues with scenario-adaptive turn-taking by calibrating LLM predictions against a small set of slot-level human preference annotations. In six cooperative and competitive tasks, human turn-taking preferences differ systematically, and DuplexGen aligns substantially more closely with those preferences than uncalibrated prompting or training solely on generic human-human data; a full-duplex model trained on DuplexGen-generated data exhibits distinctive, human-preferred turn-taking behaviors. These results show that human calibration, not corpus scale or prompt design alone, is what allows turn-taking synthesis to be scenario-specific.",
-   "summary_zh": "",
+   "summary_zh": "DuplexGen 是面向全双工对话训练数据的场景自适应合成框架，以少量逐槽位人类偏好校准“继续听、backchannel、抢占话轮”的分布。它不是运行时流式语音架构，但可为 StreamingModelHarness 的端点、打断和回应策略提供数据与评测思路。",
    "demo": "",
    "stars": null
   },
@@ -313,7 +313,7 @@
     "multimodal"
    ],
    "summary_en": "The malicious use of generative artificial intelligence to create highly realistic deepfake videos raises serious ethical concerns and poses substantial challenges to AI safety. However, existing deepfake video benchmarks provide limited coverage of recent synthesis methods and generally lack reliable fine-grained textual annotations. Meanwhile, conventional detectors and multimodal large language models (MLLMs), whether operating as a single model or relying on a single analytical perspective, often fail to capture subtle forgery artifacts, limiting their generalization to emerging AI-generated methods. To address these limitations, we introduce FaceVid-Forensics-100K, a large-scale deepfake video dataset comprising 100,000 videos and spanning 33 synthesis methods across face swapping, face reenactment, and entire-face synthesis, including recent generators such as Seedance 2.0. The dataset provides fine-grained textual annotations of visual observations and verdict-consistent forensic explanations, automatically synthesized through a multi-model aggregation and conflict-resolution pipeline powered by advanced MLLMs. Building on this benchmark, we propose a multi-agent forensic reasoning framework that employs four specialized domain-expert agents to independently analyze forgery cues from four perspectives: texture, lighting, motion, and physics. A judge agent then reconciles their reports to produce a final prediction together with an explanation. Extensive evaluations on out-of-domain test sets show that, despite being composed entirely of small open-source MLLMs, our framework outperforms all methods including closed-source GPT and Gemini models and ranks first across all reported metrics on this benchmark. The project page is available at https://xavierjiezou.github.io/ARGUS/.",
-   "summary_zh": "",
+   "summary_zh": "该工作发布 FaceVid-Forensics-100K，并让四个专门 agent 分别从纹理、光照、运动和物理一致性分析视频，再由 judge 汇总证据和真伪结论。核心目标是减少单一多模态模型遗漏弱伪造线索的问题，并提高对未见生成器的泛化。",
    "demo": "",
    "stars": null
   },
@@ -381,7 +381,7 @@
     "multimodal"
    ],
    "summary_en": "Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation suite for long-form video description built from 5 hours of movie content segmented into 90-second clips, each paired with an expert-written paragraph-style reference. The evaluation suite employs an ensemble of five state-of-the-art LLM-based embedding models to increase reliability and mitigate single-model bias, and applies two complementary methodologies: (i) coarse-grained semantic matching and (ii) fine-grained semantic matching to compare model-generated descriptions against CLIP-CC-Bench references. Using this framework, we evaluate 17 state-of-the-art video-language models and report both their Borda-aggregated rankings and their average scores on CLIP-CC-Bench. We further quantify the protocol's internal reliability through inter-judge agreement and bootstrap ranking stability. We release standardized evaluation scripts, model outputs, and aggregation tools at https://github.com/Multimodal-Intelligence-Lab/CLIP-CC-Bench to support reproducibility. CLIP-CC-Bench provides a practical evaluation framework for long-form video description, filling a gap left by existing short-clip and QA-only benchmarks.",
-   "summary_zh": "",
+   "summary_zh": "CLIP-CC-Bench 面向长视频段落描述，使用 200 个 90 秒电影片段、专家段落参考和五个嵌入模型组成的多评审协议，同时衡量整体叙事与句级细节。它补足了短片字幕和问答基准难以评价长程故事理解的问题，但本质上仍是离线视频描述评测，并非实时语音交互方案。",
    "demo": "",
    "stars": null
   },
@@ -413,7 +413,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "When a dog opens its mouth and barks, humans naturally recognize what the sound is and when it occurs. Building audio-visual models with this same ability requires representations that capture both semantic and temporal alignment. Current approaches fall short on one side or the other: embedding models match semantic but lose temporal information; synchronization models capture temporal offsets but lack semantic understanding. To bridge this gap, we propose FATE, Frame-level Audio-visual Temporal Embedding. Unlike prior embedding models that pool each modality into a single embedding and discard temporal information, FATE retains frame-level sequences, aligns them on the physical timeline, and computes similarity over strictly aligned frame pairs. Unlike synchronization models that output only an offset prediction, FATE encodes synchronization in a reusable embedding space, trained with a joint objective combining cross-video semantic and within-video temporal contrastive learning to capture both what sounds and when it occurs. Across three tasks, FATE surpasses the strongest baseline on temporal and semantic retrieval by a large margin, matches fully supervised methods on event localization in a zero-shot setting, and achieves the best correlation with human judgments as a generation evaluation metric. The source code can be found at https://github.com/guankaisi/FATE.",
-   "summary_zh": "",
+   "summary_zh": "FATE 试图在同一音视频嵌入空间里同时表示“是什么声音”和“何时发生”：保留帧级序列、按物理时间对齐，再只比较对应时刻的音视频特征。它在时序检索、零样本事件定位和生成质量评测上均优于论文所比较的基线，说明全局池化确实会丢掉同步信息。",
    "demo": "",
    "stars": null
   },
@@ -428,7 +428,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Audio reasoning is essential for machine understanding of the acoustic world. Reinforcement learning with verifiable rewards can elicit such reasoning, yet existing reward designs are complementary in their limitations: outcome-based rewards supervise only the final answer and let the model reach it without attending to the audio, whereas process-based rewards score the reasoning itself but rely on coarse, hand-crafted, and fixed criteria that neither adapt to each question nor stay grounded in the acoustic evidence. Moreover, questions differ in what they demand, with some hinging on perception and others on multi-step reasoning, and any static criterion weakens as the policy improves. Supervising the reasoning process with fine-grained, audio-grounded, and adaptive rewards is therefore crucial, yet challenging since such rewards are impractical to design by hand for every sample. To this end, we introduce AudioRubrics, a reinforcement learning framework that supervises audio reasoning with self-evolving, audio-grounded rubric rewards. AudioRubrics synthesizes per-sample rubrics from the raw waveform and, conditioned on the model's own rollouts, regenerates and reweights criteria per group, supplying a continuous learning signal that keeps targeting the current policy's weaknesses as static criteria saturate. Comprehensive evaluations across three audio reasoning benchmarks reveal that AudioRubrics substantially outperforms a wide range of open-source and training-based baselines. Furthermore, our analysis shows that the gains scale with the capability of the rubric generator and judge, and AudioRubrics converges to a stable reasoning length that avoids both degenerate collapse and unbounded growth. The improvement in audio perception further demonstrates the effectiveness of anchoring supervision in the acoustic evidence. Our project page is available at https://audiorubrics.github.io.",
-   "summary_zh": "",
+   "summary_zh": "AudioRubrics 为每个音频问题自动生成细粒度、音频有据的评分准则，并在强化学习过程中根据当前模型 rollout 持续更新和重加权这些准则。它不仅奖励最终答案，还监督推理是否真正引用声学证据，并用长度惩罚抑制为“讨好 rubric”而无限拉长思考。",
    "demo": "",
    "stars": null
   },
@@ -443,7 +443,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Human evaluation of AI systems and digital products is costly, slow, and difficult to scale. Offline evaluations are more scalable but often abstract away human diversity and interactive behavior. We therefore introduce MatrAIx, a population-scale simulated-user evaluation infrastructure for testing AI systems and digital products with heterogeneous users. MatrAIx has three core components: First, Persona 8B contains 8.3 billion persona records represented by 1,290 categorical dimensions. Records are either sampled from a dependency graph that preserves correlated attributes or derived from human-authored profiles. We release a quality-filtered coreset of approximately 1 million personas, comprising 599,847 human-grounded and 400,000 synthetic records. Second, the MatrAIx Playground provides four environments in which diverse users evaluate and interact with digital products: Survey, AI Chatbot, Web, and App. Third, MatrAIx provides 1,010 application tasks spanning more than 25 domains, including Commerce, Software, Finance, and Healthcare. We conducted 18,189 evaluation trials across eight representative tasks. Persona agents were powered by three LLMs: Claude Opus 4.8, GPT 5.5, and Claude Haiku 4.5. The resulting feedback captures how decisions and preferences vary across persona backgrounds, including hesitation after a price increase, willingness to continue after an AI assistant fails, and latency tolerance. We conducted two main validation studies: First, a 400-trial controlled study evaluated persona adherence across ten behavioral attributes and all four environments. The declared behavior was expressed or correctly suppressed in 366 trials (91.5%). Second, human and LLM judges evaluated the extraction quality of human-grounded personas. Overall, MatrAIx provides an end-to-end infrastructure for evaluating AI systems and digital products with diverse simulated human users.",
-   "summary_zh": "",
+   "summary_zh": "MatrAIx 是面向 AI 系统与数字产品的大规模模拟用户评测基础设施：以约 83 亿结构化 persona 为总体，在问卷、聊天机器人、网页和 App 四类环境中运行独立 agent 试验。它适合部署前做多群体筛查和失败模式探索，但作者也明确强调，模拟结果不能替代真实人类研究。",
    "demo": "",
    "stars": null
   },
@@ -460,7 +460,7 @@
     "multimodal"
    ],
    "summary_en": "Once visual content enters an AI pipeline, its owner often retains little technical control over how it is used. Legal and regulatory remedies can address misuse, but many technical interventions must be applied earlier, when content is released or accessed. This survey examines the protective paradigm that has grown around this intervention point, which we call adversarial attacks for good. Perturbations and structured signals long studied as attacks on learned models are instead applied by data owners, creators, platforms, or auditors to disrupt unauthorized automation or support later accountability. Five research communities have arrived at this inversion largely independently, each addressing a different stage of a visual asset's lifecycle: privacy filters against unwanted recognition at sharing time, unlearnable examples against unauthorized training, generative safeguards against malicious editing or imitation, adversarial CAPTCHAs for access control against automated agents, and provenance mechanisms for post-circulation attribution. Although developed in separate venues with incompatible success criteria, many of these methods exploit persistent gaps between human perception, semantic interpretation, and machine inference, suggesting that the paradigm remains relevant as visual pipelines evolve toward multimodal models and autonomous agents. To make their claims comparable, we evaluate all five families along shared axes of transferability, adaptability, and deployment readiness. Across the lifecycle, we find that most protections are still validated mainly against static or weakly adaptive adversaries, while evidence beyond controlled benchmarks remains scarce. We close by consolidating cross-stage countermeasures and open problems for robust, composable, and deployable owner-side protection.",
-   "summary_zh": "",
+   "summary_zh": "这篇综述把传统上用于攻击模型的对抗信号反过来作为内容所有者的主动保护手段，并按视觉内容生命周期统一梳理隐私滤镜、不可学习样本、生成防护、对抗 CAPTCHA 和来源追踪五类研究。其核心结论并不乐观：多数方案仍只面对静态或弱自适应对手，受控基准之外的部署证据稀缺。",
    "demo": "",
    "stars": null
   },
@@ -475,7 +475,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "CLI-based software-engineering agents have matured rapidly, yet the open ecosystem has converged on a single training environment: trajectory datasets used to fine-tune open models are collected almost exclusively under OpenHands. Models fine-tuned on this data score well under OpenHands but degrade substantially when deployed under any non-training scaffold. Untrained base models do not show this divergence, indicating the gap is fine-tuning-induced and tied to the conventions of the training scaffold. We argue that a load-bearing scaffold-specific behavior is planning structure, in two senses this paper distinguishes: explicit planning, a pre-execution plan produced as a first-class artifact, and implicit planning, the structural conventions that shape execution throughout the agent loop. Under this hypothesis, closing the gap requires moving planning from a fixed scaffold artifact to a learned model capability. We introduce Decoupling CLI Agent Scaffolding (DCAS), a backend-substitution interception layer that routes API traffic between any CLI scaffold and any backend model without modifying the scaffold, enabling cross-scaffold evaluation and planning-aware trajectory collection. Using DCAS, a controlled plan-source intervention confirms planning quality is a high-leverage component, with gains exceeding the cross-scaffold drops we observe. A model fine-tuned on a small set of DCAS-collected planning-aware trajectories under a single scaffold gains consistently across non-training scaffolds, and the two senses of planning are empirically separable in training data.",
-   "summary_zh": "",
+   "summary_zh": "DCAS 发现，CLI 编码模型在 OpenHands 轨迹上微调后会学习该 scaffold 的规划惯例，换到 Claude Code、OpenCode 或 mini-swe-agent 时性能明显分化。它通过 API 后端替换层做受控跨 scaffold 路由，并显示少量同时包含规划与执行的轨迹能把部分规划能力内化到模型中。",
    "demo": "",
    "stars": null
   },
@@ -490,7 +490,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Personality-conditioned LLM agents (PC-Agents) are increasingly used in emotional support, social simulation, and role-playing, motivating the development of lifelong agents that remain coherent over extended interactions. A key component of such coherence is personality evolution: agents should undergo plausible, psychology-grounded changes as they experience life events in different contexts. Although prior work shows that LLM personalities can shift under contextual perturbations, how these shifts vary across traits, events, personas, and models remains poorly understood. We study event-induced personality change after 11 major life events, using the Big Five traits as a psychometric anchor and interpreting the resulting trajectories against longitudinal evidence from human personality psychology. Across four diagnostic axes, PC-Agents exhibit measurable trait shifts at similar rates for event-trait pairs with and without documented human change directions. Even when shifts follow the expected direction, their magnitudes usually fall below human effect-size ranges. Gender and cultural-region prompts show little moderating effect, while persona-level dispersion is compressed three- to four-fold relative to human samples. To enable systematic comparison, we introduce BFI-Adapt, a reusable benchmark for scoring the directional fidelity of event-induced personality change, and use it to rank 14 models. A validation suite shows that the measured shifts exceed no-event retest noise, remain stable under independently paraphrased prompts, exhibit limited and model-dependent convergence with scenario-based behavioral choices, and persist across intervening unrelated dialogue. Together, these checks establish the measured trajectories as robust event-conditioned response patterns. Our results suggest that current PC-Agents simulate the mean of human personality dynamics, but not its shape.",
-   "summary_zh": "",
+   "summary_zh": "这项工作用 11 类重大生活事件和 Big Five 量表检验人格化 LLM agent 是否会像人一样“成长”，并发布 BFI-Adapt 排行协议。模型的人格分数确实会稳定移动，但事件针对性弱、变化幅度通常小于人类区间，人口与个体差异也被压缩，因此更像模拟了人类变化的平均方向，而非完整分布形状。",
    "demo": "",
    "stars": null
   },
@@ -505,7 +505,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Recent systems for optimizing prompts, programs, and ML workflows typically rely on explicit outer-loop controllers such as evolutionary search, bandits, or textual-gradient methods. We ask a fundamentally different question: how much of this search policy can be internalized by a single tool-using agent? We present ReASearch, a unified framework for reasoning-driven optimization in which the agent autonomously decides what to evaluate, how to diagnose failures, which edits to make, and when to verify or restart. Rather than serving only as a proposal generator guided by hand-designed heuristics, the agent actively analyzes outcomes, allocates budget, and refines its strategy over long horizons through persistent memory. With a shared agent loop and domain-specific tools, ReASearch instantiates the exact same scaffold to optimize prompts, programs, and ML workflows. Across 14 diverse tasks, it is competitive with and mostly better than specialized optimization systems, achieving gains of 2% to 40% over strong domain-specific baselines, and in some cases discovering solutions that improve on prior human best-known results. Crucially, we observe that complex search behaviors, which are typically implemented by explicit controllers, emerge naturally from the agent's reasoning process.",
-   "summary_zh": "",
+   "summary_zh": "ReASearch 把提示词、程序和机器学习流程优化统一成一个长程工具调用 agent，让模型自己决定评测什么、如何诊断、从哪个候选继续、何时回退与复验。论文显示它在 14 个任务上多数优于专用搜索器，但“优化器就是 agent”仍应理解为 controller-light：系统持续把最佳结果、实验历史和记忆重新放进上下文，并非完全没有外部结构。",
    "demo": "",
    "stars": null
   },
@@ -541,7 +541,7 @@
     "multimodal"
    ],
    "summary_en": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.",
-   "summary_zh": "",
+   "summary_zh": "StreamArena 用 243 段平均 88.8 分钟的视频和 3646 个开放任务评测实时感知、历史回溯、主动触发与工具调用；StreamMind 通过前台响应和异步记忆/检索把同主干加权查询延迟从 81.4 秒降至 27.5 秒。其分层适合 Harness，但不是原生语音全双工。",
    "demo": "",
    "stars": null
   },
@@ -678,7 +678,7 @@
     "speech-to-speech"
    ],
    "summary_en": "Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying affect, prosody, or the timing of an affective shift, forcing a valid judge to track the audio cue rather than lexical content or response style. We evaluate ALM judges using a native one-context judgment protocol and a contrastive recoverability control, then further decompose each item into its constituent perception and response-mapping skills. This yields useful diagnostic states that identify different sources of judge failures. Across Gemini, GPT, and open audio models, we find that contrastive success often overstates native judge reliability, and that similar aggregate accuracies can hide different failure modes. These results suggest that ALM judges should not be evaluated by accuracy alone, instead requiring thorough behavioral audits before deployment.",
-   "summary_zh": "",
+   "summary_zh": "论文用“文字完全相同、只改变情感、韵律或情绪转折时点”的反事实样本，审计音频语言模型评审是否真的依据副语言证据选择更合适的回复。结果显示，模型在同时看到两组反事实时可能答对，却在实际的一上下文评审中失效；单一总准确率还会掩盖感知、回复映射和技能组合的不同故障。",
    "demo": "",
    "stars": null
   },
@@ -1900,7 +1900,7 @@
     "text-to-speech"
    ],
    "summary_en": "Speech deepfake detection (SDD) systems achieve strong performance on conventional benchmarks; however, existing datasets provide limited coverage of emotionally expressive and recent large audio-language model (LALM)-based attacks. Existing emotional spoofing datasets are also limited in scale and attack diversity, typically covering only voice conversion (VC) or text-to-speech (TTS) attacks. We introduce AffectDF, the most comprehensive benchmark for emotionally expressive speech deepfakes, spanning TTS, VC, emotional VC, and LALM-based spoofing attacks across both acted and spontaneous emotional speech. AffectDF contains approximately 260 hours of speech generated using 21 spoofing attacks across five emotional states. We benchmark state-of-the-art SDD systems under conventional and emotional spoofing conditions, including LALM-based detectors evaluated with both inference-only prompting and supervised fine-tuning. Our experiments reveal severe robustness degradation when models trained on conventional benchmarks are evaluated on AffectDF, with several systems approaching near-random performance. Surprisingly, even large-scale emotional training does not consistently improve cross-domain robustness, indicating that current SDD systems fail to learn generalized spoof representations under emotional and prosodic variability. Robustness further varies substantially across emotional states, attack families, and acted vs spontaneous emotional speech conditions. These findings expose fundamental limitations of current SDD systems and establish AffectDF as a benchmark for developing more robust spoof detection models.",
-   "summary_zh": "",
+   "summary_zh": "AffectDF 把情感表现纳入语音深伪检测压力测试，以约 260 小时、21 种攻击和五种情感覆盖 TTS、VC、情感 VC 与大音频语言模型攻击，并同时包含表演式和自发情感语音。实验显示，在常规反欺骗数据上表现良好的检测器迁移到该基准后会明显退化，而增加情感训练数据也没有稳定解决跨域问题。",
    "demo": "",
    "stars": null
   },
@@ -3647,7 +3647,7 @@
     "text-to-speech"
    ],
    "summary_en": "Recent advances in generative artificial intelligence have made it easier to fabricate statements and amplify political disinformation during elections. We introduce ParlaSpoof-BR, an audio deepfake dataset derived from recordings of the Brazilian Chamber of Deputies and expanded with synthetic utterances from diverse text-to-speech and voice conversion models. Using ParlaSpoof-BR, we benchmark state-of-the-art audio deepfake detectors, examine their ability to generalize to Brazilian Portuguese political speech, and investigate potential biases in their predictions. Our analysis reveals that current systems struggle to provide consistent decisions across the diversity represented in the dataset, with methodological factors (synthesis model choice, manipulation extent) dominating over demographic disparities. ParlaSpoof-BR provides a domain-specific benchmark for studying audio deepfake detection in a socially consequential and underrepresented setting, supporting the development of more robust detection systems for electoral integrity in Brazil.",
-   "summary_zh": "",
+   "summary_zh": "ParlaSpoof-BR 以巴西众议院语音为基础，构建面向巴西葡萄牙语政治场景的 TTS、VC 与局部语义篡改深伪基准，并审计检测器的群体差异。结果表明，合成模型和篡改比例造成的差距远大于性别或地区差距，尤其少量关键字替换比整句合成更容易逃过检测。",
    "demo": "",
    "stars": null
   },
@@ -4665,7 +4665,7 @@
     "spoken dialogue"
    ],
    "summary_en": "State-of-the-art spoken dialogue models (Défossez et al. 2024; Schalkwyk et al. 2025) use neural audio codecs to \"tokenize\" audio signals into a lower-frequency stream of vectorial latent representations, each quantized using a hierarchy of vector codebooks. A transformer layer allows these representations to reflect some time- and context-dependent patterns. We train probes on labeled audio data from Cole et al. (2023) to test whether the pitch trajectories that characterize English phrase-final (nuclear) intonational tunes are among these patterns. Results: Linear probes trained on the unquantized latents or some of the associated codewords yield above-chance accuracy in distinguishing eight phonologically specified nuclear tunes with monotonal pitch accents (top average test accuracy (TATA): 0.31) and the five clusters of these tunes that are robust in human speech production and perception (TATA: 0.45). Greater accuracy (TATAs: 0.74-0.89) is attained for binary distinctions between classes of rising vs. falling tunes, respectively used for questions and assertions. Information about tunes is spread among all codebooks, which calls into question a distinction between 'semantic' and 'acoustic' codebooks found in the literature. Accuracies improve with nonlinear probes, but discrimination among the five clusters remains far from human performance, suggesting a fundamental limitation of current codecs.",
-   "summary_zh": "",
+   "summary_zh": "这项工作用探针检查 Mimi 神经音频编解码器是否保留英语短语末核调的音高轨迹，而不只保留词音内容。线性探针能读出部分八类、五类及升降调信息，但细粒度核调区分仍远低于人类，且信息分散在多个码本而非只集中于所谓“语义码本”。",
    "demo": "",
    "stars": null
   },
@@ -4717,7 +4717,7 @@
     "voice assistant"
    ],
    "summary_en": "The rapid proliferation of large audio models (LAMs) demands efficient approaches for model comparison, yet comprehensive benchmarks are costly. To fill this gap, we investigate whether minimal subsets can reliably evaluate LAMs while reducing costs and data redundancy. Analyzing 10 subset selection methods with 18 audio models across 40 tasks covering major LAM evaluation dimensions, we show that subsets of just 50 examples (0.3% of data) can achieve over 0.93 Pearson correlation with full benchmark scores. To understand how well these scores align with what practitioners ultimately care about, user satisfaction, we collect 776 human preference ratings from realistic voice assistant conversations, finding that both subsets and full benchmark achieve only 0.85 correlation with human. To better predict preferences, we trained regression models on these selected subsets, achieving 0.98 correlation -- outperforming regression models trained on both random subsets and the full benchmark. This demonstrates that in regression modeling, well-curated subsets outpredict the full benchmark, showing quality over quantity. We open-source these regression-weighted subsets as the HUMANS benchmark, an efficient proxy for LAM evaluation that captures both benchmark performance and user preferences.",
-   "summary_zh": "",
+   "summary_zh": "HUMANS 通过从大型音频模型基准中挑选少量高信息样本，再用人类偏好校准回归权重，以更低成本近似完整评测并预测真实语音助手满意度。它适合为 StreamingModelHarness 建立跨架构离线回归集，但衡量的是回合式交互质量，不应被当作原生全双工能力证明。",
    "demo": "",
    "stars": null
   },
@@ -5214,7 +5214,7 @@
     "multimodal"
    ],
    "summary_en": "Errors in speech translations reduce trustworthiness of Speech Translation (ST) systems and can have serious consequences. Yet currently there is no established methodology for evaluating confidence and quality estimation of speech translations. To initiate progress in this direction, we propose Speech Translation Error Labelling (STEL). We create an annotation protocol, a small authentic end-to-end evaluation dataset, and we analyse how existing text-only and speech-processing systems perform the STEL task. Our results show that text-only XCOMET and multimodal LLM Qwen2.5-Omni are able to perform the STEL task in roughly half the precision of humans. We also find that direct speech processing is necessary for the STEL task, and that the current text-only and speech-processing systems are complementary in labelling translation-only vs. speech-processing errors in ST.",
-   "summary_zh": "",
+   "summary_zh": "STEL 为端到端语音翻译建立面向用户沟通目标的错误 span、严重度和段级质量标注协议，并发布一个小型真实测试集。实验显示文本 XCOMET 更擅长翻译本身的错误，能直接听音频的 Qwen2.5-Omni 更擅长语音处理错误，两路信号具有互补性。",
    "demo": "",
    "stars": null
   },
@@ -5778,7 +5778,7 @@
     "voice assistant"
    ],
    "summary_en": "Speech emotion recognition is an important component of modern human-computer interaction systems. However, many state-of-the-art approaches rely on large pretrained models with high computational and memory requirements, limiting their applicability. This paper proposes ResLSTM-SA, a lightweight architecture that integrates residual connections with soft attention within an LSTM-based framework. Evaluated on the RAVDESS dataset under strict speaker-independent partitioning, the proposed model outperforms conventional attention-based LSTM baselines and several previously reported CNN- and hybrid CNN-LSTM architectures in terms of unweighted average recall (UAR). The best-performing variant (ResLSTM-SA-h64) achieves a maximum UAR of 0.6517 with only 46.8k trainable parameters, delivering competitive accuracy with three orders of magnitude fewer parameters than large-scale self-supervised alternatives, thereby enabling efficient deployment on edge devices and real-time voice assistants. The source code is available at https://github.com/Mak-Sim/ResLSTM-SER.",
-   "summary_zh": "",
+   "summary_zh": "ResLSTM-SA 在传统软注意力 LSTM 前增加一个与输入维度匹配的 LSTM 残差层，用 34 维 MFCC 与 12 维 chroma 做轻量语音情绪识别。其 h64 版本仅有 46.8k 参数，在严格说话人独立的 RAVDESS 评测中取得 0.6232 平均 UAR 和 0.6517 最高 UAR，展示了适合边缘侧车的参数效率。",
    "demo": "",
    "stars": null
   },
@@ -5813,7 +5813,7 @@
     "voice assistant"
    ],
    "summary_en": "Sleep diaries are central to behavioral sleep medicine and cognitive behavioral therapy for insomnia, yet daily completion is difficult to sustain, and static forms often provide limited context for interpreting night-to-night sleep variation. We designed an LLM-powered conversational voice diary that delivers clinically grounded morning and evening sleep diary questions through proactive smart-speaker prompts, structured conversational intake, and adaptive follow-up dialogue. We evaluated the system in a four-week between-subjects field study with 30 university students, comparing it with a text-based mobile diary using matched diary items, reporting windows, and reminder intervals. Compared with the text-based diary, the conversational voice diary showed higher adherence and elicited more detailed contextual self-report about routines, stressors, environmental conditions, and other sleep-related factors. Participants also described the voice diary as easier to integrate into daily routines, despite longer perceived completion time. However, voice-based conversational intake produced lower completeness for some structured diary fields, revealing a trade-off between expressive richness and structured precision. These findings show both the promise and the challenge of using LLM-powered conversational voice assistants for longitudinal health self-report.",
-   "summary_zh": "",
+   "summary_zh": "这项四周居家研究把 GPT-4o、Alexa 主动提醒、结构化睡眠问题和自适应追问组合成语音日记，并与字段和提醒时段匹配的手机文本日记比较。语音方案提高了坚持率、可用性与上下文披露，却更慢且更容易漏掉精确结构化值，说明对话式采集必须叠加字段校验。",
    "demo": "",
    "stars": null
   },
@@ -6082,7 +6082,7 @@
     "voice assistant"
    ],
    "summary_en": "Smart Voice assistants (SVAs) are widely adopted by youth, yet privacy decision-making in these environments is often characterized by competing considerations rather than clear-cut preferences. While our prior research has examined privacy risks, benefits, trust, and self-efficacy as distinct predictors of behavior, less attention has been paid to how these factors combine into higher-level tension that shapes privacy outcomes. This study introduces a negotiation-based framework for understanding youth privacy decision-making with SVAs by operationalizing two composite indices: the Risk-Benefit Tension Index (RBTI) and the Control-Acceptance Tension Index (CATI), using survey data from 469 Canadian youth aged 16-24. We examine the distribution of these indices and their relationship with privacy-protective behavior and SVA usage. Results show that both indices are meaningfully associated with protective action. Frequent SVA usage exhibits more benefit-dominant and acceptance-leaning negotiation profiles, suggesting that convenience-driven engagement may come at the expense of perceived control. By reframing privacy decision-making as a process of negotiation rather than inconsistency, this study offers a complementary perspective on the privacy paradox and provides a compact measurement approach for capturing how youth navigate competing privacy pressures in voice-enabled ecosystems.",
-   "summary_zh": "",
+   "summary_zh": "论文把青年使用智能语音助手时的隐私态度建模为两种“协商张力”：风险相对收益的 RBTI，以及控制相对便利接受的 CATI。加拿大横断面调查显示，两者都与自报隐私保护行为相关，而高频用户更偏向收益和接受，但这些相关性不能证明使用频率导致控制感下降。",
    "demo": "",
    "stars": null
   },
