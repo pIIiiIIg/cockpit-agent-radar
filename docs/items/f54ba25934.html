@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-04 · ◈ 5
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation suite for long-form video description built from 5 hours of movie content segmented into 90-second clips, each paired with an expert-written paragraph-style reference. The evaluation suite employs an ensemble of five state-of-the-art LLM-based embedding models to increase reliability and mitigate single-model bias, and applies two complementary methodologies: (i) coarse-grained semantic matching and (ii) fine-grained semantic matching to compare model-generated descriptions against CLIP-CC-Bench references. Using this framework, we evaluate 17 state-of-the-art video-language models and report both their Borda-aggregated rankings and their average scores on CLIP-CC-Bench. We further quantify the protocol&#x27;s internal reliability through inter-judge agreement and bootstrap ranking stability. We release standardized evaluation scripts, model outputs, and aggregation tools at https://github.com/Multimodal-Intelligence-Lab/CLIP-CC-Bench to support reproducibility. CLIP-CC-Bench provides a practical evaluation framework for long-form video description, filling a gap left by existing short-clip and QA-only benchmarks. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">CLIP-CC-Bench 面向长视频段落描述，使用 200 个 90 秒电影片段、专家段落参考和五个嵌入模型组成的多评审协议，同时衡量整体叙事与句级细节。它补足了短片字幕和问答基准难以评价长程故事理解的问题，但本质上仍是离线视频描述评测，并非实时语音交互方案。</span>
     <span class="l-en">Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation suite for long-form video description built from 5 hours of movie content segmented into 90-second clips, each paired with an expert-written paragraph-style reference. The evaluation suite employs an ensemble of five state-of-the-art LLM-based embedding models to increase reliability and mitigate single-model bias, and applies two complementary methodologies: (i) coarse-grained semantic matching and (ii) fine-grained semantic matching to compare model-generated descriptions against CLIP-CC-Bench references. Using this framework, we evaluate 17 state-of-the-art video-language models and report both their Borda-aggregated rankings and their average scores on CLIP-CC-Bench. We further quantify the protocol&#x27;s internal reliability through inter-judge agreement and bootstrap ranking stability. We release standardized evaluation scripts, model outputs, and aggregation tools at https://github.com/Multimodal-Intelligence-Lab/CLIP-CC-Bench to support reproducibility. CLIP-CC-Bench provides a practical evaluation framework for long-form video description, filling a gap left by existing short-clip and QA-only benchmarks.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">把长视频描述拆成“整段是否讲对”和“细节是否覆盖”两层语义匹配，再用五个嵌入评审的 Borda 排名降低单一评审的尺度偏差。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>仅处理语音的助手无法覆盖面对面交互中的动作、表情或连续视觉线索，跨模态时序也难以保持同步。</p>
+  <p>现有视频语言基准多面向短片、单句字幕或离散问答；BLEU、ROUGE、METEOR 等词面指标难以衡量段落级语义、时序连贯性和完整故事理解。单一 LLM 评审又可能不稳定，因此长视频的开放式段落描述缺少可复现、可比较的评测协议。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation suite for long-form video description built from 5 hours of movie content segmented into 90-second clips, each paired with an expert-written paragraph-style reference. The evaluation suite employs an ensemble of five state-of-the-art LLM-based embedding models to increase reliability and mitigate single-model bias, and applies two complementary methodologies: (i) coarse-grained semantic matching and (ii) fine-grained semantic matching to compare model-generated descriptions against CLIP-CC-Bench references. Using this framework, we evaluate 17 state-of-the-art video-language models and report both their Borda-aggregated rankings and their average scores on CLIP-CC-Bench. We further quantify the protocol&#x27;s internal reliability through inter-judge agreement and bootstrap ranking stability. We release standardized evaluation scripts, model outputs, and aggregation tools at https://github.com/Multimodal-Intelligence-Lab/CLIP-CC-Bench to support reproducibility. CLIP-CC-Bench provides a practical evaluation framework for long-form video description, filling a gap left by existing short-clip and QA-only benchmarks.</p>
-
-
+  <p>数据集从电影内容中选取长片段，由专家编写不含专名和特定文化指代的段落参考。评测时，五个来自 MTEB 排行的嵌入模型分别担任评审：粗粒度分数比较整段向量的余弦相似度，细粒度分数对预测句与参考句做双向最佳匹配并计算精确率、召回率和 F1；每位评审再对粗、细分数取调和均值，最终以 Borda count 汇总模型名次。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>将约 5 小时电影内容切分并筛选为 200 个 90 秒片段，由专家撰写段落式参考描述。</li><li>让待测 VLM 使用统一提示词、temperature=0、max_tokens=5000 和贪心解码生成长描述。</li><li>由五个嵌入评审分别计算整段语义相似度和句级双向匹配 F1，并合成为每位评审的分数。</li><li>按各评审的模型名次进行 Borda 聚合，同时用评审间一致性与 bootstrap 排名稳定性检查协议内部可靠性。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>基准包含约 5 小时电影内容、200 个 90 秒片段及对应的专家段落参考。</li><li>论文评测了 17 个视频语言模型；由于所有模型都缺少第 126 号片段的输出，最终指标在相同的 199 个片段上配对计算。</li><li>评测采用五个 LLM 嵌入模型作为独立评审，并同时报告粗粒度、细粒度与 Borda 聚合结果。</li><li>论文通过评审间一致性和 bootstrap 排名稳定性量化了协议的内部可靠性。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>对 StreamingModelHarness 的直接相关性较低：论文评的是离线长视频段落生成，不涉及流式音频、话尾检测、工具调用或 TTS。</li><li>可借鉴其“粗粒度整体质量 + 细粒度事实覆盖 + 多评审排序”的方法，为座舱对话摘要、长回答或场景说明设计更稳健的离线回归评测。</li><li>它不能证明 Harness 具备模型层原生全双工能力；Harness 仍是音频输入、话尾检测、生成、晚期工具注入和外部 TTS 串联的系统。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>素材集中于电影片段，未覆盖真实世界长视频、直播或交互式场景。</li><li>五个评审仍同属文本嵌入模型，集成可缓解单模型偏差，却不能等同于独立的人类事实核验。</li><li>语义相似度可能奖励意思接近但细节错误的描述；单一专家参考也未必覆盖所有同样正确的叙述方式。</li><li>统一帧上限差异较大，模型最大可处理帧数不同，排名同时反映模型能力与采样配置。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-11 09:30</p>
+  <p><span class="open-status open"><span class="l-zh">已开放</span><span class="l-en">Open</span></span>
+     &nbsp; 论文声明公开数据、标准化评测脚本、模型输出和聚合工具；未发布新的生成模型。</p>
+  <p><a class="btn" href="https://github.com/Multimodal-Intelligence-Lab/CLIP-CC-Bench" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-11 14:29</p>
 </section>
   <p><a class="btn" href="https://huggingface.co/papers/2608.04302"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

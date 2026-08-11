@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-07 · ◈ 8
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Vision-Language-Action (VLA) models have recently achieved impressive performance for end-to-end autonomous driving, yet existing approaches are primarily designed for an individual single autonomous driving agent with limited support for cooperative perception, reasoning, and planning. We present Cooperative Multi-agent Unified Driving with Reasoning (CMU-Drive), a closed-loop end-to-end benchmark for evaluating cooperative autonomous driving with multiple connected autonomous vehicles (CAVs) operating in safety-critical driving scenarios with background traffic participants. We further propose Vehicle-to-Vehicle Vision-Language-Action (V2V-VLA), a cooperative VLA model that integrates cooperative driving into a single forward pass by jointly generating driving actions, future waypoints, language reasoning, and communication policies. Experiments on CMU-Drive establish the first benchmark and baseline for cooperative VLA driving and provide a foundation for future research on multi-agent, closed-loop, end-to-end cooperative autonomous driving. Our code, benchmark, and model checkpoint will be publicly released to facilitate open-source research. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">CMU-Drive 是 CARLA 中的多车协作闭环驾驶基准，V2V-VLA 则在一次前向中联合生成动作、未来轨迹点、语言推理和通信策略。它与语音全双工无关，但“按需选择邻车并融合补充观测”可类比架构 B 的状态/调用 hop；其安全控制结论不能直接迁移到车舱助手。</span>
     <span class="l-en">Vision-Language-Action (VLA) models have recently achieved impressive performance for end-to-end autonomous driving, yet existing approaches are primarily designed for an individual single autonomous driving agent with limited support for cooperative perception, reasoning, and planning. We present Cooperative Multi-agent Unified Driving with Reasoning (CMU-Drive), a closed-loop end-to-end benchmark for evaluating cooperative autonomous driving with multiple connected autonomous vehicles (CAVs) operating in safety-critical driving scenarios with background traffic participants. We further propose Vehicle-to-Vehicle Vision-Language-Action (V2V-VLA), a cooperative VLA model that integrates cooperative driving into a single forward pass by jointly generating driving actions, future waypoints, language reasoning, and communication policies. Experiments on CMU-Drive establish the first benchmark and baseline for cooperative VLA driving and provide a foundation for future research on multi-agent, closed-loop, end-to-end cooperative autonomous driving. Our code, benchmark, and model checkpoint will be publicly released to facilitate open-source research.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Vision-Language-Action (VLA) models have recently achieved impressive performance for end-to-end autonomous driving, yet existing approaches are primarily designed for an individual single autonomous driving agent with limited support for c</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">V2V-VLA 让每辆车在单次推理中决定怎么开、为何这样开以及下一步应向哪辆邻车索取互补视野。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。</p>
+  <p>现有驾驶 VLA 多为单车模型，难以在局部可观测和安全关键场景中主动获取邻车观测；已有多车方法往往车辆数较少，或依赖多轮 LLM 谈判与多次推理。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Vision-Language-Action (VLA) models have recently achieved impressive performance for end-to-end autonomous driving, yet existing approaches are primarily designed for an individual single autonomous driving agent with limited support for cooperative perception, reasoning, and planning. We present Cooperative Multi-agent Unified Driving with Reasoning (CMU-Drive), a closed-loop end-to-end benchmark for evaluating cooperative autonomous driving with multiple connected autonomous vehicles (CAVs) operating in safety-critical driving scenarios with background traffic participants. We further propose Vehicle-to-Vehicle Vision-Language-Action (V2V-VLA), a cooperative VLA model that integrates cooperative driving into a single forward pass by jointly generating driving actions, future waypoints, language reasoning, and communication policies. Experiments on CMU-Drive establish the first benchmark and baseline for cooperative VLA driving and provide a foundation for future research on multi-agent, closed-loop, end-to-end cooperative autonomous driving. Our code, benchmark, and model checkpoint will be publicly released to facilitate open-source research.</p>
-
-
+  <p>CMU-Drive 将 Bench2Drive 的 44 类场景扩展为 2–16 辆联网自动车的闭环 CARLA 路线。每辆车各运行一个基于 Qwen2 的 V2V-VLA，输入语言提示、目标点、前视 RGB 和由本车与所选邻车占用图合并得到的 BEV；模型输出语言动作/理由/通信目标及未来轨迹点，再由 PID 控制器转换为转向、油门和制动。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>每辆车采集前视 RGB、IMU/GPS、目标点与其他协作车辆相对位置。</li><li>默认选择前方最近邻车，或沿用模型上一步建议的更有信息量通信对象。</li><li>将双方相机 BEV 占用图变换到自车坐标并合并，与前视图共同编码。</li><li>V2V-VLA 单次前向联合生成驾驶理由、动作描述、通信策略和未来轨迹点。</li><li>PID 执行轨迹，CARLA 更新多车与背景交通状态并继续闭环评测。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>CMU-Drive 由 44 类场景和 5 种天气/光照条件组成，共 220 条评测路线。</li><li>每条路线包含 2–16 辆 CAV，平均 6.56 辆，闭环评测最多 16 辆时只需 1 张 GPU；表中 InterDrive 与 MDrive 均列为 3 张 GPU。</li><li>V2V-VLA 的 Driving Score 为 63.67，非协作 SimLingo 基线为 56.32。</li><li>V2V-VLA 成功率为 34.55%，SimLingo 为 30.91%。</li><li>训练使用 8 张 H100-80GB，耗时 48 小时；训练专家为可访问 CARLA 全部对象真实位置与速度的 PDM-lite。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：与 StreamingModelHarness 的直接重合度低，但通信目标选择可启发架构 B 在 search/state/call hop 中按信息增益选择外部状态源。</li><li>编辑判断：其单次联合输出“行动、解释、调用策略”的做法有助于统一规划，但车舱助手应把解释与可执行工具调用分开校验，不能让自然语言理由替代安全约束。</li><li>编辑判断：该论文没有音频、流式生成、EOU、打断或外部 TTS 评测。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>论文实验仅在闭环 CARLA 基准中进行，尚未提供真实道路验证。</li><li>训练专家使用仿真中的对象真值，可能形成现实传感器不可获得的监督条件。</li><li>论文指出若干安全关键场景仍具挑战；编辑判断：只与一个非协作基线比较，不足以建立实际部署安全性。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 论文只承诺未来公开代码、基准与模型检查点，正文和元数据均未给出作者发布 URL。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-11 14:15</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-11 14:29</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.07621v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
