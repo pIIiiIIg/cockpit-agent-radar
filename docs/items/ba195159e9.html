@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-07 · ◈ 5
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying affect, prosody, or the timing of an affective shift, forcing a valid judge to track the audio cue rather than lexical content or response style. We evaluate ALM judges using a native one-context judgment protocol and a contrastive recoverability control, then further decompose each item into its constituent perception and response-mapping skills. This yields useful diagnostic states that identify different sources of judge failures. Across Gemini, GPT, and open audio models, we find that contrastive success often overstates native judge reliability, and that similar aggregate accuracies can hide different failure modes. These results suggest that ALM judges should not be evaluated by accuracy alone, instead requiring thorough behavioral audits before deployment. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">该文用固定转写、只改副语言的反事实审计，检验 ALM 评委是否真用声调/韵律；Gemini 在对比协议上较强，但原生 Pointwise 多接近机会水平。可作 StreamingModelHarness 外挂 TTS/语气评委的质检方法，不能替代流式判停与工具门测试。</span>
     <span class="l-en">Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying affect, prosody, or the timing of an affective shift, forcing a valid judge to track the audio cue rather than lexical content or response style. We evaluate ALM judges using a native one-context judgment protocol and a contrastive recoverability control, then further decompose each item into its constituent perception and response-mapping skills. This yields useful diagnostic states that identify different sources of judge failures. Across Gemini, GPT, and open audio models, we find that contrastive success often overstates native judge reliability, and that similar aggregate accuracies can hide different failure modes. These results suggest that ALM judges should not be evaluated by accuracy alone, instead requiring thorough behavioral audits before deployment.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluati</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">用“固定文本、只改副语言”的反事实审计检验音频语言模型当评委时是否真的依赖声调/韵律，而不是只看转写。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。</p>
+  <p>语音到语音系统越来越多用 ALM 做评委，但评委即使接收音频，也可能忽略副语言线索，只靠文本或回复风格做判断，导致评估虚高。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying affect, prosody, or the timing of an affective shift, forcing a valid judge to track the audio cue rather than lexical content or response style. We evaluate ALM judges using a native one-context judgment protocol and a contrastive recoverability control, then further decompose each item into its constituent perception and response-mapping skills. This yields useful diagnostic states that identify different sources of judge failures. Across Gemini, GPT, and open audio models, we find that contrastive success often overstates native judge reliability, and that similar aggregate accuracies can hide different failure modes. These results suggest that ALM judges should not be evaluated by accuracy alone, instead requiring thorough behavioral audits before deployment.</p>
-
-
+  <p>构造反事实审计项：转写固定，只改变情绪、韵律或情绪转折时机，迫使可靠评委跟随音频线索。用原生单上下文 Pointwise 协议与对比可恢复性 Pairwise 对照，再把每项拆成感知、响应映射与最终判断，诊断失败来源（含 Potemkin 态 π110）。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>从 CAVA Tone Awareness 等来源筛选对比情绪对，并用 TTS 合成用户音频与助手回复。</li><li>Pointwise：评委只看一种音频与候选回复并做原生判断。</li><li>Pairwise：同时给出两种音频/回复，测对比可恢复性。</li><li>分解感知与响应映射技能，按 (P,O,J) 真值表归类可靠、Potemkin 或其他失败态。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>Table 3 显示 Gemini 系列在 Pairwise 上可达约 74–91%，但 Pointwise 多接近机会水平（约 48–55%）；多数其他专有与开源 ALM 评委在 Pointwise 也接近机会水平。</li><li>五名人工校验者在单轮任务准确率约 62–100%，位置情绪任务约 88–92%，表明样本对细心听者可解。</li><li>作者指出对比成功常高估原生评委可靠性，相似总分可掩盖不同失败模式。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：可借鉴其反事实“同文异调”协议，给 Harness 外挂 TTS/语气回归做评委审计，避免只看 ASR 文本判分。</li><li>编辑判断：Pointwise 接近机会水平提醒：不要把 Qwen-Omni 等 ALM 直接当座舱情绪/打断评委；Harness 的判停与工具门仍应独立计量。</li><li>编辑判断：该工作评的是评委行为，不提供输入流式、endpoint 或原生全双工实现。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>审计主要依赖合成语音，真人语音实验有限，外部效度受限。</li><li>作者明确把改进评委训练/数据设计留给未来工作。</li><li>论文未提供可复现的完整审计数据集与评测代码链接。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+  <p><span class="open-status unavailable"><span class="l-zh">未开放</span><span class="l-en">Unavailable</span></span>
+     &nbsp; 截至核验，论文公开评测了 Gemini/GPT/Qwen2.5-Omni 等模型，但未给出本审计框架的官方代码或数据集发布页。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-10 19:22</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-11 09:25</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.06718v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>

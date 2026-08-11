@@ -13,7 +13,7 @@
 <title>StreamArena: Toward Continuous, Interactive, and Long-Horizon Agentic Streaming Video Understanding</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/38bb3847d3.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/38bb3847d3.html</guid>
-<description>Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that p</description>
+<description>StreamArena 用 243 段平均 88.8 分钟的视频和 3646 个开放任务评测实时感知、历史回溯、主动触发与工具调用；StreamMind 通过前台响应和异步记忆/检索把同主干加权查询延迟从 81.4 秒降至 27.5 秒。其分层适合 Harness，但不是原生语音全双工。</description>
 </item>
 <item>
 <title>stockmark/Stockmark-Nemotron-3-Nano-Omni-JapanDocReader</title>
@@ -61,7 +61,7 @@
 <title>Do Audio Language Models Use Paralinguistic Evidence? Counterfactual Audits for Response Evaluation</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/ba195159e9.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ba195159e9.html</guid>
-<description>Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying</description>
+<description>该文用固定转写、只改副语言的反事实审计，检验 ALM 评委是否真用声调/韵律；Gemini 在对比协议上较强，但原生 Pointwise 多接近机会水平。可作 StreamingModelHarness 外挂 TTS/语气评委的质检方法，不能替代流式判停与工具门测试。</description>
 </item>
 <item>
 <title>PrivacyPeek: Auditing What LLM-Based Agents Acquire, Not Just What They Say</title>
