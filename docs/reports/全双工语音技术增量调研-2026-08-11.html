@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-11</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-11</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-11</p>
+<p>证据日期：</p>
+<ul>
+<li>项目状态快照仍是 2026-08-10 10:30（UTC+8）生成的那一份，本日没有新的项目快照；其中最新提交实际日期为 2026-08-04，最近 H20 A/B 基准实际日期为 2026-08-03。</li>
+<li>Radar 数据生成于 2026-08-11 09:29（UTC+8）。候选范围包含 2026-08-10 报告之后的两批 Radar（2026-08-10 14:23、19:21）和 2026-08-11 09:29 批。</li>
+<li>官方仓库、模型页和数据集页的开放状态于 2026-08-11 复核。</li>
+<li>本报告未使用 2026-08-11 之后的证据。论文发表日期、Radar 发现日期和开放状态复核日期分别标注；后发现的镜像不计为新工作。</li>
+</ul>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-10.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<h3>项目实测事实</h3>
+<ul>
+<li>本日没有新的项目快照，也没有 2026-08-04 之后的新提交或新基准。以下数字全部沿用 2026-08-10 报告已记载的同一批证据，不作为今天新产生的结果。</li>
+<li>最新提交 <code>0a1d84e</code> 增加相位埋点、前向代价探针和紧凑回执；<code>768c60e</code>、<code>22edce8</code> 分别补齐 token/引擎耗时和真实车控落地时刻。</li>
+<li>2026-08-03 H20 公平对照使用同一批 100 条音频（82 条车控、18 条日常对话）。A/B 严格工具召回/执行成功率为 80.49%/79.27%，100 条样本下置信区间高度重叠；日常对话误车控均为 0%。</li>
+<li>A/B 首动作 P50/P90 为 1,094/1,440ms 与 700/850ms；首音频为 2,918/3,453ms 与 3,491/4,171ms。项目结论是 Edge TTS 而非首 token 构成约 3 秒首音频的主要瓶颈。</li>
+<li>单 token 解码约 110ms；项目剖析把根因定位到 HF MoE 每 token 约 816 次 GPU→CPU 同步，5090 实测约为理论带宽下限的 36 倍。<code>DynamicCache.update()</code> 在 KV=2500 时约 0.2ms，不是当前同量级瓶颈。</li>
+<li>闲聊工具门槛在 6,478 条真实车控指令上需要 T=5 才能滤净闲聊，但会误伤 6.25% 真指令，因此没有启用。上下文引力和聚合意图展开不全仍未闭环。</li>
+<li><code>probe_turn_end</code> 已有负面结果：主模型自己判停不可行。今日的判停相关证据必须与这条既有负结果对齐，不得重新包装为“让主模型判停”。</li>
+<li>前日报告记载的 baseline 414/452、召回 443/452、conditional top-2 verifier 离线仅触发 5 次净修 4 因而拒绝 H20，均只作为防重复的已记录负结果引用，本报告没有产生新的 Harness 运行。</li>
+</ul>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>MoE 单 token 解码约 110ms</td><td>速度不随 KV 长度变化；约 816 次同步/token，5090 实测约为理论下限 36 倍</td><td>今日 Radar 仍没有命中 HF 单 token 路由同步的新内核；驾驶 VLA 层裁剪（2608.07361）是另一类深度冗余证据，不是同步修复</td><td>继续项目自有 <code>index_select</code>+<code>bmm</code> 无同步 fast path，与原 HF 实现分别在 5090/H200 跑 <code>tests/stress_multiturn.py</code></td><td>输出一致；ms/token 显著下降；不得用层裁剪、批吞吐或他模型 RTF 代替单请求门</td></tr>
+<tr><td>首音频约 3 秒</td><td>A/B 首音频 P50 为 2,918/3,491ms，P90 为 3,453/4,171ms；判断 Edge TTS 是主因</td><td>今日没有新的 TTS 正文证据；DuplexGen 只用 Chatterbox/ElevenLabs 渲染离线语料，未报告首包时间</td><td>不新增 TTS 候选，继续执行 2026-08-10 已建立的 <code>omnivoice-local-tts-16step-v1</code> 离线单变量</td><td>沿用既定编辑门：首音频 P90≤1,000ms；中文 CER 不劣于 Edge；工具/文本逐条一致</td></tr>
+<tr><td>多轮跟随、打断改口和取消/补偿未完成</td><td>项目下一步明确要求增加这些评测；<code>probe_turn_end</code> 已证明主模型自判停不可行</td><td>DuplexGen 提供 slot 级人类偏好分布（听/backchannel/抢话）与 35,746 条双通道合成对话音频</td><td>借其标注方法建立中文 slot 级判停/打断回放规范；不直接用其英文语料训练，也不引入 PersonaPlex</td><td>每个 slot 有可核验的人类动作分布；打断点、停止时延和残留音频有确定口径；今日无法设时延门（论文无时延数字）</td></tr>
+<tr><td>判停与打断评测缺少可信自动裁判</td><td>当前评测靠严格工具名与人工口径，尚未升级到参数+最终车态</td><td>2608.06718 的反事实审计：多数开源音频 LLM 在原生 pointwise 判断上接近随机，Qwen-2.5-Omni-7B 为 50.0/47.1</td><td>明确禁止用音频 LLM 当“打断是否合适/情绪是否匹配”的裁判；任何自动裁判先过同款反事实审计</td><td>裁判必须在固定转写、只变声学线索的配对上显著优于随机，且原生单样本判断不塌陷</td></tr>
+<tr><td>聚合意图展开不全，长时记忆与前台时延未分层</td><td>当前快照只列问题，没有独立失败数；下一步要求升级为“参数+最终车态”成功率</td><td>StreamMind 的前台非思考 worker + 后台异步记忆/检索两层架构</td><td>只借鉴“前台不承担记忆构建、后台异步写入”的执行契约，写进聚合意图回放规范</td><td>后台记忆构建不得增加首动作时延；每个子动作、参数和最终车态可核验；因缺失败桶基数暂不进入候选</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：直接命中当前工程短板</h3>
+<ol>
+<li><strong>继续项目自有的 Qwen3-Omni MoE 无同步 fast path。</strong> 2026-08-11 Radar 仍没有出现可替代该判别实验的新内核。今日唯一的加速正文是驾驶 VLA 的层裁剪，它测的是 32 层解码器去掉 8 层后的 1.33× 加速，与“每 token 816 次同步”不是同一根因，不得混用。</li>
+<li><strong>把 DuplexGen 的 slot 级人类偏好标注方法引入项目自有的判停/打断回放规范，但不引入它的语料和模型。</strong> 它的贡献是“在每个可插入点收集五人分布式标注，再用 KL 软标签校准预测器”，这正好补上项目当前缺的“打断是否该发生”的判据来源。它的语料是英文、文本驱动、时序由固定 0.16s 间隔和 0.64s 重叠脚本合成，不能直接当中文车控的判停训练数据。</li>
+</ol>
+<h3>P1：适合形成下一阶段架构</h3>
+<ol>
+<li><strong>确立“音频 LLM 不得充当判停/情绪合适性裁判”这条硬约束。</strong> 2608.06718 用固定转写、只改情感与时序的反事实项测出：Gemini 系列在成对可见时表现好但在原生单样本判断上塌陷到接近随机，其余专有与开源模型（含 Qwen-2.5-Omni-7B、Phi-4-Multimodal、Voxtral-Small-24B）在多数格子接近 50%。项目若用同类模型自动判打断质量，会得到看似合理实则无信息的分数。</li>
+<li><strong>用 StreamMind 的两层执行契约描述聚合意图与长时记忆。</strong> 前台非思考 worker 只做即答/派单/建监视器，后台异步构建记忆并做召回与检索。可迁移的是“记忆构建离开响应关键路径”，不可迁移的是它的绝对时延——它把平均查询到答案时延从 81.4 秒降到 27.5 秒，仍比座舱首动作预算高两个数量级。</li>
+</ol>
+<h3>P2：长期模型研究</h3>
+<ol>
+<li><strong>驾驶 VLA 的深度冗余只作为方法论参照。</strong> 2608.07361 显示导航命令在第 1 层后就有 97.7% 的线性可解码性，而与冻结规划器的兼容性要到最后一层才最好，说明“语义早就在、格式还没到”。这提示项目在判断“要不要减层”时应分开测语义可读性和下游可执行性，但结论限定在 ORION 检查点与 Bench2Drive。</li>
+<li><strong>今日 Radar 的其余条目不进入候选。</strong> 12 个 Nemotron-3-Nano-Omni 第三方量化镜像、Stockmark 同一工作的论文+模型双条目、若干通用 Agent/生成工具仓库，均缺少与当前 100 条 A/B、110ms/token 或约 3 秒首音频可比的一手基准。</li>
+</ol>
+<h2>1. DuplexGen: Adaptive Synthesis of Human–AI Turn-Taking Dialogues</h2>
+<p>论文（v1，2026-07-28 提交）：https://arxiv.org/abs/2607.26178 作者项目页：https://duplexgen.github.io 官方代码：https://github.com/duplexgen/duplexgen-code 官方微调仓库：https://github.com/duplexgen/personaplex-finetune 官方文本语料：https://huggingface.co/datasets/DuplexGen/duplexgen-corpus 官方语音语料：https://huggingface.co/datasets/DuplexGen/duplexgen-spoken Radar 于 2026-08-11 的条目：https://huggingface.co/papers/2607.26178</p>
+<h3>它是什么</h3>
+<p>DuplexGen 是一个“把纯文本对话合成为带场景自适应轮次行为的对话”的数据生成框架，目标是给全双工模型提供训练数据，而不是提出一个新的判停模型或新基准。</p>
+<p>需要先说清来源关系：Radar 早在 2026-07-30 就以 arXiv <code>2607.26178v1</code> 收录过这篇论文，2026-08-11 的 Hugging Face 论文页是同一版本的第二个来源，不是新工作，也不是修订版。此前的日报没有对它做过结构化正文核验，因此本报告按“尚未纳入前一日报告的内容”将它列为今日首要候选。真正在近几日发生变化的是它的开放状态：官方代码仓库创建于 2026-07-31，最后一次提交在 2026-08-08。</p>
+<h3>核心方法</h3>
+<p>四个阶段：</p>
+<ol>
+<li>口语化改写。用 LLM 把文本对话改成口语转写，去掉括号等书面成分并加入填充词和不流利。作者与 Switchboard 对照后报告：DuplexGen 用户侧填充词占比 3.50%、重复 0.43%，Switchboard 人类为 3.88% 和 1.39%；助手侧刻意压低到 0.38% 和 0.01%。</li>
+<li>轮次槽位识别。用启发式规则加 LLM 在用户话语内部标出可行动点，相邻槽位最大间隔设为 8 个 token。</li>
+<li>场景化校准。这是全文的关键设计。人工标注按增量方式呈现文本块，避免看到后文造成的回溯偏差；每个样本由 5 人标注，动作取 <code>[LISTEN]</code>/<code>[BACKCHANNEL]</code>/<code>[TAKE_FLOOR]</code> 三选一，结果按经验计数归一化成软标签；再用 KL 散度微调把 LLM 的逐槽分布拉向人类分布，而不是拟合多数票硬标签。</li>
+<li>合成。用校准后的预测器逐槽决定是否插入行为；插入 <code>[TAKE_FLOOR]</code> 会截断当前轮，插入 <code>[BACKCHANNEL]</code> 则保留当前轮继续。</li>
+</ol>
+<p>数据规模：校准集 120 段对话/240 条话语（每任务 20 段），评测集 300 段/600 条（每任务 50 段）；平均每条话语 24.57 词、5.57 个槽位。六个场景的校准槽位数为 160/148/415/242/232/198，评测槽位数为 383/341/1016/439/577/497。标注者为 248 名英美英语母语者。</p>
+<h3>论文结果</h3>
+<ul>
+<li>场景差异确实存在：合作类（Socratic 教学、混合主动规划、访谈）backchannel 相对占比为 0.32/0.27/0.25，竞争类（谈判、说服、社交闲聊）为 0.23/0.24/0.23；抢话占比合作类 0.08/0.09/0.05，竞争类 0.11/0.12/0.12。Holm 校正的成对卡方检验在几乎所有场景对上显著（p&lt;0.05），唯独竞争类内部不显著。</li>
+<li>校准有效：4B 规模下 <code>SWBD+DUPLEXGEN</code> 平均 KL 为 0.335，优于 <code>PROMPT-ONLY</code> 的 0.458、<code>DUPLEXGEN-ONLY</code> 的 0.616 和 <code>SWBD-ONLY</code> 的 0.752；14B 规模为 0.360 对 0.681/0.994/1.472。1.7B 是唯一例外，<code>DUPLEXGEN-ONLY</code> 0.465 与 <code>SWBD+DUPLEXGEN</code> 0.466 基本持平。</li>
+<li>更大的通用人际语料不等于更对：<code>SWBD-ONLY</code>（2.4K 段对话）在 4B/14B 上始终劣于只用小规模校准集的 <code>DUPLEXGEN-ONLY</code>，作者定性观察是它高估沉默、低估 backchannel。</li>
+<li>下游全双工模型：在 1,623 小时 DuplexGen 合成数据上 LoRA 微调 PersonaPlex 得到 PP-DG。多轮 5 分制评测中，指令遵循均值 Moshi 2.61、PersonaPlex 3.41、PP-DG 3.55；轮次自然度（人类听测）为 3.48/3.56/3.69。Welch t 检验报告 PP-DG 优于 PersonaPlex（p=0.034）和 Moshi（p=0.0026）。</li>
+<li>值得注意的反例：在混合主动规划（PLN）场景，PP-DG 的指令遵循 1.72 反而低于 PersonaPlex 的 2.04；在访谈（INT）场景轮次自然度 3.56 与 PersonaPlex 持平。论文的整体结论成立，但不是每个场景都改善。</li>
+<li>论文没有报告任何毫秒级时延、抢话响应时间、停止时延或残留音频指标。轮次自然度是听感 Likert 分，不是时序度量。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：项目最缺的不是“再来一个判停模型”，而是“判停/打断该不该发生”的判据来源。项目已经用 <code>probe_turn_end</code> 证明让主模型自己判停不可行，DuplexGen 的做法正好绕开这一点——它不要求主模型判停，而是先把人类偏好收成逐槽分布，再让一个独立小模型去拟合分布。可以直接复用的是这套标注协议：增量呈现、五人标注、三分类、软标签、按场景分层。座舱的场景切分应换成项目自己的桶（车控指令中途改口、导航追加约束、多乘员插话、闲聊），而不是照搬教学/谈判。</p>
+<p>编辑判断：它的公开语料对项目的价值主要是“方法验证素材”而不是训练数据。<code>duplexgen-corpus</code> 的每段对话都带逐词的 <code>probs</code>（floor_taking/backchannel/silence）和最终 <code>decision</code>，<code>duplexgen-spoken</code> 给出对应的混合双通道音频、逐轮独立音频和 backchannel 片段。项目可以用它验证自己的打断回放流水线能否正确解析双通道、对齐 backchannel 位置、统计抢话点，而不必等中文数据就绪。但用它的英文语料做中文车控训练或用它的分数当中文基线，都属于跨语言跨域外推。</p>
+<p>编辑判断：不建议引入 PersonaPlex 路线。PP-DG 的收益是在一个原生全双工模型上做 LoRA 得到的，而项目当前架构是“输入流式、判停后生成、晚注入工具、外挂 TTS”，两者的轮次控制发生在完全不同的层。把它的 Likert 提升当作项目可获得的收益是指标偷换。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>论文公开（arXiv v1，2026-07-28 提交，标注 CC BY-SA 4.0，注明“Manuscript under review”）。</li>
+<li>官方代码公开且为 Apache-2.0：仓库含五阶段流水线（口语化改写、槽位识别、预测器训练、对话生成、TTS 渲染）、数据卡、许可证文档和测试，并内嵌一份精简 Chatterbox（MIT）。2026-08-11 复核时最后一次提交为 2026-08-08。本报告只阅读其公开文件，未运行其代码。</li>
+<li><strong>官方微调仓库实为空壳。</strong> <code>personaplex-finetune</code> 于 2026-08-11 复核时仓库树只有 <code>README.md</code> 一个文件，README 仍写着“代码即将发布，将在 8 月第一周结束前放出”，仓库最后一次提交为 2026-08-05。主仓库 README 也明确写明本次发布不含任何模型检查点。也就是说，全文最亮眼的 PP-DG 结果目前无法从官方发布复现。</li>
+<li>两个数据集均为公开、非门控：<code>duplexgen-corpus</code> 标为 <code>license: other</code> / <code>mixed-per-scenario</code>，按场景继承上游许可证（SocraticLM 为 Apache、MultiWOZ 与 CraigslistBargain 为 MIT、Anthropic Interviewer 与 SODA 为 CC-BY-4.0、DailyPersuasion 为 CC-BY-SA-4.0）；<code>duplexgen-spoken</code> 同为 <code>license: other</code>，共 35,746 条 clip、约 704GB 24kHz WAV、467 个 tar 分片，每条 clip 的元数据带自己的 <code>license</code> 字段。可否商用需按场景逐项审查，本报告记为需独立法务确认。</li>
+<li><strong>论文与发布之间存在两处不一致，本报告不替作者选择，只如实记录。</strong> 其一，论文 §4.2.2 写明对话改写、槽位识别与合成使用 GPT-4.1，而官方代码仓库 README 的数据说明写“对话文本由 Qwen3.5-122B-A10B 生成”。其二，两个数据集卡片都写“音频由 Chatterbox TTS 合成”，而论文附录写明 backchannel 由 ElevenLabs 合成、主体由 Chatterbox 合成。</li>
+<li>语言仅英文；作者在局限中自陈校准完全基于增量文本，不直接条件于韵律、停顿时长、语调、语速、重叠或视觉线索，且未验证文本标注偏好与音频条件下偏好是否一致。</li>
+<li>合成音频的时序是脚本化的：固定 0.16 秒轮间隔、以 0.64 秒随机重叠模拟用户打断、backchannel 位置由 WhisperX 词级对齐插入。它不是真实说话人时序，也不含真实声学泄漏、AEC 残留或车内噪声。</li>
+<li>作者自陈模型行为对数据与训练超参（含轮换时延、停顿时长、学习率）高度敏感，尚无稳健训练配方。</li>
+</ul>
+<h2>2. Do Audio Language Models Use Paralinguistic Evidence? Counterfactual Audits for Response Evaluation</h2>
+<p>论文：https://arxiv.org/abs/2608.06718v1 所用源数据：https://talkarena.org/cava （CAVA 的 EmoCF 子集）</p>
+<h3>它是什么</h3>
+<p>这是一篇评测方法论文，问的是一个二阶问题：当我们用音频语言模型（ALM）当裁判去评价语音对话系统时，这个裁判到底有没有在用音频里的副语言证据。Radar 于 2026-08-10 19:21 发现，此前未进入任何日报。</p>
+<h3>核心方法</h3>
+<p>核心手法是反事实审计：固定转写文本，只改变情感、韵律或情感转折发生的时间点，逼迫合格的裁判必须依赖声学线索而非词面或回答风格。</p>
+<ul>
+<li>两类任务。<code>SINGLE-TURN-EMOTIONS</code> 取 CAVA 的 EmoCF 子集（词面中性的用户输入），选 189 条输入配成 189 个成对项与 378 个单点项，每条配两种对立目标情感。<code>POSITIONAL-EMOTION</code> 取 500 段 Open Dialogue 对话，在两个不同轮次分别注入目标失败，使最终转写受控而负面情绪的<strong>起始位置</strong>不同，正确回答必须对应各自的诱因。</li>
+<li>两种协议对照。原生 pointwise（一次只看一个上下文，最接近真实部署）与对比式 pairwise（两个反事实同时可见）。作者用二者的差值定义“可恢复但不可用”的状态。</li>
+<li>技能分解。每项再拆成感知探针 P、文本态下的回答映射探针 O 与原生判断 J，组成八状态诊断真值表，用来区分“听不出情绪”“听得出但映射不对”“两者都会但组合不起来”。</li>
+<li>统计规模：单轮 378 项、多轮原型 500 项、位置任务 1000 项；位置任务平均 9.9 轮、每条话语平均 4.9 秒。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>Gemini 系列在成对设置上强、在原生单点设置上塌陷。Gemini-3-Pro 单轮成对（硬线索）91.0%，单轮 pointwise 仅 55.2/65.3；Gemini-3-Flash 位置任务成对 79.4%，pointwise 只有 50.3/53.0。</li>
+<li>其余裁判基本贴着随机线。GPT-4o 为 54.2/53.8/57.1/55.9，Nova-2-Pro 为 48.8/59.8/55.1/53.6。</li>
+<li>开源模型全面接近随机：Qwen-2.5-Omni-7B 为 50.0/47.1/51.7/54.1，Phi-4-Multimodal-6B 为 53.6/48.7/49.2/49.2，Voxtral-Small-24B 为 52.9/53.2/53.9/54.0，DeSTA2.5-Audio-8B 为 48.9/47.9/49.2/46.1。</li>
+<li>人类内部效度检查：五名标注者在单轮任务上 62–100%，在位置任务上 88–92%，说明题目对认真听的人是可解的。</li>
+<li>作者结论有两点：对比式成功高估原生可用性；相近的总体准确率可能掩盖完全不同的失败机制。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：这条证据的价值是防止一次代价很高的错误转向。项目下一步要做多轮跟随、打断改口和取消/补偿评测，最省事的做法就是找一个音频大模型当裁判来打分“这次打断合不合适”“这个回应的语气对不对”。本文的数据说明，包括与项目同族的 Qwen-Omni 系列在内的开源音频模型，在这类只有声学线索有区别的判断上基本没有信号。项目应继续用确定性口径（停止时延、残留音频、取消后车态、重复执行、严格工具与参数比对），并且把“先做反事实审计”写成任何自动裁判的准入条件。</p>
+<p>编辑判断：它的构造方法本身可以低成本复刻成项目自查项。做法是取现有 452 条基准里的一小批，固定转写文本，只改说话人的语气或情绪转折位置，看 Harness 的工具选择、参数与最终车态是否发生变化。若不该变的变了，说明声学线索在错误地泄漏进工具决策；若该变的没变（例如用户明显不耐烦时仍走长确认流程），说明副语言信息完全没有被使用。这个自查不需要新模型，也不改任何生产路径。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>审计主要依赖合成语音：用户音频由 <code>gpt-4o-mini-tts</code> 渲染，回答由 <code>gemini-2.5-flash</code> 生成并由 <code>gemini-2.5-flash-preview-tts</code> 合成，质量控制用 emotion2vec 分数与基频、语速等声学量筛选。作者自陈这带来控制力但限制外部效度，尚未验证同样的诊断状态在真实人声、不同说话人、录音条件、语言和情绪体系下是否成立。</li>
+<li>全部为英文，且是助手式对话（出行、预订、购物、导航、提醒），不含车控执行或安全动作。</li>
+<li>论文只做诊断，不提出改进裁判的训练方法。</li>
+<li>正文与附录中未发现代码、数据或提示词的公开发布声明，也未发现官方仓库或数据集页；代码、审计集与许可证均记为<strong>未知</strong>。所引 CAVA/EmoCF 是第三方上游资源，不等于本文的发布。</li>
+</ul>
+<h2>3. StreamArena / StreamMind：连续、交互、长时程的流式视频理解</h2>
+<p>论文：https://arxiv.org/abs/2608.05703 项目页：https://hkuzxc.github.io/StreamArena_web/ 官方代码：https://github.com/JIA-Lab-research/StreamArena 官方基准数据：https://huggingface.co/datasets/hkuzxc/StreamArena</p>
+<h3>它是什么</h3>
+<p>StreamArena 是一个小时级、开放式回答的流式视频理解基准，StreamMind 是作者随之提出的两层架构。来源关系需要说明：Radar 于 2026-08-07 已以 arXiv <code>2608.05703v1</code> 收录，2026-08-10 19:21 的 Hugging Face 条目是同一工作的第二来源。2026-08-08 与 2026-08-09 的报告曾在导语中一句带过（“流式前台/异步记忆设计”），但从未做过结构化正文核验；本报告补上这一层，并明确它不是 2026-08-11 的新工作。</p>
+<h3>核心架构</h3>
+<ul>
+<li>基准：243 段完整视频，平均 88.8 分钟，3,646 条开放式问答，覆盖实时感知（RTP）、历史回溯（HR）、主动交互（Pro.）和多模态工具使用（Tool）四类能力。主动任务的时间判定窗口为 −0.5 秒到 +2.0 秒，要求在流中正确时刻触发，与后续文本生成速度无关。</li>
+<li>StreamMind 前台：Front Worker 是交互网关与调度器，在“上下文足够就直接答”“需要历史或外部证据就给后台下检索单”“用户要求盯future条件就起一个 Monitor Worker”三条路径中选择。每个 Monitor Worker 有独立生命周期，条件满足才通知前台，因此长期盯梢不占用前台。</li>
+<li>StreamMind 后台：Memory Writer 与用户提问无关地持续把帧与语音写成分层事件（微事件→宏事件→超事件）加实体关系图，事件保留关键实体、时间边界、文本描述和代表帧。Router Worker 把请求拆成 Recall 与 Search 子任务并发执行，Recall 在事件层级与实体图上做内容寻址检索，Search 做图像检索与外部文本检索。</li>
+<li>分工上前台不开思考、后台开思考。所有按查询触发的记忆读取都受查询时刻约束，保证因果访问。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>主表（准确率 %）：StreamMind（骨干 Qwen3.5-397B-A17B）RTP 44.5、HR 34.9、Tool 56.1、Pro. 11.6。相对每类能力最强的流式基线，作者报告相对提升 RTP 58.4%、HR 53.7%、Tool 228.1%、Pro. 54.7%。</li>
+<li>人类参照：RTP 91.8%、Tool 95.2%、Pro. 91.5%；HR 在可回看时 80.7%，不可回看时降到 63.4%。</li>
+<li>时延（表 4，查询到最终答案的平均墙钟秒数）：StreamMind 为 RTP 12.9s、HR 30.7s、Tool 28.1s，同骨干离线 Qwen3.5-397B-A17B 为 83.8/117.4/62.8s。按题量加权后从 81.4 秒降到 27.5 秒，相对下降 66.2%，同时保留 89.7% 的合并准确率（48.6% 对 54.2%）。</li>
+<li>模态诊断（616 题子集）：只给 ASR 时 RTP 仅 4.2%，只给 128 帧视觉为 26.8%，视觉加 ASR 为 32.4%。作者据此说明实时感知本质是多模态的，语音提供视觉采样无法恢复的补充信息。</li>
+<li>作者自陈比较范围有限：StreamMind 用 397B 级骨干，多个流式基线骨干小得多，因此不把全部增益归给架构；同骨干离线对照才是干净的系统级对照。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：可迁移的只有执行契约，不是数字。项目的聚合意图和长时记忆一旦做起来，最大的风险是把记忆整理、检索和总结塞进用户等待路径，把首动作 P90 从 850ms 拖成几秒。StreamMind 给出的可核验主张是：把持续感知与记忆构建放在响应关键路径之外，靠状态复用而不是省算力换时延。项目可以据此写一条硬规则——后台记忆构建不得进入 commit 到首动作的关键路径，且任何记忆读取都必须以查询时刻为界，不允许读到之后的观测。</p>
+<p>编辑判断：绝对时延完全不可比。27.5 秒是它的好成绩，而项目首动作 P90 是 850–1,440ms、首音频约 3 秒。任何把“时延下降 66.2%”写进项目预期收益的说法都是指标偷换。同理，Monitor Worker 的 −0.5s/+2.0s 判定窗对座舱安全动作也太宽。</p>
+<p>编辑判断：模态诊断那条结论值得单独记下。ASR-only 在实时感知题上只有 4.2%，视觉加 ASR 比纯视觉高 5.6 个百分点。项目 A 方案是 <code>音频→ASR→文本 RAG</code>，B 方案是音频直进 KV；这条外部证据支持“转写不是无损中间表示”的判断，但它测的是视频问答，不是车控工具选择，不能直接用来判 A/B 优劣。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>论文公开。官方代码仓库存在且非空（2026-08-11 复核时最后提交为 2026-08-11 02:09 UTC），含 <code>method/streammind</code> 及 aura、minicpm、offline、streamforest、thinkstream、vst 等基线适配与 judge 脚本；仓库许可证标为 <code>NOASSERTION</code>（GitHub 未能识别的“其他”许可证），因此可用范围记为<strong>未知</strong>。</li>
+<li>基准数据集在 Hugging Face 公开且非门控，标为 <strong>CC-BY-NC-4.0</strong>，中英双语，规模 1K–10K 量级。非商业条款意味着它不能进入量产评测链路。</li>
+<li>评分由 Gemini 3.1 Pro 担任，属于闭源模型裁判；结合本报告第 2 篇的结论，跨模型裁判的可靠性本身缺少独立审计。</li>
+<li>任务域是长视频观看陪伴，不含车控执行、安全约束或工具副作用；没有任何毫秒级交互时延、打断或语音合成指标。</li>
+<li>骨干规模与基线不对等，作者已自陈；本报告不把它的相对提升当作架构收益的净值。</li>
+</ul>
+<h2>4. Depth-Wise Probing and Pruning of the Planning Token in a Driving Vision-Language-Action Model</h2>
+<p>论文：https://arxiv.org/abs/2608.07361v1</p>
+<h3>它是什么</h3>
+<p>Bosch 与 KIT 的工作，研究一个驾驶 VLA 模型里“承载整个规划的单个 planning token”在 32 层解码器中是如何逐层成形的，以及能裁掉多少层。Radar 于 2026-08-10 19:21 发现，此前未进入日报。</p>
+<h3>核心方法</h3>
+<p>把模型自带的生成式规划器借来当“轨迹空间的 logit lens”：从 32 层中的每一层取出 planning token，直接解码成轨迹，然后测两个信号——导航命令的线性可解码性，以及与冻结原生规划器的轨迹兼容性。再按各层对 planning token 造成的角度偏移排序，据此决定裁哪些层。</p>
+<h3>论文结果</h3>
+<ul>
+<li>语义早熟：命令探针准确率在第 1 层解码器之后就达到 97.7%，而随机基线为 16.7%。</li>
+<li>格式晚熟：与冻结原生规划器的兼容性随深度逐步改善，开环 Avg-L2 直到最后一层才取到最小值 2.11 米。</li>
+<li>用第 1 层的学习读出头可以补回大部分差距，作者据此判断规划信息很早就在，只是还没变成部署规划器期望的表示格式。</li>
+<li>按角度偏移排序后，可以在开环误差相对上升约 5% 以内裁掉 32 层中的 8 层，实测解码器加速 1.33×。</li>
+<li>作者自陈：在所评样本量下没有解析出统计显著的类别特异退化；全部结论限定在所评的 ORION 检查点与 Bench2Drive 设置。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：这篇的作用是提供一个反面的方法论对照，而不是一个可用的加速方案。项目当前 110ms/token 的根因已经定位为 HF MoE 实现每 token 约 816 次 GPU→CPU 同步，属于延迟性质的实现缺陷；层裁剪解决的是计算深度冗余。若在同步问题未修复前先去裁层，最多把 816 次同步按比例减少，却要付出精度代价，还会污染 fast path 的判别实验。正确顺序是先修同步，再谈深度。</p>
+<p>编辑判断：真正可借鉴的是“语义可解码性”与“下游可执行性”必须分开测这一点。项目里存在同构现象：模型可能很早就知道用户要开哪块屏，但输出的工具名/参数格式不对（上下文引力把光场屏选成副驾屏，属于表示格式与候选集问题，不一定是语义没懂）。可以在现有失败桶上做同样的拆分——先测意图是否可从中间表示线性读出，再测最终 typed call 是否合法，从而判断该改提示、改候选注入还是改解码。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>任务是自动驾驶轨迹规划，单一 planning token 承载全部计划；座舱助手是多轮对话加多步 typed 工具调用，二者的“动作”定义不同。</li>
+<li>1.33× 是解码器加速，不是端到端时延，也不是单请求 ms/token；论文未报告座舱相关的首 token、首动作或首音频口径。</li>
+<li>结论明确限定于 ORION 检查点与 Bench2Drive；作者未声称跨模型族成立。</li>
+<li>论文正文与 PDF 链接中未发现官方项目页、代码仓库、权重或数据发布；代码、权重、数据与许可证均记为<strong>未知</strong>。</li>
+</ul>
+<h2>5. 2026-08-11 Radar 的重复来源、镜像与不进入候选的条目</h2>
+<h3>它是什么</h3>
+<p>本节记录今日候选池中被判定为重复、镜像或与项目问题不相关的条目，作用是防止同一工作被多次计入“新增”。</p>
+<h3>核心方法（去重判据）</h3>
+<p>同一 arXiv ID 的不同版本、同一工作的论文页与模型页、以及第三方对同一基础模型的量化/转换，一律计为一条技术谱系。</p>
+<ul>
+<li><strong>AES / HDC（Beyond Simply Environment Scaling，<code>2608.03571</code>）：已覆盖，不重复。</strong> Radar 已第三次收录它——2026-08-05 的 v1、2026-08-07 的 v2、2026-08-10 19:21 的 Hugging Face 论文页。<code>全双工语音技术增量调研-2026-08-05.md</code> 第 4 节已做过完整正文核验（含 200 环境 40 轨迹、72 个 meta-ability、选出 30 个环境、H0–H4 harness 弱化）。今日不再展开。补充一点术语提醒：它说的 harness 是训练脚手架（文本观测/状态/提示/规则），与 StreamingModelHarness 的推理 harness 完全不是一回事，不要因名字相同而误引。</li>
+<li><strong>StreamArena（<code>2608.05703</code>）：第二来源。</strong> 2026-08-07 已由 arXiv 收录，今日 Hugging Face 条目为同一工作，已在本报告第 3 节做首次结构化核验。</li>
+<li><strong>DuplexGen（<code>2607.26178</code>）：第二来源。</strong> 2026-07-30 已由 arXiv 收录，今日 Hugging Face 条目为同一版本，已在本报告第 1 节展开。</li>
+<li><strong>Nemotron-3-Nano-Omni 量化镜像：12 条 Radar 条目、1 条技术谱系。</strong> <code>majentik</code> 在 2026-08-10 发布的 RotorQuant-MLX 与 TurboQuant-MLX 各 2/3/4/5/6/8bit 共 12 个模型页，是同一基础模型的第三方 MLX 量化；再加上 2026-08-02 的 GGUF 与 2026-08-04 的 NVFP4 镜像，同属一条谱系。转换正确性、速度、实现完整性与许可证传递均<strong>未知</strong>，不进入实验依赖。</li>
+<li><strong>Stockmark-Nemotron-3-Nano-Omni-JapanDocReader：同一工作的论文与模型双条目。</strong> arXiv <code>2608.06758v1</code> 与 Hugging Face 模型页为同一发布，任务是日文结构化文档解析，与流式语音无关。</li>
+<li><strong>通用工具类仓库不进入候选。</strong> <code>Osmantic/ODS</code>（本地 AI 服务器整合，Apache-2.0）、<code>WayneJin0918/Omni-Rewriter</code>（图像/视频生成的提示扩展，Apache-2.0）、<code>OpenEnvision/Awesome-Multimodal-Agent</code>（清单仓库，无许可证）均缺少与项目可比的一手基准。</li>
+<li><strong>仅读摘要、未进入主线的音频类正文。</strong> <code>FATE: Frame-Level Audio-Visual Temporal Embedding</code>（<code>2608.01310</code>，帧级音视频时序嵌入）与 <code>Reinforcement Learning with Evolving Rubrics as Rewards for Audio Reasoning</code>（<code>2608.02831</code>，音频推理的自演化 rubric 奖励）与项目当前四个瓶颈没有直接接口。本报告只核验到摘要级，其结果、开源状态与许可证一律记为<strong>未知</strong>，不得据此写任何数字。</li>
+</ul>
+<h3>论文结果</h3>
+<p>不适用。本节不引用任何未经正文核验的数字。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：唯一的作用是抑制重复计数与重复实验。今日 45 条候选中，12 条是同一模型的量化镜像，3 条是已收录工作的第二来源，1 条是已在 2026-08-05 完整覆盖的工作，因此“新增数量”远大于“新增工作数量”。</p>
+<h3>局限与开放状态</h3>
+<p>上述镜像、清单与工具仓库的论文、权重、数据、基准与许可证未能逐项由一手材料确认，均记为<strong>未知</strong>。</p>
+<h2>今日建议路线</h2>
+<h3>第一阶段</h3>
+<ol>
+<li>继续原 HF MoE 与 <code>index_select</code>+<code>bmm</code> fast path 的 5090/H200 输出一致性与 ms/token 判别，这仍是项目内核实验，不重复包装为新 candidate。</li>
+<li>按 2026-08-10 已建立的 <code>omnivoice-local-tts-16step-v1</code> 执行离线 TTS 单变量，本日不新增任何 TTS 候选。</li>
+<li>阅读 DuplexGen 官方数据卡与 <code>duplexgen-spoken</code> 的分片布局，用它的双通道音频与 <code>metadata.jsonl</code> 验证项目自有打断回放流水线能否正确解析混合通道、对齐 backchannel 位置与统计抢话点。只做解析验证，不训练、不运行其仓库代码。</li>
+</ol>
+<h3>第二阶段</h3>
+<ol>
+<li>把 DuplexGen 的标注协议本地化：增量呈现、每样本五人、三分类（继续听/短应答/抢话）、软标签而非多数票，场景桶换成项目自己的车控改口、导航追加约束、多乘员插话与闲聊。先产出规范与小规模试标，不产出模型。</li>
+<li>复刻 2608.06718 的反事实自查：在现有基准里取一小批，固定转写、只改语气或情绪转折位置，检查 Harness 的工具、参数与最终车态是否发生了不该发生的变化，或该变而未变。此项不改生产路径，也不引入新模型。</li>
+<li>把“音频 LLM 不得担任判停/情绪合适性裁判，除非先通过同款反事实审计”写进评测规范。</li>
+</ol>
+<h3>第三阶段</h3>
+<ol>
+<li>用 StreamMind 的两层契约描述聚合意图与长时记忆：前台只做即答/派单/建监视器，后台异步写记忆并做召回，且记忆读取以查询时刻为界。只写契约，不引入其秒级时延方案与 397B 骨干。</li>
+<li>只有在拿到聚合意图的独立错误桶基数、单变量与预计净修数之后，才把上述任何一项转成候选 JSON。今日不产生新候选。</li>
+</ol>
+<h2>风险提醒</h2>
+<ul>
+<li><strong>指标偷换风险</strong>：DuplexGen 的收益是 5 分制听感 Likert（3.56→3.69），不含任何毫秒时延；StreamMind 的 66.2% 时延下降是从 81.4 秒到 27.5 秒，与座舱亚秒级预算差两个数量级；驾驶 VLA 的 1.33× 是解码器加速，不是单请求 ms/token。三者都不能写进项目预期收益。</li>
+<li><strong>发布状态风险</strong>：DuplexGen 全文最亮眼的 PP-DG 结果依赖 <code>personaplex-finetune</code> 仓库，而该仓库在 2026-08-11 复核时仍只有一个 README，官方也声明不含检查点。“论文声称已开源”与“官方资产可用”必须分开记。</li>
+<li><strong>一致性风险</strong>：DuplexGen 论文说合成用 GPT-4.1，官方 README 说对话文本由 Qwen3.5-122B-A10B 生成；数据卡说音频由 Chatterbox 合成，论文附录说 backchannel 由 ElevenLabs 合成。引用时须注明来源，不得二选一后当作定论。</li>
+<li><strong>许可证风险</strong>：<code>duplexgen-corpus</code> 与 <code>duplexgen-spoken</code> 按场景继承 Apache/MIT/CC-BY-4.0/CC-BY-SA-4.0 的混合条款；StreamArena 基准数据为 CC-BY-NC-4.0，不能进入量产评测链路；StreamArena 代码仓库许可证为 <code>NOASSERTION</code>，可用范围未知。</li>
+<li><strong>裁判可信度风险</strong>：多数音频 LLM 在原生单样本副语言判断上接近随机（Qwen-2.5-Omni-7B 为 50.0/47.1），StreamArena 自身又用 Gemini 3.1 Pro 打分。任何引入自动裁判的评测都必须先做反事实审计。</li>
+<li><strong>跨语言跨域风险</strong>：今日全部四篇正文的实验都是英文（DuplexGen、副语言审计）或非语音车控域（流式视频、驾驶轨迹）。没有一篇提供中文车控指令下的判停、打断或工具执行证据。</li>
+<li><strong>重复实验风险</strong>：<code>probe_turn_end</code>（主模型自判停）、candidate-ID/CMTF、conditional top-2 verifier 均为已记录负结果，不得以“场景自适应判停”之名重新包装；参数化本体、云监督与 SoulX 只消费既有 result manifest。</li>
+<li><strong>证据日期风险</strong>：今日 Radar 的三条“新增”实为已收录工作的第二来源，12 条为同一模型的第三方量化镜像。发现日期不等于发表日期，本报告未使用任何 2026-08-11 之后的证据。</li>
+</ul></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-11</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-11</h2><p class="solution-source"><b>2026-08-11</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
