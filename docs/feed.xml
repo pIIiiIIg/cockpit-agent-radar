@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f45ce908d7.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f45ce908d7.html</guid>
+<description>Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phen</description>
+</item>
+<item>
+<title>OpenEnvision/Awesome-Multimodal-Agent</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5988870fe5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5988870fe5.html</guid>
+<description>Awesome Visual Agent agent agentic-ai awesome awesome-list</description>
+</item>
+<item>
+<title>Multi-Agent Forensic Reasoning for Generalizable Deepfake Video Detection</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d409e2287b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d409e2287b.html</guid>
+<description>The malicious use of generative artificial intelligence to create highly realistic deepfake videos raises serious ethical concerns and poses substantial challenges to AI safety. However, existing deepfake video benchmarks provide limited coverage of recent synthesis methods and generally lack reliab</description>
+</item>
+<item>
+<title>shadowlilac/Omni-Embed</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/59bd60aec1.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/59bd60aec1.html</guid>
+<description>region:us</description>
+</item>
+<item>
+<title>yehoshua01/waxal-omni-ctc1b-lin</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c767799cc2.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c767799cc2.html</guid>
+<description>automatic-speech-recognition transformers automatic-speech-recognition waxal zindi african-languages ln license:cc-by-nc-4.0 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>yehoshua01/waxal-omni-ctc1b-sna</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ba83c9b2a9.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ba83c9b2a9.html</guid>
+<description>automatic-speech-recognition transformers automatic-speech-recognition waxal zindi african-languages sn license:cc-by-nc-4.0 endpoints_compatible region:us</description>
+</item>
+<item>
+<title>CLIP-CC-Bench: Evaluating Paragraph-Level Video Descriptions in Video-Language Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f54ba25934.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f54ba25934.html</guid>
+<description>Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation suite for long-form video description built from 5 hours of</description>
+</item>
+<item>
+<title>Osmantic/ODS</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/85717f608d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/85717f608d.html</guid>
+<description>Turn your PC, Mac, or Linux box into an AI server. LLM inference, chat UI, voice, agents, workflows, RAG, and image generation. ai-agents amd comfyui docker llama-cpp llm local-ai n8n nvidia open-webui rag self-hosted speech-to-text strix-halo text-to-speech workflow-automation</description>
+</item>
+<item>
+<title>FATE: Frame-Level Audio-Visual Temporal Embedding</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8ad3adfa4d.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8ad3adfa4d.html</guid>
+<description>When a dog opens its mouth and barks, humans naturally recognize what the sound is and when it occurs. Building audio-visual models with this same ability requires representations that capture both semantic and temporal alignment. Current approaches fall short on one side or the other: embedding mod</description>
+</item>
+<item>
+<title>Reinforcement Learning with Evolving Rubrics as Rewards for Audio Reasoning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f8952bd506.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f8952bd506.html</guid>
+<description>Audio reasoning is essential for machine understanding of the acoustic world. Reinforcement learning with verifiable rewards can elicit such reasoning, yet existing reward designs are complementary in their limitations: outcome-based rewards supervise only the final answer and let the model reach it</description>
+</item>
+<item>
+<title>MatrAIx: Simulating the World with 8.3 Billion Persona Agents</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/76717bacc4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/76717bacc4.html</guid>
+<description>Human evaluation of AI systems and digital products is costly, slow, and difficult to scale. Offline evaluations are more scalable but often abstract away human diversity and interactive behavior. We therefore introduce MatrAIx, a population-scale simulated-user evaluation infrastructure for testing</description>
+</item>
+<item>
+<title>Adversarial Attacks for Good: A Survey of Proactive Protection across the Visual Content Lifecycle</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d0ccc556b4.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d0ccc556b4.html</guid>
+<description>Once visual content enters an AI pipeline, its owner often retains little technical control over how it is used. Legal and regulatory remedies can address misuse, but many technical interventions must be applied earlier, when content is released or accessed. This survey examines the protective parad</description>
+</item>
+<item>
+<title>DCAS: Decoupling CLI Agent Scaffolding to Internalize Planning across Scaffolds</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/42cc459b47.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/42cc459b47.html</guid>
+<description>CLI-based software-engineering agents have matured rapidly, yet the open ecosystem has converged on a single training environment: trajectory datasets used to fine-tune open models are collected almost exclusively under OpenHands. Models fine-tuned on this data score well under OpenHands but degrade</description>
+</item>
+<item>
+<title>Do AI Personas Grow? Analyzing and Benchmarking Personality Evolution in LLM Agents After Life Events</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/421e4dfc23.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/421e4dfc23.html</guid>
+<description>Personality-conditioned LLM agents (PC-Agents) are increasingly used in emotional support, social simulation, and role-playing, motivating the development of lifelong agents that remain coherent over extended interactions. A key component of such coherence is personality evolution: agents should und</description>
+</item>
+<item>
+<title>The Optimizer Is the Agent: Reasoning-Driven Search across Prompts, Programs, and ML Workflows</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/19850af46a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/19850af46a.html</guid>
+<description>Recent systems for optimizing prompts, programs, and ML workflows typically rely on explicit outer-loop controllers such as evolutionary search, bandits, or textual-gradient methods. We ask a fundamentally different question: how much of this search policy can be internalized by a single tool-using </description>
+</item>
+<item>
 <title>Beyond Simply Environment Scaling: Designing Effective Environment Distributions for Multimodal Agent Learning</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c710def464.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c710def464.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/179a93adc4.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/179a93adc4.html</guid>
 <description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-3bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2667f28c18.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2667f28c18.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-4bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d56f27e41c.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d56f27e41c.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-5bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4dd499d610.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4dd499d610.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-6bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/591ef008bd.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/591ef008bd.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>majentik/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-TurboQuant-MLX-8bit</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ea91e49196.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ea91e49196.html</guid>
-<description>text-generation mlx safetensors NemotronH_Nano_Omni_Reasoning_V3 nemotron multimodal mamba2 moe quantized turboquant apple-silicon mlx-lm text-tower-only text-generation conversational custom_code en dataset:nvidia/Nemotron-Image-Training-v3 base_model:nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-B</description>
-</item>
-<item>
-<title>alphaparkinc/genpark-realtime-voice-duplex-conversational-copilot-skill</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/4ba01b8f9f.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/4ba01b8f9f.html</guid>
-<description>Full-duplex real-time streaming voice agent with barge-in detection</description>
-</item>
-<item>
-<title>keybodhi/AoiVR</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d3ad1b3c69.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d3ad1b3c69.html</guid>
-<description>Aoi VR Agent - AI voice assistant that lives in your SteamVR hand: holographic hand panel (OpenVR overlay) driven by a native C++ agent (LLM, streaming TTS, ASR, simultaneous interpretation, VR screenshots). Unity IL2CPP + C++20, MIT licensed. agent ai-assistant cplusplus cpp digital-assistant holog</description>
-</item>
-<item>
-<title>sachinkesiraju/jax-realtime</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d39d263e14.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d39d263e14.html</guid>
-<description>Full‑duplex realtime voice assistant in your browser with jax‑js</description>
-</item>
-<item>
-<title>mahimailabs/shipvoice</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3f1a438f5b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3f1a438f5b.html</guid>
-<description>Full-stack LiveKit voice agent starter: a Python voice worker, FastAPI token server, and React frontend. Run, deploy, and swap each piece on its own. Ask for ShipVoice pro ai-agents cartesia conversational-ai deepgram fastapi livekit llm openai python react realtime sip speech-to-text starter-templa</description>
-</item>
-<item>
-<title>mlinmg/Qwen3-Omni-30B-A3B-Instruct</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2079db21dc.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2079db21dc.html</guid>
-<description>any-to-any transformers safetensors qwen3_omni_moe text-to-audio multimodal any-to-any en license:other endpoints_compatible region:us</description>
-</item>
-<item>
-<title>csakytech/YggdrasilAI</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/2e3ad053a3.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/2e3ad053a3.html</guid>
-<description>ThorOS - a voice-controlled, AI-first Linux distribution built on Debian 13. Say what you want; on-device AI plans it and permissioned agents carry it out. Built so people who cannot use a keyboard or mouse can work independently. 100% local, no cloud required. a11y accessibility ai-agents assistive</description>
-</item>
-<item>
-<title>azrock25/omni</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/708682cf83.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/708682cf83.html</guid>
-<description>license:gpl-3.0 region:us</description>
-</item>
-<item>
-<title>hammertoe/Qwen3-Omni-30B-A3B-Barbados-fused-bf16</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d4cf128a86.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d4cf128a86.html</guid>
-<description>safetensors qwen3_omni_moe region:us</description>
-</item>
-<item>
-<title>jiangzhuo9357/omnivoice-0-6b-gguf</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/df61cd70da.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/df61cd70da.html</guid>
-<description>text-to-speech synthesize.cpp gguf text-to-speech tts omnivoice diffusion-language-model voice-cloning voice-design non-commercial cpu cuda en zh ja arxiv:2604.00688 license:other region:us</description>
-</item>
-<item>
-<title>AXERA-TECH/jina-embeddings-v5-omni-nano</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/553ef78269.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/553ef78269.html</guid>
-<description>feature-extraction transformers axera ax650 embedding feature-extraction multimodal vision audio lora multilingual base_model:jinaai/jina-embeddings-v5-omni-nano base_model:adapter:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:us</description>
 </item>
 </channel></rss>
