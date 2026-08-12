@@ -4,6 +4,96 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/</link>
 <description>full-duplex / multimodal / cockpit voice-agent radar（全双工·多模态·座舱语音技术雷达）</description>
 <item>
+<title>jinaai/jina-embeddings-v5-omni-nano</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/add529b60c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/add529b60c.html</guid>
+<description>feature-extraction transformers safetensors jina_embeddings_v5_omni feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-nano-classification</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/b85a11c34c.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/b85a11c34c.html</guid>
+<description>feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-nano-clustering</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/808caabccb.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/808caabccb.html</guid>
+<description>feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-nano-retrieval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bbf70ec11e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bbf70ec11e.html</guid>
+<description>feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-nano-text-matching</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c05b1c106a.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c05b1c106a.html</guid>
+<description>feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-small</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/01b81cee9e.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/01b81cee9e.html</guid>
+<description>feature-extraction transformers safetensors jina_embeddings_v5_omni feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual a</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-small-classification</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f7e296a54b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f7e296a54b.html</guid>
+<description>feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-small-clustering</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/3e5f85e3ae.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/3e5f85e3ae.html</guid>
+<description>feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-small-retrieval</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/14971ad614.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/14971ad614.html</guid>
+<description>feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>jinaai/jina-embeddings-v5-omni-small-text-matching</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/bdd6a1f0fb.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/bdd6a1f0fb.html</guid>
+<description>feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605</description>
+</item>
+<item>
+<title>MMOOC: A Comprehensive Benchmark for Out-of-Context Evaluation in Multimodal Large Language Models</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7248c6a0f2.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7248c6a0f2.html</guid>
+<description>Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted i</description>
+</item>
+<item>
+<title>mradermacher/Huihui-Qwen3-Omni-30B-A3B-Captioner-abliterated-i1-GGUF</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/00e2dcec8b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/00e2dcec8b.html</guid>
+<description>transformers gguf abliterated uncensored en license:apache-2.0 endpoints_compatible region:us imatrix conversational</description>
+</item>
+<item>
+<title>joeblau/blau</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/592a48031b.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/592a48031b.html</guid>
+<description>multimodal agentic development environment</description>
+</item>
+<item>
+<title>Business Arena: Benchmarking LLM Agents in a Realistic Marketplace</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/a257a76f42.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a257a76f42.html</guid>
+<description>Running a business is a challenging form of intelligent work. Operators must infer opportunities from partial signals, commit capital under uncertainty, adapt to delayed outcomes in a changing market, and satisfy regulatory obligations before trading legally. Frontier LLM agents can increasingly com</description>
+</item>
+<item>
+<title>Omega-S: A Functional Resilience Index for LLM Fine-Tuning</title>
+<link>https://piiiiiig.github.io/cockpit-agent-radar/items/7e2a8ae5e5.html</link>
+<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7e2a8ae5e5.html</guid>
+<description>Fine-tuning a large language model on new data degrades what it previously learned. We present Omega-S, a drop-in penalty computed from the weight matrix alone: it needs no previous-task data, no Fisher matrix and no stored copy of the old weights. It is three lines in an existing training loop and </description>
+</item>
+<item>
 <title>AreevAI/flowcat</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/d7af3656a6.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d7af3656a6.html</guid>
@@ -152,95 +242,5 @@
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/076878a8fc.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/076878a8fc.html</guid>
 <description>We present Ouroboros, a self-developing agent harness whose tools, prompts, context assembly, and core implementation improve through reviewed commits that become the runtime for later work. Core evolution proceeds in two modes. In recursive free evolution, improvement is itself a task, and completi</description>
-</item>
-<item>
-<title>OpenVisTool: An Open Recipe for Synthesizing Instructive Visual Tool-Use Trajectories</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d2caa58b19.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d2caa58b19.html</guid>
-<description>Visual tool use has emerged as a fundamental capability for multimodal agents to actively acquire evidence beyond a fixed image encoding. The prevailing recipe learns this capability from teacher-generated trajectories filtered for answer correctness, implicitly assuming that every successful demons</description>
-</item>
-<item>
-<title>RoMeRL: Balancing Feedback Coverage and the Memory-Reward Trap in Self-Evolving Agent Memory via Reduced-Order Utility States</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/cc938acc86.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/cc938acc86.html</guid>
-<description>Learning-based memory systems for self-evolving LLM agents face two tightly coupled challenges. First, trajectory-indexed utilities grow with the interaction history, thereby dispersing limited feedback over an ever-expanding state space. Second, because trajectory-level rewards are jointly assigned</description>
-</item>
-<item>
-<title>SemBridge: Semantic Token Anchoring for Continuous-Latent Autoregressive Speech Generation</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c5b9baa199.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c5b9baa199.html</guid>
-<description>Continuous-latent autoregressive speech generation has emerged as a promising alternative to discrete-token modeling by avoiding quantization loss and preserving richer acoustic information. However, continuous acoustic targets do not ex- pose linguistic structure as explicit token-level prediction </description>
-</item>
-<item>
-<title>DuplexGen: Adaptive Synthesis of Human-AI Turn-Taking Dialogues</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f45ce908d7.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f45ce908d7.html</guid>
-<description>Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phen</description>
-</item>
-<item>
-<title>OpenEnvision/Awesome-Multimodal-Agent</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/5988870fe5.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/5988870fe5.html</guid>
-<description>Awesome Visual Agent agent agentic-ai awesome awesome-list</description>
-</item>
-<item>
-<title>Multi-Agent Forensic Reasoning for Generalizable Deepfake Video Detection</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d409e2287b.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d409e2287b.html</guid>
-<description>The malicious use of generative artificial intelligence to create highly realistic deepfake videos raises serious ethical concerns and poses substantial challenges to AI safety. However, existing deepfake video benchmarks provide limited coverage of recent synthesis methods and generally lack reliab</description>
-</item>
-<item>
-<title>shadowlilac/Omni-Embed</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/59bd60aec1.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/59bd60aec1.html</guid>
-<description>region:us</description>
-</item>
-<item>
-<title>yehoshua01/waxal-omni-ctc1b-lin</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/c767799cc2.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c767799cc2.html</guid>
-<description>automatic-speech-recognition transformers automatic-speech-recognition waxal zindi african-languages ln license:cc-by-nc-4.0 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>yehoshua01/waxal-omni-ctc1b-sna</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/ba83c9b2a9.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/ba83c9b2a9.html</guid>
-<description>automatic-speech-recognition transformers automatic-speech-recognition waxal zindi african-languages sn license:cc-by-nc-4.0 endpoints_compatible region:us</description>
-</item>
-<item>
-<title>CLIP-CC-Bench: Evaluating Paragraph-Level Video Descriptions in Video-Language Models</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f54ba25934.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f54ba25934.html</guid>
-<description>Benchmarking video-language models has largely focused on short clips and single-sentence metrics, leaving open whether current systems can generate accurate long-form, paragraph-level descriptions. We introduce CLIP-CC-Bench, an evaluation suite for long-form video description built from 5 hours of</description>
-</item>
-<item>
-<title>Osmantic/ODS</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/85717f608d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/85717f608d.html</guid>
-<description>Turn your PC, Mac, or Linux box into an AI server. LLM inference, chat UI, voice, agents, workflows, RAG, and image generation. ai-agents amd comfyui docker llama-cpp llm local-ai n8n nvidia open-webui rag self-hosted speech-to-text strix-halo text-to-speech workflow-automation</description>
-</item>
-<item>
-<title>FATE: Frame-Level Audio-Visual Temporal Embedding</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/8ad3adfa4d.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/8ad3adfa4d.html</guid>
-<description>When a dog opens its mouth and barks, humans naturally recognize what the sound is and when it occurs. Building audio-visual models with this same ability requires representations that capture both semantic and temporal alignment. Current approaches fall short on one side or the other: embedding mod</description>
-</item>
-<item>
-<title>Reinforcement Learning with Evolving Rubrics as Rewards for Audio Reasoning</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/f8952bd506.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f8952bd506.html</guid>
-<description>Audio reasoning is essential for machine understanding of the acoustic world. Reinforcement learning with verifiable rewards can elicit such reasoning, yet existing reward designs are complementary in their limitations: outcome-based rewards supervise only the final answer and let the model reach it</description>
-</item>
-<item>
-<title>MatrAIx: Simulating the World with 8.3 Billion Persona Agents</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/76717bacc4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/76717bacc4.html</guid>
-<description>Human evaluation of AI systems and digital products is costly, slow, and difficult to scale. Offline evaluations are more scalable but often abstract away human diversity and interactive behavior. We therefore introduce MatrAIx, a population-scale simulated-user evaluation infrastructure for testing</description>
-</item>
-<item>
-<title>Adversarial Attacks for Good: A Survey of Proactive Protection across the Visual Content Lifecycle</title>
-<link>https://piiiiiig.github.io/cockpit-agent-radar/items/d0ccc556b4.html</link>
-<guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d0ccc556b4.html</guid>
-<description>Once visual content enters an AI pipeline, its owner often retains little technical control over how it is used. Legal and regulatory remedies can address misuse, but many technical interventions must be applied earlier, when content is released or accessed. This survey examines the protective parad</description>
 </item>
 </channel></rss>

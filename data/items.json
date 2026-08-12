@@ -1,6 +1,268 @@
 {
- "generated": "2026-08-11T19:14:27.712882+08:00",
+ "generated": "2026-08-12T09:30:35.055935+08:00",
  "items": [
+  {
+   "id": "add529b60c",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-nano",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-nano",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors jina_embeddings_v5_omni feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 38
+  },
+  {
+   "id": "b85a11c34c",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-nano-classification",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-nano-classification",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-nano base_model:finetune:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "808caabccb",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-nano-clustering",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-nano-clustering",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-nano base_model:finetune:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "bbf70ec11e",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-nano-retrieval",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-nano-retrieval",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-nano base_model:finetune:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 8
+  },
+  {
+   "id": "c05b1c106a",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-nano-text-matching",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-nano-text-matching",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors llava_eurobert_audio feature-extraction embedding jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-nano base_model:finetune:jinaai/jina-embeddings-v5-omni-nano license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "01b81cee9e",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-small",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-small",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors jina_embeddings_v5_omni feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 118
+  },
+  {
+   "id": "f7e296a54b",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-small-classification",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-classification",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-small base_model:finetune:jinaai/jina-embeddings-v5-omni-small license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1
+  },
+  {
+   "id": "3e5f85e3ae",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-small-clustering",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-clustering",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-small base_model:finetune:jinaai/jina-embeddings-v5-omni-small license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1
+  },
+  {
+   "id": "14971ad614",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-small-retrieval",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-retrieval",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-small base_model:finetune:jinaai/jina-embeddings-v5-omni-small license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 17
+  },
+  {
+   "id": "bdd6a1f0fb",
+   "kind": "model",
+   "source": "hf",
+   "title": "jinaai/jina-embeddings-v5-omni-small-text-matching",
+   "url": "https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-text-matching",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 9,
+   "tags": [
+    "omni",
+    "multimodal"
+   ],
+   "summary_en": "feature-extraction transformers safetensors qwen3_vl_audio feature-extraction embedding qwen3 jina-embeddings-v5 sentence-transformers multimodal vision audio vllm video image-feature-extraction audio-feature-extraction video-feature-extraction sentence-similarity custom_code multilingual arxiv:2605.08384 base_model:jinaai/jina-embeddings-v5-omni-small base_model:finetune:jinaai/jina-embeddings-v5-omni-small license:cc-by-nc-4.0 region:eu",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 1
+  },
+  {
+   "id": "7248c6a0f2",
+   "kind": "paper",
+   "source": "hf",
+   "title": "MMOOC: A Comprehensive Benchmark for Out-of-Context Evaluation in Multimodal Large Language Models",
+   "url": "https://huggingface.co/papers/2607.27637",
+   "published": "2026-07-31",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 7,
+   "tags": [
+    "multimodal"
+   ],
+   "summary_en": "Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted in-context (Shifted IC) questions with non-subject context shifts. Existing benchmarks mainly target OOC or visually unanswerable questions, but overlook answerable Shifted IC cases and cover limited OOC shifts. To fill this gap, we present MMOOC, a large-scale benchmark for evaluating refusal and robust answering abilities of MLLMs. MMOOC contains over 41K image-question pairs, including answerable Shifted IC cases and unanswerable OOC cases, spanning three question formats, eight shift types and six visual scenarios, with data quality ensured through MLLM-based filtering and human verification. We evaluate model responses using Accuracy and Refusal Rate, and further introduce an LLM-as-a-Judge metric to assess the correctness of model reasoning. Experiments on diverse MLLMs show that current models still struggle to balance answer-ability and refusal under shifted contexts. We further analyze key failure patterns and show that post-training can improve robustness. MMOOC will be made publicly available.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "00e2dcec8b",
+   "kind": "model",
+   "source": "hf",
+   "title": "mradermacher/Huihui-Qwen3-Omni-30B-A3B-Captioner-abliterated-i1-GGUF",
+   "url": "https://huggingface.co/mradermacher/Huihui-Qwen3-Omni-30B-A3B-Captioner-abliterated-i1-GGUF",
+   "published": "2026-08-11",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 6,
+   "tags": [
+    "omni"
+   ],
+   "summary_en": "transformers gguf abliterated uncensored en license:apache-2.0 endpoints_compatible region:us imatrix conversational",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 0
+  },
+  {
+   "id": "592a48031b",
+   "kind": "repo",
+   "source": "github",
+   "title": "joeblau/blau",
+   "url": "https://github.com/joeblau/blau",
+   "published": "2026-08-12",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 5,
+   "tags": [
+    "multimodal agent",
+    "multimodal"
+   ],
+   "summary_en": "multimodal agentic development environment",
+   "summary_zh": "",
+   "demo": "",
+   "stars": 3
+  },
+  {
+   "id": "a257a76f42",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Business Arena: Benchmarking LLM Agents in a Realistic Marketplace",
+   "url": "https://huggingface.co/papers/2608.08621",
+   "published": "2026-08-08",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 5,
+   "tags": [],
+   "summary_en": "Running a business is a challenging form of intelligent work. Operators must infer opportunities from partial signals, commit capital under uncertainty, adapt to delayed outcomes in a changing market, and satisfy regulatory obligations before trading legally. Frontier LLM agents can increasingly complete complex workflows, yet business-related capabilities are rarely evaluated in existing agent benchmarks. We introduce Business Arena, a controlled environment where an AI agent runs a cross-border shop, buying from suppliers and selling to buyers over a long horizon. We ground the arena in real Alibaba.com sourcing data and market conditions calibrated from authoritative sources. Delayed and coupled consequences make individual business decisions difficult to judge, but their combined outcome is measurable through profit. Because profit alone cannot explain why an agent succeeds or fails, we compare agents with human-designed strategies to estimate available opportunity, use skill-level metrics to reveal underlying strengths and weaknesses, and trace realized gains and losses to the actions that produced them. We use mechanism ablations to establish that strong results reflect genuine business intelligence rather than neglect or simulator-specific shortcuts. We evaluate 15 frontier models and find a ninefold difference in mean final net worth. Even the best model falls behind human-designed strategies, indicating that business operation remains challenging for LLM agents. Skill-level analysis reveals operating styles, from margin-focused premium sellers to high-turnover wholesalers and customer-service specialists, while action-level attribution identifies the sourcing, pricing, and recovery decisions that create or destroy value. Together, Business Arena takes a first step toward a realistic and trustworthy testbed for evaluating end-to-end business agents.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
+  {
+   "id": "7e2a8ae5e5",
+   "kind": "paper",
+   "source": "hf",
+   "title": "Omega-S: A Functional Resilience Index for LLM Fine-Tuning",
+   "url": "https://huggingface.co/papers/2608.03887",
+   "published": "2026-08-03",
+   "found": "2026-08-12T09:30:35.055935+08:00",
+   "score": 4,
+   "tags": [],
+   "summary_en": "Fine-tuning a large language model on new data degrades what it previously learned. We present Omega-S, a drop-in penalty computed from the weight matrix alone: it needs no previous-task data, no Fisher matrix and no stored copy of the old weights. It is three lines in an existing training loop and adds under 4% to the cost of a step. Retention. On Llama-3-8B with LoRA, fine-tuned from code to prose and measured by HumanEval over ten seeds, Omega-S retains more of the original capability than no regularisation on 9 of 10 seeds (0.173 -> 0.238 absolute pass@1; sign test one-sided p=0.011, Wilcoxon p=0.006), as a retention ratio, 62.9% -> 84.1%. It also beats tuned weight decay on 10 of 10 seeds (p=0.002) and tuned EWC on 8 of 10 (p=0.014), every arm re-measured in the same session. Mechanism, measured rather than asserted. Omega-S is topological by construction, its objective built from Tr(A^3), but we measured which of its four factors actually moves and three do not: their elasticity with respect to the weights is at or below 1e-4, against 9e-3 for the degree-variance term. As implemented, the composite reduces to a penalty on the variance of node degrees, which means row magnitude in square modules and directional alignment in non-square ones. We report this because a method whose name promises one thing and whose gradient does another should say so. We also enumerate the open design choices, including a contrast-preserving construction that does what it was designed to do and makes retention worse on all ten seeds. Repeating an identical configuration, same seed and same hardware, gives a standard deviation of 0.104 in retention ratio. We have not found this quantified for low-rank fine-tuning of language models, and it bounds every seed-paired comparison in this literature, ours included. Code, per-seed results and the full record of negative results are available.",
+   "summary_zh": "",
+   "demo": "",
+   "stars": null
+  },
   {
    "id": "d7af3656a6",
    "kind": "repo",
@@ -922,7 +1184,7 @@
    "summary_en": "Hey HN!<p>I&#x27;m excited to show off this really fun project I put together. I originally built this project 2-3 years ago, AI was already booming at the time, however voice AI agents were still very early. I loved my proof of concept at the time, but wasn&#x27;t quite happy with it.<p>I recently had the desire to check out the tech again, and know many of you will be interested.<p>Interviews are speech to speech with OpenAI&#x27;s gpt-realtime-2.1 over WebRTC. This model is... expensive, and because of that, I have to add some amount of restrictions, conversations are tied to a authenticated Clerk user id. I have also added a 30 minute timer because well, I really don&#x27;t want to go broke while I sleep tonight.<p>Each suspect has a tool they call when you make a direct accusation. It captures who you accused and a faithful list of the evidence you actually stated.<p>A separate gpt-5-mini judge then decides which of the case&#x27;s required evidence facts you genuinely presented. Paraphrasing counts, vague suspicion and fishing don&#x27;t.<p>The rest is Next.js, MongoDB, and Clerk.<p>Let me know whether the suspects hold up under a real interrogation.",
    "summary_zh": "",
    "demo": "",
-   "stars": 203
+   "stars": 207
   },
   {
    "id": "ccb8d5d280",
@@ -991,7 +1253,7 @@
    "summary_en": "Open agentic prompt-expansion harness for image and video generation, bridging polished demos, public APIs, and deployable workflows. agentic-ai ai-agents image-generation llm-agents multimodal prompt-engineering prompt-expansion video-generation",
    "summary_zh": "",
    "demo": "",
-   "stars": 34
+   "stars": 38
   },
   {
    "id": "3d93f6ce30",
@@ -2427,7 +2689,7 @@
    "url": "https://github.com/bielcarpi/hermes-live-voice",
    "published": "2026-08-06",
    "found": "2026-08-06T16:12:57.715842+08:00",
-   "score": 13,
+   "score": 16,
    "tags": [
     "full-duplex",
     "speech-to-speech",
@@ -2436,7 +2698,7 @@
    "summary_en": "Continuous voice for Hermes Agent. Keep talking while durable tasks run in the background. background-tasks browser-sdk durable-tasks full-duplex gemini-live hermes-agent hermes-plugin local-voice nous-research openai-realtime realtime-audio realtime-voice self-hosted speech-to-speech terminal typescript ui voice-interface websockets",
    "summary_zh": "",
    "demo": "",
-   "stars": 19
+   "stars": 21
   },
   {
    "id": "b2a17a87f9",
@@ -2953,7 +3215,7 @@
    "summary_en": "FreeSWITCH module that streams live call audio to AI voice agents over WebSocket and plays their voice back — full-duplex. ai-voice barge-in conversational-ai deepgram elevenlabs freeswitch freeswitch-module mod-audio-stream openai-realtime pipecat pipecat-ai realtime-audio sip speech-to-text telephony text-to-speech voice-agent voice-ai voip websocket",
    "summary_zh": "",
    "demo": "",
-   "stars": 40
+   "stars": 41
   },
   {
    "id": "032a32327f",
@@ -5708,7 +5970,7 @@
    "summary_en": "Use PEFT or Full-parameter to CPT/SFT/DPO/GRPO 600+ LLMs (Qwen3.6, DeepSeek-V4, GLM-5.1, InternLM3, Llama4, ...) and 300+ MLLMs (Qwen3-VL, Qwen3-Omni, InternVL3.5, Ovis2.5, GLM4.5v, Gemma4, Llava, Phi4, ...) (AAAI 2025). deepseek-r1 embedding grpo internvl liger llama llama4 llm lora megatron moe multimodal open-r1 peft qwen3 qwen3-6 qwen3-omni qwen3-vl reranker sft",
    "summary_zh": "",
    "demo": "",
-   "stars": 15115
+   "stars": 15120
   },
   {
    "id": "357904a773",
@@ -7222,7 +7484,7 @@
    "summary_en": "A text-to-speech (TTS), speech-to-text (STT) and speech-to-speech (STS) library built on Apple's MLX framework, providing efficient speech analysis on Apple Silicon. apple-silicon audio-processing mlx multimodal speech-recognition speech-synthesis speech-to-text text-to-speech transformers",
    "summary_zh": "",
    "demo": "",
-   "stars": 7706
+   "stars": 7709
   },
   {
    "id": "5b176e49fe",
@@ -7315,7 +7577,7 @@
    "summary_en": "A framework for efficient model inference with omni-modality models audio-generation diffusion image-generation inference model-serving multimodal pytorch transformer video-generation world-model",
    "summary_zh": "",
    "demo": "",
-   "stars": 6035
+   "stars": 6045
   },
   {
    "id": "293306d628",
@@ -7333,7 +7595,7 @@
    "summary_en": "Multimodal RL training framework for diffusion & omni models diffusion-models flow-matching grpo multimodal qwen reinforcement-learning rlhf vllm",
    "summary_zh": "",
    "demo": "",
-   "stars": 774
+   "stars": 780
   },
   {
    "id": "5d6e6e2b0a",
