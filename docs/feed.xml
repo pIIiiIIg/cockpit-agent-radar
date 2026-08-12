@@ -67,7 +67,7 @@
 <title>MMOOC: A Comprehensive Benchmark for Out-of-Context Evaluation in Multimodal Large Language Models</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/7248c6a0f2.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7248c6a0f2.html</guid>
-<description>Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted i</description>
+<description>MMOOC 用 41K+ 图问对同时评测 MLLM 在真正 OOC 时拒答、在 Shifted IC 时仍回答的能力，并显示当前模型难以二者兼顾。可作座舱多模态拒答回归参考，但不涉及 StreamingModelHarness 的流式判停或语音双工。</description>
 </item>
 <item>
 <title>mradermacher/Huihui-Qwen3-Omni-30B-A3B-Captioner-abliterated-i1-GGUF</title>
@@ -85,13 +85,13 @@
 <title>Business Arena: Benchmarking LLM Agents in a Realistic Marketplace</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/a257a76f42.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/a257a76f42.html</guid>
-<description>Running a business is a challenging form of intelligent work. Operators must infer opportunities from partial signals, commit capital under uncertainty, adapt to delayed outcomes in a changing market, and satisfy regulatory obligations before trading legally. Frontier LLM agents can increasingly com</description>
+<description>Business Arena 在真实数据校准的跨境电商沙盒中评测 LLM agent 长期经营，模型间平均净值约差 9 倍，且仍显著低于专家策略上界。其长期工具决策与归因评测可借鉴，但与座舱全双工语音 harness 无直接同构。</description>
 </item>
 <item>
 <title>Omega-S: A Functional Resilience Index for LLM Fine-Tuning</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/7e2a8ae5e5.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/7e2a8ae5e5.html</guid>
-<description>Fine-tuning a large language model on new data degrades what it previously learned. We present Omega-S, a drop-in penalty computed from the weight matrix alone: it needs no previous-task data, no Fisher matrix and no stored copy of the old weights. It is three lines in an existing training loop and </description>
+<description>Omega-S 用仅依赖当前权重的图聚类正则缓解微调遗忘，在 Llama-3-8B LoRA 的 code→prose 设定上把 HumanEval 保留从约 0.173 提到 0.238。可作 Harness 相关模型持续训练的可选项，但不触及全双工推理链路；许可为 AGPL/商业双轨，接入需合规评估。</description>
 </item>
 <item>
 <title>AreevAI/flowcat</title>
@@ -175,19 +175,19 @@
 <title>PACE: A Playback-Aligned Context Engine for LLM-Based Full-Duplex Voice Dialogue</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/20449de022.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/20449de022.html</guid>
-<description>LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generativ</description>
+<description>PACE 把全双工助手的模型上下文锚定到客户端实际播放边界，打断后剔除未播内容以修复 Generative Context Mis-anchoring；GCM-Bench 上指代锚定准确率从 25.0% 升到 96.3%。这与 StreamingModelHarness 的判停/上下文修复高度同构，应作为中间件能力而非模型内双工来接入。</description>
 </item>
 <item>
 <title>Hierarchical Acoustic-Semantic Modeling: Modality Separation and Semantic Coherence for Full-Duplex SLMs</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/d7e856a646.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/d7e856a646.html</guid>
-<description>Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which ca</description>
+<description>Lychee-FD 通过浅层共享、深层语义/声学/控制三路分离与连续语义对齐，缓解原生全双工模型的梯度冲突与语义稀释。与 Harness「输入流式、判停后生成、外挂 TTS」不同，它是模型内双工；可借鉴通道分离思想，不宜直接当成中间件补丁。</description>
 </item>
 <item>
 <title>Deferred Audio Pruning with Local Audio-Visual Dynamics for Omni-LLMs</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/c6bb6c7df5.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/c6bb6c7df5.html</guid>
-<description>Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We prop</description>
+<description>A-PACK（Deferred Audio Pruning）先保留高密度音频、按局部音视频动态压缩视频，再在 LLM 内按查询相关度剪枝 token/KV；报告最高约 78% prefill FLOPs 下降与最高约 2.21× 解码吞吐。可借鉴到座舱多模态上下文压缩，但属于推理期 token 治理，不是原生全双工或判停中间件。</description>
 </item>
 <item>
 <title>Large Multimodal Agents for Intelligent Transportation Systems: Architectures, Evidence, and Deployment Challenges</title>
@@ -211,19 +211,19 @@
 <title>SraVaani 1.0: Scaling Inclusive Speech Recognition for Indic Languages</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/6a577c7b9f.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/6a577c7b9f.html</guid>
-<description>India&#x27;s linguistic landscape spans over 700 languages and thousands of dialects, yet the vast majority of automatic speech recognition (ASR) systems support only a small fraction of this diversity. We present SraVaani-1.0, a multilingual ASR model covering 65 Indian languages and dialects, many of w</description>
+<description>SraVaani-1.0 以 FastConformer 三阶段训练覆盖 65 种印度语言/方言 ASR，并在 17 语对比中报平均 WER 28.4%。可作为多语座舱转写前端候选，但不解决全双工判停与 TTS；低资源语种误差仍高，需车内域适应。</description>
 </item>
 <item>
 <title>CtrlSpeech: Coarse-to-Fine Control for Expressive Speech Synthesis</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/eb46e82455.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/eb46e82455.html</guid>
-<description>Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. B</description>
+<description>CtrlSpeech 在 DiTAR 骨架上加入全局音色条件与音素级音高/响度/时长控制，0.6B 在 LibriSpeech-PC/Seed-TTS 上达到与复现 DiTAR 可比或更好的零样本指标。适合作为 StreamingModelHarness 外挂 TTS 的表现力控制后端，不改变输入流式与判停结构。</description>
 </item>
 <item>
 <title>Evo-Bench: Can Language Models Improve Agent Harness?</title>
 <link>https://piiiiiig.github.io/cockpit-agent-radar/items/f18bbff1e8.html</link>
 <guid isPermaLink="true">https://piiiiiig.github.io/cockpit-agent-radar/items/f18bbff1e8.html</guid>
-<description>Large Language Models (LLMs) have driven rapid progress in autonomous agents, yet standard evaluations remain confined to static task solving. An emerging frontier is harness evolution---the agent&#x27;s capacity to autonomously optimize its own operating harness. However, systematically benchmarking thi</description>
+<description>Evo-Bench 系统评测模型自主进化 agent harness 的能力；榜首 GPT-5.6 Sol Overall 46.3（较 CodeAct +16.6），仍略低于人工 Artificial harness 47.5，且 Office 域增益薄弱。其快照评测与归因隔离可借鉴到 StreamingModelHarness 演进实验，但场景不是车载全双工语音。</description>
 </item>
 <item>
 <title>OasisKV: Scaling In-Decode KV Cache Beyond HBM with Lookahead Sparse Prefetching</title>
