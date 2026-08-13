@@ -194,7 +194,7 @@
     "multimodal"
    ],
    "summary_en": "Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted in-context (Shifted IC) questions with non-subject context shifts. Existing benchmarks mainly target OOC or visually unanswerable questions, but overlook answerable Shifted IC cases and cover limited OOC shifts. To fill this gap, we present MMOOC, a large-scale benchmark for evaluating refusal and robust answering abilities of MLLMs. MMOOC contains over 41K image-question pairs, including answerable Shifted IC cases and unanswerable OOC cases, spanning three question formats, eight shift types and six visual scenarios, with data quality ensured through MLLM-based filtering and human verification. We evaluate model responses using Accuracy and Refusal Rate, and further introduce an LLM-as-a-Judge metric to assess the correctness of model reasoning. Experiments on diverse MLLMs show that current models still struggle to balance answer-ability and refusal under shifted contexts. We further analyze key failure patterns and show that post-training can improve robustness. MMOOC will be made publicly available.",
-   "summary_zh": "",
+   "summary_zh": "MMOOC 用 41K+ 图问对同时评测 MLLM 在真正 OOC 时拒答、在 Shifted IC 时仍回答的能力，并显示当前模型难以二者兼顾。可作座舱多模态拒答回归参考，但不涉及 StreamingModelHarness 的流式判停或语音双工。",
    "demo": "",
    "stars": null
   },
@@ -244,7 +244,7 @@
    "score": 5,
    "tags": [],
    "summary_en": "Running a business is a challenging form of intelligent work. Operators must infer opportunities from partial signals, commit capital under uncertainty, adapt to delayed outcomes in a changing market, and satisfy regulatory obligations before trading legally. Frontier LLM agents can increasingly complete complex workflows, yet business-related capabilities are rarely evaluated in existing agent benchmarks. We introduce Business Arena, a controlled environment where an AI agent runs a cross-border shop, buying from suppliers and selling to buyers over a long horizon. We ground the arena in real Alibaba.com sourcing data and market conditions calibrated from authoritative sources. Delayed and coupled consequences make individual business decisions difficult to judge, but their combined outcome is measurable through profit. Because profit alone cannot explain why an agent succeeds or fails, we compare agents with human-designed strategies to estimate available opportunity, use skill-level metrics to reveal underlying strengths and weaknesses, and trace realized gains and losses to the actions that produced them. We use mechanism ablations to establish that strong results reflect genuine business intelligence rather than neglect or simulator-specific shortcuts. We evaluate 15 frontier models and find a ninefold difference in mean final net worth. Even the best model falls behind human-designed strategies, indicating that business operation remains challenging for LLM agents. Skill-level analysis reveals operating styles, from margin-focused premium sellers to high-turnover wholesalers and customer-service specialists, while action-level attribution identifies the sourcing, pricing, and recovery decisions that create or destroy value. Together, Business Arena takes a first step toward a realistic and trustworthy testbed for evaluating end-to-end business agents.",
-   "summary_zh": "",
+   "summary_zh": "Business Arena 在真实数据校准的跨境电商沙盒中评测 LLM agent 长期经营，模型间平均净值约差 9 倍，且仍显著低于专家策略上界。其长期工具决策与归因评测可借鉴，但与座舱全双工语音 harness 无直接同构。",
    "demo": "",
    "stars": null
   },
@@ -259,7 +259,7 @@
    "score": 4,
    "tags": [],
    "summary_en": "Fine-tuning a large language model on new data degrades what it previously learned. We present Omega-S, a drop-in penalty computed from the weight matrix alone: it needs no previous-task data, no Fisher matrix and no stored copy of the old weights. It is three lines in an existing training loop and adds under 4% to the cost of a step. Retention. On Llama-3-8B with LoRA, fine-tuned from code to prose and measured by HumanEval over ten seeds, Omega-S retains more of the original capability than no regularisation on 9 of 10 seeds (0.173 -> 0.238 absolute pass@1; sign test one-sided p=0.011, Wilcoxon p=0.006), as a retention ratio, 62.9% -> 84.1%. It also beats tuned weight decay on 10 of 10 seeds (p=0.002) and tuned EWC on 8 of 10 (p=0.014), every arm re-measured in the same session. Mechanism, measured rather than asserted. Omega-S is topological by construction, its objective built from Tr(A^3), but we measured which of its four factors actually moves and three do not: their elasticity with respect to the weights is at or below 1e-4, against 9e-3 for the degree-variance term. As implemented, the composite reduces to a penalty on the variance of node degrees, which means row magnitude in square modules and directional alignment in non-square ones. We report this because a method whose name promises one thing and whose gradient does another should say so. We also enumerate the open design choices, including a contrast-preserving construction that does what it was designed to do and makes retention worse on all ten seeds. Repeating an identical configuration, same seed and same hardware, gives a standard deviation of 0.104 in retention ratio. We have not found this quantified for low-rank fine-tuning of language models, and it bounds every seed-paired comparison in this literature, ours included. Code, per-seed results and the full record of negative results are available.",
-   "summary_zh": "",
+   "summary_zh": "Omega-S 用仅依赖当前权重的图聚类正则缓解微调遗忘，在 Llama-3-8B LoRA 的 code→prose 设定上把 HumanEval 保留从约 0.173 提到 0.238。可作 Harness 相关模型持续训练的可选项，但不触及全双工推理链路；许可为 AGPL/商业双轨，接入需合规评估。",
    "demo": "",
    "stars": null
   },
@@ -490,7 +490,7 @@
     "voice assistant"
    ],
    "summary_en": "LLM-based full-duplex voice services allow users to speak while the assistant is responding. Because servers can generate output and advance dialogue state faster than clients can play it, subsequent user speech may be interpreted based on content the user never heard. We call this failure Generative Context Mis-anchoring (GCM). To address GCM issues, we present PACE, a provider-independent middleware layer that anchors model-facing context to the client playback boundary, a system-observable proxy for what the user could have heard. After an interruption, PACE repairs this context to exclude assistant content that never reached playback, while preserving low-latency generation across heterogeneous voice runtimes. We implement PACE's audio-only projection path end to end in a browser-based realtime voice assistant using a black-box speech model, without modifying the model service. We also construct GCM-Bench, a new controlled benchmark dataset of 108 playback-relative referent-anchoring cases. On GCM-Bench, PACE raises Referent Anchoring Accuracy from 25.0% to 96.3% over a cancellation-only baseline. On 200 Full-Duplex-Bench v1 interruption samples, it preserves interruption response quality. These results show that grounding model-facing context in actual playback is a practical way to maintain consistency in full-duplex voice dialogue.",
-   "summary_zh": "",
+   "summary_zh": "PACE 把全双工助手的模型上下文锚定到客户端实际播放边界，打断后剔除未播内容以修复 Generative Context Mis-anchoring；GCM-Bench 上指代锚定准确率从 25.0% 升到 96.3%。这与 StreamingModelHarness 的判停/上下文修复高度同构，应作为中间件能力而非模型内双工来接入。",
    "demo": "",
    "stars": null
   },
@@ -508,7 +508,7 @@
     "duplex"
    ],
    "summary_en": "Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which causes substantial knowledge degradation and compromises semantic integrity -- ultimately making full-duplex SLMs feel unnatural and unintelligent. In this paper, through an exhaustive fine-grained analysis of model optimization dynamics, we uncover the root cause of such performance degradation, revealing that modality interference arises from inherent gradient conflicts between acoustic and semantic modeling when the two modalities are forced to share a deep parameter space. Guided by this key insight, we introduce Lychee-FD, a native end-to-end full-duplex framework designed to mitigate modality interference. Importantly, we propose a hierarchical parameter separation strategy that decouples conflicting modalities in deep layers while preserving cross-modality coherence via a dedicated semantic alignment channel. Extensive experiments on multiple full-duplex benchmarks demonstrate that our method significantly advances the state of the art, yielding substantial improvements in both speech intelligence (+7.4% on Spoken QA) and full-duplex interaction fluidity (+28.5% on FullDuplexBench 1.5) without compromising inference efficiency. To the best of our knowledge, this work is the first to achieve two key advances: 1) uncovering and elucidating the root cause of modality interference in full-duplex SLMs, and 2) designing an elegant hierarchical model together with a practical solution for seamless, high-performance, native intelligent full-duplex SLMs.",
-   "summary_zh": "",
+   "summary_zh": "Lychee-FD 通过浅层共享、深层语义/声学/控制三路分离与连续语义对齐，缓解原生全双工模型的梯度冲突与语义稀释。与 Harness「输入流式、判停后生成、外挂 TTS」不同，它是模型内双工；可借鉴通道分离思想，不宜直接当成中间件补丁。",
    "demo": "",
    "stars": null
   },
@@ -526,7 +526,7 @@
     "multimodal"
    ],
    "summary_en": "Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We propose A-PACK, a two-stage framework that defers audio pruning until query-conditioned multimodal interactions emerge. Our analysis shows that audio exhibits higher task-relevant information density and representational diversity per token than video. We further find that local audio-visual dynamics provide a more effective cue for visual selection than token-wise matching. We therefore preserve audio and compress video with local dynamics before the LLM, then progressively prune low-relevance audio and visual tokens and their KV-cache entries inside the LLM. Across four benchmarks on Qwen2.5-Omni-7B/3B, A-PACK achieves the strongest average performance among the evaluated prior methods while reducing prefill FLOPs by up to 78% and improving decoding throughput by up to 2.21x.",
-   "summary_zh": "",
+   "summary_zh": "A-PACK（Deferred Audio Pruning）先保留高密度音频、按局部音视频动态压缩视频，再在 LLM 内按查询相关度剪枝 token/KV；报告最高约 78% prefill FLOPs 下降与最高约 2.21× 解码吞吐。可借鉴到座舱多模态上下文压缩，但属于推理期 token 治理，不是原生全双工或判停中间件。",
    "demo": "",
    "stars": null
   },
@@ -598,7 +598,7 @@
     "speech recognition"
    ],
    "summary_en": "India's linguistic landscape spans over 700 languages and thousands of dialects, yet the vast majority of automatic speech recognition (ASR) systems support only a small fraction of this diversity. We present SraVaani-1.0, a multilingual ASR model covering 65 Indian languages and dialects, many of which currently have no publicly available or competing ASR system. SraVaani-1.0 is built on a FastConformer architecture and trained from scratch through a three-stage pipeline.In the first stage, we perform self-supervised pretraining on 31,255 hours of unlabelled speech from the VAANI corpus using a contrastive learning objective. In the second stage, we introduce an audio-image representation alignment stage that leverages the paired images and speech available in the VAANI corpus. This multimodal alignment encourages the speech encoder to learn semantically richer representations by exploiting the relationship between visual context and spoken content, thereby improving downstream recognition, particularly for low-resource languages.In the final stage, the aligned encoder is fine-tuned end-to-end using a Hybrid Token-and-Duration Transducer (TDT)-CTC decoder on 31,263 hours of labelled multilingual Indian speech compiled from 24 public datasets spanning 65 languages and dialects. We evaluate SraVaani-1.0 against three state-of-the-art multilingual ASR systems across eight benchmarks. SraVaani-1.0 achieves the lowest word error rate (WER) on a large number of language-dataset pairs while remaining competitive with the best-performing systems on high-resource languages.Most importantly, it is the only open-source evaluated model that provides transcription capability for multiple low-resource and tribal Indian languages, which are assessed exclusively on the VAANI benchmark.",
-   "summary_zh": "",
+   "summary_zh": "SraVaani-1.0 以 FastConformer 三阶段训练覆盖 65 种印度语言/方言 ASR，在 31,263 小时标注数据上微调，并在 17 语对比中报平均 WER 28.4%。可作为多语座舱转写前端候选，但不解决全双工判停与外挂 TTS 架构问题。",
    "demo": "",
    "stars": null
   },
@@ -616,7 +616,7 @@
     "text-to-speech"
    ],
    "summary_en": "Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. Built on the DiTAR architecture, CtrlSpeech combines global speaker conditioning with phone-aligned pitch, loudness, and duration signals, enabling localized prosodic control while preserving the target speaker's timbre. This design allows users to adjust expressive attributes at a fine temporal granularity, making speech refinement more flexible and controllable. Experimental results show that CtrlSpeech achieves competitive zero-shot TTS performance and improves controllability over expressive attributes, demonstrating its effectiveness for flexible and practical expressive speech synthesis.",
-   "summary_zh": "",
+   "summary_zh": "CtrlSpeech 在 DiTAR 骨架上加入全局音色条件与音素级音高/响度/时长控制，0.6B 在 LibriSpeech-PC/Seed-TTS 上达到与复现 DiTAR 可比或更好的零样本指标。适合作为 StreamingModelHarness 外挂 TTS 的表现力控制后端，不改变输入流式与判停结构。",
    "demo": "",
    "stars": null
   },
@@ -633,7 +633,7 @@
     "agent harness"
    ],
    "summary_en": "Large Language Models (LLMs) have driven rapid progress in autonomous agents, yet standard evaluations remain confined to static task solving. An emerging frontier is harness evolution---the agent's capacity to autonomously optimize its own operating harness. However, systematically benchmarking this capability remains challenging, as existing evaluations fail to isolate harness improvements from base model strength, prevent task-specific overfitting, or capture long-horizon iterative research. To address these challenges, we introduce Evo-Bench, the first benchmark designed to evaluate models' intrinsic harness-evolving capabilities across Search, Office, and General agent domains. To rigorously isolate this capability, Evo-Bench employs a novel harness-guided construction framework: it leverages auxiliary-task evolution to identify tasks genuinely sensitive to framework improvements, followed by sensitivity-aware stratified splitting to ensure robust cross-suite generalization. Extensive evaluations across nine frontier and open-weight models reveal that top models achieve massive absolute gains reaching 16.6 points, closely approaching state-of-the-art human-engineered baselines. Crucially, while autonomous evolution outpeforms artificial harness in General tasks and excels in Search tasks, it struggles in Office tasks that demand highly specific processing workflows. Furthermore, our analysis exposes critical temporal anomalies like early saturation, while demonstrating that the synthesized harnesses act as highly transferable reasoning structures, consistently boosting diverse policy models.",
-   "summary_zh": "",
+   "summary_zh": "Evo-Bench 系统评测模型自主进化 agent harness 的能力；榜首 GPT-5.6 Sol Overall 46.3（较 CodeAct +16.6），仍略低于人工 Artificial harness 47.5，且 Office 域增益薄弱。其快照评测与归因隔离可借鉴到 StreamingModelHarness 演进实验，但场景不是车载全双工语音。",
    "demo": "",
    "stars": null
   },
@@ -732,7 +732,7 @@
     "text-to-speech"
    ],
    "summary_en": "Continuous-latent autoregressive speech generation has emerged as a promising alternative to discrete-token modeling by avoiding quantization loss and preserving richer acoustic information. However, continuous acoustic targets do not ex- pose linguistic structure as explicit token-level prediction tar- gets. Consequently, the autoregressive language model (LM) must acquire linguistic structure indirectly through acous- tic prediction, which can compromise the content fidelity of generated speech. We propose SemBridge, a training-only semantic-token anchoring framework for continuous-latent autoregressive speech generation. SemBridge uses discrete se- mantic tokens to directly supervise autoregressive LM states and employs a Semantic-Aligned Acoustic VAE to organize the continuous target space under the same semantic refer- ence. The semantic supervision is used only during train- ing, while inference remains entirely continuous. We evalu- ate SemBridge on zero-shot text-to-speech (TTS) and score- conditioned singing voice synthesis (SVS). Across multi- ple benchmarks, SemBridge improves content accuracy, as measured by word and character error rates (WER/CER), while maintaining competitive speaker similarity and percep- tual quality. Experimental results demonstrate that explicit semantic-token supervision for autoregressive state learning is an effective and general direction for continuous speech generation. Speech samples are available.1 The model code and checkpoints will be available at https://github.com/ASLP- lab/SemBridge",
-   "summary_zh": "",
+   "summary_zh": "SemBridge 用训练期语义 token 锚定增强连续隐变量自回归 TTS/SVS 的内容保真，推理仍保持连续生成；Seed-TTS 类评测上 Align+Anchor 明显降低 CER/WER。可作为 Harness 外挂 TTS 后端候选，但不提供全双工交互能力；代码与权重仍未完整开源。",
    "demo": "",
    "stars": null
   },
@@ -751,7 +751,7 @@
     "turn-taking"
    ],
    "summary_en": "Turn-taking is a central component of full-duplex interaction. Which turn-taking behaviors are appropriate varies with the scenario, yet current models apply a single norm regardless of context. This limitation originates in their training data: human-human speech corpora capture natural timing phenomena but provide little role grounding or scenario-specific norms, while heuristic or prompted synthesis methods inject turn-taking behaviors without basing them on human preferences. We introduce DuplexGen, a framework for generating dialogues with scenario-adaptive turn-taking by calibrating LLM predictions against a small set of slot-level human preference annotations. In six cooperative and competitive tasks, human turn-taking preferences differ systematically, and DuplexGen aligns substantially more closely with those preferences than uncalibrated prompting or training solely on generic human-human data; a full-duplex model trained on DuplexGen-generated data exhibits distinctive, human-preferred turn-taking behaviors. These results show that human calibration, not corpus scale or prompt design alone, is what allows turn-taking synthesis to be scenario-specific.",
-   "summary_zh": "",
+   "summary_zh": "DuplexGen 用少量 slot 级人类偏好分布校准 LLM，再按场景合成带 BACKCHANNEL 与 TAKE_FLOOR 的对话，用于微调原生全双工语音模型。其 turn-taking 标注与场景可控合成可给 StreamingModelHarness 的打断/接话策略提供数据侧参考，但合成分布不等于车内真实回声与多人干扰。",
    "demo": "",
    "stars": null
   },
@@ -1013,7 +1013,7 @@
     "multimodal"
    ],
    "summary_en": "Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.",
-   "summary_zh": "",
+   "summary_zh": "StreamArena 用小时级连续视频与严格因果时间戳评测实时感知、历史回溯、主动交互与工具调用；StreamMind 分层前台/记忆/检索降低查询后等待。其因果时间戳与异步记忆分层可映射到座舱长时上下文与工具编排，但评测主体是视频流而非车内语音双工。",
    "demo": "",
    "stars": null
   },
@@ -1150,7 +1150,7 @@
     "speech-to-speech"
    ],
    "summary_en": "Audio-language models (ALMs) are increasingly used as judges for speech-to-speech systems, but a judge that receives audio may not actually use paralinguistic evidence. We introduce counterfactual audits for paralinguistic response evaluation. Each audit item holds the transcript fixed while varying affect, prosody, or the timing of an affective shift, forcing a valid judge to track the audio cue rather than lexical content or response style. We evaluate ALM judges using a native one-context judgment protocol and a contrastive recoverability control, then further decompose each item into its constituent perception and response-mapping skills. This yields useful diagnostic states that identify different sources of judge failures. Across Gemini, GPT, and open audio models, we find that contrastive success often overstates native judge reliability, and that similar aggregate accuracies can hide different failure modes. These results suggest that ALM judges should not be evaluated by accuracy alone, instead requiring thorough behavioral audits before deployment.",
-   "summary_zh": "",
+   "summary_zh": "该工作用反事实审计证明许多音频语言模型评判者在副语言线索上“对比能分、单题不可靠”，不能只看 aggregate accuracy。对 StreamingModelHarness 若引入 ALM 自动评测情绪/韵律相关行为，应先做同类审计；它本身不是双工系统方案。",
    "demo": "",
    "stars": null
   },
