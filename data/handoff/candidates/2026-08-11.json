@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-11",
+  "evidence_cutoff": "2026-08-11T09:29:55+08:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "no_candidate_reason": "今日四篇经正文核验的工作只能形成评测规范与执行契约：DuplexGen 的 slot 级标注协议缺中文车控标注数据与项目侧失败桶基数；反事实副语言审计是裁判准入约束而非可测单变量改动；StreamMind 只提供分层执行契约且绝对时延与座舱预算差两个数量级；驾驶 VLA 层裁剪与当前 110ms/token 的同步根因不同源。按既定规则，没有清晰单变量与可信预计净修数的建议只留在报告。",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-11.md",
+    "reports/每日调研日报-2026-08-11.md"
+  ],
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1 仍按 2026-08-10 候选执行，仅限非 H20 离线评估，本日不重复登记"
+  ],
+  "candidates": []
+}

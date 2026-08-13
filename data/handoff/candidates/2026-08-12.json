@@ -1,0 +1,154 @@
+{
+ "schema_version": 1,
+ "date": "2026-08-12",
+ "evidence_cutoff": "2026-08-10T10:30:16+08:00",
+ "publication_safety": "public-safe; no unpublished patent implementation detail",
+ "candidates": [
+  {
+   "id": "tool-hold-message-first-audio-v1",
+   "candidate_fingerprint": "tts|tool-hold-message|presynthesized-fixed-audio|frozen-text-tools-player",
+   "title": "车控工具执行期间的预合成固定等待语",
+   "module": "tts",
+   "source_date": "2026-08-11",
+   "source_work_date": "2026-08-03",
+   "source_urls": [
+    "https://huggingface.co/nvidia/NVIDIA-NemotronLabs-VoiceChat-11B",
+    "https://github.com/pipecat-ai/nemotron-voicechat-dgx-spark"
+   ],
+   "problem_bucket": "tts_first_audio_latency",
+   "hypothesis": "在冻结生成文本、工具选择、执行器、播放器和 100 条 A/B 样本的条件下，仅增加“工具触发时刻立即播放预合成固定等待语”这一个变量，可把 commit 到用户听到第一声的 P90 降到 300ms 以内，同时真正内容首音频不劣化、工具选择与最终车态逐条一致。",
+   "single_variable": "是否在工具触发时刻立即播放该工具对应的预合成固定音频",
+   "baseline_id": "edge-tts-frozen-text-v1",
+   "profile": "offline_tts_ab",
+   "offline_baseline_scope": {
+    "dataset": "冻结 2026-08-03 A/B 的前 100 条音频、生成文本、工具结果、音色提示与播放器",
+    "metric": "固定音频首包 P50/P90/P95、真正内容首音频 P50/P90/P95、工具选择一致性、最终车态一致性、打断后残留音频"
+   },
+   "implementation_scope": [
+    "只新增“工具触发即播固定音频”的播放路径，固定音频离线预合成并缓存为原始 PCM",
+    "冻结生成文本、工具选择、参数、执行器、播放器、样本集与 commit 计时点",
+    "不修改 Qwen3-Omni、音频 KV、RAG、候选工具集合或 endpoint",
+    "不引入 NVIDIA VoiceChat 模型、权重或其部署仓库代码；本候选只借用其模型页公开描述的机制",
+    "固定音频必须可被用户打断立即掐断，且不得延后真正内容音频的排队时刻"
+   ],
+   "evidence": [
+    "项目 2026-08-03 A/B：首动作 P50/P90 为 1094/1440ms 与 700/850ms，首音频 P50/P90 为 2918/3453ms 与 3491/4171ms，中间存在 1.8-2.8 秒静默",
+    "项目判断 Edge TTS 而非 Qwen 首 token 是约 3 秒首音频的主要瓶颈",
+    "NVIDIA NemotronLabs VoiceChat 模型页：可为每个工具定义 on-hold 语，模型一生成触发该工具的文本就立即播报，以在工具执行期间维持对话流",
+    "pipecat DGX Spark 仓库实测：同一模型浏览器端 TTFA 982.772ms 中有 250.431ms 是生成出来的前置静音，说明“第一声”与“内容第一声”必须分别计量"
+   ],
+   "expected_fixes": 0,
+   "latency_budget_ms": 300,
+   "risks": [
+    "固定等待语可能掩盖真实首音频指标，必须双口径记录，否则构成指标偷换",
+    "固定语与后续真实内容之间可能出现语义或语气不连贯",
+    "工具执行失败或被取消时，已播出的等待语会造成错误预期，需要补偿话术规则",
+    "固定语占用播放器可能延后真正内容音频的排队，需要验证排队时刻不变",
+    "打断时必须能立即掐断固定语，否则打断残留会变差"
+   ],
+   "dependencies": [
+    "冻结现有 A/B 文本、工具结果、播放器与 commit 计时口径",
+    "离线预合成固定音频（可用现有 TTS 后端一次性生成并缓存）",
+    "工具触发时刻的既有埋点（相位埋点与车控真正落地时刻已在 0a1d84e/22edce8 就位）",
+    "不得与 omnivoice-local-tts-16step-v1 同时变更，两者必须分别单变量评测"
+   ],
+   "offline_gate": {
+    "canary_414_regressions": 0,
+    "text_and_tool_output_exact_match": true,
+    "expected_net_fixes": 0,
+    "hold_audio_first_packet_p90_max_ms": 300,
+    "content_first_audio_not_worse_than_baseline": true,
+    "final_vehicle_state_exact_match": true,
+    "hold_audio_interruptible_immediately": true,
+    "record_both_first_packet_and_content_first_audio": true
+   },
+   "h20_gate": {
+    "request_allowed": false,
+    "reason": "该候选不改变模型、工具选择与最终车态，预计正确性净修为 0；先做离线双口径首音频评测，full H20 仅在相关组合需要时按动态 gap 申请。",
+    "dynamic_full_gap": 14,
+    "same_baseline_and_hash": true,
+    "gpu_consumed": false
+   },
+   "research_value": "把“用户听到第一声”与“听到内容第一声”拆成两个可独立优化的量，形成工具执行期话术与 TTS 后端选型的解耦消融；失败同样应记为负结果。",
+   "patent_value": "public-safe：仅记录“工具触发即播预合成等待语并双口径计量首音频”的研究标签，不公开未申请实现细节。",
+   "source_commit": null,
+   "status": "proposed_offline_only",
+   "evidence_score": 0.72
+  },
+  {
+   "id": "playback-boundary-ledger-offline-v1",
+   "candidate_fingerprint": "harness|playback-boundary-ledger|revoke-and-forward-gate|played-prefix-reinjection",
+   "title": "打断路径的播放边界账本与已播放前缀注入",
+   "module": "harness_interruption",
+   "source_date": "2026-08-11",
+   "source_work_date": "2026-08-07",
+   "source_urls": [
+    "https://arxiv.org/abs/2608.07631v1",
+    "https://github.com/CodeForZzc/GCM-Bench"
+   ],
+   "problem_bucket": "interruption_context_anchoring",
+   "hypothesis": "在已落地 turn-local 播放账本与客户端撤销的前提下，仅增加“打断时向模型注入最近已播放前缀 + 固定分隔提示”这一个变量，可在自建的中文车控/清单式打断桶上显著提高指代锚定正确率，同时 414 canary 零退化、非打断样本文本与工具输出逐条一致、首动作时延不变。",
+   "single_variable": "打断后是否把已播放前缀与固定分隔提示注入模型上下文（回看窗口固定为 5 秒）",
+   "baseline_id": "cancel-only-interruption-v1",
+   "profile": "offline_interruption_replay",
+   "offline_baseline_scope": {
+    "dataset": "自建中文车控/清单式打断回放桶（样本、语言与动作全部自造，只借用 GCM-Bench 的数据格式与判定协议）",
+    "metric": "指代锚定正确率、接管率、stop latency、残留音频、取消后车态、重复执行次数、首动作时延增量"
+   },
+   "implementation_scope": [
+    "先落机制：每轮 turn_id + 已下发音频副本 + played_samples 回报 + 打断时快照边界 + 撤销未播放缓冲 + 前向门定序",
+    "对照变量只有“是否注入已播放前缀 + 固定分隔提示”，回看窗口固定 5 秒",
+    "不修改 Qwen3-Omni 权重、RAG、候选工具集合、执行器或车控接口",
+    "不使用 GCM-Bench 的样本、场景与外部实时服务；只复用其数据格式、判定协议与离线校验思路",
+    "不引入任何外部实时语音 API 依赖；判定口径优先使用确定性指标，模型判定只作辅助且不得作为唯一裁判"
+   ],
+   "evidence": [
+    "项目下一步明确要求增加多轮跟随、打断改口和取消/补偿评测；现有 100 条 A/B 是单轮 commit 口径，没有“用户听到了哪一段”的记录",
+    "PACE 正文：108 条 GCM-Bench 上 cancellation-only 基线引用锚定正确率 25.0%（27/108），播放边界投影后 96.3%（104/108），McNemar 连续性校正 p<0.001，修好 78 条、引入 1 条回退",
+    "PACE 正文：200 条 FDB v1 打断样本上 TOR 均为 1.000，评分 4.975→4.995，平均响应时延 0.771s→0.830s（+58.7ms，bootstrap 95% CI [24.8, 96.4] ms）",
+    "PACE 正文消融：固定 P1 分隔提示时回看 2.5s/5s/10s 为 95.37%/96.30%/65.74%，过长回看显著变差",
+    "arXiv:2608.06718：多数音频语言模型在原生逐条判定上接近随机（含 Qwen-2.5-Omni-7B 的 50.0/47.1），因此打断评测不能只靠模型判定"
+   ],
+   "expected_fixes": 0,
+   "latency_budget_ms": 100,
+   "risks": [
+    "新桶是自建的，首轮只能给出桶内相对改善，不能声称项目整体正确率提升",
+    "注入已播放音频会增加打断路径时延，PACE 自报 +58.7ms，项目侧数值未知",
+    "回看窗口过长会引入竞争指代，必须固定窗口并单独消融",
+    "中途改写上下文可能破坏前缀缓存并抬高首 token 时延，需与首动作时延一起监控",
+    "边界可能落在词或 token 内部；项目当前没有音频到内容的可靠对齐，因此只能声称物理播放边界，不能声称语义提交边界",
+    "pipecat DGX Spark 仓库记录显示，向音频原生模型直接注入文本 token 存在分布偏移（诊断仅 10/20 通过），因此注入形式需先做小规模可行性核验"
+   ],
+   "dependencies": [
+    "第一阶段的播放账本、客户端撤销与前向门定序已就位",
+    "自建中文车控/清单式打断桶与其冻结判定协议",
+    "现有 414/452 冻结 canary 用于零退化验证",
+    "不得与 tool-hold-message-first-audio-v1 同时变更",
+    "不得重复启动参数化本体、云监督、SoulX、CMTF 或已拒绝的 conditional verifier"
+   ],
+   "offline_gate": {
+    "canary_414_regressions": 0,
+    "text_and_tool_output_exact_match_on_non_interrupt_samples": true,
+    "expected_net_fixes": 0,
+    "first_action_latency_delta_max_ms": 0,
+    "interruption_path_added_latency_max_ms": 100,
+    "stop_latency_not_worse_than_baseline": true,
+    "unauthorized_or_duplicate_execution": 0,
+    "referent_anchoring_accuracy_improved_on_new_bucket": true,
+    "physical_boundary_only_no_semantic_commit_claim": true
+   },
+   "h20_gate": {
+    "request_allowed": false,
+    "reason": "该候选先建机制与自建桶，桶内相对改善不构成 452 集上的正确性净修；冻结 414 canary 零退化且预计净修达到动态 full gap 之前不得请求 full H20。",
+    "dynamic_full_gap": 14,
+    "same_baseline_and_hash": true,
+    "gpu_consumed": false
+   },
+   "research_value": "把“用户实际听到的内容”变成可记录、可撤销、可作为动作授权前提的一层状态，并区分物理播放边界与语义提交边界；即使注入无收益，账本与撤销本身也是后续多轮/取消/补偿评测的前置条件。",
+   "patent_value": "public-safe：仅记录“以播放边界作为上下文与不可逆动作授权基准”的研究标签，不公开未申请实现细节。",
+   "source_commit": null,
+   "status": "proposed_offline_only",
+   "evidence_score": 0.81
+  }
+ ]
+}
