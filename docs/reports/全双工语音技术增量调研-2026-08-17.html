@@ -227,6 +227,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <ol>
 <li><strong>VoiceChat-TTS（2608.13831）是迄今第一个同时具备“流式 TTS + 显式打断 + 不重置 KV + 代码和权重都真实存在”的一手制品，直接对着项目首音频约 3 秒这个最大瓶颈。</strong> 论文事实：并发 1（即 batch=1，与项目口径一致）下在 RTX A6000 上，声学 token ITL 7.16ms、编解码 2.46ms、合计 9.62ms，而每帧对应 80ms 音频；同口径重测的 Qwen3-TTS-12Hz-1.7B 为 15.44 / 4.90 / 20.34ms。制品事实（本轮现场逐文件核实）：代码确实在 <code>NVIDIA-NeMo/Speech</code>（Apache-2.0、18,144 star）内，<code>nemo/collections/speechlm2/models/duplex_ear_tts.py</code> 等 31 个路径命中；权重在 <code>nvidia/NVIDIA-NemotronLabs-VoiceChat-11B</code>（OpenMDW-1.1、非门控）。编辑判断：这是本周唯一一个能把“本地流式 TTS”从纸面推进到可复核对象的更新，<strong>但它不能直接替换 Edge TTS</strong>，原因是两条硬事实——它只有英文评测，且 TTS 子模块（977M）被封在一个 44,382,749,892 字节的单一 <code>model.safetensors</code> 里，没有独立发布。详见第 1 节。</li>
 <li><strong>DeaMoE（2608.14385）把“小批量解码”这个词的实际含义钉死了，这对项目是一条比任何加速方案都更有用的筛子。</strong> 论文事实：标题与摘要都主打 small-batch decoding，但图 3 的横轴从 <strong>batch 4</strong> 起步，加速比 batch 4 时 1.02×、batch 32 峰值 1.33×、batch 128 回落 1.03×，呈非单调；论文自述“加速比随 batch 由 4 增长到 32 而上升”。编辑判断：项目是 batch=1，位于该曲线起点之外且更低的一侧，按其自身趋势外推收益低于 1.02×，实质为零。更关键的是它是<strong>预训练期架构改动</strong>（自行预训练 7.3B、110B token），对既有的 Qwen3-Omni 权重不可用。这使它成为“KV/服务反模式家族”的第四个成员，但成因与前三个不同——不是“需要大 batch”，而是“最小可评测 batch 就不是 1”。详见第 2 节。</li>
+<li><strong>CoRun（2608.14376）把“固定形状解码”与“输出可复现”绑在一起，这给 <code>decode-loop-cudagraph-static-kv-v1</code> 增加了一个此前没有考虑过、且不依赖时延成败的收益维度。</strong> 论文事实：CoRun 用隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph 取得确定性输出，相对 batch-invariant 方案吞吐提升 15–324%，端到端时延分解为 Standard 19.4ms / Batch-invariant 88.4ms / CoRun 32.6ms。<strong>与项目最相关的一条</strong>：在其对照实验里，Qwen3-30B-A3B（MoE）的 rollback ratio 为 <strong>45.41%</strong>，接近同规模稠密模型 Qwen3-32B（24.25%）的两倍，论文解释为“一个很小的 router 扰动就可能改变被选中的专家，此后两条执行路径执行的是不同的计算，而不只是累积不同的低位比特”。编辑判断：项目基座 Qwen3-Omni-30B-A3B 同属 A3B MoE 族，这条<strong>机制性</strong>结论可迁移；但 45.41% 这个<strong>数值</strong>不可迁移（它是投机-验证框架下的候选拒绝率，不是“单次 batch=1 推理有 45% 概率不可复现”）。真正该做的是一个零成本自测：同一音频同一 seed 连续跑 N 次，逐 token 比对。详见第 5 节。</li>
 <li><strong>同一篇 DeaMoE 顺带给了 <code>decode-loop-cudagraph-static-kv-v1</code> 第三条独立旁证。</strong> 论文原文：“我们也为 DeaMoE 与所有基线启用了 vLLM 的 CUDA Graph 执行。由于解码本身对时延敏感且通常运行在小批量区间，采用 CUDA Graph 是业界降低 kernel 启动开销的通行做法。” 编辑判断：08-14 由 FlashDrive 提出、vToken 佐证的“图捕获兼容性是硬筛子”，现在有了第三个来源，而且是把它当作<strong>基线也必须启用的标配</strong>而非优化项。这提高了该候选的先验，但<strong>不改变执行顺序</strong>：仍然先做无同步 <code>index_select</code>+<code>bmm</code> 快路径，再把整环图捕获作为第二个独立变量。</li>
 </ol>
 <h3>P1：适合形成下一阶段架构</h3>
@@ -392,14 +393,52 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>修订复核：<code>lastUpdatedDate:[202608150230 TO 202608170230]</code> 在 <code>cat:cs.SD</code>、<code>cat:eess.AS OR cat:cs.CL</code>、以及全站 <code>all:a</code> 三组上<strong>均为 0 条</strong>。</p>
 <p>据此把窗口起点回拨到 2026-08-13T18:00Z，重跑 14 组查询，得到去重后 <strong>83 篇</strong>。</p>
 <h3>论文结果</h3>
-<p>不适用。83 篇的主题分布中与项目相关的部分已在第 1、2 节与第 5 节展开；其余为路径规划、UAV、音乐、深度伪造检测、无线通信等无关方向。</p>
+<p>不适用。83 篇的主题分布中与项目相关的部分已在第 1、2、5 节与第 6 节展开；其余为路径规划、UAV、音乐、深度伪造检测、无线通信等无关方向。</p>
 <h3>对 StreamingModelHarness 的帮助</h3>
 <p>两条，都是流程性的。</p>
 <p>第一，<strong>它证明了 08-15 那份“零新增”报告在当时是正确的，而不是漏检</strong>。判据是全站最新投稿时刻：08-15 时为 2026-08-13T17:59:58Z，本轮为 2026-08-14T17:59:59Z。两者都是 arXiv 每日 14:00 ET 截稿边界（17:59:5x UTC）——即索引是<strong>按整批推进</strong>的，不是逐篇滴入。因此“某个窗口零结果”与“某个批次尚未入库”是同一现象的两种描述。</p>
 <p>第二，<strong>它确定了下一轮的窗口起点与一个待观察项</strong>。本轮已覆盖至 2026-08-17T02:30Z，但 arXiv 实际最新投稿只到 2026-08-14T17:59:59Z。下一轮窗口起点应为 <strong>2026-08-17T02:30Z</strong>，同时必须再次检查全站最新投稿时刻：若仍停在 08-14T18:00Z，则 08-15/08-16 两个批次仍未入库，届时还会有一次更大的回补；<strong>回补一律按投稿时间归属，不按发现时间</strong>，否则本报告的窗口口径会与下一份冲突。</p>
 <h3>局限与开放状态</h3>
 <p>不适用。需说明的是：本节只证明 <strong>arXiv API 在复核时刻返回的索引</strong>中该窗口的内容为上述状态，不能证明作者在该时段没有投稿。<code>all:a</code> 作为“全站”代理查询依赖 arXiv 的检索实现，其 249 这个绝对值不宜当作该时段投稿总数的精确统计；本节用它只做<strong>有/无</strong>的判定与相对比较，逐类别最新条目的复核才是主要依据。</p>
-<h2>5. 本窗口其余论文的筛选结论</h2>
+<h2>5. CoRun：固定形状解码同时买到确定性，这对项目的判定链路是一条新论据</h2>
+<p>论文（arXiv v1，2026-08-14T15:17:14Z 提交）：https://arxiv.org/abs/2608.14376</p>
+<h3>它是什么</h3>
+<p>一篇 <code>cs.OS</code> / <code>cs.PF</code> 的推理系统论文（南京大学 + 腾讯 Hunyuan）。它要解决的不是速度，而是<strong>同样的 prompt、同样的采样参数与随机种子，LLM 推理却给出不同 token 序列</strong>这一确定性问题。之所以纳入本报告，是因为它给项目在办候选 <code>decode-loop-cudagraph-static-kv-v1</code> 增加了一个此前完全没有考虑过的收益维度，并且顺带给出了一个关于项目所用模型族的具体数字。</p>
+<p>按既有记忆的补漏规则，这篇是靠新增的 <code>cat:cs.HC OR cat:cs.OS</code> 第 14 组查询捞到的——它不在标准 13 组的覆盖范围内。</p>
+<h3>核心方法</h3>
+<ul>
+<li>论文把非确定性的主因归为<strong>批次相关的 GPU 执行</strong>：动态输入形状会改变 kernel 的 tiling 与浮点归约顺序。</li>
+<li>既有做法是用 batch-invariant kernel，但论文测得这类 kernel“使时延增加 2 倍以上，并使服务吞吐下降最多 74%”。</li>
+<li>CoRun 的观察是：多数 kernel 虽然不是 batch-invariant，却是 <strong>position-invariant</strong>。因此改为<strong>控制每个请求看到的执行形状</strong>，再保留更快的 position-invariant kernel。</li>
+<li>具体手段：<strong>隔离 prefill + 固定形状的批量 decode</strong>，decode 走<strong>固定尺寸的 CUDA Graph</strong>；decode 阶段关闭 attention Split-KV；对少数非 position-invariant 的算子使用确定性 collective；采样器与形状对齐。</li>
+<li>论文把这套保证写成一份<strong>端到端确定性契约</strong>，并明确该契约“不声称跨硬件的可复现性”，只在固定硬件、软件栈、模型与张量并行度下成立。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>摘要：在 Qwen 与 DeepSeek 等不同架构上，CoRun 在保证确定性的同时，相对 batch-invariant 方案<strong>吞吐提升 15–324%</strong>，平均<strong>首 token 时延降低 51.8%</strong>、<strong>每输出 token 时延降低 48.6%</strong>。</li>
+<li>图 1(b) 的端到端时延分解（三档对照）：Standard <strong>19.4ms</strong>、Batch-invariant <strong>88.4ms</strong>、CoRun <strong>32.6ms</strong>。</li>
+<li>确定性验证用 vLLM 自带的 batch-invariance 测试：每个模型生成 32 条 prompt，先以 batch size 1 执行、再作为 batch 32 的一部分执行，temperature 0.6、seed 42、每条最多 8 个输出 token，比较完整 token 序列与每步采样 token 的 log 概率。</li>
+<li><strong>与项目直接相关的一条数字</strong>（图 14b，对照方案 LLM-42 在 ShareGPT 上、64 token 验证窗口下的 rollback ratio，定义为被拒绝的候选 token 数除以在非确定性快路径上生成的 token 总数）：Qwen3-8B <strong>17.94%</strong>、Qwen3-32B <strong>24.25%</strong>、而 <strong>Qwen3-30B-A3B（MoE）达到 45.41%，接近同等规模稠密模型 Qwen3-32B 的两倍</strong>。论文给出的解释是：“一个很小的 router 扰动就可能改变被选中的专家，此后两条执行路径执行的是不同的计算，而不只是累积不同的低位比特。”</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>这篇的价值在于它把“图捕获”从一个纯时延议题，扩成一个同时关乎判定可信度的议题。</strong></p>
+<p><strong>第一，它是 CUDA Graph 的第四条独立旁证，而且是唯一一条把固定形状与确定性绑在一起的。</strong> 08-14 的 FlashDrive 把图捕获写成前置条件、vToken 把兼容性写成硬约束、本轮的 DeaMoE 把它当作基线标配，三者都只谈性能。CoRun 说明：<strong>固定形状的 decode + 固定尺寸 CUDA Graph 同时是可复现输出的实现手段</strong>。</p>
+<p><strong>第二，这条与项目当前优先级第一的事项直接咬合。</strong> 项目最高优先级是判定器处理不变性检查（源于 2608.12880：只翻转与行为无关的元数据就改变了 180 条中的 31 条判定）。CoRun 指出的是同一问题的更底层一层：<strong>如果解码本身在数值上不可复现，那么“414 canary 零退化”这类判据就可能在测量噪声</strong>。编辑判断：项目的 KV 长度逐步增长，形状<strong>并非固定</strong>，因此 tiling 与归约顺序在每一步都可能变化；<code>StaticCache</code> + 图捕获会把这一维度钉死。这给了 <code>decode-loop-cudagraph-static-kv-v1</code> 一个此前没有的第二收益，且这个收益<strong>不依赖它在时延上是否成功</strong>。</p>
+<p><strong>第三，那个 45.41% 必须被非常谨慎地引用。</strong> 项目基座是 Qwen3-Omni-30B-A3B，与论文测的 Qwen3-30B-A3B 同属 A3B MoE 族。论文给出的<strong>机制性</strong>结论——router 扰动会改变专家选择，使两条路径执行完全不同的计算而非仅仅低位比特差异——是架构层面的，对项目的 MoE 同样适用，这是可迁移的部分。但那个 <strong>45.41% 本身不可迁移</strong>：它是在 LLM_42 的投机-验证框架下、ShareGPT 语料、64 token 验证窗口、高并发条件下测得的“被拒绝候选 token 占比”，<strong>不是</strong>“单次 batch=1 推理有 45% 概率不可复现”。项目若要知道自己的数值稳定性，只能自测——而这恰好是一个零成本、不需要 GPU 申请的实验：<strong>同一条音频、同一 seed、连续跑 N 次，逐 token 比较输出</strong>。</p>
+<p><strong>可执行动作（本轮新增建议项，不新增候选）</strong>：在做任何判定器审计之前，先做一次<strong>解码可复现性自测</strong>——固定输入与 seed 重复运行，记录 token 序列是否逐次一致、以及首次分歧出现在第几个 token。若存在分歧，则所有既有的 ±1/±4 结论都需要重新评估其显著性；若不存在，则记为一条有价值的负结果并写进判定协议。这条实验的单变量清晰、可测、无需 GPU 申请，但它测的是<strong>评测环境本身</strong>而非被测系统，因此按既定规则留在报告而不进入候选。</p>
+<h3>局限与开放状态</h3>
+<p>论文公开：arXiv:2608.14376 v1，2026-08-14T15:17:14Z。</p>
+<p>代码公开：<strong>未知/否</strong>。全文 29 个 URL 中与实现相关的是 <code>https://github.com/vllm-project/</code>（其依赖的 vLLM）与 <code>https://github.com/ise-uiuc/blazedit</code>（其使用的 Blazedit 工作负载），<strong>均为他人仓库</strong>；<strong>没有发现 CoRun 自身的仓库链接</strong>。实现方式论文写明为“我们在 vLLM 0.25.0 中实现 CoRun”，但未给出该实现的获取方式。</p>
+<p>权重公开：不适用（不训练模型）。</p>
+<p><strong>硬件：论文全文未声明 GPU 型号与数量</strong>，本报告记为<strong>未知</strong>。这对一篇以吞吐与时延为主要指标的系统论文是一个显著缺口，其 19.4 / 88.4 / 32.6ms 与全部吞吐百分比因此<strong>无法与项目的 H20 数字做任何量级对照</strong>。</p>
+<p>其余边界：</p>
+<ul>
+<li>评测模型为 <strong>Qwen3-235B-A22B、DeepSeek-V3、Hy3</strong>，均远大于项目所用规模；Qwen3-30B-A3B 只出现在与 LLM-42 对照的 rollback ratio 图中。</li>
+<li>场景是<strong>多请求在线服务</strong>：其核心机制“固定形状批量 decode”需要预先选定最大并发度，论文自陈“设得太高会在流量少时补入大量 padding token 并降低 decode 吞吐”。<strong>项目是 batch=1 的单用户场景</strong>，padding 调度这一层对项目不适用；可迁移的只有“固定形状 + 图捕获 ⇒ 可复现”这条性质本身。</li>
+<li>确定性契约明确<strong>不跨硬件、不跨软件栈、不跨张量并行度</strong>成立。</li>
+<li>它没有报告任何与语音、流式音频或工具调用相关的内容。</li>
+</ul>
+<h2>6. 本窗口其余论文的筛选结论</h2>
 <p>83 篇中，除第 1、2 节已展开的两篇外，以下若干篇按项目问题做了筛选。<strong>全部为 v1，全部提交于 2026-08-13T18:00Z 之后</strong>，此前从未出现在任何一份报告或 <code>data/items.json</code> 中（已逐个 arXiv ID grep 确认 0 条命中）。</p>
 <table><thead><tr><th>arXiv</th><th>标题</th><th>与项目的关系</th><th>处置</th></tr></thead><tbody>
 <tr><td>2608.13959</td><td>Repair, Not Improvement: Decomposing Constrained Decoding in Tool-Call Abstention</td><td>对应项目“闲聊仍注入工具”与候选集约束这一长期问题</td><td>见下方补充说明</td></tr>
@@ -408,7 +447,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <tr><td>2608.14191</td><td>KV Cache Compression Through the Lens of Transform Coding</td><td>须按 KV 反模式家族判据筛</td><td>见下方补充说明</td></tr>
 <tr><td>2608.14333</td><td>Beyond Capacity: Scalable MoE LLM Inference via High-Bandwidth Flash with Direct GPU and HBM Paths</td><td>同上，且与 DeaMoE 同为 MoE 访存方向</td><td>见下方补充说明</td></tr>
 <tr><td>2608.14036</td><td>Demystifying Agent Skills: Why They Work-Until They Don&#x27;t</td><td>对应 08-11 记录的 harness 敏感性</td><td>见下方补充说明</td></tr>
-<tr><td>2608.14376</td><td>CoRun: Padding is Simple and Efficient for Deterministic LLM Inference</td><td>cs.OS/cs.PF，确定性推理与固定形状，与图捕获前置条件同向</td><td>仅跟踪；本轮未展开，列入下一轮优先阅读</td></tr>
+<tr><td>2608.14376</td><td>CoRun: Padding is Simple and Efficient for Deterministic LLM Inference</td><td>cs.OS/cs.PF，固定形状解码与确定性，直接给图捕获候选增加第二个收益维度</td><td><strong>已展开，见第 5 节</strong></td></tr>
 <tr><td>2608.13926</td><td>Never the Number: Structural Abstention for AI Systems Whose Answers Are Consumed as Fact</td><td>与既有 abstention gate 记录同族</td><td>仅跟踪</td></tr>
 <tr><td>2608.14015 / 2608.14035 / 2608.14380 / 2608.14047</td><td>MedClaw（外科视频 harness）、自动芯片设计编排、AgentRewind、VLA 工具使用</td><td>均为其它领域的 agent 编排，与座舱工具通道无共享判据</td><td>不采纳</td></tr>
 <tr><td>2608.14249 / 2608.13817 / 2608.14287 / 2608.14516 / 2608.13957 / 2608.13842 / 2608.13724</td><td>音频深度伪造检测、UAV 声学检测、歌声分离、音乐即兴与语料</td><td>与全双工座舱无关</td><td>不采纳</td></tr>
@@ -417,7 +456,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </tbody></table>
 <blockquote>上述“见下方补充说明”的六篇由一次并行的事实抽取完成，其逐篇的问题/方法/数字/batch 与硬件条件/制品状态见本节末尾的补充小节。凡该抽取未能给出一手依据的数字、许可证或开放状态，本报告一律记为未知，不做推断。</blockquote>
 <p><strong>AEC 方向连续第五轮无重大新增。</strong> 本窗口 <code>abs:&quot;speech enhancement&quot; OR abs:&quot;noise suppression&quot; OR abs:&quot;echo cancellation&quot; OR abs:&quot;beamforming&quot;</code> 一组返回 5 篇，逐条查看后<strong>全部为无线通信的波束成形</strong>（<code>eess.SP</code>：mmWave 信道估计、感知通信计算一体化、6G 光子基站、SIM-UAV 波束优化）与一篇冷原子物理，<strong>没有一篇是声学回声消除</strong>。这与既有记忆中“HF 检索 <code>echo cancellation</code> 返回 0 行”的结论方向一致。继续记为持续跟踪，不写任何推测性结论。</p>
-<h2>6. Hugging Face 窗口扫描：148 条新条目，一手发布 3 条</h2>
+<h2>7. Hugging Face 窗口扫描：148 条新条目，一手发布 3 条</h2>
 <h3>它是什么</h3>
 <p>对 2026-08-15T02:30Z 至 2026-08-17T02:30Z 的 HF 补充发现通道扫描。因 arXiv 最近两天为零，这一段是唯一可能有新增的通道。</p>
 <h3>论文结果</h3>
@@ -433,7 +472,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p>除第 3 节的 Duplex-World 外无技术帮助。流程上确认两条：其一，<code>echo</code> 这类短关键词在 HF 上的假阳性率高，判定一手/二手之外还需判定<strong>主题</strong>，不能只看作者是否为论文单位；其二，项目基座 Qwen3-Omni 的第三方衍生已开始批量出现，后续扫描需把 <code>base_model:*Qwen3-Omni*</code> 明确列入噪声过滤规则，避免被误读为官方更新。</p>
 <h3>局限与开放状态</h3>
 <p>按关键词 + 创建时间排序的检索不保证召回完整，可能漏掉命名与关键词无关的一手发布——既有记忆里 PosterBench 就是只能通过跟踪仓库的新提交发现的。本节只声明“在上述 14 个关键词的检索结果内一手发布为 3 条”，不声明全站无其它一手发布。<code>X-Zhang/EchoMask</code> 的 <code>license: other</code> 未细读正文，其具体条款记为未知（本报告不采纳该项，故未展开）。</p>
-<h2>7. 持续跟踪项的现场复核汇总</h2>
+<h2>8. 持续跟踪项的现场复核汇总</h2>
 <p>全部于 2026-08-17 通过 GitHub API、Hugging Face API 与 arXiv API 复核。</p>
 <table><thead><tr><th>跟踪项</th><th>上次记录</th><th>2026-08-17 复核</th><th>结论</th></tr></thead><tbody>
 <tr><td>RT-SEMamba <code>RoyChao19477/RT-SEMamba</code></td><td>08-15/08-16：<code>0c9e8c7c42</code>，size 14368，1 star</td><td><code>pushed_at</code> 仍 <strong>2026-08-14T05:16:18Z</strong>，size 仍 <strong>14368</strong>，仍 <strong>1 star</strong></td><td>连续第三轮字节级不变；<code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的前置条件与处置全部不变</td></tr>
@@ -451,7 +490,8 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <ol>
 <li><strong>完成快照“下一步”第 2 条的 clean/20dB/音色分桶归因。</strong> 连续第三轮列为首位。它同时是 <code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的硬前提与其 <code>expected_fixes</code> 上界的唯一来源，本轮无任何新证据改变这一点。</li>
 <li><strong>判定器处理不变性检查仍然高于一切</strong>，包括高于本轮新增的 TTS 只读任务。本轮唯一相关的新增素材是 DuplexWorld 把 <code>decision_tree</code> 与 <code>evaluation_criteria</code> 分成两个独立字段这一写法，可用作项目“判定器不得读取哪些字段”排除清单的参照。</li>
-<li><strong>对 VoiceChat-TTS 做只读代码与制品审阅（本轮唯一新增建议项）。</strong> 目标是回答两个可判定的问题：977M TTS 子模块能否脱离 11B 主干单独实例化推理；22,050Hz 输出与项目 16kHz 链路如何对接。在这两个问题有明确答案之前不进入任何替换实验，也不登记候选。</li>
+<li><strong>在判定器审计之前，先做一次解码可复现性自测（本轮新增，零成本、不需要 GPU 申请）。</strong> 固定同一条音频与同一 seed，连续运行 N 次，逐 token 比较输出，记录是否逐次一致以及首次分歧出现在第几个 token。理由见第 5 节：CoRun 指出 MoE 的 router 扰动会把微小数值差异放大成完全不同的执行路径，而项目的 KV 长度逐步增长、形状并非固定。<strong>这条实验测的是评测环境本身而不是被测系统</strong>，因此不进入候选，但它的结论会决定既有 ±1/±4 结论是否需要重新评估显著性。若逐次一致，则记为一条有价值的负结果并写进判定协议。</li>
+<li><strong>对 VoiceChat-TTS 做只读代码与制品审阅。</strong> 目标是回答两个可判定的问题：977M TTS 子模块能否脱离 11B 主干单独实例化推理；22,050Hz 输出与项目 16kHz 链路如何对接。在这两个问题有明确答案之前不进入任何替换实验，也不登记候选。</li>
 <li><strong>继续既有的三条零成本流程项</strong>（ASR 段计时口径对齐、留出片与预先声明门槛、以及上条的判定器审计）。</li>
 </ol>
 <h3>第二阶段（在第一阶段结论落地之后）</h3>
@@ -476,6 +516,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li><strong>代码许可证不传递给权重，这次是 Apache-2.0 与 OpenMDW-1.1。</strong> NeMo 代码为 Apache-2.0，VoiceChat-11B 权重为 OpenMDW-1.1。<strong>本轮未逐条阅读 OpenMDW-1.1 正文</strong>，其义务记为未知；实际使用前必须先读许可证正文。</li>
 <li><strong>DeaMoE 的“small-batch”下界是 4，不是 1。</strong> 加速比 batch 4 时仅 1.02×、batch 32 峰值 1.33×、batch 128 回落 1.03×，且随 batch 减小而下降；项目是 batch=1，按其自身趋势外推收益低于 1.02×。此外它是<strong>预训练期架构改动</strong>且攻击的是<strong>带宽</strong>瓶颈，而项目实测瓶颈不是带宽（速度不随 KV 长度变化，与带宽下限差约 36 倍，根因是每 token 约 816 次主机同步）。三条理由各自独立成立。</li>
 <li><strong>不要用 DeaMoE 的基线 TPOT 反推项目的 110ms 高出多少倍。</strong> 模型、框架、硬件、batch 四项全部不同（7.3B vs 30B-A3B、vLLM vs HuggingFace、A40 vs H20、≥4 vs 1）。它只能作为方向一致的定性佐证。</li>
+<li><strong>不要把 CoRun 的 45.41% 读成“项目的推理有 45% 不可复现”。</strong> 它是 rollback ratio——在 LLM-42 的投机-验证框架下、ShareGPT 语料、64 token 验证窗口、高并发条件下，被拒绝的候选 token 占非确定性快路径生成 token 总数的比例。可迁移的是<strong>机制</strong>（router 扰动改变专家选择，两条路径此后执行不同计算），不是这个数值。项目要知道自己的数值稳定性只能自测。另注意 CoRun <strong>全文未声明 GPU 型号与数量</strong>，其 19.4/88.4/32.6ms 与全部吞吐百分比无法与项目的 H20 数字做任何量级对照；其“固定形状批量 decode”需预选最大并发度，属多请求在线服务机制，对 batch=1 的项目不适用，可迁移的只有“固定形状 + 图捕获 ⇒ 可复现”这条性质。</li>
 <li><strong>DuplexWorld 数据集只有 18 条，且不含音频与 harness 代码。</strong> README 的 <code>n&lt;1K</code> 技术上成立但会严重高估规模；论文里最有价值的 harness 敏感性结论<strong>并未因本次发布变得可复现</strong>。不得并入项目 452 条评测集，不得据此做任何准确率结论。</li>
 <li><strong><code>pushed_at</code> 也会在没有可达新提交时前进。</strong> AutoDesign 的 <code>pushed_at</code> 为 2026-08-16T12:19:13Z，而 <code>refs</code> 中只有 <code>main</code>（停在 2026-08-15T08:24:24Z）与两个 PR head，递归树仍 724 条目。判断代码是否真的变化，必须查到 <code>git/refs</code> 与提交列表这一层，<code>updated_at</code> 与 <code>pushed_at</code> 都不足够。</li>
 <li><strong><code>EchoMask</code> 不是回声消除。</strong> 它是协同语音手势/动作生成（arXiv:2504.09209，ACM MM 2025）。AEC 连续第五轮零一手证据这一结论不受影响；本窗口 <code>speech enhancement OR noise suppression OR echo cancellation OR beamforming</code> 一组返回的 5 篇全部是无线通信波束成形与冷原子物理，无一为声学 AEC。</li>

@@ -45,6 +45,17 @@
       ]
     },
     {
+      "id": "decode-reproducibility-self-test",
+      "kind": "evaluation_buildout",
+      "summary": "在判定器处理不变性检查之前，先做一次解码可复现性自测：固定同一条音频与同一 seed，连续运行 N 次，逐 token 比较输出，记录是否逐次一致以及首次分歧出现在第几个 token。若存在分歧，则所有既有的 +1/+4 与“414 canary 零退化”结论都需要重新评估其显著性——因为判据本身可能在测量数值噪声；若逐次一致，则记为一条有价值的负结果并写进判定协议。零成本，不需要 GPU 申请，也不改动被测系统。",
+      "why_not_candidate": "它测的是评测环境本身而不是被测系统上的单变量改动，无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）可信度的前提，且优先级仅次于判定器处理不变性检查。",
+      "external_evidence": "arXiv:2608.14376（CoRun，2026-08-14T15:17:14Z 提交，cs.OS/cs.PF，南京大学 + 腾讯 Hunyuan）。论文把非确定性的主因归为批次相关的 GPU 执行：动态输入形状改变 kernel tiling 与浮点归约顺序；其解法为隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph，相对 batch-invariant 方案吞吐提升 15-324%，平均 TTFT 降 51.8%、TPOT 降 48.6%，端到端时延分解 Standard 19.4ms / Batch-invariant 88.4ms / CoRun 32.6ms。与项目最相关的一条：图 14b 中 Qwen3-8B 的 rollback ratio 为 17.94%、Qwen3-32B 为 24.25%，而 Qwen3-30B-A3B（MoE）达 45.41%，接近同规模稠密模型的两倍，论文解释为“一个很小的 router 扰动就可能改变被选中的专家，此后两条执行路径执行的是不同的计算，而不只是累积不同的低位比特”。项目基座 Qwen3-Omni-30B-A3B 同属 A3B MoE 族，该机制可迁移。三条必须同时记录的边界：45.41% 这个数值不可迁移——它是 LLM-42 投机-验证框架下、ShareGPT 语料、64 token 验证窗口、高并发条件下被拒绝的候选 token 占比，不是“单次 batch=1 推理有 45% 概率不可复现”；论文全文未声明 GPU 型号与数量，其全部时延与吞吐数字无法与项目 H20 做量级对照；其固定形状批量 decode 需预选最大并发度，属多请求在线服务机制，对 batch=1 的项目不适用。开放状态：全文 29 个 URL 中与实现相关的只有他人仓库 vllm-project 与 ise-uiuc/blazedit，未发现 CoRun 自身仓库，实现方式仅写明“在 vLLM 0.25.0 中实现”。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14376",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
       "id": "small-batch-screen-must-include-batch-one",
       "kind": "process_rule",
       "summary": "把既有的“KV/服务反模式家族”判据从“收益需要大 batch 或长上下文则否”扩写为：先查论文的最小可评测 batch 是否为 1；若不是 1，且其收益随 batch 减小而单调下降，则直接否，不必读完。理由是这类工作会以 small-batch / 低时延 / 实时交互为卖点，但评测区间的下界仍远高于 1。判据应用时需同时记录三项：最小评测 batch、收益随 batch 的变化方向、以及该方案是推理侧改动还是预训练期架构改动。",
@@ -57,13 +68,14 @@
     {
       "id": "cuda-graph-as-baseline-standard-third-corroboration",
       "kind": "negative_evidence",
-      "summary": "记录一条提高 decode-loop-cudagraph-static-kv-v1 先验但不改变其执行顺序的外部旁证。DeaMoE 在实现小节写明为被测方案与全部基线都启用了 vLLM 的 CUDA Graph 执行，并把它描述为小批量解码场景下业界通行的标配做法而非优化项。这是继 FlashDrive（图捕获需要固定形状与地址、无数据依赖的主机同步）与 vToken（把 CUDA-Graph 兼容性当作硬约束）之后的第三条独立来源，且形式最强——前两者把它当作约束或优化，DeaMoE 把它当作公平对照的前提。执行顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。",
+      "summary": "记录两条提高 decode-loop-cudagraph-static-kv-v1 先验但不改变其执行顺序的外部旁证。其一，DeaMoE 在实现小节写明为被测方案与全部基线都启用了 vLLM 的 CUDA Graph 执行，并把它描述为小批量解码场景下业界通行的标配做法而非优化项。这是继 FlashDrive（图捕获需要固定形状与地址、无数据依赖的主机同步）与 vToken（把 CUDA-Graph 兼容性当作硬约束）之后的第三条独立来源，且形式最强——前两者把它当作约束或优化，DeaMoE 把它当作公平对照的前提。其二，CoRun（2608.14376）是第四条，也是唯一一条把固定形状与输出可复现绑在一起的：它用隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph 取得确定性输出。这给该候选增加了一个此前没有考虑过、且不依赖它在时延上是否成功的第二收益维度——项目的 KV 长度逐步增长、形状并非固定，StaticCache + 图捕获会把这一维度钉死。执行顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。",
       "why_not_candidate": "这是对既有候选的外部先验更新，不是新的单变量实验；既有候选已登记，不重复登记。",
       "external_evidence": "arXiv:2608.14385 实现小节原文（vLLM v0.13.0，Triton 自定义算子，复用 vLLM 原生 fused MoE kernel 的 Grouped GEMM 原语，仅改 token 索引逻辑）。附一条仅供定性参考、不可相减的量级观察：DeaMoE 的基线（未经其架构改动的 vanilla MoE，vLLM，已开 CUDA Graph）在 A40 上于 20-30ms 的 TPOT 预算内可支撑 batch 24-64，而项目在更强的 H20 上 batch=1 却是 110ms/token。四条免责必须同时写：模型不同（7.3B vs Qwen3-Omni 30B-A3B）、框架不同（vLLM vs HuggingFace）、硬件不同（A40 vs H20）、batch 不同（>=4 vs 1）。因此这不能作为倍数依据，只能作为与项目自身根因分析方向一致的定性佐证。",
       "source_urls": [
-        "https://arxiv.org/abs/2608.14385",
         "https://arxiv.org/abs/2608.12932",
-        "https://arxiv.org/abs/2608.13263"
+        "https://arxiv.org/abs/2608.13263",
+        "https://arxiv.org/abs/2608.14376",
+        "https://arxiv.org/abs/2608.14385"
       ]
     },
     {
