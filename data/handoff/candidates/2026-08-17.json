@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-17",
+  "evidence_cutoff": "2026-08-17T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a fifth consecutive report; 0 new Radar entries. The index-resumption event predicted by the 2026-08-15 report has now occurred: on 08-15 the newest arXiv submission site-wide was 2608.13561 at 2026-08-13T17:59:58Z; this round the same query returns 2608.14549 at 2026-08-14T17:59:59Z, i.e. the entire 08-14 batch has entered the index and had never been covered by any published report. The paper window was therefore rolled back by submission time to 2026-08-13T18:00Z - 2026-08-17T02:30Z (contiguous with, and non-overlapping, the previous report's actual coverage end), yielding 83 deduplicated papers. Note that the sub-window 2026-08-15T02:30Z - 2026-08-17T02:30Z is still 0 new submissions and 0 revisions site-wide, verified by the three-level falsification protocol: (1) date-unbounded control queries return normally (cat:cs.SD totalResults 21,696 vs 21,686 on 08-15); (2) the newest submission site-wide advanced to 2026-08-14T17:59:59Z; (3) submittedDate:[202608150230 TO 202608170230] returns totalResults 0 while [202608131800 TO 202608170230] returns 249. Per-category newest entries all fall between 2026-08-14T12:34Z and 17:59Z, and lastUpdatedDate revision queries over the last two days return 0 across cs.SD, eess.AS/cs.CL and site-wide. Both observed cutoffs are at 17:59:5x, the arXiv 14:00 ET daily deadline, confirming the index advances in whole batches rather than paper by paper. Separately: the 2026-08-16 run produced NO report at all - no 2026-08-16 file exists in reports/ or on any remote branch, and that run's branch contains only a 'reports: recover unpublished 2026-08-11..2026-08-15' commit. This report therefore uses 2026-08-15 as its baseline and covers two calendar days. A supplementary Hugging Face scan over 2026-08-15T02:30Z - 2026-08-17T02:30Z across 14 keywords found 148 newly created items, of which only 3 are first-party releases. Next round: window start 2026-08-17T02:30Z, and the site-wide newest submission timestamp must be re-checked - if it still reads 2026-08-14T17:59:59Z, the 08-15 and 08-16 batches remain unindexed and a larger backfill will follow, to be attributed by submission time and never by discovery time.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-17.md",
+    "reports/每日调研日报-2026-08-17.md"
+  ],
+  "candidates": [],
+  "no_candidate_reason": "本轮唯一够格进入执行序列的新素材是 VoiceChat-TTS（2608.13831，NVIDIA），但它有两个尚未解决的可判定问题，在得到答案之前既没有清晰单变量也没有可测的预计修复数，按既定规则只留在报告并登记为只读前置任务：(1) 论文所述 977M 的 TTS 子模块（778M Gemma 3 流式 TTS + 199M codec）没有独立权重文件，被封在 nvidia/NVIDIA-NemotronLabs-VoiceChat-11B 唯一的 model.safetensors（44,382,749,892 字节）内，HF 上以 VoiceChat-TTS / voicechat_tts 检索均返回 0 条，因此“能否脱离 11B 主干单独实例化推理”目前未知；(2) 其输出为 22,050Hz 而项目音频链路为 16kHz，对接方式未定。此外它全部为英文评测，无任何中文数据或指标，而项目是中文车控。第二项新素材 DuplexWorld 数据集（CentificAIResearch/Duplex-World）只有 18 条场景规格且不含音频与 harness 代码，只能做格式借鉴，没有可执行单变量。第三项 DeaMoE（2608.14385）是明确的反面判据，本身不应成为候选。因此本轮新增候选为 0 条。",
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮无新增证据改变其处置；Luna-TTS 项目页的页内矛盾（摘要 1.28s 块 vs 推理表脚注 0.36s 块）本轮未复核，按 30 天节奏下次复核，在澄清前其 41.6ms 仍不可用于任何跨系统首包比较。新增的一条相关记录：VoiceChat-TTS 的 9.62ms 是 ITL（稳态每帧，每帧对应 80ms 音频），不是首包时延，论文引言讨论 TTFA 但结果部分从未报告自己的 TTFA，因此同样不可用于与该候选做首包比较。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。本轮新增一条机制性支持：VoiceChat-TTS 的 Force Silence 把播报收尾实现成在中断对齐位置确定性写入一个预先算好的静音帧，而不是等待声学流自然衰减，且写入后不重置 KV cache。该机制已在 NVIDIA-NeMo/Speech 的 duplex_ear_tts.py 第 1193 行（inference_force_speech_silence_on_eos）与 get_codec_silence_frame() 中逐行核实，与论文描述完全一致。其效果数字（IOR@320ms 96.8%→100.0%、平均停止时延 228.3ms→89.9ms、Leakage@1s 169.1ms→55.8ms、AI-CER 0.255%→0.095%）是英文 FDB 音频上用该模型自己的 codec 帧测的，不得借用为项目预期值。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。2026-08-17 复核 CodeForZzc/GCM-Bench 最后推送仍为 2026-08-11T06:29:47Z（连续第六天不变），Apache-2.0，PACE 中间件本体仍未公开；该候选只借用数据格式与判定协议，不受影响。本轮新增两条可借鉴的外部写法：VoiceChat-TTS 的确定性静音收尾（见上条），以及 DuplexWorld 数据集把 decision_tree 与 evaluation_criteria 分成两个独立字段的结构。",
+    "decode-loop-cudagraph-static-kv-v1（2026-08-14）保持不变，仅离线、h20_request_allowed=false。本轮外部先验提高但顺序与门槛完全不变：DeaMoE（2608.14385）在实现小节明确写“我们也为 DeaMoE 与所有基线启用了 vLLM 的 CUDA Graph 执行。由于解码本身对时延敏感且通常运行在小批量区间，采用 CUDA Graph 是业界降低 kernel 启动开销的通行做法”，即把图捕获当作基线也必须具备的标配而非优化项，这是继 FlashDrive、vToken 之后的第三条独立旁证。顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完，图捕获作为第二个独立变量，两步不得合并成一次结论。2026-08-17 复核 z-lab/flashdrive 仍 MIT、最后推送仍 2026-07-06T00:54:50Z。",
+    "streaming-se-frontend-rtsemamba-kd1-v1（2026-08-15）保持不变，仅离线、h20_request_allowed=false，状态仍为 proposed_offline_blocked。2026-08-17 复核 RoyChao19477/RT-SEMamba 的 pushed_at 仍为 2026-08-14T05:16:18Z、size 仍 14368、仍 1 star，连续第三轮字节级不变；两个前置依赖（clean/20dB/音色分桶归因、只读代码审阅）均未完成，expected_fixes 仍为 null。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-14 起的记录不变，优先级仍是全部事项中最高的一条，高于本轮新增的 VoiceChat-TTS 只读审阅。对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据（模型输出文本、工具调用序列、参数、执行器回执、最终车态），只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份“判定器不得读取哪些字段”的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。本轮新增一条可参照的外部写法：DuplexWorld 数据集把每条场景的 decision_tree（系统应该怎么走，2,566 字节）与 evaluation_criteria（怎么算通过，2,459 字节）分成两个独立字段，这正是让判定器无法读到不该读的字段的结构前提。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。",
+      "external_evidence": "arXiv:2608.12880（2026-08-14 已展开）。相关的 AutoDesign（2608.13560）人机一致性数字 r=0.34 仍不可第三方复核：2026-08-17 复核 Yaxin9Luo/AutoDesign 的 pushed_at 为 2026-08-16T12:19:13Z，但 git/refs 中只有 refs/heads/main = cd5b2bd997（2026-08-15T08:24:24Z）与两个 PR head，默认分支 HEAD 并未前进，递归树仍 724 条目，论文附录 A.5 承诺的逐案例分数存档与人评决策记录连续第三次复核仍不存在。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://arxiv.org/abs/2608.13560",
+        "https://github.com/Yaxin9Luo/AutoDesign",
+        "https://huggingface.co/datasets/CentificAIResearch/Duplex-World"
+      ]
+    },
+    {
+      "id": "voicechat-tts-readonly-artifact-review",
+      "kind": "instrumentation",
+      "summary": "对 VoiceChat-TTS 做一次只读代码与制品审阅（不执行任何代码），目标是回答两个可判定的问题，在两者有明确答案之前不进入任何替换实验、不登记候选：(a) 论文所述 977M 的 TTS 子模块能否在不加载 11B 主干的前提下单独实例化与推理——依据是 nvidia/NVIDIA-NemotronLabs-VoiceChat-11B 仓库内唯一的权重文件是 44,382,749,892 字节的 model.safetensors，config.json 中该模块以 model/speech_generation/* 子树存在（codec_config.num_quantizers=31、data.frame_length=0.08、target_sample_rate=22050，与论文一致），但没有独立权重文件，HF 上以 VoiceChat-TTS / voicechat_tts 检索均返回 0 条；(b) 其 22,050Hz 输出与项目 16kHz 音频链路如何对接。审阅范围限定为 NVIDIA-NeMo/Speech 中的 duplex_ear_tts.py、nemotron_voicechat.py 与 examples/speechlm2/conf/nemotron_voicechat.yaml，以及 OpenMDW-1.1 许可证正文（本轮未逐条阅读，其义务记为未知）。",
+      "why_not_candidate": "没有清晰单变量，也没有可测的预计修复数：在子模块可否单独加载这一问题有答案之前，连实验是否可能都无法判定。此外该模型全部为英文评测，无任何中文数据或指标，而项目是中文车控，跨语种表现未知，任何 expected_fixes 预估都会是编造。",
+      "external_evidence": "arXiv:2608.13831 v1（2026-08-13T23:37:07Z 提交）。并发 1、RTX A6000 实测：声学 ITL 7.16ms + codec 2.46ms = 9.62ms，每帧对应 80ms 音频；同协议重测的 Qwen3-TTS-12Hz-1.7B 为 15.44/4.90/20.34ms。代码在 NVIDIA-NeMo/Speech（Apache-2.0，2,882 条目未截断，命中 voicechat|duplex 的路径 31 个），权重在 nvidia/NVIDIA-NemotronLabs-VoiceChat-11B（OpenMDW-1.1，非门控，lastModified 2026-08-11T09:46:06Z，早于论文投稿时刻）。质量侧的不利结果必须一并记录：Qwen3-TTS-12Hz-1.7B 的 CER 0.34% / WER 1.01% / SECS 0.827 / Squim-MOS 4.45 四项全面优于 VoiceChat-TTS 的 1.00% / 2.00% / 0.757 / 4.380。9.62ms 是 ITL 不是首包，论文全文未报告自己的 TTFA。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13831",
+        "https://github.com/NVIDIA-NeMo/Speech",
+        "https://huggingface.co/nvidia/NVIDIA-NemotronLabs-VoiceChat-11B"
+      ]
+    },
+    {
+      "id": "small-batch-screen-must-include-batch-one",
+      "kind": "process_rule",
+      "summary": "把既有的“KV/服务反模式家族”判据从“收益需要大 batch 或长上下文则否”扩写为：先查论文的最小可评测 batch 是否为 1；若不是 1，且其收益随 batch 减小而单调下降，则直接否，不必读完。理由是这类工作会以 small-batch / 低时延 / 实时交互为卖点，但评测区间的下界仍远高于 1。判据应用时需同时记录三项：最小评测 batch、收益随 batch 的变化方向、以及该方案是推理侧改动还是预训练期架构改动。",
+      "why_not_candidate": "这是发现与筛选流程的规则，不是被测系统上的改动，没有单变量也没有可测指标。",
+      "external_evidence": "arXiv:2608.14385（DeaMoE，2026-08-14T15:25:32Z 提交）。标题与摘要主打 small-batch decoding，但图 3 横轴自 batch 4 起步，逐点加速比为 4→1.02×、8→1.14×、16→1.26×、24→1.32×、32→1.33×、40→1.30×、48→1.26×、64→1.20×、96→1.13×、128→1.03×，论文原话“加速比随 batch 从 4 增长到 32 而上升（峰值 1.33×），随后逐渐下降”。项目为 batch=1，按其自身趋势外推收益低于 1.02×。另两条独立否决理由：它是预训练期架构改动（自行预训练 7.3B、110B token RedPajama-v1），对既有 Qwen3-Omni 权重不可用；它攻击的是访存带宽瓶颈（论文原话“缓解 A40 GPU 上的带宽瓶颈”），而项目实测瓶颈不是带宽——解码速度不随 KV 长度变化，110ms 是按 config 实算带宽下限的约 36 倍，根因为每 token 约 816 次 GPU→CPU 同步。开放状态：无代码、无权重，61 条 PDF URI 注解逐条查看后全部为参考文献，全文唯一 GitHub URL 是引用 Meituan LongCat-Flash-Omni，正文仅承诺“训练用代码将在之后开源”。论文 PDF 的 /License 为 CC-BY-NC-ND-4.0，这是论文本身的许可证，与任何代码或权重无关。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14385"
+      ]
+    },
+    {
+      "id": "cuda-graph-as-baseline-standard-third-corroboration",
+      "kind": "negative_evidence",
+      "summary": "记录一条提高 decode-loop-cudagraph-static-kv-v1 先验但不改变其执行顺序的外部旁证。DeaMoE 在实现小节写明为被测方案与全部基线都启用了 vLLM 的 CUDA Graph 执行，并把它描述为小批量解码场景下业界通行的标配做法而非优化项。这是继 FlashDrive（图捕获需要固定形状与地址、无数据依赖的主机同步）与 vToken（把 CUDA-Graph 兼容性当作硬约束）之后的第三条独立来源，且形式最强——前两者把它当作约束或优化，DeaMoE 把它当作公平对照的前提。执行顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。",
+      "why_not_candidate": "这是对既有候选的外部先验更新，不是新的单变量实验；既有候选已登记，不重复登记。",
+      "external_evidence": "arXiv:2608.14385 实现小节原文（vLLM v0.13.0，Triton 自定义算子，复用 vLLM 原生 fused MoE kernel 的 Grouped GEMM 原语，仅改 token 索引逻辑）。附一条仅供定性参考、不可相减的量级观察：DeaMoE 的基线（未经其架构改动的 vanilla MoE，vLLM，已开 CUDA Graph）在 A40 上于 20-30ms 的 TPOT 预算内可支撑 batch 24-64，而项目在更强的 H20 上 batch=1 却是 110ms/token。四条免责必须同时写：模型不同（7.3B vs Qwen3-Omni 30B-A3B）、框架不同（vLLM vs HuggingFace）、硬件不同（A40 vs H20）、batch 不同（>=4 vs 1）。因此这不能作为倍数依据，只能作为与项目自身根因分析方向一致的定性佐证。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14385",
+        "https://arxiv.org/abs/2608.12932",
+        "https://arxiv.org/abs/2608.13263"
+      ]
+    },
+    {
+      "id": "artifact-recheck-must-reach-git-refs",
+      "kind": "process_rule",
+      "summary": "把仓库变更复核的最小动作再往下加一层：判断代码是否真的发生变化，必须查到 git/refs 与提交列表，updated_at 与 pushed_at 都不足够。既有记忆里的规则是“updated_at 会因 star 或元数据活动而前进，要用 pushed_at 对照提交列表”；本轮出现新方向——pushed_at 自己也会在没有任何可达新提交的情况下前进。附带一条相关纪律的再次确认：一次 404 或空仓库不足以永久判定无制品，制品滞后可达月级甚至年级。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "Yaxin9Luo/AutoDesign 于 2026-08-17 复核：pushed_at = 2026-08-16T12:19:13Z，但 git/refs 中只有 refs/heads/main = cd5b2bd997（2026-08-15T08:24:24Z）与 refs/pull/2/head、refs/pull/3/head，默认分支 HEAD 并未前进，递归树仍 724 条目、42 个 json/jsonl/csv 集合未变、releases 0 / tags 0。ASLP-lab/SemBridge 同日复核为反方向的同类例：pushed_at 仍 2026-08-10T05:51:29Z 而 updated_at 为 2026-08-15T14:02:18Z，仍为占位仓库。制品滞后的年级实例：X-Zhang/EchoMask 对应的论文 arXiv:2504.09209 于 2025-04-12 投稿，官方 checkpoint 迟至 2026-08-16T06:33:52Z 才发布，滞后约 16 个月。",
+      "source_urls": [
+        "https://github.com/Yaxin9Luo/AutoDesign",
+        "https://github.com/ASLP-lab/SemBridge",
+        "https://huggingface.co/X-Zhang/EchoMask",
+        "https://arxiv.org/abs/2504.09209"
+      ]
+    },
+    {
+      "id": "arxiv-index-backfill-attribution-rule",
+      "kind": "process_rule",
+      "summary": "零结果窗口必须同时记录两项才算完整：检索窗口本身，以及复核时刻的全站最新投稿时间戳。理由是索引冻结与真实空窗在单次查询下不可区分，而两者对下一轮的处理方式完全不同。本轮验证了该规则的价值：08-15 记录的全站最新投稿为 2026-08-13T17:59:58Z，本轮同一查询返回 2026-08-14T17:59:59Z，据此可以确定 08-14 整批是回补而非上一轮漏检，并把窗口起点按投稿时间回拨到 2026-08-13T18:00Z。两次观测到的截止时刻都落在 17:59:5x，即 arXiv 每日 14:00 ET 截稿边界，说明索引按整批推进而非逐篇滴入。回补一律按投稿时间归属，绝不按发现时间。下一轮窗口起点为 2026-08-17T02:30Z，并须再次核对全站最新投稿时刻：若仍为 2026-08-14T17:59:59Z，则 08-15 与 08-16 两批仍未入库，会出现一次更大的回补。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "三级证伪结果：去日期约束的对照查询 cat:cs.SD totalResults 21,696（08-15 为 21,686）、cat:eess.AS 22,178、cat:cs.CL 116,387；不限类别按投稿时间倒序最新一条为 2608.14549（2026-08-14T17:59:59Z）；submittedDate:[202608150230 TO 202608170230] 全站 totalResults 0，[202608131800 TO 202608170230] 为 249，[202608140000 TO 202608170230] 为 178；逐类别最新条目 cs.SD 与 eess.AS 均为 2608.14516（17:38:16Z）、cs.CL 2608.14509、cs.AI 与 cs.LG 2608.14539、cs.CV 2608.14546、cs.MM 2608.14260、cs.HC 2608.14513、cs.OS 2608.14376、cs.NI 2608.14386、cs.DC 2608.14527；lastUpdatedDate 落在最近两天的修订在 cs.SD、eess.AS/cs.CL 与全站三组查询上均为 0 条。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14549",
+        "https://arxiv.org/abs/2608.13561"
+      ]
+    },
+    {
+      "id": "hf-noise-filter-add-project-base-model-derivatives",
+      "kind": "process_rule",
+      "summary": "在 Hugging Face 发现通道的噪声过滤规则中，明确加入项目自身基座的第三方衍生：把 base_model 标签匹配 Qwen3-Omni 的条目列入过滤，避免被误读为基座官方更新。既有的一手/二手快速判据（base_model: 标签族尤其是 base_model:quantized: 与 base_model:finetune:、ATTRIBUTION.md 一类文件、作者是否为论文单位、新条目的下载与点赞是否为 0）继续适用，本轮再次成立。另补一条计数纪律：批量单作者上传会大幅抬高窗口原始计数，必须按发布计而不是按行计。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "2026-08-15T02:30Z - 2026-08-17T02:30Z 窗口内以 14 个关键词筛出 148 条，一手发布仅 3 条（CentificAIResearch/Duplex-World、X-Zhang/EchoMask 及其推理数据集、laion/moss-voice-identity-loras 及 moss-voice-identity-repairs）。项目基座衍生 8 条：VikramPal/Qwen3-Omni-30B-A3B-S2S-{QLoRA,bf16,DynQuant-3bit,DynQuant-4bit} 与 VikramPal/Qwen3-Omni-30B-A3B-{SLURP-QLoRA,Thinker-SLURP-bf16,Thinker-SLURP-DynQuant-4bit,Thinker-SLURP-DynQuant-3bit}，全部带 base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct 系标签，下载与点赞均为 0。批量单作者上传：Devsyril/mms-tts-*-sherpa-onnx 10 条、uam-wmi-asr-eval-labs/* 8 条、anonymous4486/audio-flamingo-3-hf_* 6 条、ghananlpcommunity/* 4 条、lingamvamshikrishnareddy/* 4 条，合计 32 条只相当于个位数的实际发布。",
+      "source_urls": [
+        "https://huggingface.co/datasets/CentificAIResearch/Duplex-World",
+        "https://huggingface.co/X-Zhang/EchoMask",
+        "https://huggingface.co/laion/moss-voice-identity-loras"
+      ]
+    },
+    {
+      "id": "aec-still-zero-primary-evidence",
+      "kind": "tracking",
+      "summary": "回声消除连续第五轮无重大新增，且本轮额外排除了一个关键词假阳性。继续记为持续跟踪，不写任何 AEC 结论或预期，也不因此拔高弱相关工作。",
+      "why_not_candidate": "没有任何一手证据，无法形成假设或单变量。",
+      "external_evidence": "本窗口 abs:\"speech enhancement\" OR abs:\"noise suppression\" OR abs:\"echo cancellation\" OR abs:\"beamforming\" 一组返回 5 篇，逐条查看后全部为无线通信波束成形（2608.14182 mmWave 信道估计、2608.14086 感知通信计算一体化、2608.13909 6G 光子基站、2608.13765 SIM-UAV 波束优化）与一篇冷原子物理（2608.13936），无一为声学回声消除。HF 窗口内唯一命中 echo 关键词的一手发布 X-Zhang/EchoMask 经核实指向 arXiv:2504.09209（ACM MM 2025，cs.GR/cs.CV/cs.SD），是语音驱动的协同手势与整体动作生成，产物为 SMPL-X 动作与 BEAT2 相关的 npz 与权重压缩包，与回声消除无关。既有记录中 RT-SEMamba 为单通道降噪且明确不含 AEC 的结论不变。",
+      "source_urls": [
+        "https://arxiv.org/abs/2504.09209",
+        "https://huggingface.co/X-Zhang/EchoMask"
+      ]
+    },
+    {
+      "id": "duplexworld-dataset-format-borrow-only",
+      "kind": "design_constraint",
+      "summary": "DuplexWorld 数据集本轮正式发布，但可借用的只有字段结构，不得用于任何准确率结论。写死三条：它不含音频、不含 harness 代码；实际规模是 18 条场景规格，README 的 size_categories: n<1K 技术上成立但会严重高估；它是英文的客服与出行等场景，与中文车控域不重合，不得并入项目 452 条评测集做联合统计。可借用的部分是把 decision_tree（系统应该怎么走）与 evaluation_criteria（怎么算通过）分成两个独立字段这一结构，用于支撑 grader-treatment-invariance-audit 的输入排除清单。论文中最有价值的结论——三个 harness 旋钮对 Pass@1 的影响与更换被测系统相当——并未因本次发布变得可复现。",
+      "why_not_candidate": "只有格式借鉴，没有可执行单变量与可测指标。",
+      "external_evidence": "CentificAIResearch/Duplex-World 创建于 2026-08-15T16:50:32Z，lastModified 2026-08-15T16:50:33Z，CC-BY-4.0，非门控，标注 arxiv:2608.10716。10 个文件。两项机器校验均通过：六个领域文件字节和 29,923+13,232+12,941+6,595+30,329+10,406 = 103,426，与 all.jsonl 的 103,426 完全相等；行数和 3+2+2+1+9+1 = 18，与 all.jsonl 的 18 行相等。单条为约 10KB 的完整场景规格，17 个字段，其中 decision_tree 2,566 字节、evaluation_criteria 2,459 字节；抽查的 travel 记录中 user_tools 与 required_documents 均为 null。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10716",
+        "https://huggingface.co/datasets/CentificAIResearch/Duplex-World",
+        "https://duplexworld.github.io"
+      ]
+    }
+  ]
+}

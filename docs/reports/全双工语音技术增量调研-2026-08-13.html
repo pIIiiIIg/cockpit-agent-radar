@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-13</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-13</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-13</p>
+<p>证据日期：</p>
+<ul>
+<li>项目状态快照仍是 <code>project_status/StreamingModelHarness.md</code>，生成于 2026-08-10 10:30（UTC+8）；其中最新提交实际日期为 2026-08-04，最近 H20 A/B 基准实际日期为 2026-08-03。本轮没有新的项目提交，也没有新基准。</li>
+<li><code>data/items.json</code> 的 <code>generated</code> 仍是 2026-08-12T09:30:35+08:00，与 2026-08-12 报告使用的是同一份快照：<strong>本轮 Radar 没有刷新，新增条目为 0 条</strong>。因此今日候选不是来自 Radar，而是来自对 arXiv 新投稿的直接检索（窗口为 2026-08-11 09:34 UTC 至 2026-08-13 02:30 UTC，即上一份报告证据截止之后新出现的论文）。</li>
+<li>每一条候选都先在 <code>data/items.json</code>、<code>data/explanations.json</code> 和 <code>reports/</code> 中按 arXiv ID 检索过，命中数均为 0，即都不是既有条目的镜像、改名或修订版。</li>
+<li>官方仓库、模型页与数据集页的开放状态于 2026-08-13 现场复核。</li>
+<li>本报告未使用 2026-08-13 02:30 UTC 之后的证据。论文发表日期、本轮发现日期与开放状态复核日期分别标注。</li>
+</ul>
+<p>对比基线：</p>
+<ul>
+<li><code>全双工语音技术增量调研-2026-08-12.md</code></li>
+<li>说明：main 上此前最新的已提交报告是 2026-08-10。2026-08-11 与 2026-08-12 两轮的报告只存在于各自未合并的 agent 分支上，本轮已先把它们原样恢复到主线，因此本报告可以按正常的“对比前一日”口径写作，不再重复展开 08-11/08-12 已核验过的工作（PACE、VoiceChat、Lychee-FD v4、A-PACK、OasisKV、Evo-Bench、CtrlSpeech、SemBridge、DuplexGen、flowcat）。</li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<h3>项目实测事实</h3>
+<ul>
+<li>快照没有 2026-08-04 之后的新提交，也没有 2026-08-03 之后的新 H20 基准。最新提交 <code>0a1d84e</code> 增加相位埋点、前向代价探针与紧凑回执；<code>768c60e</code>、<code>22edce8</code> 分别补齐 token/引擎耗时与车控真正落地时刻。以下数字全部沿用已记载的同一批证据，不是今天产生的结果。</li>
+<li>2026-08-03 H20 公平对照使用 <code>audio_index.jsonl</code> 中完全相同的前 100 条音频（82 条车控 + 18 条日常对话）。A/B 严格工具召回/执行成功率为 80.49%/79.27%，100 条样本下置信区间高度重叠；日常对话误车控均为 0%；RAG Recall@24 为 98.78%；ASR micro CER 6.39%。</li>
+<li>A/B 首文本 P50/P90 为 758/1,006ms 与 131/141ms；首动作为 1,094/1,440ms 与 700/850ms；首音频为 2,918/3,453ms 与 3,491/4,171ms。项目结论是 Edge TTS 而不是 Qwen 首 token 构成约 3 秒首音频的主要瓶颈。</li>
+<li>单 token 解码约 110ms，速度不随 KV 长度变化；根因定位到 HF MoE 单 token 解码时每层多次 GPU→CPU 同步（48 层 × 17 次 ≈ 816 次/token），按 config 实算 5090 理论下限约 3.0ms、H200 约 1.1ms，即实测约为 5090 下限的 36 倍。<code>DynamicCache.update()</code> 在 KV=2500 时约 0.2ms，不是同量级瓶颈。</li>
+<li>闲聊仍注入工具：6,478 条真实车控指令上要滤净闲聊需 T=5，代价是误伤 6.25% 真指令，因此保留现状。上下文引力（光场屏偶被选成副驾屏）与聚合意图展开不全都未闭环。</li>
+<li><code>probe_turn_end</code> 已有明确负面结果：<strong>让主模型自己判停不可行</strong>。这条负结果是今天第 1 节的直接前提。</li>
+<li>下一步清单仍要求：把严格工具名召回升级为“参数 + 最终车态”成功率；按 clean/20dB/音色分桶；用本地 TTS 替换 Edge TTS 单独测首音频；增加多轮跟随、打断改口与取消/补偿评测；扩到 400 个文本意图与 1,566 条语音。</li>
+<li>防重复用的既有负结果：baseline 414/452、召回 443/452；conditional top-2 verifier 离线仅触发 5 次、净修 4，已拒绝 H20；candidate-ID/CMTF 强制覆盖已否决；投机预取与工具清单压缩都是实测负优化。</li>
+<li>在办候选：<code>omnivoice-local-tts-16step-v1</code>（2026-08-10，仅离线）、<code>tool-hold-message-first-audio-v1</code> 与 <code>playback-boundary-ledger-offline-v1</code>（2026-08-12，均仅离线、<code>h20_request_allowed=false</code>）。本轮不新增候选，理由见文末。</li>
+</ul>
+<h3>问题表</h3>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>判停只能靠外部 VAD/端点，主模型自判停已被证否，且中文“该不该现在接话”没有可比基线</td><td><code>probe_turn_end</code> 负结果；100 条 A/B 是单轮 commit 口径，没有 backchannel、改口与抢话的分类指标</td><td>X2-Turn（arXiv:2608.10878）：在流式 ASR 主干上并联一个帧同步 turn-state 头，5 类状态含 <code>backchannel</code>，中文 EasyTurn 上完整句 91.00%、backchannel 96.00%、时延 288ms；其主干 Voxtral-Mini-4B-Realtime 与 Easy-Turn 测试集均为公开 Apache-2.0</td><td>先用公开的 Easy-Turn 中文测试集，按项目自己的口径（从 commit/末次人声起算）测现有端点判定的完整/未完整/backchannel 三类准确率与决策时延，建立中文判停基线；不引入 4B 侧模型</td><td>三类各自可核验；决策时延口径写明起点终点；与既有 <code>probe_turn_end</code> 负结果不冲突（判停不回到主模型）</td></tr>
+<tr><td>首音频 P50 2,918/3,491ms，本地 TTS 候选仍未离线验证，且现有候选缺流式一手数字</td><td>项目判断 Edge TTS 是主因；<code>omnivoice-local-tts-16step-v1</code> 只有整句 RTF 依据，没有首包</td><td>Luna-TTS Family（arXiv:2608.11593）在 <strong>H20</strong> 上给出流式一手数字：8 步双卡并行 CFG 下首个 1.28s 音频块 41.6ms、整句 254.0ms、端到端 RTF 0.0240；同表 OmniVoice 为 16 步 batch1 H20 RTF 0.0319</td><td>不换候选。把 <code>omnivoice-local-tts-16step-v1</code> 的验收指标从“整句可懂 + 首音频”扩展为“首包/首块、整句完成、取消后残留”三段，并要求记录 GPU 数量与是否 warmed</td><td>首包与内容首音频分别报告；同一硬件、同一 batch、同一是否预热条件下比较；不得用 41.6ms 这类引擎边界数字当项目可达基线</td></tr>
+<tr><td>严格工具名召回不足以反映参数与最终车态，且没有可重复性指标</td><td>严格召回 80.49%/79.27%，项目自标偏保守；每条样本只跑一次</td><td>DuplexWorld（arXiv:2608.10716）：3,825 次对话上 Pass@1 最高 0.490 而 Pass₃ 约为其一半；口述凭证词错率池化 17.1%；π−（欠工作量占比）与 Pass@1 的 Spearman 为 −0.85，而 SEL 为 −0.45、TT 为 −0.06</td><td>在现有回放里补三件事：同一样本多次重跑的 Pass₃ 口径、按“参数听错”单列的错误桶（车牌/电话/温度等数值）、以及每次实验附带的 harness 配置记录</td><td>Pass@1 与 Pass₃ 分别报告；参数听错与工具选错分离统计；任何“体验类”指标不得单独作为通过条件</td></tr>
+<tr><td>多乘员与重叠语音完全没有一手证据，四麦阵列收益未知</td><td>快照没有多乘员场景，也没有重叠比例统计</td><td>SLT 2026 SmartGlasses Challenge（arXiv:2608.12034）：106.98 小时中文四通道自我中心语料（8 个场景含车内），重叠均值 7.5%/13.6%、最大约 35%/45%；tcpCER 随说话人数从 3 人 15.5% 升到 6–8 人 &gt;63%；SLU 中声学类问题 &lt;65% 而语义类 &gt;90%；官方基线 Qwen3-Omni-30B-A3B 为 0.699/0.659</td><td>只做两件低成本的事：统计项目自有录音的重叠比例与说话人数分布，作为“多乘员到底有多难”的先验；把“需要声学证据才能答对”的问题单列为一个不参与主指标的观察桶</td><td>重叠比例与说话人数分布可核验；不因为“别人 106 小时能做”就把多乘员写进本阶段目标</td></tr>
+<tr><td>MoE 单 token 解码约 110ms</td><td>速度不随 KV 长度变化；约 816 次同步/token</td><td>本窗口没有任何针对 HF MoE 单 token 路由同步的新工作。RT-SEMamba（arXiv:2608.12099）的 RTF 0.11 是同一张 5090 上的降噪前端开销，属于要与主模型抢卡的新增负载</td><td>继续项目自有 <code>index_select</code>+<code>bmm</code> 无同步 fast path，与原 HF 实现在 5090/H200 跑 <code>tests/stress_multiturn.py</code></td><td>输出一致；batch=1 ms/token 显著下降；不得用降噪 RTF、PESQ 或服务吞吐替代单请求门</td></tr>
+<tr><td>回声消除与真实车内噪声下的鲁棒性没有一手依据</td><td>项目只有 clean/20dB SNR 两档合成音频，且未按档分桶归因</td><td>本窗口有两篇降噪/多麦正文（2608.12099 因果流式、2608.12082 生成式范式对比、2608.11627 多源多麦 ReTM），但<strong>没有一篇报告回声消除或扬声器泄漏的一手结果</strong></td><td>先把已有 clean/20dB 分桶归因做完（这是快照里已写明的下一步），再谈是否引入前端</td><td>分桶后 ASR 错误与模型理解错误可分离；没有 AEC 一手证据前不写任何回声消除结论</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：直接命中当前工程短板</h3>
+<ol>
+<li><strong>判停这件事今天第一次出现了“既不回到主模型、又有中文数字、又有公开可用素材”的路线。</strong> X2-Turn 的论文事实是：在预训练的流式 ASR 主干（Voxtral Realtime，80ms 一帧）上并联一个 turn-state 头，两个头共享因果解码器隐状态，推理时自回归解码只由 ASR 头驱动、turn 头的预测不回灌，因此判停错误不会污染转写。中文 EasyTurn 测试集上 τ=480ms 时完整句 91.00%、未完整 93.00%、backchannel 96.00%，时延 288ms。编辑判断：项目已经用 <code>probe_turn_end</code> 证否了“主模型自己判停”，而这篇给出的正是相反的结构——判停放在一个与对话模型解耦的旁路上。更重要的是它的两块依赖都现成可用：主干 <code>mistralai/Voxtral-Mini-4B-Realtime-2602</code> 是 Apache-2.0、非门控、支持中文；<code>ASLP-lab/Easy-Turn-Testset</code> 是 Apache-2.0、非门控、含中文 backchannel 真实音频。因此<strong>今天就能做的不是训练模型，而是用这套公开测试集给项目现有的端点判定建立中文三类基线</strong>。</li>
+<li><strong>首音频的目标值第一次有了同硬件的流式一手参照，但它改的应该是口径而不是候选。</strong> Luna-TTS Family 在 H20、BF16、batch=1、12 次预热运行取中位数、不含网络传输的条件下，报告 8 步双 H20 并行 CFG 首个 1.28s 音频块 41.6ms、整句 254.0ms、端到端 RTF 0.0240。同一张表里项目已选定的 OmniVoice 是 16 步 batch1 H20、RTF 0.0319。编辑判断：这说明“TTS 侧把首包压到百毫秒内”在 H20 上是已被别人量到过的事，项目 2,918ms 的首音频里绝大部分不是 TTS 的物理下限，而是口径与实现问题。但同样必须写清楚：41.6ms 是<strong>引擎调用到首块解码完成</strong>，项目的 2,918ms 是<strong>用户音频 commit 到用户真正听到声音</strong>，两者不可比；而且它默认配置用了两张 H20 做并行 CFG，与座舱单卡场景直接冲突。因此本轮的动作是给 <code>omnivoice-local-tts-16step-v1</code> 增加“首包/首块”这一段验收，而不是换成 Luna-TTS——它的官方项目页在 2026-08-13 复核时返回 404，没有可用的代码、权重或许可证。</li>
+<li><strong>DuplexWorld 给出了一条对本项目名字都成立的硬警告：harness 配置本身能把分数移动到和换系统一样大。</strong> 论文事实：三个配置旋钮（服务端 VAD 阈值 0.2/0.5、超步样本记零还是排除、用户模拟器换模型）造成的 Pass@1 变化分别是“部分人物完全静音”、+0.086/+0.105、0.267–0.578，而换系统本身是 0.00–0.67。在 0.5 默认阈值下，有一个合成人物在 27 次会话中触发 agent 0 次，另一个在 77 次运行中只通过 1 次，还有 67/128 次模拟是 agent 打了招呼之后就沉默。编辑判断：项目的 414/452 冻结 canary 与零退化判定必须把 harness 配置当作实验记录的一等公民——端点等待时间、VAD 阈值、超时与超步处理、样本重跑次数都要写进每次实验，否则 +1/+4 这种量级的收益完全可能是旋钮造成的。</li>
+</ol>
+<h3>P1：适合形成下一阶段架构</h3>
+<ol>
+<li><strong>“体验类指标可以靠沉默赢”这条外部证据，应该直接写进项目的评测规范。</strong> DuplexWorld 的 Nova 2 Sonic 在池化结果上 turn-taking 0.566、选择性 0.960–0.995（全表最好），而 Pass@1 只有 0.011；与 Pass@1 的 Spearman 相关中，SEL 为 −0.45、TT 为 −0.06、DNSMOS 为 −0.04，而欠工作量占比 π− 为 −0.85。论文还给出了机制：调用工具会产生静音，静音被计成时序失败，任何以时序为门的复合指标都在惩罚“动手做事”。编辑判断：这既支持项目 2026-08-12 建立的 <code>tool-hold-message-first-audio-v1</code>（用固定等待语填掉工具执行期的静音），也给出一条新的约束——项目未来若引入打断/时序类分数，必须同时报告一个“不能靠不动作赢”的量，例如按每个任务自己的参考工具调用数签名的欠工作量占比。</li>
+<li><strong>参数与凭证的听写正确率是独立的一层瓶颈，不是模型智力问题。</strong> DuplexWorld 在电话信道上量到口述凭证词错率池化 17.1%（最好 10.4%，同族蒸馏小模型 20.2%，即蒸馏把凭证错误几乎翻倍），并明确写“在这条信道上是识别而不是推理构成一阶瓶颈”。编辑判断：这与项目把严格工具名召回升级为“参数 + 最终车态”的方向同向，但把重点更往前推了一步——应该单列一个“参数听错”桶（车牌、电话、温度、座位号这类数值与专名），与“工具选错”分开统计，因为两者的修法完全不同。</li>
+<li><strong>多乘员与重叠语音先做度量、不做能力承诺。</strong> SmartGlasses Challenge 的数字给出了难度曲线：双人对话重叠均值 7.5% 时前三名 tcpCER 都能到 7% 以下（最好 5.23），而 3–8 人会议里第一名 27.95%、其余全部高于 48.92；按人数分层，均值从 3 人 15.5% 升到 4 人 31.9%、5 人 49.3%，6–8 人保持在 63% 以上。编辑判断：项目现在连自己录音的重叠比例都没统计过，先补这个分布比讨论阵列算法更有价值。另外该挑战赛的参赛系统对四通道的用法多数最终退回“四通道平均”，包括一支明确评估过 GSS 与 DPRNN 多通道分离后仍选择平均的队伍——这提示多麦收益不是自动的。</li>
+</ol>
+<h3>P2：长期研究与明确的边界</h3>
+<ol>
+<li><strong>RT-SEMamba 的形状是对的，但今天不能进项目。</strong> 它把 SEMamba 改成全因果、25ms 算法时延、1 帧进 1 帧出的流式实现，靠固定大小的循环状态而不是不断增长的 KV 缓存来支撑长时推理；蒸馏后的 1 层学生 1.05M 参数、PESQ 3.18、在单张 RTX 5090 上 RTF 0.11。编辑判断：“固定状态、无缓存增长、有界算法时延”正是座舱前端该有的形状，值得作为选型硬要求写下来。但三条边界必须同时写：它只在 VCTK-DEMAND 英文单通道上评测，没有中文、没有车内噪声、没有回声；它只报告 PESQ/CSIG/CBAK/COVL/STOI，没有下游 ASR 或工具正确率，PESQ 提升不等于 CER 提升；RTF 0.11 是与主模型抢同一张 5090 的新增开销，而项目当前的解码瓶颈是每 token 约 816 次同步。它的代码仓库在 2026-08-13 复核时是空的。</li>
+<li><strong>生成式降噪的排行榜不能当流式证据。</strong> 2608.12082 在统一实验设置下比较了六种基于神经音频编解码器隐空间的 LM 式生成降噪范式，结论是连续域全面优于离散域、总体最好的是连续非自回归（CNAR）。编辑判断：这恰好是对流式最不友好的一档——非自回归一次生成整段，天然需要完整序列。项目若日后看这类工作，必须先问“这个范式能不能因果地逐帧出音”，而不是看它的 DNSMOS/PESQ 排名。</li>
+<li><strong>回声消除仍然没有一手新增。</strong> 本窗口唯一涉及多麦克风声学量估计的正文是 2608.11627（多源多麦的相对传递矩阵深度估计），它只把 AEC 列为应用背景，语音增强结果自述为“与协方差基线相当”。因此“回声消除/扬声器泄漏”这条方向今天继续记为无重大新增、持续跟踪，不写任何推测性结论。</li>
+</ol>
+<h2>1. X2-Turn: Frame-Synchronous Dual-Head Modeling for Joint Streaming ASR and Turn State Prediction</h2>
+<p>论文（arXiv v1，2026-08-11 12:54 UTC 提交，本轮 2026-08-13 检索发现）：https://arxiv.org/abs/2608.10878</p>
+<p>主干模型（官方模型页）：https://huggingface.co/mistralai/Voxtral-Mini-4B-Realtime-2602</p>
+<p>评测集（官方数据集页）：https://huggingface.co/datasets/ASLP-lab/Easy-Turn-Testset</p>
+<h3>它是什么</h3>
+<p>X Square Robot 的一篇短论文，解决的问题是：口语对话系统必须实时区分“用户在打断”“这是可以忽略的 backchannel”“这句话说完了”，而现有做法要么在整句/固定分块粒度上判定，与“连续变化的轮次状态”粒度不匹配，要么依赖一个额外的上游 ASR 模型，既增加时延也增加系统复杂度。它的做法是在一个原生流式的 ASR 模型上并联一个帧同步的 turn-state 预测头。</p>
+<p>这不是既有工作的修订版或镜像：<code>2608.10878</code> 在 <code>data/items.json</code>、<code>data/explanations.json</code> 与 <code>reports/</code> 中均无命中。论文本身把 SoulX-Duplug、FastTurn、JAL-Turn、EasyTurn 与 FlexDuo 列为同族前作，其中 SoulX-Duplug 是项目此前记录过“只消费 result manifest、不重复启动”的 SoulX 家族名称，但这里只是被当作基线引用，不构成重启该实验。</p>
+<h3>核心方法</h3>
+<ul>
+<li>主干是 Voxtral Realtime：因果音频编码器 → 时序适配器下采样到 12.5Hz → 仅解码器语言模型，每 80ms 一步出一个 token。第 i 步解码器输入是当前音频嵌入与上一步 ASR token 嵌入之和。输出流相对输入音频有一个可配置的目标延迟 τ，通过 AdaRMSNorm 条件化，使同一个模型能在 80ms 的不同倍数上工作。</li>
+<li>双头：保留原 ASR 头，新增一个 turn-state 头，两者共享同一隐状态 h_i，损失为 L = L_asr + λ·L_turn，λ=0.1。推理时自回归解码只由 ASR 头驱动，turn 头的预测<strong>不</strong>回灌进解码循环，所以状态预测错误不会影响后续转写；两者在同一次前向里产出，不引入额外的串行推理阶段。</li>
+<li>五个状态 token：<code>&lt;|idle|&gt;</code>（静音，来自强制对齐的非语音段）、<code>&lt;|noidle|&gt;</code>（已开始说话但语义内容还不足）、<code>&lt;|incomplete|&gt;</code>（部分语义内容）、<code>&lt;|complete|&gt;</code>（语义完整）、<code>&lt;|backchannel|&gt;</code>（backchannel 或填充词）。论文明确指出它的 <code>noidle</code> 与前作定义不同——指的是话语早期而<strong>不是</strong>非语音或背景噪声，从而把真静音和话语开头分开。</li>
+<li>ASR 锚定监督：词边界 token <code>[W]</code> 的目标位置为 p_i = round(s_i/Δ) + n_τ，Δ=80ms，n_τ=τ/Δ；与原始 Voxtral 把 <code>[W]</code> 放在词尾不同，这里锚在<strong>词首</strong>，使 ASR 与状态预测都更早可用。词级状态标签被复制到该词占用的全部帧位置，未占用位置一律标 <code>&lt;|idle|&gt;</code>，包括语音前静音、词间停顿、句中停顿与尾部静音。作者据此说明第二个性质：静音被显式监督，下游交互策略可以用“<code>&lt;|complete|&gt;</code> 之后连续 idle 帧计数”来做端点判定。</li>
+<li>数据：阶段一用约 26k 小时中英 ASR 数据（中文 14k、英文 12k，含 AISHELL 1~4、AliMeeting、WenetSpeech、KeSpeech、LibriSpeech、GigaSpeech、TED-LIUM、VoxPopuli）适配延迟流协议；阶段二在中文 EasyTurn 训练子集约 126 小时 + 英文 Fisher 电话对话约 249 小时上做 ASR 与状态联合微调。词级时间戳用 Qwen3-ForceAligner，词级语义状态标签由 Qwen3.5-Plus 作为 LLM 标注器生成。两个阶段都按 batch 采样 τ ∈ 1~30 帧（80–2400ms）。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>主结果（τ=480ms）。中文 EasyTurn-zh：X2-Turn 完整句 91.00%、未完整 93.00%、backchannel 96.00%，时延 288ms；同为全流式的 SoulX-Duplug 为 77.67%/88.96%/不支持，时延 295ms；非流式级联基线 EasyTurn 为 96.33%/97.67%/91.00%，时延为 latency_vad + 263ms；Smart Turn V3 为 91.33%/60.00%/不支持，latency_vad + 24ms；Paraformer + TEN Turn 为 86.67%/89.30%/不支持，latency_vad + 204ms。英文 EasyTurn-en：X2-Turn 92.10%/84.60%，时延 225ms；SoulX-Duplug 89.33%/79.33%，205ms；SenseVoice En + TEN Turn 95.60%/76.59%，latency_vad + 57ms；Smart Turn V3 78.93%/72.24%，latency_vad + 21ms。</li>
+<li>时延定义必须原样记住：论文的 latency 是相对<strong>词尾</strong>定义的 L_i = τ − (e_i − s_i)，即状态在 s_i + τ 时刻可用，因此当词长超过 τ 时 L_i 可以为负（状态在这个词说完之前就已可用）；报告值是测试集全部词的平均。级联基线报的是推理时间加上前端 VAD 延迟 latency_vad，作者自述“并不严格等同于 L_i”。</li>
+<li>τ 消融（中文）：480ms 时完整/未完整/平均为 91.00/93.00/92.00，时延 288ms；400ms 为 88.70/94.30/91.50，208ms；320ms 为 87.33/94.00/90.67，120ms。英文 480ms 为 92.10/84.60/88.49，225ms；400ms 为 85.20/85.30/85.25，145ms；320ms 为 82.70/87.60/85.09，65ms。作者的结论是延迟收紧时准确率只轻微退化。</li>
+<li>ASR 代价（这是本节最重要的一条负面事实）。同样 480ms 延迟下，只做阶段一 ASR 适配与做完阶段二联合训练相比：AISHELL-1 由 2.57 变 3.94，LibriSpeech-clean 由 2.40 变 3.30，LibriSpeech-other 由 5.87 变 8.53，test-meeting 由 9.25 变 12.18，test-net 由 9.50 变 10.39，GigaSpeech 由 12.23 变 12.55。作者称之为“与数据集相关的退化”，并指出即便如此仍匹配或优于 Freeze-Omni（AISHELL-1 2.79、LS-clean 4.05、LS-other 10.48）。同表 Stage1 在 2400ms 延迟下可到 AISHELL-1 1.48、LS-clean 1.54。</li>
+<li>作者自陈的未来工作是“进一步平衡 ASR 与状态目标”，以及在更困难的对话设置下提升鲁棒性。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：最有价值的是结构而不是权重。项目已经用 <code>probe_turn_end</code> 得到“主模型自判停不可行”的负结果，而这篇给出的是同一问题的另一种解法——把判停放在一个与对话模型完全解耦的旁路上，而且这个旁路本身也不额外串一次推理（与转写共享一次前向）。这条结构与项目 A 方案的“音频 → ASR → 文本 RAG”并不冲突：若判停与转写来自同一次前向，A 方案的 183/248ms ASR 完成时间与判停决策就可以合并计量，而不是串行相加。</p>
+<p>编辑判断：真正今天就能落地的是评测，不是模型。<code>ASLP-lab/Easy-Turn-Testset</code> 是 Apache-2.0、非门控、中英双语、且含 <code>testset/backchannel/real/</code> 下的真实 backchannel 音频。项目可以用它给现有端点判定建立一份中文三类基线（完整/未完整/backchannel 各自准确率 + 决策时延），这一步不需要任何新模型、不改生产路径，却第一次让“判停好不好”变成可比数字。要注意把口径改成项目自己的：从 commit 或末次人声起算，而不是论文那种相对词尾、可以为负的定义。</p>
+<p>编辑判断：<code>&lt;|noidle|&gt;</code> 与 <code>&lt;|idle|&gt;</code> 的区分值得直接借用到项目的标注规范里。项目现在把“开始说话”和“静音”都交给 VAD，一旦要做打断改口与多乘员插话，就必须区分“已经开口但语义还不足以判断”和“真静音”，否则任何基于静音时长的端点策略都会在用户拖长音、犹豫或换气时误判。</p>
+<p>编辑判断：不建议把 4B 的 Voxtral Realtime 侧模型引入当前座舱推理路径。项目单卡上主模型已经有 110ms/token 的同步问题，再挂一个 4B 常驻流式模型会直接竞争显存与 SM；而且论文自己的数据显示联合训练会牺牲 ASR（480ms 下 AISHELL-1 由 2.57 退到 3.94），对项目当前 6.39% 的 ASR micro CER 是负向的。合理的顺序是先用它的测试集与状态定义把评测补齐，再讨论是否值得训练一个更小的旁路头。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>只在 EasyTurn（中文）与 Fisher（英文电话）上训练与评测，全部是通用对话，没有车控指令、车内噪声、多乘员或工具调用结果；backchannel 准确率只有中文有（英文测试集无 backchannel 划分）。</li>
+<li>时延定义相对词尾且可为负，与项目“从 commit 到决策”的口径不同；级联基线的数字不含前端 VAD 延迟，论文以 <code>latency_vad + x</code> 形式表示，因此表内跨行的时延不可直接相减比较。</li>
+<li>词级语义状态标签由 Qwen3.5-Plus 生成，没有报告人工校验或标注者一致性；论文也没有报告打断后的停止时延、残留音频或抢话响应时间。</li>
+<li>联合训练的 ASR 退化是作者承认的、且被称为“与数据集相关”，没有给出补偿方案。</li>
+<li>开放状态（2026-08-13 复核）：论文公开（arXiv v1）。PDF 内除自身 arXiv 链接外没有任何项目页、代码或权重链接；在 Hugging Face 上以 <code>x2-turn</code>、<code>x2robot</code>、<code>X-Square</code> 检索均未找到 X2-Turn 的模型或数据集条目（<code>x-square-robot</code> 组织下是机器人相关模型）。因此<strong>X2-Turn 本身的代码、权重与许可证记为未知</strong>。可用的是它的两块依赖：主干 <code>mistralai/Voxtral-Mini-4B-Realtime-2602</code> 为 Apache-2.0、非门控、语言标签含 zh；<code>ASLP-lab/Easy-Turn-Testset</code> 为 Apache-2.0、非门控、中英双语。本轮没有运行任何相关代码。</li>
+</ul>
+<h2>2. Luna-TTS Family Technical Report</h2>
+<p>论文（arXiv v1，2026-08-12 02:55 UTC 提交，本轮 2026-08-13 检索发现）：https://arxiv.org/abs/2608.11593</p>
+<p>论文中给出的项目页：https://vuilabs-ai.github.io/luna-tts （2026-08-13 复核返回 HTTP 404）</p>
+<h3>它是什么</h3>
+<p>VUI Labs Research 的技术报告，针对的是自回归 codec 语言模型式 TTS 的三个结构性代价：时延随句长增长、误差沿已提交前缀累积、以及在本无顺序的 RVQ token 网格上强加左到右的生成顺序。它提出的是一个扩散语言模型式的 TTS 家族，在 100 万小时中英日韩语音上预训练，由一个预训练的自回归文本 LLM 逐步改造而来（因果 → 双向 → 块因果），共享同一 tokenizer、数据流水线与 0.6B 主干谱系。</p>
+<p>对项目而言这条工作的分量在于：它是本窗口唯一在<strong>与项目基准同型号硬件（H20）</strong>上给出流式首块时延与整句时延的 TTS 一手报告，而项目当前最确定的瓶颈正是首音频。</p>
+<h3>核心方法</h3>
+<ul>
+<li>Luna-TTS（离线档）：完全非自回归，预测目标时长后一次性初始化整个 RVQ token 画布，用固定步数的并行精修解出全网格；零样本音色克隆与语音编辑天然表现为 infilling。</li>
+<li>Luna-TTS Realtime（流式档）：由 Luna-TTS 继续训练得到，跨块自回归、块内并行去噪，块大小固定为 32 个 codec 帧（1.28 秒）。文本、内联控制与参考条件只 prefill 一次，随后逐块生成，每块完成即解码并提交进 KV 缓存，因此在后续内容还在生成时就能返回音频；终止由学习到的 EOS 决策给出，另有可配置的最大长度作为服务兜底。</li>
+<li>无分类器引导（CFG）既可在单卡上串行执行，也可把条件与无条件两支拆到两张卡上并行；论文声明并行实现产出<strong>完全相同</strong>的声学 token 与波形字节。</li>
+<li>另有一个退火微调阶段加入情感与非言语发声的显式控制，以及一个在实际去噪轨迹上计算策略比的 GRPO 强化学习阶段。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>H20 服务性能（BF16、batch=1、同一条 Seed-TTS-Eval 中文请求、12 次预热运行取中位数、<strong>不含网络传输</strong>；首块时延定义为从引擎调用到第一个 32 帧即 1.28 秒声学块生成并解码完成）：</li>
+<li>Luna-TTS 32 步单卡全网格：首块/整句 419.6ms，RTF 0.0410。</li>
+<li>Luna-TTS 16 步单卡全网格：216.0ms，RTF 0.0211。</li>
+<li>Realtime 16 步单卡串行 CFG：首块 98.9ms，整句 837.7ms，RTF 0.0790。</li>
+<li>Realtime 16 步双卡并行 CFG：首块 63.8ms，整句 451.4ms，RTF 0.0426。</li>
+<li>Realtime 8 步单卡串行 CFG：首块 59.6ms，整句 457.6ms，RTF 0.0432。</li>
+<li>Realtime 8 步双卡并行 CFG：首块 41.6ms，整句 254.0ms（10.6 秒波形），RTF 0.0240。作者以此为默认的时延优化部署。</li>
+<li>与公开 TTS 的 RTF 对照（各行保留原文报告的配置与硬件）：Luna-TTS 16 步单 H20 为 0.0211；Realtime 8 步双 H20 为 0.0240；Fast F5-TTS 7 步 EPSS RTX 3090 为 0.0300；<strong>OmniVoice 16 步 batch1 H20 为 0.0319</strong>；ZipVoice 16 NFE H20 为 0.0557；VoxCPM2 加速服务 RTX 4090 约 0.13；Spark-TTS 0.5B 并发 1 L20 为 0.1362；F5-TTS 原始模型 0.15；Fish Audio S2（SGLang-Omni，H200）0.195；Qwen3-TTS-25Hz 0.6B 并发 1 为 0.234。</li>
+<li>与公开“首输出时延”的对照（原文均为各来源公布值）：Luna-TTS Realtime 双 H20 不含网络 41.6ms；Cartesia Sonic 3.5（H100、并发 1）50ms；ElevenLabs Flash v2.5 约 75ms（不含应用/网络）；Hume Octave 2 约 100ms（不含网络）；PlayHT Play 3.0 Mini 190ms；Deepgram Aura-2 小于 200ms；VibeVoice-Realtime 约 300ms。</li>
+<li>零样本质量（Seed-TTS-Eval，中文 CER 用 Paraformer-zh、英文 WER 用 Whisper-large-v3、SIM 为 WavLM-large 说话人验证嵌入余弦）：Luna-TTS 为 zh CER 0.73 / zh SIM 79.7 / en WER 1.49 / en SIM 76.8，四列均为表内最好；Luna-TTS Realtime 为 1.08/76.9/1.81/73.4；对照 OmniVoice 为 0.84/77.7/1.60/74.1，MiniMax-Speech 0.83，Qwen-Audio-3.0-TTS 0.84，Seed-TTS 1.12，CosyVoice 3 1.12。</li>
+<li>CV3-Eval（官方工具打分，四语种各 500 条，hard 子集单列）：Luna-TTS 为 zh 3.17、en 3.18、ja 5.00、ko 5.93、四语平均 4.32、hard-zh 6.90、hard-en 6.18；Luna-TTS Realtime 为 3.62/4.06/6.36/5.76、平均 4.95、hard-zh 12.56、hard-en 13.98；<strong>作者用官方工具重新评测的 OmniVoice 为 zh 3.89、en 4.57、ja 7.24、ko 11.80、平均 6.88、hard-zh 11.98、hard-en 19.69</strong>；同样重新评测的 Qwen3-TTS-12Hz-1.7B-Base 为 3.19/3.92/5.00/4.63、平均 4.18；Qwen-Audio-3.0-TTS 保持最好的四语平均 4.17。</li>
+<li>作者自陈的限制：四语种中韩语最弱（CV3-Eval CER 5.93，训练混合里韩语只占 6.9%）；语言覆盖远窄于大规模多语系统；Luna-TTS 依赖外部时长预测器先定帧数；Realtime 的 1.28 秒块大小是为流式效率固定的、不随内容自适应，且在 CV3-Eval 的 hard 子集上与离线档差距最明显。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：这条工作对项目最直接的作用是<strong>给首音频这件事装上正确的刻度</strong>。项目现在只有一个 2,918/3,491ms 的端到端数字，而 TTS 侧真正决定“用户多快听到第一声”的是首包/首块时延，不是整句 RTF。既有候选 <code>omnivoice-local-tts-16step-v1</code> 的依据只有整句 RTF（论文报告 10 秒音频 RTF 0.0319，无 TTFA），本轮不换候选，但应该把它的验收拆成三段分别记录：首包/首块、整句完成、取消或打断后的残留。</p>
+<p>编辑判断：第二条是给项目提供了一份可引用的第三方再评测。Luna-TTS 的作者用官方工具在 CV3-Eval 上重新评测了 OmniVoice，得到四语平均 6.88、hard-zh 11.98、hard-en 19.69、韩语 11.80。这与 OmniVoice 自己报告的 Seed-TTS-Eval 数字（zh CER 0.84）并不矛盾——两者是不同基准、不同难度——但它说明<strong>在长而不规则的真实文本上，OmniVoice 的退化幅度明显大于同表其它系统</strong>。对项目的含义是具体的：车控口播里既有短确认语也有长播报，离线单变量评测必须包含一批长句与不规则文本，否则会高估候选。</p>
+<p>编辑判断：第三条是硬件与并行度必须写进记录。Luna-TTS Realtime 的 41.6ms 首块来自 8 步 + <strong>双 H20</strong> 并行 CFG；同样 8 步在单卡串行 CFG 下首块 59.6ms、整句 457.6ms。这与项目在 Lychee-FD 上已经记下的教训同源（低时延依赖跨 GPU 并行）：任何引用别人 TTS 时延的地方，都要连同 GPU 数量、步数、是否预热、是否含网络一起写。</p>
+<p>编辑判断：不建议把 Luna-TTS 列为候选。它的项目页在复核时 404，未找到代码、权重或许可证；报告里的服务栈（vLLM-Omni）也没有对应的公开制品。没有可获取的权重，“RTF 0.0240”对项目就只是一个目标刻度，不是一条可执行路径。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>全部时延数字是“warmed local serving protocol”下的中位数且不含网络传输，与项目“commit → 用户听到声音”的口径不可直接比较。</li>
+<li>首块 1.28 秒是固定块长，不随内容自适应；这意味着在很短的确认语（例如“已为您打开”）上，块粒度可能反而不经济，论文没有给出短句场景的数字。</li>
+<li>流式档在 hard 子集上退化明显（hard-zh 12.56 对离线 6.90，hard-en 13.98 对 6.18），作者归因于文本长而不规则且提示音频质量更低。</li>
+<li>没有报告打断/取消后的残留音频、被截断重说的能力，也没有车内噪声或多说话人条件。</li>
+<li>开放状态（2026-08-13 复核）：论文公开。论文首页给出的官方项目页 <code>https://vuilabs-ai.github.io/luna-tts</code> 返回 HTTP 404；报告正文与结论中没有代码或权重发布声明；未找到官方仓库、模型页或许可证。因此<strong>代码、权重、数据与许可证全部记为未知</strong>，本报告只引用其正文数字，不做任何可获取性判断。</li>
+</ul>
+<h2>3. DuplexWorld: Can voice agents help you get through the day?</h2>
+<p>论文（arXiv v1，2026-08-11 09:34 UTC 提交，本轮 2026-08-13 检索发现）：https://arxiv.org/abs/2608.10716</p>
+<p>官方项目页：https://duplexworld.github.io</p>
+<h3>它是什么</h3>
+<p>Centific Global Solutions 与马里兰大学的语音 agent 基准。它的立场是：现有基准大多把语音 agent 评测做成“对着数据库做工具调用”的测试，既不覆盖日常活动带来的对话多样性，也不检验超出数据库操作的任务。DuplexWorld 给出六个“世界”（银行、保险、旅行、医疗、物流，以及一个新的导航世界 Pathfinding），11 种对话类型，156 个自撰场景（其中 144 个承载论文全部数字），3,825 次计分对话，约 350+ 小时（附录记为 387 小时模拟语音）。</p>
+<p>对本项目来说，它的价值不在排行榜，而在三件方法论：harness 配置的敏感度、哪些指标可以被“不动作”赢、以及口述参数的识别错误率。</p>
+<h3>核心方法</h3>
+<ul>
+<li>每个 episode 把一个语音 agent 与一个模拟用户配在一个世界里跑有限的 tick。世界暴露状态 s、工具接口与计分终止条件；agent 只感知音频与工具返回，只输出音频与工具调用；结束时按与场景一同撰写的黄金状态 s* 计分，因此成功是世界的属性而不是转写的属性。</li>
+<li>五个企业世界里记录只通过 agent 的工具调用变化；Pathfinding 里世界只随行人的物理动作变化，agent 只能用语言影响，因此<strong>双方都沉默时状态也会变</strong>，在 tick t 计划好的一句话到 t+k 落地时可能已经过时。</li>
+<li>harness：模拟时间按 200ms 一个 tick 推进，模型时延不改变事件位置，因此快慢系统产生可比轨迹；工具结果在下一个 tick 交付，音频不会因工具时延而停顿。用户模拟器为 gpt-5.6-luna；在“realistic”信道上另有一个决策模型 claude-haiku-4.5 以固定节奏回答“该不该打断”“该不该 backchannel”，clean 信道禁用打断与 backchannel。轮次控制完全在用户侧，agent 从不被告知任何阈值。基础设施故障重跑且不计分，agent 无响应是有效的计分终态。</li>
+<li>统一配置：语速复杂度 regular（干扰事件 0.7 次/分）、步上限与墙钟超时均 1200 秒、<strong>服务端 VAD 阈值 0.2</strong>、固定随机种子、每场景固定人物。两条信道都是 G.711 µ-law 8kHz 电话音质，realistic 额外叠加录制噪声、突发噪声、丢帧、闷音与插入语。每场景每系统每信道跑 5 次。</li>
+<li>十二个指标分三个支柱且不做任何复合：对话动态（turn-taking TT、对话推进 CP、选择性 SEL）、agent 能力（目标状态 GS、Pass@1/Pass@3/Pass₃、过工作量比 ϱ+ 与欠工作量占比 π−）、自然度（忠实度 FAI 与 DNSMOS/UTMOS/NISQA 三个无参考 MOS 预测器）。被评系统是五个商用实时 S2S 服务（Nova 2 Sonic、Gemini-3.1-Flash-Live、GPT-Realtime-2.1 及其 mini、Grok Voice Think Fast 1.0）。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>六世界池化的 agent 能力：Grok Voice Think Fast 1.0 领先（Pass@1 0.490、GS 0.779），GPT-Realtime-2.1 为 0.433，Gemini-3.1-Flash-Live 0.398，GPT-Realtime-2.1-mini 0.188，Nova 2 Sonic 0.011。同一个系统（GPT-Realtime-2.1）在只有题材不同的世界之间从银行 0.200 跨到旅行 0.674，而系统间排序几乎不动。可靠性衰减很快：两名领先者的 Pass₃ 约为 Pass@1 的一半，mini 不到三分之一。</li>
+<li>对话动态不复现同一顺序：GPT-Realtime-2.1 的 turn-taking 最好（池化 0.653），Grok 的对话推进最好（1.814），而在奖励上排第三的 Gemini-3.1-Flash-Live 在 turn-taking 上垫底（0.388），原因是它为调用工具而停顿。最尖锐的分离是 Nova 2 Sonic：turn-taking 0.566、选择性在每个世界都是最好（0.960–0.995），而 agent 能力一栏接近全零。</li>
+<li>自然度区分度最低：五个系统 DNSMOS 都落在 3.13–3.40，而两个 MOS 领先者（GPT-Realtime-2.1 与其 mini）在奖励上差 2.3 倍。池化最好的 DNSMOS 是 3.378。</li>
+<li>失败模式：企业世界里参与型系统是“做太多”——在 50–83% 的对话中超过理想工作量，过工作量比 1.7–3.0，其中旅行世界最严重（该世界最常见的正确答案恰恰是什么都不做）；脱离型系统相反，在 58–95% 的企业对话中低于工作量。Pathfinding 里模式反转：最强的系统超工作量（Gemini 在 80% 的对话中超预算却最常到达），弱系统欠工作量，因为丢了行人位置的副驾就停止发指令。</li>
+<li>指标与奖励的关联（25 个“企业世界 × 系统”格子上与 Pass@1 的 Spearman 秩相关）：Pass₃ +0.96、CP +0.83、GS +0.77、FAI +0.58、UTMOS +0.49、NISQA +0.29、DNSMOS −0.04、TT −0.06、SEL −0.45、<strong>π− 为 −0.85</strong>（只看四个参与型系统时 −0.73）。作者据此建议：在每个完成度分数旁边都报告欠工作量占比，因为它按任务自己的参考工作量签名，不能靠沉默赢。</li>
+<li>口述凭证识别：GPT-Realtime-2.1 最好，电话信道上凭证词错率 10.4%；Grok 14.4%、Gemini 15.5%、mini 20.2%（即同族蒸馏几乎让凭证错误翻倍）；Nova 2 Sonic 的 33.3% 只在它真的尝试过凭证的少数通话上测得。池化约每六个口述凭证有一个听错（17.1%），作者称这为每个系统的身份核验设了一条下限，并明确写“在这条信道上是识别而不是推理构成一阶瓶颈”。</li>
+<li>harness 旋钮（三个，作者称任何已发表语音基准都没有报告过）：VAD 阈值 0.2/0.5 —— 在 0.5 默认值下部分合成人物实际不可闻，一个人物在 27 次会话中 0 次触发 agent，另一个在 77 次运行中只通过 1 次，还有 67/128 次模拟是 agent 打过招呼后沉默，阈值降到 0.2 后该效应基本消失；步上限样本计零还是排除 —— 两个系统的池化 Pass@1 相差 +0.086 与 +0.105；用户模拟器换模型 —— 三个模型之间 0.267 到 0.578。作为参照，换系统本身是 0.00 到 0.67。</li>
+<li>双工现象审计（作者自印）：harness 诱发了用户侧固定节奏打断、backchannel、重叠语音、长时静默与话中修正，但指标只覆盖其中一部分——backchannel 的质量与位置、重叠语音的韵律、以及 agent 话中修正是否流畅都<strong>被诱发但不被计分</strong>。作者据此说明为什么动态要作为独立支柱而不是折进奖励。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：第一条是给项目的实验记录加一列。三个 harness 旋钮造成的分数变化与换系统同量级，这意味着项目每次报告 414/452 canary 或错误桶结果时，都必须同时固化并记录：端点等待时间、VAD/静音阈值、超时与超步样本的处理方式（记零还是排除）、每条样本的重跑次数、以及模拟或回放侧使用的模型版本。没有这一列，+1/+4 的收益与旋钮漂移无法区分。</p>
+<p>编辑判断：第二条是给“体验类指标”设护栏。项目接下来要做打断、取消与补偿评测，很自然会引入停止时延、接管率之类的时序分数。本文的数据显示这类分数可以被“不动作”赢下（Nova 2 Sonic 的选择性 0.960–0.995 与 turn-taking 0.566 配着 Pass@1 0.011），而 SEL 与 Pass@1 的相关是 −0.45。因此项目的规则应该写成：任何时序或选择性指标必须与一个按任务参考工作量签名的“欠动作”量一起报告，单独出现不构成通过。</p>
+<p>编辑判断：第三条与 2026-08-12 已建立的 <code>tool-hold-message-first-audio-v1</code> 直接互证，并给它补上了机制。本文写明“调用工具会产生静音，静音被计成时序失败，任何以时序为门的复合指标都在惩罚动手做事”，并用 Gemini（工具调用多、TT 最差）与 Nova（几乎不动作、TT 尚可）两端佐证。这说明工具执行期的固定等待语不只是“听起来更顺”，它修的是一个会被时序指标系统性惩罚的真实缺口。</p>
+<p>编辑判断：第四条是把“参数听错”单列成桶。池化 17.1% 的凭证词错率、以及同族蒸馏把 10.4% 推到 20.2% 这两个事实，对项目的映射很具体：车牌、电话号码、温度值、座位与排号这类内容一旦听错，工具名可能完全正确而最终车态错误。项目把严格工具名召回升级为“参数 + 最终车态”时，应该把数值/专名类参数单独统计，并在换任何更小的 ASR 或更小的模型时重测这一桶。</p>
+<p>编辑判断：第五条是可靠性。Pass₃ 约为 Pass@1 的一半，而项目现在每条样本只跑一次。在做 +1/+4 量级的判定时，单次运行的方差可能就吃掉了收益；引入“同一样本多次重跑全部通过”的口径比继续加样本更省算力。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>全部为英文，且用户语音是合成的（作者明确说明没有录制、征集或回放任何真人语音），因此关于口音与不流畅的结论受限；作者自陈可用的真实语音语料没有带可验证终态的目标导向任务。</li>
+<li>工具是零时延的声明式 mock，奖励是二值无部分分；GS 在“黄金终态等于初始种子状态”的场景里可以被不动作通过（作者自列）。</li>
+<li>判定用的 LLM judge（gpt-5.2、claude-opus-4.6、grok-4.3）与 MOS 预测器都没有在本语料上重新对人评校验，因此作者强调所报关联是“自己的指标之间”的关联，不是指标与人的关联。</li>
+<li>Pathfinding 的头条格子只有 45 次对话（企业世界每格 135 次），且 450 次对话中有 215 次在步上限处结束，还有一个供应商的会话上限对该系统的格子构成截断。</li>
+<li>全部数字来自付费商用实时 API，作者给出 387 小时模拟语音的规模以便他人预估复现成本。</li>
+<li>开放状态（2026-08-13 复核）：论文公开。论文附录写明“我们以研究用途发布场景语料、标注与评测代码，数据 CC BY 4.0、代码 MIT”，并写明所继承的 τ-bench/τ²-bench harness 为 MIT、DNSMOS 与 UTMOS 代码为 MIT、NISQA 代码 MIT 但预训练权重为 CC BY-NC-SA 4.0。但现场只找到项目站点 <code>duplexworld.github.io</code>（仓库 <code>duplexworld/duplexworld.github.io</code>，188 个条目，内容是音频样例、结果与说明页面，无 LICENSE 文件），<strong>未找到承载场景语料、标注与评测代码的官方仓库</strong>。因此其数据/代码的实际可获取性记为未知，上述许可证只是论文文本的声明。本轮没有运行其任何代码。</li>
+</ul>
+<h2>4. The SLT 2026 SmartGlasses Challenge：自我中心多说话人中文语音</h2>
+<p>论文（arXiv v1，2026-08-12 13:18 UTC 提交，本轮 2026-08-13 检索发现）：https://arxiv.org/abs/2608.12034</p>
+<p>官方挑战赛站点：https://aslp-lab.github.io/SmartGlasses</p>
+<p>官方评测工具仓库：https://github.com/ASLP-lab/Smart-Glass-Challenge</p>
+<h3>它是什么</h3>
+<p>西北工业大学 ASLP 与华为、AIShell、上海交大、南京大学、中科大、南洋理工、Rokid 等合办的 IEEE SLT 2026 挑战赛报告。它面向的是“可穿戴设备上的自我中心多说话人语音”：设备随人移动，声学环境多变，存在说话人重叠，且以佩戴者为中心的录音几何带来空间歧义。两个赛道（双人对话理解、多人会议理解）都同时评测带时间戳的说话人归属 ASR（TSA-ASR）与口语理解（SLU）。</p>
+<p>它进入本报告的理由是：这是目前为止最接近座舱多乘员条件的<strong>中文</strong>一手数据与结果——八个场景里明确包含车内（vehicle cabins），录音硬件是四通道 MEMS 麦克风阵列，且 SLU 题目按“需不需要声学证据”做了 1:1:1 的分层。</p>
+<h3>核心方法与数据</h3>
+<ul>
+<li>硬件：定制智能眼镜，四个 MEMS 麦克风分置左右镜腿，构成固定的离口佩戴几何，四通道同步 16kHz/16bit 录制。</li>
+<li>采集：“提纲引导的自发对话”协议——用 LLM 生成的提纲指定角色、交际目标与关键语义事件，但不规定具体话语，因此保留了打断、重叠、重复与犹豫等自然现象，同时保证语义复杂度足以出题。全部录音取得知情同意，仅收录同意数据。</li>
+<li>标注：TextGrid 格式，逐句给出假名说话人 ID、时间戳与中文转写，经两轮交叉校验。SLU 为四选一单选题，按声学类 / 语义类 / 声学-语义联合类 1:1:1 构造；候选题先由 LLM 起草再人工对照录音核验，测试集另加两轮人工复核。发布前做去标识化。</li>
+<li>规模：106.98 小时、714 个会话、88 名说话人（42 男 46 女，19–34 岁）。赛道一 518 段双人对话共 44.95 小时（平均 312.4 秒/段，八个日常场景含家庭、餐厅、商场、街道与车内）；赛道二 196 场会议共 62.03 小时（平均 1139.3 秒，3–8 人）。评测集含 3,509 道 SLU 单选题（赛道一 1,560、赛道二 1,949）。</li>
+<li>指标：TSA-ASR 用时间约束的复音字错率 tcpCER（时间容差 5 秒）；SLU 用准确率。</li>
+<li>赛制约束：TSA-ASR 需端到端大模型联合完成转写与说话人归属（允许前端辅助处理）；SLU 必须由直接消费音频（或音频+文本）的音频语言模型完成，不允许纯文本级联；单任务系统可学习参数上限 35B；外部数据与模型须为公开可获取并披露；头名需官方复现。</li>
+<li>重叠统计：赛道一重叠均值 7.5%、赛道二 13.6%，高重叠会话最大分别约 35% 与 45%。赛道二按人数看，重叠均值从 3 人 3.9% 升到 8 人 28.1%（非严格单调），且分布随人数增多而更分散。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>参赛：15 支队伍最终提交，TSA-ASR 12 份有效、SLU 9 份有效。</li>
+<li>TSA-ASR：赛道一前三名 tcpCER 分别为 5.23%、6.22%、6.57%，官方基线 VibeVoice-ASR 为 18.67%。赛道二第一名 27.95%，其余全部高于 48.92%，官方基线 57.81%。对两个赛道都评测的系统，性能一致地从赛道一退化到赛道二。</li>
+<li>按重叠比例分层：赛道一均值从 0–5% 区间的 8.6% 升到 &gt;15% 区间的 14.2%，分布相对紧凑；赛道二在 &gt;20% 区间均值达 69.2%，且分布更分散。</li>
+<li>按说话人数分层（赛道二测试集）：均值从 3 人 15.5% 升到 4 人 31.9%、5 人 49.3%，6–8 人保持在 63% 以上，且高基数会议的分布明显更宽、出现多个高错误离群点。</li>
+<li>SLU：赛道一前两名准确率高于 83%，最好 0.888；赛道二前三名高于 84%，最好 0.930。论文表中的官方基线为 Qwen3-Omni-30B-A3B，赛道一 0.699、赛道二 0.659。</li>
+<li>按题型分解：所有被评系统在语义类题上准确率最高、联合类次之、声学类最低；赛道二里有系统语义类超过 90% 而声学类低于 65%。作者据此说明当前系统处理内容类理解明显比依赖细粒度声学证据的题目更稳。</li>
+<li>头名系统构成（来自系统描述而非受控消融，作者明确提醒不可当因果解释）：TSA-ASR 与 SLU 双榜第一的 hfchen 采用 MOSS Transcribe Diarize 架构，把 Whisper-large-v3 声学编码器接到 Qwen3-8B 解码器上统一预测说话人标签、时间戳与转写，并在外部多说话人数据上继续做音频-文本预训练；其 SLU 系统改用 MOSS-Audio-8B-Thinking。其他系统的主干包括 SoulX-Transcriber、Qwen3-Omni、VibeVoice-ASR、WavLM 编码器与 MoE 组件。</li>
+<li>四通道的用法差异很大：有队伍只用单通道，有队伍把四通道直接平均，也有队伍研究波束形成或分离来构造输入。论文点名 kyousuke 评估过四通道平均、GSS 引导源分离与 DPRNN 多通道分离，<strong>最终提交采用的是通道平均</strong>。</li>
+<li>作者的总结：高转写保真度并不自动带来稳健的语音理解；开放方向包括稳健空间建模、长上下文音频推理与更强的声学-语义对齐。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：最有用的是难度曲线，而不是排行榜。项目至今没有任何多乘员一手证据，很容易把“多乘员交互”当成一个可以顺手加上的功能。这份结果给出的量化边界是：双人、重叠约 7.5% 时中文 tcpCER 可以到 5–7%；一旦到 5 人，最好的系统也退到约 49%，6 人以上超过 63%。座舱的现实是 2–5 人，因此正确的下一步是先统计项目自有录音的重叠比例与人数分布，用这条曲线判断哪一段是可做的。</p>
+<p>编辑判断：第二条是“声学证据类问题”应该单列成不参与主指标的观察桶。这份挑战赛的分解（语义类 &gt;90% 而声学类 &lt;65%）与项目 2026-08-11 报告里已记录的反事实审计结论（多数音频语言模型在原生逐条副语言判断上接近随机，含 Qwen-2.5-Omni-7B 的 50.0/47.1）指向同一件事。项目可以在现有 452 条基准里挑一小批，标注“这道题必须听出语气/语速/事件声才能答对”，作为长期观察桶，但不得把它折进工具正确率。</p>
+<p>编辑判断：第三条是对多麦克风的预期要降温。多数参赛系统对四通道的处理最终退回“平均”，包括明确试过 GSS 与 DPRNN 多通道分离仍选择平均的队伍。对项目的含义是：如果未来考虑车内多麦阵列，必须把“单通道 vs 通道平均 vs 分离/波束”当作一个单变量对照来测，而不是假定阵列自然带来收益。</p>
+<p>编辑判断：第四条是官方基线的可比性。论文表中 Qwen3-Omni-30B-A3B 的 SLU 基线是 0.699/0.659，与项目在用的 Qwen3-Omni 属同一家族。这是外部对该家族在中文多说话人长上下文理解上的一个参考点，但它是选择题准确率，与项目的工具选择/参数/最终车态完全不同源，不能互相换算。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>任务是转写与选择题理解，没有工具调用、车控执行、判停时延、打断或 TTS，任何毫秒级交互结论都不能从这里推出。</li>
+<li>录音硬件是眼镜镜腿上的固定四麦几何，与车内麦克风布置的空间关系不同；车内只是赛道一八个场景之一，论文没有给出车内子集的单独数字。</li>
+<li>表内的 tcpCER 都是离线整段评测，不是流式；赛道二平均 19 分钟一段，与座舱单轮交互的时间尺度差两个量级。</li>
+<li>系统构成的观察来自参赛系统描述而非受控消融，作者已明确提醒不可当因果解释。</li>
+<li>开放状态（2026-08-13 复核）：论文公开，挑战赛站点在线（含 Data、Evaluation、Registration、Leaderboard 等栏目，注册走 Google 表单与腾讯文档表单，排行榜托管在 Codabench）。官方评测工具仓库公开但很小：6 个文件（README、<code>run.sh</code>、<code>example/</code> 下的评分示例与一份 VibeVoice 微调示例），<strong>无 LICENSE 文件</strong>，最后一次推送为 2026-06-16。数据集本身没有在仓库或站点上给出直接下载链接，获取方式为注册申请，<strong>语料的许可证与可否用于商业评测记为未知</strong>。</li>
+<li>需要如实记录一处论文与仓库口径不一致：论文表 IV 的官方 SLU 基线为 Qwen3-Omni-30B-A3B 赛道一 0.699、赛道二 0.659；而仓库 README 的基线表写 Qwen2.5-Omni 为 63.13/54.37、Qwen3-Omni 为 74.49/75.08，且未说明所用划分（dev 还是 test）。本报告不替作者裁定，引用时以论文表格为主并标注该差异。另需注意仓库 README 报告的是 DER/cpWER/tcpWER，而论文报告的是 tcpCER，字级与词级口径不同，两处数字不可直接比较。</li>
+</ul>
+<h2>5. RT-SEMamba: Real-Time Speech Enhancement Mamba via Progressive Knowledge Distillation</h2>
+<p>论文（arXiv v1，2026-08-12 14:21 UTC 提交，本轮 2026-08-13 检索发现）：https://arxiv.org/abs/2608.12099</p>
+<p>论文声明的代码地址：https://github.com/RoyChao19477/RT-SEMamba （2026-08-13 复核为空仓库）</p>
+<h3>它是什么</h3>
+<p>中研院、台大、恩纳科雷大学、巴勒莫大学与 NVIDIA 的合作工作。它把此前非因果、离线评测的 SEMamba 改造成严格流式的因果模型，并用渐进式知识蒸馏把 8 层教师压成 1 层学生。它进入本报告的理由是：这是本窗口唯一一篇<strong>同时满足“全因果、有界算法时延、给出同型号 GPU 上 RTF”</strong>的降噪正文，而项目的降噪/AEC 方向已经连续多日无一手新增。</p>
+<h3>核心方法</h3>
+<ul>
+<li>在复数 STFT 域工作：因果 STFT/iSTFT，16kHz、窗长 400、跳步 100、<code>center=False</code>，因此算法时延被一个窗界定为 <strong>25ms</strong>，且不额外做频谱归一化。</li>
+<li>全因果化的具体改动：编码器与解码器的所有时间卷积改为非对称因果填充（左侧补 K−1 个零、右侧不补，句首缺失的过去上下文用零填充）；把 <code>InstanceNorm2d</code> 换成沿时间轴因果填充的逐通道 LayerNorm；在每个 cTF-Mamba 块后插入一个 MLP 以增强逐帧建模能力。时间方向的 Mamba 改为单向无前瞻，而<strong>每一帧内沿频率轴的序列建模仍是双向的</strong>。</li>
+<li>流式推理是 1 帧进 1 帧出，跨时间步传递三组状态：因果时间卷积所需的前 K−1 帧特征缓冲、SSM 前置深度可分离 1D 卷积的内部缓冲（最近 d_conv−1 步）、以及选择性状态空间模型的循环隐状态。因此每帧的计算与内存与序列长度基本无关，不重算历史帧。</li>
+<li>蒸馏：教师为 8 层、学生为 1 层，教师冻结，学生的编码器/解码器与单个 TF-Mamba 块用教师权重初始化。输出级蒸馏对幅度、相位、复数谱三项做 L2 对齐（权重 1.0/0.3/0.5）；中间特征蒸馏把教师 8 个块的输出按均值聚合后逐样本归一化再对齐。蒸馏信号用 γ(k)=min(k/K_ramp, 1) 渐进引入，K_ramp 为总步数的 10%，λ_out=0.5、λ_feat=0.1。</li>
+</ul>
+<h3>论文结果</h3>
+<ul>
+<li>数据：VCTK-DEMAND（VoiceBank-DEMAND），28 名说话人与 10 类 DEMAND 噪声在 0/5/10/15dB 下混合共 11,572 对训练样本；测试集为 2 名未见说话人与 5 类未见噪声在 2.5/7.5/12.5/17.5dB 下的 824 条。全部重采样到 16kHz。</li>
+<li>深度与流式代价：参数从 1 层 1.05M 到 8 层 2.74M，MACs 从 20.56 到 47.35 G/s，<strong>稳态 RTF 从 0.11 到 0.29（在单张 NVIDIA RTX 5090 上预热后测得）</strong>。质量上 1 层 PESQ 3.06、2 层 3.19、3 层 3.20、4 层 3.29、5 层 3.27、8 层 3.32，即 1→2 层收益最大，之后边际递减，5 层不再优于 4 层。</li>
+<li>蒸馏效果：1 层学生 PESQ 由 3.06 提升到 3.18，2 层由 3.19 到 3.22。按论文定义的 gap 回收率，1 层学生在 PESQ、CSIG、CBAK、COVL 上分别回收了教师-学生差距的 46.2%、19.2%、63.6%、34.5%。关键是这些提升<strong>不增加流式成本</strong>：蒸馏后的 1 层仍保持 0.11 的 RTF。</li>
+<li>与既有因果/实时模型的对照（同一 VCTK-DEMAND，16kHz；各行时延为对应工作自报的算法时延）：RT-SEMamba 8→1 层为 PESQ 3.18、1.05M、25ms；8→2 层 3.22、1.29M、25ms；8 层 3.32、2.74M、25ms；对照 DeepFilterNet3 3.17（2.13M、40ms）、FRCRN 3.21（6.90M、30ms）、aTENNuate base 3.27（0.84M、46.5ms）、DeepFilterNet2 3.08（40ms）、LiSenNet 3.07（0.037M）、DEMUCS 2.93（40ms）。</li>
+<li>教师架构搜索：把 5 层里的第 4 块换成因果 cTF-Transformer（带未来掩码自注意力与推理时 0.5 秒 KV 缓存）可把 PESQ 从 3.27 提到 3.32，与 8 层全 Mamba 持平；但这要额外维护 KV 缓存，作者因此仍选 8 层全 Mamba 作教师。</li>
+<li>一处需要如实记录的内部不一致：摘要写蒸馏后学生相对教师有“2.75× 加速”，而正文写“约 2.6× 更快”并写“相同算法时延约束下稳态 RTF 降低超过 60%”。按表内 0.29/0.11 计算为约 2.64×。本报告不替作者裁定，引用时同时列出两个表述。</li>
+</ul>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断：可直接采纳的是<strong>选型硬要求</strong>，不是这个模型。项目若日后要在音频入模型之前加降噪或语音增强，前端必须满足三条：算法时延有界且写明（这里是 25ms）、状态是固定大小而不是随时长增长的缓存（Mamba 的循环状态 vs Transformer 的 KV 缓存）、以及 1 帧进 1 帧出不重算历史。这三条与项目 B 方案“音频直接进 Qwen3-Omni 的 KV”天然兼容，因为前端不能引入额外的整句等待。</p>
+<p>编辑判断：不能采纳的是它的收益推断。它只报告 PESQ/CSIG/CBAK/COVL/STOI，没有任何下游 ASR 字错率或工具正确率。项目真正关心的是 20dB SNR 桶里的 CER 6.39% 和工具选择是否变化；感知质量提升与识别正确率提升在文献里从来不是同一件事。因此若做这条实验，判定指标必须是分桶后的 CER 与工具/参数/最终车态一致性，PESQ 只能作为过程量。</p>
+<p>编辑判断：还有一条容易被忽略的成本。它的 RTF 0.11 是在<strong>同一型号的 RTX 5090</strong> 上测得的，而项目的判别实验也跑在 5090 上。这意味着前端不是免费的：它要和主模型抢同一张卡的显存带宽与 SM，而项目当前的解码瓶颈恰恰是延迟性质的 GPU→CPU 同步。合理顺序是先修同步、先把 clean/20dB 分桶归因做完，再评估前端。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li>只在 VCTK-DEMAND 上训练与评测，英文、单通道、合成混合噪声；没有中文、没有车内噪声、没有多说话人，也<strong>没有回声消除或扬声器泄漏</strong>的任何结果。</li>
+<li>频率轴仍是双向建模（只在时间轴上因果），因此“全因果”指的是时间因果；这对逐帧实现是自洽的，但不要误读为完全单向。</li>
+<li>与其他工作的对照表里，多个基线是在更大语料（如 DNS）上训练后在 VCTK-DEMAND 上评测的，且时延一列是各自原文自报，跨行比较需谨慎；作者已用符号标注。</li>
+<li>RTF 是稳态、预热后、单请求的值，没有报告与其他负载共卡时的表现，也没有 CPU 或车规 SoC 上的数字。</li>
+<li>开放状态（2026-08-13 复核）：论文公开。结论段写“代码将公开发布于 <code>github.com/RoyChao19477/RT-SEMamba</code>”，该仓库确实存在（创建于 2026-06-17）但 <strong>Git 仓库为空</strong>（GitHub API 返回 “Git Repository is empty”，size 0KB、无 LICENSE、无描述）。因此代码、权重与许可证均记为未公开/未知。本轮没有运行任何代码。</li>
+</ul>
+<h2>6. 本窗口其余降噪与多麦克风正文，以及“回声消除”的现状</h2>
+<h3>6.1 Rethinking LM-Based Generative Speech Enhancement in the Latent Space of a Neural Audio Codec</h3>
+<p>论文（arXiv v1，2026-08-12 14:04 UTC 提交）：https://arxiv.org/abs/2608.12082</p>
+<p>TU Braunschweig 的工作，把六种基于神经音频编解码器隐空间的语言模型式生成降噪范式放进统一框架比较：离散/连续自回归（D/CAR）、离散/连续非自回归（D/CNAR）、离散扩散（DDiff）与连续流匹配（CFM）。它用 WavLM 编码器提供条件特征，DAC 作为编解码器且训练时冻结，只更新 LM。在 URGENT 2025 语音增强挑战赛的数据划分上训练与评测，结论是<strong>所有连续域范式都优于其离散域对应物，总体最好的是连续非自回归（CNAR）</strong>；作者另提出在重建语音上加辅助损失的微调策略，能在六个范式上一致改善 DNSMOS、NISQA、PESQ 与 POLQA。</p>
+<p>编辑判断：这篇的价值对项目是反向的——它选出的最好范式恰恰是最不适合流式的一档。非自回归一次性生成整段特征，需要完整序列可见；论文自己也写明 NAR 通常采用非因果 Transformer。因此项目在看这类工作时的第一个筛子应该是“能否因果地逐帧出音”，而不是 DNSMOS/PESQ 排名。开放状态：论文正文脚注给出代码地址 <code>github.com/felixfuyihui/AR_NAR_Diffusion_SE</code>，该仓库确实存在（约 50KB，最后推送 2026-07-08）但<strong>没有许可证</strong>，可用范围记为未知；本轮没有运行其代码，也没有核验其内容完整性。</p>
+<h3>6.2 Deep Learning Based Relative Transfer Matrix Estimation for Multiple Sources and Multiple Microphones</h3>
+<p>论文（arXiv v1，2026-08-12 04:18 UTC 提交）：https://arxiv.org/abs/2608.11627</p>
+<p>莫拉图瓦大学与澳国立的工作。相对传递矩阵（ReTM）是相对传递函数在“多个同时活跃声源 + 多麦克风”下的推广，此前只有基于多通道录音协方差矩阵的估计方法。本文提出三种监督学习框架（时域卷积网络、短时频域卷积网络、LSTM 自编码器），报告在五个客观指标上比协方差方法估计更准，并把它用于语音增强，自述性能<strong>与基线方法相当</strong>（on par）。实验含两噪声源（空调噪声、音乐）与三噪声源场景，麦克风端另加 40dB SNR 白噪声；推理时延在 NVIDIA RTX 3090 上测量，卷积类模型时延低、参数少，LSTM 类时延最高、参数最多。</p>
+<p>编辑判断：它与座舱的关系是间接的。多源多麦的相对声学通道估计确实是“多乘员分离 + 空间听觉”的底层量，但本文的增强结果只是与协方差基线相当，且场景是受控噪声源，没有车内混响、没有真实多乘员语音、也没有下游 ASR 或理解指标。本轮只作为背景记录，不产生任何项目动作。</p>
+<h3>6.3 回声消除：本轮仍无一手新增</h3>
+<p>本窗口没有任何一篇正文报告回声消除、扬声器到麦克风泄漏、双讲（double-talk）或 AEC 残留的结果。6.2 只把 AEC 列为应用背景之一，6.1 与第 5 节都不涉及参考信号。因此“回声消除/降噪”这条方向的现状是：<strong>降噪有了一条形状正确但未开源、未在中文车内验证的因果流式候选（第 5 节）；回声消除仍为无重大新增，继续跟踪</strong>。项目在此期间不应写任何关于 AEC 的结论或预期。</p>
+<h2>7. 今日复核：Radar 状态、既有候选的开放状态与去重</h2>
+<h3>7.1 Radar 未刷新</h3>
+<p><code>data/items.json</code> 的 <code>generated</code> 为 2026-08-12T09:30:35+08:00，与 2026-08-12 报告使用的是同一份快照，新增条目 0 条。项目仓库在 2026-08-13 01:41 UTC 有一次推送，但内容是 explanations 的正文增强与站点重建（<code>data/explanations.json</code> 与 <code>docs/</code>），不是新的 Radar 抓取。因此本报告的候选全部来自对 arXiv 新投稿的直接检索。这条状态本身值得记录：<strong>当 Radar 停更时，日报不能沉默，也不能把旧条目重新计成新增</strong>。</p>
+<h3>7.2 去重结果</h3>
+<p>本报告涉及的 7 个 arXiv ID（2608.10878、2608.11593、2608.10716、2608.12034、2608.12099、2608.12082、2608.11627）在 <code>data/items.json</code>、<code>data/explanations.json</code> 与 <code>reports/</code> 中的命中数均为 0，都不是既有条目的镜像、改名或修订版。需要注意三条容易混淆的关系：X2-Turn 把 SoulX-Duplug 当基线引用，但那是前作而非本项目的 SoulX 实验；SmartGlasses Challenge 出自 ASLP@NPU，与 2026-08-12 报告中记为占位仓库的 SemBridge 同一实验室，但是两项独立工作；Luna-TTS 的对照表里出现 OmniVoice，那是对项目既有候选来源的第三方再评测，不是新工作。</p>
+<h3>7.3 既有候选与开放状态的今日复核</h3>
+<ul>
+<li><strong>PACE / GCM-Bench（2026-08-12 P0）</strong>：<code>CodeForZzc/GCM-Bench</code> 仍为 Apache-2.0、约 16.9MB，最后推送 2026-08-11T06:29Z，与 08-12 复核时相同。也就是说 PACE 中间件本体（浏览器客户端、WebTransport 传输、forward gate、Revoke 事件、OutputTurnLedger）<strong>仍未出现在公开仓库中</strong>，维持“中间件是否公开记为未知”的判断。<code>playback-boundary-ledger-offline-v1</code> 候选不受影响，因为它只借用数据格式与判定协议。</li>
+<li><strong>DuplexGen 的 <code>personaplex-finetune</code></strong>：仓库仍为 1KB、单文件、无许可证，最后推送 2026-08-05。承载 PP-DG 头条结果的产物仍未发布，维持既有判断。</li>
+<li><strong><code>omnivoice-local-tts-16step-v1</code>（2026-08-10）</strong>：本轮出现了两条新的外部证据。其一是同硬件对照——Luna-TTS 报告 OmniVoice 在 H20、16 步、batch 1 下 RTF 0.0319，与项目引用的 0.0319 一致。其二是第三方再评测——Luna-TTS 作者用官方工具在 CV3-Eval 上重测 OmniVoice，得到 zh 3.89、en 4.57、ja 7.24、ko 11.80、四语平均 6.88、hard-zh 11.98、hard-en 19.69。编辑判断：这不推翻该候选（项目要的是本地化、可控、可离线部署的 TTS，不是排行榜第一），但要求把长句与不规则文本纳入离线评测样本，并把首包/首块单列。</li>
+<li><strong><code>tool-hold-message-first-audio-v1</code>（2026-08-12）</strong>：本轮得到 DuplexWorld 的机制性支持（工具调用制造静音、静音被时序指标惩罚），候选内容不变，仍为仅离线、<code>h20_request_allowed=false</code>。</li>
+</ul>
+<h3>7.4 本轮不新增 handoff 候选的原因</h3>
+<p>四条新方向都缺少“可执行的单变量 + 可信的预计净修数”这一步：X2-Turn 的代码与权重未公开，能立刻用的只有它的公开测试集与状态定义，属于评测建设；Luna-TTS 没有任何可获取的公开制品且项目页 404；RT-SEMamba 的仓库为空；DuplexWorld 的语料与评测代码未找到公开仓库；SmartGlasses 语料需注册申请且许可证未知。按既定规则，这些只留在报告，不进入候选 JSON。</p>
+<h2>今日建议路线</h2>
+<h3>第一阶段（口径与度量，不动模型、不引入新依赖）</h3>
+<ol>
+<li>用公开的 <code>ASLP-lab/Easy-Turn-Testset</code>（Apache-2.0、非门控、中英双语、含真实 backchannel 音频）给项目现有的端点判定建立中文三类基线：完整句、未完整、backchannel 各自准确率，加上按项目自己口径（从 commit 或末次人声起算）测得的决策时延。借用 X2-Turn 的状态定义，尤其是把“已开口但语义不足”与“真静音”分开；不引入任何 4B 侧模型，也不让主模型重新承担判停。</li>
+<li>给每次 Harness 实验加一列 harness 配置记录：端点等待时间、VAD/静音阈值、超时与超步样本的处理方式、每条样本重跑次数、回放侧模型版本。DuplexWorld 的三个旋钮把 Pass@1 移动到与换系统同量级，这一列是区分“真收益”与“旋钮漂移”的前提。</li>
+<li>在现有回放里把“参数听错”单列成桶（车牌、电话、温度、座位/排号等数值与专名），与“工具选错”分开统计。外部参照是 DuplexWorld 电话信道上 17.1% 的口述凭证词错率与同族蒸馏 10.4%→20.2% 的翻倍。</li>
+<li>统计项目自有录音的重叠比例与说话人数分布，对照 SmartGlasses 的难度曲线（3 人 15.5% → 5 人 49.3% → 6–8 人 &gt;63%），据此判断多乘员的哪一段是本阶段可做的。</li>
+</ol>
+<h3>第二阶段（在既有候选内做单变量，不新增候选）</h3>
+<ol>
+<li>扩展 <code>omnivoice-local-tts-16step-v1</code> 的验收口径为三段分别记录：首包/首块时延、整句完成时延、取消或打断后的残留；并在样本集中加入长句与不规则文本。所有对照必须写明 GPU 数量、步数、batch、是否预热、是否含网络。</li>
+<li><code>tool-hold-message-first-audio-v1</code> 与 <code>playback-boundary-ledger-offline-v1</code> 按 2026-08-12 的定义执行，两者不得同时变更。前者新增一条报告要求：同时给出“用户听到第一声”与“听到内容第一声”，并附欠动作量，避免用固定等待语把首音频指标做低。</li>
+<li>引入 Pass₃ 式可重复性口径：同一样本多次重跑全部通过才计成功，与 Pass@1 并列报告。DuplexWorld 的 Pass₃ 约为 Pass@1 的一半，说明单次运行的方差可能吞掉 +1/+4 量级的收益。</li>
+<li>继续原 HF MoE 与 <code>index_select</code>+<code>bmm</code> fast path 的 5090/H200 输出一致性与 ms/token 判别。本窗口没有任何工作可以替代它，降噪 RTF 与 TTS RTF 都不是它的证据。</li>
+</ol>
+<h3>第三阶段（长期跟踪与选型硬要求）</h3>
+<ol>
+<li>把前端选型的硬要求写进规范：算法时延有界且写明、状态固定大小（不随时长增长的缓存）、1 帧进 1 帧出不重算历史；判定指标必须是分桶 CER 与工具/参数/最终车态一致性，PESQ/DNSMOS 只作过程量。RT-SEMamba 满足形状但仓库为空，作为跟踪项。</li>
+<li>判停旁路的模型化（在 Voxtral Realtime 这类 Apache-2.0 流式主干上并联状态头）只有在第一阶段的中文基线给出明确失败桶、且显存与算力预算允许的前提下才讨论；届时必须把 X2-Turn 自报的 ASR 退化（480ms 下 AISHELL-1 由 2.57 到 3.94）当作已知代价写进预算。</li>
+<li>多乘员与空间听觉继续以度量为先：先有重叠比例与人数分布，再谈是否上多麦；若上多麦，必须把“单通道 / 通道平均 / 分离或波束”作为单变量对照，因为 SmartGlasses 的多数参赛系统最终退回通道平均。</li>
+<li>回声消除保持无重大新增状态，持续跟踪，不写任何推测性结论。</li>
+</ol>
+<h2>风险提醒</h2>
+<ul>
+<li><strong>Radar 停更风险（本轮最高优先）</strong>：<code>data/items.json</code> 与前一日完全相同，新增 0 条。此时的正确做法是显式声明数据未刷新并改用一手检索，而不是把旧条目重新算成新增，也不是产出一份空报告。</li>
+<li><strong>指标边界风险</strong>：Luna-TTS 的 41.6ms 是“引擎调用到首个 1.28 秒块解码完成、双 H20 并行 CFG、预热后中位数、不含网络”，项目的 2,918ms 是“用户音频 commit 到用户真正听到声音”；X2-Turn 的 288ms 是相对词尾、可为负的定义，且级联基线不含前端 VAD；RT-SEMamba 的 RTF 0.11 是单请求稳态；SmartGlasses 的 tcpCER 是离线整段。四者都不能与项目现有数字直接相减。</li>
+<li><strong>harness 旋钮风险</strong>：VAD 阈值、超步处理与模拟器版本能把 Pass@1 移动到与换系统同量级。项目任何“零退化”或“+N 修复”的结论，若没有同时固化并记录这些配置，都不可复现。</li>
+<li><strong>体验指标可被沉默赢</strong>：turn-taking 与选择性在 DuplexWorld 上与 Pass@1 的相关分别是 −0.06 与 −0.45，而不动作的系统拿到全表最好的选择性。项目引入任何时序类分数时必须配一个按参考工作量签名的欠动作量。</li>
+<li><strong>占位仓库与失效链接风险</strong>：RT-SEMamba 声明的代码仓库为空；Luna-TTS 的官方项目页 404；DuplexWorld 声明发布语料与代码但只找到样例站点；SmartGlasses 语料需注册且许可证未知；X2-Turn 没有任何代码或权重。论文里的“已发布/将发布”必须对着实际制品核验。</li>
+<li><strong>许可证风险</strong>：可用的是 <code>mistralai/Voxtral-Mini-4B-Realtime-2602</code>（Apache-2.0）与 <code>ASLP-lab/Easy-Turn-Testset</code>（Apache-2.0）；DuplexWorld 声明的 CC BY 4.0 / MIT 只见于论文文本，且其引用的 NISQA 预训练权重为 CC BY-NC-SA 4.0；SmartGlasses 工具仓库与语料均无可见许可证。代码许可证不传递给权重与数据。</li>
+<li><strong>PESQ 不等于 CER</strong>：降噪前端的感知指标提升不构成识别或工具正确率提升的证据；引入前端前必须先完成 clean/20dB 分桶归因，且前端与主模型共卡的开销要单独计量。</li>
+<li><strong>重复实验风险</strong>：<code>probe_turn_end</code>（主模型自判停）、candidate-ID/CMTF、conditional top-2 verifier、投机预取、工具清单压缩均为已记录负结果。X2-Turn 是“判停移出主模型”的旁路结构，不得被重新包装成“让主模型判停”；论文中 SoulX-Duplug 只是被引用的基线，不构成重启 SoulX 相关实验。</li>
+<li><strong>证据日期风险</strong>：本报告窗口为 2026-08-11 09:34 UTC 至 2026-08-13 02:30 UTC 的 arXiv 新投稿，项目侧证据仍是 2026-08-10 快照（提交至 2026-08-04、基准至 2026-08-03）。发现日期不等于发表日期，本报告未使用 2026-08-13 02:30 UTC 之后的任何证据。</li>
+</ul></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-13</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-13</h2><p class="solution-source"><b>2026-08-13</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
