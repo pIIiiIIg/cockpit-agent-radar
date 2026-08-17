@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-06 · ◈ 6
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">StreamArena 用 243 段平均 88.8 分钟的视频和 3646 个开放任务评测实时感知、历史回溯、主动触发与工具调用；StreamMind 通过前台响应和异步记忆/检索把同主干加权查询延迟从 81.4 秒降至 27.5 秒。其分层适合 Harness，但不是原生语音全双工。</span>
+    <span class="l-zh">StreamArena 以小时级流式视频评测连续感知、回溯、主动交互与工具使用，并给出分层 StreamMind 系统。对 StreamingModelHarness，可借鉴异步记忆与晚检索，但它不是语音全双工后端。</span>
     <span class="l-en">Deploying autonomous multimodal agents in continuous, real-world environments requires them to ingest unbounded audio-visual streams and maintain hour-scale memory. However, current evaluations predominantly rely on brief clips and multiple-choice formats. This design allows minimal baselines that process only the last four frames to match or surpass complex streaming models, while answer options also expose language shortcuts. We introduce StreamArena, a benchmark for hour-scale, interactive streaming video understanding. StreamArena contains 243 full-length videos averaging 88.8 minutes and 3,646 rigorously annotated, open-ended question-answer pairs that evaluate real-time perception, historical retrospection, proactive interaction, and multimodal tool utilization. Evaluation across diverse systems exposes a tension between continuous interaction and long-horizon multimodal comprehension. Methods that retain only recent frames cannot recover distant events, methods that convert past observations into text lose visual evidence, and methods that repeatedly compress visual memory struggle to preserve fine-grained details over time. We address this tension with StreamMind, a two-tier architecture that assigns latency-critical interaction and proactive monitoring to independently scheduled frontend workers, while backend workers asynchronously construct persistent multimodal memory and perform historical recall and external search. StreamMind outperforms existing streaming baselines across all four capabilities and reduces query-to-answer latency by reusing persistent state.</span></div>
 
 
 <section class="explain">
   <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
-  <p class="lead">StreamArena 用小时级连续视频、开放式问答和严格因果时间戳测试实时感知、历史回溯、主动交互与工具调用；StreamMind 通过前台响应、异步记忆和后端检索分层，在四项能力上领先流式基线并降低查询后等待。</p>
+  <p class="lead">StreamArena 用小时级连续视频与开放问答评测实时感知、历史回溯、主动交互与工具调用；StreamMind 分层前台/记忆/检索以降延迟并提分。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>短视频和选择题允许模型只看最近几帧或利用答案捷径，无法证明其持续观看、保存远期证据并在无人再次提示时主动响应。真实助手还需联合音视频、多轮上下文和外部搜索，并禁止查询时访问未来画面。</p>
+  <p>短视频多选题允许只看最近帧或语言捷径；真实流式助手需持续摄入、保存远期证据、在无再提示时主动响应，且答题不得看未来帧。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>基准为每个开放式任务标注查询时间与证据时间。StreamMind 的 Front 与 Monitor Workers 负责低延迟交互和持续监测；Memory Writer 异步生成微观、宏观及超事件、实体关系和关键帧；Router 协调 Recall 与 Search Workers，从持久多模态记忆及 Google 图文搜索取证。系统从零时刻以 2 fps 顺序摄取视频，不为回答而倒带。</p>
-<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>以 2 fps 顺序接收视频帧，音频按 5 秒窗口做字幕读取或 ASR，并保留最近 60 秒环形缓冲。</li><li>Memory Writer 每 4 秒异步更新分层事件、实体关系与关键帧。</li><li>请求到达后，Front Worker 直接回答、创建检索任务或启动独立 Monitor。</li><li>Router 并行拆分历史 Recall 与文本/整帧/裁剪图像 Search。</li><li>汇总证据回答；主动任务先记录触发帧时间，再生成通知。</li></ol>
-<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>基准含 243 个视频，平均 88.8 分钟，共 3646 个任务：263 个实时感知、877 个历史回溯、1732 个工具任务和 774 个主动任务。</li><li>历史证据到查询的中位间隔为 12.1 分钟；49 题的最近证据早于查询超过一小时，189 题需联合至少两个证据片段。</li><li>StreamMind 的 RTP、HR、Tool、Proactive 准确率为 44.5%、34.9%、56.1%、11.6%，相对各项最强流式基线提高 58.4%、53.7%、228.1%、54.7%。</li><li>同用 Qwen3.5-397B-A17B 时，加权查询后延迟由 81.4 秒降至 27.5 秒，同时保留离线方案 89.7% 的加权准确率。</li></ul>
+  <p>243 个平均 88.8 分钟视频、3646 个带因果时间戳的开放任务。StreamMind 以前台响应、异步记忆写入与后端检索分层，从零时刻 2 fps 顺序摄取，不倒带取未来。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>2 fps 顺序收帧，音频按 5 秒窗处理，保留约 60 秒环缓。</li><li>Memory Writer 周期性异步更新分层事件与关键帧。</li><li>请求到达后前台直接答、建检索或启动 Monitor。</li><li>Router 并行历史 Recall 与外部 Search，再汇总作答或主动通知。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>任务构成：实时感知 263、历史回溯 877、工具 1732、主动 774；历史证据到查询中位间隔 12.1 分钟。</li><li>StreamMind 的 RTP/HR/Tool/Proactive 为 44.5%/34.9%/56.1%/11.6%，相对最强流式基线分别 +58.4%/+53.7%/+228.1%/+54.7%。</li><li>同用 Qwen3.5-397B-A17B 时，加权查询后延迟 81.4s→27.5s，并保留离线方案 89.7% 的加权准确率。</li><li>长程回溯从 5–15 分钟档 46.7% 降到超过 30 分钟档 17.1%。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>编辑判断：前台触发、异步记忆和后端检索可映射到 Harness 的流式输入、endpoint-before-generation 与 late tools，并把触发时延和后续解码分开计量。</li><li>编辑判断：论文没有原生语音输出，可继续使用 Harness 的外挂 TTS，但需自行计量首音频、背压和取消。</li><li>编辑判断：StreamMind 是事件驱动的连续输入多工作者系统，不是原生同时听说的全双工 speech-to-speech 模型。</li></ul>
+    <ul><li>编辑判断：前台触发、异步记忆与后端检索可映射 Harness 的流式输入、判停后生成与晚工具。</li><li>编辑判断：论文无原生语音输出，仍可接外挂 TTS，但需自测首包音频与取消。</li><li>编辑判断：这是连续多模态 agent 系统，不是原生同时听说的 speech-to-speech 全双工模型。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>主结果每个单元格只运行一次，没有置信区间或显著性检验。</li><li>StreamMind 使用 397B MoE，而多项流式基线更小，架构收益与模型规模未完全分离。</li><li>开放式答案依赖闭源 Gemini 3.1 Pro 判分，Tool 指标只验证答案，不证明工具路径正确。</li><li>长程回溯从 5–15 分钟档 46.7% 降至超过 30 分钟档 17.1%，且部署依赖 8×H800 和外部搜索 API。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>主结果每格多只跑一次，缺置信区间。</li><li>StreamMind 用 397B MoE，与更小流式基线的对比混杂规模因素。</li><li>开放答案依赖闭源裁判；Tool 指标不证明路径正确。</li><li>数据许可存在论文 CC BY 与 HF CC BY-NC 表述冲突，原视频版权仍归上传者。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
-     &nbsp; 项目页 https://hkuzxc.github.io/StreamArena_web/ 与约 321GB 数据公开，但论文所列 GitHub 当前不可访问，也没有专属 StreamMind 权重。数据许可存在冲突：论文写注释 CC BY 4.0，Hugging Face 元数据写 CC BY-NC 4.0，原视频版权仍归上传者；Qwen 主干为 Apache-2.0。</p>
-  <p><a class="btn" href="https://huggingface.co/Qwen/Qwen3.5-397B-A17B" rel="noopener noreferrer"><span class="l-zh">模型</span><span class="l-en">model</span></a></p>
+     &nbsp; GitHub 可访问且 LICENSE 文件为 Apache-2.0（API 显示 NOASSERTION）；评测 toolkit 可用，README 标明 StreamMind agent 仍 Coming Soon。HF 数据集 https://huggingface.co/datasets/hkuzxc/StreamArena 约 300GB+ 且标记 cc-by-nc-4.0，与论文 CC BY 表述冲突。未见专属 StreamMind 权重；论文骨干为 Qwen3.5-397B-A17B（Apache-2.0）。</p>
+  <p><a class="btn" href="https://github.com/JIA-Lab-research/StreamArena" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
   <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
-     · 2026-08-09 20:15</p>
+     · 2026-08-17 14:30</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.05703v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
