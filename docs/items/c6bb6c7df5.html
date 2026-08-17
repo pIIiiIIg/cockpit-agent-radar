@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-09 · ◈ 11
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We propose A-PACK, a two-stage framework that defers audio pruning until query-conditioned multimodal interactions emerge. Our analysis shows that audio exhibits higher task-relevant information density and representational diversity per token than video. We further find that local audio-visual dynamics provide a more effective cue for visual selection than token-wise matching. We therefore preserve audio and compress video with local dynamics before the LLM, then progressively prune low-relevance audio and visual tokens and their KV-cache entries inside the LLM. Across four benchmarks on Qwen2.5-Omni-7B/3B, A-PACK achieves the strongest average performance among the evaluated prior methods while reducing prefill FLOPs by up to 78% and improving decoding throughput by up to 2.21x. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">A-PACK 通过延迟音频剪枝与局部音视频动态压缩，降低 Omni-LLM 长序列预填充成本并尽量保精度。对 StreamingModelHarness，它更贴近模型运行时加速，而非语音判停/双工编排本身。</span>
     <span class="l-en">Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We propose A-PACK, a two-stage framework that defers audio pruning until query-conditioned multimodal interactions emerge. Our analysis shows that audio exhibits higher task-relevant information density and representational diversity per token than video. We further find that local audio-visual dynamics provide a more effective cue for visual selection than token-wise matching. We therefore preserve audio and compress video with local dynamics before the LLM, then progressively prune low-relevance audio and visual tokens and their KV-cache entries inside the LLM. Across four benchmarks on Qwen2.5-Omni-7B/3B, A-PACK achieves the strongest average performance among the evaluated prior methods while reducing prefill FLOPs by up to 78% and improving decoding throughput by up to 2.21x.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specifi</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">A-PACK 先保音频、按局部音视频动态压缩视频，再在 LLM 内渐进剪低相关音视频 token 与 KV，降低 Omni-LLM 预填充成本。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>Omni-LLM 长音视频序列推高 prefill 与 KV；多数压缩在进 LLM 前做模态选择，相关估计不完整，易丢掉稍后才变重要的短音频事件。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Omni-modal LLMs jointly process audio, video, and text, but long multimodal sequences incur substantial prefill and KV-cache costs. Existing omni-modal compression methods primarily focus on pre-LLM token reduction, leaving modality-specific compression across the LLM boundary underexplored. We propose A-PACK, a two-stage framework that defers audio pruning until query-conditioned multimodal interactions emerge. Our analysis shows that audio exhibits higher task-relevant information density and representational diversity per token than video. We further find that local audio-visual dynamics provide a more effective cue for visual selection than token-wise matching. We therefore preserve audio and compress video with local dynamics before the LLM, then progressively prune low-relevance audio and visual tokens and their KV-cache entries inside the LLM. Across four benchmarks on Qwen2.5-Omni-7B/3B, A-PACK achieves the strongest average performance among the evaluated prior methods while reducing prefill FLOPs by up to 78% and improving decoding throughput by up to 2.21x.</p>
-
-
+  <p>两阶段：预 LLM 阶段保留音频并用局部 CKA 音视频动态给视频分配预算、去冗余；LLM 内再按注意力渐进剪音频与视觉 token 及其 KV。在 Qwen2.5-Omni-7B/3B 上与同骨干先验方法比较。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>编码音视频后，用局部窗口 CKA 估音视频对应并压缩视频。</li><li>保留音频进入 LLM，与查询一起交互。</li><li>在指定层开始按层丢弃低相关音视频 token 与 KV。</li><li>在 AVUT、WorldSense、Video-MME、DailyOmni 上报告精度与效率。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>在匹配的 35%/25% prefill-FLOPs 档，A-PACK 于两端骨干均取得评测方法中最强平均相对精度。</li><li>7B 的 35% 档保留 Full Tokens 精度的 98.8%，约减 66% prefill FLOPs；25% 档保留 97.0%，约减 78%，最终 token 保留 5.6%。</li><li>相对先验，增益在 AVUT 与 DailyOmni 更大，支持“保音频引导视觉压缩”。</li><li>作者报告解码吞吐最高可提升约 2.21×。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：若 Harness 接入 Omni 骨干做音视频理解，可借鉴“迟剪音频”以保短促声学线索。</li><li>编辑判断：方法面向离线/批次多模态预填充，不是麦克风级全双工调度；与判停后生成、外挂 TTS 无直接替换关系。</li><li>编辑判断：KV 渐进裁剪需改模型运行时，落地成本高于纯应用层 harness。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>实验固定在 Qwen2.5-Omni 3B/7B，未跨更多 Omni 家族验证。</li><li>论文未提供可核验的官方代码/权重发布链接。</li><li>压缩依赖局部动态与层内启发式，极端错位音视频场景风险未充分量化。</li><li>主表强调相对 Full Tokens 的平均精度，不表示所有子任务无损失。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
   <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
+     &nbsp; 截至核验，arXiv/HF 论文页与 PDF 未给出可访问的官方代码或模型仓库；开放状态未知。</p>
   <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-11 14:15</p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-17 19:30</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.08794v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
