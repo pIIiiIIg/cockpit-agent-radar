@@ -183,7 +183,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-07 · ◈ 12
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Lychee-FD 用浅层共享、深层语义/声学/控制分头和连续语义对齐缓解全双工训练冲突，在 FullDuplexBench 1.5 上报告 570ms 打断停止和 826ms 响应延迟。它是可替换的原生全双工后端而非 Harness 局部插件，且训练数据开放状态仍未知。</span>
+    <span class="l-zh">Lychee-FD 用浅层共享与深层语义/声学/控制分离缓解原生全双工 SLM 的模态梯度冲突。对当前 endpoint 后生成的 StreamingModelHarness，它更像潜在的原生全双工后端替换，而非局部插件。</span>
     <span class="l-en">Developing seamless, high-performance, native intelligent full-duplex Spoken Language Models (SLMs) remains a critical challenge and long-standing goal for the speech and NLP community. Despite notable progress, recent endeavors are fundamentally constrained by severe modality interference, which causes substantial knowledge degradation and compromises semantic integrity -- ultimately making full-duplex SLMs feel unn</span></div>
 
 
@@ -206,7 +206,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
      &nbsp; 代码、训练脚本和主模型权重按 Apache-2.0 公开；Token2Wav 需另取 Step-Audio-2-mini 并遵守上游条款，训练数据与许可证未能核验。</p>
   <p><a class="btn" href="https://github.com/HITsz-TMG/Lychee-FD" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a> <a class="btn" href="https://huggingface.co/HIT-TMG/Lychee-FD" rel="noopener noreferrer"><span class="l-zh">模型</span><span class="l-en">model</span></a></p>
   <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
-     · 2026-08-05 23:00</p>
+     · 2026-08-19 14:24</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2607.06540v3"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
