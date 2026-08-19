@@ -201,11 +201,20 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <tr><td>多乘员插话、&quot;谁在说话&quot;无任何一手依据</td><td>项目评测集为单说话人合成音频，多乘员交互从未测过</td><td>目标说话人识别流式流水线（2608.17972）：<strong>把身份判定做成音频通路之外的控制信号</strong>这一架构约束</td><td>借用架构约束写进多乘员设计文档；不借用其数字</td><td>判定信号与音频通路解耦；识别时延不计入播报时延预算</td></tr>
 <tr><td>判停/打断&quot;该不该发生&quot;缺判据来源</td><td><code>probe_turn_end</code> 已实测主模型自判停不可行</td><td>出现<strong>同名不同工作</strong>的第二个 DuplexGen（2608.16053），可借用的是&quot;内容锁定、时序涌现&quot;的两段式构造法</td><td>仅方法借鉴；两个 DuplexGen 必须在记录中分列</td><td>每个可插入点有可核验的动作依据；打断点与停止时延有确定口径</td></tr>
 <tr><td>判定器处理不变性未验证（<strong>优先级最高</strong>）</td><td>2608.12880：只翻转与行为无关的元数据即改变 180 条中的 31 条判定</td><td>AutoDesign 仓库本轮<strong>确实发生代码变更</strong>，但论文附录 A.5 承诺的人评数据仍不存在（第四次复核）</td><td>判定器处理不变性检查（零 GPU）</td><td>任一翻转即判定器缺陷，先修判定器</td></tr>
-<tr><td>回声消除与扬声器泄漏零一手依据</td><td>项目从未获得任何 AEC 正文证据</td><td>连续第七轮无重大新增；本轮出现两个需要谨慎区分的近义命中</td><td>不写任何 AEC 结论；继续跟踪</td><td>需要一篇因果、可流式、带下游指标的一手论文</td></tr>
+<tr><td>回声消除与扬声器泄漏零一手依据</td><td>项目从未获得任何 AEC 正文证据</td><td>连续第七轮无重大新增；2608.16092 经核实是<strong>主动降噪 ANC 而非 AEC</strong>，是本窗口假阳性</td><td>不写任何 AEC 结论；把 ANC/AEC 判别式写入筛查规则</td><td>需要一篇因果、可流式、带下游指标、且含自身播放参考抽头的一手论文</td></tr>
+<tr><td>「PESQ 涨了会不会让车控更准」连续七轮无依据</td><td><code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的硬阻塞；RT-SEMamba 只有 PESQ 无 CER</td><td>2608.14812 首次在 16kHz 中文同协议下给出 CER，<strong>但其 Table 4 证明 PESQ 排序与 CER 排序不一致</strong></td><td>阻塞不解除且理由变强：RT-SEMamba 必须自测中文 CER</td><td>前端改动必须以项目自己的 CER 验收，PESQ 一律不得作为代理</td></tr>
 </tbody></table>
 <h2>一、先说结论</h2>
 <h3>P0：直接命中当前工程短板</h3>
-<p><strong>FireRedTTS3（2608.17492）是本轮唯一一项制品完整、中文能力有正文指标、且许可证逐字节核实为 Apache-2.0 的 TTS 工作，但它回答的不是项目的问题。</strong></p>
+<p><strong>连续七轮的&quot;PESQ 涨了会不会让车控更准&quot;空白，本轮同时被填上和被推翻。</strong></p>
+<p>这是本轮最重要的一条，且方向与预期相反。项目候选 <code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的硬阻塞一直是：&quot;全网找不到任何证据证明 PESQ 上升会让车内语音控制更准确&quot;。2608.14812（ISCSLP 2026 Real-World AVSE Challenge 系统论文，南方科技大学）<strong>第一次在 16kHz、中文、同一评测协议下同时给出了过程指标与下游 ASR 错误率</strong>——SI-SDR −5.9→10.4dB、PESQ 1.14→2.65、STOI 0.304→0.823，而 <strong>CER 102.5%→16.4%</strong>。</p>
+<p>但真正有价值的不是这个头条，而是它的 Table 4。<strong>在同一个挑战赛、同一个测试集、同一个 CER 后端、五个参赛系统之间，PESQ 排序与 CER 排序不一致</strong>：Track 1 的 AITD 是 PESQ <strong>3.00</strong> / CER <strong>14.5</strong>，而 audioman 是 PESQ <strong>2.93</strong> / CER <strong>12.3</strong>——PESQ 更高，CER 更差；Track 2 同样反转（AITD 2.94/15.3 对 audioman 2.89/14.8）；而作者自己的系统 PESQ 最低（2.55）却在 CER 上胜过 YiJiaHe（2.62）与 twilight（2.56）。</p>
+<p>编辑判断：<strong>这不是把 RT-SEMamba 的阻塞解开，而是证明这个阻塞是真的。</strong> 结论从&quot;缺证据&quot;升级为&quot;有反向证据&quot;：<strong>PESQ 不能作为中文 CER 的代理指标</strong>。RT-SEMamba 仍然必须自己测 CER，且此后任何只报 PESQ/STOI/SI-SDR 的前端工作都不得以过程指标推断下游收益。另需写死：102.5%→16.4% 是<strong>基线崩坏区间</strong>的改善（CER 超过 100% 意味着基线插入错误极多），不是精细区间的演示。</p>
+<h3>P0（并列）：AEC 连续第七轮为零，且本轮的候选是一个必须点名的假阳性</h3>
+<p><strong>2608.16092《Feedforward Active Speech Suppression》不是回声消除，是主动降噪（ANC）。</strong> 论文摘要首句自述：&quot;提出一种基于语音信号时序预测的<strong>前馈主动降噪（ANC）</strong>方法&quot;。其物理设置是<strong>用一个副扬声器发出反相声波</strong>，在误差麦克风处物理抵消<strong>第三方</strong>的语音（办公室隐私/说话人掩蔽场景），<strong>全文没有任何对设备自身播放信号的参考抽头</strong>——而后者正是 AEC 的全部前提。</p>
+<p>编辑判断：<strong>记一条可复用的判别式——ANC = 副扬声器 + 误差麦克风；AEC = 自身播放信号的参考/回环抽头。</strong> 标题里的 &quot;speech suppression&quot;、&quot;active speech cancellation&quot; 与 &quot;echo&quot; 都不足以区分，必须读正文的信号路径。这是继 08-17 的 <code>X-Zhang/EchoMask</code>（实为协同语音手势生成）之后的<strong>第二个假阳性</strong>。<strong>AEC 因此连续第七轮零一手依据。</strong></p>
+<h3>P0（并列）：FireRedTTS3 制品完整、中文有指标，但回答的不是项目的问题</h3>
+<p><strong>FireRedTTS3（2608.17492）是本轮唯一一项制品完整、中文能力有正文指标、且许可证逐字节核实为 Apache-2.0 的 TTS 工作。</strong></p>
 <p>论文事实：代码 <code>github.com/FireRedTeam/FireRedTTS3</code> 与权重 <code>huggingface.co/FireRedTeam/FireRedTTS3</code> 均已公开、均为 Apache-2.0、均非门控；Seed-TTS-Eval 上 Test-ZH CER <strong>1.01%</strong>、SIM <strong>80.9%</strong>，平均 WER/CER <strong>3.04%</strong>、平均 SIM <strong>78.8%</strong>，两项平均值均为所比较系统中最好。</p>
 <p>论文事实（同等重要）：<strong>全文没有任何时延数字</strong>。&quot;streaming&quot;一词在全文只出现一次，且出现在参考文献 CosyVoice 2 的标题里；没有 RTF、没有首包时延、没有推理侧 GPU 型号，唯一的硬件是训练用的 32 张 H800。</p>
 <p>编辑判断：项目的 TTS 瓶颈是<strong>首音频</strong>（P50 2,918/3,491ms），而 FireRedTTS3 提供的是<strong>质量</strong>证据。它把此前 TTS 方向&quot;要么无制品（Luna-TTS 至今无代码无权重无许可证）、要么全英文（VoiceChat-TTS）&quot;的两难解开了一半——中文与开放状态这两项它都过关——但<strong>时延一侧完全空白</strong>，且其架构是 6.25 Hz patch 级自回归 + DiT 去噪，首包代价无法从论文推算。因此它进入的是<strong>只读审阅加离线实测</strong>，不是候选，也不允许把它的质量数字当作项目可获得的收益。</p>
@@ -213,7 +222,8 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <p><strong>目标说话人识别流水线（2608.17972）贡献的是一条架构约束，不是一个方案。</strong> 论文把&quot;身份判定信号&quot;放在<strong>音频播放通路之外</strong>，作为控制信号去驱动下游放大，从而使判定时延（其系统约 1 秒）不进入听者感知的音频时延（助听器要求低至 10ms）。编辑判断：这条约束可以直接迁移到座舱多乘员场景——&quot;谁在说话&quot;的判定不必、也不应该待在播报链路里。但其全部数字来自英文播客、单一注册说话人、干净低重叠音频，与座舱噪声环境相反，一个数字都不可借用。</p>
 <p><strong>同名不同工作的第二个 DuplexGen（2608.16053）提供了一种构造法：内容先锁死，时序让两个全双工模型互听着涌现出来。</strong> 它最有价值的结论是一条<strong>否定性发现</strong>：在受控 2×2 消融中，时序（涌现 vs 拼接）对下游 ASR 的重叠区错误<strong>没有可检出影响</strong>，而<strong>渲染方式</strong>（截断淡出 vs 等音量叠加）使错误率大约翻倍。</p>
 <h3>P2：长期模型研究</h3>
-<p>无新增。本轮 235 篇中与全双工模型本体相关的一手工作为 0 篇。</p>
+<p><strong>空间音频/Ambisonics 方向本轮двa篇独立工作同时确认为实时链路的死路。</strong> 2608.16240（DiffM2A）与 2608.14097（Meta + Aalto）都是<strong>迭代扩散、非因果、只有过程指标</strong>，且 2608.14097 自己写明&quot;计算密集的迭代采样已经很适合<strong>离线</strong>应用，例如数据生成&quot;。DiffM2A 的实测是<strong>一张 RTX 5090 上每 4 秒音频需 2.66 秒</strong>，且其有效空间带宽只到约 <strong>3106 Hz</strong>（−3dB 相干阈值），5kHz 以上趋于噪声底——对 16kHz 中文 ASR 链路（擦音与塞擦音能量在 4kHz 以上）是硬上限。编辑判断：<strong>多乘员方向应当来自目标说话人选择，而不是 Ambisonic 编码。</strong></p>
+<p>本轮 235 篇中与全双工模型本体相关的一手工作为 0 篇。</p>
 <h2>1. FireRedTTS3: Unified Speech Generation and Editing with Semantically Enriched Speech Representations</h2>
 <p>论文（v1，2026-08-18T08:19:46Z 投稿，cs.SD，11 页）：https://arxiv.org/abs/2608.17492 官方代码：https://github.com/FireRedTeam/FireRedTTS3 官方权重：https://huggingface.co/FireRedTeam/FireRedTTS3 官方 demo 页：https://fireredteam.github.io/demos/firered_tts_3/</p>
 <p>作者与单位（论文事实）：Feiyu Shen、Kun Xie、Yichen Wu、Ziqi Dai、Yichen Han、Junjie Li、Xuelong Geng、Fenglong Xie、Lei Xie、Xu Tang、Yao Hu，单位署名为<strong>小红书（Xiaohongshu）</strong>。PDF 的 <code>/License</code> 为 <code>arxiv.org/licenses/nonexclusive-distrib/1.0/</code>，即 arXiv 非独占分发许可——<strong>这是论文本身的许可证，与代码和权重的 Apache-2.0 是两件事</strong>。</p>
@@ -403,12 +413,89 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ul>
 <p>编辑判断：这是继&quot;明确未发布&quot;、&quot;已发布可核实&quot;、&quot;声称已发布但无链接&quot;之后的<strong>第四档开放状态：明示索取制</strong>。它与第三档的区别是论文<strong>诚实地说明了获取方式</strong>而非声称已发布，因此引用时应写&quot;未公开，作者称可按请求提供&quot;，而不是&quot;不可核实&quot;。</p>
 <p>论文自述的限制（照抄）：只注册了单一目标说话人；日志基线对比与超参调优各只在单集上进行；结果来自每集单次运行，无重复运行、无显著性检验；需要在更大的注册说话人池上、并把调参与评测数据分离，才能建立对所报性能水平的更广泛信心。作者另指出该 1 秒时延&quot;对持续对话大概可以接受，但对快速交替或短促插话可能仍不理想&quot;，且<strong>该时延妨碍用实时日志来解析重叠语音</strong>，并列出 TS-VAD 与 VoiceFilter 两条替代范式作为后续对比方向。</p>
+<h2>4. Separate First, Then Associate: A Two-Stage Approach for Real-World Audio-Visual Speech Enhancement</h2>
+<p>论文（v1，2026-08-14T18:30:13Z 投稿，eess.AS，5 页）：https://arxiv.org/abs/2608.14812 挑战赛官方站（第三方，主办方所有）：https://real-world-avse.github.io 主办方基线代码：https://github.com/Real-World-AVSE/Baseline 主办方基线权重：https://huggingface.co/JusperLee/Real-World-AVSE-Baseline-Track1 与 <code>-Track2</code></p>
+<p>作者与单位（论文事实）：Tongtao Ling、Zhong-Qiu Wang（南方科技大学）。ISCSLP 2026 Real-World AVSE Challenge 系统论文。arXiv <strong>无 <code>comment</code> 字段</strong>，PDF <code>/License</code> 为 arXiv 非独占分发许可（<strong>论文本身的许可证</strong>）。</p>
+<h3>它是什么</h3>
+<p>一个两阶段的真实场景音视频语音增强系统：<strong>先分离，再关联</strong>。它是挑战赛参赛系统，不是通用方法论文。</p>
+<p>来源关系：<code>2608.14812</code> 从未出现在任何既有报告或 <code>data/items.json</code> 中，v1。</p>
+<p><strong>它对项目的意义完全不在于它的方法。</strong> 项目关心的是一件事：连续七轮以来，<code>streaming-se-frontend-rtsemamba-kd1-v1</code> 这条候选的硬阻塞是&quot;没有任何证据证明 PESQ 上升会让车内语音控制更准确&quot;。这是<strong>第一篇在 16kHz、中文、同一评测协议下把过程指标与下游 ASR 错误率并排给出的论文</strong>。</p>
+<p><strong>一处必须写明的归属问题：语言是&quot;中文&quot;这一事实，论文正文从未声明。</strong> 论文只写 CER，未说是哪种语言的字符错误率。<strong>中文这一属性来自挑战赛官方站</strong>（主办方所有的一手来源），该站把指标定义为 &quot;CER Chinese character error rate … Fun-ASR-Nano-2512&quot;。因此引用时必须写&quot;语言依据来自挑战赛官方站，不是论文&quot;。</p>
+<h3>核心方法（或核心架构）</h3>
+<p>论文事实：第一阶段用 TF-GridNet 做纯音频的语音分离，第二阶段用 WavLM-Large 抽说话人表征、并对<strong>整条话语</strong>做相似度平均，把分离出的某一路与目标说话人关联起来。AV-CLIP 分支的可训练参数为 <strong>19.4M</strong>；<strong>TF-GridNet 的参数量未声明</strong>。STFT 窗长 16ms / 跳长 8ms，训练片段 4 秒，16kHz <strong>单声道</strong>，<strong>恰好两个说话人</strong>。需要每位说话人一路<strong>同步的 25fps 人脸视频</strong>。</p>
+<p>编辑判断：<strong>这套架构对项目不可用，且不可用的理由是结构性的而非调参性的。</strong> &quot;对整条话语做相似度平均&quot;意味着它必须先看到完整话语才能决定哪一路是目标，这是<strong>离线/非因果</strong>的定义。加上 TF-GridNet 与 WavLM-Large 的规模，它不可能放进 25ms 级的前端。</p>
+<h3>论文结果</h3>
+<p>Track 1（remix 子集，对比 AV-ConvTasNet 基线）：SI-SDR <strong>−5.9 → 10.4 dB</strong>、PESQ <strong>1.14 → 2.65</strong>、STOI <strong>0.304 → 0.823</strong>；合并 <code>both</code> 集上 UTMOS 0.812 → 1.998、<strong>CER 102.5% → 16.4%</strong>、SPK-SIM 0.328 → 0.737。</p>
+<p>Track 2：SI-SDR −1.7 → 9.5、PESQ 1.30 → 2.55、STOI 0.502 → 0.805、<strong>CER 105.2% → 21.1%</strong>、SPK-SIM 0.396 → 0.726。</p>
+<p><strong>Table 4 才是对项目真正重要的那一张（论文事实，同一测试集、同一 CER 后端、五个参赛系统）：</strong></p>
+<table><thead><tr><th>Track</th><th>系统</th><th>PESQ</th><th>CER %</th></tr></thead><tbody>
+<tr><td>1</td><td>AITD</td><td><strong>3.00</strong></td><td>14.5</td></tr>
+<tr><td>1</td><td>audioman</td><td>2.93</td><td><strong>12.3</strong></td></tr>
+<tr><td>2</td><td>AITD</td><td><strong>2.94</strong></td><td>15.3</td></tr>
+<tr><td>2</td><td>audioman</td><td>2.89</td><td><strong>14.8</strong></td></tr>
+<tr><td>2</td><td>本文</td><td><strong>2.55（最低）</strong></td><td><strong>21.1</strong></td></tr>
+<tr><td>2</td><td>YiJiaHe</td><td>2.62</td><td>22.0</td></tr>
+<tr><td>2</td><td>twilight</td><td>2.56</td><td>22.0</td></tr>
+</tbody></table>
+<p><strong>PESQ 排序与 CER 排序在两个 Track 上都发生反转</strong>：PESQ 更高的 AITD 在两个 Track 上的 CER 都比 audioman 差；而 PESQ 最低的本文系统在 CER 上胜过两个 PESQ 更高的系统。</p>
+<p>编辑判断：这是<strong>同协议、同后端、同测试集</strong>的证据，因此比跨论文比较可信得多。它把&quot;PESQ 涨 ⇒ 中文 ASR 更准&quot;这一推断从&quot;缺证据&quot;改判为&quot;<strong>有反向证据</strong>&quot;。对项目的直接后果有三条：(a) <code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的阻塞<strong>不解除，且理由变强</strong>——RT-SEMamba 必须自己测 CER，其 PESQ 提升不构成任何 CER 预期；(b) 此后任何只报 PESQ/STOI/SI-SDR 的前端工作，一律不得据以推断下游收益；(c) 102.5%→16.4% 是<strong>基线崩坏区间</strong>的改善（CER &gt; 100% 意味着基线产生了大量插入错误），不能当作精细区间内的演示，项目自身的 ASR micro CER 是 6.39%，与该区间毫不相干。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p>编辑判断，两条：</p>
+<p><strong>第一，它改写了一条判据，这比它提供任何方法都有价值。</strong> 见上。</p>
+<p><strong>第二，其挑战赛的评测集结构可以借用到项目自己的多乘员评测集设计上（论文事实）：</strong> 七个说话人组（每组两人），dev 用 3 组、test 用另外 4 组，<strong>说话人完全不重叠</strong>；<code>mix</code> 是自然录制、没有干净参考，因此只能用无参考指标；<code>remix</code> 是两条干净单人真实录音相加，因此支持有参考的侵入式指标。Track 2 的退化条件为低画质、遮挡、帧冻结、失同步、黑屏，外加 3 米远场。编辑判断：<strong>&quot;同一批录音同时提供 mix 与 remix 两种版本&quot;这个做法值得照搬</strong>——它让&quot;无参考指标&quot;与&quot;侵入式指标&quot;在同一批说话人上可比，而不必在两套数据之间做跨集比较。</p>
+<p><strong>不可借用的部分（写死）：</strong> 离线非因果，<strong>全文零时延、零 RTF、零因果性或流式声明</strong>（仅两处 &quot;real-time&quot; 字样都在参考文献 [13][16] 的标题里）；<strong>全文未声明任何 GPU</strong>；需要每位乘员一路同步的 25fps 人脸视频，项目链路没有这个摄像头依赖；恰好两说话人、单声道 16kHz。</p>
+<h3>局限与开放状态</h3>
+<p><strong>开放状态：代码与权重公开，但数据是邮件门控的——因此论文数字不可独立复现。</strong></p>
+<ul>
+<li>论文：已公开，PDF <code>/License</code> 为 arXiv 非独占分发许可。</li>
+<li>作者自有代码/权重：<strong>无。</strong> <code>/Annots</code> URI 注解共 3 条：1 条 arXiv 自链接，另 2 条为第三方——挑战赛官方站与排行榜 <code>avse.renwenze.com</code>。</li>
+<li><strong>主办方</strong>基线代码 <code>Real-World-AVSE/Baseline</code>：<strong>Apache-2.0，已读取 201 行 LICENSE 文件本体核实</strong>；HEAD <code>a3d7ede001</code>（2026-07-23T13:36:39Z），唯一 ref 为 <code>refs/heads/main</code>，递归树 353 条目 / 333 blob / blob 字节总计 <strong>32,781,037</strong>（注意 API 的 <code>size</code> 字段为 31552 KB，两者不是同一个量）；15 star；构建在 <code>look2hear</code> 包之上。</li>
+<li><strong>主办方</strong>基线权重 <code>JusperLee/Real-World-AVSE-Baseline-Track1</code> 与 <code>-Track2</code>：Apache-2.0，<strong><code>gated: auto</code></strong>，各含一个 <strong>100,176,860 字节</strong>的 <code>model.safetensors</code>，下载数 8 与 6，创建 2026-06-21、<code>lastModified</code> 2026-06-25。</li>
+<li><strong>数据：挑战赛的 dev/test 音频通过 Google 表单登记后由邮件分发，并未公开。</strong></li>
+</ul>
+<p>编辑判断：<strong>这是一个新的开放状态组合，值得单列记录——代码公开、权重公开、数据门控，因此其 CER 数字不可被第三方独立复现。</strong> 既有的复核纪律&quot;分别记录代码/权重/数据/许可证&quot;在此处正好命中：只看代码与权重会误判为&quot;完全可复现&quot;。</p>
+<p><strong>论文自身的三处不一致（照抄，不代为取舍）：</strong> (i) Track 1 正文说动态混合的无参考指标&quot;呈现相似趋势&quot;（即退化），但 Table 2 的 UTMOS 实际<strong>上升</strong>（remix 2.073→2.095、both 1.998→2.005）；(ii) Track 2 正文说动态混合提升了 SPK-SIM&quot;尽管感知语音质量有所退化&quot;，而 Table 3 的 PESQ 在 remix 上实际<strong>上升</strong> 2.55→2.59、STOI 持平 0.805；(iii) <strong><code>OVRL</code> 这一列在全文从未被定义</strong>（只作为表头出现），且基线在 Track 1 的 OVRL 值 <strong>16.14</strong> 按表中所示 6 行算平均排名在算术上不可能——该列实际取自完整排行榜。挑战赛官方站给出的定义是&quot;团队各项指标排名的均值（越低越好），在当前范围内可用的指标上计算&quot;，且 DNS-P808/SIG/BAK 仅作展示、不计入。</p>
+<h2>5. Feedforward Active Speech Suppression（2608.16092）——本窗口的 AEC 假阳性</h2>
+<p>论文（v1，2026-08-17T04:32:35Z 投稿，eess.AS，6 页）：https://arxiv.org/abs/2608.16092</p>
+<p>作者与单位（论文事实）：Manami Nishikata（综合研究大学院大学 SOKENDAI）、Shoichi Koyama（国立情报学研究所 NII）。arXiv <code>comment</code> 为 &quot;Accepted to APSIPA Annual Summit and Conference 2026&quot;。PDF <code>/License</code> 为 arXiv 非独占分发许可。</p>
+<h3>它是什么与为什么必须点名</h3>
+<p><strong>它是主动降噪（ANC），不是回声消除（AEC）。</strong> 论文摘要首句自述：&quot;提出一种基于语音信号时序预测的<strong>前馈主动降噪（ANC）</strong>方法&quot;。应用场景是办公室隐私/说话人掩蔽——论文原话是&quot;在办公环境中……可能存在需要抑制语音信号的情形&quot;。物理设置是<strong>副扬声器发出反相声波，在误差麦克风处抵消第三方的语音</strong>。</p>
+<p>编辑判断：<strong>判别式记死——ANC = 副扬声器 + 误差麦克风；AEC = 对自身播放信号的参考/回环抽头。</strong> 本文<strong>全文没有任何对设备自身播放信号的参考抽头</strong>，而那是 AEC 的全部前提。因此它<strong>不构成 AEC 或扬声器泄漏方向的任何一手证据</strong>，<strong>AEC 连续第七轮为零</strong>。这是继 08-17 的 <code>X-Zhang/EchoMask</code>（关键词 <code>echo</code> 命中，实为协同语音手势生成）之后的第二个假阳性，两次的教训一致：<strong>标题不足以判定问题域</strong>。</p>
+<h3>核心方法与结果（论文事实，仅供该方向存档）</h3>
+<p>SP-FxLMS 在 FxLMS 基础上加入由 MLP 预测的未来信号（a=128 采样 = 8ms）所提供的梯度，另用 b=1024 采样（64ms）的过去信号；控制滤波器 K=192 阶；副路径 1.0m、主路径 1.5m；LibriSpeech dev-clean；传感器 SNR 30dB。<strong>16kHz、单通道</strong>——采样率与项目一致，但<strong>全部实验为自由场数值仿真</strong>，没有房间、没有实测 ANC 回路。</p>
+<p>唯一指标是 NPR（归一化功率衰减），<strong>全文没有任何 ASR/CER/WER</strong>。Table I（a=128，NN 预测）：FxLMS −37.09、FxLMS_P −40.67、SP-FxLMS_F −40.67、SP-FxLMS_F+P <strong>−42.12</strong>、F_VFF −40.18、F+P_VFF −41.22。</p>
+<p><strong>两处可复用为筛查判据的内部问题（编辑判断）：</strong></p>
+<p>其一，<strong>头条数字落在自己泛化图的范围之外</strong>。−42.12dB 与&quot;提升 5.03dB&quot;来自<strong>单个说话人（speaker 1988）</strong>，而图 4 的 19 说话人箱线图<strong>整个 y 轴只到 −40 至 −30dB</strong>。论文自己承认 NPR&quot;高度依赖说话人，尤其在预测长度达到 32 采样及以上时&quot;——而头条用的是 128。</p>
+<p>其二，<strong>预测器本身近乎无效，收益来自别处</strong>。MLP 预测的平均 NMSE 为 <strong>+1.67dB</strong>（即误差能量超过信号能量）、Pearson r 仅 <strong>0.287</strong>，却给出与 oracle 难以区分的 NPR；且 SP-FxLMS_F（−40.67）与 FxLMS_P（−40.67）<strong>完全相等</strong>。编辑判断：收益实际来自<strong>过去信号</strong>项而非预测项。论文陈述了这一相等关系，但表述为&quot;过去与预测未来的梯度带来可比的收益&quot;。</p>
+<p><strong>一处值得单独表扬并作为标杆的做法：它给出了实测墙钟并承认失败。</strong> 论文事实：MLP 为 656,512 参数 / 每次推理 655,360 MACs；&quot;在 CPU（Intel Core Ultra 7 155H）上的平均推理时间为 <strong>1.19×10⁻⁴ 秒</strong>。由于这长于 <strong>6.25×10⁻⁵ 秒</strong>的采样间隔，实时处理还需要进一步的实现调整。&quot; 即在 16kHz 下<strong>逐采样约慢 1.9 倍</strong>。编辑判断：这正是既有三类时延口径中<strong>第三类（实测墙钟）</strong>的模范写法——报出数字并直接判定自己尚不能实时，值得作为引用标杆。</p>
+<p><strong>开放状态：无任何作者制品。</strong> <code>/Annots</code> URI 注解 1 条（arXiv 自链接）。作者 GitHub 账号已直接核查：<code>sh01k</code>（Koyama）12 个仓库，最接近的是 2023 年的 <code>KernelInterpSpatialANC</code>，无本文；<code>Luo-Zhengding</code> 有 14 个 ANC 仓库但无本文相关（另注其 <code>SAIL</code> 仓库 <code>size=0</code> 且确实为空）。<code>gh search repos</code> 对 <code>SP-FxLMS</code> 返回 0 条真实命中；HF 以作者名检索返回 0 行。</p>
+<h2>6. 空间音频两篇：2608.16240 DiffM2A 与 2608.14097 v2（含跟踪清单修订核对）</h2>
+<p>论文：https://arxiv.org/abs/2608.16240 ｜ https://arxiv.org/abs/2608.14097</p>
+<h3>先解决一个来源关系问题：这两篇不是同一工作</h3>
+<p>08-17 报告把 <code>2608.14097</code> 加入跟踪清单，本轮又出现主题相近的 <code>2608.16240</code>，因此必须判定。<strong>结论：两项完全独立的并行工作，且互不引用。</strong> 逐轴核对（论文事实）：作者（Moliner / Hold / Azcarreta Ortiz / Prepeliță / Ananthabhotla / Wong / Parekh / Lee 对 Zhou / Zhao / Luo / Zhang）；单位（<strong>Meta Reality Labs Research + 阿尔托大学声学实验室</strong> 对 <strong>西北工业大学 + 南洋理工大学</strong>）；对象（<strong>房间冲激响应 RIR</strong> 对 <strong>音频信号</strong>）；阶数（<strong>12 阶</strong> 对 <strong>1/2 阶</strong>）；采样率（<strong>24kHz</strong> 对 <strong>16kHz</strong>）；麦克风（<strong>7 个，Aria 眼镜，KEMAR 实测 ATF</strong> 对 <strong>5 个，随机布局 + LOCATA Eigenmike 子集</strong>）；归一化约定（<strong>N3D</strong> 对 <strong>SN3D</strong>）；参数量（<strong>102M / 95M</strong> 对 <strong>8.66M</strong>）。</p>
+<h3>两篇都是实时链路的死路，且其中一篇自己说了</h3>
+<p><strong>2608.16240 DiffM2A（31 页，Elsevier 预印格式，无 arXiv <code>comment</code>）：</strong> 稀疏阵列到 FOA/SOA 的 Ambisonic 编码，方法为 GASHP 能量归一化匹配滤波投影加双分支 EDM 扩散，<strong>64 步 DPM-Solver</strong>。5 个麦克风置于 0.09m 球内，16kHz，8.66M 参数。指标 SI-SDR / Coh / Mag.Err / ILD.Err——<strong>全为过程指标，零下游 ASR</strong>。</p>
+<p><strong>它给出了第三类时延并因此自我否决：一张 RTX 5090 上每 4 秒样本需 2.66 秒</strong>（对比 Parametric 在 AMD EPYC 9554 上 0.35 秒、Attention-based 0.93 秒、AmbiSpatial 1.23 秒、Gen-A 1.36 秒）。按构造非因果（在整个 256×256 裁块上做迭代反向采样）。其 Future Work 自述实时问题未解决：&quot;降低扩散主干的推理开销以用于实时或边缘部署&quot;。</p>
+<p><strong>另一条对 16kHz 中文链路是硬上限的事实：有效空间带宽只到约 3106 Hz。</strong> −3dB 相干阈值为 AmbiSpatial 1317Hz、Gen-A 1631Hz、Attention-based 1945Hz、Parametric 2133Hz、<strong>DiffM2A 3106Hz</strong>，且论文自述&quot;5kHz 以上相干性趋近噪声底&quot;。编辑判断：中文擦音与塞擦音的判别能量大量位于 4kHz 以上，因此该方向即使解决了速度也无法服务中文 ASR。</p>
+<p>论文自身的三处不一致（照抄）：(i) 摘要声称在&quot;信号保真、频谱准确、空间相干与双耳线索保持&quot;上取胜，而 Table 1 的 <strong>FOA 单源</strong>一栏中 Parametric 在 <strong>4 项里赢 3 项</strong>（Coh 0.695 对 0.687、Mag.Err 5.93 对 6.42、ILD.Err 3.29 对 3.57），且贡献列表在同一处悄悄去掉了&quot;频谱准确&quot;；(ii) §5.1 称在 LOCATA 上&quot;所有神经方法相对仿真结果都退化&quot;，这<strong>只对 SI-SDR 成立</strong>——本文 FOA 单源的 Coh 0.687→0.84、Mag.Err 6.42→2.32、ILD.Err 3.57→1.52，即 4 项中 3 项在真实数据上<strong>变好</strong>；论文自己给出了原因，即 LOCATA 的参考&quot;是阵列编码得到的 Ambisonic 参考而不是理想连续场真值&quot;；(iii) Table 3 的重投影一栏中<strong>本文 8.05dB SI-SDR / 3.14dB Mag.Err 优于&quot;Ground Truth&quot;的 6.86 / 3.71</strong>，论文以 SOA 截断解释，但这意味着该重投影指标无法验证任何东西。另：论文称&quot;所有实验结果为五次独立运行的均值&quot;，而<strong>六张表中没有任何标准差或置信区间</strong>。开放状态：<strong>无制品</strong>，&quot;Data availability: Data will be made available on request&quot;，1 条 URI 即自链接。</p>
+<p><strong>2608.14097（Meta + 阿尔托）也是同类，且自述离线定位：</strong> 论文原话是&quot;计算密集的迭代采样已经很适合<strong>离线</strong>应用，例如数据生成&quot;。Table I（越低越好）：FDTD 上 Linear 0.049±0.05 / 0.999±0.02、Neural 0.043±0.04 / 1.080±0.01、Cond. Diffusion 0.026±0.03 / 0.938±0.07、<strong>本文 0.018±0.02 / 0.874±0.13</strong>；Treble-10 上 Linear 0.106±0.12 / 1.042±0.04、Neural 0.067±0.01 / 1.120±0.01、Cond. Diffusion 0.022±0.03 / 0.912±0.10、<strong>本文 0.019±0.01 / 0.803±0.16</strong>。<strong>无任何 ASR 指标。</strong> 训练数据是<strong>内部未公开</strong>的 FDTD 集，另加公开的 <code>treble-technologies/Treble10-RIR</code>。编辑判断：对项目唯一可想象的用途是<strong>离线生成多乘员评测集的 RIR</strong>，但该用途被堵死——模型与内部数据均未发布，且论文自述评测&quot;仅限单一阵列&quot;。</p>
+<h3>跟踪清单修订核对：本轮出现两个 v2，其中一个是元数据空改</h3>
+<p><strong><code>2608.14097</code> v1→v2（v1 2026-08-14T08:57:32Z，v2 2026-08-17T14:27:56Z）经逐版比对，正文逐字节相同。</strong> 页数 5 = 5；逐页提取字符数完全一致 <code>[6895, 7238, 6826, 7147, 6540]</code>；章节 5 = 5；数值 token 多重集在两版均为 375 个 / 132 个唯一，<strong>唯一差异是 <code>14</code> 与 <code>17</code></strong>，即 arXiv 左侧页边的日期戳；提取文本的 <code>diff -u</code> <strong>只有一行不同</strong>（<code>arXiv:2608.14097v1 [eess.AS] 14 Aug 2026</code> → <code>...v2 ... 17 Aug 2026</code>）；PDF 仅增大 <strong>2 字节</strong>（587,873 → 587,875）；作者 8 位不变，<code>/License</code> 仍 CC-BY-NC-SA-4.0，<code>comment</code> 仍 &quot;IWAENC 2026&quot;，<code>published</code> 不变。</p>
+<p><strong>唯一实质改动在标题，且是一处拼写修正</strong>：PDF <code>/Title</code> 与 arXiv API 一致——v1 为 &quot;… Device-Agnostic Diffusion <strong>Mode</strong>&quot;（缺末尾 <code>l</code>），v2 为 &quot;… Device-Agnostic Diffusion <strong>Model</strong>&quot;。</p>
+<p>编辑判断：<strong>这条给出一条可复用的方法论——修订可以在正文里完全不可见，只在元数据里可见。</strong> 因此逐版比对必须包含 PDF <code>/Title</code> 与按版本查询 arXiv API（<code>?id_list=&lt;id&gt;v1</code> 与 <code>&lt;id&gt;v2</code> 分别查询会返回各自的标题），不能只 diff 正文。</p>
+<p>另一个 v2 是 <strong><code>2608.13416</code> StreamTTT</strong>（v1 2026-08-13T16:10:33Z，v2 <strong>2026-08-16T09:41:57Z</strong>），其 diff <strong>本轮尚未比对，记为待办</strong>。这一条要紧：StreamTTT 的既有结论是&quot;标题里的 real-time 不是时延测量、全文零时延数字、未声明 GPU 型号&quot;，<strong>若 v2 补了时延数字，该结论必须更新</strong>。按时间先后，StreamTTT 的 v2（08-16）早于 2608.14097 的 v2（08-17），因此它才是本清单上最早落地的修订。其余 29 个跟踪 ID 经逐一复核仍全部为 v1。</p>
+<h2>7. 2608.16299 双耳线索保持损失——弱跟踪，但带回一条术语陷阱</h2>
+<p>论文（v1，2026-08-17T09:12:44Z 投稿，eess.AS + cs.SD，5 页）：https://arxiv.org/abs/2608.16299</p>
+<p>论文事实：arXiv <code>comment</code> 为 &quot;Accepted at the International Workshop on Acoustic Signal Enhancement (IWAENC) 2026&quot;。作者 Jayteerth Amble、Thomas Haubner、Hendrik Schröter、Christoph Hoog Antink、Henning Puder（达姆施塔特工大 + WS Audiology）。PDF <code>/License</code> <strong>CC-BY-SA-4.0</strong>。为助听器双耳语音增强提出两项新损失：<code>L_BRE</code>（相对传递函数重建误差，通过把估计掩码施加到<strong>干净</strong>谱上来惩罚掩码引入的通道间失真）与 <code>L_BC</code>（把 ILD/IPD 联合编码在复单位圆上以避免相位缠绕）。16kHz、<strong>双通道</strong>，FFT 512 / hop 256，编码器 6×Conv2D + 双层 GRU(128) + 解码器，<strong>约 0.8M 可训练参数</strong>。</p>
+<p><strong>它的决定性缺陷是：全文没有报出任何一个数值结果。</strong> 论文<strong>没有任何结果表</strong>，全部结果都在图 2 的四张子图里（SI-SDR vs DoA、MBSTOI vs SNR、<code>L_ILD</code> vs DoA、<code>L_BRE</code> vs DoA），<strong>没有任何可引用的数字</strong>。指标为 MBSTOI / SI-SDR / <code>L_ILD</code> / <code>L_BRE</code>——全为过程指标，<strong>无 ASR</strong>。因果性、时延与硬件<strong>全部未声明</strong>：无 GPU、无 RTF、无算法时延、无因果性声明，且 Conv2D 的 <code>(5,3)</code> 核与 <code>(2,1)</code> 步长从未说明轴顺序，因此<strong>连因果性都无法推断</strong>。结论自承&quot;实验在受控消声条件下进行&quot;，混响列为未来工作。英文语料。</p>
+<p><strong>带回的术语陷阱（编辑判断，值得写入长期记忆）：本文中 &quot;RTF&quot; 出现 5 次，每一次都是&quot;相对传递函数（relative transfer function）&quot;，没有一次是&quot;实时因子（real-time factor）&quot;。</strong> 关键词扫描会把它误判为报告了 RTF。同类：2608.16240 中唯一的 &quot;RTF&quot; 命中在 &quot;HRTF&quot; 里面。<strong>记一条判据：记录任何时延事实之前先确认缩写的展开。</strong> 这与 <code>echo</code> 命中手势生成、<code>speech suppression</code> 命中 ANC 属同一类错误。</p>
+<p>论文的一处不一致：§3.2 写 SNR 取 <code>{−5, 0, 5, 10, 15}</code> dB，§3.4 写&quot;评测时目标 SNR 从 <code>{0, 2.5, 5, 7.5, 10, 12.5}</code> dB 中均匀选取&quot;——两套不同网格，且 §3.2 的写法读起来像是也覆盖测试。开放状态：无作者制品，作者 GitHub 账号（<code>Rikorose</code>，即 DeepFilterNet 作者）经直接核查无本文相关仓库。</p>
 <h2>今日建议路线</h2>
 <h3>第一阶段（零 GPU，本轮不变，顺序不变）</h3>
 <ol>
 <li><strong>判定器处理不变性检查</strong>，仍是全部事项中优先级最高的一条，高于本轮的 FireRedTTS3 只读审阅。做法不变：冻结一批已判定样本的全部执行证据，只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录是否翻转；同时补一份&quot;判定器不得读取哪些字段&quot;的输入排除清单。<strong>本轮新增一条外部写法参照</strong>：DuplexGen-B 的&quot;构造时标注&quot;——把打断点、停止时刻与残留窗口在生成脚本时就写成结构化真值，而不是事后对齐。真值来自构造，可以消掉一类关于输入的争议。</li>
 <li><strong>解码可复现性自测</strong>（同一音频、同一 seed、连续 N 次、逐 token 比较），依据仍是 CoRun（2608.14376），本轮无新证据，优先级仍仅次于第 1 条。</li>
-<li><strong>snapshot&quot;下一步&quot;第 2 条的 clean/20dB/音色分桶归因</strong>，连续第四轮列为首位，仍是 <code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的硬前提与其 <code>expected_fixes</code> 上界的唯一来源。</li>
+<li><strong>snapshot&quot;下一步&quot;第 2 条的 clean/20dB/音色分桶归因</strong>，连续第四轮列为首位，仍是 <code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的硬前提与其 <code>expected_fixes</code> 上界的唯一来源。<strong>本轮该候选的验收口径必须改写</strong>：依据 2608.14812 的 Table 4（同一测试集、同一 CER 后端下 PESQ 排序与 CER 排序不一致），把&quot;PESQ 提升&quot;从任何形式的收益依据中删除，<strong>改为只以项目自己测得的中文 CER 验收</strong>。这条不增加工作量，只收紧判据。</li>
 </ol>
 <h3>第二阶段（只读审阅，不执行任何论文代码）</h3>
 <ol>
@@ -418,7 +505,9 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <h3>第三阶段（数据与评测建设，无 GPU 需求）</h3>
 <ol>
 <li>若日后构造中文座舱重叠/打断评测集，<strong>把重叠段的渲染方式列为首要显式变量</strong>（依据 DuplexGen-B Table VI：时序无可检出效应，渲染方式使重叠区 WER 大约翻倍），并记住所有合成格子都低于真实的 76.5%，合成集整体偏易。</li>
-<li>继续跟踪 AEC 方向，不写任何结论。</li>
+<li><strong>借用 Real-World AVSE 挑战赛的&quot;同一批录音同时提供 mix 与 remix 两个版本&quot;这一结构</strong>：<code>mix</code> 为自然录制、无干净参考、只能用无参考指标；<code>remix</code> 为两条干净单人真实录音相加、支持侵入式指标。这样无参考与侵入式两类指标在同一批说话人上可比，不必跨集比较。同时借用其说话人分组纪律：dev 与 test 的说话人<strong>完全不重叠</strong>。</li>
+<li><strong>补做 <code>2608.13416</code> StreamTTT 的 v1→v2 逐版比对</strong>（本轮未完成的唯一待办）。方法已验证可用：比对字节数与 md5、页数、逐页提取字符数、正文 <code>diff -u</code>、数值 token 多重集的对称差、URI 与裸 URL、PDF <code>/Title</code> 与 <code>/Author</code> 与 <code>/License</code>，以及<strong>按版本分别查询 arXiv API</strong>。重点是确认 v2 是否补入了时延数字——若补入，StreamTTT 的既有否定结论必须更新。</li>
+<li>继续跟踪 AEC 方向，不写任何结论；把 ANC/AEC 判别式（副扬声器+误差麦克风 vs 自身播放的参考抽头）写进关键词筛查规则。</li>
 </ol>
 <h2>风险提醒</h2>
 <ul>
@@ -428,7 +517,11 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li><strong>LLM 充当评判者的风险。</strong> FireRedTTS3 的 InstructTTSEval 六格最优由 <code>Gemini-2.5-pro</code> 打出（官方工具指定的 <code>Gemini-2.5-pro-preview</code> 不可访问）。作者对全部系统同口径重测这一点是自洽的，但这些数字与其他文献引用的官方数字不可直接对比，且与项目既有纪律（不采纳大模型作为打断/情感恰当性的自动判据）冲突，不得进入任何门槛设定。</li>
 <li><strong>合成数据偏易风险。</strong> DuplexGen-B 的 Table VI 里<strong>每一个合成格子（18.8/23.2/44.1/43.3）都远低于真实的 76.5%</strong>。任何在合成重叠数据上测得的鲁棒性结论都是乐观估计，项目 452 条合成基准同理。</li>
 <li><strong>少数类指标风险。</strong> 目标说话人流水线的准确率 0.93 与特异度 0.96–0.99 之所以高，是因为目标说话人在整集时长中是少数类；同一系统的召回率中位数只有 0.56/0.68。凡遇&quot;高准确率 + 高特异度&quot;但不报召回的语音检测类结果，一律要求补召回。</li>
-<li><strong>跨语言跨域风险（不变）。</strong> 本轮三篇一手论文的评测语言分别是中英多语（FireRedTTS3，含 21 种中文方言，为本轮唯一有中文指标的一篇）、英文医疗问诊（DuplexGen-B）、英文播客（目标说话人）。除 FireRedTTS3 的中文 TTS 质量外，<strong>没有一篇提供中文车控指令下的判停、打断或工具执行证据</strong>。</li>
+<li><strong>过程指标当代理的风险（本轮由缺证据升级为有反向证据）。</strong> 2608.14812 的 Table 4 在同一测试集、同一 CER 后端下给出 PESQ 排序与 CER 排序不一致的实例。此后任何以 PESQ / STOI / SI-SDR / MBSTOI 上升推断&quot;下游更准&quot;的论证一律不成立。本轮的 2608.16299（无任何数值结果、只有图）、2608.16240（只有 SI-SDR/Coh/Mag.Err/ILD.Err）与 2608.16092（只有 NPR）都属于纯过程指标工作，<strong>没有一篇可以据以预期任何 CER 收益</strong>。</li>
+<li><strong>术语与缩写陷阱风险（新增）。</strong> 记录任何时延事实之前必须确认缩写的展开：2608.16299 中 &quot;RTF&quot; 出现 5 次且<strong>全部是&quot;相对传递函数&quot;</strong>，2608.16240 中唯一的 &quot;RTF&quot; 在 &quot;HRTF&quot; 里面。关键词扫描会把这两篇误判为报告了实时因子。同类已记录的错误：<code>echo</code> 命中协同语音手势生成（EchoMask）、<code>speech suppression</code> 命中主动降噪（2608.16092）、<code>duplex</code> 命中一个量化的 Qwen3-4B 文本模型（<code>lumierenoir/DuplexCascade-PT-BR-V0</code>）。</li>
+<li><strong>头条数字落在自己泛化图之外的风险（新增）。</strong> 2608.16092 的 −42.12dB 来自单个说话人（speaker 1988），而其 19 说话人箱线图的整个 y 轴只到 −40 至 −30dB，论文自己承认 NPR 在预测长度 ≥32 采样时高度依赖说话人。凡遇&quot;单条件头条 + 多条件分布图&quot;并存，须核对头条是否在分布图的范围内。</li>
+<li><strong>代码与权重公开不等于可复现的风险（新增）。</strong> 2608.14812 所依赖的挑战赛基线代码为 Apache-2.0、权重为 Apache-2.0，但<strong>dev/test 音频经 Google 表单登记后由邮件分发、并未公开</strong>，因此其 CER 数字不可被第三方独立复现。既有纪律&quot;代码/权重/数据/许可证分别记录&quot;在此处正好命中：只看代码与权重会误判为完全可复现。</li>
+<li><strong>跨语言跨域风险（不变）。</strong> 本轮各篇一手论文的评测语言分别是中英多语（FireRedTTS3，含 21 种中文方言）、中文（2608.14812 的 CER，但该语言属性来自挑战赛官方站而非论文正文）、英文医疗问诊（DuplexGen-B）、英文播客（目标说话人）、英文（2608.16092、2608.16299、2608.16240）。<strong>没有一篇提供中文车控指令下的判停、打断或工具执行证据。</strong></li>
 </ul></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-19</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-19</h2><p class="solution-source"><b>2026-08-19</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
 </div></body></html>
