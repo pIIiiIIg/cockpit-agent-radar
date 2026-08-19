@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-19",
+  "evidence_cutoff": "2026-08-19T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a SEVENTH consecutive report; items still 499; 0 new Radar entries. The larger backfill predicted by the 2026-08-17 report has occurred and is larger than predicted: on 08-17 the newest arXiv submission site-wide was 2608.14549 at 2026-08-14T17:59:59Z; this round the same query (all:a, no category bound, sorted by submittedDate descending) returns 2608.18072 at 2026-08-18T17:57:08Z, i.e. the 08-15, 08-16, 08-17 and 08-18 batches all entered the index at once, spanning roughly 3,500 submission numbers. The paper window was therefore set by submission time to 2026-08-14T18:00Z - 2026-08-19T02:30Z, starting one minute after the 08-14 batch deadline boundary so that it is strictly contiguous with, and non-overlapping, the 08-17 report's actual coverage end (last covered submission 2026-08-14T17:59:59Z). 14 query groups yielded 235 deduplicated papers. Control queries returned normally: cat:cs.SD totalResults 21,728 (21,696 on 08-17, 21,686 on 08-15), cat:eess.AS 22,199. The newest site-wide submission timestamp again falls at 17:5x, the arXiv 14:00 ET daily deadline, a third consecutive confirmation that the index advances in whole batches rather than paper by paper. All backfilled papers are attributed by submission time, never by discovery time. Separately: the 2026-08-18 run produced NO report at all - no 2026-08-18 file exists in reports/ on any remote branch and no 08-18 branch exists - so this report uses 2026-08-17 as its baseline and covers two calendar days. main previously held reports only through 2026-08-10; the six unpublished rounds 2026-08-11 .. 2026-08-17 were recovered to the mainline in a separate commit before this report was written. Next round: window start 2026-08-19T02:30Z, and the site-wide newest submission timestamp must be re-checked as usual.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-19.md",
+    "reports/每日调研日报-2026-08-19.md"
+  ],
+  "candidates": [],
+  "no_candidate_reason": "本轮唯一够格进入执行序列的新素材是 FireRedTTS3（2608.17492，小红书），但它有三个尚未解决的可判定问题，在得到答案之前既没有清晰单变量也没有可测的预计修复数，按既定规则只留在报告并登记为只读前置任务：(1) 是否存在流式或增量出音接口，还是只能整句合成后返回——这直接决定首音频 P90<=1,000ms 是否可能达标；(2) 输出采样率为 24kHz，与项目 16kHz 音频链路的重采样接法未定；(3) 能否只加载 fireredtts3_base（8,482,608,484 字节）+ redae（3,775,160,672 字节）而不加载 fireredtts3_instruct（8,475,259,708 字节），即单卡显存占用未知。更根本的一条：该论文全文没有任何时延数字——没有首包、没有 RTF、没有 tokens/s、没有推理侧硬件，'streaming' 一词全文只出现一次且出现在参考文献 CosyVoice 2 的标题里，唯一硬件是训练用的 32 张 H800——而项目的 TTS 编辑门恰恰只有首音频一项，因此它提供的是质量证据而不是时延证据，首包时延记为未知。第二项新素材 DuplexGen-B（2608.16053）只能做方法与格式借鉴：其受脚本约束的双工解码需要两个可互听的原生全双工实例，而项目当前架构是输入流式、判停后生成、晚注入工具、外挂 TTS，该机制在现有链路上无法实现；且其声称发布的 180 段基准全文零链接、不可核实。第三项 2608.17972 只贡献一条架构约束（身份判定放在音频通路之外），项目当前没有多乘员评测数据可测，没有单变量。因此本轮新增候选为 0 条。",
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮新增一条同方向但不改变其处置的外部素材：FireRedTTS3（2608.17492）是首个中文有正文指标、且代码与权重均已开放并逐文件核实的 TTS 工作（Seed-TTS-Eval Test-ZH CER 1.01%/SIM 80.9%，平均 WER/CER 3.04%、平均 SIM 78.8%，两项平均值均为所比较系统最好；MiniMax-MLS-Test 24 语言平均 3.75%/SIM 84.8%，中文 CER 0.91%；覆盖 24 语言与 21 种中文方言）。但它全文零时延数字，因此不能与本候选做任何首包比较，也不改变本候选的门槛。Luna-TTS 项目页的页内矛盾（摘要 1.28s 块 vs 推理表脚注首个解码 0.36s 块）本轮未复核，按 30 天节奏下次复核，在澄清前其 41.6ms 仍不可用于任何跨系统首包比较。VoiceChat-TTS 的 9.62ms 是 ITL 而非首包，同样不可用于首包比较。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。本轮无新增机制性证据。既有的一条支持仍然有效：VoiceChat-TTS 的 Force Silence 把播报收尾实现成在中断对齐位置确定性写入一个预先算好的静音帧而不是等声学流自然衰减，且写入后不重置 KV cache，该机制已于 08-17 在 NVIDIA-NeMo/Speech 的 duplex_ear_tts.py 第 1193 行逐行核实。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。2026-08-19 复核 CodeForZzc/GCM-Bench 最后推送仍为 2026-08-11T06:29:47Z（连续第八天不变），Apache-2.0，PACE 中间件本体仍未公开；该候选只借用数据格式与判定协议，不受影响。本轮新增一条方向性相互支持：2608.17972 把说话人身份判定做成音频播放通路之外的旁路控制信号，与本候选把播放边界状态记在旁路台账里的思路同路。",
+    "decode-loop-cudagraph-static-kv-v1（2026-08-14）保持不变，仅离线、h20_request_allowed=false。本轮无新增外部证据，先验与顺序均不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。2026-08-19 复核 z-lab/flashdrive 仍 MIT、最后推送仍 2026-07-06T00:54:50Z。",
+    "streaming-se-frontend-rtsemamba-kd1-v1（2026-08-15）保持不变，仅离线、h20_request_allowed=false，状态仍为 proposed_offline_blocked。2026-08-19 复核 RoyChao19477/RT-SEMamba 的 pushed_at 仍为 2026-08-14T05:16:18Z、size 仍 14368，star 由 1 增至 2（元数据活动，非代码变更），连续第四轮字节级不变；两个前置依赖（clean/20dB/音色分桶归因、只读代码审阅）均未完成，expected_fixes 仍为 null。该候选的硬前提——snapshot 下一步第 2 条的 clean/20dB/音色分桶归因——本轮连续第四轮列为首位。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-14 起的记录不变，优先级仍是全部事项中最高的一条，高于本轮新增的 FireRedTTS3 只读审阅。对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据（模型输出文本、工具调用序列、参数、执行器回执、最终车态），只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份判定器不得读取哪些字段的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。本轮新增一条可参照的外部写法：DuplexGen-B（2608.16053）的构造时标注——词级时间戳、说话人活动 RTTM、重叠/打断/间隔/backchannel 标签全部直接从符号化互动谱导出，论文原话是标注在合成过程中自动得到而不是事后处理，其保真度实测为内容锁定 forced WER 0%、重叠事件映射偏差 0（精确）、重渲染 WER <=1.7%、说话人一致性 CAM++ 0.82。项目可照此把打断点、停止时刻与残留窗口在生成脚本时就写成结构化真值，使真值来自构造而非来自观测，从而消掉一类关于判定器输入的争议。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。",
+      "external_evidence": "arXiv:2608.12880（2026-08-14 已展开）。相关的 AutoDesign（2608.13560）人机一致性数字 r=0.34 仍不可第三方复核，且本轮的复核结论比此前更强：Yaxin9Luo/AutoDesign 的默认分支 HEAD 本轮确实前进了，由 cd5b2bd997（2026-08-15T08:24:24Z）变为 dade8e3092（2026-08-18T07:08:44Z），递归树由 724 条目增至 831 条目，star 107，最近六次提交全部是 Poster/deck/video agent skills 相关（docs(skills)、fix(skills) 等）；但论文附录 A.5 承诺的逐案例分数存档与人评决策记录连续第四次复核仍不存在，数据类文件仍只有 eval/benchmark_manifest.jsonl（116,325 字节，与此前逐字节相同）与 eval/small_subset_ids.json（890 字节）。因此此前只能说仓库没动所以数据没出现，现在可以说仓库在活跃开发、作者持续提交，而承诺的人评数据仍然没有出现，即缺失不是疏于维护所致。引用 r=0.34 时的限定不变。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://arxiv.org/abs/2608.13560",
+        "https://github.com/Yaxin9Luo/AutoDesign",
+        "https://arxiv.org/abs/2608.16053"
+      ]
+    },
+    {
+      "id": "decode-reproducibility-self-test",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-17 起的记录不变，优先级仍仅次于判定器处理不变性检查。在判定器检查之前或并行，做一次解码可复现性自测：固定同一条音频与同一 seed，连续运行 N 次，逐 token 比较输出，记录是否逐次一致以及首次分歧出现在第几个 token。若存在分歧，则所有既有的 +1/+4 与 414 canary 零退化结论都需要重新评估其显著性；若逐次一致，则记为一条有价值的负结果并写进判定协议。零成本，不需要 GPU 申请，也不改动被测系统。本轮无新增外部证据。",
+      "why_not_candidate": "它测的是评测环境本身而不是被测系统上的单变量改动，无法给出预计正确性净修数。",
+      "external_evidence": "arXiv:2608.14376（CoRun，2026-08-14T15:17:14Z 提交，cs.OS/cs.PF）。既有记录不变：其把非确定性主因归为批次相关的 GPU 执行，解法为隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph；图 14b 中 Qwen3-8B 的 rollback ratio 为 17.94%、Qwen3-32B 为 24.25%，而 Qwen3-30B-A3B（MoE）达 45.41%。三条边界不变：45.41% 不可迁移（它是投机-验证框架下 ShareGPT、64 token 验证窗口、高并发条件下的候选拒绝率，不是单次 batch=1 推理有 45% 概率不可复现）；论文全文未声明 GPU 型号与数量；其固定形状批量 decode 需预选最大并发度，属多请求在线服务机制，对 batch=1 不适用。2026-08-19 复核 2608.14376 仍为 v1。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14376",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "fireredtts3-readonly-artifact-review",
+      "kind": "instrumentation",
+      "summary": "对 FireRedTTS3 做一次只读代码与制品审阅（不执行任何代码），目标是回答三个可判定的问题，在三者有明确答案之前不进入任何替换实验、不登记候选：(a) fireredtts3/core.py 与 fireredtts3/llm/fireredtts3_base.py 是否提供流式或增量出音接口，还是只能整句合成后返回——这直接决定首音频 P90<=1,000ms 是否可能达标；(b) 输出采样率 24kHz 与项目 16kHz 音频链路的重采样接法；(c) 能否只加载 fireredtts3_base + redae 而不加载 fireredtts3_instruct，即单卡显存占用。审阅范围限定为 GitHub 仓库内的 fireredtts3/core.py、fireredtts3/llm/fireredtts3_base.py、fireredtts3/llm/dit.py、fireredtts3/redae/redae.py 与三份 config.json。可从论文架构推出的时间粒度仅为：6.25Hz patch 意味着一个自回归步覆盖 160ms 音频（此为由 6.25Hz 直接换算，论文未如此表述，也未给出每步墙钟耗时），因此首包时延仍记为未知。",
+      "why_not_candidate": "没有清晰单变量，也没有可测的预计修复数：在是否存在流式出音接口这一问题有答案之前，连首音频门槛是否可能达标都无法判定。更根本的是论文全文没有任何时延数字，任何 expected_fixes 预估都会是编造。",
+      "external_evidence": "arXiv:2608.17492 v1（2026-08-18T08:19:46Z 提交，cs.SD，11 页，小红书，PDF /License 为 arXiv 非独占分发许可即非开放许可）。论文事实：RedAE 分词器把 24kHz 波形切成非重叠 480 采样帧得 50Hz，两级 Qwen3 风格 Transformer 降到 25Hz，Aggregator 再压成 6.25Hz patch；DiT 每个自回归步输入为含噪 4 帧当前 patch 加 12 帧干净历史 latent；Backbone 由 Qwen3-1.7B-Base（Base）/ Qwen3-1.7B（Instruct）初始化；训练 RedAE 550k 步、32 张 H800、50 万小时音频，Base 第一阶段 260 万小时中英语音 170k 步、第二阶段 56 万小时覆盖 24 语言与 21 中文方言。结果：Seed-TTS-Eval Test-EN WER 1.64/SIM 77.2、Test-ZH CER 1.01/SIM 80.9、Test-Hard CER 6.50/SIM 78.4、平均 3.04/78.8，两项平均值均为最好；MiniMax-MLS-Test 平均 3.75/84.8 均为最好，中文 CER 0.91、粤语 CER 40.32（论文归因为 Whisper-large-v3 粤语识别能力有限，未提供替代评测器，该归因记为论文声明、未经独立验证）。论文自述在 Test-EN 与 Test-Hard 可懂度上排第二而非第一（Test-ZH CER 上 MiniMax-Speech 0.83 与 dots.tts 0.97 均优于其 1.01），赢的是两个平均值。制品逐文件核实：代码 github.com/FireRedTeam/FireRedTTS3 创建 2026-08-13T13:36:57Z、pushed_at 2026-08-17T09:12:36Z、HEAD 00570ade10e712fd5b48d5c9664df0fa0eadfd77、递归树 55 条目未截断、104 star；许可证已读取 LICENSE 正文核实为 11,357 字节标准未修改 Apache-2.0，未发现小红书署名的附加条款、非商业条款或强制致谢条款，文中 5 处 additional 全为 Apache 模板固有措辞（第 120/124/133/165/174 行），README 的 shields.io 徽章不构成依据；权重 huggingface.co/FireRedTeam/FireRedTTS3 为 license:apache-2.0（卡片元数据）、非门控、lastModified 2026-08-13T14:20:45Z、43 likes、下载数 0，文件级为 fireredtts3_base/model.safetensors 8,482,608,484 字节、fireredtts3_instruct/model.safetensors 8,475,259,708 字节、redae/model.safetensors 3,775,160,672 字节、campp/campplus_voxceleb.bin 29,357,703 字节，合计 20,776,632,010 字节 17 个条目。训练数据全部未公开、来源未说明。两处来源关系必须记录：HF 权重页标签为 arxiv:2502.03930，指向更早的 FireRedTTS 系列论文而非本文 2608.17492，引用须以论文 ID 为准；GitHub 仓库与 HF 权重均早于论文投稿约 5 天，即论文发表未伴随任何新上传。第三方衍生 drbaph/FireRedTTS3-bf16（ComfyUI 用 bf16 镜像、2 likes、0 下载）按既定纪律不计为新发布。全文未声明模型总参数量，记为未知。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.17492",
+        "https://github.com/FireRedTeam/FireRedTTS3",
+        "https://huggingface.co/FireRedTeam/FireRedTTS3"
+      ]
+    },
+    {
+      "id": "overlap-rendering-is-the-primary-variable-not-timing",
+      "kind": "design_constraint",
+      "summary": "若项目日后构造中文座舱的重叠或打断评测集，把重叠段的渲染方式列为首要显式变量，而不是把精力投在时序生成的真实性上。依据是一条 n=30 的受控 2x2 消融：渲染固定时，涌现时序与脚本拼接时序的重叠区 WER 区间几乎完全重叠（时序没有可检出效应）；时序固定时，把截断淡出换成等音量叠加使错误大约翻倍且区间不相交（渲染占主导）。同时必须记住合成数据整体偏易：该消融的每一个合成格子都远低于真实值，项目 452 条合成基准同理，任何在合成重叠数据上测得的鲁棒性都是乐观估计。",
+      "why_not_candidate": "这是评测集构造的设计原则，不是被测系统上的单变量改动，也不产生预计修复数。项目当前也还没有中文座舱重叠评测集可测。",
+      "external_evidence": "arXiv:2608.16053（DuplexGen-B，2026-08-17T03:30:52Z 提交，cs.CL，7 页，东京科学大学 + 北海道大学，PDF /License CC-BY-4.0）。Table VI 重叠区 WER（%，95% 区间，n=30）：涌现+截断淡出 18.8（13.1-24.6）、拼接+截断淡出 23.2（15.5-31.8）、涌现+等音量 44.1（37.5-49.6）、拼接+等音量 43.3（36.9-50.0）、真实 76.5（56.4-99.6）。论文另给一条反直觉结论：声学上更干净的截断淡出反而让重叠更容易识别，因为淡出被打断者使识别器锁定存活的抢话者。论文自己写明 Table VI 的绝对值不可与 Table V 的分档数字跨表比较——消融格子固定了重叠率与渲染器并排除了 backchannel 叠加，其重叠区只含轮次切换重叠，可比的只有 2x2 内部。Table V 参考（ASR WER %，Polite/Natural/Adversarial）：Whisper large-v2 整体 4.1/6.8/12.7、重叠区 28.3/48.1/56.7、干净区 3.1/1.8/2.2；wav2vec2 整体 16.5/20.2/24.5、重叠区 50.7/64.8/71.9、干净区 15.2/14.7/13.3；论文称重叠区错误一致地比整体高 3-7 倍。Table I 分布真实性（参考为 PriMock57 的 5,611 次发言权切换）：拼接固定间隔 W_fto 0.783/KS 0.557、拼接随机间隔 0.695/0.432、本文 0.366/0.197，论文称 47% 相对改善。此处有一处论文未讨论、必须自行标出的偏差：长尾间隔占比本文 30.8% 对真实 20.5%，超出约 50%；重叠切换 38.5% 对真实 42.8% 偏低，故更接近成立但不等于匹配。边界：英文患者-临床医生问诊域、参考语料 PriMock57、识别器为 Whisper large-v2 与 wav2vec2 而项目用 faster-whisper、全文无任何毫秒级时延或停止时延指标、pyannote-3.1 的说话人日志错误在各难度档间基本不变（该基准主要压 ASR 而非说话人归属）。开放状态：声称发布 180 段（175 分钟）基准却全文零链接——/Annots URI 注解仅 3 条（1 条 arXiv 自链接 + 2 条指向参考文献 DeepSeek-V4 的 arxiv.org/abs/2606.19348），raw 字节扫描 /URI( 仅 1 条，正文裸 URL 仅 1 条且是被换行切断的同一条参考文献地址，即零条作者提供的链接，GitHub 检索无对应仓库，不可核实。另：全文未声明用于阶段二的具体全双工模型是哪一个（只说遵循 Moshi 的 inner-monologue 架构），全文无 GPU 型号、无 batch size、无时延或 RTF 数字，主结果不可复现；致谢段写本匿名稿遵循 IEEE 投稿要求而 PDF 首页明确署名四位作者与两家单位，两值并记。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.16053"
+      ]
+    },
+    {
+      "id": "speaker-identity-signal-outside-the-audio-path",
+      "kind": "design_constraint",
+      "summary": "把多乘员场景下的说话人归属判定做成音频通路之外的旁路控制信号，使其时延不进入首音频预算，而只决定切换说话人后多久适配过来。具体形式：说话人归属判定不应放在输入音频->ASR->判停->生成->播报这条链路里，而应作为旁路信号去影响路由（哪个座位的指令、用哪套工具集、往哪块屏幕执行）。这条约束与既有候选 playback-boundary-ledger-offline-v1 的把状态记在旁路台账里同路。只借架构，不借任何数字。",
+      "why_not_candidate": "项目当前的 452 条基准音频是单说话人合成音频，没有多乘员评测数据可测，因此没有可执行单变量，也没有可估的预计修复数。",
+      "external_evidence": "arXiv:2608.17972（Target Speaker Identification: A Low-Latency Streaming Pipeline，2026-08-18T16:24:49Z 提交，cs.SD，8 页，Children's National Hospital + 亚利桑那州立大学，PDF /License CC-BY-4.0）。论文先陈述矛盾：助听器音频通路时延低至 10ms 即可被听者感知，而现有在线说话人日志系统是 500-1000ms，论文原话是没有任何基于日志的方法能满足音频播放通路的亚 10ms 要求；其解法是把起点与终点识别结果做成在音频播放通路之外运行的控制信号去门控或引导下游低时延放大算法，结论句为识别的时延因此只决定放大在说话人切换时多快适配，而不决定呈现给听者的音频的感知延迟。系统构成全部为他人预训练模型：Diart 0.8.0（基于 Pyannote，RxPY/ReactiveX，500ms 分辨率）做流式日志，Pyannote 2.1.1 做验证。数字：离线日志基线单集 Pyannote DER 0.201、LIUM 0.976；Diart 调参后单集 DER 0.310（论文称相对基线 0.563 降低 44.9%），最优 delta_new=0.895/rho_update=0.1/tau_active=0.5；整系统为 2 个 500ms 块、总时延 1 秒，17 集，阈值 0.70 时准确率中位 0.93/均值 0.91、F1 0.68/0.66、精确率 0.91/0.86、召回率 0.56/0.55、特异度 0.99/0.98，阈值 0.75 时 0.91/0.90、0.70/0.68、0.78/0.73、0.68/0.65、0.96/0.95。两处必须自行标出的问题：摘要只报中位准确率大于 0.90 与特异度 0.95-0.98（该区间对应表中的均值，中位数是 0.99 与 0.96，两值并记）而不报召回，实际召回率中位仅 0.56/0.68 即漏掉目标说话人 32%-44% 的发声时间，因目标说话人在整集时长中是少数类、准确率与特异度会被大量真负抬高（论文讨论段确实写出了召回，摘要没有）；Table 1 的 AUC 全部落在 0.324-0.451 即都不高于 0.5 的随机水平（13s 0.324、26s 0.394、38s 0.410、50s 0.423、57s 0.449、66s 0.451、93s 0.445、105s 0.442、123s 0.446）而同一系统整体准确率中位数是 0.93，论文既未解释也未说明其 AUC 计算范围，最可能的原因是 ROC 只在阈值 0.3-0.95 这一受限区间取点因而是部分 AUC，但论文没有这样声明，故此解释记为推测、该组 AUC 的确切定义记为未知、绝对值不可引用，可用的只有其相对趋势（随注册时长增长至约 1 分钟后趋平，故 1 分钟注册是性价比拐点）。边界：场景是助听器选择性放大而非车控指令路由；数据集为 This American Life 播客第 670-702 集、单一注册目标说话人 Ira Glass、论文自述该数据集相对干净结构化重叠有限背景噪声很少，且明确观察到有背景噪声时说话人验证性能下降，而座舱是持续路噪风噪与媒体播放环境，故其 0.93 准确率在座舱条件下没有任何预期效力；英文，无中文数据、无多目标说话人；全文未声明任何 GPU 或 CPU 型号与数量（NVIDIA 只出现 2 次且均指 NeMo/TitaNet 出处），也没有任何实测墙钟时延或 RTF，其 1 秒是 2x500ms 块的流水线块长算术后果，属三类时延口径中的第二类，算法时延与实测墙钟均未声明。论文自述限制：只注册单一目标说话人；日志基线对比与超参调优各只在单集上进行；每集单次运行，无重复运行、无显著性检验；调参集与评测集未做分离。开放状态：代码未公开，论文原文为仓库可向作者按合理请求获取；11 条 /Annots URI 注解中 1 条 arXiv 自链接、其余 10 条全为第三方（NCBI StatPearls、Kaggle 的 This American Life 数据集 2 次、github.com/StevenLOL/LIUM、huggingface.co/pyannote/embedding、github.com/NVIDIA/NeMo 2 次、一篇 Medium 博客 3 次），零条作者自有制品链接。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.17972"
+      ]
+    },
+    {
+      "id": "minority-class-metrics-demand-recall",
+      "kind": "process_rule",
+      "summary": "新增一条通用筛查判据：凡遇语音检测或识别类结果报了准确率与特异度却不报召回，一律要求补召回再判断。理由是当目标事件在时间轴上是少数类时，准确率与特异度会被大量的真负抬高，这两个指标在此类任务上信息量有限。应用时同时记录三项：正类在评测轴上的占比、召回率、以及摘要报的是中位数还是均值。",
+      "why_not_candidate": "属于发现与筛选流程的规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.17972 的摘要写在 17 个评测集上达到中位准确率大于 0.90 且特异度很高（0.95-0.98），而 Table 2 的召回率中位数只有 0.56（阈值 0.70）与 0.68（阈值 0.75）。摘要的特异度区间 0.95-0.98 对应表中的均值（0.98 与 0.95），中位数是 0.99 与 0.96。该判据对项目自身也适用：项目的严格工具名召回 80.49% 是偏保守口径，语义等价工具会被计为失败，两侧都应分开报。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.17972"
+      ]
+    },
+    {
+      "id": "duplexgen-name-collision-cite-by-arxiv-id",
+      "kind": "process_rule",
+      "summary": "新增一条记录纪律：引用 DuplexGen 一律必须带 arXiv 编号。存在两个互不相关的同名工作——DuplexGen-A（2607.26178，标注协议路线，已于 2026-08-11 详细展开）与 DuplexGen-B（2608.16053，解耦构造路线，本轮展开）。这是本项目迄今第一例完全同名不同工作，与此前记录的命名碰撞（X2-Turn 引用的 SoulX-Duplug 不是本项目的 SoulX、rc19477/*-semamba-docker 是 RT-SEMamba 作者的前作镜像）性质不同——那些只是易混淆，这一例是彻底同名。更一般的规则：判定同名工作是否为同一条目时，四项判据依次为作者与单位是否重叠、投稿时间间隔、双方的 arXiv 版本号（两个独立 arXiv 编号不可能是同一条目的修订）、以及后者是否引用了前者。",
+      "why_not_candidate": "属于记录与去重口径规则，不是被测系统上的改动。",
+      "external_evidence": "四条判据逐条核实：(1) 作者与单位零重叠——2607.26178 的下游模型是 PersonaPlex，而 2608.16053 的作者是东京科学大学（Pengcheng Wang、Sheng Li、Takahiro Shinozaki）与北海道大学（Jiyi Li），且它把 PersonaPlex 当作参考文献 [2]（arXiv:2602.06053，Roy、Raiman 等）引用为他人先前工作；(2) 投稿相隔 20 天，2026-07-28T18:36:46Z 对 2026-08-17T03:30:52Z；(3) 两者各自都仍是 v1（published == updated），经 arXiv id_list 批量查询确认；(4) 2608.16053 的相关工作章节在脚本化对话语音合成一节列举 Behavior-SD、PersonaPlex 与另外四篇，完全没有引用 2607.26178，即两组作者互不知晓重名。两者方法与结论也完全不同：A 的贡献是逐槽人类偏好分布标注加 KL 软标签校准，下游用 1,623 小时合成数据 LoRA 微调 PersonaPlex；B 的贡献是内容/时序/声学三阶段严格解耦，用受脚本约束的双工解码让时序涌现，再由 CosyVoice 保时序重渲染。",
+      "source_urls": [
+        "https://arxiv.org/abs/2607.26178",
+        "https://arxiv.org/abs/2608.16053"
+      ]
+    },
+    {
+      "id": "tracking-list-first-revisions-landed",
+      "kind": "tracking",
+      "summary": "把既有记忆中该跟踪清单从未落地过任何修订这一条改写：修订会出现，且首次出现在投稿后 2-3 天。本轮逐一复核 31 个跟踪 arXiv ID 后出现两例 v2，其余 29 个仍全部为 v1。两份 v2 的具体改动内容本轮尚未逐版比对，记为待办。其中 StreamTTT 的既有结论是标题里的 real-time 不是时延测量、全文零时延数字、未声明 GPU 型号，若 v2 补了时延数字则该结论需要更新。",
+      "why_not_candidate": "属于跟踪状态更新，不是被测系统上的改动。",
+      "external_evidence": "2608.13416 StreamTTT 已是 v2（published 2026-08-13T16:10:33Z、updated 2026-08-16T09:41:57Z，投稿后 3 天）；2608.14097 Ambisonics Encoding of Room Impulse Responses 已是 v2（published 2026-08-14T08:57:32Z、updated 2026-08-17T14:27:56Z，投稿后 3 天）。仍为 v1 的 29 个：2608.07631 PACE、08097 OasisKV、08794 A-PACK、10716 DuplexWorld、10878 X2-Turn、11593 Luna-TTS、11627、12034 SmartGlasses、12082、12099 RT-SEMamba、12703、12715 HybridSB-MoE、12789 PIPES、12880、12932 FlashDrive、13101 CASA、13228 Capability Sheaves、13263 vToken、13560 AutoDesign、13717 StreamHear、13831 VoiceChat-TTS、13926、13959、14036、14150、14191 AATC、14333、14376 CoRun、14385 DeaMoE。另记一项需判定的关系：本轮新出现的 2608.16240（Geometry-adaptive Ambisonic encoding for sparse microphone arrays of variable topology）与跟踪清单上的 2608.14097 是两个不同的 arXiv 编号、同属空间音频方向，是否为同一工作本轮已交付核实但结论未回，记为未知。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13416",
+        "https://arxiv.org/abs/2608.14097",
+        "https://arxiv.org/abs/2608.16240"
+      ]
+    },
+    {
+      "id": "llm-as-judge-substitution-must-be-flagged",
+      "kind": "process_rule",
+      "summary": "当一篇论文因官方评测工具指定的评判模型不可访问而改用另一个模型重测时，必须把这一步单独标出，并附两条后果：(a) 其数字与其他文献引用的同名基准官方数字不可直接对比；(b) 若该评判模型是大模型，则与项目既有纪律（不采纳音频或多模态 LLM 作为打断与情感恰当性的自动判据）冲突，不得进入任何门槛设定，只能作方向性参考。作者对全部被比较系统同口径重测这一点可以是自洽的，标注该步骤不是指责其方法，而是限定其可引用范围。",
+      "why_not_candidate": "属于引用与记录口径规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.17492 §3.1 原文：官方评测工具使用的 Gemini-2.5-pro-preview 不可访问，因此改用 Gemini-2.5-pro 对全部被比较系统打分。受影响的是 Table 3 的 InstructTTSEval 全部数字：FireRedTTS3-Instruct 中文 APS 85.8/DSD 82.0/RP 69.7、英文 80.7/82.3/72.0（六格全部最好），对比 Qwen3-TTS-VD 中文 83.7/81.7/65.8、英文 76.4/81.4/64.2，Ming-Omni-TTS-16B-A3B 中文 84.6/70.7/56.0，VoiceSculptor-VD 中文 74.6/63.5/62.0，MOSS-VoiceGenerator 中文 71.6/72.5/61.3、英文 58.8/71.8/61.6。既有纪律来源为 2608.06718 与 SLT 2026 SmartGlasses Challenge（2608.12034）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.17492",
+        "https://arxiv.org/abs/2608.12034"
+      ]
+    },
+    {
+      "id": "open-status-fourth-tier-available-on-request",
+      "kind": "process_rule",
+      "summary": "在开放状态的记录口径中新增第四档：明示索取制——论文诚实说明代码可向作者按请求获取。它与第三档（声称已发布但未给出任何 URL/DOI/仓库名）的关键区别在于论文没有声称已发布，因此引用时应写未公开，作者称可按请求提供，而不是不可核实。四档完整口径为：明确未发布；已发布可核实；声称已发布但无链接（引用须附不可核实）；明示索取制（引用须附未公开但获取方式明确）。本轮三篇一手论文恰好落在其中三档上，可作为参照样本。",
+      "why_not_candidate": "属于开放状态记录口径规则，不是被测系统上的改动。",
+      "external_evidence": "第四档新例：arXiv:2608.17972 §1 末原文 The repository is available from the authors upon reasonable request；其 11 条 /Annots URI 注解中 1 条为 arXiv 自链接、其余 10 条全为第三方，零条作者自有制品链接。第三档第三例：arXiv:2608.16053 在 §IV-D 写发布的基准含 180 段（175 分钟）、结论写随附构造时真值、伦理声明写所有发布的音频均为合成，而 /Annots URI 注解仅 3 条（1 条自链接 + 2 条指向参考文献 DeepSeek-V4）、raw 字节扫描 /URI( 仅 1 条、正文裸 URL 仅 1 条且为被换行切断的同一条参考文献地址，即零条作者提供的链接；前两例为 2608.13959 与 2608.14036。第二档（已发布可核实）本轮样本：arXiv:2608.17492 的代码与权重，均 Apache-2.0 且已逐文件核实。附一条许可证纪律的正向确认：FireRedTTS3 的 LICENSE 文件正文已读取，11,357 字节标准未修改 Apache-2.0，未发现附加义务——这一次 GitHub API 的 license 字段（Apache-2.0）与文件本体一致，与既有的 NOASSERTION 低报陷阱和 shields.io 徽章高报陷阱都不同，印证既有规则的正确形式是读文件以确认而非假定 API 有误。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.17972",
+        "https://arxiv.org/abs/2608.16053",
+        "https://arxiv.org/abs/2608.17492",
+        "https://github.com/FireRedTeam/FireRedTTS3"
+      ]
+    },
+    {
+      "id": "aec-still-zero-primary-evidence",
+      "kind": "tracking",
+      "summary": "回声消除连续第七轮无重大新增。继续记为持续跟踪，不写任何 AEC 结论或预期，也不因此拔高弱相关工作。本轮新增一条筛查纪律：speech suppression 一词至少对应三种互不相同的问题（声学回声消除、语音的主动降噪、隐私侧的语音干扰），标题不足以区分，必须读正文才能判定问题域。此纪律的直接来源是 08-17 的假阳性教训（关键词 echo 命中的 X-Zhang/EchoMask 实为协同语音手势与整体动作生成，arXiv:2504.09209）。",
+      "why_not_candidate": "没有任何一手证据，无法形成假设或单变量。",
+      "external_evidence": "本窗口（2026-08-14T18:00Z - 2026-08-19T02:30Z）speech enhancement OR noise suppression OR echo cancellation OR beamforming 一组返回 15 篇，其中 11 篇为无线通信波束成形与 ISAC（2608.17122 可重构无线系统信道建模、2608.16866 可移动元件 STARS、2608.16790 极大规模 IRS 的多用户 ISAC、2608.16634 Cell-Free ISAC 的 Cramer-Rao 界、2608.16290 双基站 ISAC、2608.16277 车联网多基站 ISAC、2608.15603 与 2608.15599 流体天线阵列、2608.15556 互耦效应下的鲁棒波束成形、2608.15506 ISAC 感知隐私），另有 2608.16042 稀疏视角 CT 渲染，与声学无关。声学相关的仅 4 篇：2608.16092（Feedforward Active Speech Suppression Based on Time Series Prediction of Speech Signals Using Neural Networks，eess.AS，2026-08-17T04:32:35Z，标题含 Active Speech Suppression 极易被误读为 AEC，问题域判定已交付全文核实、结论待补）、2608.14812（Separate First, Then Associate，真实场景音视频语音增强）、2608.16299（双耳线索保持损失）、2608.16125（实时 MRI 语音增强）。既有记录中 RT-SEMamba 为单通道降噪且明确不含 AEC 的结论不变。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.16092",
+        "https://arxiv.org/abs/2504.09209"
+      ]
+    },
+    {
+      "id": "arxiv-index-backfill-attribution-rule",
+      "kind": "process_rule",
+      "summary": "零结果或异常窗口必须同时记录两项才算完整：检索窗口本身，以及复核时刻的全站最新投稿时间戳。本轮第三次验证该规则，且这次验证的是它的预测能力——08-17 报告依据全站最新投稿仍停在 2026-08-14T17:59:59Z，明确预告 08-15 与 08-16 两批仍未入库、会出现一次更大的回补；本轮实测回补了四个批次而非两个。三次观测到的全站最新投稿时刻分别落在 2026-08-13T17:59:58Z、2026-08-14T17:59:59Z、2026-08-18T17:57:08Z，全部在 17:5x 即 arXiv 每日 14:00 ET 截稿边界上，第三次确认索引按整批推进而非逐篇滴入。回补一律按投稿时间归属，绝不按发现时间归属；窗口起点应定在上一轮实际覆盖到的最后一篇投稿时刻之后，而不是上一轮的运行时刻。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "本轮全站最新投稿为 2608.18072（2026-08-18T17:57:08Z），08-17 为 2608.14549（2026-08-14T17:59:59Z），08-15 为 2608.13561（2026-08-13T17:59:58Z），编号跨度约 3,500 篇。窗口按投稿时间取 2026-08-14T18:00Z - 2026-08-19T02:30Z，起点定在 08-14 批次截稿边界之后一分钟，与 08-17 报告实际覆盖到的最后一篇严格衔接且不重叠；14 组查询去重后 235 篇。对照查询正常：cat:cs.SD totalResults 21,728（08-17 为 21,696、08-15 为 21,686），cat:eess.AS 22,199。下一轮窗口起点为 2026-08-19T02:30Z。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18072",
+        "https://arxiv.org/abs/2608.14549"
+      ]
+    },
+    {
+      "id": "artifact-recheck-active-repo-with-missing-promised-data",
+      "kind": "process_rule",
+      "summary": "把仓库复核的结论口径再细分一层：区分承诺的数据缺失是因为仓库停滞，还是因为仓库活跃却仍未提供。后者是更强的负面判据，因为它排除了疏于维护这一解释。复核动作不变——判断代码是否真的变化必须查到 git/refs 与提交列表，updated_at 与 pushed_at 都不足够——但结论表述应加一句仓库当期是否活跃。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "Yaxin9Luo/AutoDesign 于 2026-08-19 复核：默认分支 HEAD 由 cd5b2bd997（2026-08-15T08:24:24Z）前进到 dade8e3092（2026-08-18T07:08:44Z），递归树由 724 条目增至 831 条目，star 107，最近六次提交为 Merge pull request #6 / docs(skills): announce Poster Agent-first v2 / Merge pull request #5 / fix(skills): bind Poster release provenance / docs(skills): teach Poster Agent-first workflow / fix(skills): route Poster authoring through DOM audit，全部与 Poster、deck、video 的 agent skills 相关；而论文附录 A.5 承诺的逐案例分数存档与人评决策记录连续第四次复核仍不存在，数据类文件仍只有 eval/benchmark_manifest.jsonl（116,325 字节，与此前逐字节相同）与 eval/small_subset_ids.json（890 字节）。反方向的同类例本轮再次成立：ASLP-lab/SemBridge 的 pushed_at 仍 2026-08-10T05:51:29Z 而 updated_at 已到 2026-08-18T04:01:37Z，仍为占位仓库，再次印证 updated_at 不可用于判断代码变更。另 RoyChao19477/RT-SEMamba 的 star 由 1 增至 2 而 pushed_at 仍 2026-08-14T05:16:18Z、size 仍 14368，是同一现象的第三种形态（star 变动使 updated_at 前进）。",
+      "source_urls": [
+        "https://github.com/Yaxin9Luo/AutoDesign",
+        "https://github.com/ASLP-lab/SemBridge",
+        "https://github.com/RoyChao19477/RT-SEMamba"
+      ]
+    }
+  ]
+}
