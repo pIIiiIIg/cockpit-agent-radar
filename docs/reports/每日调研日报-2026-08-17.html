@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日调研日报 · 2026-08-17</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>每日调研日报 · 2026-08-17</h2><div class="report-body"><h1>每日调研日报｜2026-08-17</h1>
+<p>证据日期：项目快照仍是 2026-08-10 10:30 那一份（最新提交 2026-08-04、最近 H20 A/B 2026-08-03，本轮无新提交与新基准）。<strong>Radar 连续第五轮未刷新</strong>：<code>data/items.json</code> 的 <code>generated</code> 仍是 2026-08-12 09:30，新增 0 条。<strong>上一轮预告的索引回补已经发生</strong>：08-15 报告记录当时 arXiv 全站最新投稿是 2026-08-13T17:59:58Z 的 2608.13561，本轮同一查询返回 2026-08-14T17:59:59Z 的 2608.14549，即整个 08-14 批次已入库，而该批次<strong>从未被任何一份已发布报告覆盖</strong>。因此本轮窗口按投稿时间回拨为 <strong>2026-08-13 18:00 UTC 至 2026-08-17 02:30 UTC</strong>（与 08-15 报告的实际覆盖终点严格衔接、不重叠），去重后 83 篇。<strong>注意 2026-08-15 02:30Z 之后 arXiv 全站仍是零投稿零修订</strong>，本轮的新论文全部来自 08-14 那个积压批次而非最近两天。另：<strong>08-16 那一轮没有产出报告</strong>（<code>reports/</code> 与全部远端分支都没有 2026-08-16 的文件，其分支只有一次恢复提交），故对比基线为 2026-08-15，本报告覆盖两个自然日；main 上此前只有到 2026-08-10 的报告，08-11 至 08-15 五轮已在本轮先恢复到主线。制品复核时刻为 2026-08-17，晚于 02:30 的论文截止。</p>
+<p>方向：流式 TTS — VoiceChat-TTS 是首个制品可逐文件核实的低时延流式 TTS（当前首音频 P50 2,918ms（A）/3,491ms（B）而首文本最快只要 131ms，瓶颈明确在 Edge TTS，此前唯一的 TTS 候选依据 Luna-TTS 项目页至今无代码无权重无许可证且页内自相矛盾；2608.13831（NVIDIA，2026-08-13T23:37:07Z 投稿）给出<strong>并发 1</strong>——与项目 batch=1 同口径——在 RTX A6000 上的实测：声学 ITL 7.16ms + codec 2.46ms = <strong>9.62ms</strong>，同协议重测的 Qwen3-TTS-12Hz-1.7B 为 15.44/4.90/20.34ms，每帧对应 80ms 音频，模型 977M（778M Gemma 3 流式 TTS + 199M codec）；制品本轮逐文件核实为真——代码在 <code>NVIDIA-NeMo/Speech</code>（<strong>Apache-2.0</strong>、18,144 star、2,882 条目未截断）内命中 31 个 <code>voicechat|duplex</code> 路径，权重在 <code>nvidia/NVIDIA-NemotronLabs-VoiceChat-11B</code>（<strong>OpenMDW-1.1</strong>、非门控、1,536 下载/390 likes）；可以尝试的<strong>只有只读代码与制品审阅</strong>，回答两个可判定问题——977M 的 TTS 子模块能否脱离 11B 主干单独实例化推理、22,050Hz 输出如何对接项目 16kHz 链路；三条边界写死：<strong>全英文无中文指标</strong>；TTS 子模块<strong>没有独立权重文件</strong>，被封在 44,382,749,892 字节的单一 <code>model.safetensors</code> 内且 HF 上不存在独立 TTS 模型页；<strong>9.62ms 是 ITL 不是首包</strong>，论文引言谈 TTFA 但结果部分从未报自己的 TTFA，首包时延记为未知）</p>
+<p>方向：打断收尾 — 确定性静音帧是可脱离模型单独借用的机制（当前 <code>playback-boundary-ledger-offline-v1</code> 与 <code>tool-hold-message-first-audio-v1</code> 都只有协议层设计，缺一个明确的“收尾动作”定义；VoiceChat-TTS 把收尾实现成在中断对齐位置<strong>确定性写入一个预先算好的静音帧</strong>而不是等声学流自然衰减，且写入后<strong>不重置 KV cache</strong>，打开 <code>Force Silence</code> 后 IOR@320ms 由 96.8% 升到 100.0%、平均停止时延由 228.3ms 降到 89.9ms、1 秒内泄漏由 169.1ms 降到 55.8ms、后续轮 AI-CER 由 0.255% 降到 0.095%；该机制本轮<strong>逐行核对与论文完全一致</strong>——<code>duplex_ear_tts.py</code> 第 1193 行 <code>inference_force_speech_silence_on_eos</code>，<code>get_codec_silence_frame()</code> 编码 <code>10 * target_sample_rate</code> 的零波形、用 <code>Counter</code> 对每帧 31 个 token 的组合计数、取 <code>most_common(1)</code>，正是论文所述“编码一段较长纯静音并取出现频次最高的 31-token codec 帧”；可以尝试在项目自己的播报链路上实现同构的确定性收尾写入，但<strong>那四个数字不可借用为项目预期值</strong>——它们是英文 FDB 音频上用该模型自己的 codec 帧测的，任何借用都必须在项目自己的取消残留指标上单独验收）</p>
+<p>方向：TTS 质量与速度的分离 — “更快”不等于“更好”（当前项目若做 TTS 替换容易只看时延一侧；同一张表里 Qwen3-TTS-12Hz-1.7B 的 CER 0.34%、WER 1.01%、SECS 0.827、Squim-MOS 4.45 <strong>四项全面优于</strong> VoiceChat-TTS 的 1.00%/2.00%/0.757/4.380，论文自己也写“常规 TTS 系统取得了最好的单轮可懂度、说话人相似度与预测整体语音质量”；作者另主动写出一条退化——未见说话人的 SECS 随轮次由 1 轮 0.757 单调降到 4 轮 0.685；可以尝试的是把“时延 + 质量”固定成替换实验的双侧验收口径，并记住 Squim-MOS 是<strong>非侵入式预测</strong>质量估计而非主观 MOS，论文明确说它“作为非侵入式质量估计而不是自然度的直接度量”使用）</p>
+<p>方向：MoE 解码 — DeaMoE 把“小批量”的下界钉在 batch 4，是一条筛子而不是一个方案（当前解码 110ms/token，根因已实测定位到 HF MoE 每 token 约 816 次 GPU→CPU 同步，速度不随 KV 长度变化、与按 config 实算的带宽下限差约 36 倍；2608.14385 标题与摘要都主打 small-batch decoding，摘要给出每步加载权重最多减少 50.9%、7B 端到端 TPOT 最高 1.33×、DeepSeek-V3 微基准 A40/H100 峰值 2.00×/1.97×，但图 3 横轴<strong>从 batch 4 起步</strong>，逐点为 4→1.02×、8→1.14×、16→1.26×、24→1.32×、32→<strong>1.33×</strong>、40→1.30×、48→1.26×、64→1.20×、96→1.13×、128→1.03×，论文原话是“加速比随 batch 从 4 增长到 32 而上升”；项目是 batch=1，位于曲线起点之外更低的一侧，按其自身趋势外推收益低于 1.02×；可以尝试的是把家族判据从“需要大 batch”<strong>扩写为“最小可评测 batch 是否为 1；若不是且收益随 batch 减小而单调下降则直接否”</strong>，一次性挡掉整类以 small-batch 为卖点却从 batch 4 起步的工作；另两条独立否决理由：它是<strong>预训练期架构改动</strong>需从零预训练 7.3B/110B token，对既有 Qwen3-Omni 权重不可用；它攻击的是<strong>访存带宽</strong>瓶颈——论文原话“缓解 A40 GPU 上的带宽瓶颈”——而项目实测瓶颈<strong>不是带宽</strong>，同一个词“解码慢”两边指的是完全不同的东西；开放状态：<strong>无代码无权重</strong>，全文唯一 GitHub URL 是参考文献里的 Meituan LongCat，61 条 URI 注解逐条查看全为参考文献，正文只承诺“训练用代码将在之后开源”）</p>
+<p>方向：图捕获 — CUDA Graph 拿到第三条独立旁证且形式最强（当前 <code>decode-loop-cudagraph-static-kv-v1</code> 的依据是 08-14 的 FlashDrive 与 vToken 两条线索；DeaMoE 在实现小节写“我们也为 DeaMoE 与所有基线启用了 vLLM 的 CUDA Graph 执行。由于解码本身对时延敏感且通常运行在小批量区间，采用 CUDA Graph 是业界降低 kernel 启动开销的通行做法”——它不是把图捕获当优化来宣传，而是当作<strong>基线也必须具备的标配</strong>否则对照不公平；可以尝试把这条记为先验提高，但<strong>执行顺序不变</strong>：仍是先落地无同步 <code>index_select</code>+<code>bmm</code> 快路径，再把整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论；另有一条<strong>仅供定性参考不可相减</strong>的量级观察——DeaMoE 的基线在 A40 上于 20–30ms TPOT 预算内可支撑 batch 24–64，而项目在更强的 H20 上 batch=1 却是 110ms/token，但模型/框架/硬件/batch 四项全不同，只能支持“110ms 更像实现问题而非硬件问题”这一方向性判断）</p>
+<p>方向：解码可复现性 — 固定形状同时买到确定性，这是图捕获候选此前没算过的第二笔收益（当前项目最高优先级是判定器处理不变性检查，源于 2608.12880“只翻转与行为无关的元数据就改变了 180 条中的 31 条判定”；CoRun（2608.14376，cs.OS/cs.PF，南京大学 + 腾讯 Hunyuan，靠新增的第 14 组 <code>cs.HC OR cs.OS</code> 查询才捞到，不在标准 13 组覆盖内）指出的是更底层一层——非确定性的主因是<strong>批次相关的 GPU 执行</strong>，动态输入形状会改变 kernel tiling 与浮点归约顺序，而它的解法正是<strong>隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph</strong>，相对 batch-invariant 方案吞吐提升 15–324%、平均 TTFT 降 51.8% / TPOT 降 48.6%，端到端时延分解 Standard 19.4ms / Batch-invariant 88.4ms / CoRun 32.6ms；<strong>与项目最相关的一条数字</strong>是其对照图里 Qwen3-30B-A3B（MoE）的 rollback ratio 达 <strong>45.41%</strong>，接近同规模稠密 Qwen3-32B（24.25%）的两倍，Qwen3-8B 为 17.94%，论文解释“一个很小的 router 扰动就可能改变被选中的专家，此后两条执行路径执行的是不同的计算，而不只是累积不同的低位比特”；可以尝试的是一条<strong>零成本、不需要 GPU 申请</strong>的自测——同一条音频、同一 seed 连续跑 N 次，逐 token 比较输出，记录是否逐次一致以及首次分歧出现在第几个 token，若存在分歧则既有 ±1/±4 结论都要重新评估显著性，若不存在则记为有价值的负结果写进判定协议；三条边界写死：<strong>45.41% 不可迁移</strong>——它是投机-验证框架下 ShareGPT、64 token 验证窗口、高并发条件下的候选拒绝率，<strong>不是</strong>“单次 batch=1 推理有 45% 概率不可复现”，可迁移的只有机制；<strong>论文全文未声明 GPU 型号与数量</strong>，其 19.4/88.4/32.6ms 与全部吞吐百分比无法与项目 H20 数字做任何量级对照；其“固定形状批量 decode”需预选最大并发度、属多请求在线服务机制，对 batch=1 的项目不适用，可迁移的只有“固定形状 + 图捕获 ⇒ 可复现”这条性质；开放状态：全文 29 个 URL 中与实现相关的只有他人仓库 <code>vllm-project</code> 与 <code>ise-uiuc/blazedit</code>，<strong>未发现 CoRun 自身仓库</strong>，实现方式仅写明“在 vLLM 0.25.0 中实现”）</p>
+<p>方向：工具弃权 — 受约束解码修不了“该不调用时仍调用”，有了明确负面证据（当前项目“闲聊仍注入工具”长期未闭环，加分数门槛要滤净全部闲聊需 T=5、代价误伤 6.25% 真指令，因而保留现状；2608.13959（cs.CL，24 页，单作者 Janghoon Lee/Redrob，已全文核实）把约束语法的两件事——<strong>规定生成在哪里停止</strong>与<strong>规定哪些 token 可发</strong>——分开测，结论是相对无约束解码，弃权列按符号在六个单元格中的<strong>五个</strong>为负、其中<strong>四个区间不含零</strong>（0.6B KO 为 −0.5 [−9.5,+8.0] 含零，引用时必须带上“区间不含零”这个限定）、<strong>最差 −29.5 个百分点</strong>，且没有任何一个单元格出现区间不含零的正效果，而<strong>工具选择列六个格子全部为正</strong>；条件为 Qwen3-0.6B/1.7B/4B、温度 0、五个服务端种子、vLLM 0.27.1 <code>structured_outputs</code>、<strong>NVIDIA L4</strong>、MetaTool Task2 各 200 条、共 36,000 次请求；分解到最小模型的韩语上是停止 token <strong>−20.0</strong>、enum <strong>+19.5</strong>、合计 <strong>−0.5</strong>；被修复的 698 条弃权中 <strong>545 条原本没有可读答案、0 条是评分器拒绝给出的判断</strong>，即它恢复的只是形式；作者还写明“两条预注册的语言学主张均告失败”，评测为 0.6B 至 4B 开放权重模型、英韩逐条配对；可以尝试的是<strong>继续不走解码约束这条路</strong>，维持现有的候选工具集晚注入加确定性执行器校验（已拦住 45% 的失配大头），并借用它的实验设计——把“停止位置”与“可发 token 集合”当作两个独立变量分别测而不是把语法当成一个整体开关；边界写死：<strong>它测的是弃权而不是工具选择准确率</strong>，不得把 −29.5 读成“约束解码总是有害”，也<strong>不得把工具召回的提升读成判断力的提升</strong>；<strong>全文零时延数字、<code>batch</code> 一词从未出现</strong>；开放状态是强负面——论文反复声称存在“已发布的仓库”“PREREG.md”“<code>make verify</code>”，却<strong>全文没有给出任何 URL、DOI 或仓库名</strong>，36 条 URI 注解全为参考文献与自链接，GitHub 检索返回 0，<strong>不可核实</strong>）</p>
+<p>方向：基座与前导静音 — 本窗口唯一直接微调项目基座的论文（当前项目的 452 条音频从未检查过前导静音分布，而既有记录里 pipecat 测到过 250.431ms 的前导静音；2608.14150（cs.CL，Ant Group + 电子科技大学，已全文核实）是第二届 MLC-SLM 挑战赛系统论文，两项任务都在<strong>完整未切分的多语种对话</strong>上评测且评测时不提供 oracle 话语边界与说话人标签，Task 1 微调 VibeVoice-ASR-7B 用<strong>随机前导静音裁剪</strong> + 一致性时间戳校正 + EMA，tcpMER 由 <strong>18.30% 降到 17.27%</strong>、EMA 再降到 <strong>16.73%</strong>；Task 2 通过多模态候选生成、静音音频过滤与分布匹配增强构造合成问答对，并<strong>微调 <code>Qwen3-Omni-30B-A3B-Instruct</code></strong>——与项目基座同族——做带标签直答，准确率沿 <strong>78.0 → 81.0 → 83.0 → 85.0 → 86.0</strong> 逐级提升；<strong>此处有一处真实源内不一致，按纪律三种说法并记</strong>——摘要与引言写“由 <strong>83.0%</strong> 提到 86.0%”，§3.3 写“由 <strong>78.0%</strong> 提升到 86.0%”，而 Table 2 把 78.0% 标为“Baseline (direct answering)”、结论却称 83.0% 是“reasoning-then-answer 基线”；可以尝试两件事：一是零成本自查——统计项目 452 条音频的前导静音分布看是否存在偏差；二是借用其<strong>静音音频过滤</strong>——把音频替换为静音后仍答对的样本一律丢弃、只保留因此答错的，这是一个廉价且与模型无关的反事实过滤器，用来保证样本确实依赖音频而非文本先验，且它正施加在项目同族的 Qwen3-Omni-30B-A3B-Instruct 上（约 210k 候选经该过滤只剩约 67k，即 32%）；边界写死：它的任务是对话理解问答而非工具调用，走的是<strong>微调</strong>路线而项目不做微调，其 86.0% 与项目 80.49% 的严格工具召回<strong>没有任何可比性</strong>；<strong>全文未声明任何 GPU 型号</strong>（只说“16 个加速设备”），<strong>全文无任何时延数字</strong>，<code>/URI</code> 注解仅 1 条且是 arXiv 自链接、<strong>无作者仓库</strong>，其所微调的 <code>VibeVoice-ASR-7B</code> 在 HF 上无法解析（401），是否等同于 <code>microsoft/VibeVoice-ASR</code> <strong>记为未知</strong>）</p>
+<p>方向：工具检索 — 候选池增大会显著劣化“实际被用到的那一条”（当前项目 RAG 在 <strong>300 个不同工具</strong>上取得 Recall@24 98.78%，但已知“上下文引力：光场屏偶被选成副驾屏”未根治；2608.14036（cs.AI，已全文核实）规范化 8,135 条试验记录、从 240 条开放编码记录保留 238 个有效唯一标签，给出三条数字——<strong>候选池由 5 增长到 100 时实际使用精度由 29.6% 降到 3.3%</strong>、程序性锚定占技能案例 65.7% 而显式知识注入仅 4.5%、技能相对 Workflow Memory 高 6.06 分；另有一条与项目自身判断相互印证的结论：“<strong>精确命中 ground-truth 调用既不充分也不必要</strong>”，正对应项目已记录的“严格工具名召回是偏保守口径、语义等价工具会被计为失败，后续需要参数与最终车态的语义成功判定”；全文还多给出三条：离线 top-1 嵌入精度 88.3%→76.9%、显式代理选择 70.0%→63.7%，而 <strong>Arm 3 在 k=100 时召回仍有 54.3–73.6%、精度只有 0.7–8.1%</strong>，即<strong>高召回可以与极低精度并存</strong>；相似（可混淆）池更糟——Arm 1 由 70.5% 降到 53.4%，而随机池是 97.7%→84.1%；可以尝试的是把池规模劣化列为上下文引力问题的一条设计告警，并记住 top-1 检索精度是下游成功率的很差代理；边界写死：这是<strong>文本/CLI agent 的技能包</strong>研究，不涉及语音、流式或车控，全文<strong>无时延、无 batch size、无 GPU</strong>，唯一成本量是 token 而 Skill 相对 Workflow Memory 每任务多花 <strong>+93.8K 输入 token</strong>，对项目约 2500 token 的 KV 预算是灾难性的；其正文提到“已发布的制品”却无 URL，所引的 <code>anthropics/skills</code> <strong>没有开源许可证</strong>（逐 skill 的 LICENSE.txt 是“保留所有权利”并指向 Anthropic 服务条款））</p>
+<p>方向：KV 压缩 — 反模式家族第五个成员，按判据直接否（当前项目 KV≈2500、batch=1，且实测解码速度<strong>不随 KV 长度变化</strong>，内存从来不是瓶颈；2608.14191（AATC，cs.LG/cs.CL/eess.SP，已全文核实）首句即把 KV cache 定位为<strong>长上下文推理</strong>的主要内存瓶颈，方法是把注意力感知失真按键/值、按 token 与通道做可加分解，再用变换编码与反向注水法分配比特，在 Llama-3.1-8B-Instruct 与 Qwen-2.5-7B-Instruct 上于 LongBench、RULER、GSM8K、MMLU-Pro、MATH-500 评测，约 <strong>5.82×</strong>（摘要写“约 5.8×”，两值并记）压缩下接近无损；不采纳——继 OasisKV、vToken、ImpactHO、DeaMoE 之后的第五个成员；全文核实后新增三条硬事实：<strong><code>batch</code> 一词从未出现</strong>、<strong>全文未声明任何硬件</strong>、以及 §VII 的作者自述“我们的实现没有做系统级优化，特别是<strong>缺少专门的 CUDA 实现</strong>，而这在该方法能用于生产之前是必需的”，配合全文零墙钟毫秒、零 tokens/s、零加速比，可以确定其“压缩”是字节计数论证而非任何运行系统中的实测收益；更关键的是它会让项目更糟——其在线路径在<strong>每个解码步每一层</strong>追加投影、量化与重建，正加在项目想要图捕获的那个循环里。同批的 2608.14333（Beyond Capacity，cs.AR，KAIST）同样不采纳，但<strong>必须更正一处此前的表述</strong>：它<strong>确实评测了 B=1</strong>（批扫描含 B ∈ {1,4,16,64}，二十组序列长度扫描全在 B=1），所以<strong>批大小判据抓不住它</strong>；真正否掉它的是三条——<strong>容量墙前提</strong>（专家权重 281 GB–1.5 TB、单模型权重即超过 H100 的 80GB HBM）、<strong>尚不存在的 HBF 硬件</strong>、<strong>全部主结果为仿真输出</strong>（真实硬件只用于算子测速，一张 H100 PCIe 80GB）；另记其源内不一致：摘要的 <strong>1.94× 在正文中一次都没有出现</strong>，且“1.90×”被归给两个不同条件，端到端降幅有 47.4%/44.8%/42.2% 三种说法；值得单独留存的是其路由 logit 重写 P = α(P_base + P_attn)，α 是同 token 所有专家共享的正标量、<strong>只改量级不改排序</strong>，故 top-k 可在残差相加与 RMSNorm 之前<strong>精确</strong>算出——这是<strong>非投机</strong>的，与项目已实测为负的投机预取性质不同，但其收益是掩盖 NAND 读启动（B=1、t_R=3µs 时 TPOT 仅降 3.86%），项目没有闪存读要掩盖，预期收益约等于零）</p>
+<p>方向：全双工评测 — DuplexWorld 发的是场景规格，不是评测能力（当前项目评测仍是自建 452 条加 414 冻结 canary，无第三方全双工场景集；<code>CentificAIResearch/Duplex-World</code> 于 2026-08-15T16:50:32Z 创建、<strong>CC-BY-4.0</strong>、非门控、标注 <code>arxiv:2608.10716</code>，六个领域加 <code>all.jsonl</code> 共 10 个文件；本轮实测两项自洽性检查均通过——六个领域文件字节和恰为 103,426 与 <code>all.jsonl</code> <strong>完全相等</strong>，行数和 3+2+2+1+9+1 = <strong>18</strong> 也相等；单条不是短文本而是约 10KB 的完整场景规格，17 个字段含 <code>decision_tree</code>（2,566 字节）与 <code>evaluation_criteria</code>（2,459 字节）；可以尝试的只有格式借鉴——把“系统应该怎么走”和“怎么算通过”在数据结构上分成两个独立字段，正是判定器不该读到某些字段的前提，可用来支撑既有的 <code>grader-treatment-invariance-audit</code>；边界写死：<strong>没有音频、没有 harness 代码</strong>，08-11 记录的最有价值结论“三个 harness 旋钮对 Pass@1 的影响与换系统相当”<strong>并未因本次发布变得可复现</strong>；<strong>18 条不足以支撑任何准确率结论</strong>，README 的 <code>size_categories: n&lt;1K</code> 技术上成立但会严重高估规模，不得并入项目 452 条评测集）</p>
+<p>方向：检索基础设施 — 零结果与索引回补是同一条时间线的先后状态（当前 Radar 连续第五轮未刷新，直接检索是唯一发现通道；本轮先按常规窗口 <code>submittedDate:[202608150230 TO 202608170230]</code> 跑 14 组查询全部返回 0 条，随后三级证伪——去日期约束的对照查询正常返回（cs.SD 全站 <strong>21,696</strong>，08-15 记录为 21,686）、不限类别按投稿时间倒序的最新一条已由 2608.13561 前进到 <strong>2608.14549（2026-08-14T17:59:59Z）</strong>、全站窗口 <code>[202608150230 TO 202608170230]</code> totalResults 仍为 <strong>0</strong> 而 <code>[202608131800 TO 202608170230]</code> 为 249；逐类别最新条目全部落在 08-14 12:34Z–17:59Z，<code>lastUpdatedDate</code> 落在最近两天的修订三组查询均为 0；可以尝试记住两条判据——两次的全站最新投稿时刻都是 17:59:5x 即 arXiv 每日 14:00 ET 截稿边界，说明<strong>索引按整批推进而非逐篇滴入</strong>，所以“窗口零结果”与“批次尚未入库”是同一现象的两种描述，08-15 那份零新增报告在当时是正确的、本轮 83 篇也不是它漏掉的；下一轮窗口起点为 2026-08-17 02:30Z，且必须再查全站最新投稿时刻——若仍停在 08-14T18:00Z 说明 08-15/08-16 两批仍未入库、还会有更大一次回补，<strong>一律按投稿时间归属</strong>）</p>
+<p>方向：回声消除 — 连续第五轮无重大新增，且排除了一个假阳性（当前 AEC 与扬声器泄漏仍完全没有一手依据；本窗口 <code>speech enhancement OR noise suppression OR echo cancellation OR beamforming</code> 一组返回 5 篇，逐条查看后<strong>全部是无线通信波束成形</strong>（mmWave 信道估计、感知通信计算一体化、6G 光子基站、SIM-UAV 波束优化）与一篇冷原子物理，<strong>无一为声学 AEC</strong>；HF 窗口内唯一命中 <code>echo</code> 关键词的一手发布 <code>X-Zhang/EchoMask</code>（2026-08-16T06:33:52Z）经核实指向 arXiv:2504.09209《EchoMask: Speech-Queried Attention-based Mask Modeling for Holistic Co-Speech Motion Generation》（ACM MM 2025，cs.GR/cs.CV/cs.SD），是<strong>语音驱动的协同手势与整体动作生成</strong>，产物为 SMPL-X 动作与 BEAT2 相关的 npz/权重压缩包，与回声消除毫无关系，已从该方向排除；附带一条支持既有复核纪律的事实——该论文 2025-04-12 投稿、2026-08-16 才发官方 checkpoint，<strong>制品滞后约 16 个月</strong>；继续跟踪，不写任何 AEC 结论或预期）</p>
+<p>方向：制品核对 — <code>pushed_at</code> 也会在没有可达新提交时前进（当前既有用法是“<code>updated_at</code> 会因 star 变动而动，要用 <code>pushed_at</code> 对照提交列表”；本轮 <code>Yaxin9Luo/AutoDesign</code> 的 <code>pushed_at</code> 为 <strong>2026-08-16T12:19:13Z</strong>，但 <code>git/refs</code> 里只有 <code>refs/heads/main</code> = <code>cd5b2bd997</code>（<strong>2026-08-15T08:24:24Z</strong>）与两个 PR head，<strong>默认分支 HEAD 并未前进</strong>，递归树仍 <strong>724 条目</strong>、42 个 json/jsonl/csv 集合未变、releases 0 / tags 0；可以尝试把复核动作再往下加一层——判断代码是否真的变化必须查到 <code>git/refs</code> 与提交列表，<code>updated_at</code> 与 <code>pushed_at</code> <strong>都不足够</strong>；附带结论：论文附录 A.5 承诺的逐案例分数存档与人评决策记录<strong>连续第三次复核仍不存在</strong>，数据类文件仍只有 <code>eval/benchmark_manifest.jsonl</code> 与 <code>eval/small_subset_ids.json</code>，引用 r=0.34 时仍须附一句“其原始人评数据不可被第三方复核”）</p>
+<p>方向：去重 — HF 窗口 148 条新条目，一手发布 3 条，且项目基座开始出现第三方衍生（当前 arXiv 最近两天为零时容易把 HF 新增当补充来源；本轮以 14 个关键词按创建时间筛出窗口内 <strong>148 条</strong>，一手发布仅 3 条——<code>CentificAIResearch/Duplex-World</code>（CC-BY-4.0）、<code>X-Zhang/EchoMask</code> 与其推理数据集、<code>laion/moss-voice-identity-loras</code> 与 <code>moss-voice-identity-repairs</code>（Apache-2.0，仅跟踪）；可以尝试新增一条噪声过滤规则——**把 <code>base_model:*Qwen3-Omni*</code> 明确列入过滤**，因为本轮出现 <code>VikramPal/Qwen3-Omni-30B-A3B-*</code> 共 8 条（S2S 与 SLURP 两组各含 QLoRA/bf16/DynQuant-3bit/DynQuant-4bit），全部带 <code>base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct</code> 系标签、下载与点赞均为 0，是<strong>项目所用基座的第三方衍生而非官方发布</strong>，极易被误读为基座更新；另记批量单作者上传仍在抬高计数——<code>Devsyril/mms-tts-*-sherpa-onnx</code> 10 条、<code>uam-wmi-asr-eval-labs/*</code> 8 条、<code>anonymous4486/audio-flamingo-3-hf_*</code> 6 条、<code>ghananlpcommunity/*</code> 与 <code>lingamvamshikrishnareddy/*</code> 各 4 条，合计 32 条只相当于个位数的实际发布，<strong>按发布计而不是按行计</strong>）</p>
+<p>方向：流式 ASR 域适配 — 配方可迁移，且自带一条“别做过滤”的负结果（当前项目 ASR micro CER 6.39% 是全局数字，车内域外泛化未验证，而有标注域内数据昂贵、无标注音频充足；2608.13717 StreamHear（Capital One，已全文核实）的配方只有三步且<strong>每步只跑一次</strong>——在有标注域内集上微调离线全上下文 transducer 教师、用它做一次贪心解码得伪标签、在混合集上微调 cache-aware 流式学生，另加一个先验正则化的动态规划重对齐修正块级词位；Table 2（5 个种子、RC=1 即 160ms 算法时延、LC=70）StreamHear 在四个数据集上的 test/unlabeled 为 Earnings-21 6.63/7.77、Earnings-22 11.76/9.56、SPGISpeech 2.59/2.26、BankCall 9.80，相对微调学生好 0.18–0.88 与 0.44–1.85 个百分点，与微调教师的差距被压到 test 至多 0.95 点、unlabeled 至多 0.11 点；重对齐把块文本对齐质量 WER 由 17.46→8.01、20.54→10.97 而块数变化 ≤0.4%；<strong>最值得记的是一条负结果</strong>——置信度 top-K 过滤（25/50/75/100%）在两个数据集两个 split 上随 K 增大<strong>单调变好、K=100% 始终最优</strong>，原话“丢弃低置信度伪标签从未有帮助”，即这套配方里<strong>过滤机制应当整个省掉</strong>；边界写死：其时延数字<strong>全部是算法时延</strong> (1+RC)×80ms，<strong>全文没有任何实测墙钟毫秒或 RTF</strong>；训练用 4 张 A100-SXM-40GB，推理批大小未声明；英文专用归一化管线（缩写展开、填充词删除），学生是 NeMo 的 cache-aware FastConformer-RNN-T 而项目用 faster-whisper，其重对齐所解的块边界词位问题项目没有；四个数据集之一 BankCall 是专有数据不公开且无代码，<strong>主结果原则上不可复现</strong>）</p>
+<p>方向：制品核对 — 本批六篇“零作者仓库”，其中两篇声称已发布却给不出 URL（当前引用论文数字时容易默认“论文说发布了就是发布了”；2608.13959、2608.14150、2608.13717、2608.14191、2608.14333、2608.14036 六篇经全文核实后，<strong>没有任何一篇提供作者自有的代码、模型或数据仓库</strong>，六份 PDF 中出现的每个 GitHub/HF 链接都指向第三方（<code>NVIDIA-NeMo/Speech</code>、<code>scale-snu/LLMSimulator</code>、<code>anthropics/skills</code>、<code>harbor-framework/harbor</code>、<code>huggingface/open-r1</code>、<code>xai-org/grok-1</code>）；其中 <strong>2608.13959 反复提到“已发布的仓库”“PREREG.md”“<code>make verify</code>”、2608.14036 提到“已发布的制品”，两者全文都没有给出任何 URL、DOI 或仓库名</strong>，GitHub 检索均返回 0；<strong>2608.14150 的 <code>/URI</code> 注解只有 1 条且是 arXiv 自链接</strong>，即零条作者提供的链接；可以尝试把“论文声称发布但未给 URL”单列为一种开放状态，与“明确未发布”和“已发布可核实”区分开——它在引用时必须附一句“不可核实”；另记两条许可证陷阱：<code>anthropics/skills</code> 无顶层 LICENSE，其逐 skill 的 <code>LICENSE.txt</code> 是“保留所有权利”并指向 Anthropic 服务条款、<strong>不是开源许可证</strong>，而挑战赛主办方的 <code>alanshaoTT/MLC-SLM-2nd-Task1-Baseline</code> 干脆没有任何 LICENSE 文件；再记一条横向事实：<strong>这六篇没有一篇提到 CUDA Graph、图捕获、主机同步或动态形状</strong>，最接近的一句是 2608.14333 的“跨 GPU 集合通信与同步开销”——那是 GPU 间通信，与项目定位的每层 GPU→CPU 同步是不同现象，<strong>项目的图捕获硬筛子不受本批影响</strong>）</p>
+<p>方向：持续跟踪不重启的项目（判定器处理不变性检查仍是优先级最高的一件事，<strong>高于本轮的 TTS 只读审阅</strong>，本轮唯一相关新增素材是 DuplexWorld 把 <code>decision_tree</code> 与 <code>evaluation_criteria</code> 分成两个独立字段这一写法，可作为“判定器不得读取哪些字段”排除清单的参照；快照“下一步”第 2 条的 clean/20dB/音色分桶归因连续第三轮列为首位，仍是 <code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的硬前提与其 <code>expected_fixes</code> 上界的唯一来源；<code>RoyChao19477/RT-SEMamba</code> 本轮复核 <code>pushed_at</code> 仍 2026-08-14T05:16:18Z、size 仍 14368、仍 1 star，连续第三轮字节级不变；<code>CodeForZzc/GCM-Bench</code> 最后推送仍 2026-08-11T06:29:47Z 连续第六天不变、PACE 中间件本体仍未公开；<code>ASLP-lab/SemBridge</code> 仍占位（<code>pushed_at</code> 2026-08-10T05:51:29Z，<code>updated_at</code> 2026-08-15 为元数据活动，再次印证 <code>updated_at</code> 不可用于判断代码变更）；<code>ASLP-lab/Smart-Glass-Challenge</code> 仍 26KB 无 LICENSE；<code>z-lab/flashdrive</code> 仍 MIT、最后推送仍 2026-07-06T00:54:50Z；<code>aalto-speech/CASA</code> 仍 Apache-2.0、<code>pushed_at</code> 仍 2026-08-13T09:59:25Z、无权重文件；<strong>20 个跟踪 arXiv ID 经逐一复核全部仍为 v1</strong>，<code>updated</code> 均等于 <code>published</code>，无一有 v2；candidate-ID/CMTF、conditional top-2 verifier、投机预取、工具清单压缩、主模型自判停的负结果不重跑；参数化本体、云监督与 SoulX 不重复启动）</p>
+<p>今日新增 handoff 候选：<strong>0 条</strong>。本轮唯一够格进入执行序列的新素材是 VoiceChat-TTS，但它有两个未决的可判定问题——977M TTS 子模块能否脱离 44.4GB 的 11B 整包单独实例化、22,050Hz 与项目 16kHz 链路如何对接——在这两个问题有答案之前既没有清晰单变量也没有可测的预计修复数，按既定规则<strong>只留在报告并登记为只读前置任务，不进入候选</strong>。DuplexWorld 数据集只有 18 条且无音频无 harness，只能做格式借鉴，同样没有单变量。DeaMoE 是明确的反面判据，本身就不该成为候选。既有五条候选 <code>omnivoice-local-tts-16step-v1</code>、<code>tool-hold-message-first-audio-v1</code>、<code>playback-boundary-ledger-offline-v1</code>、<code>decode-loop-cudagraph-static-kv-v1</code>、<code>streaming-se-frontend-rtsemamba-kd1-v1</code> 全部保持仅离线、<code>h20_request_allowed=false</code>，本轮无一条状态变化；其中 <code>decode-loop-cudagraph-static-kv-v1</code> 的外部先验因 DeaMoE 的旁证而提高，但顺序与门槛不变。</p>
+<p>去重与来源关系：本轮四处必须写明的来源关系。其一，<strong>VoiceChat-TTS（2608.13831）不是独立新工作</strong>，而是 08-12 报告已记录的 NVIDIA NemotronLabs VoiceChat 11B 全双工模型的<strong>TTS 组件级论文</strong>，论文自述其 checkpoint “作为 NVIDIA-NemotronLabs-VoiceChat-11B 的一部分”提供，因此 08-12 记录的整机数字（FDB-v3 工具选择 82.5%、参数准确率 44.2%、Pass@1 33%、口语 BFCL-v3 平均 56.1%）与本轮的 TTS 数字<strong>不可混用</strong>；另注意该权重页 <code>lastModified</code> 为 2026-08-11T09:46:06Z，<strong>早于本论文 08-13 的投稿时刻</strong>，即论文发表并未伴随任何新上传。其二，<strong>DuplexWorld 数据集发布不是新论文</strong>，而是 2608.10716（2026-08-11 投稿、08-11 已展开）的制品发布，与 RT-SEMamba 于 08-14 发布制品同类，不计入新增 arXiv ID。其三，<strong><code>X-Zhang/EchoMask</code> 与回声消除无关</strong>，是 arXiv:2504.09209 的官方 checkpoint（ACM MM 2025，协同语音动作生成），仅因关键词 <code>echo</code> 被扫描命中。其四，<code>VikramPal/Qwen3-Omni-30B-A3B-*</code> 等 8 条是项目基座的第三方量化与微调衍生，不是官方发布。另记两处源内不一致与状态：VoiceChat-TTS 的对照模型名为 <code>Qwen3-TTS-12Hz</code>（12Hz）而论文正文两处均写“同样工作在 <strong>12.5 Hz</strong>”，两值并列不代为取舍；DeaMoE 的论文 PDF <code>/License</code> 为 CC-BY-NC-ND-4.0，<strong>这是论文本身的许可证与任何代码或权重无关</strong>，其代码与权重均未公开。本轮所有新论文均为 v1，且逐个 arXiv ID grep 确认此前从未出现在任何报告或 <code>data/items.json</code> 中。</p></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-17</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-17</h2><p class="solution-source"><b>2026-08-17</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>

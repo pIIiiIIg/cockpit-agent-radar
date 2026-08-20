@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-17",
+  "evidence_cutoff": "2026-08-17T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a fifth consecutive report; 0 new Radar entries. The index-resumption event predicted by the 2026-08-15 report has now occurred: on 08-15 the newest arXiv submission site-wide was 2608.13561 at 2026-08-13T17:59:58Z; this round the same query returns 2608.14549 at 2026-08-14T17:59:59Z, i.e. the entire 08-14 batch has entered the index and had never been covered by any published report. The paper window was therefore rolled back by submission time to 2026-08-13T18:00Z - 2026-08-17T02:30Z (contiguous with, and non-overlapping, the previous report's actual coverage end), yielding 83 deduplicated papers. Note that the sub-window 2026-08-15T02:30Z - 2026-08-17T02:30Z is still 0 new submissions and 0 revisions site-wide, verified by the three-level falsification protocol: (1) date-unbounded control queries return normally (cat:cs.SD totalResults 21,696 vs 21,686 on 08-15); (2) the newest submission site-wide advanced to 2026-08-14T17:59:59Z; (3) submittedDate:[202608150230 TO 202608170230] returns totalResults 0 while [202608131800 TO 202608170230] returns 249. Per-category newest entries all fall between 2026-08-14T12:34Z and 17:59Z, and lastUpdatedDate revision queries over the last two days return 0 across cs.SD, eess.AS/cs.CL and site-wide. Both observed cutoffs are at 17:59:5x, the arXiv 14:00 ET daily deadline, confirming the index advances in whole batches rather than paper by paper. Separately: the 2026-08-16 run produced NO report at all - no 2026-08-16 file exists in reports/ or on any remote branch, and that run's branch contains only a 'reports: recover unpublished 2026-08-11..2026-08-15' commit. This report therefore uses 2026-08-15 as its baseline and covers two calendar days. A supplementary Hugging Face scan over 2026-08-15T02:30Z - 2026-08-17T02:30Z across 14 keywords found 148 newly created items, of which only 3 are first-party releases. Next round: window start 2026-08-17T02:30Z, and the site-wide newest submission timestamp must be re-checked - if it still reads 2026-08-14T17:59:59Z, the 08-15 and 08-16 batches remain unindexed and a larger backfill will follow, to be attributed by submission time and never by discovery time.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-17.md",
+    "reports/每日调研日报-2026-08-17.md"
+  ],
+  "candidates": [],
+  "no_candidate_reason": "本轮唯一够格进入执行序列的新素材是 VoiceChat-TTS（2608.13831，NVIDIA），但它有两个尚未解决的可判定问题，在得到答案之前既没有清晰单变量也没有可测的预计修复数，按既定规则只留在报告并登记为只读前置任务：(1) 论文所述 977M 的 TTS 子模块（778M Gemma 3 流式 TTS + 199M codec）没有独立权重文件，被封在 nvidia/NVIDIA-NemotronLabs-VoiceChat-11B 唯一的 model.safetensors（44,382,749,892 字节）内，HF 上以 VoiceChat-TTS / voicechat_tts 检索均返回 0 条，因此“能否脱离 11B 主干单独实例化推理”目前未知；(2) 其输出为 22,050Hz 而项目音频链路为 16kHz，对接方式未定。此外它全部为英文评测，无任何中文数据或指标，而项目是中文车控。第二项新素材 DuplexWorld 数据集（CentificAIResearch/Duplex-World）只有 18 条场景规格且不含音频与 harness 代码，只能做格式借鉴，没有可执行单变量。第三项 DeaMoE（2608.14385）是明确的反面判据，本身不应成为候选。因此本轮新增候选为 0 条。",
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮无新增证据改变其处置；Luna-TTS 项目页的页内矛盾（摘要 1.28s 块 vs 推理表脚注 0.36s 块）本轮未复核，按 30 天节奏下次复核，在澄清前其 41.6ms 仍不可用于任何跨系统首包比较。新增的一条相关记录：VoiceChat-TTS 的 9.62ms 是 ITL（稳态每帧，每帧对应 80ms 音频），不是首包时延，论文引言讨论 TTFA 但结果部分从未报告自己的 TTFA，因此同样不可用于与该候选做首包比较。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。本轮新增一条机制性支持：VoiceChat-TTS 的 Force Silence 把播报收尾实现成在中断对齐位置确定性写入一个预先算好的静音帧，而不是等待声学流自然衰减，且写入后不重置 KV cache。该机制已在 NVIDIA-NeMo/Speech 的 duplex_ear_tts.py 第 1193 行（inference_force_speech_silence_on_eos）与 get_codec_silence_frame() 中逐行核实，与论文描述完全一致。其效果数字（IOR@320ms 96.8%→100.0%、平均停止时延 228.3ms→89.9ms、Leakage@1s 169.1ms→55.8ms、AI-CER 0.255%→0.095%）是英文 FDB 音频上用该模型自己的 codec 帧测的，不得借用为项目预期值。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。2026-08-17 复核 CodeForZzc/GCM-Bench 最后推送仍为 2026-08-11T06:29:47Z（连续第六天不变），Apache-2.0，PACE 中间件本体仍未公开；该候选只借用数据格式与判定协议，不受影响。本轮新增两条可借鉴的外部写法：VoiceChat-TTS 的确定性静音收尾（见上条），以及 DuplexWorld 数据集把 decision_tree 与 evaluation_criteria 分成两个独立字段的结构。",
+    "decode-loop-cudagraph-static-kv-v1（2026-08-14）保持不变，仅离线、h20_request_allowed=false。本轮外部先验提高但顺序与门槛完全不变：DeaMoE（2608.14385）在实现小节明确写“我们也为 DeaMoE 与所有基线启用了 vLLM 的 CUDA Graph 执行。由于解码本身对时延敏感且通常运行在小批量区间，采用 CUDA Graph 是业界降低 kernel 启动开销的通行做法”，即把图捕获当作基线也必须具备的标配而非优化项，这是继 FlashDrive、vToken 之后的第三条独立旁证。顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完，图捕获作为第二个独立变量，两步不得合并成一次结论。2026-08-17 复核 z-lab/flashdrive 仍 MIT、最后推送仍 2026-07-06T00:54:50Z。",
+    "streaming-se-frontend-rtsemamba-kd1-v1（2026-08-15）保持不变，仅离线、h20_request_allowed=false，状态仍为 proposed_offline_blocked。2026-08-17 复核 RoyChao19477/RT-SEMamba 的 pushed_at 仍为 2026-08-14T05:16:18Z、size 仍 14368、仍 1 star，连续第三轮字节级不变；两个前置依赖（clean/20dB/音色分桶归因、只读代码审阅）均未完成，expected_fixes 仍为 null。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-14 起的记录不变，优先级仍是全部事项中最高的一条，高于本轮新增的 VoiceChat-TTS 只读审阅。对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据（模型输出文本、工具调用序列、参数、执行器回执、最终车态），只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份“判定器不得读取哪些字段”的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。本轮新增一条可参照的外部写法：DuplexWorld 数据集把每条场景的 decision_tree（系统应该怎么走，2,566 字节）与 evaluation_criteria（怎么算通过，2,459 字节）分成两个独立字段，这正是让判定器无法读到不该读的字段的结构前提。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。",
+      "external_evidence": "arXiv:2608.12880（2026-08-14 已展开）。相关的 AutoDesign（2608.13560）人机一致性数字 r=0.34 仍不可第三方复核：2026-08-17 复核 Yaxin9Luo/AutoDesign 的 pushed_at 为 2026-08-16T12:19:13Z，但 git/refs 中只有 refs/heads/main = cd5b2bd997（2026-08-15T08:24:24Z）与两个 PR head，默认分支 HEAD 并未前进，递归树仍 724 条目，论文附录 A.5 承诺的逐案例分数存档与人评决策记录连续第三次复核仍不存在。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://arxiv.org/abs/2608.13560",
+        "https://github.com/Yaxin9Luo/AutoDesign",
+        "https://huggingface.co/datasets/CentificAIResearch/Duplex-World"
+      ]
+    },
+    {
+      "id": "voicechat-tts-readonly-artifact-review",
+      "kind": "instrumentation",
+      "summary": "对 VoiceChat-TTS 做一次只读代码与制品审阅（不执行任何代码），目标是回答两个可判定的问题，在两者有明确答案之前不进入任何替换实验、不登记候选：(a) 论文所述 977M 的 TTS 子模块能否在不加载 11B 主干的前提下单独实例化与推理——依据是 nvidia/NVIDIA-NemotronLabs-VoiceChat-11B 仓库内唯一的权重文件是 44,382,749,892 字节的 model.safetensors，config.json 中该模块以 model/speech_generation/* 子树存在（codec_config.num_quantizers=31、data.frame_length=0.08、target_sample_rate=22050，与论文一致），但没有独立权重文件，HF 上以 VoiceChat-TTS / voicechat_tts 检索均返回 0 条；(b) 其 22,050Hz 输出与项目 16kHz 音频链路如何对接。审阅范围限定为 NVIDIA-NeMo/Speech 中的 duplex_ear_tts.py、nemotron_voicechat.py 与 examples/speechlm2/conf/nemotron_voicechat.yaml，以及 OpenMDW-1.1 许可证正文（本轮未逐条阅读，其义务记为未知）。",
+      "why_not_candidate": "没有清晰单变量，也没有可测的预计修复数：在子模块可否单独加载这一问题有答案之前，连实验是否可能都无法判定。此外该模型全部为英文评测，无任何中文数据或指标，而项目是中文车控，跨语种表现未知，任何 expected_fixes 预估都会是编造。",
+      "external_evidence": "arXiv:2608.13831 v1（2026-08-13T23:37:07Z 提交）。并发 1、RTX A6000 实测：声学 ITL 7.16ms + codec 2.46ms = 9.62ms，每帧对应 80ms 音频；同协议重测的 Qwen3-TTS-12Hz-1.7B 为 15.44/4.90/20.34ms。代码在 NVIDIA-NeMo/Speech（Apache-2.0，2,882 条目未截断，命中 voicechat|duplex 的路径 31 个），权重在 nvidia/NVIDIA-NemotronLabs-VoiceChat-11B（OpenMDW-1.1，非门控，lastModified 2026-08-11T09:46:06Z，早于论文投稿时刻）。质量侧的不利结果必须一并记录：Qwen3-TTS-12Hz-1.7B 的 CER 0.34% / WER 1.01% / SECS 0.827 / Squim-MOS 4.45 四项全面优于 VoiceChat-TTS 的 1.00% / 2.00% / 0.757 / 4.380。9.62ms 是 ITL 不是首包，论文全文未报告自己的 TTFA。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13831",
+        "https://github.com/NVIDIA-NeMo/Speech",
+        "https://huggingface.co/nvidia/NVIDIA-NemotronLabs-VoiceChat-11B"
+      ]
+    },
+    {
+      "id": "decode-reproducibility-self-test",
+      "kind": "evaluation_buildout",
+      "summary": "在判定器处理不变性检查之前，先做一次解码可复现性自测：固定同一条音频与同一 seed，连续运行 N 次，逐 token 比较输出，记录是否逐次一致以及首次分歧出现在第几个 token。若存在分歧，则所有既有的 +1/+4 与“414 canary 零退化”结论都需要重新评估其显著性——因为判据本身可能在测量数值噪声；若逐次一致，则记为一条有价值的负结果并写进判定协议。零成本，不需要 GPU 申请，也不改动被测系统。",
+      "why_not_candidate": "它测的是评测环境本身而不是被测系统上的单变量改动，无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）可信度的前提，且优先级仅次于判定器处理不变性检查。",
+      "external_evidence": "arXiv:2608.14376（CoRun，2026-08-14T15:17:14Z 提交，cs.OS/cs.PF，南京大学 + 腾讯 Hunyuan）。论文把非确定性的主因归为批次相关的 GPU 执行：动态输入形状改变 kernel tiling 与浮点归约顺序；其解法为隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph，相对 batch-invariant 方案吞吐提升 15-324%，平均 TTFT 降 51.8%、TPOT 降 48.6%，端到端时延分解 Standard 19.4ms / Batch-invariant 88.4ms / CoRun 32.6ms。与项目最相关的一条：图 14b 中 Qwen3-8B 的 rollback ratio 为 17.94%、Qwen3-32B 为 24.25%，而 Qwen3-30B-A3B（MoE）达 45.41%，接近同规模稠密模型的两倍，论文解释为“一个很小的 router 扰动就可能改变被选中的专家，此后两条执行路径执行的是不同的计算，而不只是累积不同的低位比特”。项目基座 Qwen3-Omni-30B-A3B 同属 A3B MoE 族，该机制可迁移。三条必须同时记录的边界：45.41% 这个数值不可迁移——它是 LLM-42 投机-验证框架下、ShareGPT 语料、64 token 验证窗口、高并发条件下被拒绝的候选 token 占比，不是“单次 batch=1 推理有 45% 概率不可复现”；论文全文未声明 GPU 型号与数量，其全部时延与吞吐数字无法与项目 H20 做量级对照；其固定形状批量 decode 需预选最大并发度，属多请求在线服务机制，对 batch=1 的项目不适用。开放状态：全文 29 个 URL 中与实现相关的只有他人仓库 vllm-project 与 ise-uiuc/blazedit，未发现 CoRun 自身仓库，实现方式仅写明“在 vLLM 0.25.0 中实现”。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14376",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "small-batch-screen-must-include-batch-one",
+      "kind": "process_rule",
+      "summary": "把既有的“KV/服务反模式家族”判据从“收益需要大 batch 或长上下文则否”扩写为：先查论文的最小可评测 batch 是否为 1；若不是 1，且其收益随 batch 减小而单调下降，则直接否，不必读完。理由是这类工作会以 small-batch / 低时延 / 实时交互为卖点，但评测区间的下界仍远高于 1。判据应用时需同时记录三项：最小评测 batch、收益随 batch 的变化方向、以及该方案是推理侧改动还是预训练期架构改动。",
+      "why_not_candidate": "这是发现与筛选流程的规则，不是被测系统上的改动，没有单变量也没有可测指标。",
+      "external_evidence": "arXiv:2608.14385（DeaMoE，2026-08-14T15:25:32Z 提交）。标题与摘要主打 small-batch decoding，但图 3 横轴自 batch 4 起步，逐点加速比为 4→1.02×、8→1.14×、16→1.26×、24→1.32×、32→1.33×、40→1.30×、48→1.26×、64→1.20×、96→1.13×、128→1.03×，论文原话“加速比随 batch 从 4 增长到 32 而上升（峰值 1.33×），随后逐渐下降”。项目为 batch=1，按其自身趋势外推收益低于 1.02×。另两条独立否决理由：它是预训练期架构改动（自行预训练 7.3B、110B token RedPajama-v1），对既有 Qwen3-Omni 权重不可用；它攻击的是访存带宽瓶颈（论文原话“缓解 A40 GPU 上的带宽瓶颈”），而项目实测瓶颈不是带宽——解码速度不随 KV 长度变化，110ms 是按 config 实算带宽下限的约 36 倍，根因为每 token 约 816 次 GPU→CPU 同步。开放状态：无代码、无权重，61 条 PDF URI 注解逐条查看后全部为参考文献，全文唯一 GitHub URL 是引用 Meituan LongCat-Flash-Omni，正文仅承诺“训练用代码将在之后开源”。论文 PDF 的 /License 为 CC-BY-NC-ND-4.0，这是论文本身的许可证，与任何代码或权重无关。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14385"
+      ]
+    },
+    {
+      "id": "cuda-graph-as-baseline-standard-third-corroboration",
+      "kind": "negative_evidence",
+      "summary": "记录两条提高 decode-loop-cudagraph-static-kv-v1 先验但不改变其执行顺序的外部旁证。其一，DeaMoE 在实现小节写明为被测方案与全部基线都启用了 vLLM 的 CUDA Graph 执行，并把它描述为小批量解码场景下业界通行的标配做法而非优化项。这是继 FlashDrive（图捕获需要固定形状与地址、无数据依赖的主机同步）与 vToken（把 CUDA-Graph 兼容性当作硬约束）之后的第三条独立来源，且形式最强——前两者把它当作约束或优化，DeaMoE 把它当作公平对照的前提。其二，CoRun（2608.14376）是第四条，也是唯一一条把固定形状与输出可复现绑在一起的：它用隔离 prefill + 固定形状批量 decode + 固定尺寸 CUDA Graph 取得确定性输出。这给该候选增加了一个此前没有考虑过、且不依赖它在时延上是否成功的第二收益维度——项目的 KV 长度逐步增长、形状并非固定，StaticCache + 图捕获会把这一维度钉死。执行顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。",
+      "why_not_candidate": "这是对既有候选的外部先验更新，不是新的单变量实验；既有候选已登记，不重复登记。",
+      "external_evidence": "arXiv:2608.14385 实现小节原文（vLLM v0.13.0，Triton 自定义算子，复用 vLLM 原生 fused MoE kernel 的 Grouped GEMM 原语，仅改 token 索引逻辑）。附一条仅供定性参考、不可相减的量级观察：DeaMoE 的基线（未经其架构改动的 vanilla MoE，vLLM，已开 CUDA Graph）在 A40 上于 20-30ms 的 TPOT 预算内可支撑 batch 24-64，而项目在更强的 H20 上 batch=1 却是 110ms/token。四条免责必须同时写：模型不同（7.3B vs Qwen3-Omni 30B-A3B）、框架不同（vLLM vs HuggingFace）、硬件不同（A40 vs H20）、batch 不同（>=4 vs 1）。因此这不能作为倍数依据，只能作为与项目自身根因分析方向一致的定性佐证。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12932",
+        "https://arxiv.org/abs/2608.13263",
+        "https://arxiv.org/abs/2608.14376",
+        "https://arxiv.org/abs/2608.14385"
+      ]
+    },
+    {
+      "id": "artifact-recheck-must-reach-git-refs",
+      "kind": "process_rule",
+      "summary": "把仓库变更复核的最小动作再往下加一层：判断代码是否真的发生变化，必须查到 git/refs 与提交列表，updated_at 与 pushed_at 都不足够。既有记忆里的规则是“updated_at 会因 star 或元数据活动而前进，要用 pushed_at 对照提交列表”；本轮出现新方向——pushed_at 自己也会在没有任何可达新提交的情况下前进。附带一条相关纪律的再次确认：一次 404 或空仓库不足以永久判定无制品，制品滞后可达月级甚至年级。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "Yaxin9Luo/AutoDesign 于 2026-08-17 复核：pushed_at = 2026-08-16T12:19:13Z，但 git/refs 中只有 refs/heads/main = cd5b2bd997（2026-08-15T08:24:24Z）与 refs/pull/2/head、refs/pull/3/head，默认分支 HEAD 并未前进，递归树仍 724 条目、42 个 json/jsonl/csv 集合未变、releases 0 / tags 0。ASLP-lab/SemBridge 同日复核为反方向的同类例：pushed_at 仍 2026-08-10T05:51:29Z 而 updated_at 为 2026-08-15T14:02:18Z，仍为占位仓库。制品滞后的年级实例：X-Zhang/EchoMask 对应的论文 arXiv:2504.09209 于 2025-04-12 投稿，官方 checkpoint 迟至 2026-08-16T06:33:52Z 才发布，滞后约 16 个月。",
+      "source_urls": [
+        "https://github.com/Yaxin9Luo/AutoDesign",
+        "https://github.com/ASLP-lab/SemBridge",
+        "https://huggingface.co/X-Zhang/EchoMask",
+        "https://arxiv.org/abs/2504.09209"
+      ]
+    },
+    {
+      "id": "arxiv-index-backfill-attribution-rule",
+      "kind": "process_rule",
+      "summary": "零结果窗口必须同时记录两项才算完整：检索窗口本身，以及复核时刻的全站最新投稿时间戳。理由是索引冻结与真实空窗在单次查询下不可区分，而两者对下一轮的处理方式完全不同。本轮验证了该规则的价值：08-15 记录的全站最新投稿为 2026-08-13T17:59:58Z，本轮同一查询返回 2026-08-14T17:59:59Z，据此可以确定 08-14 整批是回补而非上一轮漏检，并把窗口起点按投稿时间回拨到 2026-08-13T18:00Z。两次观测到的截止时刻都落在 17:59:5x，即 arXiv 每日 14:00 ET 截稿边界，说明索引按整批推进而非逐篇滴入。回补一律按投稿时间归属，绝不按发现时间。下一轮窗口起点为 2026-08-17T02:30Z，并须再次核对全站最新投稿时刻：若仍为 2026-08-14T17:59:59Z，则 08-15 与 08-16 两批仍未入库，会出现一次更大的回补。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "三级证伪结果：去日期约束的对照查询 cat:cs.SD totalResults 21,696（08-15 为 21,686）、cat:eess.AS 22,178、cat:cs.CL 116,387；不限类别按投稿时间倒序最新一条为 2608.14549（2026-08-14T17:59:59Z）；submittedDate:[202608150230 TO 202608170230] 全站 totalResults 0，[202608131800 TO 202608170230] 为 249，[202608140000 TO 202608170230] 为 178；逐类别最新条目 cs.SD 与 eess.AS 均为 2608.14516（17:38:16Z）、cs.CL 2608.14509、cs.AI 与 cs.LG 2608.14539、cs.CV 2608.14546、cs.MM 2608.14260、cs.HC 2608.14513、cs.OS 2608.14376、cs.NI 2608.14386、cs.DC 2608.14527；lastUpdatedDate 落在最近两天的修订在 cs.SD、eess.AS/cs.CL 与全站三组查询上均为 0 条。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14549",
+        "https://arxiv.org/abs/2608.13561"
+      ]
+    },
+    {
+      "id": "hf-noise-filter-add-project-base-model-derivatives",
+      "kind": "process_rule",
+      "summary": "在 Hugging Face 发现通道的噪声过滤规则中，明确加入项目自身基座的第三方衍生：把 base_model 标签匹配 Qwen3-Omni 的条目列入过滤，避免被误读为基座官方更新。既有的一手/二手快速判据（base_model: 标签族尤其是 base_model:quantized: 与 base_model:finetune:、ATTRIBUTION.md 一类文件、作者是否为论文单位、新条目的下载与点赞是否为 0）继续适用，本轮再次成立。另补一条计数纪律：批量单作者上传会大幅抬高窗口原始计数，必须按发布计而不是按行计。",
+      "why_not_candidate": "属于调研流程规则，不是被测系统上的改动。",
+      "external_evidence": "2026-08-15T02:30Z - 2026-08-17T02:30Z 窗口内以 14 个关键词筛出 148 条，一手发布仅 3 条（CentificAIResearch/Duplex-World、X-Zhang/EchoMask 及其推理数据集、laion/moss-voice-identity-loras 及 moss-voice-identity-repairs）。项目基座衍生 8 条：VikramPal/Qwen3-Omni-30B-A3B-S2S-{QLoRA,bf16,DynQuant-3bit,DynQuant-4bit} 与 VikramPal/Qwen3-Omni-30B-A3B-{SLURP-QLoRA,Thinker-SLURP-bf16,Thinker-SLURP-DynQuant-4bit,Thinker-SLURP-DynQuant-3bit}，全部带 base_model:Qwen/Qwen3-Omni-30B-A3B-Instruct 系标签，下载与点赞均为 0。批量单作者上传：Devsyril/mms-tts-*-sherpa-onnx 10 条、uam-wmi-asr-eval-labs/* 8 条、anonymous4486/audio-flamingo-3-hf_* 6 条、ghananlpcommunity/* 4 条、lingamvamshikrishnareddy/* 4 条，合计 32 条只相当于个位数的实际发布。",
+      "source_urls": [
+        "https://huggingface.co/datasets/CentificAIResearch/Duplex-World",
+        "https://huggingface.co/X-Zhang/EchoMask",
+        "https://huggingface.co/laion/moss-voice-identity-loras"
+      ]
+    },
+    {
+      "id": "aec-still-zero-primary-evidence",
+      "kind": "tracking",
+      "summary": "回声消除连续第五轮无重大新增，且本轮额外排除了一个关键词假阳性。继续记为持续跟踪，不写任何 AEC 结论或预期，也不因此拔高弱相关工作。",
+      "why_not_candidate": "没有任何一手证据，无法形成假设或单变量。",
+      "external_evidence": "本窗口 abs:\"speech enhancement\" OR abs:\"noise suppression\" OR abs:\"echo cancellation\" OR abs:\"beamforming\" 一组返回 5 篇，逐条查看后全部为无线通信波束成形（2608.14182 mmWave 信道估计、2608.14086 感知通信计算一体化、2608.13909 6G 光子基站、2608.13765 SIM-UAV 波束优化）与一篇冷原子物理（2608.13936），无一为声学回声消除。HF 窗口内唯一命中 echo 关键词的一手发布 X-Zhang/EchoMask 经核实指向 arXiv:2504.09209（ACM MM 2025，cs.GR/cs.CV/cs.SD），是语音驱动的协同手势与整体动作生成，产物为 SMPL-X 动作与 BEAT2 相关的 npz 与权重压缩包，与回声消除无关。既有记录中 RT-SEMamba 为单通道降噪且明确不含 AEC 的结论不变。",
+      "source_urls": [
+        "https://arxiv.org/abs/2504.09209",
+        "https://huggingface.co/X-Zhang/EchoMask"
+      ]
+    },
+    {
+      "id": "duplexworld-dataset-format-borrow-only",
+      "kind": "design_constraint",
+      "summary": "DuplexWorld 数据集本轮正式发布，但可借用的只有字段结构，不得用于任何准确率结论。写死三条：它不含音频、不含 harness 代码；实际规模是 18 条场景规格，README 的 size_categories: n<1K 技术上成立但会严重高估；它是英文的客服与出行等场景，与中文车控域不重合，不得并入项目 452 条评测集做联合统计。可借用的部分是把 decision_tree（系统应该怎么走）与 evaluation_criteria（怎么算通过）分成两个独立字段这一结构，用于支撑 grader-treatment-invariance-audit 的输入排除清单。论文中最有价值的结论——三个 harness 旋钮对 Pass@1 的影响与更换被测系统相当——并未因本次发布变得可复现。",
+      "why_not_candidate": "只有格式借鉴，没有可执行单变量与可测指标。",
+      "external_evidence": "CentificAIResearch/Duplex-World 创建于 2026-08-15T16:50:32Z，lastModified 2026-08-15T16:50:33Z，CC-BY-4.0，非门控，标注 arxiv:2608.10716。10 个文件。两项机器校验均通过：六个领域文件字节和 29,923+13,232+12,941+6,595+30,329+10,406 = 103,426，与 all.jsonl 的 103,426 完全相等；行数和 3+2+2+1+9+1 = 18，与 all.jsonl 的 18 行相等。单条为约 10KB 的完整场景规格，17 个字段，其中 decision_tree 2,566 字节、evaluation_criteria 2,459 字节；抽查的 travel 记录中 user_tools 与 required_documents 均为 null。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10716",
+        "https://huggingface.co/datasets/CentificAIResearch/Duplex-World",
+        "https://duplexworld.github.io"
+      ]
+    },
+    {
+      "id": "do-not-pursue-constrained-decoding-for-tool-abstention",
+      "kind": "negative_evidence",
+      "summary": "记录一条支持维持现状的外部负面证据：不要用解码期语法约束（对工具名做 enum）去修“该不调用时仍调用”。项目当前走的是候选工具集晚注入 + 确定性执行器校验（已拦住 45% 的失配大头），本条建议维持该路线不变。可复用的是该论文的实验设计——把约束语法的两件事拆成两个独立变量分别测：规定生成在哪里停止（停止 token），以及规定哪些 token 可以被发出（enum）；不要把语法当成一个整体开关来评估。 追加一条同等重要的告警：该论文中工具选择准确率在六个单元格中全部上升、而弃权在四个单元格显著下降，因此不得把工具召回的提升读成判断力的提升。",
+      "why_not_candidate": "这是一条“不要做某事”的证据，不产生新的单变量实验，也不改动被测系统。",
+      "external_evidence": "arXiv:2608.13959（Repair, Not Improvement，cs.CL，24 页，单作者 Janghoon Lee / Redrob，PDF /License CC-BY-4.0，2026-08-14T04:58:01Z 提交）。已完成全文与制品核实。设计：在一条逐字节相同的 prompt 上设三个条件——contract-free（无约束，256 token 预算）、contract-short（无约束但第一行截停）、constrained（第一行 enum 约束），由此分离 Δ_mask 与 Δ_length。题目取自 MetaTool Task2，一次性不放回抽 200 个位置得 200 条弃权题与 200 条需调用工具题；韩语版只翻译用户 query，工具名/描述/指令/few-shot 逐字节相同。条件：Qwen3-0.6B/1.7B/4B、温度 0、五个服务端种子、vLLM 0.27.1 structured_outputs、NVIDIA L4（张数未声明）、注册分析 36,000 次请求、区间为 10,000 次自助重采样。Table 8 的 Δ_total（弃权/工具选择/合并）：0.6B EN -29.5/+17.0/-6.2；0.6B KO -0.5/+20.0/+9.8；1.7B EN -26.5/+11.2/-7.7；1.7B KO -24.5/+10.1/-7.2；4B EN -8.8/+59.6/+25.4；4B KO +1.5/+62.7/+32.1；均值 -14.7/+30.1/+7.7。表述必须精确：摘要写“六个单元格中的四个为负且区间不含零”，§4.1 写弃权列“在五个中为负”——按符号五个为负，但 0.6B KO 是 -0.5 [-9.5,+8.0] 区间含零，故区间不含零的只有四个；引用时必须带上“区间不含零”这个限定。工具选择列在六个单元格中全部为正。698 条被修复的弃权中 545 条原本没有可读答案、0 条是评分器拒绝给出的判断（三处一致）。掩码概率质量断点 0.480 [0.320, 0.520]。全文没有任何时延数字，且“batch”一词从未出现，batch size 记为未声明。开放状态是强负面：36 条 URI 注解中 1 条为 arXiv 自链接、其余全为参考文献，正文裸 URL 0 条；而论文反复声称存在已发布的 harness（“PREREG.md 在已发布的仓库中即为注册文档”“make verify 会在任何已提交产物不一致时失败”），却全文没有给出任何 URL、DOI 或仓库名，GitHub 代码检索返回 0，可复现性状态为不可核实。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13959"
+      ]
+    },
+    {
+      "id": "tool-pool-size-degrades-actual-use-precision",
+      "kind": "design_constraint",
+      "summary": "把“候选池规模增大会显著劣化实际被用到的那一条的精度”列为上下文引力问题的一条设计告警。项目 RAG 面对 300 个不同工具、Recall@24 为 98.78%，但已知“光场屏偶被选成副驾屏”未根治；高召回率与“实际被用到的那一条是否正确”是两个不同的量，评测口径应把两者分开报。同一来源还给出一条与项目自身判断相互印证的结论：精确命中 ground-truth 调用既不充分也不必要，这正对应项目已记录的“严格工具名召回是偏保守口径、语义等价工具会被计为失败，后续需要参数与最终车态的语义成功判定”。",
+      "why_not_candidate": "没有可执行的单变量改动，且其数字来自文本/CLI agent 的技能包研究，与语音车控场景不同域，不能给出预计修复数。",
+      "external_evidence": "arXiv:2608.14036（Demystifying Agent Skills，cs.AI，Princeton/UCSD/Stanford/USC/JHU，2026-08-14T07:26:38Z）。已完成全文与制品核实。规模：8,135 条试验记录规范化，240 条开放编码记录中保留 238 个有效唯一标签，最终 12 种模式，528 组配对三元组。技能相对 Workflow Memory 高 6.06 个百分点（61.9% 对 55.9%，自助 95% 区间 [+0.76, +11.36]）；程序性锚定占 65.7%、显式知识注入仅 4.5%。RQ4 检索脱钩（对项目最有用）：候选池由 5 增到 100 时实际使用精度由 29.6% 降到 3.3%，而下游成功率几乎不动（36.4% -> 39.3%）；离线 top-1 嵌入精度由 88.3% 降到 76.9%、显式代理选择由 70.0% 降到 63.7%；Arm 3 在 k=100 时召回仍有 54.3-73.6% 而精度只有 0.7-8.1%，即高召回可以与极低精度并存。可混淆（相似）池更糟：Arm 1 由 70.5% 降到 53.4%，随机池 97.7%->84.1%，不相似池 96.6%->93.2%。边界：设定是多轮编码 agent 在 Docker 中跑 Terminal-Bench/SkillsBench、使用闭源前沿 API，全文无时延、无 batch size、无 GPU；唯一成本量是 token，Table 13 显示 Skill 相对 Workflow Memory 每任务多花 +93.8K 输入 token，对项目约 2500 token 的 KV 预算是灾难性的。制品不可核实：正文提到“已发布的制品”却无 URL；其所引的 anthropics/skills 没有开源许可证（无顶层 LICENSE，逐 skill 的 LICENSE.txt 为“保留所有权利”并指向 Anthropic 服务条款）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14036"
+      ]
+    },
+    {
+      "id": "kv-serving-antipattern-fifth-and-sixth-members",
+      "kind": "negative_evidence",
+      "summary": "记录 KV/服务反模式家族新增的两个成员，按既有判据不采纳，避免下一轮重复评估同族工作。判据不变：项目 KV 约 2500、batch=1，且实测解码速度不随 KV 长度变化，内存与访存从来不是瓶颈。**重要更正**：2608.14333 不属于“需要大 batch”那一类——它确实评测了 B=1（批扫描含 B ∈ {1,4,16,64}，二十组序列长度扫描全部在 B=1，前瞻研究也在 B=1），批大小判据抓不住它；真正否掉它的是容量墙前提、尚不存在的硬件与全部主结果为仿真输出这三条。写错拒绝理由会导致下一轮重复评估。",
+      "why_not_candidate": "两者均被既有判据否决，不产生实验。",
+      "external_evidence": "arXiv:2608.14191（AATC，cs.LG/cs.CL/eess.SP，19 页，CC-BY-4.0）已全文核实：立论明确是长上下文（评测全为 RULER 4k-32k 与 LongBench 1k-34k），约 5.82 倍压缩下 18 个格子均与 FP16 在评测噪声内不可区分（摘要写“约 5.8 倍”，两值并记）。三条决定性事实：全文从未出现“batch”一词；全文未声明任何硬件；§VII 局限原文“在实证方面，我们的实现没有做系统级优化，特别是缺少专门的 CUDA 实现，而这在该方法能用于生产之前是必需的”。配合全文零墙钟毫秒、零 tokens/s、零加速比（唯一绝对量是 1.07 GB -> 184 MB 这一对静态显存数字，且其对应序列长度未声明），可以确定其“压缩”是字节计数论证而非运行系统中的实测收益。更关键：其 Algorithm 1 的在线路径在每个解码步每一层追加投影、量化与重建，正加在项目想要图捕获的那个循环里。源内不一致：附录 F 在 LongBench 条目下写最大新生成 token 随任务在 32 到 512 之间，却又在 MMLU-Pro 条目下写“LongBench 最多 32 个新 token 并把输入截断到 4096 token”，两说并记。 arXiv:2608.14333（Beyond Capacity / DASH，cs.AR，KAIST）已全文核实：提出基于高带宽闪存 HBF 的双路径专家投送架构。三条独立否决——容量墙前提（被调研 MoE 权重 281 GB 至 1.5 TB、专家权重占总权重 94.1-98.8%、单模型权重即超过 H100 的 80GB HBM），尚不存在的硬件（论文自陈“公开的 HBF 资料未给出子阵列级并行度”“由于尚无具体 HBF 规格，我们把读时延 t_R 从 1 扫到 32 微秒”），以及全部主结果为仿真输出（真实硬件只用于算子测速：一张 NVIDIA H100 PCIe 80GB 与一颗 Intel Xeon Platinum 8452Y）。源内不一致必须记录：摘要写“可达 1.94 倍更高吞吐与 1.90 倍端到端加速”，而 1.94 倍这个值在全文正文中一次都没有再出现、也无对应条件；同时 1.90 倍被归给两个不同条件（引言说是 B=4 下五模型几何均值，§VI-B 说是跨全部五模型与全部四个批大小的几何均值）；端到端一侧有三种说法——摘要的 1.90 倍对应 47.4% 降幅、引言 44.8%、§VI-B 42.2%。一条值得单独留存的机制：DASH 把路由 logit 重写为 P = α(P_base + P_attn)，α = 1/RMS(·) 是同一 token 所有专家共享的正标量，只改变量级不改变排序，故 top-k 可在残差相加与 RMSNorm 之前精确算出——这是非投机的，与项目已实测为负优化的投机预取性质不同；但其收益是掩盖 NAND 读启动时延，B=1 且 t_R=3 微秒时 Qwen3 的 TPOT 仅降 3.86%，项目没有闪存读要掩盖，预期收益约等于零。制品：无作者仓库；基座仿真器 scale-snu/LLMSimulator 是 MIT 但版权属首尔大学、非本文 KAIST 作者，且不含任何 DASH 代码。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14191",
+        "https://arxiv.org/abs/2608.14333"
+      ]
+    },
+    {
+      "id": "leading-silence-distribution-self-check",
+      "kind": "instrumentation",
+      "summary": "两条零成本动作。其一：统计项目 452 条基准音频的前导静音分布，确认是否存在系统性偏差——既有记录里 pipecat 曾测到 250.431ms 前导静音（推理侧时延成本），而该论文把随机前导静音裁剪当作训练侧鲁棒性手段并报出可测收益，说明前导静音是两侧都会咬到的量；项目音频为合成生成，其前导静音分布可能与真实车内录音不同，会同时影响时延口径与 ASR 归因。其二，也是本条更有价值的部分：借用其**静音音频过滤**——把音频替换为静音后重新作答，仍答对的样本一律丢弃、只保留因此答错的。这是一个廉价且与模型无关的反事实过滤器，用来保证样本确实依赖音频而非文本先验，且论文正是把它施加在与项目同族的 Qwen3-Omni-30B-A3B-Instruct 上。项目若要构造任何“确实依赖音频”的评测子集或归因分桶，可直接借用该过滤器。",
+      "why_not_candidate": "这是对既有评测数据的一次统计描述，不是被测系统上的单变量改动，也不产生预计修复数。",
+      "external_evidence": "arXiv:2608.14150（cs.CL，Ant Group + 电子科技大学，5 页，PDF /License CC-BY-NC-SA-4.0，2026-08-14T10:00:42Z）。已完成全文与制品核实。Task 1 用 LoRA（rank 32、缩放 128、dropout 0.05、5 epoch）微调 VibeVoice-ASR-7B，随机前导静音裁剪对时长 T、首段起点 s1 的录音采样 δ ∈ [0, s1] 删去 [0, δ) 并把全部标注时间戳同步平移，EMA λ=0.99。Task 1 累积消融（官方 tcpMER）：LoRA 基线 18.30 -> 加裁剪 17.27 -> 加 EMA 16.73。Task 2 四阶段合成监督后 LoRA 微调 Qwen3-Omni-30B-A3B-Instruct：Gemini 2.5 Pro 生成约 210k 候选问答；静音音频过滤用 Qwen2.5-Omni-7B 在语音替换为静音的条件下作答、仍答对的丢弃、变答错的保留，留下约 67k（候选池的 32%）；分布匹配增强再产出约 60k，合计约 127k。Task 2 评测集准确率 78.0 -> 81.0 -> 83.0 -> 85.0 -> 86.0。必须原样保留的源内不一致：摘要与引言写“由 83.0% 提到 86.0%”，§3.3 写“由 78.0% 提升到 86.0%”，Table 2 把 78.0% 标为 Baseline (direct answering)、把 83.0% 标为 + silent-audio filtering，而结论称 83.0% 是 reasoning-then-answer 基线——三种说法并记，不代为取舍。其余边界：训练批大小已声明（Task 1 每设备 1 × 梯度累积 4 × 16 worker = 全局 64；Task 2 微批 4、全局 64、16 个加速设备），推理批大小未声明；全文未声明任何 GPU 型号或厂商，只说“16 个加速设备”；全文没有任何时延数字；/URI 注解仅 1 条且是 arXiv 自链接，即零条作者提供的链接，无作者仓库、无权重发布；论文所微调的 VibeVoice-ASR-7B 在 HF 上无法解析（microsoft/VibeVoice-ASR-7B 返回 401），存在一个 microsoft/VibeVoice-ASR（MIT）但论文未给 HF ID，是否同一 checkpoint 记为未知。该工作走微调路线而项目不做微调，任务是对话理解问答而非工具调用，其 86.0% 与项目 80.49% 的严格工具召回没有任何可比性。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.14150"
+      ]
+    },
+    {
+      "id": "streaming-asr-pseudo-label-recipe-and-its-negative",
+      "kind": "tracking",
+      "summary": "跟踪一条与项目 ASR 域外泛化同构、且自带负结果的配方：离线全上下文教师在有标注域内集上微调 -> 一次贪心解码产伪标签 -> 流式学生在混合集上微调，每步只跑一次，无迭代、无 EMA 教师。若项目日后要做车内域适配，这是骨架；并且可以直接省掉置信度过滤这一整套机制。",
+      "why_not_candidate": "项目当前不做 ASR 微调，且瓶颈不在 ASR；该论文英文专用、学生架构与项目的 faster-whisper 不同构、主结果因专有数据不可复现，无法给出预计修复数。",
+      "external_evidence": "arXiv:2608.13717（StreamHear，Capital One，5 页，PDF /License 为 arXiv 非独占分发许可即非开放许可，2026-08-13T19:23:02Z）。已完成全文与制品核实。Table 2（WER %，5 个种子均值，学生 Nemotron-Speech-Streaming-EN-0.6B，RC=1 即 80ms 块 + 80ms 右上下文 = 160ms 算法时延，LC=70）test/unlabeled：StreamHear Earnings-21 6.63/7.77、Earnings-22 11.76/9.56、SPGISpeech 2.59/2.26、BankCall 9.80；微调学生 7.19/9.62、12.46/10.81、2.77/2.70、10.68；微调教师 6.03/7.68、11.24/9.55、2.20/2.15、8.85。相对微调学生好 0.18-0.88 pp（有标注 test）与 0.44-1.85 pp（无标注 split）；与微调教师的差距被压到 test 至多 0.95 pp、unlabeled 至多 0.11 pp。先验正则化动态规划重对齐把块文本对齐质量 WER 由 17.46 降到 8.01（-9.45）与 20.54 降到 10.97（-9.57），块数变化不超过 0.4%。最值得记的负结果：置信度 top-K 过滤（K = 25/50/75/100%）在两个数据集两个 split 上随 K 增大单调变好、K=100% 始终最优，论文原话“丢弃低置信度伪标签从未有帮助”，即该配方中过滤机制应整个省掉。边界：其时延数字全部是算法时延，定义为 (1+RC)×80ms，是块配置的算术后果，全文没有任何实测墙钟毫秒、没有 RTF、没有帧率或 token 速率；训练硬件 4 张 NVIDIA A100-SXM-40GB（有效批 64、每卡批 4、梯度累积 4），推理批大小未声明；英文专用且带缩写展开与填充词删除的归一化管线；学生是 NeMo 的 cache-aware FastConformer-RNN-T，其重对齐所解的块边界词位问题项目的编码器-解码器 ASR 没有；四个数据集之一 BankCall 是 Capital One 专有数据不公开，且无代码发布，主结果原则上不可复现；唯一的 URI 是指向第三方框架 NVIDIA-NeMo/Speech 的脚注。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13717"
+      ]
+    },
+    {
+      "id": "open-status-needs-a-claimed-but-unlinked-category",
+      "kind": "process_rule",
+      "summary": "在开放状态的记录口径中新增一档：“论文声称已发布，但全文未给出任何 URL/DOI/仓库名”。它既不同于“明确未发布”，也不同于“已发布可核实”，因为它在引用时必须附一句“不可核实”。本轮六篇全文核实的论文中出现两例，且这批六篇没有任何一篇提供作者自有的代码、模型或数据仓库——出现的每个 GitHub/HF 链接都指向第三方。同时记录两条许可证陷阱与一条横向事实。",
+      "why_not_candidate": "属于调研流程与记录口径规则，不是被测系统上的改动。",
+      "external_evidence": "两例“声称已发布但无链接”：arXiv:2608.13959 正文反复提到“PREREG.md 在已发布的仓库中即为注册文档”“发布内容包含 harness、逐请求原始记录与所有表图的生成器，make verify 会在任何已提交产物不一致时失败”，甚至列出 make 目标，却全文没有任何 URL、DOI 或仓库名，36 条 URI 注解全为参考文献与自链接，正文裸 URL 0 条，GitHub 代码检索返回 0；arXiv:2608.14036 正文提到“我们也在已发布的制品中保留了 top-k 检索统计”，同样无任何 URL。arXiv:2608.14150 的 /URI 注解只有 1 条且是 arXiv 自链接，即零条作者提供的链接。六篇（2608.13959、14150、13717、14191、14333、14036）中出现的每个 GitHub/HF 链接都指向第三方：NVIDIA-NeMo/Speech、scale-snu/LLMSimulator、anthropics/skills、harbor-framework/harbor、huggingface/open-r1、xai-org/grok-1。许可证陷阱两例：anthropics/skills 无顶层 LICENSE（LICENSE 与 LICENSE.txt 均 404），其逐 skill 的 LICENSE.txt 正文为“© 2025 Anthropic, PBC. All rights reserved.”并指向 Anthropic 服务条款，不是开源许可证；挑战赛主办方的 alanshaoTT/MLC-SLM-2nd-Task1-Baseline 没有任何 LICENSE 文件，API 报 null。横向事实：这六篇没有一篇提到 CUDA Graph、图捕获、主机同步或动态形状，最接近的一句是 2608.14333 的“张量并行的跨 GPU 集合通信与同步开销”，那是 GPU 间通信，与项目定位的每层 GPU->CPU 同步是不同现象，项目的图捕获硬筛子不受本批影响。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13959",
+        "https://arxiv.org/abs/2608.14036",
+        "https://arxiv.org/abs/2608.14150"
+      ]
+    }
+  ]
+}
