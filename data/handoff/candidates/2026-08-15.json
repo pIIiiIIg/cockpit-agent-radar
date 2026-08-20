@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-15",
+  "evidence_cutoff": "2026-08-15T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a fourth consecutive report; 0 new Radar entries. The direct arXiv fallback scan over 2026-08-14T02:30Z - 2026-08-15T02:30Z (contiguous with and non-overlapping the previous report's window) returned 0 new submissions and 0 revisions across all 13 query groups. Three-level falsification was performed because a zero result can also mean a broken query path: (1) the same queries without the date bound return normally (cat:cs.SD totalResults 21,686); (2) the newest arXiv submission site-wide, unrestricted by category, is 2608.13561 at 2026-08-13T17:59:58Z; (3) submittedDate:[202608131800 TO 202608150230] returns totalResults 0. Per-category newest entries are all no later than 2026-08-13T18:00Z (cs.AI/cs.CL/cs.CV 2608.13560, cs.LG 2608.13554, eess.AS 2608.13425, cs.MM 2608.13210, cs.SD 2608.12951), and lastUpdatedDate in-window revisions are also 0. Therefore the previous report already covered arXiv's existing content in full, and today has NO new papers. All additions in this round come from live open-status re-verification of existing tracking items, performed on 2026-08-15 (later than the 02:30Z paper cutoff). A supplementary Hugging Face scan over the same window across 14 keywords found 84 newly created items, all third-party fine-tunes, mirrors, quantizations or unrelated entries; zero first-party releases. Note for the next round: if the arXiv index resumes, submissions backlogged after 2026-08-13T18:00Z will appear at once and must be attributed by submission time, not discovery time.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-15.md",
+    "reports/每日调研日报-2026-08-15.md"
+  ],
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。2026-08-15 复核 Luna-TTS 官方项目页仍为 HTTP 200，但 08-14 记录的页内矛盾**未修正**：去标签后的正文中两处文本依然同时存在——摘要写 “Luna-TTS Realtime is autoregressive over 1.28 s blocks”，推理表脚注写 “First audio = engine invocation to the first decoded 0.36 s block”。整页 github.com 出现 0 次、huggingface.co 出现 0 次、license/License 出现 0 次，仍无代码、权重或许可证。候选处置完全不变：验收仍拆成首包/整句/取消残留三段，样本必须含长句与不规则文本；首块时长澄清前，该页的 41.6ms 不可用于任何跨系统首包比较。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false；本轮无新增证据（窗口内 arXiv 零新论文），08-13 由 DuplexWorld 提供的机制性支持继续成立。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false；2026-08-15 复核 CodeForZzc/GCM-Bench 最后推送仍为 2026-08-11T06:29:47Z（连续第四轮不变，349 条目、Apache-2.0），PACE 中间件本体仍未公开。该候选只借用数据格式与判定协议，不受影响。",
+    "decode-loop-cudagraph-static-kv-v1（2026-08-14）保持不变，仅离线、h20_request_allowed=false；本轮无新增证据。顺序不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完，图捕获作为第二个独立变量，两步不得合并成一次结论。2026-08-15 复核 z-lab/flashdrive 仍 18 条目、MIT、最后推送仍 2026-07-06T00:54:50Z；z-lab/Alpamayo-1.5-10B 仍 license:other、非门控。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-14 的记录不变，且优先级仍是全部事项中最高的一条——高于本轮新增的前端候选。对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据（模型输出文本、工具调用序列、参数、执行器回执、最终车态），只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份“判定器不得读取哪些字段”的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。本轮无新证据，仅重申优先级。",
+      "external_evidence": "arXiv:2608.12880（2026-08-14 已展开，本轮复核仓库仍 2,393 条目、最后推送 2026-07-29T11:50:50Z、Apache-2.0，无变化）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://github.com/rana-m-ahmed/ResearchWork-on-Mcp-Privilege-Aggregation"
+      ]
+    },
+    {
+      "id": "streaming-frontend-latency-three-number-accounting",
+      "kind": "instrumentation",
+      "summary": "把流式前端的时延记账固定为三个分列的数而不是一个：(1) 模型算法时延，RT-SEMamba KD1 为 25ms，由 recipes/KD1/KD1.yaml 的 win_size=400 与 README 声明的 STFT/iSTFT center=False 共同界定，设备无关；(2) 管线块长，inference_KD1.sh 默认 --chunk_size 1600 即 100ms @16kHz，可配；(3) 实测每帧墙钟耗时，取决于后端与硬件，必须项目自测。三者混成一个数会低估约 100ms 量级的增量，而项目首动作预算 P50 只有 700-1094ms。",
+      "why_not_candidate": "属计时口径规范而非被测的模型/管线单变量，但它是 streaming-se-frontend-rtsemamba-kd1-v1 的验收前提，也是将来任何前端方案可比的前提。",
+      "external_evidence": "RT-SEMamba 仓库（2026-08-14T05:16:09Z 发布）recipes/KD1/KD1.yaml stft_cfg: sampling_rate 16000 / n_fft 400 / hop_size 100 / win_size 400，即 25ms 窗、6.25ms 跳、160 帧每秒；README 说明 --streaming_mode realtime 为一帧一次前向、chunked 为整块一次前向；inference_KD1.sh 默认 --streaming True --streaming_mode realtime --chunk_size 1600。",
+      "source_urls": [
+        "https://github.com/RoyChao19477/RT-SEMamba",
+        "https://arxiv.org/abs/2608.12099"
+      ]
+    },
+    {
+      "id": "artifact-recheck-cadence",
+      "kind": "process_rule",
+      "summary": "把“论文当日判定为无制品（404 / 空仓库 / code coming soon）”的跟踪项按固定节奏复核写进流程，而不是一次性结论。复核内容至少包括：仓库是否由空变为有内容、LICENSE 文件正文（不信任 GitHub API 的 license 字段）、是否存在 releases/tags、权重是否随仓库分发还是在 HF、以及论文承诺的制品是否逐文件存在。",
+      "why_not_candidate": "属实验流程规范而非被测变量。",
+      "external_evidence": "两天内两次方向一致的反例：Luna-TTS 项目页 2026-08-13 复核 HTTP 404、2026-08-14 复核 HTTP 200；RoyChao19477/RT-SEMamba 在 2026-08-13 与 2026-08-14 两轮复核均为 size 0 空仓库，而其三条提交全部发生在 2026-08-14（04:59:33Z、05:13:11Z、05:16:09Z），即论文投稿（2026-08-12T14:21:05Z）到制品上线之间存在约两天的滞后。反向的对照同样存在：AutoDesign 附录 A.5 承诺的逐案例分数存档与人评决策记录，在 2026-08-15 复核时仍不存在（仓库仍 721 条目、两条提交，全树 42 个 .json/.jsonl/.csv 全为配置与 skill 定义，数据类文件只有 eval/benchmark_manifest.jsonl 与 eval/small_subset_ids.json）——仓库存在不等于论文所述制品存在。",
+      "source_urls": [
+        "https://github.com/RoyChao19477/RT-SEMamba",
+        "https://vuilabs-ai.github.io/luna-tts/",
+        "https://github.com/Yaxin9Luo/AutoDesign"
+      ]
+    },
+    {
+      "id": "license-plus-obligations-field",
+      "kind": "process_rule",
+      "summary": "把候选记录里的“许可证”一栏由单个 SPDX 标识改成“标识 + 附加义务”两栏，并规定一律以 LICENSE 文件正文为准、不采信 GitHub API 的 license 字段。同时要求记录被引用仓库的 commit SHA。",
+      "why_not_candidate": "属记录规范而非被测变量。",
+      "external_evidence": "RT-SEMamba 的 LICENSE 正文虽是 MIT，却附两条强制条款：所有副本必须包含指明本软件基于 MP-SENet 与 CMGAN 的致谢声明；源码或二进制再分发必须保留该致谢。版权行为 Copyright (c) 2024 RONG CHAO，另列 YXLU-0102（MP-SENet）与 Ruizhe Cao（CMGAN）的部分版权。GitHub API 的 license 字段对该仓库报 NOASSERTION——这是本周第三次（前两次为 Yaxin9Luo/AutoDesign 实为 MIT、rana-m-ahmed 实为 Apache-2.0）。该仓库 releases 与 tags 端点均返回空数组，无版本化发布，HEAD 随时可变，当前 commit 为 0c9e8c7c42。",
+      "source_urls": ["https://github.com/RoyChao19477/RT-SEMamba"]
+    },
+    {
+      "id": "zero-result-three-level-falsification",
+      "kind": "process_rule",
+      "summary": "在 Radar 未刷新、直接 arXiv 检索成为唯一发现通道的情况下，若检索返回零结果，必须做三级证伪后才能写“无重大新增”：(1) 去掉日期约束重跑同一查询，确认 API 与解析链路正常；(2) 不限类别按投稿时间倒序取全站最新条目，记录其投稿时刻；(3) 直接查询“上一轮截止时刻到本轮截止时刻”的全站 totalResults。另需逐类别复核最新条目，并单独查 lastUpdatedDate 以排除只有修订的情况。",
+      "why_not_candidate": "属检索流程规范而非被测变量。",
+      "external_evidence": "本轮执行结果：(1) cat:cs.SD 无日期约束 totalResults 21,686，链路正常；(2) all:a 最新为 2608.13561，投稿 2026-08-13T17:59:58Z；(3) submittedDate:[202608131800 TO 202608150230] totalResults 0。逐类别最新条目均不晚于 2026-08-13T18:00Z；cs.SD 与 (eess.AS OR cs.CL) 的 lastUpdatedDate 窗口内修订均为 0 条。与 2026-08-14 的情况性质不同：那次是窗口很薄（cs.SD 3 篇、eess.AS 2 篇）需要判断筛选倾向，本次是一篇都没有、不需要任何判断。",
+      "source_urls": ["http://export.arxiv.org/api/query"]
+    },
+    {
+      "id": "first-party-vs-derivative-screen",
+      "kind": "process_rule",
+      "summary": "在按时间排序的 Hugging Face 发现通道里，用三条快速判据区分一手发布与第三方衍生：是否带 base_model: 标签族（尤其 base_model:quantized: / base_model:finetune:）、是否存在 ATTRIBUTION.md 一类文件、作者标识是否为论文单位。下载量与点赞数为 0 且创建时间极新的条目，默认按衍生处理。",
+      "why_not_candidate": "属去重规范而非被测变量。",
+      "external_evidence": "本轮窗口内 84 条新条目，一手发布 0 条。抽查四条：hoidhxd/NVIDIA-NemotronLabs-VoiceChat-11B-GGUF 带 base_model:quantized:nvidia/NVIDIA-NemotronLabs-VoiceChat-11B；aoiandroid/NVIDIA-NemotronLabs-VoiceChat-11B 为镜像（同作者另有 aoiandroid/k2-fsa-omnivoice-private-mirror）；KitsuMate/omnivoice-onnx 为第三方 ONNX 导出并含 ATTRIBUTION.md，官方 OmniVoice 仍是 k2-fsa/OmniVoice（2026-03-30 创建）；Iambackup/Qwen3-TTS-12Hz-1.7B-Base 为再上传。四者下载与点赞均为 0。另记名称碰撞：rc19477/gh200-semamba-docker 与 rc19477/x86-semamba-docker（均 MIT、lastModified 2025-05-12）是前作 SEMamba 的 docker 镜像，不是 RT-SEMamba 的制品；RT-SEMamba 在 HF 上没有任何条目（models 与 datasets 检索均为 0）。",
+      "source_urls": ["https://huggingface.co/api/models"]
+    },
+    {
+      "id": "streaming-frontend-cost-prior",
+      "kind": "design_constraint",
+      "summary": "沿用 2026-08-14 的量级先验：坚持因果流式在 VoiceBank+DEMAND 这份语料上约需付出 0.5-0.7 PESQ。本轮的更新只有一条——该先验的流式一侧（RT-SEMamba）现在有了可离线复核的代码与权重，因此先验**从纸面判断变成可验证命题**，但判定仍必须用分桶 CER 与工具/参数/最终车态一致性，PESQ 只作过程量。",
+      "why_not_candidate": "先验本身是设计约束不是被测变量；其可执行化即本日候选 streaming-se-frontend-rtsemamba-kd1-v1。HybridSB-MoE 仍无任何公开代码、权重或许可证，且全文没有因果性声明与逐帧算法时延，先天不满足流式选型硬要求；两篇评测协议不同不可直接相减（HybridSB 自己复现的 SEMamba 是 3.55）；两者都只有英文单通道 PESQ 类指标，没有下游 CER、没有中文、没有车内、没有 AEC。",
+      "external_evidence": "HybridSB-MoE (2608.12715) VoiceBank+DEMAND: PESQ 3.88 / STOI 0.96 / CSIG 4.82 / CBAK 3.85 / COVL 4.82, K=8, top-k=2, RTF 0.28（自报 35ms、整句口径）。RT-SEMamba (2608.12099) 同一份语料（VCTK-DEMAND 与 VoiceBank+DEMAND 是同一数据集的两种叫法）全因果流式：8 层教师 3.32、蒸馏 1 层学生 3.18。仓库 README 另补完整深度扫描：1 层无 KD 3.06 / 2 层 3.19 / 3 层 3.20 / 4 层 3.29 / 5 层 3.27 / 8 层 3.32 / 8→2 层 3.22 / 8→1 层 3.18，蒸馏弥合教师-学生差距 46.2%/19.2%/63.6%/34.5%（PESQ/CSIG/CBAK/COVL）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12715",
+        "https://arxiv.org/abs/2608.12099",
+        "https://github.com/RoyChao19477/RT-SEMamba"
+      ]
+    },
+    {
+      "id": "cudagraph-compatibility-screen",
+      "kind": "design_constraint",
+      "summary": "维持 2026-08-14 的记录不变：把“是否破坏 CUDA Graph 捕获兼容性”作为推理侧任何改动的通用筛子；依赖数据的主机同步（.nonzero()、GPU 标量比较、torch.where）与动态增长的显存分配都是破坏项。本轮无新证据。",
+      "why_not_candidate": "这是选型筛子而非被测变量；其具体落地是 decode-loop-cudagraph-static-kv-v1。",
+      "external_evidence": "FlashDrive (2608.12932) 与 vToken (2608.13263)，均见 2026-08-14 报告。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12932",
+        "https://arxiv.org/abs/2608.13263"
+      ]
+    },
+    {
+      "id": "aec-no-primary-evidence",
+      "kind": "negative_evidence",
+      "summary": "回声消除与扬声器泄漏连续第三轮无一手依据，留档以免重复检索：2026-08-13、2026-08-14、2026-08-15 三个连续窗口均无任何报告 AEC 或扬声器泄漏一手结果的工作。本轮窗口 arXiv 全站零新论文；今日唯一的技术更新 RT-SEMamba 明确是单通道降噪，其 README、LICENSE 与 recipes 配置中都没有任何回声消除内容。",
+      "why_not_candidate": "无证据可用，不构成可执行实验。在出现一手证据前不写任何 AEC 结论或预期。",
+      "source_urls": ["https://github.com/RoyChao19477/RT-SEMamba"]
+    },
+    {
+      "id": "no-new-papers-this-window",
+      "kind": "tracking",
+      "summary": "2026-08-14T02:30Z - 2026-08-15T02:30Z 窗口内 arXiv 全站新投稿 0 篇、修订 0 篇，Hugging Face 一手发布 0 条。下一轮窗口起点为 2026-08-15T02:30Z。若 arXiv 索引恢复，2026-08-13T18:00Z 之后积压的投稿会一次性出现，届时按投稿时间而非发现时间归属，避免与本轮的零新增结论冲突，也避免把 08-13 已覆盖的论文重新计数。",
+      "why_not_candidate": "不是技术，是窗口状态与下一轮起点的记录。",
+      "source_urls": ["http://export.arxiv.org/api/query"]
+    }
+  ],
+  "candidates": [
+    {
+      "id": "streaming-se-frontend-rtsemamba-kd1-v1",
+      "candidate_fingerprint": "frontend|causal-streaming-speech-enhancement|rtsemamba-kd1|pre-asr-insertion",
+      "title": "在 ASR 之前插入 RT-SEMamba KD1 因果流式降噪前端（离线单变量对照，前置任务未完成前不得启动）",
+      "module": "audio_frontend",
+      "source_date": "2026-08-15",
+      "source_work_date": "2026-08-12",
+      "artifact_release_date": "2026-08-14T05:16:09+00:00",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12099",
+        "https://github.com/RoyChao19477/RT-SEMamba"
+      ],
+      "source_commit_referenced": "0c9e8c7c42",
+      "problem_bucket": "asr_noise_robustness",
+      "hypothesis": "在 clean/20dB/音色分桶归因已完成、且噪声致错被证实占可观比例的前提下，仅增加“在 ASR 之前插入 RT-SEMamba KD1 流式前端”这一个变量，可在 20dB 桶上降低 ASR CER 并提升严格工具召回，同时 clean 桶不退化、414 冻结 canary 零退化，新增时延在可接受范围内。",
+      "single_variable": "是否在 ASR 之前插入 RT-SEMamba KD1 流式前端（其余全部冻结）",
+      "baseline_id": "bench_a_frozen_100audio_v1",
+      "profile": "offline_asr_and_tool_accuracy",
+      "offline_baseline_scope": {
+        "dataset": "冻结 2026-08-03 A/B 的前 100 条音频与 414/452 冻结 canary；同一模型权重、同一提示、同一采样设置、同一 RAG 与候选工具集",
+        "metric": "按 clean / 20dB / 音色分桶的 ASR CER 与严格工具召回；414 canary 退化数；参数与最终车态一致性；新增时延分三项报告（模型算法时延 25ms、管线块长、实测每帧墙钟耗时）；前端所在设备与后端（CUDA / CPU / MPS）及其实测 RTF"
+      },
+      "implementation_scope": [
+        "只在音频进入 ASR 之前插入前端；冻结模型权重、提示、采样设置、RAG、候选工具集合、执行器、TTS 与 endpoint",
+        "必须先完成快照“下一步”第 2 条的 clean/20dB/音色分桶归因；未完成前不得启动本候选",
+        "必须先完成一次只读代码审阅（vendored mamba_install / mamba_install_mps 与项目 PyTorch 版本的兼容性、utils/streaming.py 环形缓冲是否与逐帧一致、rt_enhance.py 依赖 sounddevice 的设备访问范围）；审阅通过前不得执行该仓库任何代码，这是项目“不运行陌生论文仓库代码”边界的落实方式",
+        "使用仓库自带的 KD1 学生权重 ckpts/g_00766000.pth，不重训、不微调；KD8 教师只作为对照的可选第二档，不与 KD1 合并成一次结论",
+        "PCS 后处理保持默认关闭（--post_processing_PCS False，KD1.yaml use_PCS400: False），不得开启后与基线比较",
+        "必须记录使用的 commit SHA（该仓库无 releases 与 tags，HEAD 随时可变）",
+        "不改变 ASR 后端、判定逻辑、工具集或任何会改变判定口径的部分"
+      ],
+      "evidence": [
+        "项目快照：只有 clean / 20dB 两档合成音频，且从未做过分桶归因；ASR micro CER 6.39% 是全局数字，无法区分噪声致错与理解致错",
+        "项目快照：A 版严格工具召回 80.49%，ASR 完成 P50/P90 = 183/248ms；快照“下一步”第 2 条即要求按 clean/20dB/音色分桶定位 ASR 与模型理解错误",
+        "RT-SEMamba (2608.12099) VCTK-DEMAND：8 层教师 PESQ 3.32、8→1 层蒸馏学生 3.18（1.05M 参数），全部深度算法时延均为 25ms",
+        "仓库 recipes/KD1/KD1.yaml：sampling_rate 16000 / n_fft 400 / hop_size 100 / win_size 400，即 25ms 窗、6.25ms 跳、160 帧每秒；hid_feature 64、num_tfmamba 1、d_state 16、d_conv 4、expand 4、输入 2 通道（幅度+相位）、输出 1 通道",
+        "仓库 README：三个固定大小的推理状态（帧缓冲 K-1 帧、conv_state d_conv-1 步、ssm_state），接口 set_streaming(True) 与 reset_streaming_state()；--streaming_mode realtime 为一帧一次前向；时间轴 Mamba 单向无前瞻，频率轴 Mamba 仍为双向",
+        "仓库 README 流式代价表（论文测量，单张 RTX 5090、预热后稳态）：KD1 1.05M / 20.56 GMACs·s⁻¹ / RTF 0.11；KD8 2.74M / 47.35 GMACs·s⁻¹ / RTF 0.29",
+        "开放状态：LICENSE 正文 MIT（附 MP-SENet / CMGAN 强制致谢条款），两份权重直接位于仓库 ckpts/（KD8 11,115,496 字节、KD1 4,235,024 字节），2026-08-14T05:16:09Z 发布"
+      ],
+      "expected_fixes": null,
+      "expected_fixes_basis": "无法估计，诚实记为未知。没有任何一篇降噪论文（RT-SEMamba、HybridSB-MoE 均然）报告过下游 ASR CER 或工具正确率，全部只有 PESQ/STOI/CSIG/CBAK/COVL 这类过程量。上界只能由项目自己的 clean/20dB/音色分桶归因给出——即 452 条中可归因于噪声致识别错误的条数。在该分桶完成之前，任何预估都是编造。",
+      "latency_budget_ms": null,
+      "latency_budget_basis": "同样待测。已知的只有模型算法时延 25ms（设备无关，由 win_size 400 与 center=False 界定）与默认管线块长 100ms（--chunk_size 1600）；实测每帧墙钟耗时取决于后端与硬件，必须项目自测。三者不得合并成一个数——混报会低估约 100ms 量级，而项目首动作预算 P50 只有 700-1094ms。",
+      "risks": [
+        "PESQ 不是 CER：全仓库与论文都没有任何下游 ASR 错误率或工具正确率数字，“PESQ 3.18 能让车控更准”是零证据推测，实验完全可能得到零收益甚至负收益，负结果同样有效",
+        "训练与评测语料是 VCTK-DEMAND，英文、单通道、16kHz、28 说话人训练 / 2 未见说话人测试；项目是中文车控，域外泛化未知，前端也可能引入对中文的伪影而抬高 CER",
+        "无车内实录、无多通道、无 AEC；项目的 clean/20dB 是合成噪声，与真实车内噪声分布不同，实验结论对真实车内的外推性未知",
+        "RTF 0.11 是 RTX 5090 上的测量；若放在同一张卡上会与主模型抢资源，若放到 CPU/MPS 则 RTF 未知——README 明确声明不对其它设备作保证",
+        "MPS 后端上因固定约 32ms 的每次调用开销，rt_enhance.py 改为按 100ms 块整批前向而非逐帧循环，即“1 帧进 1 帧出”这条 08-13 硬要求在该后端上实际不成立；若选 MPS，必须重新评估形状是否仍合格",
+        "仓库无 releases 与 tags，权重在 git 内而非 HF，HEAD 随时可变；不记 commit SHA 的实验不可复现",
+        "LICENSE 虽为 MIT 但附强制致谢条款，任何形式的分发都有实际义务",
+        "155 个条目中约三分之二是两份 vendored mamba_ssm；vendored 依赖与项目现有 PyTorch/CUDA 版本可能冲突，这是代码审阅的重点之一",
+        "若在分桶归因完成前启动，噪声致错与理解致错会同时变化，实验将无法归因且污染后续 composition queue 的交互判定"
+      ],
+      "dependencies": [
+        "快照“下一步”第 2 条的 clean/20dB/音色分桶归因必须先完成并落盘——它同时提供实验靶子与 expected_fixes 的上界",
+        "对 RoyChao19477/RT-SEMamba 的只读代码审阅必须先完成并通过",
+        "冻结 2026-08-03 A/B 的前 100 条音频与 414/452 冻结 canary",
+        "既有相位埋点与 token/引擎耗时账本（0a1d84e、768c60e 已就位），用于分列前端新增时延",
+        "不得与 omnivoice-local-tts-16step-v1、tool-hold-message-first-audio-v1、playback-boundary-ledger-offline-v1、decode-loop-cudagraph-static-kv-v1 同时变更",
+        "不得重复启动参数化本体、云监督、SoulX、CMTF 或已拒绝的 conditional verifier；不得借本候选重启已实测为负优化的投机预取与工具清单压缩"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "bucketed_attribution_completed_first": true,
+        "readonly_code_review_passed_first": true,
+        "clean_bucket_cer_not_worse": true,
+        "cer_and_tool_recall_reported_per_bucket": true,
+        "added_latency_reported_as_three_separate_numbers": true,
+        "backend_and_device_recorded": true,
+        "measured_rtf_on_target_backend_recorded": true,
+        "pcs_postprocessing_disabled": true,
+        "commit_sha_recorded": true,
+        "final_vehicle_state_exact_match_on_clean_bucket": true,
+        "negative_result_accepted_as_valid": true
+      },
+      "h20_gate": {
+        "request_allowed": false,
+        "reason": "两个前置任务（clean/20dB/音色分桶归因、只读代码审阅）均未完成，且 expected_fixes 目前为未知，无法与动态 full gap 比较。冻结 414 canary 零退化且预计净修达到动态 full gap（当前 434/452 到 448/452，即 14）之前不得请求 full H20；小收益先进入 smoke/quick/targeted 与 composition queue。",
+        "dynamic_full_gap": 14,
+        "same_baseline_and_hash": true,
+        "gpu_consumed": false
+      },
+      "research_value": "这是 2026-08-13 定下前端选型硬要求（算法时延有界且写明、状态固定大小、1 帧进 1 帧出不重算历史）以来第一个同时满足形状与制品两个条件的降噪前端，因此第一次可以在项目自己的音频上直接验证“坚持因果流式约付 0.5-0.7 PESQ”这条量级先验，以及一个此前所有降噪论文都没有回答的问题——PESQ 提升是否转化为下游 CER 与工具正确率的提升。即使结果为零收益，这一条负结果也能一次性关闭整个流式降噪前端方向的重复评估，价值不低于正收益。",
+      "patent_value": "public-safe：仅记录“以算法时延有界 + 固定大小循环状态 + 逐帧因果出音作为座舱前端选型硬筛子，并以分桶下游 CER 而非 PESQ 作为验收判据”的研究标签，不公开未申请实现细节。",
+      "source_commit": null,
+      "status": "proposed_offline_blocked",
+      "blocked_on": [
+        "clean/20dB/音色分桶归因",
+        "只读代码审阅"
+      ],
+      "evidence_score": 0.58
+    }
+  ]
+}

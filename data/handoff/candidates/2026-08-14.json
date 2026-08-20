@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-14",
+  "evidence_cutoff": "2026-08-14T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a third consecutive report; 0 new Radar entries. Candidates for 2026-08-14 came from a direct arXiv new-submission scan over 2026-08-13T02:30Z - 2026-08-14T02:30Z (45 unique entries after dedup, contiguous with and non-overlapping the previous report's window). All 10 arXiv IDs cited had zero hits in data/items.json, data/explanations.json and reports/. Artifact open-status was verified live on 2026-08-14; that verification is later than the 02:30Z paper cutoff and exact timestamps are recorded in the detailed report where the difference matters. This window was unusually thin for speech: cs.SD 3 papers, eess.AS 2 papers.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-14.md",
+    "reports/每日调研日报-2026-08-14.md"
+  ],
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮唯一变化是开放状态更正：Luna-TTS 官方项目页 2026-08-13 复核为 HTTP 404，2026-08-14 复核为 HTTP 200。页面新增两行推理数据（16 步 2×H20 并行 CFG 首音频 63.8ms / 整句 451.4ms / RTF 0.0426；32 步全网格 419.6ms / RTF 0.0410），并在 Seed-TTS-Eval 表中把 OmniVoice 0.6B 记为 zh CER 0.84 / zh SIM 77.7 / en WER 1.60 / en SIM 74.1，明确标注为“取自该系统自己的报告”。整页唯一外链仍是 arXiv，仍无代码、权重或许可证，因此候选处置不变（验收仍拆成首包/整句/取消残留三段，样本必须含长句与不规则文本）。另记该页一处内部矛盾：摘要写 Realtime 按 1.28s 块自回归，同页推理表脚注写“首音频 = 引擎调用到第一个解码完成的 0.36s 块”；在首块时长澄清前，其 41.6ms 不可用于任何跨系统首包比较。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false；本轮无新增证据，08-13 由 DuplexWorld 提供的机制性支持（工具调用制造静音、静音被时序指标计成失败）继续成立。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false；2026-08-14 复核 CodeForZzc/GCM-Bench 最后推送仍为 2026-08-11T06:29Z，PACE 中间件本体仍未公开，该候选只借用数据格式与判定协议，不受影响。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据（模型输出文本、工具调用序列、参数、执行器回执、最终车态），只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份“判定器不得读取哪些字段”的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，优先级高于本轮其它一切，且不需要 GPU。",
+      "external_evidence": "arXiv:2608.12880 自审其前一轮 MCP agent 安全评测：判分器把 treatment 元数据直接接进 ATTACK_SUCCESS 的门控条件；固定已执行行为、仅把 surface 推导标志置为 false，180 条请求中即有 31 条历史标签改变；按仅依赖行为证据的六类判定重建后，70 条历史 ATTACK_SUCCESS/HIJACK_ATTEMPT 中 58 条重建为授权内正常完成，最终 180 条普查中 ATTACK_SUCCESS 恰好为 0 条。作者原话：Reproducibility did not prevent the error. It made the error exactly reproducible.",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://github.com/rana-m-ahmed/ResearchWork-on-Mcp-Privilege-Aggregation"
+      ]
+    },
+    {
+      "id": "asr-timing-boundary-alignment",
+      "kind": "instrumentation",
+      "summary": "把 A 版 ASR 段的 183/248ms 计时口径显式写明起点与终点，并标注是否包含预处理与音频编码，与论文常用的“从波形开始，含预处理、音频编码与带缓存的解码”口径并列记录。",
+      "why_not_candidate": "属计时口径规范而非可测的模型/管线单变量；但它是将来任何 ASR 侧加速能被比较的前提，零成本。",
+      "external_evidence": "arXiv:2608.12703 的计时协议明确从波形开始并包含预处理与音频编码，与项目“commit 之后到 ASR 完成”的起点不同；该论文同时报告 Qwen 1.7B 端到端 1.41-1.55×、Voxtral-Mini 3B 1.42-1.69×（A100、batch 1、bf16），贪心验证下输出与自回归一致。",
+      "source_urls": ["https://arxiv.org/abs/2608.12703"]
+    },
+    {
+      "id": "holdout-slice-and-preregistered-gate",
+      "kind": "process_rule",
+      "summary": "候选流程补两条规则：(1) 从 452 条切出一个固定留出片，只用于最终验收、从不用于挑选或调参，且其分数不进入生成候选的上下文；(2) 跑 full H20 之前先把通过判据与样本量写死落盘，未达标即封存，不做事后挑选、不换分层重看。",
+      "why_not_candidate": "属实验流程规范而非被测变量。外部依据有两条互补的量级警示：AutoDesign 自报其自动基准分与 933 条人评的 Pearson 仅 r=0.34 [0.22, 0.44]，且分差 0-3 分时人机一致率仅 51.9%（分差≥20 才升到 74.4%）；arXiv:2608.13228 在 160 个 issue 上解决 118 vs 匹配基线 116，跨仓库符号翻转检验 p=0.75，弃权门 127/160 只比匹配门多 1 个、p=1.0，据此宣布发现门未通过并封存确认集。合起来的结论是 +1/+4 量级差异不得单靠总分判定，必须靠逐条零退化比对——这是对项目既有 414 canary 规则的外部背书，不是新增要求。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.13560",
+        "https://arxiv.org/abs/2608.13228"
+      ]
+    },
+    {
+      "id": "streaming-frontend-cost-prior",
+      "kind": "design_constraint",
+      "summary": "把“坚持因果流式在 VoiceBank+DEMAND 这份语料上约需付出 0.5-0.7 PESQ”记为量级先验，用于说明 08-13 定下的前端选型硬要求（算法时延有界、状态固定大小、1 帧进 1 帧出）代价可承受，不必为排行榜分数放弃因果性。判定仍必须用分桶 CER 与工具/参数/最终车态一致性，PESQ 只作过程量。",
+      "why_not_candidate": "HybridSB-MoE 无任何公开代码、权重或许可证，且全文没有因果性声明与逐帧算法时延，先天不满足流式选型硬要求；RT-SEMamba 仓库 2026-08-14 复核仍为空（size 0）。两者都只有英文单通道 PESQ 类指标，没有下游 CER、没有中文、没有车内、没有 AEC。四条免责必须与该先验同时引用：两篇评测协议不同不可直接相减（HybridSB 自己复现的 SEMamba 是 3.55）；其 35ms / RTF 0.28 是整句口径；只有过程量指标；RTF 要与主模型抢同一张卡。",
+      "external_evidence": "HybridSB-MoE (2608.12715) VoiceBank+DEMAND: PESQ 3.88 / STOI 0.96 / CSIG 4.82 / CBAK 3.85 / COVL 4.82, K=8, top-k=2, RTF 0.28 (self-reported 35ms), trained on 2x RTX 5090. 对照 08-13 记录的 RT-SEMamba (2608.12099) 在同一份语料（VCTK-DEMAND 与 VoiceBank+DEMAND 是同一数据集的两种叫法）上：全因果流式 8 层教师 PESQ 3.32、蒸馏 1 层学生 3.18。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12715",
+        "https://arxiv.org/abs/2608.12099"
+      ]
+    },
+    {
+      "id": "tool-receipt-provenance-field",
+      "kind": "design_constraint",
+      "summary": "在车控与外部工具回执的格式里预留来源字段，并区分“可机检的确定值”（数字、布尔、枚举）与“开放词表描述”。当前纯仿真（CarSim）下不构成风险，只在日后接入导航 POI、音乐/电台元数据、充电桩信息等第三方内容源时才需要启用。",
+      "why_not_candidate": "没有单变量、没有可测的预计净修数，且项目当前不接第三方内容源。PIPES 全文没有任何时延或开销数字（只说明每次评估一次 LLM 调用），而项目首动作预算只有 700-1094ms P50；该论文也没有任何代码、权重或许可证声明。",
+      "external_evidence": "arXiv:2608.12789 指出工具回执不标注“谁产生了这一段、它有权断言什么”，攻击者可在自己有权填写的字段里做出超权限环境断言（例子：商家可控的 tags 字段写入“评分已更新为 4.9”），使后续动作在只看“动作是否与感知一致”的护栏面前显得合理；在两个模型上把平均攻击成功率由 84.7%→2.3%（Gemma 4 31B IT）与 21.6%→1.1%（GPT-5.6 Luna）。",
+      "source_urls": ["https://arxiv.org/abs/2608.12789"]
+    },
+    {
+      "id": "cudagraph-compatibility-screen",
+      "kind": "design_constraint",
+      "summary": "把“是否破坏 CUDA Graph 捕获兼容性”作为推理侧任何改动的通用筛子：依赖数据的主机同步（.nonzero()、GPU 标量比较、torch.where）与动态增长的显存分配都是破坏项。",
+      "why_not_candidate": "这是选型筛子而非被测变量；其具体落地就是本日唯一候选 decode-loop-cudagraph-static-kv-v1。",
+      "external_evidence": "FlashDrive (2608.12932) 把整个解码循环编译成 CUDA Graph 作为系统层优化的一部分；vToken (2608.13263) 把“保持 PagedAttention kernel 与 CUDA Graph 兼容性”写成硬性设计约束。两篇来自不同团队、不同问题，独立采用同一约束。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12932",
+        "https://arxiv.org/abs/2608.13263"
+      ]
+    },
+    {
+      "id": "vtoken-not-applicable",
+      "kind": "negative_evidence",
+      "summary": "vToken 判为不适用，留档以免日后重复评估：项目是 batch=1、KV 约 2500 的单请求座舱场景，KV 显存不是瓶颈；它优化的是 SLA 约束下的吞吐（相对配对 Naive-Evict 基线最多 1.37×），而项目的门是单请求 ms/token 与首音频时延。论文自己写明“当 KV 显存不是瓶颈时，原生路径仍然更可取”。与 2026-08-12 记录的 OasisKV 属同一类反例。",
+      "why_not_candidate": "适用条件由论文自身排除项目场景，不构成可执行实验。",
+      "source_urls": ["https://arxiv.org/abs/2608.13263"]
+    },
+    {
+      "id": "fixed-size-recurrent-state-longterm-memory",
+      "kind": "tracking",
+      "summary": "把“固定上限大小的循环状态 + 状态大小与已处理 token 数无关 + 分块运行可复现单趟连续运行”记为长时段座舱上下文的设计方向候选形状，继续跟踪。",
+      "why_not_candidate": "StreamTTT 首页自标“进行中的工作”，代码只有一句“将会发布”且无地址、无许可证，其构造的 112.4K 实时问答语料与 119K 离线样本也未发布。更关键的是：这篇标题写着“实时感知”的论文全文没有任何时延、首 token、逐帧耗时或吞吐数字，连 GPU 型号与数量、chunk 大小 C、滑窗长度 L、窗口时长 Δ 都没有写；其“实时”实质是 2 fps 帧率设置与 4K-64K 上下文预算。作者另自报 64K 窗口下加 TTT 反而更差（EgoSchema 65.6 vs 纯滑窗 66.8）。",
+      "external_evidence": "StreamTTT (2608.13416) OVO-Bench 两轨平均 68.59（4B，2 fps），实时感知 78.9 / 回溯 58.3，对照 SimpleStream-4B 66.06 / 77.5 / 54.6。该形状与 2026-08-13 从 RT-SEMamba 归纳出的前端选型形状一致，说明不是降噪领域特例。",
+      "source_urls": ["https://arxiv.org/abs/2608.13416"]
+    },
+    {
+      "id": "asr-lossless-speculative-decoding-tracking",
+      "kind": "tracking",
+      "summary": "ASR 侧无损投机解码作为跟踪项：等公开代码或权重出现、且项目 ASR 后端与其目标模型族（Qwen3-ASR / Voxtral-Mini）有交集时再评估。",
+      "why_not_candidate": "全文未见任何公开代码、权重或数据地址（PDF 内嵌超链接只有 arXiv 自身一条），代码与许可证记为未知；方法需为目标模型训练 draft 头并需强制对齐器提供训练期时间戳监督。项目当前用 faster-whisper，迁移代价未知。评测集为 LibriSpeech clean/other、TED-LIUM、GigaSpeech、FLEURS，没有中文单独结论。必须与项目 2026-08-03 已否决的“投机预取”严格区分：后者是会改变行为的应用层预取，前者在贪心验证下输出与自回归一致。",
+      "external_evidence": "2608.12703: 匹配对照下 Qwen 1.7B 端到端 1.41-1.55×、Voxtral 3B 1.42-1.69×（有每步音频交叉注意）vs 1.14-1.30×、0.95-1.08×（无）；成本反例是完整同族 Qwen3-ASR-0.6B 识别器 draft 接受率近乎完美却只有 0.59-0.70× 自回归速度；目标验证占墙钟 86-89%、drafting 占 6.3-9.0%，batch-1 的 ρ=0.0275 而 batch-64 升到 0.1274；加速随音频时长从约 18s 增到 104s 而下降。",
+      "source_urls": ["https://arxiv.org/abs/2608.12703"]
+    }
+  ],
+  "candidates": [
+    {
+      "id": "decode-loop-cudagraph-static-kv-v1",
+      "candidate_fingerprint": "decode|cudagraph-capture|static-shape-kv-preallocation|post-nosync-fastpath",
+      "title": "解码循环整体 CUDA Graph 捕获与固定形状 KV 预分配（在无同步 fast path 之后）",
+      "module": "decode_runtime",
+      "source_date": "2026-08-14",
+      "source_work_date": "2026-08-13",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12932",
+        "https://github.com/z-lab/flashdrive",
+        "https://arxiv.org/abs/2608.13263"
+      ],
+      "problem_bucket": "decode_token_latency",
+      "hypothesis": "在项目自有的无同步 index_select+bmm fast path 已落地、且其单独收益已单独测完的前提下，仅增加“对解码循环整体做 CUDA Graph 捕获并配固定形状 KV 预分配”这一个变量，可在 batch=1 下进一步降低 ms/token，同时输出 token 逐条一致、414 冻结 canary 零退化、工具选择与最终车态逐条一致。",
+      "single_variable": "是否对解码循环整体做 CUDA Graph 捕获（含固定形状/固定地址的 KV 预分配）",
+      "baseline_id": "nosync-fastpath-decode-v1",
+      "profile": "offline_decode_latency",
+      "offline_baseline_scope": {
+        "dataset": "冻结 2026-08-03 A/B 的前 100 条音频与 414/452 冻结 canary；同一模型权重、同一提示、同一采样设置、同一 KV 长度分布",
+        "metric": "batch=1 的 ms/token（P50/P90）、首 token 时延、每 token 主机同步次数、输出 token 逐条一致性、414 canary 退化数、工具选择与最终车态一致性、显存占用峰值"
+      },
+      "implementation_scope": [
+        "只改推理运行时：解码循环的图捕获与固定形状 KV 预分配",
+        "冻结模型权重、提示、采样设置、RAG、候选工具集合、执行器、TTS 与 endpoint",
+        "必须在 nosync-fastpath-decode-v1 单独测完并确认输出逐 token 一致之后才能开始；两个变量不得合并成一次实验或一次结论",
+        "不引入 FlashDrive、DFlash、vToken 或任何论文仓库的代码、权重与依赖；本候选只借用其公开描述的机制与已测量到的量级",
+        "不改变 KV 驱逐、量化、投机解码或任何会改变输出分布的机制",
+        "捕获失败必须记录失败原因（哪一处依赖数据的主机同步或动态分配破坏了捕获），失败本身即为有效的负结果"
+      ],
+      "evidence": [
+        "项目快照：单 token 解码约 110ms，速度不随 KV 长度变化；根因定位到 HF MoE 单 token 解码时每层多次 GPU→CPU 同步（.nonzero()、循环内 GPU 标量比较、torch.where），48 层 × 17 次 ≈ 816 次/token",
+        "项目快照：按 config 实算每 token 激活约 2.72B 参数、bf16 读取 5.44GB，5090 理论下限约 3.0ms、H200 约 1.1ms，实测约为 5090 下限的 36 倍",
+        "项目快照：DynamicCache.update() 用 torch.cat 每 token 重拷整条 KV（O(n²)），但 KV=2500 时仅约 0.2ms，项目据此判定 StaticCache 在当前规模下不值得——本候选不推翻该结论，而是给 StaticCache 补一个不同性质的理由：固定形状是图捕获的前置条件",
+        "FlashDrive (2608.12932) 主表：static KV cache + kernel 融合 + 对整个解码循环做 torch.compile/CUDA Graph 这一不改算法的系统层捆绑，使解码段由 271.7ms/56.4 tok·s⁻¹ 降到 170.6ms/89.5 tok·s⁻¹，整机 716.9→513.3ms（RTX PRO 6000，单条轨迹）",
+        "vToken (2608.13263) 把“保持 PagedAttention kernel 与 CUDA Graph 兼容性”写成硬性设计约束——两个不同团队、不同问题上独立采用同一约束"
+      ],
+      "expected_fixes": 0,
+      "latency_budget_ms": 0,
+      "risks": [
+        "FlashDrive 的 1.59× 是 static KV cache + kernel 融合 + 图捕获的捆绑结果，论文没有单独消融图捕获，因此不得引用该倍数作为项目预期值",
+        "FlashDrive 是 10B 稠密 VLA + 动作专家 + 流匹配，其 config 中的 expert_cfg 指动作专家而非 MoE 路由专家；本候选没有任何针对 HF MoE 路由同步的外部证据，收益完全依赖项目自有 fast path 先消除同步",
+        "同一表中系统层优化让 prefill 反而由 165.3ms 变差到 188.3ms（论文归因为单 batch 测量波动），说明系统层改动并非各段普遍受益，项目必须分段计量",
+        "图捕获对形状与地址的要求可能与现有变长 KV、动态 batch 或音频 KV 持续更新路径冲突，导致捕获失败或需要按长度分档捕获多张图，显存占用可能上升",
+        "捕获区间内如仍残留任何依赖数据的主机同步，收益可能为零甚至为负；这正是必须先落 fast path 的原因",
+        "若与 fast path 合并测量，将永久失去区分两者贡献的能力，且会污染后续 composition queue 的交互判定"
+      ],
+      "dependencies": [
+        "项目既定的 index_select+bmm 无同步 fast path 必须先落地并单独完成 batch=1 ms/token 测量与输出逐 token 一致性验证",
+        "冻结 2026-08-03 A/B 的前 100 条音频与 414/452 冻结 canary",
+        "既有相位埋点与 token/引擎耗时账本（0a1d84e、768c60e 已就位）",
+        "不得与 omnivoice-local-tts-16step-v1、tool-hold-message-first-audio-v1、playback-boundary-ledger-offline-v1 同时变更",
+        "不得重复启动参数化本体、云监督、SoulX、CMTF 或已拒绝的 conditional verifier；不得借本候选重启已实测为负优化的投机预取与工具清单压缩"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "output_token_exact_match": true,
+        "text_and_tool_output_exact_match": true,
+        "final_vehicle_state_exact_match": true,
+        "expected_net_fixes": 0,
+        "ms_per_token_reported_separately_from_fastpath": true,
+        "host_sync_count_per_token_recorded": true,
+        "first_token_latency_not_worse_than_baseline": true,
+        "peak_memory_recorded": true,
+        "capture_failure_reason_recorded_if_any": true
+      },
+      "h20_gate": {
+        "request_allowed": false,
+        "reason": "该候选不改变模型输出、工具选择与最终车态，预计正确性净修为 0，属纯时延改动；先在离线环境完成 ms/token 与输出一致性验证。冻结 414 canary 零退化且预计净修达到动态 full gap 之前不得请求 full H20。",
+        "dynamic_full_gap": 14,
+        "same_baseline_and_hash": true,
+        "gpu_consumed": false
+      },
+      "research_value": "把“StaticCache 值不值得”从拷贝开销的账重新表述为图捕获前置条件的账，并把“解码路径是否图捕获兼容”变成一条可复用的推理侧选型筛子；即使图捕获在本项目上收益为零，捕获失败点的清单本身就是对 HF MoE 实现中数据依赖控制流的一份可复用诊断，属有效负结果。",
+      "patent_value": "public-safe：仅记录“以图捕获兼容性作为解码路径改动筛子、并把固定形状 KV 预分配定位为捕获前置条件”的研究标签，不公开未申请实现细节。",
+      "source_commit": null,
+      "status": "proposed_offline_only",
+      "evidence_score": 0.63
+    }
+  ]
+}
