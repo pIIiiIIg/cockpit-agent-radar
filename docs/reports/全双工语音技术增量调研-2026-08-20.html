@@ -384,6 +384,16 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li><strong>流式 ASR：totalResults = 0。</strong> <code>abs:&quot;speech recognition&quot; AND (abs:streaming OR abs:online OR abs:latency)</code> 返回 0 篇。<strong>但这一组的零结果具有误导性</strong>——X2-Turn 的 v2 修订正是流式 ASR 方向的实质进展，而修订版不会出现在按 <code>submittedDate</code> 过滤的查询里。<strong>规则：<code>submittedDate</code> 窗口永远看不见修订版，追踪表的逐版复核是不可替代的第二通道。</strong></li>
 <li><strong><code>cat:cs.SD OR cat:eess.AS</code> 只有 9 篇</strong>，且其中与项目相关的为零：FM 合成器参数嵌入、神经音频编解码器的几何迭代检索、符号旋律分析、按人声模仿检索声音、鼓手动作生成、声学异常检测、不确定性可视化的听觉化、S-JEPA 表征、多语种医学 ASR 的层间分析。<strong>编辑判断：本窗口的语音类目基本是音乐信息检索与声音事件方向，与座舱语音无交集。</strong></li>
 </ul>
+<ul>
+<li><strong>车内一组返回 12 篇，12 篇全部与语音无关，且这一组本身有一个必须修的查询缺陷。</strong> 12 篇为：2608.19135（V2X 安全的多智能体防御）、2608.19014（自动驾驶单阶段检测器）、2608.18996（无人机影像视觉定位）、2608.18844（电动车与电动巴士充电设施规划）、2608.18801 与 2608.18778（自动驾驶车辆的心理安全评估框架，两篇同组作者的姊妹稿）、2608.18662（超高清水下图像增强）、2608.18624（无人机视觉里程计的图像匹配评测）、2608.18494（工程电动车充电调度）、2608.18326（中断时间序列的因果中介分析）、2608.18314（公交线路实时设计）、2608.18263（SIGMA 自适应控制）。<strong>没有任何一篇涉及语音、对话或座舱交互。</strong></li>
+</ul>
+<p><strong>查询缺陷：这一组写成 <code>abs:&quot;in-vehicle&quot; OR abs:&quot;cockpit&quot; OR abs:&quot;driver&quot; AND abs:speech</code>，而 <code>AND</code> 的结合优先级高于 <code>OR</code>，因此 <code>abs:speech</code> 这个约束只作用在 <code>driver</code> 上，<code>in-vehicle</code> 与 <code>cockpit</code> 两个词是无约束匹配的。</strong> 这解释了为什么会命中电动车充电与水下图像增强——它们只要正文出现 <code>in-vehicle</code> 之类的词就会进来。<strong>编辑判断：这是本轮唯一一个查询写法本身的缺陷，不是领域没有产出。下一轮应改写为 <code>(abs:&quot;in-vehicle&quot; OR abs:&quot;cockpit&quot; OR abs:&quot;driver&quot;) AND (abs:speech OR abs:voice OR abs:dialogue OR abs:assistant)</code> 并记录改写前后的 totalResults 对照，以免把口径变化误读成产出变化。</strong></p>
+<ul>
+<li><strong><code>cat:cs.HC OR cat:cs.OS</code> 一组 7 篇，其中 2 篇进入细读队列</strong>（2608.18398 LEDGER、2608.18307 ComponentBench），其余 5 篇为：2608.18638（交互式信息获取的主动个性化 agent 研讨会报告）、2608.18547（公开赏金列表的举证负担）、2608.18401（真实人机交互中的多模态融洽度估计）、2608.18369（生成式 AI 与职场绩效的不透明性）、2608.18312（自主科研 agent 的以制品为中心的可观测性）。<strong>这一组继续证明保留第 14 组查询是值得的——本轮的两篇细读候选都只有它命中。</strong></li>
+</ul>
+<ul>
+<li><strong>多模态实时一组 3 篇全部无关</strong>：2608.18386（缺失模态情绪识别，注意 TTSD 不是 TTS）、2608.18322（Netflix 的多媒体资产个性化）、2608.18275（甚大天线阵的高频 SETI 搜索）。</li>
+</ul>
 <h2>风险提醒</h2>
 <ol>
 <li><strong>不要把 15.8ms 当成项目可获得的首音频。</strong> 它是首个音频 *token*、客户端侧中位数、暖引擎、prefix-cache 命中、本地链路、单请求、RTX 5090、BF16。项目的门槛管的是首个音频<strong>到达听者</strong>，且首句必然是冷的。<strong>这两个量之间隔着至少四层未测量的成本。</strong></li>
