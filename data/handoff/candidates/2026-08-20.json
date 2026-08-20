@@ -1,0 +1,333 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-20",
+  "evidence_cutoff": "2026-08-20T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for an EIGHTH consecutive report; items still 499; 0 new Radar entries. Direct arXiv search remains the only discovery channel. The four-batch backfill reported on 08-19 has ended and the index is back to one batch per day: on 08-19 the newest arXiv submission site-wide was 2608.18072 at 2026-08-18T17:57:08Z; this round the same query (all:a, no category bound, sorted by submittedDate descending) returns 2608.19197 at 2026-08-19T17:58:56Z, i.e. only the 08-19 batch was added. The cutoff again falls at 17:5x, the arXiv 14:00 ET daily deadline - a FOURTH consecutive confirmation that the index advances in whole batches, never paper by paper. The paper window was set by submission time to 2026-08-18T18:00Z - 2026-08-20T02:30Z, starting after the 08-18 batch deadline boundary so that it is strictly contiguous with, and non-overlapping, the 08-19 report's actual coverage end (last covered submission 2026-08-18T17:57:08Z). 14 query groups yielded 50 deduplicated papers. Control queries returned normally: cat:cs.SD totalResults 21,740 (21,728 on 08-19, 21,696 on 08-17, 21,686 on 08-15), cat:eess.AS 22,202 (22,199 on 08-19). All papers are attributed by submission time, never by discovery time. Note on volume: 50 papers versus 235 last round, but signal density was HIGHER, not lower - this round produced the strongest single P0 in several rounds plus an open-status flip on a tracked item. Paper count is not a proxy for whether a round has major additions. Separately: main previously held reports only through 2026-08-10; the seven unpublished rounds 2026-08-11 .. 2026-08-19 were recovered to the mainline in a separate commit before this report was written - the EIGHTH consecutive round in which recovery was needed. Next round: window start 2026-08-19T18:00Z, and the site-wide newest submission timestamp must be re-checked as usual.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-20.md",
+    "reports/每日调研日报-2026-08-20.md"
+  ],
+  "candidates": [
+    {
+      "id": "turn-state-external-head-x2turn-offline-v1",
+      "candidate_fingerprint": "endpointing|external-turn-state-model|x2turn-4b|offline-reproduction",
+      "title": "用 X2-Turn-4B 作为主模型之外的独立判停头做离线对照（权重与代码已开放，但项目缺打断标注评测集，前置任务未完成前不得启动）",
+      "module": "turn_detection",
+      "source_date": "2026-08-20",
+      "source_work_date": "2026-08-11",
+      "artifact_release_date": "2026-08-18T07:56:40+00:00",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10878",
+        "https://github.com/X-Square-Robot/X2-Turn",
+        "https://huggingface.co/x-square-robot/X2-Turn-4B-0812"
+      ],
+      "source_commit_referenced": null,
+      "problem_bucket": "turn_taking_and_interruption",
+      "hypothesis": "在项目已经实测“主模型自己判停不可行”（probe_turn_end 负面结果）的前提下，仅增加“把判停交给一个与 ASR 头并行、不回灌解码的独立 turn-state 模型”这一个变量，可在中文语料上给出可核验的判停判据，且不改变 ASR 与工具判定链路。",
+      "single_variable": "判停判据来自主模型自判停，还是来自外挂的 X2-Turn-4B turn-state 头（其余全部冻结）",
+      "baseline_id": "probe_turn_end_negative_2026-08-03",
+      "profile": "offline_turn_detection_only",
+      "offline_baseline_scope": {
+        "dataset": "先在论文自己的 EasyTurn-zh 测试集上复现，确认部署链路与论文口径一致；再在项目冻结的 452 条基准音频上跑，但必须先解决这批音频没有打断/判停标注这一前提",
+        "metric": "判停正确率与时延必须分两套口径分别报告：论文口径（相对词尾，τ=480ms）与项目口径（相对说话真实结束）；同时必须报告联合训练对 ASR 的退化，不得只报判停指标"
+      },
+      "implementation_scope": [
+        "只在判停环节插入外部 turn-state 模型；冻结主模型权重、提示、采样设置、RAG、候选工具集合、执行器、TTS",
+        "必须先完成一次只读代码审阅（turn/controller.py 15,895 字节的状态机、full-duplex-demo 的 vad_client/tts_client 接法、vLLM overlay patch 的侵入范围）；审阅通过前不得执行该仓库任何代码，这是项目“不运行陌生论文仓库代码”边界的落实方式",
+        "使用已发布的 x-square-robot/X2-Turn-4B-0812 权重，不重训不微调",
+        "必须同时测量 ASR 退化：论文自报联合训练使 AISHELL-1 由 2.57 劣化到 3.94，项目若采用该模型的 ASR 头，必须先确认这一退化在项目语料上的量级",
+        "必须记录所使用的 commit SHA 与权重版本（仓库 pushed_at 2026-08-18T03:30:36Z，HEAD 随时可变）",
+        "该模型为 4B 且 model.safetensors 为 10,470,070,544 字节，与主模型同卡共存的显存占用必须先估算；不得在未估算前占用 H20"
+      ],
+      "evidence": [
+        "项目快照：0a80a52 probe_turn_end 实测主模型自己判停不可行（负面结果），判停“该不该发生”至今没有可对照的外部实现",
+        "项目快照：452 条基准音频为单说话人合成音频，没有打断点标注、没有说话结束时刻真值",
+        "论文事实 (2608.10878)：判停头与 ASR 头帧同步并行，判停结果不回灌解码；EasyTurn-zh 在 τ=480ms 下为 91.00/93.00/96.00，时延 288ms，口径为相对词尾而非相对说话结束",
+        "论文事实：联合训练损害 ASR，AISHELL-1 由 2.57 劣化到 3.94",
+        "版本事实：2608.10878 本轮升到 v2（updated 2026-08-19T03:16:50Z）。v1→v2 逐页比对为 5 页对 5 页、第 2/3/4/5 页字符数完全一致（4186/6258/5457/7241）、标题完全一致、数值 token 由 364 增至 365 且新增者为页边日期戳；唯一实质改动是摘要末尾新增一句 Code and models are available at https://github.com/X-Square-Robot/X2-Turn。所有实验数字一个都没有变",
+        "制品事实（一手核实，2026-08-20）：github.com/X-Square-Robot/X2-Turn 存在，created 2026-08-17T11:42:23Z、pushed 2026-08-18T03:30:36Z、148 个 tree 条目 / 107 个 blob / 合计 669,029 字节、10 stars、LICENSE 文件 11,374 字节、GitHub API 报 Apache-2.0",
+        "制品事实（一手核实，2026-08-20）：huggingface.co/x-square-robot/X2-Turn-4B-0812 存在，createdAt 2026-08-18T07:56:40Z、lastModified 2026-08-18T08:33:19Z、gated False、private False、Apache-2.0、11 个文件合计 10,485,013,748 字节（model.safetensors 10,470,070,544 字节）、下载 4、点赞 0、语言标签 zh 与 en、功能标签含 turn-taking / endpointing / barge-in",
+        "制品事实：该模型卡的 arxiv: 标签为 arxiv:2608.10878，指向正确（对照组：FireRedTTS3 的模型卡 arxiv: 标签指错论文，故该字段既不可默认信任也不可默认判错，必须逐个核）",
+        "制品事实：base_model 为 mistralai/Voxtral-Mini-4B-Realtime-2602（finetune），与既有记录一致",
+        "制品事实：仓库另含 full-duplex-demo（dialogue_system/app.py 27,458 字节、clients/{llm,tts,vad}_client.py、前端四件套）与 voxtral-realtime/src/voxtral_realtime/turn/controller.py 15,895 字节及 full-duplex-demo/tests/test_frame_turn_controller.py"
+      ],
+      "expected_fixes": null,
+      "expected_fixes_basis": "无法估计，诚实记为未知。项目的 452 条基准音频是单说话人合成音频，既没有打断点标注也没有说话真实结束时刻的真值，因此“判停改对了多少条”这个量在项目侧目前不可测。上界只能由项目自己先造出一批带打断标注的评测数据后给出。在此之前任何预估都是编造。另注：论文的 91.00/93.00/96.00 是 EasyTurn-zh 上的数字，且时延口径是相对词尾，与项目关心的“相对说话结束”不是同一个量，不得直接搬用。",
+      "latency_budget_ms": null,
+      "latency_budget_basis": "待测。论文给出的 288ms 是相对词尾的口径，不是可加进项目预算的墙钟时延；论文未声明推理硬件、未声明批大小。三项必须分列：算法时延（由 τ 决定，论文给了 480ms 档）、管线块长（未声明）、实测每帧墙钟耗时（未声明，必须项目自测）。三者不得合并成一个数。",
+      "risks": [
+        "项目没有打断标注评测集，这是本候选最大的阻塞——没有真值就没有判据，实验会退化成主观观感",
+        "论文自报联合训练损害 ASR（AISHELL-1 2.57→3.94）。若项目采用其 ASR 头，可能用一个变好的判停换一个变差的识别，净效果未知；若只采用其判停头而保留项目自己的 ASR，则等于跑两套声学前端，显存与时延代价翻倍",
+        "4B 模型与 30B-A3B 主模型同卡共存的显存占用未估算；权重单文件已 10.47GB",
+        "论文的时延口径是相对词尾，项目关心的是相对说话结束，两者之差取决于最后一个词的时长，在中文车控短指令上这个差可能占比很大",
+        "该模型 base_model 是 Voxtral-Mini-4B-Realtime，其自身的中文能力边界未由本项目核实过",
+        "仓库无 releases 与 tags，HEAD 随时可变；不记 commit SHA 的实验不可复现",
+        "full-duplex-demo 依赖 vLLM overlay patch（vllm-voxtral-mtp.patch 17,185 字节）与可选 TEN VAD，后者的许可证含竞业限制条款；即便 demo 只作参考，也不得把该依赖带进项目",
+        "下载数 4、点赞 0，说明该权重尚未经过任何规模的第三方使用，未知问题的先验较高"
+      ],
+      "dependencies": [
+        "必须先造出一批带打断点与说话结束时刻标注的中文评测数据——这是硬阻塞，且它同时提供实验靶子与 expected_fixes 的上界",
+        "对 X-Square-Robot/X2-Turn 的只读代码审阅必须先完成并通过",
+        "显存占用估算必须先完成",
+        "不得与 omnivoice-local-tts-16step-v1、tool-hold-message-first-audio-v1、playback-boundary-ledger-offline-v1、decode-loop-cudagraph-static-kv-v1、streaming-se-frontend-rtsemamba-kd1-v1 同时变更",
+        "不得借本候选重启已实测为负优化的投机预取与工具清单压缩"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "interruption_labelled_eval_set_built_first": true,
+        "readonly_code_review_passed_first": true,
+        "vram_footprint_estimated_first": true,
+        "asr_degradation_measured_alongside": true,
+        "latency_reported_as_three_separate_numbers": true,
+        "both_latency_conventions_reported_separately": true,
+        "commit_sha_and_weight_revision_recorded": true,
+        "ten_vad_dependency_not_introduced": true,
+        "negative_result_accepted_as_valid": true
+      },
+      "h20_gate": {
+        "request_allowed": false,
+        "reason": "硬阻塞未解除：项目没有带打断标注的评测集，expected_fixes 因此为未知，无法与动态 full gap 比较。只读代码审阅与显存估算也均未完成。在这三项完成之前不得请求 full H20。",
+        "dynamic_full_gap": 14,
+        "same_baseline_and_hash": true,
+        "gpu_consumed": false
+      },
+      "research_value": "这是自 2026-08-03 probe_turn_end 记下负面结果以来，第一个同时满足“中文可用 + 代码开放 + 权重开放 + 许可证宽松（Apache-2.0）+ 非门控”五项的判停/turn-taking 制品，因此第一次可以把项目的负面结论放到一个外部实现上对照，验证“判停必须交给一个与解码解耦的独立头”这条架构判断。即使结果为零收益，这条负结果也能一次性关闭“外挂判停头”这整个方向的重复评估。附带价值同样重要：它逼项目去造那批带打断标注的中文评测数据，而那批数据是多乘员、打断、判停三个方向共同的前置条件。",
+      "patent_value": "public-safe：仅记录“以判停头与解码链路解耦、且判停时延口径必须区分相对词尾与相对说话结束作为座舱判停选型判据”的研究标签，不公开未申请实现细节。",
+      "source_commit": null,
+      "status": "proposed_offline_blocked",
+      "blocked_on": [
+        "带打断点与说话结束时刻标注的中文评测数据",
+        "只读代码审阅",
+        "显存占用估算"
+      ],
+      "evidence_score": 0.61
+    }
+  ],
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮新增一条同方向、且比 08-19 的 FireRedTTS3 更贴近本候选门槛的外部素材：X2Streaming-TTS（2608.18661）是第一篇同时给出中文正文指标与首包时延、且基准硬件与项目同级（一张 RTX 5090）的流式 TTS 工作——SEED-TTS-Eval 中文 CER 0.78%、MiniMax 中文 CER 0.78%、单请求 TTFT 中位数 15.8ms、128 并发 260.8ms。但它不改变本候选的处置，理由有三：其一，TTFT 是首个音频 token 而非首音频到达听者，与本候选门槛管的量不是同一个；其二，论文正文声明的仓库地址 X-Square-Robot/X2Streaming-TTS 本轮复核为 404，同机构那个 MIT 仓库 Qwen3TTS-Streaming 只能记为疑似实现（两边互不引用）；其三，其全部论证建立在“声学膨胀比 ρ 足以掩盖文本到达”之上，而论文的文本 token 是按固定速率喂入的，项目上游是 110ms/token 的 MoE，该前提在项目条件下未经验证。Luna-TTS 项目页的页内矛盾（摘要 1.28s 块 vs 推理表脚注首个解码 0.36s 块）本轮未复核，按 30 天节奏下次复核。VoiceChat-TTS 的 9.62ms 是 ITL 而非首包。FireRedTTS3 本轮未出现任何时延或流式基准，状态不变。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。本轮无新增机制性证据。既有的一条支持仍然有效：VoiceChat-TTS 的 Force Silence 把播报收尾实现成在中断对齐位置确定性写入一个预先算好的静音帧而不是等声学流自然衰减，且写入后不重置 KV cache，该机制已于 08-17 在 NVIDIA-NeMo/Speech 的 duplex_ear_tts.py 第 1193 行逐行核实。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。CodeForZzc/GCM-Bench 本轮未复核（上次为 2026-08-19，最后推送 2026-08-11T06:29:47Z），PACE 中间件本体仍未公开。本轮新增一条量化支持：X2Streaming-TTS 的“语音状态继承”给出了跨段（进而跨打断）保留而非重置语音状态的可算成本。依据是同机构官方仓库文档 docs/dev/investigation/code2wav_state_size.md（一手仓库文档，非论文正文）：Code2Wav 解码器 8 层 / 16 KV 头 / hidden 1024 / head_dim 64，KV 滑动窗口 72（来自 Qwen 官方 sliding_window=72 默认值），KV 单路 8 层 2,359,296 字节≈2.25MB、卷积历史 17 个状态 263,504 字节≈0.257MB、转置卷积重叠 4 个状态 18,240 字节≈0.018MB，单路合计≈2.53MB（BF16）且与解码长度无关，16 路≈40.3MB，FP32 翻倍。第二个推论同样可用：滑动窗口 72 步意味着声学侧历史依赖本来就只有约 6 秒，跨越 6 秒的状态继承在架构上没有意义。",
+    "decode-loop-cudagraph-static-kv-v1（2026-08-14）保持不变，仅离线、h20_request_allowed=false。先验与顺序均不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。本轮新增第五条独立佐证，且是第一条来自可读源码的生产级引擎而非论文：X-Square-Robot/Qwen3TTS-Streaming 的 README 把 2026-07-06 那轮解码优化明写为 CP in-graph KV + CUDA-graph decode replay + arena-ized KV gather，2026-07-07 那轮为 batched burst admission + per-slot state pooling + serving hot-path slimming。其量级参照（不可相减，硬件为 RTX 5090、all-bf16、batch=128 profile）：优化后 128 路并发解码步 42.1ms / 80ms 音频帧、RTF≈1.90；优化前 119.8ms/帧、RTF≈0.67（低于实时）；64 路时 24.5ms/帧、RTF≈3.3。该 README 自附一句克制的限定：128 streams is the tested ceiling, not a safe production target。前四条佐证分别是 FlashDrive（前置条件）、vToken（硬约束）、DeaMoE（方法与基线的公平性前提）、CoRun（确定性）。",
+    "streaming-se-frontend-rtsemamba-kd1-v1（2026-08-15）状态不变（仅离线、h20_request_allowed=false、proposed_offline_blocked、expected_fixes 仍为 null）。本轮无新增证据：AEC 与语音增强方向连续第八轮零一手依据，本窗口 speech enhancement OR noise suppression OR echo cancellation OR beamforming 一组 totalResults 仅 3 篇且 3 篇全部不是声学论文。08-19 收紧的验收口径继续有效——把“PESQ 提升”从任何形式的收益依据中删除，改为只以项目自己测得的中文 CER 验收，依据是 2608.14812 Table 4 的同协议反向证据。RT-SEMamba 本轮未复核，仍然没有任何下游 CER/WER 数字。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-14 起的记录不变，优先级仍是全部事项中最高的一条，高于本轮的 X2Streaming-TTS 只读审阅与 X2-Turn 离线复现。对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据，只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份判定器不得读取哪些字段的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。本轮无新增外部证据，此条纯为防止被本轮的两条 P0 掩盖而重申。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。",
+      "external_evidence": "arXiv:2608.12880（2026-08-14 已展开）。AutoDesign（2608.13560）的 r=0.34 相关限定不变，其附录 A.5 人评数据本轮未复核（上次 2026-08-19 为连续第四次缺失，且当时仓库处于活跃开发状态）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://arxiv.org/abs/2608.13560"
+      ]
+    },
+    {
+      "id": "open-status-fifth-tier-url-given-but-dead",
+      "kind": "process_rule",
+      "summary": "开放状态从四档扩到五档，新增第五档「声称发布、地址失效」：论文给出了具体可点击的 URL，而该 URL 不解析。此前四档为 (1) 明确未发布；(2) 已发布且可核实；(3) 声称发布但全文找不到任何 URL/DOI/仓库名，记为 unverifiable；(4) 明确「来函索取」。第五档与第三档必须分开——第三档是作者没给线索，第五档是作者给了线索而线索是坏的，后者的后续动作是定期重查而不是放弃。附一条判据：GitHub 对仓库改名会做重定向，因此 404 说明这不是改名，而是仓库尚未创建。操作规则：引用时一律写明「代码地址截至 YYYY-MM-DD 为 404」，并设定复查节奏；两周内仍为 404 则定案。",
+      "why_not_candidate": "这是筛查与记录规则，不是被测系统上的改动。",
+      "external_evidence": "两个实例。X2Streaming-TTS (2608.18661) 正文与摘要都印出 https://github.com/X-Square-Robot/X2Streaming-TTS，而 gh api /repos/X-Square-Robot/X2Streaming-TTS 于 2026-08-20 返回 404 Not Found；PDF 的 /Annots URI 注解仅 1 条（arXiv 自链接）、raw 字节扫描 1 条、正文裸 URL 1 条即该仓库地址。第二个实例是 08-19 已记录的 FreeToken (2608.16157)：首页印出 Code: https://github.com/FlashML-org/FreeToken 而该地址当时返回 404。两例合并说明这不是偶发，而是一个稳定形态。X2Streaming-TTS 一例另有一个第三档所没有的后续分支：同机构确实存在一个功能高度吻合的公开仓库 X-Square-Robot/Qwen3TTS-Streaming（描述 A streaming i/o engine for Qwen3 TTS，MIT，LICENSE 文件 1,069 字节逐字读为未经修改的标准 MIT，版权方 XSquareRobot，created 2026-07-01T06:47:20Z，pushed 2026-08-11T03:24:58Z，494 个 tree 条目，size 17,724 KB，6 stars），其 engine/frontend/ 下同时存在 hold_window.py（7,853 字节）与 spliter/（spliter.py 35,235 字节、driver.py 14,161 字节、state.py），docs/dev/design/frontend_segmentation_pipeline.md 26,625 字节，docs/dev/investigation/code2wav_state_size.md 5,859 字节，分别对应论文的不确定性感知缓冲、CAPS 分段与 Code2Wav 状态继承。但其 README 全文没有出现 arxiv、causal commitment、speech-state inheritance 或 X2Streaming 任何一个词，且最后一次 push 早于论文投稿 8 天。因此只能记为「疑似实现」，在作者确认前不合并记录。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661",
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming",
+        "https://arxiv.org/abs/2608.16157"
+      ]
+    },
+    {
+      "id": "version-recheck-must-diff-url-sets-not-only-numbers",
+      "kind": "process_rule",
+      "summary": "逐版复核的操作清单追加一项：除了重跑原判定所依赖的字词与数字计数、以及比对 PDF /Title 与逐版 arXiv API 标题之外，必须单独比对两版的 URL 集合（超链接注解 + 裸 URL）。理由是本轮的实例——X2-Turn v1→v2 的全部实质变化就藏在裸 URL 由 4 条变成 5 条这一个差别里，而数值 token 只由 364 变成 365 且新增的那个是页边日期戳、纯属噪声，任何只看数值的比对都会完全漏掉这次修订。",
+      "why_not_candidate": "这是复核流程规则，不是被测系统上的改动。",
+      "external_evidence": "2608.10878 X2-Turn v1（published 2026-08-11T12:54:52Z）→ v2（updated 2026-08-19T03:16:50Z）。逐页比对：两版均 5 页；第 2/3/4/5 页字符数完全一致（4186 / 6258 / 5457 / 7241）；仅第 1 页由 5852 增至 5928 字符；PDF /Title 两版完全一致；数值 token 364→365，唯一新增者来自页边日期戳。unified diff 的实质内容只有一句，加在摘要末尾：Code and models are available at https://github.com/X-Square-Robot/X2-Turn。裸 URL v1 为 4 条（arxiv.org/abs/2509.08753、github.com/TEN-framework/ten-vad.git、被截断的 huggingface.co/mistralai/V、openreview.net/forum?id=s1EImzs5Id），v2 为 5 条，新增者正是该仓库地址；超链接注解两版均只有 1 条 arXiv 自链接。所有实验数字一个都没有变。这是追踪表上第三个完成的 v1→v2 差分，三者结果各不相同：StreamTTT (2608.13416) 改 184 行而结论不变；Ambisonics (2608.14097) 只改 2 字节且改的是标题里漏掉的字母 l；本次只加一句话却翻转了一项挂了 8 天的开放状态判定。08-19 记下的「差分大小完全预测不了结论是否改变」由此第三次成立，且本次提供了一个新极端——内容改动量最小的一次，带来的判定改变最大。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10878",
+        "https://arxiv.org/abs/2608.13416",
+        "https://arxiv.org/abs/2608.14097"
+      ]
+    },
+    {
+      "id": "submitteddate-window-cannot-see-revisions",
+      "kind": "process_rule",
+      "summary": "记录一条会导致误判「本方向无新增」的系统性盲区：按 submittedDate 过滤的发现查询永远看不见修订版。本轮 speech recognition AND (streaming OR online OR latency) 一组 totalResults 为 0，若只看这组会得出「流式 ASR 方向本轮无新增」的结论，而事实上该方向本轮最重要的进展正是 X2-Turn 的 v2 修订（把代码与权重从未公开变成 Apache-2.0 全开放）。规则：任何「某方向本轮为零」的表述，都必须同时说明该结论来自 submittedDate 窗口查询，并附上追踪表逐版复核的结果作为第二通道；两条通道缺一不可。",
+      "why_not_candidate": "这是发现流程规则，不是被测系统上的改动。",
+      "external_evidence": "本窗口（submittedDate 2026-08-18T18:00Z - 2026-08-20T02:30Z）14 组查询的 totalResults：cs.SD OR eess.AS 9；full-duplex/turn-taking 组 4；speech enhancement/AEC 组 3；streaming ASR 组 0；TTS 组 2；S2S 组 1；KV cache 组 1；serving 组 1；agent+tool 组 11；multimodal+realtime 组 3；spatial audio 组 0；in-vehicle 组 12；diarization 组 0；cs.HC OR cs.OS 组 7。去重后 50 篇。同一轮的逐版复核（38 个追踪 ID 一次 ?id_list= 调用）发现 3 个非 v1，其中 StreamTTT 与 Ambisonics 两条已于 08-19 完成差分，唯一新增的是 X2-Turn v2。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10878"
+      ]
+    },
+    {
+      "id": "bounded-inheritance-discipline-for-streaming-tts",
+      "kind": "design_constraint",
+      "summary": "为项目未来的 token 级流式 TTS 记下一套可直接借用的边界纪律，先借纪律不借数值。X2Streaming-TTS 把「跨段继承语音状态」这件本质上会累积漂移的事情限死在常数代价内，手段有四：(1) 继承的历史长度是与流长度无关的固定全局超参（实验固定 H=4），使继承上下文界定在 O(H)；(2) 注入增益显式夹紧，g_u = 0.015(0.5+0.5·s_u) 故 0.0075 ≤ g_u ≤ 0.015，扰动满足 ‖z'_u − z_u‖ ≤ 0.015·max‖m_j‖；(3) 注意力先验对未来位置赋 −∞，使未来权重恒为零，b(d) 在 0≤d≤4 为 −d²/8、d≥5 为 log 0.1、d<0 为 −∞；(4) 健康检查一票清零——前一段必须收到完整输入、消费完所有已释放文本、声学解码正常终止、实现膨胀比 ρ_k ∈ [1,12]、且状态快照完整，任一不满足则两条状态通路全部清零、从默认状态重启。第五条与分段有关且同样可借：段的 KV cache 占用上限 B 是从已加载引擎读出的，不是配置里写死的常数。",
+      "why_not_candidate": "这是设计约束的登记，不是被测系统上的单变量改动；项目当前 TTS 为外挂 Edge TTS 整句合成，尚未进入 token 级流式，没有可施加该约束的对象。",
+      "external_evidence": "arXiv:2608.18661（X2Streaming-TTS，X Square Robot，2026-08-19T08:05Z 提交，v1，11 页，cs.CL，PDF /License 为 arXiv 非独占分发许可）。已全文核实。因果性定义为式 (1)：声学 token 只能依赖其生成时刻之前已观测到的文本、此前已生成的声学 token、以及继承的语音状态。CAPS 在线参数：ρ̂ 初值 6.0、β 常态 0.1 / 溢出后 0.5、ρ̂ 截断到 [2,10]、(α₁,α₂,α₃)=(0.7,0.8,0.9) 故段数因子上界 10/7≈1.429、最多允许 2 个文本段排队且声学解码严格串行。两条状态通路为完整 Code2Wav 状态包（KV cache、卷积状态、转置卷积状态、帧索引）与末尾 H 个 token 对齐的 Talker 状态。选 Qwen3-TTS 作骨干的理由是三条工程属性：可计数的声学输出、可迁移的解码状态、可观测的剩余容量（原文 its KV-cache-aware decoder exposes the remaining capacity in cache positions）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "uncertainty-aware-buffering-for-chinese-cockpit-text",
+      "kind": "design_constraint",
+      "summary": "记录一条必须在切换到 token 级流式 TTS 之前就设计进去、而不是等线上出问题再补的机制。X2Streaming-TTS 的「不确定性感知语义就绪判定」压住发音仍可能被后续字符改写的跨度：前端维护待定后缀 U_t，只有当规则允许的任何续写都无法改变某跨度的发音时才释放它，一旦释放永不修改；输入结束时残余后缀按同一套规则闭合。论文用英文序数词举例（He finished 3 可能变成 3 laps 读 three 或 3rd 读 third），但同一问题在中文车控场景更常见也更严重：数字后缀（度/档/首/号/路）、单位、序数、时间、车控参数——在数字后面那个字到达之前读法是不确定的，而已经播出去的音频无法撤回。项目当前的外挂 Edge TTS 走整句合成，天然回避了这个问题，因此这个坑会在切流式的当天一次性全部出现。动作：先把中文车控场景的歧义清单列出来，作为流式 TTS 设计的输入。",
+      "why_not_candidate": "这是设计约束与前置清单，不是被测系统上的单变量改动；项目尚未进入 token 级流式。",
+      "external_evidence": "arXiv:2608.18661 §3.1.1。规则覆盖数字、单位、符号、缩写、标点。论文的符号与前缀歧义评测（Table 4，120 名听众，各系统输入完全相同）：本文 CER 2.00% / 完全正确朗读率 73.3% / UTMOS 4.025 / MOS 3.802 / 语义保持 93.33%；CosyVoice 3-S 6.65% / 40.0% / 3.017 / 3.183 / 60.00%；FireRedTTS-2 18.21% / 13.3% / 2.788 / 3.629 / 6.67%；CosyVoice 2-S 33.41% / 0.0% / 3.075 / 3.220 / 0.00%。论文指出 Read 与 Sem. 之差（73.3% 对 93.33%）说明剩余错误多为仍可理解的发音变体；数字类与流式歧义类两个子项均为 0% CER、100% 正确朗读。限定：最弱基线处于崩坏区间（完全正确朗读率 0.0%、语义保持 0.00%），崩坏区间的改善幅度不可外推到精细区间；论文未说明 120 名听众的母语构成、未报告评分者间一致性、未做显著性检验；该评测集未命名未发布。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "latency-instrumentation-must-separate-server-and-client-clocks",
+      "kind": "instrumentation",
+      "summary": "把一份外部工程文档的时延方法论直接抄进项目自己的埋点规范，并先自查项目现有的首音频 P50/P90 属于哪一种口径。三条：(1) 服务端 TTFT 与客户端 TTFT 不可混用——同一系统同一时刻可以差出一倍以上；(2) 突发到达与斜坡到达不可混用——突发是最坏情形，斜坡到达读数系统性偏低；(3) 连接建立成本必须单列——冷/懒 gRPC 通道约多 13ms，而复用通道的口径把它排除在外。第四条来自同一份文档与论文的对照：prefix-cache 命中与否必须单列，因为车机的第一句话恰恰是冷的。",
+      "why_not_candidate": "这是埋点规范与自查动作，不是被测系统上的单变量改动。",
+      "external_evidence": "X-Square-Robot/Qwen3TTS-Streaming 的 README（一手仓库文档）与 arXiv:2608.18661 的对照。同一张 RTX 5090、同一 all-bf16 引擎，两边报的数不同且统计量不同：论文报单请求 TTFT 中位数 15.8ms（客户端侧，跨所测试的多个服务接口）与 128 并发 260.8ms（客户端侧中位数）；README 报单请求 14.9 ± 0.3ms 服务端侧（min 14.4、p99 15.9、n=50）与 ~16.1ms 客户端 p50（复用本地 gRPC 通道），128 并发 242–275ms 均值（engine-websocket 242 / engine-grpc 275，p99 341–494ms）。论文的 15.8ms 落在 README 的 14.9（服务端）与 16.1（客户端 gRPC）之间，量级可互证；但 README 列出的条件里有一条论文完全没提——prefix-cache 命中。README 原话两段：Standalone engine-grpc TTFT is measured by default over a ready/reused gRPC channel and, like WebSocket, does not count the client connection setup cost toward first-packet latency; a cold/lazy channel adds roughly 13ms；以及 the clock starts when the model begins processing that request, so client connection setup, dispatch spread, queueing before processing, and the first-frame return trip are all excluded，其后说明该面板在同一硬件 128 路时读约 100–170ms 而对外可引用的客户端突发口径是 242–275ms。README 另声明 burst arrival is the worst case — staggered arrivals see lower TTFT。论文侧的测量口径写得比多数论文清楚：客户端侧中位数、一张 RTX 5090、BF16 部署引擎、每级 3 轮预热后 20 轮测量，对应样本量 n = 40 / 320 / 640 / 1,280 / 2,560 / 5,120，阴影带为最小值到 99 分位。两边数值原样并存保留，不替读者选择。",
+      "source_urls": [
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming",
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "upstream-token-rate-is-an-unverified-precondition",
+      "kind": "negative_evidence",
+      "summary": "记录一条会让 X2Streaming-TTS 的全部论证在项目条件下失效的前提，并给出一个零 GPU 的验证动作。该论文的核心论证是「文本信息密度高、语音时间上冗余，因此把当前已有的文本先念出去这件事本身就为后续 token 的到达争取到了时间」，形式化为声学-文本膨胀比 ρ = 声学解码步数 / 文本 token 数，并称 ρ 通常远大于 1。但论文的实验条件是文本 token 按固定速率喂入，论文自己也写明了这一点并给了免责声明；而项目上游是实测 110ms/token 的 MoE 主模型，抖动未知。ρ 掩不掩盖得住，取决于上游吐字速度与声学速度之比，项目的上游比论文的实验条件慢得多。动作：先测出项目自身的 ρ 与 token 到达抖动，再决定 token 级流式是否成立。这一步不需要任何外部代码、不需要 GPU 采购、不需要跑该仓库任何代码。",
+      "why_not_candidate": "这是对一条外部方法适用性前提的登记与一个自测动作，不是被测系统上的单变量改动。",
+      "external_evidence": "arXiv:2608.18661 §3 与 §4.1。§4.1 原话：Text tokens are supplied at a fixed rate for controlled evaluation; a deployed upstream language model may exhibit variable token-generation latency。§3 的 ρ 定义：对一个含 n_k 个文本 token、需要 A_k 步声学解码的完成段 S_k，其实现膨胀比为 ρ_k = A_k / n_k；在线侧以 EMA 更新 ρ̂，健康检查要求 ρ_k ∈ [1,12]，实现中 ρ̂ 初值 6.0、截断到 [2,10]。项目侧对照数字：解码 110ms/token，根因是 HF MoE 实现每 token 约 816 次 GPU→CPU 同步（48 层 × 17 次）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "code2wav-state-cost-is-bounded-and-computable",
+      "kind": "design_constraint",
+      "summary": "把「打断后保留而非重置语音状态」这件事的代价从抽象变成可算的数字，并附一条同样有用的推论。单路 Code2Wav 状态合计约 2.53MB（BF16）且与解码长度无关；16 路约 40.3MB；存 FP32 翻倍至约 80.6MB。推论：KV 滑动窗口为 72 步、约合 12Hz 编解码器下的 6 秒上下文，因此声学侧的历史依赖本来就只有约 6 秒，跨越 6 秒的状态继承在架构上没有意义。这两条直接服务于 playback-boundary-ledger-offline-v1 与 tool-hold-message-first-audio-v1 两个既有候选所依赖的「KV 不重置」机制。",
+      "why_not_candidate": "这是可复用数字与设计推论的登记，不是被测系统上的单变量改动；项目当前 TTS 为外挂，没有可施加的对象。",
+      "external_evidence": "X-Square-Robot/Qwen3TTS-Streaming 的 docs/dev/investigation/code2wav_state_size.md（5,859 字节，一手仓库文档，非论文正文，引用必须区分）。解码器配置：num_hidden_layers 8、num_key_value_heads 16、hidden_size 1024、head_dim 64、latent_dim 1024、decoder_dim 1536、codebook_dim 512、KV 滑动窗口 72（文档注明来自 Qwen3TTSTokenizerV2DecoderConfig 的官方默认 sliding_window=72，并解释其为局部注意力设计而非导出时的改动）。KV cache：单层单路 K+V = 2×16×72×64 = 147,456 元素 = 294,912 字节（BF16）；8 层单路 1,179,648 元素 = 2,359,296 字节 ≈ 2.25MB；16 路 37,748,736 字节 ≈ 36.00MB。卷积历史：17 个状态共 131,752 元素，单路 263,504 字节 ≈ 0.257MB，16 路 4,216,064 字节 ≈ 4.02MB。转置卷积重叠：4 个状态（rp = [8,5,4,3]）共 9,120 元素，单路 18,240 字节 ≈ 0.018MB，16 路 291,840 字节 ≈ 0.28MB。合计单路 ≈ 2.53MB、16 路 ≈ 40.3MB，FP32 约 80.6MB。文档另注 Code2Wav 每步输入 chunk_T=4 帧。一处未解的不一致必须随引用同行：该文档写「72 约合 12Hz 编解码器下的 6 秒上下文」（对应 12Hz），而同仓库 README 的吞吐口径写「每 80ms 音频帧」（对应 12.5Hz），论文表 1 的模型名为 Qwen3-TTS-12Hz-1.7B。凡由帧率推导的时长换算一律标注所用取值。",
+      "source_urls": [
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming"
+      ]
+    },
+    {
+      "id": "twelve-vs-twelve-point-five-hz-second-independent-instance",
+      "kind": "process_rule",
+      "summary": "Qwen3-TTS 生态的「12Hz 命名 vs 12.5Hz 实际帧率」不一致已在两个独立来源上出现，可以判定它不是单篇笔误而是生态自身的命名与实际脱节。规则：凡由帧率推导时长的换算，一律标注所用取值，并把两个值都记为并存，不替读者选择。",
+      "why_not_candidate": "这是记录规则，不是被测系统上的改动。",
+      "external_evidence": "第一例（08-19 已记录）：VoiceChat-TTS (2608.13831) 的基线名为 Qwen3-TTS-12Hz 而正文两次写 12.5 Hz。第二例（本轮）：X2Streaming-TTS (2608.18661) 表 1 的模型名为 Qwen3-TTS-12Hz-1.7B；同机构仓库 README 的吞吐口径写「每 80ms 音频帧」（80ms ⇒ 12.5Hz）；同仓库 docs/dev/investigation/code2wav_state_size.md 写「滑动窗口 72 约合 12Hz 编解码器下的 6 秒上下文」（72/6 = 12Hz）。两个来源、三处表述，12 与 12.5 并存且无一处解释差异。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661",
+        "https://arxiv.org/abs/2608.13831",
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming"
+      ]
+    },
+    {
+      "id": "license-additional-conditions-can-include-non-compete",
+      "kind": "process_rule",
+      "summary": "「具名许可证可能附带额外义务」这条既有规则出现了迄今约束最强的一例，且性质从弱义务（致谢、署名、第三方声明）升级为实质商业限制。TEN VAD 的许可证是 Apache License 2.0 WITH ADDITIONAL CONDITIONS，附加条款包含竞业限制（不得部署用于与 Agora 的产品竞争）、单一申请人使用（仅限自有应用与直接终端用户）、以及衍生作品继承同一许可证。对商业车机项目而言这是实质性风险，即便该依赖默认关闭且非捆绑，也必须在选型文档里点名。规则不变但要加一句：记录「标识符 + 义务」时，义务栏必须区分弱义务与商业限制两类。",
+      "why_not_candidate": "这是筛查与记录规则，不是被测系统上的改动。",
+      "external_evidence": "X-Square-Robot/Qwen3TTS-Streaming 的 NOTICE 第 5 条，原文自述这些附加条款 are NOT standard permissive terms，并逐条列出 non-compete restriction (may not be deployed to compete with Agora's offerings)、single-applicant use (only for your own applications / direct end users)、derivative-works inheritance of the same license，同时注明 ten-vad 另捆绑 BSD-2-Clause / BSD-3-Clause 代码。该依赖在该仓库中 OPTIONAL and NOT bundled、VAD 默认关闭、tenvad 模式需用户自行安装。同一份 NOTICE 另给出两条可复用的核实结论：Qwen3-TTS 上游模型代码 github.com/QwenLM/Qwen3-TTS 为 Apache-2.0 且以 git submodule 引入而非 vendored；Qwen3-TTS 模型权重不随仓库分发、由用户在 setup 时自行从 ModelScope / Hugging Face 下载且许可证以各自模型卡为准——这是「代码许可证不传递到权重」的又一例证。该仓库自身 LICENSE 为 1,069 字节的未修改标准 MIT，版权方 XSquareRobot。",
+      "source_urls": [
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming",
+        "https://github.com/TEN-framework/ten-vad"
+      ]
+    },
+    {
+      "id": "ngc-tensorrt-deployment-preconditions",
+      "kind": "design_constraint",
+      "summary": "记录一条部署侧的硬约束，它不是许可证细节而是工程可行性问题，且必须作为任何采用该链路的前置门。运行路径依赖 NVIDIA NGC 容器（nvcr.io/nvidia/tensorrt、nvcr.io/nvidia/tritonserver），拉取 NGC 镜像即构成接受 NVIDIA EULA；TensorRT 引擎绑定特定 GPU/驱动/TensorRT 组合，一台机器上构建的 .plan 无法可靠地在另一台上运行；硬件要求 NVIDIA GPU、建议 ≥16GB 显存；磁盘约 20–40GB（模型加导出与构建产物）。规则：在该链路的环境评估完成之前，不把 X2Streaming-TTS 的任何时延数字写进项目预期。",
+      "why_not_candidate": "这是部署前置条件的登记，不是被测系统上的单变量改动。",
+      "external_evidence": "X-Square-Robot/Qwen3TTS-Streaming 的 README 与 NOTICE。README 的 Prerequisites 逐条写明上述硬件、容器与磁盘要求，并注明 Pulling an NGC image constitutes acceptance of the NVIDIA EULA。README 开头解释该项目存在的理由本身就是这条约束：TensorRT engines are pinned to a specific GPU/driver/TensorRT combination — a .plan built on one machine won't reliably run on another。三阶段流程为 Phase A setup_env.sh（下载模型、装环境、导出 ONNX/权重/manifest）→ Phase B build_engines.sh（用 trtexec 构建 TensorRT 引擎）→ Phase C。首次端到端运行包含「下载权重 → 导出 ONNX → 构建 TensorRT」。能力状态表另注明只有 custom-1.7b / custom_voice 一条路径为 v0.1 推荐且稳定，design-1.7b、base-1.7b、icl 三条均标为实验性、0.6b 变体不在 v0.1 主线内。",
+      "source_urls": [
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming"
+      ]
+    },
+    {
+      "id": "one-lineage-two-halves-x2turn-and-x2streaming",
+      "kind": "process_rule",
+      "summary": "记录一次与 DuplexGen 同名案方向相反的辨析：两篇名字不同的论文属于同一个技术栈，必须按一条脉络记录而不是两条独立线索。X2-Turn 管输入侧（流式 ASR + 判停），X2Streaming-TTS 管输出侧（零前瞻流式合成），而 X2-Turn 仓库里的 full-duplex-demo 正是把两侧接起来的那层。这与 VoiceChat 11B ↔ VoiceChat-TTS 完全同构。规则：漏并与重复计数都会污染追踪表，判据一律是作者/机构重合 + 是否互相引用 + 投稿间隔，三项并用。",
+      "why_not_candidate": "这是记录规则与辨析结论，不是被测系统上的改动。",
+      "external_evidence": "X2Streaming-TTS (2608.18661) 作者为 Rime Wen*、Zehan Liu*（共同一作）、Shawn Qin、Lights Shi、Roy Gan、Hao Wang†（通讯）、Qian Wang；X2-Turn (2608.10878) 作者为 Kaiqi Fu、Rime Wen、Altman Lin、Shawn Qin、Roy Gan、Hao Wang、Qian Wang。重合 5 人（Rime Wen、Shawn Qin、Roy Gan、Hao Wang、Qian Wang），通讯作者同为 Hao Wang，机构同为 X Square Robot。投稿间隔 8 天（2026-08-11 与 2026-08-19）。对照 08-19 的 DuplexGen 同名案：那里是两篇作者/机构零重合、互不引用、相隔 20 天、各自独立 v1 的无关论文共用了同一个名字（2607.26178 与 2608.16053），必须分列并一律附 arXiv ID。两个方向的误判都会发生。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661",
+        "https://arxiv.org/abs/2608.10878"
+      ]
+    },
+    {
+      "id": "artifacts-precede-papers-second-confirmation",
+      "kind": "process_rule",
+      "summary": "「制品常常早于论文，按时间窗扫 Hugging Face / GitHub 会漏」这条 08-19 记下的规律本轮第二次成立，且间隔更长。规则不变：论文发表不蕴含新上传，按发现窗口扫制品必然漏掉这一类；反向核实（从论文的机构/作者账号回查仓库列表）才是可靠通道。",
+      "why_not_candidate": "这是发现流程规则，不是被测系统上的改动。",
+      "external_evidence": "第一例（08-19 已记录）：FireRedTTS3 的仓库 created 2026-08-13T13:36:57Z、权重 lastModified 2026-08-13T14:20:45Z，早于 2026-08-18 的论文 5 天，导致当轮 HF 窗口扫描找到 0 条一手制品。第二例（本轮）：X2Streaming-TTS 论文投稿 2026-08-19T08:05Z，而同机构疑似实现仓库 Qwen3TTS-Streaming 的最后一次 push 为 2026-08-11T03:24:58Z、created 2026-07-01T06:47:20Z，早于论文 8 天。本轮找到它的方式正是反向核实——列出 X-Square-Robot 账号下按 pushed 排序的全部仓库（gh api /users/X-Square-Robot/repos?per_page=100&sort=pushed），该操作同时发现了 X2-Turn 仓库的存在。这印证了既有记录「逐个核查论文作者的 GitHub 账号是产出最高的开放状态核实步骤」。",
+      "source_urls": [
+        "https://github.com/X-Square-Robot/Qwen3TTS-Streaming",
+        "https://arxiv.org/abs/2608.17492"
+      ]
+    },
+    {
+      "id": "hf-arxiv-tag-can-be-right-too",
+      "kind": "process_rule",
+      "summary": "对既有规则「Hugging Face 模型卡的 arxiv: 标签可能指向错误的论文」补一条反例与修正表述：该字段既不可默认信任，也不可默认判错，必须逐个核。归属一律以论文 ID 为准，但核实结果要如实记录两个方向。",
+      "why_not_candidate": "这是核实规则的修正，不是被测系统上的改动。",
+      "external_evidence": "错误方向（08-19 已记录）：FireRedTeam/FireRedTTS3 的模型卡标签为 arxiv:2502.03930，指向更早的一篇 FireRedTTS 论文，而非其对应的 2608.17492。正确方向（本轮）：x-square-robot/X2-Turn-4B-0812 的标签为 arxiv:2608.10878，指向正确。这与既有的 GitHub license 字段规则同构——NOASSERTION 会出现在普通 MIT/Apache-2.0 上，但该 API 有时就是对的，读文件是为了双向确认而不是为了假定它错。",
+      "source_urls": [
+        "https://huggingface.co/x-square-robot/X2-Turn-4B-0812",
+        "https://huggingface.co/FireRedTeam/FireRedTTS3"
+      ]
+    },
+    {
+      "id": "aec-still-zero-primary-evidence-eighth-window",
+      "kind": "negative_evidence",
+      "summary": "回声消除连续第八轮零一手依据。本窗口该组查询的 3 篇命中全部不是声学论文，「beamforming」一词在本窗口 100% 落在非声学领域。查询继续保留——08-19 那批里的 4 篇声学论文中出过窗口 P0，删掉这组的代价高于噪声成本。既有判别式不变：ANC = 副扬声器 + 误差麦克风；AEC = 自身播放信号的参考/回环抽头；标题里的 speech suppression、active speech cancellation 与 echo 都不足以区分，必须读正文的信号路径。",
+      "why_not_candidate": "这是零结果的登记，不是被测系统上的改动。",
+      "external_evidence": "本窗口（submittedDate 2026-08-18T18:00Z - 2026-08-20T02:30Z）查询 abs:\"speech enhancement\" OR abs:\"noise suppression\" OR abs:\"echo cancellation\" OR abs:\"beamforming\" 的 totalResults = 3，逐篇为：2608.19102 Real-Time RFI Mitigation in SPOTLIGHT（astro-ph.IM，射电天文瞬变搜索的实时射频干扰抑制）、2608.18458 Joint Beamforming and Phase Shifts Design for RIS-Enabled RSMA-ISAC Systems（cs.IT，无线通信）、2608.18252 Angle-domain null subtraction imaging from beamformed plane-wave data（physics.med-ph，医学超声）。三篇均无声学语音内容。对照 08-19：该组 15 篇中 11 篇为无线波束成形/ISAC、1 篇为稀疏视角 CT、仅 4 篇为声学，比例方向一致。两个已记录的假阳性不变：08-17 的 X-Zhang/EchoMask 实为协同语音手势生成；08-19 的 2608.16092 实为主动降噪 ANC。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19102",
+        "https://arxiv.org/abs/2608.18458",
+        "https://arxiv.org/abs/2608.18252"
+      ]
+    },
+    {
+      "id": "keyword-sweep-topic-blind-spot-full-duplex-group",
+      "kind": "negative_evidence",
+      "summary": "关键词扫描的主题级盲区又出现一个实例，且这次盲区恰好落在项目的核心方向上：full-duplex / turn-taking / barge-in / interruption 一组本轮返回 4 篇而 4 篇全是假阳性，同时本轮真正的两项全双工进展一篇都没有被这组命中。规则：某组关键词返回全假阳性，不等于该方向本轮无进展；必须与类别查询、追踪表逐版复核、以及机构账号反向核实三条通道交叉验证。",
+      "why_not_candidate": "这是发现流程的零结果与盲区登记，不是被测系统上的改动。",
+      "external_evidence": "本窗口该组 totalResults = 4，逐篇均为假阳性：2608.18837（cs.DS，两台同型并行机的排程近似，interruption 出现在 loading–unloading 语境）、2608.18490（cs.MA，LLM 协作的贝叶斯伙伴建模）、2608.18399（cs.CV，ViT 的注意力迁移）、2608.18326（stat.ME，Interrupted Time Series 是统计学固定术语）。而本轮两项真正的全双工进展中，X2Streaming-TTS (2608.18661) 是被 TTS 组与 S2S 组命中的，X2-Turn (2608.10878) 是修订版、根本不在任何 submittedDate 窗口查询的返回集里。既有同类实例：PosterBench 对全部 14 组关键词隐形。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661",
+        "https://arxiv.org/abs/2608.10878"
+      ]
+    },
+    {
+      "id": "abbreviation-and-term-traps-round-2026-08-20",
+      "kind": "process_rule",
+      "summary": "本轮新增两条术语陷阱，并入既有清单。其一，缩写级假阳性：TTSD 不是 TTS。其二，harness 的第三种义项：既不是训练脚手架，也不是执行脚手架，而是普通动词「驾驭」。既有清单不变：RTF = relative transfer function、HRTF 内含 RTF、wall-clock = 视频时间轴上的位置、echo → 协同语音手势生成、speech suppression → 主动降噪、duplex → 量化文本模型。规则不变：确认缩写在上下文中的展开之后才可记录事实。",
+      "why_not_candidate": "这是筛查规则，不是被测系统上的改动。",
+      "external_evidence": "2608.18386 TTSD-FAR: Test-Time Self-Distillation with Fisher-Anchored Restoration for Missing-Modality Emotion Recognition（cs.CV）——TTSD 展开为 Test-Time Self-Distillation，主题是缺失模态下的情绪识别，与文本转语音无关。2608.19013 Harness Continual Learning: Continual Adaptation Beyond Model Parameters（cs.LG）——harness 在此为动词。既有的两种名词义项分别是 2608.03571 的训练脚手架与 Evo-Bench (2608.09096) 的执行脚手架。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18386",
+        "https://arxiv.org/abs/2608.19013"
+      ]
+    },
+    {
+      "id": "paper-count-is-not-a-proxy-for-major-additions",
+      "kind": "process_rule",
+      "summary": "记录一条防止误判的计量规则：窗口内的论文篇数与该轮是否有重大新增无关。本轮 50 篇是上一轮 235 篇的 21%，却产出了近若干轮质量最高的一条 P0 与一项追踪项的开放状态翻转；而 08-15 的窗口站点级为零、08-13 有 7 篇语音工作、08-17 有 83 篇、08-19 有 235 篇，四者的实际产出与篇数不成比例。规则：报告必须说明本轮属于哪种情形（正常单批 / 多批回补 / 索引冻结），但结论一律由内容决定，不由篇数决定。",
+      "why_not_candidate": "这是记录与判断规则，不是被测系统上的改动。",
+      "external_evidence": "篇数序列：08-13 得 7 项语音工作；08-15 站点级零结果（窗口内全部查询返回 0，当时全站最新投稿为 2608.13561 @ 2026-08-13T17:59:58Z）；08-17 单批回补 83 篇；08-19 四批回补 235 篇；08-20 正常单批 50 篇。索引推进节奏的四次观测（08-15、08-17、08-19、08-20）全部落在 17:5x 的 arXiv 14:00 ET 截稿边界上，确认索引按整批推进。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "recovery-needed-for-an-eighth-consecutive-round",
+      "kind": "process_rule",
+      "summary": "「先检查前几日报告是否真的进了 main，没有就先恢复」这条流程规则连续第八轮命中，已经完全是常态而非例外。本轮 main 仍停在 2026-08-10，2026-08-11 至 2026-08-19 共七轮报告（缺 08-16 与 08-18 两轮，那两轮本身就没有产出报告）只存在于未合并的 agent 分支上。恢复方式不变：git fetch origin --prune 后从单个最新的 reports 分支一次 git checkout <branch> -- reports/ data/handoff/candidates/，因为每日分支是累积的；随后 build_site.py 会重新生成 docs/。规则追加一句：恢复必须是独立的一次提交，且必须在写当日报告之前完成，否则当日报告的「对比基线」会指向一个 main 上不存在的文件。",
+      "why_not_candidate": "这是流程规则，不是被测系统上的改动。",
+      "external_evidence": "本轮 main 的 HEAD 为 37e3363（radar: 2026-08-12 01:30 UTC），但 reports/ 目录下最新文件仍是 2026-08-10。最新的 reports 分支为 cursor/bc-e045ba37-3bf3-49a6-81b7-f1626144a06f-51ca（2026-08-19T03:41:02+00:00，reports: integrate agent-harness and decode-s...），其 reports/ 累积含 08-03 至 08-19（缺 08-16、08-18），data/handoff/candidates/ 累积含 08-08 至 08-19（同样缺 08-16、08-18）。一次 checkout 恢复了 14 个报告文件与 7 个候选台账。注意 enhance: rebuild site ... 系列分支属于另一个 automation，从不携带报告。",
+      "source_urls": [
+        "https://github.com/pIIiiIIg/cockpit-agent-radar"
+      ]
+    }
+  ]
+}
