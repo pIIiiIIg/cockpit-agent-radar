@@ -328,6 +328,153 @@
       "source_urls": [
         "https://github.com/pIIiiIIg/cockpit-agent-radar"
       ]
+    },
+    {
+      "id": "harness-sensitivity-third-and-fourth-corroboration",
+      "kind": "evaluation_buildout",
+      "summary": "把 grader-treatment-invariance-audit 的优先级理由从一条外部佐证升级为三条，并同时记录一条同等重要的反向结论：外部没有人替项目做掉这件事。正面：SemaPLC (2608.18565) 用 7 个后端模型 × 2 个条件（有脚手架/无脚手架）的完全析因，在同一批 117 个任务与同一个判定器上给出——固定模型加脚手架提升 8.5 至 33.3 个百分点、均值 +17.3，而固定脚手架换模型的跨度是 37.6 个百分点，两者同量级；ComponentBench (2608.18307) 在同一 harness、同一模型、同一批任务下只改变观察与动作空间，GPT-5 mini 通过率从 AX-tree 的 83.1% 掉到 Pixel 的 48.9%，并进一步显示“哪种观察空间更好”会被单个场景参数翻转（clutter=none 时 Pixel 86.1% 胜 AX-tree 81.6%，clutter=medium 时 AX-tree 82.3% 反超 Pixel 72.6%）。加上 DuplexWorld (2608.10716) 已是三条独立佐证，且本轮两条都比 DuplexWorld 强：SemaPLC 是完全析因，ComponentBench 的 harness 与全部原始运行归档是 MIT 开放非门控的。反面：这三篇没有一篇验证了自己的归因方法，人工一致性统计（kappa / 一致率 / 注入故障召回）全部为零。因此结论是排序不变、理由变强，且必须由项目自己做。",
+      "why_not_candidate": "这是对既有最高优先级审计事项的外部先验更新，不是被测系统上的单变量改动，也无法给出预计正确性净修数。",
+      "external_evidence": "SemaPLC (arXiv:2608.18565, cs.SE, 2026-08-19T05:44:29Z, 14 页, 论文许可证 CC-BY-4.0, Midea AIRC + KUKA + 上海交大 + 浙大)。已全文核实。bare 列（去掉技能与工具的同一循环）到 full 列的逐模型增量为 +29.9 / +8.5 / +12.8 / +33.3 / +13.6 / +12.9 / +10.3，均值 +17.3；bare 列跨模型跨度 34.2 到 71.8 即 37.6 点。作者自己标注了混淆：“因为 bare 与 full 的对比把陈述性知识与验证循环混在一起，我们把增益归给整个 harness。”层次消融（Table 3，单模型 DeepSeek-V4-Flash，65 个项目任务）：动态分 23.1 → 30.3 → 43.7 → 54.1，每任务 token 34k → 60k → 74k → 129k，请求数 8.9 → 14.6 → 25.5 → 47.8，即 3.79 倍 token、5.37 倍请求买到 +31.0 分——这是本轮唯一把门的代价测出来的地方。ComponentBench (arXiv:2608.18307, cs.AI, 2026-08-18T20:38:26Z, 30 页, COLM 2026 接收, Duke + Amazon AGI SF Lab)。已全文核实。Table 1 七模型四模式 2,910 任务；SoM−Pixel 差为 +29.6 / +10.2 / +3.9 / +1.7 / −2.4 / −6.8（两处反转的配对 bootstrap 95% 区间为 [1.0,3.9] 与 [5.3,8.3]）；分层 L0→L3 的 AX-tree 与 Pixel 差距从 4.6% 单调扩大到 21.9%；主表为每个模型-模式单次运行，重复运行研究只覆盖 278 任务子集、4/7 模型、2/4 模式，运行间偏差最多 1.4%。归因未被验证的证据：其确定性标注器“从一个组件驱动的类别先验出发（例如滑块任务默认偏向连续标定），再由轨迹证据修正或覆盖”，第二套标注是 GPT-5.4 读全部 2,752 次失败运行，唯一复核是 Claude Opus 4.8 对 20 个案例的单次非确定性采样、改标 5 个（25%）；全文 kappa 与 recall 各 0 次，5 处 agreement 全部是关于标注者步数或运行间通过与否的一致性。SemaPLC 的对应问题见 semaplc-authors-rewrote-their-own-grader 一条。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18565",
+        "https://arxiv.org/abs/2608.18307",
+        "https://arxiv.org/abs/2608.10716",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "mask-based-kv-rewind-for-interruption-path",
+      "kind": "design_constraint",
+      "summary": "记录一个直接对得上项目打断/撤回路径的可实现原语，来自一篇整体被否决的论文。做法：不物理裁剪 KV cache，而是把作废位置的 attention mask 置零，同时让 position_ids 跟踪逻辑序列长度（回退前的计数）而非物理 cache 长度。它的形状正是 CUDA Graph 捕获解码环所要求的——固定形状、无主机分支、无 reshape。与既有的 PACE playback boundary ledger 与 VoiceChat-TTS 的 KV never reset 属同一族，但前两者给的是协议，这一条给的是可实现的原语与代价数字。配套必须一起记的陷阱：空闲行要在自己的 query 列上开一个口，不能整行掩掉——整行被屏蔽的行会让 softmax 产生 NaN 并污染共享同一次推理的其它活跃行。",
+      "why_not_candidate": "这是设计原语的登记，不是被测系统上的单变量改动；项目当前 TTS 为外挂整句合成，打断路径尚未实现到可施加该原语的程度。论文本体按前提不适用（需要多台物理机）。",
+      "external_evidence": "arXiv:2608.19147（Pre-Compiled Pipeline Shards for Distributed LLM Inference on Intel AI PC Fleets, Tate Berenbaum + Muthaiah Venkatachalam/Intel, cs.DC, 2026-08-19T17:33:28Z, 34 页, 论文许可证 CC-BY-4.0）。已全文核实。原语原文：设置 attention_mask[j] = 0 于被拒绝的草稿 cache 位置，与物理裁剪逐位等价且代价基本为零，前提是 position_ids 跟踪逻辑序列长度而非物理 cache 长度。实测：修正后 logits 最大绝对差 0.0000（fp32 机器精度相等）；K=3 时代价低于每步墙钟的 1%；物理裁剪的对照代价为 Arc B390 上 72-token cache、32 层/64 个状态张量的 49.5 / 46.6 / 49.9 ms 每次调用（论文引作约 48ms）；生成 2048 token 时 cache 膨胀达 1.02 倍逻辑长度。NaN 陷阱原文：空闲行是在其自身的 query 列上开口而不是被完全掩掉，因为一个被完全屏蔽的行会从 softmax 产生 NaN 并毒化共享该次推理的活跃行。论文另指出该原语的适用面超出投机解码：cache 缩减策略“预设了任意 cache 位置的廉价移除，而这正是有状态 OpenVINO 模型的约 48ms 状态往返所否定的”。否决理由（记录以免日后按错误理由重新 litigate）：全部头条需要多个物理节点（43.97 tok/s 要两台、64.67 要三台、70B 要四个云实例）；单机切分净负（其 Table 3 显示 8B 单机 2 段 15%、3 段 11% 开销）；其并发机制在单用户处反转（OpenVINO 连续批处理“在并发度 1 上损失 8–15%”）；全栈 Intel iGPU/NPU + OpenVINO，CUDA 出现 0 次；目标模型全为稠密，MoE 全文出现 1 次且在一条参考文献里。明确不以批大小否决——该论文全程把批固定为 1 并反复强调（“batch size 1, representative sequence length”、“the batch dimension stays 1 throughout”），批大小判据在此静默。两条附带外部佐证：INT8 KV cache 在其硬件上比默认慢 4%（20.86 对 21.74 tok/s，“反量化开销超过内存带宽节省”）；剖析结论“用户 Python 占墙钟 0.6%（4521ms 中的 27ms），req.infer() 占 99.3%”。开放状态为第五档“给了 URL 而 URL 失效”的第三例，详见 open-status-fifth-tier-url-given-but-dead 与下述 sixth-tier 一条。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19147",
+        "https://arxiv.org/abs/2608.07631",
+        "https://arxiv.org/abs/2608.13831"
+      ]
+    },
+    {
+      "id": "verification-gate-invariants-for-the-action-channel",
+      "kind": "design_constraint",
+      "summary": "为项目的工具/动作通道记下一套可直接搬用的完成纪律，并附一条决定它能否落地的形状约束。三条门不变量：有界重试（每项检查至多 r 轮修复，论文取 r=2）；编辑失效（任何修改作废此前全部 verdict、全部检查重跑，使 verdict 附着在确切的字节上）；挣得的声明（每个结果都是机器可读哨兵并与工具调用日志交叉验证，未记录的声明降级为未检查）。座舱对应物是播报前的动作门：把发出的工具名与参数对照实时车态与工具 schema 做确定性校验，未记录的自我断言不得移交 TTS。形状约束是决定性的——SemaPLC 的检查器不是模型调用而是编译器与运行时，这是唯一可能塞进时延预算的形状，任何座舱版本同样必须是确定性校验而不是 LLM 审阅者。",
+      "why_not_candidate": "这是设计约束的登记，不是被测系统上的单变量改动；项目当前没有可施加该门的动作校验层，且该论文自身的判定器可信度存疑（见 semaplc-authors-rewrote-their-own-grader）。",
+      "external_evidence": "arXiv:2608.18565 §4.5 与 Algorithm 1。三条不变量原文：每项检查至多 r=2 轮修复且 retries(c) 由 harness 维护；任何修改作废全部先前 verdict 并重跑每一项检查，因此 verdict 附着在确切的字节上；每个结果都是机器可读哨兵并与工具调用日志交叉验证，未记录的声明降级为 unchecked。总结句原文：交付的程序与挣得每一项已报告通过的候选完全相同，且没有任何自报通过能在缺少工具日志的情况下存活。Algorithm 1 的两条关键行为 V[c] ← v 仅当日志条目 e_c 确认 v、否则记为 unchecked，以及 if L' ≠ L then V ← ∅。工具面为 16 个 MCP 工具（Table S1，与该仓库 README 自称的 16 个可组合工具精确一致，已核）加 12 个 CLI 入口（Table S2）。领域知识以文档而非代码承载：规则文件声明验证顺序、工具用法与扫描周期语义；wiki 记录功能块签名、控制模式与编译器陷阱。术语判定：此处 harness 是执行脚手架（Evo-Bench 义），全文无训练无微调无梯度，七个后端均为第三方 API；但同一篇论文另用了 harness 的第二义（程序被部署进去的 ST 外壳），一篇之内两义并存。一条正面记录：全篇没有 LLM-as-judge，功能轨道判定用 PLCverif + nuXmv 后端加 RuSTy 编译器，项目轨道用确定性字符串/数值断言与精确轨迹比较（对布尔与数值为精确比较），项目关于不得采纳 LLM 判定器作为阈值的规则在这篇上不触发。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18565"
+      ]
+    },
+    {
+      "id": "semaplc-authors-rewrote-their-own-grader",
+      "kind": "negative_evidence",
+      "summary": "记录 2608.12880 那条教训的第二种形态：不是意外翻转的元数据标志位，而是有意的、有记录的、未发布的判定器重写。SemaPLC 的作者判定其所用基准发布的 oracle 含有会让正确实现失败的缺陷属性与任务描述，于是由 PLC 工程师审计并修复了 117 个任务中的 43 个，属性数由 629 降到 607。其缓解措施异常认真且值得照抄，但结果是与任何此前发表的同基准数字的可比性被彻底破坏，而论文没有说这一点、没有在原始 oracle 上给出对照消融、也没有发布修复后的数据。规则：任何引用其 72.6% 或 52.2% 的场合都必须同时说明判定器被作者重写过；并把这条与 ComponentBench、2608.18351 合并成一条更强的判断——本轮三篇论文的判定器或真值分别由作者、LLM、以及 Codex/Claude Code 生成，三者的人工一致性统计全部为零。",
+      "why_not_candidate": "这是对外部数字可信度的限定记录，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.18565 §5.2 与附录 A。原文：其发布的 oracle 包含会让正确实现失败的缺陷验证属性与任务描述，因此 PLC 工程师审计并修复了受影响的任务（117 个中的 43 个）。附录 A：发布的数据修改了 53 个样本，其中 46 个修复了属性、7 个仅补全了任务描述，属性数由 629 变为 607。值得照抄的缓解措施原文：独立平行复核首先标记候选缺陷；使用布尔逻辑的穷举真值表与状态机的逐步仿真重新推导；一轮盲审第三方裁决分歧；只有至少两轮确认的缺陷才被修复，无依据的属性被删除而不是替换为编造的阈值；所有方法都在同一份修复后的数据上评测。未做的：无原始 oracle 上的对照消融，无修复数据发布（附录称 the released data 却全文无 URL，属开放状态第三档 unverifiable）。相关但独立的可比性问题：最强基线 Agents4PLC 是作者自己的复现实现（原文 a faithful reimplementation that generates its own properties），8.8 分的头条优势是对着获胜方自己写的代码取得的；AutoPLC 是从其发布框架运行的；LLM4PLC 的来源未声明。另一处需随引用同行的限定，出自论文自己的附录：agent 迭代所针对的运行时反馈来自它从任务规格导出的场景，而评分场景是从隐藏参考单独导出的，因为两者都源自同一批任务需求，二者可能对齐，因此动态分衡量的是在基准场景上的行为而不是对未见运行条件的泛化。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18565",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "static-verification-is-blind-to-timer-like-constructs",
+      "kind": "negative_evidence",
+      "summary": "记录一条支持项目坚持端到端实测而非静态打分的外部证据，且它的失明位置恰好就是项目关心的那一类。在 SemaPLC 汇总的 1,293 个交付程序上，形式化验证的结论率随构造类型急剧分化：不含实数与定时器的程序 75.7% 结论率，含实数的 87.0%，而含定时器（TON）的 32 个程序、174 条属性结论率为 0.0%、100% inconclusive，不支持的模式与翻译失败占主导。判停、打断与播放边界都属于有状态、跨时间的构造，因此项目不得以静态判定替代端到端的播放边界与判停时序实测。论文自己的相关表述同向：相似的静态分数可以掩盖差异显著的运行时行为。",
+      "why_not_candidate": "这是负面证据与设计判据的登记，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.18565 Table 5，原文汇总口径为 pooled over 1,293 delivered programs from SEMAPLC runs：No REAL/timer 916 程序 / 4653 属性 / 75.7% 结论 / 24.3% 无结论；With REAL 345 / 1845 / 87.0% / 13.0%；With timer (TON) 32 / 174 / 0.0% / 100%。原文另述：在 32 个含定时器的程序上的 174 条属性没有一条获得结论性判定。一处口径提示：1,293 大于 117 任务 × 7 模型 = 819 的任务-模型对数，论文未解释这个差额，这也是全文唯一暗示每个任务-模型对可能不止一次运行的地方，而运行次数从未声明。项目侧对应事实：判停与打断的正确性无法由任何静态检查覆盖，probe_turn_end 的负面结果本身就是运行时观测得到的。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18565"
+      ]
+    },
+    {
+      "id": "least-privilege-does-not-shrink-the-reachable-tool-set",
+      "kind": "negative_evidence",
+      "summary": "更正项目从 2608.14036 推出的一条假设，并记录它带来的一条正面结论。项目此前的推论是：既然技能池由 5 涨到 100 会让实际使用精度由 29.6% 崩到 3.3%，那么任何能合法缩小可达工具集的东西都可能提升准确率而不只是安全性。2608.18351 看起来像那样的东西，但它不是——它明写模型看到的是一份完整的工具清单，broker 在环境侧且对模型不可见，训练的是让策略选择更低权限的动作。因此它不能作为那条假设的证据，缩小工具池能否提升准确率这个问题仍然开放。正面结论是另一件事且同样重要：它是名单上第一篇同时测量权限效应与任务准确率效应、并发现二者不冲突的论文，因此项目关于安全层会以拒绝行动换取克制的担忧被直接处理并否定。",
+      "why_not_candidate": "这是对既有假设的更正与外部先验更新，不是被测系统上的单变量改动；且其指标定义与开放状态都不满足候选条件（见下）。",
+      "external_evidence": "arXiv:2608.18351（Task-Conditioned Least-Privilege Learning for Executable Terminal and MCP Agents, Alexander Tu + Michael Tu, Purdue Northwest 网络安全中心, cs.CR, 2026-08-18T22:07:23Z, 10 页, 已投 IEEE）。已全文核实。架构事实原文：模型看到一份全面的工具清单，而一个不可见的环境 broker 解析每个被提议的动作、确定性地计算其意图权限、评估其执行风险、选择执行模式并记录产生的效果。正面数字：MetaTool 准确率 81.9% → 83.6%（+1.7 个百分点，p = 4.55×10⁻⁴，即 1,000 项中 819 → 836 项正确）；内部 500 任务保留评测任务成功率 68.92% → 99.27%，安全成功率 64.36% → 98.48%。论文自己点破的失败模式原文：理论上，一个只测越权的安全指标可以通过让 agent 更不作为、普遍拒绝来轻易改善……这是自我挫败的，因为它降低能力。两条阻塞：其一，越权成功一列按定义等于（任务成功 − 安全成功）（68.92 − 64.36 = 4.56，99.27 − 98.48 = 0.79，为本方核算），分子只统计成功的 episode，基座另外约 900 个失败 episode 与 seed 1 的 21 个失败 episode 的越权行为从未报告，因此含失败 episode 的越权总事件率对两个策略都未知；摘要写越权错误事件而结论写成功的越权事件，后者才准确。其二，定义越权的充分权限包络本身未经验证，论文自承权限维度、权重与充分包络编码了可能并不完全正确的判断，而致谢写明仓库代码与任务撰写大部分是合成的、由 Codex 与 Claude Code 的工具在人工监督下生成，全文 recall / precision / specificity / kappa 各 0 次，且论文自列缺失项包括风险向量的消融。其余边界：无任何推理时延、无 broker 开销测量（而该 broker 内联在工具执行路径上），硬件只在训练侧声明（Ubuntu 24.04 under WSL，两张 32GB NVIDIA RTX 5090-class GPU，TRL 1.5.1 + vLLM 0.22.1）；只有一个 4B 模型与一个适配器族；头条是三个种子中被挑出的一个（routine 集安全成功率 85.98 / 97.63 / 86.29，跨种子约 11.6 个百分点，500 任务集未报种子方差）；ToolPrivBench 在中性提示下训练与未训练策略统计上不可区分。开放状态：代码为 unverifiable（致谢暗示存在仓库却全文无 URL）；唯一可归属作者的制品是 huggingface.co/tu101/least-privilege-model，创建于 2026-07-30T22:27:24Z 即投稿前 19 天，MIT、非门控、仅 2 个文件（.gitattributes 1,519 字节与 README.md 21 字节即仅许可证前置块）、usedStorage 为 0、0 下载 0 点赞、无权重无 config.json 无 LoRA 适配器，且论文从未提及它。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18351",
+        "https://arxiv.org/abs/2608.14036",
+        "https://arxiv.org/abs/2608.13959"
+      ]
+    },
+    {
+      "id": "attempted-versus-allowed-authority-split",
+      "kind": "instrumentation",
+      "summary": "记录一条零成本、无需模型改动、且能暴露只靠门防御所掩盖问题的埋点。即便执行门拦住了一个动作，也要单独记录策略曾经请求过该不正当权限。理由是被阻止的动作不产生外部损害，因此在只看结果的口径下完全不可见，而它恰恰是策略行为漂移的先行指标。项目当前不做这个测量。附带第二条同样零成本的做法：提示词消融的三档设计（完整提示 / 去掉安全措辞 / 一行提示，同一评测集、两个策略同跑），用来判断某个行为是被内化了还是被提示词撑着的。",
+      "why_not_candidate": "这是埋点与评测协议动作，不是被测系统上的单变量改动，也不改变任何既有候选的状态。",
+      "external_evidence": "arXiv:2608.18351 §III。原文：这个指标区分 agent 尝试了什么与环境允许发生了什么；一条被阻止的命令因此不会造成外部损害，但仍会被记录为该策略请求了不正当的权限。提示词消融（每个提示-策略对 1,648 个 episode）：完整提示下安全成功率基座 61.65% / seed 1 97.63%；去掉最小权限措辞后为 60.92% / 97.63%；一行提示下基座跌至 57.95% 而 seed 1 保持 97.39%——即训练后的策略跨三种提示只移动 0.24 个百分点，基座移动 3.70 个百分点；成功的越权事件从 0.73% 温和升至 0.97%（去措辞）与 1.46%（一行提示）。相关的第三方数字（论文引用而非自测，引用时须注明）：Anthropic 报告其两阶段分类器在 52 个过度积极动作的策划集上保留 17% 假阴性率；外部测试发现假阴性率高达 81%，且 36.8% 的动作落在该分类器范围之外。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18351"
+      ]
+    },
+    {
+      "id": "grader-input-leakage-scanner-and-per-item-churn",
+      "kind": "evaluation_buildout",
+      "summary": "把 ComponentBench 的两条评测协议并入判定器审计事项，两条都零 GPU 且直接适用于项目现有数字。其一，把判定器输入隔离做成可测试的不变量：成功谓词不得出现在任何被测对象可读的位置，并配一个 CI 就绪的扫描器在全部评测样例上验证不存在泄漏——项目的 452 条自建判定目前没有任何等价的泄漏扫描器，而 grader-treatment-invariance-audit 已经要求的输入排除清单正好可以由这样一个扫描器强制执行。其二，把聚合稳定性与逐条翻转分开报告：在通过率旁边同时公布运行间一致率与 Jaccard，因为聚合相同不代表逐条相同。第三条相关：把设计意图难度与实测实现难度分开记录，这与 08-19 从 DuplexGen-B 得到的合成重叠数据系统性偏易是同一条纪律。",
+      "why_not_candidate": "这些是对判定链路本身的审计与报告动作，不是被测系统上的单变量改动，无法给出预计正确性净修数；优先级与既有的 grader-treatment-invariance-audit 相同。",
+      "external_evidence": "arXiv:2608.18307。泄漏控制原文：目标值与成功谓词驻留在 React 组件闭包中，从不作为 DOM 属性、可访问性树标签或页面文本暴露；一个 MutationObserver 额外实时地从每个元素剥除所有仅测试用的 DOM 属性（data-testid、data-cy 等），并且一个 CI 就绪的扫描器验证在全部 2,910 个页面上没有任何此类属性存活。逐条翻转原文实例：GPT-5 mini 在 Pixel 下两次运行的通过率完全相同（52.5%），却有 17.3% 的任务结果翻转，pass→fail 与 fail→pass 的翻转在聚合上互相抵消；其重复运行研究（278 任务子集）报告 Agree% 82.7–97.5 与 Jaccard 0.718–0.974，运行间偏差最多 1.4%（中位 0.9%）。意图与实测难度分离原文：通过在 Playwright 中重放清洗后的人工轨迹并抽取 24 维结构特征来测量实现后的难度，人工轨迹充当遍历 oracle，能到达静态快照会错过的隐藏状态；论文同时自我限定该审计是混合系统，部分量测自渲染后的 DOM、部分由类型级元数据近似，两者都应视为结构化的操作化定义而不是 oracle，且当前实现使用单位权重。人工参照的验证（这是它唯一验证过的部分，验证的是效率基线而不是失效归因）：278 任务子集上三名标注者全部完成，平均归一化步数 2.92 / 2.90 / 3.14，两两步数 Pearson 相关 0.79–0.94，精确步数一致率 71%–84%，人对人动作计数比 1.05×，而同一子集上 agent 为人的 1.27–3.02×。开放状态：github.com/TianchenGuan/ComponentBench，MIT（LICENSE 文件 1,079 字节，逐字读为未修改 MIT），4,264 个 blob 合计 29,774,936 字节，HEAD 60ad74c6731b451efad00b9363f26b25e868cc8c；HF datasets/TianchenGuan/ComponentBench 非门控、291 次下载、293 个文件合计 40,965,400,443 字节。一条须随引用同行的限定：其跨模型时延比较不成立，七个模型经由五种不同服务通道（Google AI Studio、OpenAI API、Duke LiteLLM 代理、本地 vLLM FP8、Amazon Bedrock），且论文自己写明把效率结论建立在动作计数而不是受时延污染的时长上；GPU 型号全文未命名。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18307",
+        "https://arxiv.org/abs/2608.12880",
+        "https://arxiv.org/abs/2608.16053"
+      ]
+    },
+    {
+      "id": "layer-trust-separation-in-audit-records",
+      "kind": "design_constraint",
+      "summary": "从一篇零数字的论文里只取一条设计纪律：显式的层次信任分离。把审计记录的每个字段标记为确定性捕获还是模型推断，并且推断出来的字段永远不得用于设定阈值。这与项目的 playback boundary ledger 是同一精神，也是 grader-treatment-invariance-audit 所需要的规则。采纳规则，忽略那张图。同时记录一条辨析：LEDGER 不是 PIPES 那一族，不能被当作 PIPES 两个缺口（无时延、无代码）已被补上的证据。",
+      "why_not_candidate": "论文本体零结果，没有任何可采纳、可比较或可用于设定阈值的数字；这里登记的只是一条设计纪律。",
+      "external_evidence": "arXiv:2608.18398（LEDGER: Claim-to-Evidence Trace Graphs for Auditing LLM Agents, Daehong Kim/CMU + Haichao Miao + Shusen Liu/劳伦斯利弗莫尔国家实验室, cs.HC, 2026-08-19T00:10:04Z, 15 页, 论文许可证 CC-BY-4.0, LLNL-CONF-2022801）。已全文核实。层次信任分离原文：Trace Records 来自确定性的转录解析与 Trace Record 抽取；Evidence 层与 Workflow 节点由 tracer agent 读取这些记录产生——哪些 Trace Record 构成一个 Evidence 节点、该节点取什么类型与类别、哪些 Evidence 节点属于同一个 Workflow 节点、以及哪些边连接它们；因此 Trace Records 自身成立，而建立其上的结构是一种解释。以及：这一区分之所以重要，是因为审阅者需要把被捕获的证据与图构造期间被推断出来的结构区分开。零结果的核实：正文（参考文献之前）的全部数字只有章节号、参考文献序号、两个邮编（15213、94550）、若干资助编号（DE-AC52-07NA27344、DOE ECRP 51917/SCW1885、LLNL-CONF-2022801）与模型串 GPT-5.5；没有节点数、边数、会话数、计时、准确率、用户研究、基线或数据集统计；两个案例研究各一次会话。论文自承的限制原文：当前在 Trace Record 层之上的图不是完全确定性的……这些选择可能是不完整的、不稳定的、或错误的；并自己点名缺失的实验：重复运行研究还应当测量同一会话在重建下是否产生稳定的节点、边与声明支持路径。与 PIPES 的辨析：PIPES (2608.12789) 在运行时把溯源挂在工具回执上并给出实测效果（ASR 致错率 84.7% → 2.3%），其阻塞是无时延与无代码；LEDGER 是事后的人工审阅面板，无运行时强制、无任何错误率指标、同样无时延、同样无代码，相似之处只有溯源这个词。开放状态属最诚实的一档从未声称发布：全文 releas 仅出现一次且是 LLNL 的审查发布控制号，3 条 /Annots URI 为 1 条 arXiv 自链接加 2 条指向 langchain.com 的参考文献。一处内部矛盾：图 1 的题注说该会话是住房推荐、数据集含住房记录，而正文 §3.2 描述同一张图时说是在一个表格化空气质量数据集上的住房推荐任务，而案例研究一是空气质量且完全不涉及住房。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18398",
+        "https://arxiv.org/abs/2608.12789"
+      ]
+    },
+    {
+      "id": "open-status-sixth-tier-silent-non-release",
+      "kind": "process_rule",
+      "summary": "开放状态从五档扩到六档，新增第六档「沉默式未发布」：论文对代码、权重与数据不作任何声明，既没有承诺也没有失效的链接，因此没有可证伪的对象。它比第三档 unverifiable（声称发布但不给任何 URL）更诚实，也比第四档「来函索取」更无从下手，后续动作是不设复查节奏、直接记为不可核实。与之相对，本轮第五档「给了 URL 而 URL 失效」出现了第三个实例，并带来一个新形态：近似命中的仓库可以是真实且实质的。",
+      "why_not_candidate": "这是筛查与记录规则，不是被测系统上的改动。",
+      "external_evidence": "第六档两例。WhiteMatter (2608.18486)：全文 code 在词边界上出现 0 次，无仓库名、无 URL、无发布承诺；1 条 /Annots URI 为 arXiv 自链接，raw /URI( 扫描 1 条，14 条裸 URL 全部为参考文献（arXiv abs、OpenReview、PMLR/NeurIPS、aclanthology、以及 Muon 优化器的作者博客）；falsification：gh search repos 对 WhiteMatter KV mixing 与 WhiteMatter transformer 均返回空，HF 搜索仅返回一个无关的 Gemma-4 LoRA 适配器。DART-SD (2608.18524)：releas / available / github / reproduc / appendix 全文各 0 次，open-source 出现 1 次且描述的是引言里的第三方模型；7 条 /Annots URI 中 6 个唯一目标为 1 条 arXiv 自链接、1 条 arXiv 参考、Qwen3.6-27B 博客、Claude 4 公告与两个 mailto，零条作者提供的制品链接；falsification：gh search repos 对 DART-SD、Diamond-topology、Interaction-State Transition Graph、Critical Topological Breakpoint、topology aware self-distillation 五个查询均无相关结果，HF 模型与数据集搜索均为空。第五档第三例：2608.19147 两处印出 github.com/labscommunity/pipeline-sharded-inference-paper（摘要与 §9）并二十余次引用 reproduction/ 下的具体文件名，gh api 返回 404，gh search repos 返回空。新形态：同组织 labscommunity/cascadia 是真实且实质的近似命中——Apache-2.0（LICENSE 逐字读为 11,302 字节未修改 Apache-2.0，Copyright 2026 Labs Community，5 处 additional 全为 Apache 样板，附 THIRD_PARTY_NOTICES.md 义务），created 2026-05-01T21:19:40Z，pushed_at 2026-08-19T17:16:40Z 即论文投稿（17:33:28Z）前 17 分钟，884 个 tree 条目 / 712 blob / 12,280,772 字节，22 stars，HEAD 1ea79b8c35，其 docs/engines/ov-dist-spec.md 逐字提到本文的制品名（Requires v5 shards ... v3 shards are rejected at load time）；但它不是承诺的那个包——全树 reproduction 出现 0 次、无文件名含 beam，且它是 Rust（Single static binary per node: Rust only at runtime; no Python on workers）而论文引用的每个基准脚本都是 Python；两边互不引用。一条重要的方法学限定：已认证的 gh 对私有仓库同样返回 404，因此 404 不能区分不存在与存在但私有，两种情况下今天都不可核实。另注 SemaPLC (2608.18565) 属第三档：附录写 The released data modifies 53 samples... 却在全文任何位置都没有给出该数据的 URL、DOI 或仓库路径。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18486",
+        "https://arxiv.org/abs/2608.18524",
+        "https://arxiv.org/abs/2608.19147",
+        "https://github.com/labscommunity/cascadia"
+      ]
+    },
+    {
+      "id": "three-aggregation-traps-do-not-copy",
+      "kind": "process_rule",
+      "summary": "记录本轮细读发现的三处会误导的聚合口径，均为引用时必须避开或注明的。其一，不要引用 DART-SD 的 Avg. 列。其二，DART-SD 报告的 Solve-F1 在全部 18 行上都不等于其报告的 Solve-P 与 Solve-R 的调和平均，方向一致偏低，而论文从未声明聚合顺序。其三，ComponentBench 的跨模型时延比较不成立，因为七个模型经由五种不同的服务通道，论文自己也拒绝相信自己的时长。通用规则：任何以未加权平均汇总异质指标的列，先检查是否有某个基准被重复计数、是否有某一列在所有行都近似常数从而压缩了方法间差异。",
+      "why_not_candidate": "这是引用与记录规则，不是被测系统上的改动。",
+      "external_evidence": "其一，2608.18524 的 Avg. 列经核实为九个数值列的无权重平均（在全部 18 行上核到 0.01 以内）；后果是 FTRL 占 3/9 且其第三列 Solve-F1 是前两列的导出量，即训练域基准被三重加权且其中一列重复计数，RoTBench 同样占 3/9，而 BFCL、ToolHop、τ-bench 各只占 1/9；同时 RoTBench TS 一列在包括未训练基座在内的所有行都落在 60.36–77.02 的窄带内，注入一个近似常数的偏置。其二，同论文原文称 We evaluate trajectory precision and task completeness using Solve-P and Solve-R along with their harmonic mean, Solve-F1，但逐行核算不成立：8B DART-SD 由 42.00 与 54.13 得调和平均 47.30 而报 45.66；4B Base 得 23.45 而报 21.81；4B SFT 得 40.33 而报 37.96；8B FTRL-GRPO 得 41.21 而报 40.22；18 行全部低于调和平均 0.99 至 6.26 点，方向一致，最可能是按任务先算 F1 再宏平均（Jensen 不等式给出正是这个符号），但论文从未声明聚合顺序，故按原样记录而不代为解释。其三，2608.18307 的服务通道分别为 Google AI Studio API、OpenAI API、Duke LiteLLM 代理、本地 vLLM（FP8、张量并行）与 Amazon Bedrock 的 OpenAI 兼容端点，论文自述 Bedrock 不公开其服务精度因此这些运行可能与本地 FP8 配置略有不同；论文自己的口径声明为 Interaction counts are far more stable than wall-clock time... so we base efficiency claims on action counts rather than latency-confounded durations。同论文另有一处摘要与表格不一致：摘要三处称最快配置为人工参照的 3.7 倍（归给 GPT-5.4 mini SoM），而其 Table 8 中 Gemini 3.1 Flash-Lite AX-tree 的比值是 3.6 倍——最快在此被用作绝对秒数而被引用的量是比值。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18524",
+        "https://arxiv.org/abs/2608.18307"
+      ]
+    },
+    {
+      "id": "whitematter-cache-offset-dummy-token",
+      "kind": "design_constraint",
+      "summary": "从一篇按前提被否决的论文里留下一个可迁移的工程技巧与一条可迁移的论证方式。技巧：当需要让注意力对角线不可读时，不要去掩掉对角线（这与 FlashAttention-2 之类的 kernel 不兼容），而是在 KV cache 前预置一个可学习的哑元 token，把 cache 相对 query 偏移一位。论证方式：该论文为每层只读一个 KV 通道给出的理由是 HBM 带宽而非计算量，与项目对 MoE dispatch 每层固定代价的推理同构。否决理由必须一并记下以免日后按错误理由重新评估。",
+      "why_not_candidate": "论文本体是从零预训练的架构改动，无法加装到现有权重上；这里登记的只是两条可迁移的局部内容。",
+      "external_evidence": "arXiv:2608.18486（WhiteMatter: All-to-All Cross-Layer Connections via KV Mixing, Wenbo Zhang + Xiang Ren, 南加州大学, cs.CL, 2026-08-19T03:24:51Z, 15 页, 论文许可证 CC-BY-4.0）。已全文核实。哑元 token 原文：掩掉注意力对角线会阻止这一点，但与 FlashAttention-2 之类的 kernel 不兼容……因此我们在 KV cache 前预置一个可学习的哑元 token，使 cache 相对 query 偏移一个位置。HBM 论证原文：对全部通道的密集读取将允许学习到的软分配，但会要求每一层从 HBM 流式读取全部 k 路 key 与 value 通道；固定的单通道选择保持每层一次 KV 读取。否决理由（按重要性）：它是从零预训练的架构改动，全部模型都是 trained from scratch，无微调、无适配、无事后转换路径；其全部代价记在 prefill 上——Table 2 实测每 token FLOPs 给出 k=8 为 3.05 倍、k=16 为 3.30 倍于原版的 prefill，而训练为 2.32–2.50 倍，解码为 0.99–1.03 倍；其 depth-causal 消融证明这笔代价躲不掉——去掉深到浅反馈后训练与 prefill 代价与原版相近但困惑度由 34.71 劣化到 37.30，即迭代本身就是机制。规模与制品边界：全部为 48.7M 至约 100M 非嵌入参数的稠密小模型、8.0B token（30,518 步、全局批 128）、hidden 512，全文 MoE 出现 0 次；硬件已命名（训练 8 张 NVIDIA RTX A6000，计时在 1 张 A6000 上）但论文自述 We report cache size and schedule convergence, but do not provide an optimized end-to-end decoding benchmark，故解码墙钟、解码批大小与 tokens/s 均未声明。开放状态为第六档沉默式未发布。两条数值提示：其 §1 称训练比原版贵 around 1.5× 而 §4.5 与限制节称 2.3–2.5×，二者仅在把 1.5× more expensive 读作在原基础上再贵 1.5 倍（即 2.5 倍）时才自洽，论文未给单位；其头条 prefill 加速用的是 g=16 而方法节两处明确 We use g=8。一条本方核算与其图注不符之处：§5.2 称 k=1 给出 7.3% 的困惑度下降，而图 6b 自身标注的 39.45 与 36.66 给出 7.07%，同节其余百分比均可由同图精确复现。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18486"
+      ]
+    },
+    {
+      "id": "dart-sd-loss-mask-idea-only",
+      "kind": "negative_evidence",
+      "summary": "记录一篇在项目核心指标上几乎没有移动的论文，并从中只留一个想法。可留的想法：把损失掩码限制在出错之后的恢复片段、保护有效前缀，若项目将来微调自己的工具调用数据，这是训练脚本上的两行改动。不可留的：其余全部机制。否决的决定性理由是它在项目真正测量的那个轴上几乎没动，而它自己的消融显示标题命名的两项机制只贡献了总增益的 14%。",
+      "why_not_candidate": "按构造不可能改善时延（纯训练期方法，无任何推理期组件），在项目核心指标上增益为 +0.31 且被同表基线超过，且训练信号的来源整体不可复现。",
+      "external_evidence": "arXiv:2608.18524（DART-SD, 字节跳动 + 中国科大, cs.CL, 2026-08-19T04:19:21Z, 14 页, 无附录, 论文许可证为 arXiv 非独占分发）。已全文核实。核心指标：RoTBench 工具选择（最接近项目严格工具名召回 80.49% 的公开对应物）在 Qwen3-8B 上由 75.52 升到 75.83（+0.31），而同表 FTRL-GRPO 为 77.02；在 Qwen3-4B 上由 69.52 升到 72.02，仅与两个 MatchTIR 变体打平；参数正确率一列在 4B 上其 42.38 输给普通 SFT 的 44.40（8B 上确有改善，36.29 → 57.38）。自我拆穿的消融（Table 6，固定 Qwen3-8B，逐项累加）：基座 23.48；+SD 38.10（+14.62）；+CTB 39.51（+1.41）；+Progressive SFT 43.93（+4.42）；+ISTG 45.66（+1.73）——总增益 22.18 中普通自蒸馏占 66%，标题命名的 CTB 与 ISTG 合计 3.14 点即 14%。最标准的多轮工具调用基准是其最弱项：BFCL Multi-Turn 在 8B 上为 27.63，输给 FTRL-GRPO 的 35.25，并远低于教师的 54.5。不可复现性：写出每一条训练目标的 AugGen 组件全文从未命名；信息原子的语义阶段标注器同样未命名；ISTG 消融的对照臂本身就是一个未指明的 LLM 判定器（原文 ISTG replaces LLM-judge-based breakpoint detection with topology-aware state projection and structured recovery）；无代码、无权重、无数据，属第六档沉默式未发布。其余未声明项：无种子数、无重复运行、无误差棒、无显著性检验（全文 significan 仅两处，其一即摘要的 significantly outperforms），无任何时延、硬件、吞吐或推理批大小（batch 仅一处，为训练批 32）。一处必须随引用同行的口径问题：其 BFCL 只报四个子集（Base、Miss Function、Miss Parameter、Long Context）的平均而从不拆分，而与过度调用/弃权最相关的两个子集恰在其中，因此该论文无法用于任何关于过度调用的判断；其 Table 2 的平均工具调用长度只统计成功轨迹，按构造排除了过度调用会显现的失败样本。既有结论不变：2608.13959 关于受约束解码修好选择但修不好过度调用的记录未被本文挑战。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18524",
+        "https://arxiv.org/abs/2608.13959",
+        "https://arxiv.org/abs/2608.14036"
+      ]
     }
   ]
 }
