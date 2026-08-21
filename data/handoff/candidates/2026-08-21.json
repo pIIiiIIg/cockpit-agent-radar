@@ -418,6 +418,105 @@
         "https://arxiv.org/abs/2608.12880",
         "https://arxiv.org/abs/2608.18661"
       ]
+    },
+    {
+      "id": "scaffold-sensitivity-is-now-established-six-corroborations",
+      "kind": "evaluation_buildout",
+      "summary": "把「脚手架可以把指标挪到与换模型同量级」从待验证假说升格为既成事实：独立佐证由三条一次涨到六条，且本轮新增的三条操纵变量各不相同（封装层、划分协议、一个与行为无关的开关）。同时把「聚合稳定而逐条大幅翻转」同样升格——它已被两个互不相关的团队在两个完全不同的领域各自复现过一次。结论：下一个评测周期应当花在判定器与 harness 的构造效度上，而不是换模型；且这件事外部没有人能替项目做掉。",
+      "why_not_candidate": "这是对既有最高优先级审计事项的外部先验更新，不是被测系统上的单变量改动，也无法给出预计正确性净修数。",
+      "external_evidence": "既有三条：DuplexWorld 2608.10716、SemaPLC 2608.18565（固定模型加脚手架 8.5–33.3 个百分点、均值 +17.3，固定脚手架换模型跨度 37.6 个百分点）、ComponentBench 2608.18307（同一 harness 同一模型同一批任务，只改观察与动作空间，83.1% → 48.9%；且两次运行聚合完全相同 52.5% 却有 17.3% 逐条翻转）。本轮新增三条。第四条 EnvHarness 2608.19880 Table 12，是六条里最强的一条：同一策略、同一批 100 个 ALFWorld 任务、同一个验证器，只更换包在外面的动作/转移/观测封装层，逐任务成功率落在 [0.4, 0.6] 内的比例由 6.0% 升到 80.0%，平均成功率由 0.74 移到 0.48；论文原话 A single interface therefore suffices to calibrate an environment against an explicit, measurable objective, without any access to its internals。第五条 MaliciousSkillBench 2608.19901 Table 42：同一来源、同一检测器，只改划分协议，SRC011 良性误报率由 0.113 升到 0.644（97 条良性 11 个误报，对 455 条良性 293 个误报），SRC012 由 0.000 升到 0.522，总体 Macro-F1 由 0.932 降到 0.665；作者自陈限定 The evaluated units differ and Random exposes each source during training, so this is not a paired causal estimate，按原样记录。第六条 StateMemBench 2608.19652 Table 8：只拨一个与行为无关的开关、判定器固定不变，20% 的条目翻转而聚合只移动 8 个百分点（详见 per-item-transition-table-is-the-first-instrument-to-build）。三篇的领域分别是 agent 训练环境、恶意技能检测、agent 记忆状态跟踪，与既有三条互不重叠。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19880",
+        "https://arxiv.org/abs/2608.19901",
+        "https://arxiv.org/abs/2608.19652",
+        "https://arxiv.org/abs/2608.18307",
+        "https://arxiv.org/abs/2608.18565",
+        "https://arxiv.org/abs/2608.10716"
+      ]
+    },
+    {
+      "id": "per-item-transition-table-is-the-first-instrument-to-build",
+      "kind": "evaluation_buildout",
+      "summary": "项目至今没有任何重复运行翻转率测量，而现在有两篇论文各自说明聚合数字会撒谎。本轮第一次拿到一份完整可逐字照搬的量具：选一个与行为无关的拨杆、把判定器固定在两臂之间不变、然后报告四个转移计数（由错变对 / 由对变错 / 两臂都对 / 两臂都错），而不是报那个差值。这是本轮全部事项里工作量最小、收益最大的一项，且零 GPU。它应当排在把 452 条改造成封闭选项池之前。",
+      "why_not_candidate": "这是对判定链路本身的审计动作与报告口径改动，不是被测系统上的单变量改动，也无法给出预计正确性净修数。",
+      "external_evidence": "arXiv:2608.19652 Table 8。设计原文：on LongMemEval multi-session oracle (n=50 paired items, identical prompts, full history in context so no retrieval confound): the only manipulation is enabling DeepSeek-V4-Flash's native reasoning trace, with the judge held constant across arms。结果：thinking off 42/50 = 84.0%，thinking on 38/50 = 76.0%，差 −8.0 个百分点；四格转移为 off-fail→on-pass 3、off-pass→on-fail 7、both pass 35、both fail 5，即 10/50 = 20% 的条目翻转。论文自陈 the −8.0pp point estimate rests on 3 rescues against 7 new failures。该论文的其余部分无法提供第二个翻转率数据点，因为 Each reported number is a single run per configuration: all answer and judge models decode at temperature 0 with reasoning traces disabled——即 Table 8 是全文唯一的翻转率测量。与既有证据的关系：这是 ComponentBench 2608.18307 那条发现（两次运行聚合完全相同 52.5% 却有 17.3% 逐条翻转，pass→fail 与 fail→pass 在聚合上互相抵消）的第二个独立复现，来自完全不同的领域与团队，因此该现象应按已复现处理。拨杆选择建议：该论文选的推理轨迹开关与 2608.12880 的行为无关元数据标志位同构，项目可直接沿用后者已有的翻转清单。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19652",
+        "https://arxiv.org/abs/2608.18307",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "closed-pool-grading-with-executable-broken-baselines",
+      "kind": "evaluation_buildout",
+      "summary": "把项目 452 条自建判定改造成封闭选项池，并配一族可执行的坏读者基线，从而使注入故障召回率按构造成立——这是项目 452 条目前完全缺失的能力。构造时同时算出金标准、一个已知坏基线会给出的具体错误答案、以及若干中性干扰项，提问时不展示池；只保留至少一个坏基线与确定性重放不一致的条目，那些不一致的基线随即构成该条目的失效模式签名。这一步同时完成选样与失效标注。随后报告确定性份额作为第一个判定器审计数字：纯字符串匹配能定下多少条，以及判定器在该子集上的一致率。",
+      "why_not_candidate": "这是评测集重建与判定链路审计动作，不是被测系统上的单变量改动，也无法给出预计正确性净修数。",
+      "external_evidence": "arXiv:2608.19652（Can Agent Memory Systems Track Evolving State?, Xinyi Fan* + Miri Liu* + Ruozhen Yang + Siru Ouyang + Jiawei Han, 全部为 UIUC, cs.AI + cs.CL, 2026-08-20T05:41:23Z, 23 页, 论文许可证 arXiv 非独占分发）。构造原文：We generate each scenario as a symbolic event program, or a sequence of typed state operations (rule declarations, value updates, scoped exceptions, commitments, and retractions) over ground, derived, and declared state. The correct answer to a probe is computed by replaying the program through a deterministic evaluator。坏读者基线原文：we implement a family of lazy reader policies. These are small executable heuristics which each answer the probe according to some possible failure of a memory system. For instance, systems may trust the most recent mention, trust the most frequent value, return a stated value without recomputing it, or discard an anchored decision too eagerly. We get our trap scenarios exactly when one or more policies disagree with full replay. Those disagreeing policies then form the scenario's failure-mode signature。五类失效模式为 status / salience / sequence / compound / anti-trap，其中 anti-trap 是锚定答案才正确、只有过度作废的策略才会偏离——项目应当加这一类以抓住奖励过度作废的判定器。封闭池原文：Probes are closed-pool, meaning that at scenario generation time we construct a set of plausible answers, though these are not shown at probe time. In addition to the gold truth, the pool contains the targeted policy's computed drift answer … as well as relevant neutral distractors (3–4 options total)，并且 Gold and drift are computed before rendering, so the renderer cannot alter trap semantics。确定性份额的参照值原文：a deterministic word-boundary matcher decides the 28% of answers that name exactly one pool option verbatim and agrees with the judge on 94.1% of those; the judge maps the rest, which name zero or several options。规模：Set A 190 个单探针场景（18 会话、中位 165 轮、约 3k token），Set B 44 个三线索融合场景（约 38 会话、中位 599 轮、7–15k token），合计 234 场景 / 322 个受评探针。一处必须随引用同行的限定：其难度门是 LLM 的（强读者 sonnet-4.6 需在 2/3 采样上复原金标准，弱读者 haiku-4.5 需在 3/5 上产出漂移答案），论文自陈后果 the answerability threshold is ≥2/3, not 1.0, so absolute scores sit against a ceiling somewhat below 1.0。另注开放状态见 statemembench-annotation-kit-is-tier-three。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19652"
+      ]
+    },
+    {
+      "id": "llm-judge-binary-only-mechanism-fixed-by-construction",
+      "kind": "process_rule",
+      "summary": "为项目的判定链路写死一条硬规矩：判定器最多只能向 LLM 索取一个二元判定；失效类别必须由构造固定，绝不允许由 LLM 事后归因。依据不是「作者没做人工核对」这种程序性批评，而是一个量化结论——二元判定的判定器间 κ 可以达到 fair-to-substantial，而「是哪一种失效机制」的 mode-κ 在每个基准上都接近零。即这类细粒度标签本身就没有可复现的信号。配套第二条：任何由判定器给出的失效率都是上界而非真值，因为人工标注给出的失效一致地比判定器更少。",
+      "why_not_candidate": "这是判定链路的记录与筛查规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19652 Table 7 与附录 A.4。mode-κ 原文：Mode κ (which drift sub-mechanism) is near zero on every benchmark (0.00–0.09) while binary κ is fair-to-substantial: judges agree on whether a failure is drift but not on why the wrong fact won. This is the empirical basis for … mechanism must be fixed by construction rather than inferred post hoc。逐基准数值（n / 一致率 / κ / PABAK / AC1 / mode-κ）：MA-shopping 179 / 91.6% / 0.17 / 0.83 / 0.91 / 0.00；MA-search 110 / 72.7% / 0.31 / 0.45 / 0.55 / 0.09；LME oracle 36 / 77.8% / 0.67 / 0.56 / 0.56 / 0.01；LME oracle 跨族 36 / 69.4% / 0.37 / 0.39 / — / —。人工锚定（在一个刻意富集争议样本的子集上，两套协议）：Track A 结构化 n=12，让标注者回答固定子问题并由回答推导类别 so the taxonomy cannot be imposed by the form，二元漂移 83.3% 原始一致、κ=0.43、PABAK=0.67，而完整类别标签只有 50.0% 原始一致、κ=0.42；Track B 盲测 n=6，标注者在看到分类体系之前先自由描述，表层观察标签 κ=0.80（83.3% 原始一致），且 12 条盲测描述全部映射进已有类别、无需新增。上界结论的关键数字原文：Binary agreement with the judge is 58.3% and 41.7% for the two annotators, and both assign less drift than the judge (8.3% and 25.0% vs 50.0% on this disputed-enriched sample)，论文因此自陈 rates are judge-labeled upper bounds 与 Where humans depart from the judge they assign less drift, so judge rates are a ceiling within an already-conservative procedure。其保守化机制另有两层：一个对抗性过滤器试图把每个漂移候选重新归类，downgrades 32–47% of candidates across benchmarks；跨族确认要求两个模型族都判为漂移才计入（DeepSeek 一遍得 63.9%、GPT-4o 得 55.6%、确认后为 44.4% 即 16/36）。与既有记录的关系：这为 08-20 记录的三篇（SemaPLC 的作者重写判定器、ComponentBench 的 GPT-5.4 失效归因与 Claude Opus 4.8 单次复核、2608.18351 的 Codex/Claude Code 生成权限包络）提供了量化的否定依据——它们的机制标签不可信不是因为流程疏漏，而是因为该类标签在统计上等于噪声。另一独立佐证来自 2608.19901，它明确拒绝做同一件事：We do not assign semantic error cause labels to individual false positives or false negatives. Automated keyword summaries are used only as inspection aids and have no human-verified causal-annotation status。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19652",
+        "https://arxiv.org/abs/2608.19901",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "deterministic-pre-broadcast-action-gate-shape",
+      "kind": "design_constraint",
+      "summary": "项目的播报前动作门第一次有了一个可读的实现形状，而且它是一个运行时而不是一个 LLM 审阅者——正是 08-20 从 SemaPLC 得出的唯一可能塞进时延预算的形状。四条规则加一条状态机约定可直接搬：拒绝必须返回实时车态加理由而不是光秃秃的拒绝；门在结构上永不得触碰评分器；生成出来的门代码在隔离子进程里运行；跨进程边界传的必须是数据而不是句柄；以及门自身出错时必须落到第三种状态而绝不可退化成放行，且门的覆盖率与门的准确率分开报告。",
+      "why_not_candidate": "这是设计约束与只读审阅任务的登记，不是被测系统上的单变量改动；项目当前没有动作门这一层，无可施加对象。",
+      "external_evidence": "arXiv:2608.19880（EnvHarness: Awakening Static Worlds for Agent Learning, 17 名作者, 华盛顿大学圣路易斯 + Google Cloud AI Research + Google Cloud + UNC, cs.AI + cs.CL + cs.LG, 2026-08-20T10:42:06Z, 41 页, 论文许可证 CC-BY-4.0）与其官方仓库 github.com/google-research/envharness（Apache-2.0，LICENSE 11,357 字节逐字为未修改 Apache 文本，GitHub license 字段报 Apache-2.0 且本例中该字段是对的，242 条目，9 stars，created 2026-08-07T14:59:24Z，pushed 2026-08-21T00:45:50Z）。规则来自一手读过的 envharness/harnesses/rules.py（8,274 字节），三个纯函数式逐步钩子为 filter_action(action, env_state)、modify_transition(action, response, env_state)、filter_observation(obs, env_state)。规则一原文（源码注释）：A bare [blocked] Observation would strip env-critical obs.data (webarena's browsergym_raw, alfworld's admissible_commands) and strand or crash format-specific policies on their next act()——拦截返回带类型的 Blocked(reason=...)，且拦截路径保持环境不变、重新观测、把当前状态连同理由一起交回。规则二原文（论文侧）：Because all interventions remain external, the ground-truth evaluation logic is preserved, ensuring the original verifier still can score the episode；源码侧的对应说明为 R (modify_reward / step_reward). Eval success is the env's terminal info[won], not cumulative reward, so R hooks would be no-ops for the eval metric。规则三原文：生成组件在隔离子进程中运行 so a bad mutation becomes a recorded trace instead of a dead run。规则四：get_env_state() 必须携带数据而非句柄，因为钩子跨进程边界。第三状态来自 arXiv:2608.19901：Technical failures remain a third state, ABSTAIN ERROR, and are never silently converted to benign predictions. Primary binary metrics therefore use successful scans while reporting coverage separately。选型侧的配套论据同样来自 2608.19901：在 source-disjoint 协议下，学出来的 word-SVM 门取得 95.6% 恶意召回却付出 62.4% 良性误报（标掉 340/545 条良性、只漏 37/839 条恶意；SRC011 单独贡献 293 个误报），作者结论为 no detector occupies the desired high-recall, low-FPR regime on held-out sources——这是播报前动作门必须是确定性 schema 与车态校验、而不是学出来的分类器的最强外部论据。一条存在性证明：确定性方法的重复运行翻转率可以真正为零，2608.19901 以种子 42/43/44 且划分冻结跑出 standard deviation 0 in the frozen result table，因为 TF-IDF 加线性模型本身确定。EnvHarness 侧另有一条方法学正面记录：其 LLM 只做提议者（诊断弱点并写出 Python 组件），原基准验证器原封不动地裁决，是 Thinkingbox 之后关于判定确定性、归因才允许用模型的第二个正面先例。开放状态：代码第二档且为产品（README 23,001 字节，两次引用 arxiv.org/abs/2608.19880 并复现 Table 2–3），但有一处文件级缺口——论文 Table 4 报告 ALFWorld 与 WebShop 两个 RL 结果，而 242 条路径中 webshop 出现 0 次、README 从不提及，即整个 WebShop 列（Score 79.2 对 75.6、SR 67.4 对 66.0）没有任何已发布的桥接或实验；权重从未提供；数据部分随仓库发布。两处不一致按原样记录：OfficeQA 的 F1 增量论文 Table 3 写 +1.96 而 README 写 +1.97（57.73 − 55.77 = 1.96，README 是错的那个）；摘要称为 RL 提供更优优化信号而 Table 4 四项中有一项退化（ALFWorld OOD 88.8 对 89.6）且该表全表无标准差，正文诚实披露，属摘要层面省略。另记一条对项目开放问题的否定回答：EnvHarness 是在训练期限制动作集、随后在标准不受限实例上评测，因此它证明的是训练期限制能改善不受限评测，而不是推理期限制；08-19 从 2608.14036 推出的假设在第三次尝试后仍然开放。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19880",
+        "https://github.com/google-research/envharness",
+        "https://arxiv.org/abs/2608.19901",
+        "https://arxiv.org/abs/2608.18565"
+      ]
+    },
+    {
+      "id": "evidence-tier-gating-for-the-452-item-set",
+      "kind": "evaluation_buildout",
+      "summary": "给项目 452 条自建判定各打上两条正交轴的标签——标注强度与证据类型——并写死一条硬门：弱档或仅有自动扫描器支持的证据永不用于设定阈值。同时预先声明一个 llm 证据档，使得凡是 LLM 标注的东西在表里是可见的，而不是被悄悄提升为真值。这是目前可见的最便宜的判定器升级，且与既有的 grader-treatment-invariance-audit 所要求的输入排除清单天然互补。另附一个作用在模型特征侧的泄漏扫描器，与条目侧的禁用短语扫描器构成两道互补的检查。",
+      "why_not_candidate": "这是评测集元数据标注与判定链路审计动作，不是被测系统上的单变量改动，也无法给出预计正确性净修数。",
+      "external_evidence": "arXiv:2608.19901（MaliciousSkillBench, Yue Wang + Yi Liu + Gelei Deng + Ying Zhang + Yuekang Li + Zhenyu Chen + Leo Zhang, 南京大学软件新技术国家重点实验室 + 格里菲斯大学 + 南洋理工 + 维克森林 + 新南威尔士, cs.CR + cs.AI, 2026-08-20T11:13:00Z, 49 页, 论文许可证 arXiv 非独占分发, 项目页 protectskills.github.io/MaliciousSkillBench/）。两条轴的取值分布：标注强度 strong 10,525 / moderate 2,275 / silver 169,676 / weak 223；证据类型 human+runtime 4,621 / runtime 141 / static 2,359 / scanner 169,676 / constructed 5,902。正交性原文：evidence type must not be interpreted as an ordinal confidence score。硬门原文：8,414 条原始 Core 恶意制品 contain only strong (8,237) or moderate (177) labels, supported by constructed (3,966), human+runtime (4,180), static (177), or runtime (91) evidence. Scanner-only evidence therefore never enters Core malicious ground truth——据此仅凭证据类型就把 182,699 条注册表记录中的 169,676 条排除在主要真值之外。预声明未使用档位原文：human, llm, unknown — Controlled vocabulary values reserved for explicit human-only, LLM-only, or unavailable evidence; not observed in the frozen analysis manifest。特征侧泄漏扫描器原文：The feature-marker audit searches exported top linear features for explicit source IDs, benchmark IDs, and configured dataset-name markers and records zero marker hits. Source identifiers are also excluded from detector inputs by construction，且作了正确限定 This reduces the likelihood of a trivial metadata leak but does not establish source invariance。条目侧扫描器来自 2608.19652：programmatically verify that the load-bearing facts appear, and appear in the correct assigned session, as well as that no banned phrases appear in the final scenario. Any scenarios that fail are re-rendered until they pass。该论文另有三条值得记的品质标志：它把少数类必须给召回当成论文主张本身（每个工作点都同时给出召回与良性误报率 95.6%/62.4%、2.5%/1.1%、0.0%/0.55%、25.3%/49.9%）；它对硬件的处理是本项目见过最好的一例（The frozen run package does not record an exact host Python version, operating-system build, CPU model, RAM size, or GPU model, so we do not invent those fields here）；以及它主动交代了七处上游来源的自相矛盾并给出规矩 Paper-reported size 与 artifact-level samples available for a frozen evaluation snapshot 是两个不同的量。开放状态与许可证陷阱：代码 Apache-2.0（LICENSE 11,358 字节）、数据 CC-BY-4.0 且非门控非私有（HF ProtectSkills/MaliciousSkillBench，primary.parquet 28,600,360 字节，模型卡 arxiv: 标签为 arxiv:2608.19901 指向正确）；但 THIRD_PARTY_NOTICE.md 写明 Third-party Skill artifacts included or referenced by this project are not relicensed under Apache-2.0 or CC BY 4.0. Those artifacts retain their respective upstream terms and attribution requirements，而其 Table 6 列出的上游许可证中 SRC001 为 academic-research-only、SRC006 为 terms not provided、SRC010 为 CC-BY-NC-SA-4.0——聚合许可证只清理了基准自身的元数据层。另有一处文件级缺口：附录 G.6 声称冻结包保留五类制品，而 GitHub 56 条目与 HF 18 文件中对 joblib|seed|estimator|minilm|embedding 的命中数全部为零，五类中有四类两处都不存在。一处来源独立性问题论文未说明：SRC002 为 huggingface.co/datasets/ProtectSkills/MaliciousAgentSkillsBench，与本论文发布方为同一组织，而 author-provided historical artifact snapshots 这一措辞未披露该关系；SRC002 与 SRC004 合计 236 条原始 Core 恶意记录依赖非公开快照。其唯一的 LLM 验证是正向单侧的（Table 18：72 个盲审配对全部判为同一结构模板、0 个不同、0 个不确定），论文自陈 this validation remains a bounded positive-coherence check 且 The blind review is identified in the paper as LLM-based and is not treated as human ground truth；全篇人工标注者间一致性统计为零。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19901",
+        "https://arxiv.org/abs/2608.19652",
+        "https://arxiv.org/abs/2608.12880"
+      ]
+    },
+    {
+      "id": "statembench-annotation-kit-is-tier-three-and-worth-tracking",
+      "kind": "tracking",
+      "summary": "把一份声称已发布、却在全文任何位置都没有给出地址的制品列入追踪，且它是追踪表上价值最高的第三档条目。论文声称发布了基准本身与一套标注工具包（表单、答案键、分析器），而那套工具包恰恰是本批次里对项目最直接可用的东西——它是上面那条「人工锚定必须由回答推导类别，而不能由表格强加范畴」的可执行实现。规则不变：第三档 unverifiable 与第五档「给了 URL 而 URL 失效」必须分开，前者没有可证伪的对象，后者应设复查节奏。",
+      "why_not_candidate": "这是追踪项的登记，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19652。发布声明原文两处：We release StateMemBench；以及 The annotation kit (forms, keys, and the analyzer) is released with the benchmark。核实结果：23 页全文没有给出任何指向作者制品的 URL。PDF 超链接注解仅一条，为其自身的 arXiv 自链接；全部五条裸 URL 均为第三方引用——https://github.com/microsoft/STATE-Bench（被引用的他人基准，已核实该仓库确实存在且属 Microsoft）、https://openai.com/index/new-embedding-models-and-api-updates/、微软 opensource 博客（STATE-Bench 公告）、https://qwen.ai/blog?id=qwen3.5、以及 Instacart 数据源页。全文无脚注、无匿名镜像、无 upon acceptance、无 available on request。因此代码与数据均为第三档 unverifiable，许可证未知（论文自身的 /License 为 arXiv 非独占分发，只覆盖 PDF）。一处方法学提示：对 statememb/StateMemBench、uiuc-kbnlp/StateMemBench、StateMemBench/StateMemBench 的猜测式探查均返回 404，但这属猜测而非证据，且已认证的 gh 对私有仓库同样返回 404，故不可作为不存在的证明；可报告的事实只是论文未给出任何位置。另记该论文两处摘要级不一致：其一，摘要的 1.6× 只有在把 GraphRAG（0.224）归类为 graph-RAG 系统而非记忆系统时才成立，而正文自己的检验说两者持平（McNemar over the 322 shared probes: 38 vs 35 discordant, p=0.82）；其二，摘要未提一个消融优于头条方法——DeepSeek 上 w/o dep.-propagation 为 0.373 高于完整 StateMem 的 0.363，正文如实披露但表注把消融排除在加粗竞争之外。同轮另加两个追踪项：EnvHarness 的 WebShop 桥接是否补入 google-research/envharness；MaliciousSkillBench 附录 G.6 所列而两处均缺失的四类制品（逐种子指标表、seed-42 序列化估计器、MiniLM 嵌入矩阵、嵌入方法学清单）是否补齐。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19652",
+        "https://arxiv.org/abs/2608.19880",
+        "https://arxiv.org/abs/2608.19901"
+      ]
+    },
+    {
+      "id": "harness-now-has-five-senses",
+      "kind": "process_rule",
+      "summary": "术语陷阱清单更新：harness 现在有五个义项，且本轮出现一篇论文在同一篇内有意并用其中两个。在既有三义之外新增环境脚手架与可执行测试运行器制品两义。规则不变：确认词义在上下文中的展开之后才可记录事实；但追加一条——一篇之内并用两义未必是混用，也可能正是该文的论点，需分辨后再记。",
+      "why_not_candidate": "这是筛查规则，不是被测系统上的改动。",
+      "external_evidence": "既有三义：训练脚手架 2608.03571；执行脚手架即 Evo-Bench 义 2608.09096（SemaPLC 2608.18565 亦用此义，且同篇另用了程序被部署进去的 ST 外壳这一第二义）；普通动词 2608.19013 Harness Continual Learning。新增第四义，环境脚手架：2608.19880 自定义 We define EnvHarness as a programmable layer that wraps an existing, static environment and turns it into a customizable one (Customized Env = Static Env + EnvHarness)，并与执行脚手架并列——An agent harness … is the software layer (execution loops, tool registries, and context management) that wraps a LLM to form an autonomous agent (Agent = Model + Harness)，其 Table 1 为两者的显式类比表，Figure 2 图注写 EnvHarness applies this same principle to the other side of the interaction；即一篇之内有意并用义项二与义项四。新增第五义，可执行测试运行器制品：2608.19901 仅在此窄义上使用，从不用于指脚手架。反例：2608.19652 全文从不出现该词。另记 skill 一词同轮亦有两义：2608.19880 的 skill 是检索进提示词的自然语言程序性记忆条目（沿用 ReasoningBank 设计并说明），而 2608.19901 的 skill 是可安装指令包，与 08-19 记录 2608.14036 时的义项一致（installable packages that combine natural-language instructions with scripts, templates, resources, and service configuration）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19880",
+        "https://arxiv.org/abs/2608.19901",
+        "https://arxiv.org/abs/2608.19013",
+        "https://arxiv.org/abs/2608.14036"
+      ]
     }
   ]
 }
