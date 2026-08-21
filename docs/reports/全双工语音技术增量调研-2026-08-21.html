@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-21</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-21</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-21</p>
+<p>对比基线：</p>
+<ul>
+<li><code>reports/全双工语音技术增量调研-2026-08-20.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>本轮证据边界（先写清，后面所有数字都受它约束）</h2>
+<p><strong>项目侧无新增。</strong> 项目快照仍是 2026-08-10 10:30 那一份，最新提交仍为 2026-08-04，最近一次 H20 A/B 仍是 2026-08-03。本轮没有新提交、没有新基准、没有新负面结果。</p>
+<p><strong>Radar 连续第九轮未刷新。</strong> <code>data/items.json</code> 的 <code>generated</code> 仍是 <code>2026-08-12T09:30:35+08:00</code>，条目仍为 499，新增 0 条。直接检索仍是唯一发现通道。</p>
+<p><strong>索引继续按每天一批推进。</strong> 08-20 报告记录当时全站最新投稿为 <code>2608.19197</code>（2026-08-19T17:58:56Z）。本轮同一查询（<code>all:a</code>，不限类别，按投稿时间倒序）返回 <strong><code>2608.20340</code>（2026-08-20T17:59:59Z）</strong>，即只新增了 08-20 一个批次。截止时刻仍落在 17:5x 的 arXiv 每日 14:00 ET 截稿边界上，<strong>这是连续第五次观测到索引按整批推进，从不逐篇推进</strong>。</p>
+<p>窗口按投稿时间取 <strong>2026-08-19T18:00Z 至 2026-08-21T02:30Z</strong>：起点定在 08-19 批次截稿边界之后，与 08-20 报告实际覆盖到的最后一篇（投稿时刻 2026-08-19T17:58:56Z）严格衔接且不重叠；实际可覆盖到的最后一篇为 2026-08-20T17:59:59Z。14 组查询去重后 <strong>78 篇</strong>。对照查询正常：<code>cat:cs.SD</code> totalResults <strong>21,749</strong>（08-20 为 21,740、08-19 为 21,728），<code>cat:eess.AS</code> <strong>22,209</strong>（08-20 为 22,202），<code>cat:cs.CL</code> 116,790，<code>cat:cs.MM</code> 9,947。<strong>一切论文一律按投稿时间归属，不按发现时间归属。</strong></p>
+<p><strong>下一轮窗口起点：2026-08-20T18:00Z。</strong></p>
+<p><strong>本轮是&quot;篇数中等、语音类目近乎枯竭、而最强线索来自非语音类目&quot;的一轮。</strong> 78 篇里语音相关的查询组几乎全线为零：<code>speech language model OR spoken dialogue OR speech-to-speech</code> <strong>totalResults = 0</strong>、<code>speech recognition AND (streaming OR online OR latency)</code> <strong>0</strong>、<code>spatial audio OR binaural OR ambisonic</code> <strong>0</strong>、<code>speech evaluation OR audio benchmark OR MOS prediction</code> <strong>0</strong>。<strong>而本轮的 P0 来自 <code>cat:cs.HC</code> 一组，这是第 14 组查询连续第二轮独家命中当轮最重要线索。</strong></p>
+<p><strong>本轮逐版复核为零新增，这是第一次。</strong> 47 个追踪 ID 一次批量查询，3 个为非 v1（<code>2608.13416v2</code>、<code>2608.10878v2</code>、<code>2608.14097v2</code>），<strong>三个全部是此前已经逐版差分过的</strong>（StreamTTT 与 Ambisonics 于 08-19、X2-Turn 于 08-20）。没有任何追踪项在本窗口内产生新修订。<strong>这一条必须明写，否则&quot;版本通道无产出&quot;会被误读成&quot;没查版本通道&quot;。</strong></p>
+<p><strong>main 的恢复。</strong> main 此前仍停在 2026-08-10 的报告（<strong>连续第九轮</strong>，其 HEAD 提交标题却是 <code>radar: 2026-08-12</code>）。本轮已先把 08-11 至 08-20 的 14 份报告与 8 份候选台账恢复到主线，再写今日报告。</p>
+<p>制品复核时刻为 2026-08-21，晚于 02:30 的论文截止时刻。</p>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>首音频约 3 秒，瓶颈在外挂 Edge TTS</td><td>A/B 首音频 P50 2,918ms / 3,491ms，P90 3,453ms / 4,171ms，而首文本最快 131ms</td><td><strong>本轮无新增。</strong> TTS 一组 3 篇中 2 篇是假阳性（量子张量网络去噪、粒子物理），唯一相关的 2608.19959 是合成语音欺骗性研究，不含合成质量或时延</td><td>沿用 08-20 的 X2Streaming-TTS 只读审阅计划</td><td>首音频 P90≤1,000ms；中文 CER 不劣于 Edge</td></tr>
+<tr><td>判停/打断&quot;该不该发生&quot;缺判据来源（<strong>本轮最大进展</strong>）</td><td><code>probe_turn_end</code> 已实测主模型自判停不可行（负面结果）</td><td><strong>MaAI（<code>MaAI-Kyoto/MaAI</code>）</strong>：实时连续的判停 / 应答（backchannel）/ 点头预测软件，<strong>MIT 代码、支持中文、可纯 CPU 运行</strong>，2026-08-09 起连续新增 VAD 与 backchannel 检测模型；配套论文 <strong>2608.19527</strong> 给出该机制的人因效果与一条<strong>倒 U 型</strong>约束</td><td>用 MaAI 的中文 <code>vap_bc_ch</code>（MIT 权重）在项目 452 条基准音频上跑离线应答时机预测，与现有端点判定并列记录；<strong>先只做旁路观测，不接入播报路径</strong></td><td>判停信号完全走音频通路之外的旁路；每个可插入点有可核验依据；<strong>应答频次必须设上限而非越多越好</strong></td></tr>
+<tr><td>判定器处理不变性未验证（<strong>优先级仍最高</strong>）</td><td>2608.12880：只翻转与行为无关的元数据即改变 180 条中的 31 条判定</td><td><strong>Thinkingbox（2608.19741，微软）</strong>：507 任务 × 20 次重复 × 12 模型，GPT-5.4 的 pass@20 <strong>91.12%</strong> 而 pass^20 只有 <strong>25.25%</strong>；且明写&quot;工具调用层面的信号不是端到端任务完成的清晰代理&quot;</td><td>对项目 452 条自建判定改报 <strong>pass@k 与 pass^k 一对数字</strong>，而不是单次通过率；先在最小子集上试算重复成本</td><td>聚合通过率旁必须并列逐条翻转率；<strong>不得再用单次运行的 80.49% 严格工具名召回作为唯一头条</strong></td></tr>
+<tr><td>回声消除与扬声器泄漏零一手依据</td><td>项目从未获得任何 AEC 正文证据</td><td><strong>连续第九轮为零。</strong> 本窗口该组 totalResults = <strong>1</strong>，且该 1 篇是无人机 IRS-ISAC 保密速率（非声学）。<strong>但 MaAI 的双通道 VAD 第一次给了&quot;泄漏的下游后果&quot;一个可用制品</strong>——它不消除回声，而是在串音下判断谁在说话</td><td>不写任何 AEC 结论；<strong>MaAI VAD 只能记为&quot;串音鲁棒的归属判定&quot;，不得记为 AEC 证据</strong></td><td>需要一篇因果、可流式、带下游指标、且含自身播放参考抽头的一手论文</td></tr>
+<tr><td>多乘员插话、&quot;谁在说话&quot;无任何一手依据</td><td>项目评测集为单说话人合成音频</td><td>论文侧仍为零（<code>target speaker</code> 一组 1 篇且是 EEG 听觉注意解码 ASIC）；<strong>制品侧首次有进展</strong>：MaAI <code>vad</code> 双通道跨通道注意力，训练含噪声与 RIR 增强</td><td>沿用架构约束（身份判定走旁路）；<strong>注意 MaAI 的双通道是&quot;用户 vs 系统&quot;而不是&quot;乘员 A vs 乘员 B&quot;，不可直接当多乘员方案</strong></td><td>判定信号与音频通路解耦；多乘员需另找证据</td></tr>
+<tr><td>工具/动作通道缺&quot;播报前动作门&quot;</td><td>工具名严格召回 80.49%，无泄漏扫描器、无重复运行翻转率</td><td><strong>Thinkingbox</strong> 的判定用<strong>确定性哈希断言</strong>比对终态数据库与黄金态，LLM 只用于失败归因、不进入判定</td><td>照抄其&quot;判定确定性、归因才允许用模型&quot;的分层；并照抄其试次隔离要求</td><td>判定链路零 LLM；两次试次不得共享任何状态</td></tr>
+<tr><td>MoE 解码 110ms/token 与首包 prefill</td><td>每 token 约 816 次 GPU→CPU 同步</td><td><strong>ReCache（2608.19662）</strong>：工具 schema 级 KV 复用，TTFT 26.319→7.200ms（3.655×）、KV 显存 −92.43%</td><td><strong>不进入候选。</strong> 其 TTFT 定义为&quot;缓存命中下&quot;且明确排除离线构建成本</td><td>任何 prefill 收益必须在冷首次请求下复测</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：MaAI —— 追踪表上第一个&quot;中文可用 + 代码 MIT + 可纯 CPU 运行&quot;的实时判停/应答制品</h3>
+<p><strong>这一条的形状与以往都不同：核心价值在制品，论文只是发现通道。</strong> 本轮通过 <code>cat:cs.HC</code> 查询命中论文 <strong>2608.19527</strong>《Does Listening Matter? Backchanneling and Nodding in AI Clone》（京都大学 Inoue/Kato/Kawahara + Sony CSL Kasahara，2026-08-20T00:53:25Z 投稿，v1，5 页，cs.HC，ICMI 2026 Late-Breaking Results track）。论文本身是一份小规模人因研究，但它使用的预测组件指向一个此前从未进入过本项目追踪表的开源软件：<strong><code>github.com/MaAI-Kyoto/MaAI</code></strong>。</p>
+<p><strong>一手核实结果（全部通过 GitHub / Hugging Face API 直接核对，非转述论文）：</strong></p>
+<ul>
+<li>仓库存在，<strong>MIT</strong>（LICENSE 文件 1,078 字节，逐字读为标准 MIT，版权方 &quot;MaAI Development Team&quot;，2025 年），created 2025-07-04T07:12:01Z，<strong>pushed 2026-08-19T08:02:06Z</strong>，224 个 blob 合计 <strong>88,247,753 字节</strong>，120 stars，最新 tag <code>v0.2.15</code>。</li>
+<li>功能覆盖四类：<strong>判停（Turn-Taking，VAP）</strong>、<strong>语音活动检测（VAD）</strong>、<strong>应答预测与应答检测（Backchannel prediction / detection）</strong>、<strong>点头预测（Nodding）</strong>。</li>
+<li><strong>语言覆盖含中文。</strong> 主 README 自述 &quot;Currently available for English, Chinese, and Japanese languages&quot;。</li>
+<li><strong>可纯 CPU 运行。</strong> 主 README 自述 &quot;Thanks to its lightweight design, MaAI operates efficiently, even exclusively on CPU hardware&quot;。</li>
+<li><strong>帧率是用户可设的参数</strong>，因而算法块长可直接换算：判停与应答模型支持 <strong>5 / 10 / 20 Hz</strong>（CPC 编码器，<code>model_type=&quot;normal&quot;</code>）或 <strong>12.5 Hz</strong>（Mimi 编码器，<code>normal-ver2</code>）；VAD 支持 <strong>10 / 20 / 50 Hz</strong>（CPC）或 12.5 Hz（Mimi）。</li>
+<li><strong><code>MaaiMultiple</code> 让多个模型共享同一个音频编码器</strong>，官方说明为&quot;（相对昂贵的）编码器每音频帧只运行一次&quot;。</li>
+</ul>
+<p><strong>编辑判断：这正是项目 <code>probe_turn_end</code> 负面结果所指向的那种结构，而且是第一个不需要 GPU 的。</strong> 项目已实测&quot;主模型自己判停&quot;不可行；X2-Turn（08-20 的并列 P0）给出的替代路线是&quot;判停头与 ASR 头并行、不回灌解码&quot;，但那是一个 4B 模型、要占 GPU。MaAI 给出的是<strong>更彻底的解耦</strong>：它完全不做 ASR、不做语义，只从声学流连续预测非语言行为，因此可以整个搬到 CPU 上，与被 MoE 主模型占满的 GPU 互不争抢。<strong>对一个 GPU 已经是瓶颈的车机，这个属性的价值可能高于精度本身。</strong></p>
+<p><strong>但开放状态是本轮最需要小心的一条，因为它是&quot;代码一个许可证、权重三个许可证&quot;的拼盘。</strong> 详见第 1 节。一句话结论：<strong>中文应答预测权重 <code>vap_bc_ch</code> 是 MIT，可商用；而中文判停主力权重 <code>vap_ch</code> 是 CC-BY-NC-ND-4.0，不可商用且不可衍生</strong>；其 MIT 替代品 <code>vap_ch_kyoto</code> 存在但<strong>能力严格更少</strong>（只有 5Hz 与 10Hz 两个文件，无 Mimi 12.5Hz、无 20Hz、无短上下文变体）。<strong>&quot;MaAI 是 MIT 的&quot;这句话是错的，必须逐模型看。</strong></p>
+<h3>P0（同一条脉络）：2608.19527 的真正价值是一条倒 U 型约束，不是那三个显著性</h3>
+<p><strong>论文事实。</strong> N=35 名日语母语者（本科/研究生），被试内设计，AB/BA 配衡，单尾配对 t 检验。加入应答与点头后显著改善的是三项：<strong>注意感 5.29 对 4.80（p=.018）</strong>、<strong>真实感 4.77 对 4.29（p=.006）</strong>、<strong>共在感 4.60 对 3.94（p=.002）</strong>；亲近感（p=.081）与参与感（p=.089）为边缘显著；其余四项无显著优势。九项量表内部一致性 Cronbach&#x27;s α 为 .77 / .81。顺序效应检验九项全部 p&gt;.21。</p>
+<p><strong>论文事实（本条最重要）：注意感与应答次数呈显著的倒 U 型关系，二次项 p=.009，在中等数量处达到峰值。</strong> 论文原话是 &quot;simply providing more was not necessarily better&quot;。点头与其余各项均未出现显著曲线关系。系统实际产生的量为：每段对话应答 <strong>27.29 次（SD 7.55）</strong>、每条用户话语 <strong>2.25 次（SD 0.92）</strong>；点头 <strong>21.83 次（SD 6.10）</strong>、每条话语 <strong>1.76 次（SD 0.62）</strong>。</p>
+<p><strong>同等重要的负面结果，论文自己报了：用户的行为一点没变。</strong> 用户话语条数 12.89 对 13.11（p=.516）、平均话语长度 7.30 对 6.93 秒（p=.195）、对话时长 4.90 对 4.83 分钟（p=.300），全部 p&gt;.19。论文自己的解释是&quot;主观评价的改善反映的是用户对交互的<strong>感知</strong>变化，而不是他们自身外显对话行为的变化&quot;。</p>
+<p><strong>编辑判断：这两条合起来，给出了一条项目可以直接执行的设计约束和一条不可用的论证。</strong> 可用的是：<strong>应答频次必须设上限，且&quot;更多&quot;会反向伤害注意感</strong>——这是目前唯一一条把&quot;应答不是越多越好&quot;变成显著性检验结果的一手证据，项目若要做座舱应答，这条应当在第一版就写进参数表，而不是上线后靠投诉发现。不可用的是：<strong>不能用它论证应答能提升任务效率或缩短交互</strong>，因为论文自己的行为数据在这一点上是零效应。</p>
+<h3>P1：Thinkingbox —— 它挑战的正是项目现在的头条指标</h3>
+<p><strong>论文事实。</strong> 2608.19741《One Success Isn&#x27;t Reliability: Thinkingbox, a Sandbox and Benchmark for Agents in Stateful Business Workflows》，微软，2026-08-20T07:37:57Z 投稿，v1，45 页，cs.CL，论文许可证 CC-BY-4.0。507 个任务、每任务独立 <strong>20 次</strong>尝试、12 个模型，即每模型 <strong>10,140</strong> 次试次。<strong>GPT-5.4 的 pass@20 达到 91.12%，而 pass^20（20 次全中）只有 25.25%。</strong></p>
+<p><strong>编辑判断：这一条直接指向项目的 80.49% 严格工具名召回。</strong> 论文的核心主张是 &quot;tool-call-level signals are not clear proxies for end-to-end task completion&quot;（工具调用层面的信号不是端到端任务完成的清晰代理）。项目当前的头条数字恰恰是一个工具调用层面的单次运行指标。<strong>加上 08-20 从 ComponentBench 记下的&quot;两次运行聚合完全相同（52.5%）却有 17.3% 的逐条翻转&quot;，现在有两条独立证据说明单次运行的聚合数字会系统性高估可靠性。</strong> 本轮的建议因此是具体的：<strong>把 452 条自建判定改报 pass@k 与 pass^k 一对数字。</strong></p>
+<p><strong>同等重要的正面记录，而且是 08-20 那批的干净反例。</strong> 08-20 记录的三篇（SemaPLC、ComponentBench、2608.18351）判定器或真值都由作者或 LLM 造，人工一致性统计全部为零。<strong>Thinkingbox 反过来：它的主判定是确定性的哈希断言</strong>，比对终态数据库与任务特定的黄金态，LLM 只用于给失败轨迹打归因标签。论文自己把这个取舍写明了：</p>
+<blockquote>&quot;We accept this asymmetry to keep the primary metric deterministic; extending LLM-judged rubrics to every task would reintroduce judge variance into the verdict.&quot;（我们接受这种不对称，以保持主指标的确定性；把 LLM 评判的评分细则扩展到每个任务，会把评判者方差重新引入判定。）</blockquote>
+<p><strong>这正是项目&quot;判定链路不得引入 LLM 判定器&quot;这条既定规则的第一份外部同向证据</strong>，此前记录的都是反面教训。</p>
+<h3>P1（并列）：ReCache 命中了项目的成本结构，但它的 TTFT 定义正是 08-20 记下的那个陷阱</h3>
+<p><strong>论文事实。</strong> 2608.19662《ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents》，2026-08-20T05:57:24Z 投稿，v1，17 页。摘要给出：资源级注意力在 Inv-F1 上 <strong>82.3% 对 Dense 的 82.4%</strong>（差 0.1 个百分点）而 <strong>TTFT 加速 3.655×</strong>（26.319ms → 7.200ms）；完整框架把已分配 KV 张量显存降低 <strong>92.43%</strong>、注意力加速 <strong>1.423×</strong>。规模扩展上：Dense 的 TTFT 随资源上下文增长&quot;从几十毫秒涨到 5,000 毫秒以上&quot;，而其 Ω_full 维持在 50ms 以下，ReCache 近乎平坦、略高于 <strong>5ms</strong>；TPOT 方面 Dense 与 Ω_full 约 11ms 而 ReCache 略高于 6ms；注意力时延 Dense 与 Ω_full 约 5ms 而 ReCache 低于 <strong>0.2ms</strong>；显存 ReCache 封顶在 <strong>0.03 GiB</strong> 而 Dense 与 Ω_full 逼近 <strong>8 GiB</strong>。</p>
+<p><strong>为什么它值得记：项目已经有一条相关的账。</strong> 08-19 记录 2608.14036 的结论是技能&quot;每任务多花 <strong>93.8K</strong> 输入 token&quot;。ReCache 处理的正是这笔开销的结构——把工具/资源 schema 的编码与实际资源访问分开，schema 部分预先编码、跨请求复用。</p>
+<p><strong>但两条边界让它不能进入候选，第一条尤其重要：</strong></p>
+<ol>
+<li><strong>它的 TTFT 明确定义在&quot;缓存命中&quot;之下。</strong> 原文：&quot;We use time-to-first-token (TTFT) to quantify online prefill latency <strong>under a cache hit</strong>, including request-local KV materialization but <strong>excluding offline cache construction</strong>.&quot;（在缓存命中下量化在线 prefill 时延，包含请求局部的 KV 物化，但<strong>排除离线缓存构建</strong>。）<strong>这与 08-20 从 <code>Qwen3TTS-Streaming</code> README 记下的 <code>prefix-cache 命中</code> 是同一个陷阱，而且这次是论文在指标定义里自己写明的。车机的第一句话永远是冷的，因此这组数字对项目最关心的那一次请求不成立。</strong></li>
+<li><strong>代码仓库存在但没有许可证。</strong> 详见第 4 节。</li>
+</ol>
+<h3>P1（并列）：本轮的方法学收获——制品通道找到了论文通道结构上看不见的东西</h3>
+<p><strong>MaAI 不是新东西，它建于 2025-07-04，比本项目的追踪表还早。它之所以到今天才被发现，是因为它十三个月里没有产出过一篇会被本项目的 14 组关键词命中的论文。</strong> 而它在最近十二天里连续新增了实质功能：2026-08-09 加入 VAD 模型、2026-08-12 加入中文 <code>vad_ch</code>、2026-08-17 加入应答检测模型、2026-08-19 加入单通道模式。<strong>这四次更新全部落在本项目最近几轮的报告窗口内，全部被漏掉，原因是它们没有论文。</strong></p>
+<p><strong>编辑判断：这是第三条发现通道，必须与前两条并列固化。</strong> 第一条是 <code>submittedDate</code> 窗口查询（看不见修订版）；第二条是追踪表逐版复核（只能看见已在表内的条目）；<strong>第三条是制品通道——按机构/作者反查 GitHub 与 Hugging Face，它能看见&quot;根本没有论文的活跃工程&quot;。</strong> 08-20 已经记过一次它的价值（一次 <code>/users/X-Square-Robot/repos</code> 调用同时查清三件事），本轮是第二次，且这次它找到的是一个<strong>完全不在追踪表里</strong>的项目。</p>
+<h3>P2：本轮的零结果覆盖面比正面结果更大</h3>
+<p>见第 6 节。<strong>AEC 连续第九轮零一手依据</strong>；语音语言模型、流式 ASR、空间听觉、音频评测四组查询本窗口 totalResults 直接为 <strong>0</strong>；<code>full-duplex OR turn-taking OR barge-in OR interruption</code> 一组返回 3 篇而 <strong>3 篇全是假阳性</strong>，且<strong>本轮真正的判停进展再一次不是被这组命中的</strong>。另发现一处新的查询写法缺陷（见 6.7）。</p>
+<h2>1. MaAI（<code>MaAI-Kyoto/MaAI</code>）</h2>
+<ul>
+<li>仓库：<code>https://github.com/MaAI-Kyoto/MaAI</code>（源码 <strong>MIT</strong>）</li>
+<li>模型：<code>https://huggingface.co/maai-kyoto</code>（<strong>34 个模型，许可证不统一，见下</strong>）</li>
+<li>API 文档：<code>https://maai-kyoto.github.io/MaAI/</code></li>
+<li>关联论文（本轮发现通道）：<code>https://arxiv.org/abs/2608.19527</code></li>
+<li>上游依赖：VAP 原始实现 <code>https://github.com/ErikEkstedt/VoiceActivityProjection</code>；Mimi 编码器 <code>https://huggingface.co/kyutai/mimi</code>（CC BY 4.0）；CPC 预训练模型来自 <code>https://github.com/facebookresearch/CPC_audio</code></li>
+</ul>
+<h3>它是什么</h3>
+<p>一个<strong>实时、连续、轻量</strong>的非语言行为预测软件包，定位是给口语对话系统与交互机器人做&quot;什么时候该接话、该应答、该点头&quot;的判断。它的方法基座是 <strong>Voice Activity Projection（VAP）</strong> 及其扩展。名称取自日语&quot;間 / 間合い&quot;，指人在交互中用各种模态调节的细微时机与间距。</p>
+<p><strong>必须先说清它不是什么：它完全不做 ASR、不做语义理解、不生成文本。</strong> 它只从声学流输出概率。这一点决定了它在项目里的位置——<strong>它是一个旁路信号源，不是一个对话模型</strong>，这正是项目 <code>probe_turn_end</code> 负面结果之后应当走的方向。</p>
+<h3>核心方法（或核心架构）</h3>
+<p><strong>四类模型，逐条记录官方说明：</strong></p>
+<ul>
+<li><strong>判停（Turn-Taking）</strong>：直接使用原始 VAP，预测&quot;下一刻哪一位参与者会说话&quot;。分三个变体：基础 VAP、<strong>噪声鲁棒 VAP（官方标注为&quot;Recommended&quot;）</strong>、单通道 VAP。</li>
+<li><strong>语音活动检测（VAD）</strong>：官方说明写明它与判停模型的区别是&quot;<strong>不预测未来</strong>：它检测每位说话人<strong>此刻</strong>是否在说话&quot;。关键机制是<strong>跨通道注意力联合处理两个通道</strong>，官方原话：&quot;even when one speaker&#x27;s voice leaks into the other speaker&#x27;s microphone (crosstalk), the model can still decide who is actually talking.&quot;（即便一位说话人的声音泄漏进另一位的麦克风即串音，模型仍能判断实际是谁在说话。）训练时加入了噪声与<strong>混响（RIR）增强</strong>，官方因此说明&quot;噪声鲁棒配方就是默认配方……<strong><code>vad</code> 本身就是多条件模型</strong>&quot;，故没有单独的 <code>vad_mc</code> 模式。输出为每通道 [0.0, 1.0] 的概率；二值化默认阈值 <strong>0.5</strong>，官方另注 <strong>0.54 在训练所用开发集上取得最佳 F1</strong>。</li>
+<li><strong>应答（Backchannel）</strong>：分两类。<strong>预测</strong>模型输入 2 通道 16kHz 音频（ch1 用户、ch2 系统），输出应答后验概率 <code>p_bc</code>；另有<strong>两类型</strong>版本。<strong>检测</strong>模型则判断&quot;当前正在说的这句话本身是不是一个应答&quot;。</li>
+<li><strong>点头（Nodding）</strong>：三类点头的预测，另有带运动学参数的版本。</li>
+</ul>
+<p><strong>一条直接可借的工程设计：<code>MaaiMultiple</code> 让多个模型共享同一个音频编码器</strong>，官方说明为&quot;当多个 Maai 模型需要跑在同一条音频流上时，<code>MaaiMultiple</code> 类在它们之间共享单个音频编码器，因此（相对昂贵的）编码器每音频帧只运行一次&quot;。源码侧可佐证这个&quot;相对昂贵&quot;的说法：<code>src/maai/encoder.py</code> 为 <strong>71,539 字节</strong>，是全包最大的单个源文件之一。</p>
+<p><strong>帧率与上下文是显式参数，因此算法块长可以直接换算：</strong></p>
+<table><thead><tr><th>模式</th><th><code>model_type</code></th><th>可选 <code>frame_rate</code></th></tr></thead><tbody>
+<tr><td>判停 / 应答预测</td><td><code>normal</code>（CPC 编码器）</td><td>5, 10, 20 Hz</td></tr>
+<tr><td>判停 / 应答预测</td><td><code>normal-ver2</code>（Mimi 编码器）</td><td>12.5 Hz</td></tr>
+<tr><td>VAD</td><td><code>normal</code>（CPC 编码器）</td><td>10, 20, 50 Hz</td></tr>
+<tr><td>VAD</td><td><code>normal-ver2</code>（Mimi 编码器）</td><td>12.5 Hz</td></tr>
+</tbody></table>
+<p><strong>编辑判断：这张表是本条最实用的部分。</strong> 10 Hz 意味着 100ms 一个块，50 Hz 意味着 20ms 一个块，<strong>而项目此前记录的判停时延口径（X2-Turn 的 288ms 相对词尾）根本无法与之直接比较</strong>。MaAI 把&quot;算法块长&quot;这一项变成了可选参数，项目可以据此在&quot;块长 / 精度 / CPU 占用&quot;三者间自己做取舍——<strong>这是追踪表上第一个把这个取舍交给使用方的判停制品</strong>。</p>
+<p><strong>注意 12.5 Hz 又一次出现。</strong> 08-20 记录 Qwen3-TTS 生态存在 12 Hz 与 12.5 Hz 的命名/实际帧率脱节，两处独立出现。<strong>本处不是同类问题</strong>：MaAI 明确写出 12.5 Hz 对应 Mimi 编码器、10/20/50 Hz 对应 CPC 编码器，两者是不同模型而非同一模型的两种说法。<strong>记录在案是为了避免日后把三处混为一谈。</strong></p>
+<h3>论文结果</h3>
+<p><strong>必须写死的一条：本轮没有从一手来源核实到 MaAI 任何一项精度指标。</strong></p>
+<ul>
+<li>论文 2608.19527 <strong>不报告任何应答预测的精度、召回或时机误差</strong>，也不报告任何时延。它是一份主观感知研究。</li>
+<li>仓库 README <strong>不给出任何数字</strong>，它把精度指标全部指向三篇外部论文（IWSDS 2024 判停、LREC-COLING 2024 多语判停、NAACL 2025 应答预测、以及一篇噪声鲁棒 VAP 的现场实验）。</li>
+<li><strong>这四篇本轮均未核实。</strong> 因此<strong>本报告不给出 MaAI 的任何精度数字</strong>，只给出已一手核实的工程属性（许可证、文件、帧率、语言、CPU 可运行性、更新活跃度）。</li>
+</ul>
+<p><strong>2608.19527 自身的结果</strong>（该系统在其中的角色是被集成方，评的是整套 AI clone 而非 MaAI 本身）：</p>
+<table><thead><tr><th>项目</th><th>有反馈</th><th>无反馈</th><th>p（单尾配对 t）</th></tr></thead><tbody>
+<tr><td>Q3 注意感</td><td><strong>5.29</strong></td><td>4.80</td><td><strong>.018</strong></td></tr>
+<tr><td>Q6 真实感</td><td><strong>4.77</strong></td><td>4.29</td><td><strong>.006</strong></td></tr>
+<tr><td>Q8 共在感</td><td><strong>4.60</strong></td><td>3.94</td><td><strong>.002</strong></td></tr>
+<tr><td>Q4 亲近感</td><td>—</td><td>—</td><td>.081（边缘）</td></tr>
+<tr><td>Q5 参与感</td><td>—</td><td>—</td><td>.089（边缘）</td></tr>
+<tr><td>用户话语条数</td><td>12.89 (2.52)</td><td>13.11 (2.13)</td><td>.516</td></tr>
+<tr><td>平均话语长度（秒）</td><td>7.30 (2.91)</td><td>6.93 (3.15)</td><td>.195</td></tr>
+<tr><td>对话时长（分钟）</td><td>4.90 (0.25)</td><td>4.83 (0.19)</td><td>.300</td></tr>
+</tbody></table>
+<p><strong>倒 U 型（本条最重要）：注意感对应答次数的二次回归项 p = .009，在中等数量处达峰。</strong> 点头与其余各项均无显著曲线关系。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>第一，它是追踪表上第一个可以不占 GPU 的判停制品。</strong> 项目的 GPU 已被 110ms/token 的 MoE 主模型占满，而 X2-Turn 那条路线要再加一个 4B 模型。MaAI 自述可纯 CPU 运行，且提供 5–50 Hz 的帧率档位让使用方自行权衡 CPU 占用。<strong>这使得&quot;判停旁路&quot;第一次成为一件不需要先解决显存与调度冲突就能试的事。</strong></p>
+<p><strong>第二，中文应答预测权重是 MIT，可以直接用在商业车机上。</strong> <code>maai-kyoto/vap_bc_ch</code>（created 2025-11-19T08:08:42Z，非门控、非私有，<strong>license:mit</strong>）含四个权重文件，覆盖 5 / 10 / 20 Hz 的 CPC 版本与 12.5 Hz 的 Mimi 版本，上下文均为 20,000 毫秒。<strong>这是本轮唯一一个&quot;中文 + 判停/应答方向 + MIT + 非门控&quot;的权重。</strong></p>
+<p><strong>第三，双通道 VAD 给了&quot;扬声器泄漏&quot;这个长期空白一个可用的下游制品，但必须严格限定它解决的是哪一半。</strong> 项目的 AEC 空白已连续九轮，而 AEC 要解决的是&quot;把自己播放的声音从麦克风信号里减掉&quot;。<strong>MaAI 的 VAD 不做这件事。</strong> 它做的是在串音已经存在的前提下，判断此刻说话的是用户还是系统。<strong>沿用既定判别式：ANC = 副扬声器 + 误差麦克风；AEC = 自身播放信号的参考/回环抽头；而 MaAI VAD 属于第三类——串音条件下的归属判定。</strong> 这一条对项目仍然有用（打断判定需要知道&quot;现在这段声音是不是用户在插话，还是我自己的播报漏回来了&quot;），但<strong>任何把它写成&quot;AEC 有进展了&quot;的表述都是错的</strong>。</p>
+<p><strong>第四，<code>MaaiMultiple</code> 的共享编码器设计可以直接照搬到项目的多头旁路上。</strong> 项目若同时需要判停、应答时机与串音归属三个信号，天真做法是跑三个模型三次编码。官方给出的做法是编码器每帧只跑一次、多个轻量头共享。<strong>这与项目在 MoE dispatch 上&quot;每层固定代价&quot;的推理是同一类工程思路，且这里有可读源码。</strong></p>
+<p><strong>第五，2608.19527 的倒 U 型给了一条可以立刻写进参数表的约束。</strong> 应答频次要设上限。论文的实测量级是每条用户话语 2.25 次应答、每段 5 分钟对话 27.29 次，<strong>但项目不能直接抄这个数</strong>——它是日语、实验室、平板、非驾驶场景。可抄的是<strong>形状</strong>：单调递增假设是错的，参数表里应当有上限而不是只有下限。</p>
+<h3>局限与开放状态</h3>
+<p><strong>开放状态必须分四栏记，而本条的权重一栏是目前追踪表上最碎的一次。</strong></p>
+<ul>
+<li><strong>论文</strong>：2608.19527 公开（arXiv v1），论文许可证 <code>creativecommons.org/licenses/by-nc-nd/4.0/</code>（<strong>这是论文本身的许可证，与代码、权重无关</strong>）。</li>
+<li><strong>代码</strong>：<strong>公开且为 MIT</strong>，LICENSE 文件 1,078 字节，逐字读为未修改的标准 MIT 文本。仓库活跃：最近提交依次为 2026-08-19（单通道模式处理）、2026-08-17（新增应答检测模型）、2026-08-13（VAD 文档更新、<code>MaaiMultiple</code> 修复）、2026-08-12（新增中文 <code>vad_ch</code>）、2026-08-09（新增 VAD 模型）。</li>
+<li><strong>权重</strong>：<strong>公开、全部非门控非私有，但许可证是四个家族的拼盘</strong>。34 个模型中：</li>
+</ul>
+<table><thead><tr><th>许可证</th><th>代表模型</th><th>对商业车机</th></tr></thead><tbody>
+<tr><td><strong>MIT</strong></td><td><code>vap_bc_{jp,en,ch,tri}</code>、<code>vap_*_kyoto</code> 系列、<code>vap_nod_jp</code>、<code>vap_nod_para_jp</code>、<code>vap_prompt_jp</code></td><td><strong>可用</strong></td></tr>
+<tr><td><strong>CC-BY-NC-ND-4.0</strong></td><td><code>vap_{ch,en,jp}</code>、<code>vap_mc_*</code>、<code>vap_ca</code>、<code>vap_fr</code>、<code>vad_jp</code>、<strong><code>vad_ch</code></strong>、<code>bc_det_jp</code>、<strong><code>bc_det_ch</code></strong></td><td><strong>不可用</strong>（非商业 <strong>且</strong> 禁止衍生）</td></tr>
+<tr><td><strong>CC-BY-NC-SA-4.0</strong></td><td><code>vap_tri</code>、<code>vap_mc_tri</code>、<code>test</code></td><td><strong>不可用</strong>（非商业）</td></tr>
+<tr><td><strong>CC-BY-4.0</strong></td><td><code>continuous-mimi-onnx</code></td><td>可用</td></tr>
+<tr><td><strong>无许可证标签</strong></td><td><code>vap_bc_2type_jp</code>、<code>bc_det_en</code></td><td><strong>未知</strong>，按不可用处理</td></tr>
+</tbody></table>
+<ul>
+<li><strong>这个拼盘里最关键的一条：中文判停主力权重不可商用，而它的 MIT 替代品能力严格更少。</strong> <code>maai-kyoto/vap_ch</code>（CC-BY-NC-ND-4.0）含 <strong>9 个权重文件</strong>，覆盖 5/10/20 Hz 与 2,500 / 3,000 / 5,000 / 20,000 毫秒多种上下文长度，外加 Mimi 12.5 Hz；而 MIT 的 <code>maai-kyoto/vap_ch_kyoto</code> 只有 <strong>2 个文件</strong>（<code>vap_state_dict_ch_kyoto_5hz_20000msec.pt</code> 与 <code>..._10hz_20000msec.pt</code>）——<strong>没有 20 Hz、没有 Mimi 12.5 Hz、没有任何短上下文变体</strong>。项目若要商用，判停侧只能用这两个文件。</li>
+<li><strong>同样关键：最近十天新增的三个中文/日文模型全部是 CC-BY-NC-ND-4.0。</strong> <code>vad_ch</code>（created 2026-08-12T07:32:54Z）、<code>bc_det_ch</code> 与 <code>bc_det_jp</code>（均 2026-08-17）——<strong>即&quot;双通道串音归属判定&quot;这个对项目最有吸引力的能力，其中文权重恰恰是不可商用的那一档。</strong></li>
+<li><strong>数据</strong>：<strong>全部未发布。</strong> 应答模型的官方文档只写训练自 &quot;Online Conversation Dataset&quot;（附一个 arXiv 链接），VAD 模型的文档不给出任何数据集名称。</li>
+<li><strong>依赖侧的许可证不传递，且官方自己写明了。</strong> 仓库 README 的许可证段原话：&quot;The source code in this repository is licensed under the MIT License. <strong>For the trained models, please follow the license described in the README of each model or on Hugging Face repository.</strong>&quot; 另注 Mimi 为 CC BY 4.0、CPC 预训练模型&quot;请遵循其自身的特定许可证&quot;。<strong>这是&quot;代码许可证从不传递到权重&quot;的又一个例证，而且这次是上游自己主动声明的。</strong></li>
+</ul>
+<p><strong>一处必须原样保留的官方文档自相矛盾，不替作者选择。</strong> <code>readme/vap_bc.md</code> 的&quot;Supported Languages&quot;小节第一句写 <strong>&quot;Currently, only Japanese is supported.&quot;</strong>，但紧接着的同一份文档里就列出了 English（<code>lang=en</code>）、Chinese（<code>lang=ch</code>）与 Multilingual（<code>lang=tri</code>）三个小节，其参数表同时列出 jp/en/ch/tri 四个取值；主 README 的更新日志写 &quot;Backchannel prediction model supporting three languages (English, Chinese, and Japanese) is now available (November 19th, 2025)&quot;；Hugging Face 上 <code>vap_bc_ch</code> 的 createdAt 正是 2025-11-19T08:08:42Z。<strong>四处证据指向&quot;中文已支持&quot;，一处句子指向&quot;只有日语&quot;。本报告的判断是那句话是陈旧残留，但按规矩两者并存记录，且项目在实测前不得把中文支持当作已确认。</strong></p>
+<p><strong>论文 2608.19527 自身的局限，逐条列出：</strong></p>
+<ol>
+<li><strong>基础管线是按键说话（push-to-talk），不是全双工。</strong> 论文原文：&quot;The system adopts a push-to-talk interface: the user presses and holds a button at the bottom of the screen, and the recorded speech is processed through the ASR→LLM→TTS pipeline upon release.&quot; <strong>因此这篇论文完全没有提供任何关于打断、抢话或重叠语音的证据</strong>，它证明的是&quot;在半双工主通道之外并联一条连续的倾听反馈通道&quot;有感知收益。<strong>这个区分对项目很重要：它是旁路通道的证据，不是全双工的证据。</strong></li>
+<li><strong>全文零时延数字、零硬件规格。</strong> 只写明系统经浏览器跑在一台 Android 平板上。<strong>没有 CPU 型号、没有推理耗时、没有端到端反应时延。</strong> 因此本篇不能为任何时延预算提供依据。</li>
+<li><strong>主管线全部是云服务</strong>：ASR 为 Deepgram nova-2、LLM 为 GPT-4.1（<code>gpt-4.1-2025-04-14</code>）、TTS 为 Cartesia sonic-3。<strong>与项目的本地部署前提完全不同。</strong></li>
+<li><strong>应答音频是预生成的固定片段随机抽取</strong>（日语 &quot;un&quot;、&quot;un-un&quot; 等），不是实时合成；点头是把头像图片做垂直动画，单次点头 70% 概率、双次 30%。<strong>这是原型级实现，不是产品级。</strong></li>
+<li><strong>N=35，全部为日语母语的本科/研究生，报酬 500 日元图书卡。</strong> 单一人群、单一语言、单一被克隆对象（第一作者本人）。论文自己列为待办的正是这三条，外加&quot;应答与点头是一起开启的，未来实验应当拆开两个模态以厘清各自贡献&quot;。</li>
+<li><strong>主观量表九项中六项无显著优势</strong>，其中包括理解度、兴趣、交谈意愿与<strong>节奏感（Q9）</strong>。<strong>节奏感无显著改善这一条对项目尤其值得注意</strong>——加了实时应答之后，用户并没有觉得&quot;交互节奏更顺畅&quot;。</li>
+<li><strong>倒 U 型是探索性分析</strong>，论文自述为 &quot;As an exploratory analysis&quot;，且只在三项显著项上拟合、只有注意感一项的二次项显著。<strong>单一研究、N=35、事后拟合，方向可信度高于数值可信度。</strong></li>
+</ol>
+<p><strong>综合判断：进入&quot;制品离线评估&quot;，不进入候选序列。</strong> 理由有三：本轮未从一手来源核实到任何精度指标；中文判停主力权重与中文 VAD 权重均为不可商用许可证；以及项目尚未测过它在车内噪声下的表现。<strong>但它是本轮唯一一项可以立刻动手、不占 GPU、且中文应答权重许可证干净的实验。</strong></p>
+<h2>2. Thinkingbox（2608.19741）</h2>
+<ul>
+<li>论文：<code>https://arxiv.org/abs/2608.19741</code>（v1，2026-08-20T07:37:57Z 投稿，45 页，cs.CL）</li>
+<li>代码：<code>https://github.com/microsoft/thinkingbox</code>（<strong>MIT</strong>）</li>
+<li>论文许可证（arXiv 元数据 <code>/License</code>）：<code>creativecommons.org/licenses/by/4.0/</code></li>
+<li>作者：Zhuochun Li、Youngmin Ko、Ali Keramati（三人共同一作）、Nicola Ferri、Susana Palmaz Lopez Pelaez、Liang-Chun Tsai、Calvin Wang、Mirco Milletari、Tuhin Kundu、Vadim Smolyakov、Kjartan Olafsson、Tommy Guy。论文注明&quot;共同一作；工作完成于微软实习期间&quot;。</li>
+</ul>
+<h3>它是什么</h3>
+<p>一个<strong>有状态业务工作流</strong>下的 agent 沙箱与基准。它跑的是&quot;模拟用户 ↔ LLM agent ↔ 隔离的 MCP 兼容工具&quot;三方多轮交互，然后<strong>用终态、副作用与对话三类可执行检查</strong>来判定，而不是判定一个最终答案。五个业务域：零售（Retail）、预订（Booking）、保险（Insurance）、新型银行（Neobank）、咨询（Consulting）。</p>
+<p>它的出发点用论文自己的话说是：&quot;Thinkingbox is motivated by a limitation of many function-call-oriented tool-use...&quot;，而结论句更直白：<strong>&quot;tool-call-level signals are not clear proxies for end-to-end task completion.&quot;</strong></p>
+<h3>核心方法（或核心架构）</h3>
+<p><strong>（一）确定性判定，LLM 只用于归因。</strong> 主评估把最终数据库状态与黄金期望状态用<strong>确定性的、基于哈希的断言</strong>比对。原文：&quot;The agent succeeds only when it produces the exact required side effects without introducing incorrect additional effects.&quot;（agent 只有在产生了确切要求的副作用、且没有引入错误的额外副作用时才算成功。）解码失败、测试执行失败、API 错误与其它系统错误一律计为失败试次。<strong>LLM 评判者只用于给失败轨迹打归因标签，不进入判定。</strong></p>
+<p><strong>（二）试次隔离是硬要求。</strong> 原文：&quot;Two attempts of the same task must not share database rows, cached tool state, or side effects, otherwise pass@k and training rewards become unreliable.&quot;（同一任务的两次尝试不得共享数据库行、缓存的工具状态或副作用，否则 pass@k 与训练奖励会变得不可靠。）</p>
+<p><strong>（三）两个指标必须成对报。</strong> 论文的定义：<strong>pass@k 是&quot;k 次中至少一次成功&quot;的概率</strong>，<strong>pass^k 是&quot;k 次全部成功&quot;的概率</strong>。原文的区分句：&quot;pass@k measures whether retries can *discover* a successful trajectory, whereas pass^k measures dependable repeated execution.&quot;（pass@k 度量重试能否<strong>发现</strong>一条成功轨迹，而 pass^k 度量可靠的重复执行。）另报 95% 的<strong>任务簇自助置信区间</strong>（重采样 507 个任务、保留每个被采样任务内的全部 20 个结果）。</p>
+<p><strong>（四）任务筛选规则值得单独抄。</strong> 剔除的类别包括：工具损坏、初始状态不一致、目标含糊、结果不可核验、<strong>检查依赖于工具调用轨迹</strong>、以及在 LLM agent 下反复无法终止的交互。原文要求&quot;被接受的任务必须至少存在一条有效的完成策略，同时保有清晰的正确性判据&quot;。<strong>&quot;剔除依赖工具调用轨迹的检查&quot;这一条与它的头条主张是自洽的</strong>：既然主张工具调用层面的信号不是完成度的代理，判定就不能建立在轨迹上。</p>
+<p><strong>（五）失败归因是确定性优先级，且论文自己给它降级。</strong> 论文用固定的优先级顺序给每条失败轨迹指派唯一的主导特征，并自述这些特征&quot;是可观测的诊断，而不是唯一的因果解释&quot;。</p>
+<h3>论文结果</h3>
+<p><strong>头条（Table 11）：GPT-5.4 的 pass@20 为 91.12%，pass^20 仅为 25.25%。</strong> 论文的概括是 &quot;Repeated inference can often find one successful trajectory without making the agent dependable.&quot;（重复推理常常能找到一条成功轨迹，却并不能让 agent 变得可靠。）</p>
+<p><strong>同表中已核实的另外几行：</strong></p>
+<table><thead><tr><th>模型</th><th>pass@1（95% CI）</th><th>pass^20</th><th>pass@20</th><th>0/20 的任务数</th><th>20/20 的任务数</th></tr></thead><tbody>
+<tr><td>MiniMax-M2.5</td><td>0.19% [0.00%, 0.53%]</td><td>0.00%</td><td>0.59%</td><td>504</td><td><strong>0</strong></td></tr>
+<tr><td>Qwen3-8B</td><td>0.13% [0.01%, 0.34%]</td><td>0.00%</td><td>0.99%</td><td>502</td><td><strong>0</strong></td></tr>
+</tbody></table>
+<p><strong>另有一行的模型名在 PDF 抽取中与相邻列粘连、无法唯一确定，其数值为 pass@1 CI [3.66%, 5.75%]、pass^20 0.00%、pass@20 25.44%、378 个任务 0/20、0 个任务 20/20。该行的模型归属记为待核，不作猜测。</strong></p>
+<p><strong>规模：</strong> M = 507 个任务，每任务 n = 20 次独立评估，即每模型 <strong>10,140</strong> 次试次，共 12 个专有与开放权重模型。论文强调 &quot;These attempts are independent stochastic samples rather than deterministic reruns.&quot;（这些尝试是独立的随机样本，而不是确定性重跑。）</p>
+<p><strong>模拟用户的规格与它的诚实自述。</strong> 固定使用 GPT-5.4-mini 部署，温度 <strong>0.3</strong>、无推理努力、<strong>4,096</strong> token 补全上限，最多贡献 <strong>10</strong> 个追问轮次。因为采样非确定，&quot;20 次试次在用户措辞上也各不相同，因此可靠性结果度量的是对一族用户交互分布的鲁棒性，而不是对单一固定对话的重复&quot;。论文随后逐条列出模拟用户不具备的真实用户属性：&quot;it does not misremember or misstate facts, does not change its goal mid-conversation, does not become uncooperative under repeated failure, and its brevity is a fixed instruction rather than a behavioral trait that varies by user.&quot;</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>第一，它给项目的头条指标提出了一个必须回答的质疑。</strong> 项目当前对外的数字是<strong>单次运行的严格工具名召回 80.49%</strong>，这既是工具调用层面的信号，又是单次运行的聚合值——<strong>恰好同时踩中论文批评的两点</strong>。加上 08-20 从 ComponentBench 记下的&quot;聚合完全相同却有 17.3% 逐条翻转&quot;，两条独立证据同向。<strong>本轮的具体建议：把 452 条自建判定改报 pass@k 与 pass^k 一对数字，并在聚合值旁并列逐条翻转率。</strong></p>
+<p><strong>第二，pass@k / pass^k 的取舍对座舱有一层特殊含义。</strong> 论文场景是业务工作流，重试是允许的，所以 pass@20 有意义。<strong>车控场景没有这个奢侈：用户说&quot;打开空调&quot;，系统没有第 20 次机会。</strong> 因此对项目而言，<strong>pass^k 才是那个对齐业务语义的指标，pass@k 只用于诊断&quot;能力存在但不稳定&quot;与&quot;能力不存在&quot;的区别</strong>。这一条项目应当在采纳时明确写下，否则容易照抄论文的呈现顺序而误导。</p>
+<p><strong>第三，判定架构的分层可以整体照搬。</strong> 判定确定性、归因才允许用模型、且归因结论明确降级为&quot;可观测诊断而非因果解释&quot;。<strong>这是项目&quot;判定链路不得引入 LLM 判定器&quot;这条规则的第一个正面外部先例。</strong></p>
+<p><strong>第四，试次隔离这条硬要求项目目前不满足也无从验证。</strong> 论文的表述已经到了可执行的粒度（不得共享数据库行、缓存的工具状态或副作用）。项目的 452 条评测若要改报 pass^k，<strong>第一步不是跑 20 遍，而是先证明两次运行之间没有共享状态</strong>，否则 pass^k 会被系统性高估。</p>
+<h3>局限与开放状态</h3>
+<ul>
+<li><strong>论文</strong>：公开（arXiv v1），CC-BY-4.0。</li>
+<li><strong>代码</strong>：<strong>部分兑现，这是本轮的一个新形态，必须单独记。</strong> 论文原文写 &quot;We release both THINKINGBOX and THINKINGBOX-BENCH: https://github.com/microsoft/thinkingbox&quot;（我们同时发布 Thinkingbox 与 Thinkingbox-Bench）。该 URL <strong>确实解析</strong>，仓库真实且实质：<code>microsoft/thinkingbox</code>，<strong>MIT</strong>，created 2026-04-22T19:01:10Z，pushed <strong>2026-08-20T17:19:40Z</strong>（与论文投稿同日），142 个 blob 合计 <strong>1,001,955 字节</strong>，6 stars。<strong>但仓库里只有沙箱框架，没有那 507 个任务。</strong> 全树 <code>dataset/</code> 目录下只有三个与场景有关的文件：<code>dataset/scenario/cloud_drive.yaml</code>（396 字节）、<code>dataset/test_case/cloud_drive.meta.yaml</code>（807 字节）、<code>dataset/test_case/cloud_drive.py</code>（6,177 字节）。<strong><code>cloud_drive</code> 不属于论文的五个业务域中的任何一个。</strong></li>
+<li><strong>因此开放状态应记为第七种形态：&quot;URL 有效、仓库真实，但承诺的两件制品只兑现了一件。&quot;</strong> 它既不是第五档（URL 失效），也不是第三档（无 URL 的 unverifiable）——<strong>它是&quot;承诺 A 与 B，交付了 A&quot;</strong>。此前的五档加上 08-20 新增的&quot;沉默式未发布&quot;，本轮再加这一档。</li>
+<li><strong>并且这是 08-20 记下的&quot;发布的是产品不是实验&quot;这个形态的第二个独立实例。</strong> 该仓库 README 长 20,489 字节，其中 <code>arxiv</code>、<code>thinkingbox-bench</code>、<code>507</code>、<code>pass@</code>、<code>retail</code>、<code>insurance</code>、<code>neobank</code> 的出现次数<strong>全部为 0</strong>。08-20 的第一例是 <code>midea-ai/SemaPLC</code>（README 全文不提论文、不提 arXiv、不提任何一个数字）。<strong>两例形态完全一致：机构把工程框架开源了，把论文实验留在内部。</strong></li>
+<li><strong>权重</strong>：不适用（评测的是 12 个第三方模型）。</li>
+<li><strong>数据</strong>：<strong>507 个任务与其黄金终态未发布</strong>（见上）。</li>
+<li><strong>硬件与成本</strong>：Qwen 系列经本地 vLLM 的 OpenAI 兼容端点提供服务，其余经 Azure API。<strong>GPU 型号从未给出</strong>，因此它加入 CoRun、AATC、SemaPLC、DuplexGen-B、2608.17972 的无硬件名单。论文报告了每轮 token 用量的相对趋势，并自述&quot;更大的每轮上下文或更多轮次并不能可靠地转化为正确的状态转移&quot;。</li>
+<li><strong>主判定不覆盖用户可见的沟通质量。</strong> 论文自述：&quot;Reported pass rates therefore measure correct, policy-compliant backend outcomes rather than the fidelity of user-facing communication.&quot;（因此报告的通过率度量的是正确且合规的后端结果，而不是面向用户的沟通的保真度。）<strong>对座舱而言这是一处实质缺口</strong>——播报内容对不对，恰恰是项目要管的事。</li>
+<li><strong>与项目的领域距离</strong>：无语音、无中文、无每轮时延、无音频。<strong>只借协议与指标，不借任何技术。</strong></li>
+</ul>
+<h2>3. ReCache（2608.19662）</h2>
+<ul>
+<li>论文：<code>https://arxiv.org/abs/2608.19662</code>（v1，2026-08-20T05:57:24Z 投稿，17 页）</li>
+<li>代码：<code>https://github.com/EIT-NLP/ReCache</code>（<strong>存在，但全仓库没有任何 LICENSE 文件</strong>）</li>
+<li>论文许可证（arXiv 元数据 <code>/License</code>）：<code>arxiv.org/licenses/nonexclusive-distrib/1.0/</code></li>
+<li>作者：Yichu Fang、Sitong Wei、Haozhe Hu、Xiaoyu Shen（通信邮箱分别为 <code>sjtu.edu.cn</code> 与 <code>eitech.edu.cn</code>）</li>
+</ul>
+<h3>它是什么</h3>
+<p>一个面向<strong>工具增强型 LLM agent</strong> 的资源级 KV 复用与压缩框架。核心主张写在摘要里：<strong>把可复用的 schema 编码与选择性的资源访问分开</strong>，从而&quot;大幅降低 agent 推理成本，且有效性损失有限&quot;。</p>
+<h3>核心方法（或核心架构）</h3>
+<p>三层，逐层叠加：</p>
+<ol>
+<li><strong>资源级注意力（Ω_full）</strong>：让资源表示以共享前缀预先编码、跨请求复用，配合<strong>资源局部的位置重索引</strong>。这一层单独就拿到了 3.655× 的 TTFT 加速。</li>
+<li><strong>结构剪枝（Ω_{20,3}）</strong>：按层与头组的贡献做 Top-K 选择（论文的敏感性分析用了 Top-K 层 KL 与 Top-K 头组 KG 两个维度）。</li>
+<li><strong>语义剪枝（SMP）</strong>：进一步削减语义字段的 token。</li>
+</ol>
+<h3>论文结果</h3>
+<p><strong>Table 2（资源级注意力消融）：</strong></p>
+<table><thead><tr><th>方法</th><th>Inv-F1</th><th>ID-F1</th><th>Halluc.</th><th>TTFT (ms)</th></tr></thead><tbody>
+<tr><td>Dense</td><td>82.4</td><td>96.0</td><td>0.0</td><td>26.319</td></tr>
+<tr><td>Block</td><td>82.2</td><td>95.8</td><td>0.1</td><td>—</td></tr>
+<tr><td><strong>Ω_full</strong></td><td><strong>82.3</strong></td><td><strong>96.0</strong></td><td>0.2</td><td><strong>7.200</strong></td></tr>
+</tbody></table>
+<p>论文对这张表的概括是 Ω_full 与 Dense&quot;在各项有效性指标上相差至多 0.2%&quot;，逐格核对成立。</p>
+<p><strong>完整框架：</strong> 已分配 KV 张量显存降低 <strong>92.43%</strong>、注意力加速 <strong>1.423×</strong>，同时&quot;在域内保留了 Dense 的 97.5% Inv-F1&quot;；分域看 Inv-F1 为 T_IND <strong>80.3%</strong>、T_OOD <strong>60.8%</strong>。</p>
+<p><strong>规模扩展（Figure 4，四档资源长度 0–1K / 1K–5K / 5K–10K / ≥10K）：</strong> Dense 的 TTFT &quot;从几十毫秒涨到 5,000 毫秒以上&quot;，Ω_full 维持在 <strong>50ms 以下</strong>，ReCache 近乎平坦、<strong>略高于 5ms</strong>。TPOT：Dense 与 Ω_full 约 <strong>11ms</strong>，ReCache 略高于 <strong>6ms</strong>。注意力时延：Dense 与 Ω_full 约 <strong>5ms</strong>，ReCache 低于 <strong>0.2ms</strong>；在 XL 档，Ω_full+SMP 把注意力时延压到 <strong>0.5ms 以下</strong>，而只做结构剪枝的 Ω_{20,3} 仍在 <strong>2ms 以上</strong>。显存：ReCache 封顶 <strong>0.03 GiB</strong>，Dense 与 Ω_full 逼近 <strong>8 GiB</strong>。</p>
+<p><strong>硬件：</strong> 主模型 Qwen3-4B 在一张 <strong>NVIDIA A800</strong> 上训练，初步实验的 Qwen3-1.7B 在一张 <strong>NVIDIA RTX 5000</strong> 上。评测覆盖七个工具/技能使用数据集。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>它命中的是项目一笔已经记过账的开销。</strong> 08-19 从 2608.14036 记录的是技能&quot;每任务多花 93.8K 输入 token&quot;，而 ReCache 处理的正是这笔 token 的结构——工具 schema 是跨请求高度重复的内容，理应只编码一次。<strong>若项目的座舱工具 schema 规模可观，这条思路在方向上成立。</strong></p>
+<p><strong>但本轮的结论是&quot;记录方向，不采纳数字&quot;</strong>，理由见下。</p>
+<h3>局限与开放状态</h3>
+<p><strong>第一，也是决定性的一条：它的 TTFT 定义在缓存命中之下，且明确排除离线构建成本。</strong> 原文：&quot;We use time-to-first-token (TTFT) to quantify online prefill latency <strong>under a cache hit</strong>, including request-local KV materialization but <strong>excluding offline cache construction</strong>.&quot; <strong>这与 08-20 从 <code>Qwen3TTS-Streaming</code> README 里挖出的 <code>prefix-cache 命中</code> 条件是同一个陷阱，只是这次它出现在论文自己的指标定义里而不是藏在附注里。</strong> 车机上电后的第一句话必然是冷的，<strong>因此 26.319ms → 7.200ms 这个对比对项目最关心的那一次请求不成立</strong>。论文没有给出任何冷启动或缓存未命中的数字，也没有给出离线构建一次要多久。</p>
+<p><strong>第二，开放状态是一个此前未记录过的形态：代码可读但无许可证。</strong> <code>EIT-NLP/ReCache</code> 确实存在（created 2026-08-19T03:12:43Z，pushed 2026-08-19T05:42:28Z，size 1,881 KB，1 star），论文摘要写 &quot;The code is available at https://github.com/EIT-NLP/ReCache.&quot;。<strong>但 GitHub API 的 <code>license</code> 字段为 <code>null</code>，且全树递归列举确认没有任何 <code>LICENSE</code> / <code>LICENSE.txt</code> / <code>COPYING</code> 文件。</strong> 按 GitHub 默认条款，未附许可证的公开仓库保留全部权利。<strong>&quot;公开可读&quot;不等于&quot;开源可用&quot;，这一条应当加入开放状态判据：许可证缺失是一种独立状态，不能与&quot;已发布可核&quot;合并。</strong></p>
+<p><strong>第三，仓库结构显示它包含相当规模的训练基础设施，与&quot;纯推理期优化&quot;的读法不符。</strong> 全树含 <code>capsule/main/train.py</code>、FSDP 与 DeepSpeed 的 stage2/stage3 配置、以及 <code>capsule/data/config/slimpajama.json</code>。论文侧也写明主模型是&quot;训练&quot;出来的（&quot;We train the primary Qwen3-4B model on an NVIDIA A800 GPU&quot;）。<strong>因此不能把它归入&quot;叠加在现成模型上的推理期改动&quot;这一类</strong>，它至少需要一次训练才能得到论文报告的效果。</p>
+<p><strong>第四，批大小从未在正文中给出。</strong> 本报告不据此触发&quot;最小可评估批大小&quot;这条否决规则——<strong>规则要求写出到底是&quot;从未在 1 上评测&quot;还是&quot;收益随批变小而缩水&quot;，而本篇是&quot;批大小根本没有报告&quot;，这是第三种情况，按未知记录。</strong></p>
+<p><strong>综合判断：REJECT 为候选，TRACK 为方向。</strong> 决定性理由是缓存命中口径，次要理由是无许可证。<strong>可带走的一条是它的指标拆分方式：把 TTFT、TPOT 与&quot;注意力时延&quot;分开报</strong>，论文自己解释了为什么——注意力上的收益&quot;会被 TPOT 里未变化的投影与前馈计算所掩盖&quot;。<strong>这条拆分纪律对项目诊断 110ms/token 同样适用。</strong></p>
+<h2>4. 术语与同名/同源辨析（本轮新增）</h2>
+<ul>
+<li><strong><code>MaAI</code>（软件包）与 <code>VAP</code>（方法）不是同一层的东西，也不要与本项目已记录的 <code>PersonaPlex</code> 混淆。</strong> MaAI 是京都大学维护的实现，VAP 是其方法基座（原始实现在 <code>ErikEkstedt/VoiceActivityProjection</code>）。另注 2608.19527 的引文里出现了 <strong>PersonaPlex（arXiv:2602.06053）</strong>，与本项目 08-11 记录的&quot;PersonaPlex 是一个独立的 S2S 模型、不是 DuplexGen 的一部分&quot;一致，<strong>本轮不改变该判定</strong>。</li>
+<li><strong><code>12.5 Hz</code> 在本轮第三次出现，但这一次不是矛盾。</strong> 08-19（VoiceChat-TTS）与 08-20（Qwen3-TTS 生态）记录的是同一模型的两种说法互相打架；<strong>MaAI 这里 12.5 Hz 明确对应 Mimi 编码器、5/10/20/50 Hz 明确对应 CPC 编码器，是两类不同模型</strong>。记录在案是为了防止日后把三处并列成&quot;同一个生态问题&quot;。</li>
+<li><strong><code>endpoint</code> 是本轮新增的关键词陷阱，且量级最大。</strong> 见 6.7。</li>
+<li><strong><code>Interrupting the Loop</code>（2608.19893）里的 &quot;interrupting&quot; 与语音打断无关</strong>，它讲的是在基座语言模型里周期性更换话题对&quot;判定惊讶度与连接感&quot;的影响，属 cs.CL 文本方向。<strong>&quot;interrupt&quot; 词根的第三个假阳性来源</strong>（前两个是并行机排程与统计学的 &quot;Interrupted Time Series&quot;）。</li>
+</ul>
+<h2>5. 今日建议路线</h2>
+<h3>第一阶段（零 GPU，可立即做）</h3>
+<ol>
+<li><strong>把 MaAI 的许可证拼盘做成一张项目内部表，并按&quot;可商用 / 不可商用 / 未知&quot;三分。</strong> 这一步必须在任何技术评估之前完成，否则可能在不可商用的 <code>vap_ch</code> 与 <code>vad_ch</code> 上投入工作。<strong>结论已经清楚：中文应答预测（<code>vap_bc_ch</code>，MIT）可用；中文判停只能用能力更少的 <code>vap_ch_kyoto</code>（MIT）；中文 VAD 与中文应答检测目前不可商用。</strong></li>
+<li><strong>把&quot;应答频次设上限&quot;写进座舱交互参数表。</strong> 依据是 2608.19527 的倒 U 型（注意感对应答次数的二次项 p=.009）。<strong>抄形状不抄数值</strong>——论文的 2.25 次/话语来自日语实验室平板场景。</li>
+<li><strong>把 Thinkingbox 的 pass@k / pass^k 一对指标引入项目 452 条自建判定的报告口径</strong>，并在聚合值旁并列逐条翻转率（后者的依据是 08-20 的 ComponentBench）。<strong>先只改报告口径与最小子集试算，不急于跑满 20 遍。</strong></li>
+<li><strong>在跑任何重复试次之前，先验证项目评测的试次隔离。</strong> 依据是 Thinkingbox 的硬要求：两次尝试不得共享数据库行、缓存的工具状态或副作用。<strong>隔离不成立时 pass^k 会被系统性高估，这一步不能跳。</strong></li>
+<li><strong>判定器处理不变性检查</strong>（优先级仍为最高，来自 2608.12880，与本轮无关但仍未完成）。</li>
+</ol>
+<h3>第二阶段（单卡或纯 CPU 可做）</h3>
+<ol>
+<li><strong>用 <code>vap_bc_ch</code>（MIT）在项目 452 条基准音频上做离线应答时机预测，只做旁路观测。</strong> 记录三组数字：不同 <code>frame_rate</code>（5 / 10 / 20 Hz）下的 CPU 占用、每帧耗时、以及应答触发点相对项目已有标注的分布。<strong>不接入播报路径，不改生产链路。</strong></li>
+<li><strong>离线复现 X2-Turn 的 EasyTurn-zh 判停指标</strong>（08-20 的既定项，本轮未动，权重与代码仍是开放非门控的 Apache-2.0）。<strong>做完第 6 项后，两条判停路线第一次可以在项目自己的音频上直接对比：一条要 4B + GPU，一条可纯 CPU。</strong></li>
+<li><strong>测项目自身的上游 token 速率与抖动</strong>（08-20 的既定项，X2Streaming-TTS 的 ρ 论证在项目条件下未经验证）。</li>
+</ol>
+<h3>第三阶段（需要环境或授权评估）</h3>
+<ol>
+<li><strong>若中文 VAD 的串音归属能力被判定为必需，需要就 <code>vad_ch</code> 的 CC-BY-NC-ND-4.0 与作者接洽授权</strong>（README 写明&quot;系统开发或使用 MaAI 的合作研究请联系京都大学 Koji Inoue&quot;）。<strong>在授权落定之前不得把 <code>vad_ch</code> 写进任何架构图。</strong></li>
+<li><strong>评估 TensorRT/Triton 链路是否可接受</strong>（08-20 的既定项，未动）。</li>
+<li><strong>跟踪 <code>X-Square-Robot/X2Streaming-TTS</code> 是否出现</strong>（08-20 设的两周期限，本轮为第二天，未复核）。</li>
+</ol>
+<h2>6. 本轮负面结果与零结果（与正面结果同等重要）</h2>
+<p><strong>这些是&quot;查了、没有&quot;，不是&quot;没查&quot;。每一条都记录了查询与 totalResults。</strong></p>
+<h3>6.1 回声消除：连续第九轮零一手依据</h3>
+<p>查询 <code>abs:&quot;speech enhancement&quot; OR abs:&quot;noise suppression&quot; OR abs:&quot;echo cancellation&quot; OR abs:&quot;beamforming&quot;</code> 在本窗口 totalResults = <strong>1</strong>，该 1 篇为 <code>2608.20278</code>（无人机挂载六维可动 IRS 辅助 ISAC 系统的保密速率最大化，eess.SP），<strong>非声学</strong>。<strong>&quot;beamforming&quot; 连续第二轮 100% 落在非声学领域。</strong> 查询继续保留。</p>
+<p><strong>本轮的新情况必须与这条零结果分开写：MaAI 的双通道 VAD 是第一个触及&quot;扬声器泄漏&quot;这个问题域的可用制品，但它不是 AEC。</strong> 沿用判别式：<strong>ANC = 副扬声器 + 误差麦克风；AEC = 自身播放信号的参考/回环抽头；MaAI VAD = 串音条件下判断谁在说话。</strong> 第三类既不消除也不抵消泄漏，它接受泄漏存在并做归属判定。<strong>AEC 的计数保持为九轮零。</strong></p>
+<h3>6.2 四组查询本窗口 totalResults 直接为 0</h3>
+<ul>
+<li><strong>语音语言模型 / 语音到语音</strong>：<code>abs:&quot;speech language model&quot; OR abs:&quot;spoken dialogue&quot; OR abs:&quot;speech-to-speech&quot;</code> = <strong>0</strong>。</li>
+<li><strong>流式 ASR</strong>：<code>abs:&quot;speech recognition&quot; AND (abs:&quot;streaming&quot; OR abs:&quot;online&quot; OR abs:&quot;latency&quot;)</code> = <strong>0</strong>（连续第二轮为 0）。</li>
+<li><strong>空间听觉</strong>：<code>abs:&quot;spatial audio&quot; OR abs:&quot;ambisonic&quot; OR abs:&quot;binaural&quot; OR abs:&quot;sound source localization&quot;</code> = <strong>0</strong>（连续第二轮为 0）。</li>
+<li><strong>音频评测</strong>：<code>abs:&quot;speech evaluation&quot; OR abs:&quot;audio benchmark&quot; OR abs:&quot;MOS prediction&quot;</code> = <strong>0</strong>。</li>
+</ul>
+<p><strong>这四组同时为零，而本轮仍然出了一条 P0，本身就是对&quot;用查询组的空满程度判断产出&quot;这种做法的又一次证伪。</strong></p>
+<h3>6.3 全双工组 3 篇，3 篇全是假阳性，且真正的进展再次不在其中</h3>
+<p><code>abs:&quot;full duplex&quot; OR abs:&quot;turn-taking&quot; OR abs:&quot;barge-in&quot; OR abs:&quot;interruption&quot;</code> totalResults = <strong>3</strong>：<code>2608.19893</code>（基座语言模型里周期性话题更换对判定惊讶度与连接感的影响，cs.CL）、<code>2608.19887</code>（时变时滞诱导的间歇性集群与分形集体秩序，nlin.CD）、<code>2608.19622</code>（数据中心灵活性价值取决于所在电网，physics.soc-ph）。</p>
+<p><strong>本轮真正的判停/应答进展（2608.19527 与 MaAI）没有被这组命中，它来自 <code>cat:cs.HC</code>。这是连续第二轮出现同一形态</strong>——08-20 的两条 P0 也都不是被这组命中的。<strong>结论强化：这一组关键词对&quot;全双工&quot;这个主题存在系统性盲区，其空满程度不得单独用于任何方向性结论。</strong></p>
+<h3>6.4 第 14 组查询连续第二轮独家命中当轮最重要线索</h3>
+<p><code>(cat:cs.HC OR cat:cs.OS) AND (abs:&quot;speech&quot; OR abs:&quot;voice&quot; OR abs:&quot;audio&quot; OR abs:&quot;latency&quot;)</code> 返回 <strong>4 篇</strong>：<code>2608.19527</code>（本轮 P0）、<code>2608.19826</code>（机器人语音音高对儿童压力水平的影响）、<code>2608.19827</code>（低成本声学装置感知与解读动作）、<code>2608.19588</code>（中国心理健康研究的本地化生态瞬时评估）。<strong>保留这组查询的决定第二次得到验证。</strong></p>
+<h3>6.5 语音类目本身近乎枯竭</h3>
+<p><code>cat:cs.SD</code> 与 <code>cat:eess.AS</code> 的控制总数分别只增加 <strong>9</strong> 与 <strong>7</strong>（21,740→21,749、22,202→22,209）。<strong>这是本项目记录以来单批次增量最小的一次之一</strong>，与 08-20 的 50 篇窗口相比，语音类目的实际产出更低。</p>
+<h3>6.6 TTS 组 3 篇中 2 篇是跨领域假阳性</h3>
+<p><code>abs:&quot;text-to-speech&quot; OR abs:&quot;speech synthesis&quot; OR abs:&quot;TTS&quot;</code> totalResults = <strong>3</strong>：<code>2608.19959</code>（合成语音如何欺骗人类的趋势追踪，cs.CR）、<code>2608.19789</code>（条件 GAN 中的量子启发张量网络去噪，cs.AI）、<code>2608.19651</code>（顶夸克 philic 第三类双希格斯二重态模型中的电弱重子生成，<strong>hep-ph</strong>）。<strong>后两篇与语音合成毫无关系</strong>，粒子物理那一篇是本项目记录到的跨度最大的一次关键词假阳性。</p>
+<h3>6.7 新发现的查询写法缺陷：<code>abs:&quot;endpoint&quot;</code> 过于宽泛</h3>
+<p><code>abs:&quot;voice activity detection&quot; OR abs:&quot;endpoint&quot; OR abs:&quot;endpointing&quot;</code> 一组返回 <strong>22 篇，22 篇全部与语音无关</strong>，覆盖泛函分析（&quot;endpoint estimates&quot; 是该领域固定术语）、Tor 网站指纹防御、地球观测数据架构、心脏形状补全、全息对偶、几何相位等。<strong>根因是裸词 <code>endpoint</code> 在数学与安全领域都是高频固定术语</strong>，与 08-20 记录的车内组布尔优先级缺陷属同类问题（查询写法缺陷，不等于该方向无产出），但成因不同：<strong>上一个是布尔结合律，这一个是词义歧义。</strong></p>
+<p><strong>建议下一轮改写为 <code>abs:&quot;voice activity detection&quot; OR abs:&quot;endpointing&quot; OR abs:&quot;end-of-turn&quot; OR abs:&quot;turn-end detection&quot;</code>，即删去裸词 <code>endpoint</code>，并记录改写前后的 totalResults 对照。</strong> 与上一轮同理：<strong>必须记录对照，以免把口径变化误读成产出变化。</strong></p>
+<p><strong>上一轮的车内组缺陷本轮已修复并做了对照。</strong> 旧写法 <code>abs:&quot;in-vehicle&quot; OR abs:&quot;cockpit&quot; OR abs:&quot;driver&quot; AND abs:&quot;speech&quot;</code> 在本窗口 totalResults = <strong>15</strong>；新写法 <code>(abs:&quot;in-vehicle&quot; OR abs:&quot;cockpit&quot; OR abs:&quot;driver&quot;) AND (abs:&quot;speech&quot; OR abs:&quot;voice&quot; OR abs:&quot;dialogue&quot; OR abs:&quot;assistant&quot;)</code> = <strong>3</strong>。<strong>修复后剩下的 3 篇仍然全部与座舱语音无关</strong>（<code>2608.20278</code> UAV IRS-ISAC、<code>2608.19752</code> IoT 车载应用自动化测试流水线、<code>2608.19661</code> 近海风场 AUV/ASV 导航规划）。<strong>因此结论是双重确认的：车内语音方向本轮确实为零，而不是查询写法造成的假象。</strong></p>
+<h3>6.8 逐版复核零新增（本项目首次）</h3>
+<p>47 个追踪 ID 一次批量查询全部返回，3 个非 v1 全部是此前已完成差分的条目。<strong>没有任何追踪项在本窗口产生新修订。</strong> 这是逐版通道第一次完全为空，<strong>必须与&quot;没查&quot;区分开来记录</strong>。</p>
+<h2>风险提醒</h2>
+<ol>
+<li><strong>不要说&quot;MaAI 是 MIT 的&quot;。</strong> 代码是 MIT，权重是四个许可证家族的拼盘，其中<strong>中文判停主力 <code>vap_ch</code>、中文 VAD <code>vad_ch</code>、中文应答检测 <code>bc_det_ch</code> 全部是 CC-BY-NC-ND-4.0，既非商业又禁止衍生</strong>；两个模型（<code>vap_bc_2type_jp</code>、<code>bc_det_en</code>）<strong>完全没有许可证标签</strong>，按未知处理。可商用的中文权重目前只有 <code>vap_bc_ch</code>（应答预测）与能力更少的 <code>vap_ch_kyoto</code>（判停）。</li>
+<li><strong>不要把 MaAI 的双通道 VAD 记成 AEC 的进展。</strong> 它不消除自身播放的回声，它在串音已存在时判断谁在说话。<strong>AEC 的计数是连续第九轮为零。</strong></li>
+<li><strong>本轮没有从一手来源核实到 MaAI 的任何精度数字。</strong> 论文 2608.19527 只有主观量表，仓库 README 把精度全部指向四篇未核实的外部论文。<strong>在自测之前，项目文档里不得出现 MaAI 的任何准确率。</strong></li>
+<li><strong>2608.19527 的基础管线是按键说话，不是全双工。</strong> 它证明的是&quot;半双工主通道 + 并联的连续倾听旁路&quot;有感知收益，<strong>不提供任何关于打断、抢话或重叠语音的证据</strong>。</li>
+<li><strong>不要用 2608.19527 论证应答能提升效率。</strong> 它自己的行为数据（话语条数、话语长度、对话时长）全部无显著差异，p 值分别为 .516 / .195 / .300。</li>
+<li><strong>应答不是越多越好，这已经是显著性检验结果而不是直觉。</strong> 注意感对应答次数的二次项 p=.009 且呈倒 U 型。但<strong>该分析是探索性的、N=35、单一语言场景</strong>，可信的是方向不是数值。</li>
+<li><strong>不要把 ReCache 的 7.200ms 当成项目可获得的 prefill。</strong> 它明确定义在<strong>缓存命中</strong>下且<strong>排除离线缓存构建成本</strong>，而车机上电后的第一句话必然是冷的。<strong>这是 08-20 记录的 prefix-cache 陷阱的第二个独立实例。</strong></li>
+<li><strong>ReCache 的仓库存在但没有任何许可证文件</strong>，按 GitHub 默认条款保留全部权利。<strong>&quot;公开可读&quot;不等于&quot;开源可用&quot;。</strong></li>
+<li><strong>Thinkingbox 承诺发布两件制品，只交付了一件。</strong> 507 个任务与黄金终态不在仓库里，仓库里只有沙箱框架与一个 <code>cloud_drive</code> 演示场景。<strong>且其 README 中 <code>arxiv</code> / <code>507</code> / <code>pass@</code> / 五个业务域名称的出现次数全部为 0</strong>——这是 08-20 记录的&quot;发布产品不发布实验&quot;形态的第二个独立实例。</li>
+<li><strong>对座舱而言 pass^k 才是对齐业务语义的指标。</strong> 用户说&quot;打开空调&quot;没有第 20 次机会。照抄论文以 pass@k 为主的呈现顺序会误导。</li>
+<li><strong>在验证试次隔离之前不要报 pass^k。</strong> 两次运行若共享任何状态，pass^k 会被系统性高估。</li>
+<li><strong>MaAI 建于 2025-07-04，比本项目追踪表还早，却到今天才被发现，原因是它十三个月没有产出会被 14 组关键词命中的论文。</strong> 它最近十二天连续新增的四项功能（VAD、中文 VAD、应答检测、单通道模式）全部落在本项目最近几轮的窗口内且全部被漏掉。<strong>这说明制品通道是与关键词查询、逐版复核并列的第三条发现通道，而不是可选补充。</strong></li>
+</ol></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-21</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-21</h2><p class="solution-source"><b>2026-08-21</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
