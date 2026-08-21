@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-07-31 · ◈ 7
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted in-context (Shifted IC) questions with non-subject context shifts. Existing benchmarks mainly target OOC or visually unanswerable questions, but overlook answerable Shifted IC cases and cover limited OOC shifts. To fill this gap, we present MMOOC, a large-scale benchmark for evaluating refusal and robust answering abilities of MLLMs. MMOOC contains over 41K image-question pairs, including answerable Shifted IC cases and unanswerable OOC cases, spanning three question formats, eight shift types and six visual scenarios, with data quality ensured through MLLM-based filtering and human verification. We evaluate model responses using Accuracy and Refusal Rate, and further introduce an LLM-as-a-Judge metric to assess the correctness of model reasoning. Experiments on diverse MLLMs show that current models still struggle to balance answer-ability and refusal under shifted contexts. We further analyze key failure patterns and show that post-training can improve robustness. MMOOC will be made publicly available. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">MMOOC 是面向 MLLM 的上下文外（OOC）评测基准，含 41K+ 图问对，同时考察真正不可答时的拒答与有干扰但仍可答时的稳健作答。对座舱多模态问答，它更像离线可靠性回归设计参考，而不是流式双工运行时组件。</span>
     <span class="l-en">Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted in-context (Shifted IC) questions with non-subject context shifts. Existing benchmarks mainly target OOC or visually unanswerable questions, but overlook answerable Shifted IC cases and cover limited OOC shifts. To fill this gap, we present MMOOC, a large-scale benchmark for evaluating refusal and robust answering abilities of MLLMs. MMOOC contains over 41K image-question pairs, including answerable Shifted IC cases and unanswerable OOC cases, spanning three question formats, eight shift types and six visual scenarios, with data quality ensured through MLLM-based filtering and human verification. We evaluate model responses using Accuracy and Refusal Rate, and further introduce an LLM-as-a-Judge metric to assess the correctness of model reasoning. Experiments on diverse MLLMs show that current models still struggle to balance answer-ability and refusal under shifted contexts. We further analyze key failure patterns and show that post-training can improve robustness. MMOOC will be made publicly available.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with </p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">MMOOC 用超过 41K 图问对同时评测 Shifted IC 的稳健作答与真正 OOC 的拒答，覆盖三种题型、八种偏移和六类视觉场景。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>现有全双工或多模态系统缺少统一、可复现的评测方法，导致不同架构和交互失败难以横向比较。</p>
+  <p>现有拒答/幻觉基准多只测真正不可答问题，忽略仍可答但有干扰偏移的 Shifted IC；模型可能过度拒答或在证据不足时硬答，且题型与场景覆盖有限。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Multimodal Large Language Models (MLLMs) have achieved strong performance on a wide range of vision-language tasks, but often fail under imperfect or shifted contexts. A reliable MLLM should refuse truly out-of-context (OOC) questions with subject-level context shifts while still answering shifted in-context (Shifted IC) questions with non-subject context shifts. Existing benchmarks mainly target OOC or visually unanswerable questions, but overlook answerable Shifted IC cases and cover limited OOC shifts. To fill this gap, we present MMOOC, a large-scale benchmark for evaluating refusal and robust answering abilities of MLLMs. MMOOC contains over 41K image-question pairs, including answerable Shifted IC cases and unanswerable OOC cases, spanning three question formats, eight shift types and six visual scenarios, with data quality ensured through MLLM-based filtering and human verification. We evaluate model responses using Accuracy and Refusal Rate, and further introduce an LLM-as-a-Judge metric to assess the correctness of model reasoning. Experiments on diverse MLLMs show that current models still struggle to balance answer-ability and refusal under shifted contexts. We further analyze key failure patterns and show that post-training can improve robustness. MMOOC will be made publicly available.</p>
-
-
+  <p>先按图像-问题证据是否足以支持答案区分 Shifted IC 与 OOC，再按主因分到 3 类 IC（误导前提、部分可答、图问不匹配）与 5 类 OOC（多模态歧义、视觉假前提、不确定空间物理、不清逻辑符号、缺失背景知识）。数据经多模型一致过滤与人工复核；用 Accuracy/Answer Rationality 评 IC，Refusal Rate/Refusal Rationality 评 OOC，并以多 LLM judge 打分。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>按层次 taxonomy 标注 Shifted IC 或 OOC 及细分类别。</li><li>用多 MLLM 生成与 Auto Shuffle 扩充样本，经 GPT-4o/o1/o3 一致过滤后人工复核。</li><li>在 yes/no、MCQ、开放 VQA 与六类视觉场景上评 18 个开源/闭源 MLLM。</li><li>分析失败模式，并试验 SFT/DPO 与拒答/CoT 提示等后训练与提示策略。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>基准规模超过 41K 图问对；质量核对中平均回答长度 26.69、Self-BLEU 2.00、相似度 0.09，低于对照基准的模板化重复。</li><li>作者评测 13 个开源与 5 个闭源 MLLM；报告 OOC 表现低且不一致，尤其 USPC/ULS，例如 Qwen3-VL-2B 在 YesNo/VQA 的 USPC 仅 5.75/8.25。</li><li>OOC 表现不随模型规模单调提升；Gemma-4 系列在开源中相对更强，闭源中 o1 整体 OOC 更高但仍类别不均。</li><li>后训练与提示可改善稳健性，但文中强调当前模型仍难以平衡作答与拒答。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：可借鉴其“可答干扰 vs 真不可答”分流，为座舱视觉问答增加拒答与过度拒答回归，而不是只测幻觉。</li><li>编辑判断：StreamingModelHarness 仍是流式输入、判停后生成、晚注入工具与外挂 TTS；MMOOC 不提供实时双工或语音链路，只提供离线多模态可靠性评测思路。</li><li>编辑判断：若落地，需把车载传感器缺失、遮挡与过期地图等映射到 USPC/MKB 类失败，并区分模型拒答与 harness 未注入证据。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>项目页与 GitHub 仍大量“Coming Soon”；仓库目前主要是 README/assets，评测工具包完整性未知。</li><li>HF 数据集 ZhuWenjie98/MMOOC 可见 ic/ooc parquet，但卡片未标明许可证。</li><li>评测依赖多闭源 LLM judge，复现成本高且裁判偏差难完全消除。</li><li>后训练实验只覆盖部分开源骨干，不能外推到全部座舱模型。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-12 09:30</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 项目页 https://zhuwenjie98.github.io/MMOOC-project-page/ 与 GitHub/HF 数据集入口已公开，但 GitHub 仍提示 benchmark/评测工具即将发布，当前仅 README/assets；数据集 ZhuWenjie98/MMOOC 许可证未能从卡片核验，也无模型权重。</p>
+  <p><a class="btn" href="https://github.com/ZhuWenjie98/MMOOC" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-21 19:23</p>
 </section>
   <p><a class="btn" href="https://huggingface.co/papers/2607.27637"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
