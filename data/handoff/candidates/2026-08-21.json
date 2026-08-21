@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-21",
+  "evidence_cutoff": "2026-08-21T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a NINTH consecutive report; items still 499; 0 new Radar entries. Direct arXiv search remains the only discovery channel. The index continues to advance one batch per day: on 08-20 the newest arXiv submission site-wide was 2608.19197 at 2026-08-19T17:58:56Z; this round the same query (all:a, no category bound, sorted by submittedDate descending) returns 2608.20340 at 2026-08-20T17:59:59Z, i.e. only the 08-20 batch was added. The cutoff again falls at 17:5x, the arXiv 14:00 ET daily deadline - a FIFTH consecutive confirmation that the index advances in whole batches, never paper by paper. The paper window was set by submission time to 2026-08-19T18:00Z - 2026-08-21T02:30Z, starting after the 08-19 batch deadline boundary so that it is strictly contiguous with, and non-overlapping, the 08-20 report's actual coverage end (last covered submission 2026-08-19T17:58:56Z); the last submission actually reachable in this window is 2026-08-20T17:59:59Z. 14 query groups yielded 78 deduplicated papers. Control queries returned normally: cat:cs.SD totalResults 21,749 (21,740 on 08-20, 21,728 on 08-19), cat:eess.AS 22,209 (22,202 on 08-20), cat:cs.CL 116,790, cat:cs.MM 9,947 - note cs.SD and eess.AS grew by only 9 and 7, among the smallest single-batch increments on record. All papers are attributed by submission time, never by discovery time. Round shape: FOUR speech query groups returned totalResults 0 outright (speech language model / spoken dialogue / speech-to-speech; streaming ASR; spatial audio; audio evaluation), yet the round still produced a P0 - a further falsification of using query-group emptiness to judge output. The P0 came from the cat:cs.HC group, the SECOND consecutive round in which the 14th query is the sole channel that surfaced the round's most important lead. Version sweep returned ZERO new revisions for the FIRST time: 47 tracked IDs in one ?id_list= call, 3 non-v1 (2608.13416v2, 2608.10878v2, 2608.14097v2), all three already diffed on earlier days - this must be recorded explicitly so that 'version channel produced nothing' is not misread as 'version channel was not checked'. Separately: main previously held reports only through 2026-08-10 - the NINTH consecutive round in which recovery was needed - and the unpublished rounds 2026-08-11 .. 2026-08-20 (14 report files and 8 candidate ledgers) were recovered to the mainline in a separate commit before this report was written. Next round: window start 2026-08-20T18:00Z, and the site-wide newest submission timestamp must be re-checked as usual.",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-21.md",
+    "reports/每日调研日报-2026-08-21.md"
+  ],
+  "candidates": [
+    {
+      "id": "backchannel-timing-sidecar-maai-offline-v1",
+      "candidate_fingerprint": "turn-taking|backchannel-timing|maai-vap|cpu-sidecar|offline-observation",
+      "title": "用 MaAI 的中文应答预测权重 vap_bc_ch 作为纯 CPU 旁路，在项目 452 条基准音频上做离线应答时机观测（权重为 MIT 可商用，但项目缺应答/打断标注，前置任务未完成前不得启动）",
+      "module": "turn_detection",
+      "source_date": "2026-08-21",
+      "source_work_date": "2026-08-20",
+      "artifact_release_date": "2025-11-19T08:08:42+00:00",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19527",
+        "https://github.com/MaAI-Kyoto/MaAI",
+        "https://huggingface.co/maai-kyoto/vap_bc_ch"
+      ],
+      "source_commit_referenced": null,
+      "problem_bucket": "turn_taking_and_interruption",
+      "hypothesis": "在项目已经实测「主模型自己判停不可行」（probe_turn_end 负面结果）的前提下，仅增加「把应答/接话时机交给一个完全不做 ASR、不做语义、可纯 CPU 运行的声学旁路模型」这一个变量，可在中文音频上给出连续的、可核验的时机信号，且完全不占用被 MoE 主模型占满的 GPU、不改变 ASR 与工具判定链路。",
+      "single_variable": "接话/应答时机信号来自项目现有的端点判定，还是来自外挂的 MaAI vap_bc_ch 声学旁路（其余全部冻结）",
+      "baseline_id": "probe_turn_end_negative_2026-08-03",
+      "profile": "offline_turn_detection_only",
+      "offline_baseline_scope": {
+        "dataset": "先在项目冻结的 452 条基准音频上跑纯观测（不需要真值即可产出触发点分布与算力占用），但「时机对不对」这个量必须等项目自己造出带应答/打断标注的中文评测数据后才能测",
+        "metric": "分两类报告：(1) 无需真值即可测的工程量——5/10/20 Hz 三档下的 CPU 占用、每帧墙钟耗时、触发点相对项目已有 commit 时刻的分布；(2) 需要真值的准确性量——暂不可测，明确记为未知"
+      },
+      "implementation_scope": [
+        "只在旁路观测环节引入 MaAI；冻结主模型权重、提示、采样设置、RAG、候选工具集合、执行器、TTS、播报路径",
+        "只使用 MIT 许可的 maai-kyoto/vap_bc_ch，不得使用 CC-BY-NC-ND-4.0 的 vap_ch、vap_mc_ch、vad_ch、bc_det_ch，也不得使用无许可证标签的 vap_bc_2type_jp 与 bc_det_en",
+        "必须先完成一次只读代码审阅（src/maai/model.py 54,992 字节、encoder.py 71,539 字节、models/vap_bc.py 5,899 字节、input.py 21,995 字节的音频缓冲与线程模型）；审阅通过前不得执行该仓库任何代码，这是项目「不运行陌生论文仓库代码」边界的落实方式",
+        "使用已发布权重，不重训不微调",
+        "必须记录所使用的 commit SHA 或 PyPI 版本（仓库 pushed_at 2026-08-19T08:02:06Z，最新 tag v0.2.15，HEAD 随时可变）",
+        "三档 frame_rate（5/10/20 Hz）必须分别测量并分别报告，不得只报一档；算法块长由该参数直接决定（10 Hz ⇒ 100ms，20 Hz ⇒ 50ms）",
+        "全程 CPU 部署，不得占用 H20 或与主模型共卡；若观测显示 CPU 占用不可接受，直接记为负结果而不是改用 GPU 重试",
+        "只做旁路观测，输出不得进入 音频→ASR→判停→生成→播报 的任何串行环节"
+      ],
+      "evidence": [
+        "项目快照：0a80a52 probe_turn_end 实测主模型自己判停不可行（负面结果），判停与接话时机至今没有可对照的外部实现",
+        "项目快照：452 条基准音频为单说话人合成音频，没有打断点标注、没有应答位置真值、没有说话结束时刻真值",
+        "项目快照：GPU 已被 110ms/token 的 MoE 主模型占满，任何需要额外常驻 GPU 显存的旁路都要先做共卡估算——本候选不触发该前置条件，因为它按设计是纯 CPU 的",
+        "制品事实（一手核实，2026-08-21）：github.com/MaAI-Kyoto/MaAI 存在，created 2025-07-04T07:12:01Z、pushed 2026-08-19T08:02:06Z、224 个 blob 合计 88,247,753 字节、120 stars、最新 tag v0.2.15、LICENSE 文件 1,078 字节逐字读为未修改的标准 MIT（版权方 MaAI Development Team，2025）",
+        "制品事实（一手核实，2026-08-21）：huggingface.co/maai-kyoto/vap_bc_ch 存在，createdAt 2025-11-19T08:08:42Z、gated False、private False、license:mit，4 个权重文件 vap-bc_state_dict_ch_{5,10,20}hz_20000msec.pt 与 vap-bc_mimi_state_dict_ch_12.5hz_20000msec.pt",
+        "制品事实：主 README 自述支持英语、中文与日语，且自述 Thanks to its lightweight design, MaAI operates efficiently, even exclusively on CPU hardware",
+        "制品事实：帧率为用户可设参数——判停与应答支持 5/10/20 Hz（CPC 编码器 model_type=normal）或 12.5 Hz（Mimi 编码器 normal-ver2）；VAD 支持 10/20/50 Hz 或 12.5 Hz。这是追踪表上第一个把「算法块长 / 精度 / CPU 占用」的取舍交给使用方的判停制品",
+        "制品事实：MaaiMultiple 让多个模型共享同一音频编码器，官方说明为「（相对昂贵的）编码器每音频帧只运行一次」；源码侧佐证为 src/maai/encoder.py 达 71,539 字节",
+        "制品事实：仓库最近十二天连续新增实质功能——2026-08-09 加入 VAD 模型、2026-08-12 加入中文 vad_ch、2026-08-17 加入应答检测模型、2026-08-19 加入单通道模式。这四次更新全部落在本项目最近几轮的报告窗口内且全部被漏掉，原因都是没有论文",
+        "论文事实 (2608.19527)：该系统在一份 N=35 的被试内研究中被集成使用，评估频率为 10 Hz，应用层另加 3 秒冷却；加入应答与点头后注意感 5.29 对 4.80（p=.018）、真实感 4.77 对 4.29（p=.006）、共在感 4.60 对 3.94（p=.002）",
+        "论文事实（本条最关键）：注意感对应答次数呈显著倒 U 型，二次项 p=.009，在中等数量处达峰；论文原话 simply providing more was not necessarily better。点头与其余各项均无显著曲线关系",
+        "论文事实（负面）：用户自身行为一点没变——话语条数 12.89 (2.52) 对 13.11 (2.13) p=.516、平均话语长度 7.30 (2.91) 对 6.93 (3.15) 秒 p=.195、对话时长 4.90 (0.25) 对 4.83 (0.19) 分钟 p=.300，全部 p>.19。论文自述改善反映的是用户对交互的感知变化而不是其外显对话行为的变化"
+      ],
+      "expected_fixes": null,
+      "expected_fixes_basis": "无法估计，诚实记为未知，且有两重原因。其一与 X2-Turn 候选同源：项目的 452 条基准音频是单说话人合成音频，既没有应答位置标注也没有打断点与说话真实结束时刻的真值，因此「时机判对了多少条」这个量在项目侧目前不可测。其二是本候选独有的：本轮没有从任何一手来源核实到 MaAI 的任何精度指标——论文 2608.19527 只报主观量表、不报预测精度也不报时延，仓库 README 不给任何数字而把精度全部指向四篇本轮未核实的外部论文（IWSDS 2024 判停、LREC-COLING 2024 多语判停、NAACL 2025 应答预测、一篇噪声鲁棒 VAP 现场实验）。因此连「论文侧上界」都不存在。在自测之前任何预估都是编造。",
+      "latency_budget_ms": null,
+      "latency_budget_basis": "待测，但本候选是追踪表上第一个算法时延可由参数直接推出的。三项必须分列：算法时延/管线块长由 frame_rate 直接决定（5 Hz ⇒ 200ms、10 Hz ⇒ 100ms、20 Hz ⇒ 50ms、Mimi 12.5 Hz ⇒ 80ms）；模型上下文为 20,000 毫秒（见权重文件名 ..._20000msec.pt），这是历史依赖长度而非时延；实测每帧墙钟耗时未知，必须项目自测且必须在 CPU 上测。三者不得合并成一个数。另注论文的 10 Hz 与 3 秒冷却是应用层参数，不是模型固有时延。",
+      "risks": [
+        "项目没有应答/打断标注评测集，这是本候选最大的阻塞——没有真值就只能做工程量观测，不能做正确性结论",
+        "本轮零精度证据：论文只有主观量表，README 把精度全部外链到未核实论文。在自测之前项目文档里不得出现 MaAI 的任何准确率",
+        "许可证是逐模型的拼盘而非统一 MIT。中文判停主力 vap_ch、中文 VAD vad_ch、中文应答检测 bc_det_ch 全部是 CC-BY-NC-ND-4.0（非商业且禁止衍生）；MIT 的替代品 vap_ch_kyoto 能力严格更少（只有 5Hz 与 10Hz 两个文件、均 20,000 毫秒，无 20Hz、无 Mimi、无短上下文变体）。误用不可商用权重是本候选的首要合规风险",
+        "官方文档存在自相矛盾且本项目不替其选择：readme/vap_bc.md 的 Supported Languages 首句写 Currently, only Japanese is supported，而同一文档随后列出 en/ch/tri 三节、其参数表列出四个取值、主 README 更新日志写三语言自 2025-11-19 起可用、HF 上 vap_bc_ch 的 createdAt 正是该日。四处指向中文已支持、一处句子指向仅日语。在实测前不得把中文支持当作已确认",
+        "训练数据未发布：应答模型官方文档只写训练自 Online Conversation Dataset，VAD 模型文档不给任何数据集名称。因此无法判断其训练分布与车内噪声、车控短指令的距离",
+        "2608.19527 的基础管线是按键说话（push-to-talk）而非全双工，因此该论文不提供任何关于打断、抢话或重叠语音的证据；它证明的是旁路通道有感知收益，不能外推到全双工场景",
+        "2608.19527 全文零时延、零硬件规格（只写明经浏览器跑在 Android 平板上），主管线全部是云服务（Deepgram nova-2 / GPT-4.1 / Cartesia sonic-3），与项目本地部署前提完全不同",
+        "该研究 N=35、全部日语母语本科/研究生、单一被克隆对象（第一作者本人）、应答与点头一起开启未拆分；倒 U 型是探索性事后拟合。方向可信度高于数值可信度，数值一律不得搬用",
+        "仓库虽有 tag（v0.2.15）但 HEAD 随时可变；不记版本的实验不可复现",
+        "依赖侧许可证不传递且需分别核实：normal-ver2 路径使用 Mimi 编码器（kyutai/mimi，CC BY 4.0），normal 路径使用来自 facebookresearch/CPC_audio 的 CPC 预训练模型，官方只写「请遵循其自身的特定许可证」而未给出结论"
+      ],
+      "dependencies": [
+        "必须先造出一批带应答位置、打断点与说话结束时刻标注的中文评测数据——这是硬阻塞，且它与 turn-state-external-head-x2turn-offline-v1 共用同一批数据，两个候选应共享这项前置投入",
+        "对 MaAI-Kyoto/MaAI 的只读代码审阅必须先完成并通过",
+        "许可证三分表（可商用/不可商用/未知）必须先完成，且必须逐模型而非按仓库判定",
+        "不得与 omnivoice-local-tts-16step-v1、tool-hold-message-first-audio-v1、playback-boundary-ledger-offline-v1、decode-loop-cudagraph-static-kv-v1、streaming-se-frontend-rtsemamba-kd1-v1、turn-state-external-head-x2turn-offline-v1 同时变更",
+        "不得借本候选重启已实测为负优化的投机预取与工具清单压缩"
+      ],
+      "offline_gate": {
+        "canary_414_regressions": 0,
+        "turn_taking_labelled_eval_set_built_first": true,
+        "readonly_code_review_passed_first": true,
+        "per_model_license_table_completed_first": true,
+        "only_mit_licensed_weights_used": true,
+        "cpu_only_deployment_enforced": true,
+        "all_three_frame_rates_measured_separately": true,
+        "latency_reported_as_three_separate_numbers": true,
+        "no_accuracy_number_quoted_before_self_measurement": true,
+        "sidecar_never_inserted_into_playback_path": true,
+        "commit_sha_or_pypi_version_recorded": true,
+        "negative_result_accepted_as_valid": true
+      },
+      "h20_gate": {
+        "request_allowed": false,
+        "reason": "本候选按设计不需要 GPU，因此 H20 请求在任何情况下都不适用；若观测显示 CPU 占用不可接受，正确的处置是记为负结果而不是改用 GPU 重试。另外三项硬阻塞（应答/打断标注评测集、只读代码审阅、逐模型许可证三分表）均未完成，expected_fixes 因此为未知，无法与动态 full gap 比较。",
+        "dynamic_full_gap": 14,
+        "same_baseline_and_hash": true,
+        "gpu_consumed": false
+      },
+      "research_value": "这是自 2026-08-03 probe_turn_end 记下负面结果以来，第一个可以在不占用 GPU 的前提下验证「判停/接话时机必须交给一个与解码解耦的独立旁路」这条架构判断的中文可用制品。它与 08-20 的 X2-Turn 候选构成一组天然对照：同一条架构判断，一条要 4B 模型加 GPU、一条可纯 CPU，两条都是开放非门控权重，因此项目第一次可以在自己的音频上直接比较「解耦到什么程度」的代价与收益。即使结果为零收益，这条负结果也能一次性关闭「轻量声学旁路」这整个方向的重复评估。附带价值有二：其一，它与 X2-Turn 候选共用同一批需要新造的中文标注数据，因此两个候选合并起来使那项前置投入的性价比翻倍；其二，2608.19527 的倒 U 型给出了一条无需任何实验即可写进参数表的设计约束——应答频次必须设上限，而不是单调越高越好。",
+      "patent_value": "public-safe：仅记录「以非语言行为预测旁路与主解码链路解耦、且该旁路的算法块长由可设帧率直接决定、并以纯 CPU 部署避开主模型显存竞争作为座舱判停选型判据」的研究标签，不公开未申请实现细节。",
+      "source_commit": null,
+      "status": "proposed_offline_blocked",
+      "blocked_on": [
+        "带应答位置、打断点与说话结束时刻标注的中文评测数据",
+        "只读代码审阅",
+        "逐模型许可证三分表"
+      ],
+      "evidence_score": 0.47
+    }
+  ],
+  "carried_over": [
+    "turn-state-external-head-x2turn-offline-v1（2026-08-20）状态不变：仅离线、h20_request_allowed=false、proposed_offline_blocked、expected_fixes 仍为 null，三项阻塞（打断标注评测集、只读代码审阅、显存占用估算）本轮均未推进。本轮新增一条同方向、可直接对照的外部制品：MaAI（见本轮候选）。两者的关系必须写清——同一条架构判断（判停交给与解码解耦的独立旁路）的两种代价点，X2-Turn 是 4B + GPU + 做 ASR，MaAI 是轻量 + 纯 CPU + 完全不做 ASR。两者共用同一批需要新造的中文标注数据，因此该前置投入应合并规划。X2-Turn 的论文侧局限本轮未变：联合训练损害 ASR（AISHELL-1 2.57→3.94），288ms 时延仍是相对词尾而非相对说话结束的口径。",
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮无新增外部素材：TTS 一组 totalResults 仅 3 篇且其中 2 篇是跨领域假阳性（2608.19789 条件 GAN 的量子启发张量网络去噪、2608.19651 粒子物理的电弱重子生成），唯一相关的 2608.19959 是合成语音欺骗性的趋势研究，不含合成质量、时延或流式指标。08-20 记录的 X2Streaming-TTS（2608.18661）状态不变：其 TTFT 是首个音频 token 而非首音频到达听者；论文声明的仓库 X-Square-Robot/X2Streaming-TTS 本轮未复核（08-20 设的两周期限，本轮为第二天）；其 ρ 前提在项目条件下仍未验证。Luna-TTS 项目页的页内矛盾按 30 天节奏下次复核。VoiceChat-TTS 的 9.62ms 是 ITL 而非首包。FireRedTTS3 本轮未出现任何时延或流式基准，状态不变。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。本轮无新增机制性证据。既有的一条支持仍然有效：VoiceChat-TTS 的 Force Silence 把播报收尾实现成在中断对齐位置确定性写入一个预先算好的静音帧而不是等声学流自然衰减，且写入后不重置 KV cache，该机制已于 08-17 在 NVIDIA-NeMo/Speech 的 duplex_ear_tts.py 第 1193 行逐行核实。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false。CodeForZzc/GCM-Bench 本轮未复核（上次 2026-08-19），PACE 中间件本体仍未公开。08-20 记录的 Code2Wav 状态成本（单路约 2.53MB BF16 且与解码长度无关、16 路约 40.3MB、滑动窗口 72 步约合 6 秒声学历史）本轮未变。本轮新增一条弱相关但方向一致的记录：Thinkingbox 要求同一任务的两次尝试不得共享数据库行、缓存的工具状态或副作用，这与播放边界台账所要求的「跨轮次状态必须显式且可核验」是同一精神，可在设计文档里并列引用。",
+    "decode-loop-cudagraph-static-kv-v1（2026-08-14）保持不变，仅离线、h20_request_allowed=false。先验与顺序均不变：项目既定的 index_select+bmm 无同步 fast path 必须先单独测完并落盘，整环图捕获作为第二个独立变量单独测量，两步不得合并成一次结论。本轮无新增佐证（既有五条分别为 FlashDrive 的前置条件、vToken 的硬约束、DeaMoE 的公平性前提、CoRun 的确定性、以及 Qwen3TTS-Streaming README 的生产级优化记录）。08-20 记录的掩码式 KV 回退原语（2608.19147）本轮未变，仍是打断/撤回路径与图捕获形状要求的交集。",
+    "streaming-se-frontend-rtsemamba-kd1-v1（2026-08-15）状态不变（仅离线、h20_request_allowed=false、proposed_offline_blocked、expected_fixes 仍为 null）。本轮无新增证据：AEC 与语音增强方向连续第九轮零一手依据，本窗口 speech enhancement OR noise suppression OR echo cancellation OR beamforming 一组 totalResults 仅 1 篇且为无人机 IRS-ISAC 保密速率（非声学）。08-19 收紧的验收口径继续有效——把 PESQ 提升从任何形式的收益依据中删除，改为只以项目自己测得的中文 CER 验收。RT-SEMamba 本轮未复核，仍然没有任何下游 CER/WER 数字。本轮出现的 MaAI 双通道 VAD 不改变本条状态，理由见 maai-vad-is-not-aec 一条。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "grader-treatment-invariance-audit",
+      "kind": "evaluation_buildout",
+      "summary": "维持 2026-08-14 起的记录不变，优先级仍是全部事项中最高的一条，高于本轮的 MaAI 离线观测。对项目自己的判定器做一次处理不变性检查：冻结一批已判定样本的全部执行证据，只修改与被测行为无关的元数据（方案名 A/B、候选工具集版本、音色、clean/20dB 档标签、样本批次），重跑判定器，逐条记录类别是否翻转；同时补一份判定器不得读取哪些字段的输入排除清单。任何翻转即为判定器缺陷，必须先修判定器再谈任何 +1/+4 结论。本轮的 Thinkingbox 从一个新角度加强了这条的理由（见 report-pass-at-k-and-pass-hat-k-together），此条重申以防被本轮的 P0 掩盖。",
+      "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。",
+      "external_evidence": "arXiv:2608.12880（2026-08-14 已展开）。AutoDesign（2608.13560）的 r=0.34 相关限定不变，其附录 A.5 人评数据本轮未复核（上次 2026-08-19 为连续第四次缺失，本轮为第六次待核）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12880",
+        "https://arxiv.org/abs/2608.13560"
+      ]
+    },
+    {
+      "id": "report-pass-at-k-and-pass-hat-k-together",
+      "kind": "evaluation_buildout",
+      "summary": "把项目 452 条自建判定的报告口径由单次运行的聚合通过率，改为 pass@k 与 pass^k 一对数字，并在聚合值旁并列逐条翻转率。定义按 Thinkingbox：pass@k 是 k 次中至少一次成功的概率，pass^k 是 k 次全部成功的概率；前者度量重试能否发现一条成功轨迹，后者度量可靠的重复执行。对座舱有一层必须写死的特殊含义：论文场景允许重试所以 pass@20 有意义，而用户说「打开空调」没有第 20 次机会，因此 pass^k 才是对齐业务语义的那个指标，pass@k 只用于区分「能力存在但不稳定」与「能力不存在」；照抄论文以 pass@k 为主的呈现顺序会误导。执行顺序：先改报告口径并在最小子集上试算重复成本，不急于跑满 20 遍。",
+      "why_not_candidate": "这是报告口径与评测协议的改动，不是被测系统上的单变量改动，也无法给出预计正确性净修数。",
+      "external_evidence": "arXiv:2608.19741（One Success Isn't Reliability: Thinkingbox, 微软, cs.CL, 2026-08-20T07:37:57Z, 45 页, 论文许可证 CC-BY-4.0）。507 个任务、每任务 n=20 次独立评估、12 个模型，即每模型 10,140 次试次。头条（Table 11）：GPT-5.4 的 pass@20 为 91.12%，pass^20 仅 25.25%；论文概括为 Repeated inference can often find one successful trajectory without making the agent dependable。已核实的另两行：MiniMax-M2.5 pass@1 0.19% [0.00%, 0.53%]、pass^20 0.00%、pass@20 0.59%、504 个任务 0/20、0 个任务 20/20；Qwen3-8B 0.13% [0.01%, 0.34%] / 0.00% / 0.99% / 502 / 0。另有一行的模型名在 PDF 抽取中与相邻列粘连、无法唯一确定，其数值为 pass@1 CI [3.66%, 5.75%]、pass^20 0.00%、pass@20 25.44%、378 个任务 0/20、0 个任务 20/20，该行模型归属记为待核，不作猜测。区分句原文：pass@k measures whether retries can discover a successful trajectory, whereas pass^k measures dependable repeated execution。另报 95% 的任务簇自助置信区间（重采样 507 个任务、保留每个被采样任务内的全部 20 个结果）。与既有证据的关系：这是「单次聚合会系统性高估可靠性」的第二条独立证据，第一条是 08-20 从 ComponentBench (2608.18307) 记下的——两次运行聚合通过率完全相同（52.5%）却有 17.3% 的任务结果翻转，pass→fail 与 fail→pass 在聚合上互相抵消。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19741",
+        "https://arxiv.org/abs/2608.18307"
+      ]
+    },
+    {
+      "id": "tool-call-level-signals-are-not-completion-proxies",
+      "kind": "negative_evidence",
+      "summary": "记录一条直接质疑项目现有头条指标的外部结论：工具调用层面的信号不是端到端任务完成的清晰代理。项目当前对外的数字是单次运行的严格工具名召回 80.49%，它既是工具调用层面的信号又是单次聚合值，恰好同时命中该论文批评的两点。规则：工具名召回可以继续作为诊断量保留，但不得单独作为头条；头条必须是一个建立在终态与副作用之上、且带重复运行统计的量。",
+      "why_not_candidate": "这是对既有指标可信度的限定与报告规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19741。论文的核心主张原文：tool-call-level signals are not clear proxies for end-to-end task completion；结论段同向：strong tool-use performance does not yet translate into dependable work completion。其判定设计与该主张自洽的一处细节值得单独记：任务筛选阶段明确剔除了「检查依赖于工具调用轨迹」的任务（原文剔除清单为 tasks with broken tools, inconsistent initial states, ambiguous goals, unverifiable outcomes, checks that depend on tool-call trajectories, or interactions that repeatedly fail to terminate under LLM agents），即既然主张轨迹不是完成度的代理，判定就不能建立在轨迹上。一处必须随引用同行的限定：其主判定不覆盖用户可见的沟通质量，论文自述 Reported pass rates therefore measure correct, policy-compliant backend outcomes rather than the fidelity of user-facing communication——而播报内容对不对恰恰是座舱要管的事，因此该论文的判定形状可借，覆盖面不可照搬。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19741",
+        "https://arxiv.org/abs/2608.14036"
+      ]
+    },
+    {
+      "id": "deterministic-verdict-llm-only-for-attribution",
+      "kind": "design_constraint",
+      "summary": "记录项目「判定链路不得引入 LLM 判定器」这条既定规则的第一份正面外部先例，此前记录的全部是反面教训。Thinkingbox 的主判定是确定性的哈希断言（比对终态数据库与任务特定黄金态），LLM 只用于给失败轨迹打归因标签，且归因结论被论文自己明确降级为「可观测的诊断，而不是唯一的因果解释」。可整体照搬的分层是三条：判定确定性；归因才允许用模型；归因结论显式降级、永不用于设定阈值。第三条与 08-20 从 LEDGER 记下的「显式层次信任分离」是同一条纪律的两种表述。",
+      "why_not_candidate": "这是设计约束的登记，不是被测系统上的单变量改动。",
+      "external_evidence": "arXiv:2608.19741。取舍原文：We accept this asymmetry to keep the primary metric deterministic; extending LLM-judged rubrics to every task would reintroduce judge variance into the verdict。判定原文：The primary evaluation compares the final database state with the golden expected state using deterministic, hash-based assertions. The agent succeeds only when it produces the exact required side effects without introducing incorrect additional effects；解码失败、测试执行失败、API 错误与其它系统错误一律计为失败试次。归因原文：executable checks provide binary verdicts but not natural-language failure signatures, so we assign each failed trace an exclusive dominant signature using deterministic evidence...These signatures are observable diagnostics rather than unique causal explanations。对照 08-20 的三篇反例：SemaPLC 的判定器由作者重写（117 个任务中的 43 个）且未发布修复数据；ComponentBench 的失效归因一套以组件类型先验为起点、一套是 GPT-5.4、唯一复核者是 Claude Opus 4.8（20 案例单次采样、改标 5 个即 25%）；2608.18351 的充分权限包络由 Codex 与 Claude Code 生成。三者的人工一致性统计全部为零。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19741",
+        "https://arxiv.org/abs/2608.18398",
+        "https://arxiv.org/abs/2608.18565"
+      ]
+    },
+    {
+      "id": "trial-isolation-must-precede-repeat-run-metrics",
+      "kind": "process_rule",
+      "summary": "记录一条在改报重复运行指标之前必须完成的前置检查：两次试次不得共享任何状态，否则 pass^k 会被系统性高估。这一步必须在跑 20 遍之前做，而不是之后。附带一条同样重要的口径提醒：重复试次若使用随机采样的模拟用户，它度量的是「对一族交互分布的鲁棒性」而不是「对单一固定对话的重复」，两者不可混称。",
+      "why_not_candidate": "这是评测流程的前置检查规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19741 §3。隔离要求原文：Two attempts of the same task must not share database rows, cached tool state, or side effects, otherwise pass@k and training rewards become unreliable；论文自述这一设计遵循与 AgentBench、OSWorld、AppWorld、MCP-Atlas 相同的可复现性压力。口径提醒原文：Sampling is not deterministic, so the 20 trials of a task differ in user phrasing as well as in agent behavior; the reliability results in Appendix D.1 therefore measure robustness to a distribution of user interactions rather than repetition of a single fixed dialogue；模拟用户为固定的 GPT-5.4-mini 部署、温度 0.3、无推理努力、4,096 token 补全上限、最多 10 个追问轮次。论文另逐条列出模拟用户不具备的真实用户属性：it does not misremember or misstate facts, does not change its goal mid-conversation, does not become uncooperative under repeated failure, and its brevity is a fixed instruction rather than a behavioral trait that varies by user——这份自陈清单本身就是一份可照抄的模拟器局限披露模板。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19741"
+      ]
+    },
+    {
+      "id": "per-model-license-patchwork-must-be-checked-model-by-model",
+      "kind": "process_rule",
+      "summary": "把「代码许可证从不传递到权重」这条既有规则升级：同一个组织在同一个 Hugging Face 命名空间下的权重，许可证本身也可以是不统一的，因此必须逐模型核实而不是逐组织或逐仓库核实。MaAI 是迄今记录到最碎的一例——34 个模型分属四个许可证家族，另有两个完全没有许可证标签。更关键的是这种碎片化不是随机的：对项目最有吸引力的能力（中文判停主力、中文 VAD、中文应答检测）恰好落在最严格的那一档。规则：任何「某某项目是 MIT 的」这类按仓库表述一律视为未核实；开放状态表必须以模型为行、以代码/权重/数据/许可证为列。",
+      "why_not_candidate": "这是筛查与记录规则，不是被测系统上的改动。",
+      "external_evidence": "huggingface.co/maai-kyoto 全部 34 个模型逐个核实（2026-08-21，全部 gated False、private False）。MIT：vap_bc_jp、vap_bc_en、vap_bc_ch、vap_bc_tri、vap_nod_jp、vap_nod_para_jp、vap_prompt_jp、vap_jp_kyoto、vap_mc_jp_kyoto、vap_ch_kyoto、vap_en_kyoto、vap_mc_ch_kyoto、vap_mc_en_kyoto、vap_tri_kyoto、vap_mc_tri_kyoto。CC-BY-NC-ND-4.0：vap_ch、vap_en、vap_jp、vap_mc_en、vap_mc_ch、vap_mc_jp、vap_ca、vap_fr、vap_mc_fr、vad_jp、vad_ch、bc_det_jp、bc_det_ch。CC-BY-NC-SA-4.0：vap_tri、vap_mc_tri、test。CC-BY-4.0：continuous-mimi-onnx。无许可证标签：vap_bc_2type_jp、bc_det_en。能力差异的具体核实：vap_ch（CC-BY-NC-ND-4.0）含 9 个权重文件，覆盖 5/10/20 Hz 与 2,500 / 3,000 / 5,000 / 20,000 毫秒多种上下文长度外加 Mimi 12.5 Hz；而 MIT 的 vap_ch_kyoto 只有 2 个文件（vap_state_dict_ch_kyoto_5hz_20000msec.pt 与 ..._10hz_20000msec.pt），无 20 Hz、无 Mimi、无短上下文变体。时间维度同样值得记：最近十天新增的三个模型 vad_ch（createdAt 2026-08-12T07:32:54Z）、bc_det_ch 与 bc_det_jp（均 2026-08-17）全部是 CC-BY-NC-ND-4.0。上游自陈原文（仓库 README 许可证段）：The source code in this repository is licensed under the MIT License. For the trained models, please follow the license described in the README of each model or on Hugging Face repository。仓库自身 LICENSE 为 1,078 字节的未修改标准 MIT。依赖侧：Mimi 为 kyutai/mimi、CC BY 4.0；CPC 预训练模型来自 facebookresearch/CPC_audio，官方只写 please follow its specific license 而未给出结论。",
+      "source_urls": [
+        "https://github.com/MaAI-Kyoto/MaAI",
+        "https://huggingface.co/maai-kyoto/vap_bc_ch",
+        "https://huggingface.co/maai-kyoto/vap_ch",
+        "https://huggingface.co/maai-kyoto/vap_ch_kyoto"
+      ]
+    },
+    {
+      "id": "artifact-channel-is-a-third-independent-discovery-channel",
+      "kind": "process_rule",
+      "summary": "把发现通道从两条固化为三条。第一条是 submittedDate 窗口查询——它结构上看不见修订版。第二条是追踪表逐版复核——它只能看见已经在表内的条目。第三条是制品通道，即按机构/作者反查 GitHub 与 Hugging Face——只有它能看见「根本没有产出过论文的活跃工程」。三条缺一不可，且第三条此前被当作可选补充，本轮证明它必须常规化。",
+      "why_not_candidate": "这是发现流程规则，不是被测系统上的改动。",
+      "external_evidence": "本轮实例：MaAI-Kyoto/MaAI created 2025-07-04T07:12:01Z，比本项目追踪表还早，却到 2026-08-21 才被发现，原因是它十三个月里没有产出过一篇会被本项目 14 组关键词命中的论文（它引用的四篇方法论文分别发表于 IWSDS 2024、LREC-COLING 2024、NAACL 2025 与 arXiv 2503.06241，全部早于本项目的窗口起点）。而它在最近十二天里连续新增了实质功能，逐条为：2026-08-09 Add Voice Activity Detection (VAD) model；2026-08-12 Add vad/vap_mono docs and vad_ch support；2026-08-13 Skip HF Mimi load on ONNX path and parallelize MaaiMultiple 与 Recreate MaaiMultiple sub-executor after stop/start 与 Update VAD docs for new langs and frame rates；2026-08-17 Add backchannel detection model support；2026-08-19 Handle mono mode selection and user warning。这四次功能更新全部落在本项目最近几轮的报告窗口内、全部被漏掉，原因都是没有论文。对照 08-20 的第一次实例：一次 gh api /users/X-Square-Robot/repos?per_page=100&sort=pushed 调用同时（a）证明论文声明的仓库不存在、（b）找到疑似实现、（c）发现一个被追踪论文的代码已经公开。两次实例的差别在于范围：08-20 的反查对象已在追踪表内，本轮的对象完全不在表内，因此第三条通道的价值高于此前的估计。",
+      "source_urls": [
+        "https://github.com/MaAI-Kyoto/MaAI",
+        "https://arxiv.org/abs/2608.19527"
+      ]
+    },
+    {
+      "id": "backchannel-frequency-has-an-inverted-u-optimum",
+      "kind": "design_constraint",
+      "summary": "为项目未来的座舱应答功能记下一条可以立刻写进参数表、且无需任何实验即可采纳的设计约束：应答频次必须设上限，因为「越多越好」已被显著性检验证否。抄形状不抄数值——论文的量级来自日语、实验室、平板、非驾驶场景。同时必须记录该研究自己的负面结果：应答不改变用户的外显行为，因此不得用它论证应答能提升交互效率或缩短对话。",
+      "why_not_candidate": "这是设计约束的登记，不是被测系统上的单变量改动；项目当前没有应答功能，没有可施加该约束的对象。",
+      "external_evidence": "arXiv:2608.19527（Does Listening Matter? Backchanneling and Nodding in AI Clone, Koji Inoue + Kazushi Kato + Tatsuya Kawahara/京都大学 + Shunichi Kasahara/Sony CSL, cs.HC, 2026-08-20T00:53:25Z, 5 页, 论文许可证 CC-BY-NC-ND-4.0, ICMI 2026 Late-Breaking Results track 已接收的作者预印本）。已全文核实。倒 U 型原文：Attentiveness (Q3) showed a significant inverted-U relationship with the number of backchannels (quadratic term p=.009), peaking at an intermediate amount. Other items and nodding showed no significant curvilinear trends；论文的概括句为 while the addition of feedback generally improved ratings, simply providing more was not necessarily better。系统实际量级（Table 1）：每段对话应答 27.29 (SD 7.55)、每条用户话语 2.25 (SD 0.92)；点头 21.83 (SD 6.10)、每条话语 1.76 (SD 0.62)。主结果（单尾配对 t 检验）：Q3 注意感 5.29 对 4.80 (p=.018)、Q6 真实感 4.77 对 4.29 (p=.006)、Q8 共在感 4.60 对 3.94 (p=.002)；Q4 亲近感 p=.081 与 Q5 参与感 p=.089 为边缘显著；其余四项无显著优势，其中包括 Q9 节奏感——加了实时应答之后用户并没有觉得交互节奏更顺畅。九项量表 Cronbach's α 为 .77 / .81；顺序效应检验九项全部 p>.21。负面结果原文对应的数字：用户话语条数 12.89 (2.52) 对 13.11 (2.13) p=.516、平均话语长度 7.30 (2.91) 对 6.93 (3.15) 秒 p=.195、对话时长 4.90 (0.25) 对 4.83 (0.19) 分钟 p=.300，论文自述 the improvements in subjective evaluation reflect changes in the users' perception of the interaction rather than changes in their own overt dialogue behavior。必须随引用同行的限定：倒 U 型为探索性事后分析（原文 As an exploratory analysis），N=35 全部为日语母语本科/研究生、单一被克隆对象（第一作者本人）、应答与点头一起开启未拆分（论文自列为待办）、全文零时延零硬件规格。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19527"
+      ]
+    },
+    {
+      "id": "maai-vad-is-not-aec",
+      "kind": "negative_evidence",
+      "summary": "回声消除连续第九轮零一手依据，同时记录一条容易被误读为「AEC 有进展」的新制品并给出判别。MaAI 的双通道 VAD 用跨通道注意力联合处理两个通道，在串音存在时判断实际是谁在说话；它不消除也不抵消自身播放的回声。判别式扩为三类：ANC = 副扬声器 + 误差麦克风；AEC = 自身播放信号的参考/回环抽头用于相消；串音归属判定 = 接受泄漏存在、只做说话人归属。第三类对项目仍有用（打断判定需要知道当前声音是用户插话还是自己的播报漏回），但 AEC 的计数保持为九轮为零。另注它的双通道是「用户 vs 系统」而不是「乘员 A vs 乘员 B」，因此也不构成多乘员方案。",
+      "why_not_candidate": "这是零结果与判别规则的登记，不是被测系统上的改动。",
+      "external_evidence": "本窗口（submittedDate 2026-08-19T18:00Z - 2026-08-21T02:30Z）查询 abs:\"speech enhancement\" OR abs:\"noise suppression\" OR abs:\"echo cancellation\" OR abs:\"beamforming\" 的 totalResults = 1，唯一命中为 2608.20278 Secrecy Rate Maximization for UAV-Mounted Six-Dimensional Movable IRS-Assisted ISAC Systems（eess.SP），非声学。beamforming 一词连续第二轮 100% 落在非声学领域。MaAI 的 VAD 官方文档原文（readme/vad.md）：The model takes both speaker channels and processes them jointly with cross-channel attention. This is the key difference from a conventional per-channel VAD: even when one speaker's voice leaks into the other speaker's microphone (crosstalk), the model can still decide who is actually talking；以及 The models were trained with noise and reverberation (RIR) augmentation, so the noise-robust recipe is the default. For this reason there is no separate vad_mc mode — vad is the multi-condition model。输入为 2 通道（vad_mono 为 1 通道）16kHz；输出为每通道 [0.0,1.0] 概率；二值化默认阈值 0.5，官方另注 0.54 gave the best F1 score on the development set used during training。支持帧率 10/20/50 Hz（CPC）或 12.5 Hz（Mimi），语言为 jp 与 ch。开放状态限定：vad_ch 与 vad_jp 均为 CC-BY-NC-ND-4.0，对商业车机不可用。两个已记录的 AEC 假阳性不变：08-17 的 X-Zhang/EchoMask 实为协同语音手势生成；08-19 的 2608.16092 实为主动降噪 ANC。",
+      "source_urls": [
+        "https://github.com/MaAI-Kyoto/MaAI",
+        "https://arxiv.org/abs/2608.20278",
+        "https://huggingface.co/maai-kyoto/vad_ch"
+      ]
+    },
+    {
+      "id": "open-status-seventh-tier-partial-delivery",
+      "kind": "process_rule",
+      "summary": "开放状态从六档扩到七档，新增第七档「承诺两件、交付一件」：论文明确承诺发布 A 与 B，给出的 URL 确实解析、仓库真实且实质，但只有 A 在里面。它既不是第五档（给了 URL 而 URL 失效），也不是第三档（声称发布但全文无 URL），后续动作是按件复查而不是按 URL 复查。这一档只能靠「核实到文件级」发现——仅确认仓库存在会直接漏掉。并且它是 08-20 记下的「发布的是产品不是实验」这一形态的第二个独立实例，两例合并可以判定这是机构行为的稳定模式而非偶发。",
+      "why_not_candidate": "这是筛查与记录规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19741 原文承诺：We release both THINKINGBOX and THINKINGBOX-BENCH: https://github.com/microsoft/thinkingbox。一手核实（2026-08-21）：该仓库存在，MIT，created 2026-04-22T19:01:10Z、pushed 2026-08-20T17:19:40Z（与论文投稿同日）、142 个 blob 合计 1,001,955 字节、6 stars。但全树递归列举显示 dataset/ 目录下只有三个与场景相关的文件：dataset/scenario/cloud_drive.yaml（396 字节）、dataset/test_case/cloud_drive.meta.yaml（807 字节）、dataset/test_case/cloud_drive.py（6,177 字节），另有 dataset/agent/think.yaml（2,545 字节）与 config/config_o4mini.yaml、config/config_vllm.yaml（各 970 字节）。cloud_drive 不属于论文五个业务域（Retail / Booking / Insurance / Neobank / Consulting）中的任何一个，507 个任务与其黄金终态不在仓库里。README 长 20,489 字节，其中 arxiv、thinkingbox-bench、507、pass@、retail、insurance、neobank 的出现次数全部为 0——即公开的是工程框架，不是论文实验。第一个实例（08-20 已记录）：midea-ai/SemaPLC 的 README 全文不提论文、不提 arXiv、不提任何一个数字，且发布的 skill 目录缺了论文 Table S3 列出的 benchmark-verify 与论文枚举的六条领域公理。两例形态完全一致。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19741",
+        "https://github.com/microsoft/thinkingbox"
+      ]
+    },
+    {
+      "id": "open-status-public-but-unlicensed",
+      "kind": "process_rule",
+      "summary": "把「许可证缺失」记为一个独立的开放状态，不得与「已发布可核」合并。一个公开可读、内容完整、且被论文正文明确指向的 GitHub 仓库，如果没有任何 LICENSE 文件，按 GitHub 默认条款保留全部权利，因此对项目而言是不可用的。核实动作要写死：GitHub API 的 license 字段为 null 只是线索，必须再做一次全树递归列举确认没有 LICENSE / LICENSE.txt / COPYING 等文件。这条与既有的「GitHub license 字段会把普通 MIT/Apache-2.0 报成 NOASSERTION」是互补的两个方向——那条防的是误判为无许可，这条防的是误判为有许可。",
+      "why_not_candidate": "这是筛查与记录规则，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19662（ReCache: Efficient KV Cache Reuse and Compression for Tool-Augmented LLM Agents, Yichu Fang + Sitong Wei + Haozhe Hu + Xiaoyu Shen, 2026-08-20T05:57:24Z, 17 页, 论文许可证为 arXiv 非独占分发；通信邮箱分别为 sjtu.edu.cn 与 eitech.edu.cn）。论文摘要原文：The code is available at https://github.com/EIT-NLP/ReCache。一手核实（2026-08-21）：仓库存在，created 2026-08-19T03:12:43Z、pushed 2026-08-19T05:42:28Z、size 1,881 KB、1 star；GitHub API 的 license 字段为 null；全树递归列举确认没有任何 LICENSE / LICENSE.txt / COPYING 文件。仓库结构另提供一条与论文读法相关的证据：它包含相当规模的训练基础设施（capsule/main/train.py、FSDP 与 DeepSpeed 的 stage2/stage3 配置、capsule/data/config/slimpajama.json），与论文侧的 We train the primary Qwen3-4B model on an NVIDIA A800 GPU 一致，因此不能把 ReCache 归入「叠加在现成模型上的纯推理期改动」那一类。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19662",
+        "https://github.com/EIT-NLP/ReCache"
+      ]
+    },
+    {
+      "id": "cache-hit-only-ttft-is-the-recurring-trap",
+      "kind": "negative_evidence",
+      "summary": "把「prefix-cache 命中」从一次性观察升级为一条常规筛查项：任何 TTFT 或 prefill 数字，都必须先查清它是否定义在缓存命中之下、以及离线缓存构建成本是否被排除。车机上电后的第一句话必然是冷的，因此缓存命中口径的数字对项目最关心的那一次请求不成立。本轮的实例与 08-20 的实例形态相同但位置不同——08-20 那次藏在官方仓库 README 的条件说明里，本轮这次直接写在论文自己的指标定义里，说明两种位置都要查。",
+      "why_not_candidate": "这是筛查规则与对一篇论文适用性的否决记录，不是被测系统上的改动。",
+      "external_evidence": "arXiv:2608.19662。指标定义原文：We use time-to-first-token (TTFT) to quantify online prefill latency under a cache hit, including request-local KV materialization but excluding offline cache construction；论文另报 time-per-output-token (TPOT) 以度量端到端解码时延，以及单列的 attention latency，理由是注意力上的收益 can be obscured in TPOT by unchanged projection and feed-forward computation——这条指标拆分纪律本身值得项目借用。论文数字（Table 2）：Dense Inv-F1 82.4 / ID-F1 96.0 / Halluc. 0.0 / TTFT 26.319 ms；Block 82.2 / 95.8 / 0.1 / 未报；Ω_full 82.3 / 96.0 / 0.2 / 7.200 ms，即 3.655× TTFT 加速且有效性指标相差至多 0.2%（逐格核对成立）。完整框架：已分配 KV 张量显存降低 92.43%、注意力加速 1.423%，域内保留 Dense 的 97.5% Inv-F1，分域 Inv-F1 为 T_IND 80.3% / T_OOD 60.8%。规模扩展（四档资源长度 0–1K / 1K–5K / 5K–10K / ≥10K）：Dense 的 TTFT 由几十毫秒涨到 5,000 毫秒以上，Ω_full 维持 50ms 以下，ReCache 近乎平坦、略高于 5ms；TPOT Dense 与 Ω_full 约 11ms 而 ReCache 略高于 6ms；注意力时延 Dense 与 Ω_full 约 5ms 而 ReCache 低于 0.2ms，XL 档 Ω_full+SMP 压到 0.5ms 以下而仅结构剪枝的 Ω_20,3 仍在 2ms 以上；显存 ReCache 封顶 0.03 GiB 而 Dense 与 Ω_full 逼近 8 GiB。硬件：主模型 Qwen3-4B 一张 NVIDIA A800，初步实验 Qwen3-1.7B 一张 NVIDIA RTX 5000。评测覆盖七个工具/技能使用数据集。明确不以批大小否决：批大小从未在正文报告，属「未知」这第三种情况，既不是「从未在 1 上评测」也不是「收益随批变小而缩水」，按未知记录。第一个实例（08-20 已记录）：X-Square-Robot/Qwen3TTS-Streaming 的 README 在其时延条件里列出 prefix-cache 命中，而对应论文 2608.18661 完全没提这个条件。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19662",
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "query-defect-bare-endpoint-too-generic",
+      "kind": "process_rule",
+      "summary": "记录一处新的查询写法缺陷并给出修复方案，同时确认上一轮的车内组缺陷已修复并做了对照。新缺陷：VAD/endpointing 一组中的裸词 abs:\"endpoint\" 过于宽泛，因为 endpoint 在泛函分析（endpoint estimates）与网络安全（endpoint logs / endpoint detection）都是高频固定术语。与 08-20 记录的车内组缺陷同属「查询写法缺陷不等于该方向无产出」，但成因不同：上一个是布尔结合律（AND 优先级高于 OR），这一个是词义歧义。修复建议：改写为 abs:\"voice activity detection\" OR abs:\"endpointing\" OR abs:\"end-of-turn\" OR abs:\"turn-end detection\"，即删去裸词 endpoint，并记录改写前后的 totalResults 对照以免把口径变化误读成产出变化。",
+      "why_not_candidate": "这是发现流程规则，不是被测系统上的改动。",
+      "external_evidence": "本窗口该组 abs:\"voice activity detection\" OR abs:\"endpoint\" OR abs:\"endpointing\" 的 totalResults = 22，且 22 篇全部与语音无关，覆盖泛函分析（2608.20266 Necessary conditions for deterministic and stochastic maximal regularity）、Tor 网站指纹防御（2608.20160）、地球观测数据架构（2608.20283）、心脏形状补全（2608.19932）、全息对偶（2608.19845）、几何相位（2608.19679）、安全日志异常检测（2608.19938）等。上一轮车内组缺陷的修复对照（同一窗口实测）：旧写法 abs:\"in-vehicle\" OR abs:\"cockpit\" OR abs:\"driver\" AND abs:\"speech\" 的 totalResults = 15；新写法 (abs:\"in-vehicle\" OR abs:\"cockpit\" OR abs:\"driver\") AND (abs:\"speech\" OR abs:\"voice\" OR abs:\"dialogue\" OR abs:\"assistant\") 的 totalResults = 3，且修复后剩下的 3 篇仍全部与座舱语音无关（2608.20278 UAV IRS-ISAC、2608.19752 IoT 车载应用自动化测试流水线、2608.19661 近海风场 AUV/ASV 导航规划）。因此「车内语音方向本轮为零」这个结论是双重确认的，不是查询写法造成的假象——这正是 08-20 要求做对照的目的。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.20278"
+      ]
+    },
+    {
+      "id": "full-duplex-keyword-group-blind-spot-second-consecutive-round",
+      "kind": "negative_evidence",
+      "summary": "关键词扫描的主题级盲区在项目的核心方向上连续第二轮出现同一形态：full-duplex / turn-taking / barge-in / interruption 一组本轮返回 3 篇而 3 篇全是假阳性，同时本轮真正的判停/应答进展一篇都没有被这组命中。结论从「又一个实例」强化为「这组关键词对全双工主题存在系统性盲区」，其空满程度不得单独用于任何方向性结论。与之对称的正面记录：第 14 组查询（cat:cs.HC OR cat:cs.OS）连续第二轮独家命中当轮最重要线索，保留它的决定第二次得到验证。",
+      "why_not_candidate": "这是发现流程的零结果与盲区登记，不是被测系统上的改动。",
+      "external_evidence": "本窗口该组 totalResults = 3，逐篇均为假阳性：2608.19893 Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models（cs.CL，文本语言模型，与语音打断无关——这是 interrupt 词根的第三个假阳性来源，前两个是并行机排程与统计学固定术语 Interrupted Time Series）、2608.19887 Intermittent Flocking and Fractal Collective Order Induced by Time-Varying Delays（nlin.CD）、2608.19622 Shift or curtail? How much data-center flexibility is worth depends on the host power grid（physics.soc-ph）。本轮真正的判停/应答进展 2608.19527 是被 cat:cs.HC 一组命中的。08-20 的同形态实例：该组返回 4 篇全为假阳性，而当轮两条 P0（X2Streaming-TTS 与 X2-Turn v2）分别来自 TTS/S2S 组与逐版复核通道。第 14 组本轮返回 4 篇：2608.19527（本轮 P0）、2608.19826（机器人语音音高对儿童压力水平的影响）、2608.19827（低成本声学装置感知与解读动作）、2608.19588（中国心理健康研究的本地化生态瞬时评估）。另记本轮 TTS 组的跨领域假阳性：3 篇中 2 篇无关，其中 2608.19651 是粒子物理（hep-ph）的电弱重子生成，是本项目记录到的跨度最大的一次关键词假阳性。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19527",
+        "https://arxiv.org/abs/2608.19893"
+      ]
+    },
+    {
+      "id": "version-sweep-returned-zero-for-the-first-time",
+      "kind": "negative_evidence",
+      "summary": "记录逐版复核通道首次完全为空，并强调它必须与「没查」区分开来。47 个追踪 ID 一次批量查询全部返回，3 个非 v1 全部是此前已完成差分的条目，没有任何追踪项在本窗口产生新修订。规则不变且本轮再次适用：任何「某方向本轮为零」的表述都必须同时说明该结论来自 submittedDate 窗口查询，并附上逐版复核的结果作为第二通道；本轮两条通道都为空，这个事实本身才是可报告的结论。",
+      "why_not_candidate": "这是发现流程的零结果登记，不是被测系统上的改动。",
+      "external_evidence": "本轮批量查询（export.arxiv.org/api/query?id_list= 一次 47 个 ID）全部返回、无缺失。3 个非 v1 为：2608.13416v2 StreamTTT（published 2026-08-13T16:10:33Z、updated 2026-08-16T09:41:57Z，已于 08-19 完成 184 行差分，结论未变）、2608.10878v2 X2-Turn（published 2026-08-11T12:54:52Z、updated 2026-08-19T03:16:50Z，已于 08-20 完成差分，唯一实质改动是摘要末尾新增仓库地址一句，翻转了开放状态但论文结论未变）、2608.14097v2 Ambisonics（published 2026-08-14T08:57:32Z、updated 2026-08-17T14:27:56Z，已于 08-19 完成差分，2 字节元数据改动）。其余 44 个 ID 全部仍为 v1，且没有任何一个的 updated 与 published 不同。本轮新加入追踪的 ID：2608.19527（MaAI 关联论文）、2608.19741（Thinkingbox，观察 THINKINGBOX-BENCH 是否补入仓库）、2608.19662（ReCache，观察是否补上 LICENSE 文件）。非 arXiv 的制品跟踪项另加：MaAI-Kyoto/MaAI（观察中文 VAD 与应答检测权重的许可证是否变更）。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10878",
+        "https://arxiv.org/abs/2608.13416",
+        "https://arxiv.org/abs/2608.14097"
+      ]
+    },
+    {
+      "id": "twelve-point-five-hz-third-occurrence-is-not-a-contradiction",
+      "kind": "process_rule",
+      "summary": "对既有的「12Hz vs 12.5Hz」记录补一条重要的反例与边界，防止把三处不同性质的现象并成一条。前两处（VoiceChat-TTS 与 Qwen3-TTS 生态）是同一模型的两种说法互相打架，属真矛盾。本轮 MaAI 的 12.5 Hz 不是矛盾：它明确写出 12.5 Hz 对应 Mimi 编码器、5/10/20/50 Hz 对应 CPC 编码器，是两类不同模型的不同帧率。规则：记录帧率不一致时，必须先判断两个值是否描述同一个模型，只有同一模型的不同表述才计入既有的生态矛盾记录。",
+      "why_not_candidate": "这是记录规则的修正，不是被测系统上的改动。",
+      "external_evidence": "MaAI 官方文档 readme/vap_bc.md 与 readme/vad.md 的参数表。应答/判停：lang ∈ {jp,en,ch,tri} × model_type=normal → frame_rate ∈ {5,10,20}；model_type=normal-ver2 → 12.5。VAD：lang ∈ {jp,ch} × normal（CPC encoder）→ {10,20,50}；normal-ver2（Mimi encoder）→ 12.5，文档另明写 Note that the 10/20/50 Hz models are the CPC-based ones (model_type=\"normal\") and the 12.5 Hz model is the Mimi-based one (model_type=\"normal-ver2\")。权重文件名同向佐证：vap-bc_state_dict_ch_{5,10,20}hz_20000msec.pt 与 vap-bc_mimi_state_dict_ch_12.5hz_20000msec.pt。前两处真矛盾不变：VoiceChat-TTS (2608.13831) 基线名 Qwen3-TTS-12Hz 而正文两次写 12.5 Hz；X2Streaming-TTS (2608.18661) 表 1 模型名 Qwen3-TTS-12Hz-1.7B，同机构仓库 README 写每 80ms 音频帧（⇒12.5Hz），同仓库 code2wav_state_size.md 写滑动窗口 72 约合 12Hz 下的 6 秒上下文（⇒12Hz）。",
+      "source_urls": [
+        "https://github.com/MaAI-Kyoto/MaAI",
+        "https://arxiv.org/abs/2608.13831",
+        "https://arxiv.org/abs/2608.18661"
+      ]
+    },
+    {
+      "id": "preserve-official-doc-self-contradiction-maai-chinese-support",
+      "kind": "process_rule",
+      "summary": "记录一处官方文档的自相矛盾并按既定规矩两者并存、不替作者选择。MaAI 的应答模型文档在 Supported Languages 小节首句写「目前仅支持日语」，而同一文档随后就列出英语、中文与多语三节，其参数表列出四个语言取值，主 README 的更新日志写三语言自 2025-11-19 起可用，Hugging Face 上中文权重的创建时间正是该日。四处证据指向中文已支持、一处句子指向仅日语。本报告的判断是那句话是陈旧残留，但按规矩两者并存记录，且项目在实测前不得把中文支持当作已确认。这是既有「保留来源不一致而不是悄悄选一个」规则在官方文档（而非论文）上的又一次适用。",
+      "why_not_candidate": "这是记录规则的适用，不是被测系统上的改动。",
+      "external_evidence": "MaAI readme/vap_bc.md 的 Supported Languages 小节首句：Currently, only Japanese is supported. Specify this with the lang parameter of the Maai class。紧随其后的同一文档内容：### Japanese (lang=jp)、### English (lang=en)、### Chinese (lang=ch)、### Multilingual (lang=tri) 四个小节，均标注训练自 Online Conversation Dataset；其 Parameters 表列出 jp / en / ch / tri 四个 lang 取值 × normal 与 normal-ver2 两个 model_type。主 README 的 Update 段：Backchannel prediction model supporting three languages (English, Chinese, and Japanese) is now available (November 19th, 2025)。Hugging Face 佐证：maai-kyoto/vap_bc_en 与 maai-kyoto/vap_bc_ch 的 createdAt 分别为 2025-11-19T08:08:00Z 与 2025-11-19T08:08:42Z，vap_bc_tri 为 2025-11-19T08:09:24Z。",
+      "source_urls": [
+        "https://github.com/MaAI-Kyoto/MaAI",
+        "https://huggingface.co/maai-kyoto/vap_bc_ch"
+      ]
+    },
+    {
+      "id": "shared-encoder-for-multiple-sidecar-heads",
+      "kind": "design_constraint",
+      "summary": "记录一条可直接照搬到项目多头旁路上的工程设计：当多个轻量预测头需要作用于同一条音频流时，编码器每音频帧只运行一次、由各头共享，而不是每个模型各自编码一次。项目若同时需要判停、应答时机与串音归属三个信号，天真做法要付三次编码代价。这与项目在 MoE dispatch 上「每层固定代价」的推理是同一类工程思路，区别在于这里有可读源码可以对照。",
+      "why_not_candidate": "这是设计约束与可借鉴实现的登记，不是被测系统上的单变量改动；项目当前没有多头旁路，没有可施加的对象。",
+      "external_evidence": "MaAI 主 README 的 Running Multiple Models with a Shared Encoder 段原文：When several Maai models need to run on the same audio stream, the MaaiMultiple class shares a single audio encoder across all of them so the (relatively expensive) encoder runs only once per audio frame。源码侧佐证该「相对昂贵」的说法：src/maai/encoder.py 为 71,539 字节、encoder_components.py 为 18,772 字节，而各头模型文件均在 1.8–16.0 KB 量级（vap.py 7,717、vap_bc.py 5,899、vap_nod.py 6,506、vad.py 6,275、bc_det.py 7,272、vap_mono.py 1,861、vap_nod_para.py 15,990、vap_prompt.py 10,974 字节）——即编码器一个文件就大于全部头之和。仓库另有对应示例 example/multiple/multi_mic.py（VAP + BC + Nod 共用 1 路麦克风输入）。相关提交记录：2026-08-13 Skip HF Mimi load on ONNX path and parallelize MaaiMultiple 与 Recreate MaaiMultiple sub-executor after stop/start，说明该路径仍在活跃开发中，接口稳定性未知。",
+      "source_urls": [
+        "https://github.com/MaAI-Kyoto/MaAI"
+      ]
+    },
+    {
+      "id": "recovery-needed-for-a-ninth-consecutive-round",
+      "kind": "process_rule",
+      "summary": "「先检查前几日报告是否真的进了 main，没有就先恢复」这条流程规则连续第九轮命中，已经完全是常态而非例外。恢复方式不变：git fetch origin --prune 后从单个最新的 reports 分支一次 git checkout <branch> -- reports/ data/handoff/candidates/，因为每日分支是累积的；随后 build_site.py 会重新生成 docs/。规则不变：恢复必须是独立的一次提交，且必须在写当日报告之前完成，否则当日报告的「对比基线」会指向一个 main 上不存在的文件。",
+      "why_not_candidate": "这是流程规则，不是被测系统上的改动。",
+      "external_evidence": "本轮 main 的 HEAD 仍为 37e3363（radar: 2026-08-12 01:30 UTC），但 reports/ 目录下最新文件仍是 2026-08-10。最新的 reports 分支为 cursor/bc-09f00983-d154-4925-8623-47011deaffe1-fb73（2026-08-20T03:14:56+00:00，reports: 2026-08-20 add 13 report-only recomm...），其 reports/ 累积含 08-03 至 08-20（缺 08-16、08-18，那两轮本身就没有产出报告），data/handoff/candidates/ 累积含 08-08 至 08-20（同样缺 08-16、08-18）。一次 checkout 恢复了 14 个报告文件与 8 个候选台账。注意 enhance: rebuild site ... 系列分支属于另一个 automation，从不携带报告——本轮最新的该系列分支为 cursor/bc-c2b23197-8aee-4fd8-87cb-34146caf2fa4-8ba1（2026-08-21T01:23:10+00:00），确认其不含报告。",
+      "source_urls": [
+        "https://github.com/pIIiiIIg/cockpit-agent-radar"
+      ]
+    },
+    {
+      "id": "query-group-emptiness-does-not-predict-round-output",
+      "kind": "process_rule",
+      "summary": "把 08-20 记下的「篇数不是重大新增的代理」扩展一条更强的版本：查询组的空满程度同样不是代理。本轮有四组语音查询的 totalResults 直接为 0，语音类目控制总数只增 9 与 7（记录以来最小的单批增量之一），而本轮仍然产出了一条 P0 和两条对项目最高优先级事项有直接影响的结论。规则：报告必须说明本轮属于哪种情形（正常单批 / 多批回补 / 索引冻结），并逐组记录 totalResults，但结论一律由内容决定，既不由篇数决定，也不由零结果组的数量决定。",
+      "why_not_candidate": "这是记录与判断规则，不是被测系统上的改动。",
+      "external_evidence": "本窗口 14 组查询的 totalResults：full-duplex/turn-taking 3；speech LLM/S2S 0；TTS 3；streaming ASR 0；AEC/enhancement 1；VAD/endpointing 22（全部假阳性，见 query-defect-bare-endpoint-too-generic）；spatial audio 0；target speaker 1；KV cache/serving 6；agent harness/tools 21；multimodal cockpit 15（旧写法）/ 3（修复后写法）；audio eval 0；MoE/quantization 5；cs.HC OR cs.OS 4。去重后 78 篇。控制总数：cat:cs.SD 21,749（08-20 为 21,740）、cat:eess.AS 22,209（08-20 为 22,202）、cat:cs.CL 116,790、cat:cs.MM 9,947。篇数序列供对照：08-13 得 7 项语音工作；08-15 站点级零结果；08-17 单批回补 83 篇；08-19 四批回补 235 篇；08-20 正常单批 50 篇；08-21 正常单批 78 篇。索引推进节奏的五次观测（08-15、08-17、08-19、08-20、08-21）全部落在 17:5x 的 arXiv 14:00 ET 截稿边界上，确认索引按整批推进。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.19527"
+      ]
+    }
+  ]
+}
