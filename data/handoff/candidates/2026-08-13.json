@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-13",
+  "evidence_cutoff": "2026-08-13T02:30:00+00:00",
+  "publication_safety": "public-safe; no unpublished patent implementation detail",
+  "generation": "agent_reviewed",
+  "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged from the previous report; 0 new Radar entries. Candidates for 2026-08-13 came from a direct arXiv new-submission scan over 2026-08-11T09:34Z - 2026-08-13T02:30Z. All 7 arXiv IDs had zero hits in data/items.json, data/explanations.json and reports/.",
+  "no_candidate_reason": "今日四条新方向都缺少可执行单变量与可信的预计净修数：X2-Turn（2608.10878）代码与权重未公开，可立即使用的只有公开的 Voxtral Realtime 主干与 Easy-Turn 测试集，属评测建设而非单变量改动；Luna-TTS Family（2608.11593）官方项目页 2026-08-13 复核返回 HTTP 404，无代码、权重或许可证，其 41.6ms 首块只是引擎边界的目标刻度；RT-SEMamba（2608.12099）声明的代码仓库为空仓库，且它只有 PESQ 类指标、没有下游 CER 或工具正确率；DuplexWorld（2608.10716）在论文中声明发布语料与评测代码（数据 CC BY 4.0、代码 MIT），但现场只找到样例站点仓库，未找到语料与评测代码；SmartGlasses Challenge（2608.12034）语料需注册申请、许可证未知。按既定规则，没有清晰单变量或可信预计净修数的建议只留在报告，不进入候选 JSON。",
+  "reports": [
+    "reports/全双工语音技术增量调研-2026-08-13.md",
+    "reports/每日调研日报-2026-08-13.md"
+  ],
+  "carried_over": [
+    "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false；本轮新增两条外部证据：同硬件对照 RTF 0.0319（H20、16 步、batch 1），以及 Luna-TTS 作者用官方工具在 CV3-Eval 上对 OmniVoice 的再评测（zh 3.89 / en 4.57 / ja 7.24 / ko 11.80 / 四语平均 6.88 / hard-zh 11.98 / hard-en 19.69）。要求把验收拆成首包-整句-取消残留三段，并在样本中加入长句与不规则文本。候选本身不变，不重新登记。",
+    "tool-hold-message-first-audio-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false；本轮得到 DuplexWorld 的机制性支持：调用工具制造静音、静音被时序指标计成失败，因此工具执行期的固定等待语修的是一个会被系统性惩罚的真实缺口。新增报告要求：与固定音频首包一起给出内容首音频与欠动作量。",
+    "playback-boundary-ledger-offline-v1（2026-08-12）保持不变，仅离线、h20_request_allowed=false；2026-08-13 复核 CodeForZzc/GCM-Bench 最后推送仍为 2026-08-11T06:29Z，PACE 中间件本体仍未公开，该候选只借用数据格式与判定协议，不受影响。"
+  ],
+  "report_only_recommendations": [
+    {
+      "id": "easyturn-zh-endpoint-baseline",
+      "kind": "evaluation_buildout",
+      "summary": "用公开的 ASLP-lab/Easy-Turn-Testset（Apache-2.0、非门控、中英双语、含真实 backchannel 音频）给项目现有端点判定建立中文三类基线（完整/未完整/backchannel 准确率 + 按 commit 起算的决策时延），并借用 X2-Turn 的状态定义把“已开口但语义不足”与“真静音”分开。",
+      "why_not_candidate": "这是测量建设，没有单变量改动，也无法给出预计正确性净修数；不引入任何侧模型，不改生产路径。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.10878",
+        "https://huggingface.co/datasets/ASLP-lab/Easy-Turn-Testset",
+        "https://huggingface.co/mistralai/Voxtral-Mini-4B-Realtime-2602"
+      ]
+    },
+    {
+      "id": "harness-config-provenance-column",
+      "kind": "instrumentation",
+      "summary": "给每次 Harness 实验记录 harness 配置：端点等待时间、VAD/静音阈值、超时与超步样本处理方式、每条样本重跑次数、回放侧模型版本。",
+      "why_not_candidate": "属实验记录规范而非可测的模型/管线单变量；但它是区分真实收益与配置漂移的前提。外部依据是 DuplexWorld 量到三个 harness 旋钮的效应量与换系统同量级（VAD 0.5 使部分人物完全静音；超步记零/排除 +0.086/+0.105；模拟器模型 0.267-0.578；换系统 0.00-0.67）。",
+      "source_urls": ["https://arxiv.org/abs/2608.10716"]
+    },
+    {
+      "id": "parameter-mishearing-bucket",
+      "kind": "evaluation_buildout",
+      "summary": "把车牌、电话、温度、座位/排号等数值与专名单列成“参数听错”桶，与“工具选错”分开统计，并在更换更小 ASR 或更小模型时重测该桶。",
+      "why_not_candidate": "是错误桶细分而非单变量改动；预计净修数需要该桶建立后才能估计。外部依据是 DuplexWorld 电话信道上凭证词错率池化 17.1%，最好 10.4%，同族蒸馏 20.2%。",
+      "source_urls": ["https://arxiv.org/abs/2608.10716"]
+    },
+    {
+      "id": "pass-k-repeatability",
+      "kind": "instrumentation",
+      "summary": "引入“同一样本多次重跑全部通过”的 Pass₃ 式口径，与 Pass@1 并列报告。",
+      "why_not_candidate": "是判定口径升级而非被测变量；外部依据是 DuplexWorld 中两名领先系统的 Pass₃ 约为 Pass@1 的一半。",
+      "source_urls": ["https://arxiv.org/abs/2608.10716"]
+    },
+    {
+      "id": "streaming-frontend-selection-gate",
+      "kind": "design_constraint",
+      "summary": "前端（降噪/增强）选型硬要求：算法时延有界且写明、状态为固定大小而非随时长增长的缓存、1 帧进 1 帧出不重算历史；判定必须用分桶 CER 与工具/参数/最终车态一致性，PESQ/DNSMOS 只作过程量；并单独计量与主模型共卡的开销。",
+      "why_not_candidate": "RT-SEMamba 满足形状但代码仓库为空、只有英文单通道 PESQ 类指标、无 AEC，无法构成可执行实验；2608.12082 选出的最优范式（连续非自回归）本身不满足因果流式。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12099",
+        "https://arxiv.org/abs/2608.12082"
+      ]
+    },
+    {
+      "id": "multi-occupant-overlap-profiling",
+      "kind": "evaluation_buildout",
+      "summary": "先统计项目自有录音的重叠比例与说话人数分布，对照 SmartGlasses 的难度曲线（3 人 15.5% → 4 人 31.9% → 5 人 49.3% → 6-8 人 >63% tcpCER）判断本阶段可做区间；若日后上多麦，把“单通道 / 通道平均 / 分离或波束”作为单变量对照。",
+      "why_not_candidate": "语料需注册申请且许可证未知，本轮不引入外部数据；统计自有录音属度量而非单变量改动。",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.12034",
+        "https://github.com/ASLP-lab/Smart-Glass-Challenge"
+      ]
+    }
+  ],
+  "candidates": []
+}
