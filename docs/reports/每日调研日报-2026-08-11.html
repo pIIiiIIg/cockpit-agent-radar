@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日调研日报 · 2026-08-11</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>每日调研日报 · 2026-08-11</h2><div class="report-body"><h1>每日调研日报｜2026-08-11</h1>
+<p>证据日期：项目快照仍是 2026-08-10 10:30 那一份（最新提交 2026-08-04、最近 H20 A/B 2026-08-03），本日项目侧无新增；Radar 生成于 2026-08-11 09:29，候选含 2026-08-10 14:23/19:21 两批。本日报未使用 2026-08-11 之后证据。</p>
+<p>方向：语义判停与打断 — DuplexGen（当前 <code>probe_turn_end</code> 已证明主模型自判停不可行， 且缺少“该不该打断”的判据来源；它不让主模型判停，而是在每个可插入点收五人分布式标注， 用 KL 软标签把小模型拉向人类分布，4B 上平均 KL 0.335 优于纯提示 0.458；可以尝试只搬这套 标注协议做中文车控改口/追加约束/多乘员插话的分场景试标，不搬它的英文语料和 PersonaPlex）</p>
+<p>方向：打断评测的自动裁判 — 反事实副语言审计（当前多轮打断评测最省事的做法是找音频大模型 打分，风险极高；该文固定转写只改情感与时序，测出 Qwen-2.5-Omni-7B 为 50.0/47.1、 Phi-4-Multimodal 与 Voxtral 同样贴随机线，Gemini 只在两选项同时可见时才好；可以尝试 把“先过反事实审计”写成自动裁判准入条件，并在现有基准上只改语气不改文本，看工具、参数 和最终车态有没有不该发生的变化）</p>
+<p>方向：聚合意图与长时记忆分层 — StreamMind（当前聚合意图展开不全，记忆一旦做起来极易被 塞进用户等待路径；它用非思考前台只做即答/派单/建监视器，后台异步写分层事件记忆并做召回， 同骨干下平均查询到答案时延从 81.4s 降到 27.5s、保留 89.7% 准确率；可以尝试只借这条执行 契约——后台记忆构建不得进入 commit 到首动作关键路径、记忆读取以查询时刻为界，绝对秒级 时延与 397B 骨干不可比）</p>
+<p>方向：解码时延归因 — 驾驶 VLA 层裁剪（当前 110ms/token 的根因是 HF MoE 每 token 约 816 次 GPU→CPU 同步，不是深度冗余；该文测出导航命令在第 1 层后即有 97.7% 线性可解码性， 而与冻结规划器兼容性到最后一层才最好，裁 8/32 层可得 1.33× 解码器加速；可以尝试借它 “语义可读性与下游可执行性分开测”的思路诊断上下文引力，但先修同步再谈裁层）</p>
+<p>方向：本地 TTS 首音频（当前首音频 P50 仍为 2,918/3,491ms，Edge TTS 是主因；今日无新的 TTS 正文证据，DuplexGen 只用 Chatterbox/ElevenLabs 渲染离线语料且未报告首包；沿用 2026-08-10 的 <code>omnivoice-local-tts-16step-v1</code> 离线单变量，不新增 TTS 候选）</p>
+<p>无重大新增的方向：回声消除与降噪、空间听觉、多乘员定位与分离、KV cache、实时推理服务， 今日 Radar 均无可用一手正文，继续跟踪，不作任何推测性结论。</p>
+<p>今日新增 handoff 候选：无。DuplexGen 与 StreamMind 目前只能形成评测规范与执行契约， 缺少项目侧独立失败桶基数、单变量和可信的预计净修数，按既定规则只留在报告，不进候选 JSON。</p>
+<p>开放状态提醒：DuplexGen 代码 Apache-2.0 且可用，两个语料公开但按场景混合继承许可证； 但承载 PP-DG 结果的 <code>personaplex-finetune</code> 至今仍只有 README，官方声明不含检查点。 StreamArena 数据为 CC-BY-NC-4.0、代码仓库许可证 NOASSERTION。副语言审计与驾驶 VLA 两篇未发现任何官方代码/数据发布，记为未知。</p>
+<p>镜像与重复来源：今日 45 条候选里，12 条是 Nemotron-3-Nano-Omni 的第三方 MLX 量化镜像 （另有 2026-08-02 GGUF、2026-08-04 NVFP4 同谱系），Stockmark JapanDocReader 的论文页 与模型页是同一发布；DuplexGen（2026-07-30 已收录）、StreamArena（2026-08-07 已收录） 为第二来源；AES/HDC（2608.03571）已在 2026-08-05 报告完整覆盖，今日不重复展开——注意 它说的 harness 是训练脚手架，与 StreamingModelHarness 不是一回事。</p></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-11</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-11</h2><p class="solution-source"><b>2026-08-11</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
