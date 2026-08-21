@@ -183,30 +183,30 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
     · 2026-08-08 · ◈ 8
   </div>
   <div class="sum-block"><b><span class="l-zh">摘要</span><span class="l-en">Summary</span></b><br>
-    <span class="l-zh">Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. Built on the DiTAR architecture, CtrlSpeech combines global speaker conditioning with phone-aligned pitch, loudness, and duration signals, enabling localized prosodic control while preserving the target speaker&#x27;s timbre. This design allows users to adjust expressive attributes at a fine temporal granularity, making speech refinement more flexible and controllable. Experimental results show that CtrlSpeech achieves competitive zero-shot TTS performance and improves controllability over expressive attributes, demonstrating its effectiveness for flexible and practical expressive speech synthesis. <i style="color:var(--dim)">(中文摘要待增强通道生成)</i></span>
+    <span class="l-zh">CtrlSpeech 用音素级音高/响度/时长控制增强表达性 TTS，并公开代码与权重。对 StreamingModelHarness，它适合作为外挂 TTS 后端，不解决听侧判停或原生全双工。</span>
     <span class="l-en">Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. Built on the DiTAR architecture, CtrlSpeech combines global speaker conditioning with phone-aligned pitch, loudness, and duration signals, enabling localized prosodic control while preserving the target speaker&#x27;s timbre. This design allows users to adjust expressive attributes at a fine temporal granularity, making speech refinement more flexible and controllable. Experimental results show that CtrlSpeech achieves competitive zero-shot TTS performance and improves controllability over expressive attributes, demonstrating its effectiveness for flexible and practical expressive speech synthesis.</span></div>
 
 
 <section class="explain">
-  <h2 style="margin:0 0 10px"><span class="l-zh">摘要速读</span><span class="l-en">Abstract brief</span></h2>
-  <p class="lead">Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controlla</p>
+  <h2 style="margin:0 0 10px"><span class="l-zh">深度讲解</span><span class="l-en">Deep dive</span></h2>
+  <p class="lead">CtrlSpeech 在 DiTAR 上叠加全局说话人条件与音素对齐的音高/响度/时长控制，实现粗到细的表达性 TTS。</p>
   <h3><span class="l-zh">它解决什么问题</span><span class="l-en">Problem</span></h3>
-  <p>论文针对全双工语音或流式多模态交互中的一项具体能力缺口提出新方法。</p>
+  <p>零样本克隆与指令式 TTS 常把音色、韵律、风格缠在一起，控制多停留在句子级，难以精确改某一音素/词的局部韵律且保持目标音色。</p>
   <h3><span class="l-zh">核心方法</span><span class="l-en">Core method</span></h3>
-  <p>Recent Text-To-Speech (TTS) systems have achieved strong naturalness and zero-shot voice cloning performance, but fine-grained control of expressive speech at the word or phoneme level remains challenging. We propose CtrlSpeech, a controllable, expressive TTS framework with coarse-to-fine control. Built on the DiTAR architecture, CtrlSpeech combines global speaker conditioning with phone-aligned pitch, loudness, and duration signals, enabling localized prosodic control while preserving the target speaker&#x27;s timbre. This design allows users to adjust expressive attributes at a fine temporal granularity, making speech refinement more flexible and controllable. Experimental results show that CtrlSpeech achieves competitive zero-shot TTS performance and improves controllability over expressive attributes, demonstrating its effectiveness for flexible and practical expressive speech synthesis.</p>
-
-
+  <p>VAE 将 16 kHz 波形编成 40 Hz、64 维连续 latent；DiTAR 做 patch 级因果 AR + patch 内扩散。全局说话人条件控音色，phone-aligned pitch/loudness/duration 提供细粒度控制；预训约 2 万小时英语数据，评 0.1B/0.6B 两档。</p>
+<h3><span class="l-zh">怎么工作</span><span class="l-en">How it works</span></h3><ol><li>提取并量化音素对齐的音高、响度与时长控制信号。</li><li>以参考音色与文本条件自回归生成连续语音 token。</li><li>需要时按局部控制信号重写韵律。</li><li>在 LibriSpeech-PC、Seed-TTS test-en 与 LJSpeech 上评零样本与可控性。</li></ol>
+<h3><span class="l-zh">论文报告了什么</span><span class="l-en">Reported findings</span></h3><ul><li>LibriSpeech-PC test-clean：CtrlSpeech 0.6B 的 WER/SIM-o/CMOS/SMOS 为 2.46/0.65/-0.16/3.81，接近或优于同数据复现的 DiTAR 0.6B。</li><li>Seed-TTS test-en：0.6B 为 2.58/0.63/-0.23/3.78；0.1B 明显更弱（WER 6.50）。</li><li>作者报告细粒度控制相对基线改善表达属性可控性。</li><li>局限实验显示纯文本生成仍难精确预测局部音高。</li></ul>
   <div class="editorial">
     <b><span class="l-zh">对 StreamingModelHarness 的帮助（编辑判断）</span><span class="l-en">Fit for StreamingModelHarness (editorial analysis)</span></b>
-    <ul><li>需要结合 StreamingModelHarness 当前输入流式、判停后生成、晚注入工具和外挂 TTS 的架构进一步评估。</li></ul>
+    <ul><li>编辑判断：可作为 StreamingModelHarness 外挂 TTS 的可控后端，用于强调、提醒或情绪化播报。</li><li>编辑判断：它不提供听通路或打断策略；双工仍依赖 harness 的 VAD/endpoint 与播放控制。</li><li>编辑判断：权重为 cc-by-nc-4.0，商用座舱前需确认许可。</li></ul>
   </div>
-<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>当前为基于公开摘要的速读，尚未逐项核验正文实验、实现细节和开放状态；Cursor 讲解 Agent 会继续升级。</li></ul>
+<h3><span class="l-zh">边界与局限</span><span class="l-en">Limits</span></h3><ul><li>实验以英语为主，多语/代码切换未知。</li><li>细粒度控制依赖音高提取与强制对齐质量。</li><li>未显式建模情绪、音质与非语言发声。</li><li>代码 MIT、权重 NC，许可不一致需注意。</li></ul>
   <h3><span class="l-zh">代码与模型开放情况</span><span class="l-en">Code and model availability</span></h3>
-  <p><span class="open-status unknown"><span class="l-zh">未核验</span><span class="l-en">Unverified</span></span>
-     &nbsp; 摘要未提供足够证据，等待正文与官方项目页核验。</p>
-  <p></p>
-  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">摘要</span><span class="l-en">abstract</span> · <span class="l-zh">摘要级自动整理，待正文升级</span><span class="l-en">abstract backfill, awaiting full-text review</span>
-     · 2026-08-11 14:15</p>
+  <p><span class="open-status partial"><span class="l-zh">部分开放</span><span class="l-en">Partial</span></span>
+     &nbsp; 项目页 https://zhishengzheng.com/ctrlspeech；代码为 MIT，HF 权重标记 cc-by-nc-4.0。</p>
+  <p><a class="btn" href="https://github.com/zszheng147/ctrlspeech" rel="noopener noreferrer"><span class="l-zh">代码</span><span class="l-en">code</span></a> <a class="btn" href="https://huggingface.co/zhisheng01/CtrlSpeech" rel="noopener noreferrer"><span class="l-zh">模型</span><span class="l-en">model</span></a></p>
+  <p class="note"><span class="l-zh">依据：</span><span class="l-en">Basis: </span><span class="l-zh">论文正文</span><span class="l-en">full text</span> · <span class="l-zh">人工复核</span><span class="l-en">editor-reviewed</span>
+     · 2026-08-21 14:24</p>
 </section>
   <p><a class="btn" href="https://arxiv.org/abs/2608.08362v1"><span class="l-zh">→ 原文链接</span><span class="l-en">→ original link</span></a>
      &nbsp; <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/"><span class="l-zh">← 返回列表</span><span class="l-en">← back</span></a></p>
