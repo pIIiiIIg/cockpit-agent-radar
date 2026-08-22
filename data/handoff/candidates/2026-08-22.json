@@ -1,0 +1,432 @@
+{
+    "schema_version": 1,
+    "date": "2026-08-22",
+    "evidence_cutoff": "2026-08-22T02:30:00+00:00",
+    "publication_safety": "public-safe; no unpublished patent implementation detail",
+    "generation": "agent_reviewed",
+    "radar_status": "data/items.json generated 2026-08-12T09:30:35+08:00, unchanged for a TENTH consecutive report; items still 499; data/explanations.json still 304; 0 new Radar entries. Direct arXiv search remains the only discovery channel. THE INDEX ENTERED A FREEZE PHASE rather than advancing one batch per day - the first freeze observed since 08-15. On 08-21 the newest arXiv submission site-wide was 2608.20340 at 2026-08-20T17:59:59Z; this round the same query (all:a, no category bound, sorted by submittedDate descending) returns THE SAME 2608.20340 at 2026-08-20T17:59:59Z, with the newest three IDs identical entry by entry (2608.20340 / 2608.20339 / 2608.20337). All five control totals are byte-identical to 08-21: cat:cs.SD 21,749, cat:eess.AS 22,209, cat:cs.CL 116,790, cat:cs.MM 9,947, cat:cs.HC 32,292 (cs.HC recorded for the first time). The index did not advance by a single paper in 26 hours. The paper window was set by submission time to 2026-08-20T18:00Z - 2026-08-22T02:30Z, strictly contiguous with the 08-21 report's actual coverage end. Query groups were expanded from 14 to 17, and ALL 17 returned totalResults 0, i.e. 0 deduplicated papers. The zero is established by FOUR independent falsification steps: (1) every zero group was re-run without the date bound and all returned large totals (8,751 / 952 / 847 / 726 / 152 / 3,967 / 6,501 / 7,429 / 7,388 / 2,432 / 2,049 / 2,461 / 6,920 / 25,672 / 3,306 / 21,152 / 2,551 / 16,336), proving the parse path works; (2) the site-wide newest submission timestamp was recorded; (3) the category-free window query (all:a) AND submittedDate:[202608201800 TO 202608220230] returned totalResults 0, so the window is empty site-wide and not merely in speech; (4) (cat:cs.SD OR cat:eess.AS) AND lastUpdatedDate:[202608201800 TO 202608220230] also returned 0, so the revision channel is empty in the speech categories too. CRITICAL: the next round's window start REMAINS 2026-08-20T18:00Z and must NOT be advanced, because the standing rule binds the start to the last submission time ACTUALLY COVERED, and 0 submissions were covered this round; advancing it to 2026-08-22T02:30Z would permanently lose the 08-21 and 08-22 batches if they are later backfilled, and backfill is an observed fact for this project (83 papers in one backfill on 08-17, four batches totalling 235 on 08-19). Version sweep: this round the input set was expanded from the customary 47 tracked IDs to ALL 173 arXiv IDs ever named in reports/ (4 batches of at most 45 via ?id_list=, all 173 resolved, 0 missing, about 28 seconds). Revisions inside the window: 0, for a SECOND consecutive round, independently corroborated by the lastUpdatedDate query above - this must be stated explicitly so that 'version channel produced nothing' is not misread as 'version channel was not checked'. However the expanded sweep found 20 non-v1 entries where 08-21 recorded 3, i.e. 17 have never been version-diffed. One of these corrects 08-21: 2608.14513 was revised at 2026-08-19T18:36:03Z, INSIDE the 08-21 report's own window, so 08-21's sentence that no tracked item produced a new revision in that window holds for the 47 IDs it actually swept but not for the full set of IDs the project tracks; the substantive conclusion is not overturned because 2608.14513 is a non-linear-projection uncertainty visualization paper irrelevant to every project direction - only the coverage claim is. Separately: main previously held reports only through 2026-08-10 - the TENTH consecutive round in which recovery was needed - and the unpublished rounds 2026-08-11 .. 2026-08-21 (18 report files and 9 candidate ledgers) were recovered to the mainline in a separate commit before this report was written. ARTIFACT CHANNEL (channel 3) was the only channel to produce a substantive technical conclusion this round, and it overturned a pending 08-20 verdict. X-Square-Robot/X2Streaming-TTS now returns HTTP 200, private false, MIT (LICENSE 1,070 bytes) - and its created_at is 2026-08-12T09:47:09Z, so the repository existed the whole time and was merely PRIVATE. The 08-20 record filed it as tier 5 (URL given but 404) with a 2026-09-02 settle-by-dead deadline; that deadline rested on a false premise and is void. Evidence for the visibility flip: pushed_at is still 2026-08-12T10:04:06Z while updated_at moved to 2026-08-21T08:31:38Z and refs shows a single branch, so no code was pushed on 08-21 and the only event was a metadata change - consistent with private-to-public, but GitHub REST does not expose visibility-change events so this is inference, not an official statement. NEW HARD RULE: an authenticated gh 404 must default to 'not yet public', never 'does not exist', and such items get a publication watch rather than a death clock. The same repo also confirmed the 08-20 suspended verdict on Qwen3TTS-Streaming from primary source: its README states verbatim that X2Streaming-TTS is a code-only extension for Qwen3TTS-Streaming, and UPSTREAM_LOCK.json pins the submodule to commit 0745e4a8613f0780cc57475452ee775a9abac2dd, which was verified to be exactly the upstream main head - so the two records may now be merged. MaAI moved three ways without moving the blocker: vad_ch, bc_det_ch and vad_jp each gained a mono 12.5 Hz weight on 2026-08-21, one new commit 605a258ccb6b added English VAD (util.py 35,850 to 36,282 bytes, exactly +432, blob count still 224), and the HF model count went 34 to 35 with the new vad_en - but NO weight moved off CC-BY-NC-ND-4.0, vad_en is itself NC-ND, the MIT substitute vap_ch_kyoto is untouched since 2025-11-07 with only 2 weight files against 9 for vap_ch, and there is no MIT-licensed Chinese vad / vad_mono / bc_det / bc_det_mono anywhere in the org. MaAI still publishes ZERO verifiable accuracy figures for a second consecutive round (only thresholds 0.5/0.54, 0.39/0.45, a 4% class prior, and literal XXXXX placeholders in train/README.md), and has 67 tags but ZERO releases, so the 08-17 backchannel-detection, 08-19 mono and 08-21 vad_en work is all untagged main-only code that must be pinned by commit SHA. All SEVEN tracked promised-artifact gaps were re-checked and NOT ONE closed, while five of the repos did move and every single movement was a README or citation edit, four of them inside the same 34-hour window (08-21T03:10Z to 08-21T22:22Z) - a post-submission citation-tidying wave. One standing record can be retired: FireRedTTS3's HF model card arxiv: tag was corrected from the wrong arxiv:2502.03930 to arxiv:2608.17492, though its latency gap is untouched (latenc/RTF/streaming/chunk/throughput/TTFB/TTFA/benchmark all count 0 in both the 33,398-byte README and the 33,060-byte model card, and the parameter count is still unstated). VERSION-CHANNEL YIELD: the three most project-relevant of the 17 never-diffed non-v1 entries were diffed and read in full. 2607.06540 Lychee-FD v4 is the round's most valuable primary material and the FIRST tracking-list paper where hardware, language and licence all line up at once: 8 NVIDIA H20 GPUs (note this is the TRAINING config - inference hardware is never separately stated and this is the paper's only hardware sentence), HF card declares language zh+en (an ARTIFACT-level fact, not a paper-level one), Apache-2.0 code AND non-gated weights with all three promised artifacts present, and FSED (First-Speech-Emit-Delay, the first-audio analogue) of 637 ms - already below the project's 1,000 ms P90 gate, against baselines Freeze-Omni 667 / FLM-audio 989 / Moshi 1895 / VITA 1.5 3036. It had never been read only because it was not among the hand-maintained 47 IDs. REJECTED as an adoptable system on three grounds, the first decisive: the 637 ms depends on 3-4 GPUs with a per-step NCCL_Broadcast (Appendix Algorithm 1), and the paper itself says collapsing to one GPU introduces 'severe latency bottlenecks' - a per-token cross-device collective is the worst possible direction for a project whose measured root cause is ~816 host synchronisations per token; WHICH CLOCK is never stated (no measurement point, no concurrency, no statistic, and FullDuplexBench 1.5's IRR/BRR are GPT-4o-1124-judged rather than measured); and the efficiency claim rests on a GFLOPs axis that is blind to collective and launch overhead. ACCEPTED as an architectural reference because its w/o Param-Sep ablation (S-to-S accuracy collapses to 27.6%) is an independent quantified corroboration of the project's own decision to keep control outside the audio path. 2608.15018 S2-MoE was REJECTED on two grounds, NEITHER of them the usual two: wrong bottleneck (zero hits for synchroniz / cuda graph / kernel launch / launch overhead / host-side / d2h / h2d, and on an H20 none of its four models needs expert offloading at all) and gain decaying monotonically as memory pressure lifts (mean speedup 2.500 / 1.926 / 1.718 at 16 / 32 / 64 GB, with the single controlled fits-vs-does-not case collapsing 3.76x to 1.65x). Critically, the batch-size rule is SILENT here and the cache-hit trap CLEARS - rejecting on either would have been a wrong rejection. Its v1-to-v2 is the purest NULL REVISION on record: per-page content streams byte-identical, all 10 figure XObjects MD5-identical, and the entire text diff is the arXiv stamp line. 2608.06718 v2 leaves the standing 'do not use an audio LLM as an automatic judge' verdict UNCHANGED but requires the wording be tightened to 'not as a PLUG-AND-PLAY evaluator', since the paper explicitly allows that such a judge 'may be useful in a scaffolded pipeline'; 10 of 11 judges sit at chance in the native POINTWISE protocol with only Gemini-3-Pro's CI excluding 50% (55.2 [50.1, 60.1]). That revision also FIXED an internal contradiction present in the very version the project's verdict was formed against (appendix 88.0-100.0 corrected to 88.0-92.0 to match the main text's 88-92%), and dropped Voxtral-Mini-3B entirely.",
+    "reports": [
+        "reports/全双工语音技术增量调研-2026-08-22.md",
+        "reports/每日调研日报-2026-08-22.md"
+    ],
+    "candidates": [],
+    "no_candidate_reason": "论文通道本轮产出为零（17 组查询全部 totalResults = 0，且不限类别的窗口查询同为 0，属索引冻结而非方向枯竭），逐版复核在窗口内同样为零，因此本轮没有任何新技术素材可以进入执行序列。本轮的两条最高价值发现都是方法学与流程性质的，按既定规则不构成候选：其一是对 arXiv 检索工具本身的证伪实验——`abs:` 字段做词干归并，导致 08-21 报告提出的判停组查询改写在同一窗口重放时返回逐条完全相同的 22 篇假阳性，改写无效；其二是逐版复核的输入集合此前被人工缩小到 47 个 ID，扩到机械提取的 173 个后非 v1 条目由 3 个变为 20 个。这两条都不是被测系统上的单变量改动，也无法给出预计正确性净修数。08-21 立项的候选 backchannel-timing-sidecar-maai-offline-v1（用 MaAI 的 MIT 中文应答权重 vap_bc_ch 做纯 CPU 旁路观测）本轮无任何进展，仍阻塞在同一前置条件上：项目缺带应答/打断标注的中文评测数据，该前置条件本轮未推进。制品通道（第三条通道）的复核在本轮进行中，其结论以单独提交并入报告，若其中出现可执行素材再按常规立项。",
+    "carried_over": [
+        "backchannel-timing-sidecar-maai-offline-v1（2026-08-21）保持 status=proposed_offline_blocked、blocked_on 不变。本轮无新增证据改变其处置：项目仍没有带应答/打断标注的中文评测数据，因此该候选的「时机对不对」这个量仍不可测，只有工程量（5/10/20 Hz 三档下的 CPU 占用、每帧墙钟耗时、触发点分布）可先测。许可证边界不变：只可使用 MIT 的 maai-kyoto/vap_bc_ch，不得使用 CC-BY-NC-ND-4.0 的 vap_ch、vap_mc_ch、vad_ch、bc_det_ch，也不得使用无许可证标签的 vap_bc_2type_jp 与 bc_det_en。只读代码审阅仍是执行前置条件且本轮未做。 本轮制品通道复核又收紧两条边界：（一）MaAI 零 release、67 个 tag 最高仍为 v0.2.15，而 08-17 的应答检测、08-19 的 mono、08-21 的 vad_en 全部是未打标签的 main 代码，因此「必须记录 commit SHA」由建议升格为硬要求；（二）vad_ch 与 bc_det_ch 已各新增一个 mono 12.5 Hz 权重，形状上正是旁路想要的，但两者仍为 CC-BY-NC-ND-4.0，而 ND 禁止衍生——量化、ONNX 导出、蒸馏在非商用条款生效前已被挡住，故仍不得进入本候选。",
+        "omnivoice-local-tts-16step-v1（2026-08-10）保持仅离线、h20_request_allowed=false。本轮无新增证据改变其处置。Luna-TTS 项目页的页内矛盾（摘要 1.28s 块 vs 推理表脚注 0.36s 块）本轮未复核，在澄清前其 41.6ms 仍不可用于任何跨系统首包比较。VoiceChat-TTS 的 9.62ms 仍记为 ITL（稳态每帧，每帧对应 80ms 音频）而不是首包时延，同样不可用于首包比较。X2Streaming-TTS 的 TTFT 中位 15.8ms 仍记为首个音频 token 而非首个可播放音频，且其上游按固定速率喂文本，对项目 110ms/token 的抖动上游未经验证。",
+        "streaming-se-frontend-rtsemamba-kd1-v1 的 PESQ→CER 阻塞连续第五轮未解。验收口径不变：删除任何形式的 PESQ 收益依据，只以项目自测中文 CER 验收。依据仍是 2608.14812 的 Table 4（同一测试集、同一 CER 后端下 PESQ 排序与 CER 排序不一致）。"
+    ],
+    "report_only_recommendations": [
+        {
+            "id": "arxiv-abs-stemming-mechanism",
+            "kind": "process_rule",
+            "summary": "已实测确认 arXiv API 的 `abs:` 字段在匹配前把单词归并到词干，据此固化三条规则。证据是五个词族各自坍缩成同一个 totalResults，且按投稿时间倒序的最新三条 ID 也逐条相同：endpoint / endpointing / endpoints 同为 7,145（最新三条 2608.20295、2608.20283、2608.20266）；interruption / interrupt / interrupted / interrupting 同为 2,491（最新三条 2608.19893、2608.19887、2608.19622）；stream / streaming / streamed 同为 30,701；beamforming / beamform / beamformer 同为 6,618；cancellation / cancel / cancelling 同为 15,005。短语不会被整体坍缩但短语内的成分词同样被归并：echo cancellation 与 echo cancel 同为 142，而 voice activity detection（246）与 activity detection（718）不同，说明短语邻接约束确实生效。三条规则：（一）不要用「删掉某个宽泛单词」来提精度，那是无效操作；（二）提精度的唯一有效手段是改用多词短语；（三）以 S 结尾的缩略词会被剥成另一个词，必须单独体检。",
+            "why_not_candidate": "这是对发现通道所依赖的检索工具的审计，不是被测系统上的单变量改动，无法给出预计正确性净修数。但它决定了此后每一轮的查询写法，且它直接推翻了前一日报告写下的建议，因此优先级高于本轮其余各条。",
+            "external_evidence": "全部为本轮对 export.arxiv.org/api/query 的一手实测，非转述任何论文。每个数字均为该查询返回的 opensearch:totalResults。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "vad-query-rewrite-drop-both-stemmed-words",
+            "kind": "process_rule",
+            "summary": "把判停组查询改写为 `abs:\"voice activity detection\" OR abs:\"end-of-turn\" OR abs:\"turn-end detection\"`，即把 endpoint 与 endpointing 两个被归并的单词都删掉。量级：原写法全库 7,388，08-21 建议的写法 7,429（更差），本写法 288，减少 25.6 倍，而保留的短语里 voice activity detection 为 246、end-of-turn 为 42，两者都是真正的判停语义探针。08-21 的建议之所以无效，是因为它只删了裸词 endpoint 而保留了 endpointing，而这两者在检索层面是同一个词。下一轮必须照旧记录改写前后的窗口对照总数，以免把口径变化误读成产出变化。",
+            "why_not_candidate": "查询写法属发现通道配置，不是被测系统改动。但它零成本、改完即生效，且已被同窗口 A/B 验证。",
+            "external_evidence": "08-21 窗口（submittedDate:[202608191800 TO 202608210230]）原样重放的 A/B：旧写法 totalResults = 22，08-21 建议的新写法 totalResults = 22，22 个 ID 逐条完全相同（2608.20295、2608.20283、2608.20266、2608.20243、2608.20216、2608.20160、2608.20152、2608.19938、2608.19932、2608.19846、2608.19845、2608.19708、2608.19703、2608.19679、2608.19593、2608.19553、2608.19540、2608.19497、2608.19403、2608.19387、2608.19373、2608.19369）。改写没有去掉任何一篇假阳性。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "tts-query-drop-tts-token",
+            "kind": "process_rule",
+            "summary": "把 TTS 组的 `abs:\"TTS\"` 直接删掉，只保留 abs:「text-to-speech」（全库 2,316）与 abs:「speech synthesis」（全库 1,204）。理由是 abs:「TTS」在检索层面就等于 abs:「tt」——abs:「TTS」、abs:「tts」、abs:「TT」、abs:「tt」四者全库 totalResults 同为 4,956，词干器把缩略词 TTS 当作 TT 的复数剥掉尾部 S，而 tt 正是粒子物理里顶夸克对的记法。abs:「ttses」全库仅 1，可作为反向印证。",
+            "why_not_candidate": "查询写法属发现通道配置。",
+            "external_evidence": "一手实测。并核实了 08-21 该组两篇假阳性的摘要：2608.19651（标题含 $t\\bar{t}$ Excess at the LHC）与 2608.19789（标题为 TT-net）的摘要里 speech / synthes / text-to / TTS 四个模式的命中数全部为 0。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.19651",
+                "https://arxiv.org/abs/2608.19789"
+            ]
+        },
+        {
+            "id": "aec-query-drop-beamforming",
+            "kind": "process_rule",
+            "summary": "把回声消除组改成以 abs:「echo cancellation」（全库 142）与 abs:「AEC」（全库 259）为主，删掉 abs:「beamforming」。理由是 beamforming / beamform / beamformer 全库同为 6,618，该词把无线通信、ISAC、雷达、医学超声整片带进来，量级远超真正的声学 AEC 文献，这正是此前记录的「beamforming 连续两轮 100% 落在非声学领域」的机制。AEC 一词无尾部 S 可剥，是该方向最干净的探针。同时必须写清这条改动不会变出新论文：词干归并只多召回不少召回，去掉噪声词只让该组更干净。",
+            "why_not_candidate": "查询写法属发现通道配置。",
+            "external_evidence": "一手实测。参考探针的污染情况：ASR / ASRs 同为 5,164、VAD / VADs 同为 504、KV cache / KV caches 同为 1,730，三者两形态都指同一概念故可用；AEC 为 259，干净。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "query-term-preflight-corpus-total",
+            "kind": "process_rule",
+            "summary": "提出任何新查询词之前，先单独测它的全库 totalResults。本轮的触发实例：abs:「turn-end detection」全库 totalResults = 0，不是窗口内为零，而是 arXiv 全库没有任何一篇摘要能匹配它——而它恰恰出现在 08-21 建议的改写方案里。一个全库为零的词进了查询组无害但也无用，会让该组看起来比实际覆盖得更宽，从而在日后被当成「这个方向查过了」的依据。",
+            "why_not_candidate": "属发现通道配置的事前检查步骤。",
+            "external_evidence": "一手实测。对照：abs:「end-of-turn」为 42，abs:「voice activity detection」为 246，两者都非零可用。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "query-rewrite-must-ab-same-window",
+            "kind": "process_rule",
+            "summary": "任何查询改写都必须在同一窗口上对改写前后各跑一次，并同时记录两个 totalResults。本轮正是靠这一步才发现 08-21 的建议无效；若只换写法而不做对照，会把「改写生效」当成既成事实带进后续若干轮，并把此后该组的产出变化错误归因给领域而不是口径。这条规则在 08-20 与 08-21 已各执行过一次（车内组），本轮把它从惯例升格为硬规则，并补一条：A/B 必须比对 ID 集合而不只是比对总数，因为总数相同仍可能是不同集合，而本轮恰好是总数相同且集合也完全相同。",
+            "why_not_candidate": "属发现通道的操作纪律。",
+            "external_evidence": "本轮 A/B 的两个 22 与其逐条相同的 ID 集合；08-21 车内组 A/B 的 15 对 3。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "stemming-overgenerates-so-zeros-stand",
+            "kind": "negative_evidence",
+            "summary": "词干归并的偏向是多召回而不是漏召回，因此此前所有记录为 totalResults = 0 的零结果全部仍然有效，且比原本更强——一个被人为放宽了的查询若仍返回零，那个零的证据力更高。明确禁止用本轮的词干归并发现去回溯质疑任何一条已记录的零结果：AEC 自 08-13 起的十轮为零、空间听觉的连续为零、流式 ASR 的连续为零都不受影响。受影响的只有精度，即此前记录的「某组返回 N 篇、N 篇全是假阳性」这一整类观察。",
+            "why_not_candidate": "这是对既有结论有效性范围的限定，不是新的可执行改动。但不写下来就会在下一轮引发一次不必要的全面回溯。",
+            "external_evidence": "本轮实测的归并方向：每个词族的变体总数相同而非更小，且窗口查询在放宽后仍为 0。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "fullduplex-group-two-defects-must-stay-separate",
+            "kind": "process_rule",
+            "summary": "全双工组此前被记为「既空又漏、存在系统性盲区」，本轮只解释了其中一半，两半必须永久分开记账。精度损失已归因：interruption 一词就带来 2,491 篇全库量级的词干污染，且 08-21 该组返回的 3 篇假阳性（2608.19893、2608.19887、2608.19622）正是 abs:「interrupt」族按投稿时间倒序的最新 3 篇，逐条吻合。召回损失仍未归因：词干归并只会多给不会少给，因此它解释不了「漏掉真正的全双工进展」这件事，不得用本发现冒充该解释。",
+            "why_not_candidate": "属归因记账纪律。",
+            "external_evidence": "abs:「interruption」/「interrupt」/「interrupted」/「interrupting」全库同为 2,491，最新三条同为 2608.19893、2608.19887、2608.19622；08-21 报告第 6.3 节记录该组返回的正是这三篇。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "interrupt-word-root-single-mechanism",
+            "kind": "negative_evidence",
+            "summary": "把 interrupt 词根的三个假阳性从「三次独立巧合」改记为「一个机制的三次显形」：并行机排程语境下的 interruption、统计学固定术语 Interrupted Time Series、以及 2608.19893 的 Interrupting the Loop，三者同源于词干归并。同理把 08-21 记录的「本项目跨度最大的一次关键词假阳性」（hep-ph 电弱重子生成）撤回该说法，改记为「缩略词词干归并导致的伪匹配」——它从来不是摘要里出现了某个语音词，其与语音检索的唯一联系就是被剥掉的那个字母 S。",
+            "why_not_candidate": "属归因修正，不是可执行改动。",
+            "external_evidence": "一手实测的词族坍缩；两篇假阳性摘要中语音相关模式命中数为 0 的核实结果。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.19893",
+                "https://arxiv.org/abs/2608.19651"
+            ]
+        },
+        {
+            "id": "version-sweep-input-must-be-mechanically-extracted",
+            "kind": "process_rule",
+            "summary": "逐版复核的输入集合必须从 reports/ 机械提取，不得人工维护清单。本轮把输入从惯例的 47 个 ID 换成机械提取的全部 173 个（`grep -ohaE '\\b26[0-9]{2}\\.[0-9]{5}\\b' reports/*.md | sort -u`），4 批、每批不超过 45、经 ?id_list= 一次扫完，173 个全部解析成功、0 缺失、耗时约 28 秒，成本不构成理由。结果：非 v1 条目由 08-21 记录的 3 个变为 20 个，即 17 个从未做过任何逐版差分。这与 08-21 记录的 MaAI 失败是同一形状——不是通道失效，而是通道的覆盖范围被无声地缩小了。",
+            "why_not_candidate": "属发现通道配置。",
+            "external_evidence": "本轮实测。已完成差分的仍是 3 个：2608.13416 StreamTTT（08-19）、2608.14097 Ambisonics（08-19）、2608.10878 X2-Turn（08-20）。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "version-sweep-08-21-coverage-correction",
+            "kind": "negative_evidence",
+            "summary": "对 08-21 报告的一处覆盖面陈述做出修正，并同时限定这处修正的份量。08-21 写「没有任何追踪项在本窗口产生新修订」，而 2608.14513 的 v2 修订时刻是 2026-08-19T18:36:03Z，落在 08-21 报告自己的窗口（2026-08-19T18:00Z 至 2026-08-21T02:30Z）之内。该陈述对它实际扫过的那 47 个 ID 成立，对本项目追踪过的全部 ID 不成立。但份量必须说准：2608.14513 是一篇非线性投影不确定性可视化的论文，与本项目任何方向都无关，因此 08-21 的实质结论（版本通道本轮无有价值产出）没有被推翻，被推翻的只是它的覆盖面陈述。这两件事必须分开说，不得合并成「前一日结论有误」。",
+            "why_not_candidate": "属对既有报告的勘误，不是可执行改动。",
+            "external_evidence": "本轮 173 ID 逐版复核的实测结果。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.14513"
+            ]
+        },
+        {
+            "id": "frozen-index-window-start-must-not-advance",
+            "kind": "process_rule",
+            "summary": "索引冻结日必须显式复述并执行一条既定规则：窗口起点绑定「最后一篇实际被覆盖到的投稿时刻」，而不是上一轮的时钟时刻。本轮实际覆盖投稿数为 0，因此下一轮窗口起点保持 2026-08-20T18:00Z 不变。若误按时钟把起点改成 2026-08-22T02:30Z，则 08-21 与 08-22 两批一旦后来被回填就永久看不见了——而回填是本项目已观测过的既成事实：08-17 一次回填 83 篇、08-19 一次回填四批共 235 篇。",
+            "why_not_candidate": "属发现通道的操作纪律。",
+            "external_evidence": "本轮实测：全站最新投稿仍为 2608.20340（2026-08-20T17:59:59Z），与 08-21 相同；五个对照总数与 08-21 逐位相同；不限类别的窗口查询 totalResults = 0。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "direction-zero-versus-index-zero",
+            "kind": "process_rule",
+            "summary": "把「方向为零」与「索引为零」分开记，因为两者的后续动作完全不同：前者是领域没产出，动作是继续等；后者是检索源没推进，动作是保持窗口起点不动并预期回填。本轮 17 组全零属后者，判据是不限类别的窗口查询 (all:a) AND submittedDate:[...] 同样返回 0。这也说明本轮不构成对 08-21 那条规则（篇数与查询组的空满程度都不是有无重大新增的代理）的反例，因为两者根本不在同一层。本项目此前只遇到过一次索引为零，即 08-15。",
+            "why_not_candidate": "属记账口径。",
+            "external_evidence": "本轮实测：17 组窗口全零，去日期约束对照全部返回大数；不限类别窗口查询为 0；lastUpdatedDate 语音类目查询为 0。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "gh-404-means-not-yet-public",
+            "kind": "process_rule",
+            "summary": "经过身份认证的 gh 返回 404 时，默认读法必须是「尚未公开」而不是「不存在」，因此这类条目的后续动作是发布观察，不得设死线。本轮拿到了这条规则的第一个实证案例，而它恰好落在一个已按错误读法设了死线的条目上：X-Square-Robot/X2Streaming-TTS 现在返回 HTTP 200、private 为 false、MIT（LICENSE 1,070 字节），而它的 created_at 是 2026-08-12T09:47:09Z。判断私有转公开的可用线索是 updated_at 前移而 pushed_at 不动（本例：pushed_at 仍为 2026-08-12T10:04:06Z，updated_at 为 2026-08-21T08:31:38Z，且只有单分支），但必须写明 GitHub REST API 不暴露可见性变更事件，因此这是推断而不是官方陈述。",
+            "why_not_candidate": "属制品通道的判读纪律，不是被测系统上的单变量改动。但它直接作废了 08-20 设下的一个到期判死动作。",
+            "external_evidence": "本轮对 GitHub REST API 的一手核实。全树 truncated=false，52 个 blob 合计 189,024 字节，零 tag、零 release、无任何模型权重。提交只有三条且全部早于仓库自己的 created_at。",
+            "source_urls": [
+                "https://github.com/X-Square-Robot/X2Streaming-TTS",
+                "https://arxiv.org/abs/2608.18661"
+            ]
+        },
+        {
+            "id": "x2streaming-tts-qwen3tts-lineage-confirmed",
+            "kind": "negative_evidence",
+            "summary": "08-20 把 X-Square-Robot/Qwen3TTS-Streaming 记为「疑似实现，不得与论文记录合并」，本轮该悬置判定获得一手确认，可以并档。新公开的 X2Streaming-TTS 仓库 README 逐字自述为前者的 code-only extension，且 UPSTREAM_LOCK.json 把子模块钉到提交 0745e4a8613f0780cc57475452ee775a9abac2dd，已核实该 pin 正是上游 main 的头。CITATION.cff 列出七位 X Square Robot 作者并逐字给出论文题名。但工程上仍判否，四条理由要写准以免日后按错理由重估：自述 pre-alpha 且只在一张 RTX 4090 D 上用 custom-1.7b TensorRT 检查点跑过；明写不分发权重、数据、音频与 TensorRT 制品，故论文的 CER-ZH 0.78% 与 TTFT 中位 15.8ms 仍不可第三方复现；它是子模块加两组上游未合并的补丁；且上游 Qwen3TTS-Streaming 本轮零推进（pushed_at 仍 2026-08-11T03:24:58Z，main 头仍 0745e4a8613f）。",
+            "why_not_candidate": "自述 pre-alpha、不分发权重、需给未合并 hook 的上游打补丁，三方耦合，无法构成单变量改动。",
+            "external_evidence": "README 5,337 字节逐字：X2Streaming-TTS is a code-only extension for Qwen3TTS-Streaming；以及 This repository does not redistribute research datasets, experiment results, model weights, generated audio or TensorRT artifacts。另注 arXiv 编号 2608.18661 在两个仓库的全部 blob 里一次都没出现，与其最新提交信息 Drop paper references from src comments 自洽。",
+            "source_urls": [
+                "https://github.com/X-Square-Robot/X2Streaming-TTS",
+                "https://github.com/X-Square-Robot/Qwen3TTS-Streaming"
+            ]
+        },
+        {
+            "id": "x2streaming-tts-transferable-primitives",
+            "kind": "design_constraint",
+            "summary": "从 X2Streaming-TTS 带走两条与项目自身架构对口的原语，与是否采用该仓库无关。其一，capacity.py 从运行中的引擎读取可用 KV 预算，而不是写一个静态常量；项目为自己约 2,500 token 的 KV 建预算模型时正应如此，这与 08-21 从 CacheRoute 得到的「不要用容量与速率预测缓存驻留、去测」是同一条纪律的另一半：不要把引擎的实际余量写成常量。其二，policy.py 在异常时 fail closed to the upstream path，这正是解耦旁路需要的纪律，与 08-21 从 MaliciousSkillBench 记下的 ABSTAIN_ERROR 第三状态同源：旁路自身出错时必须退回主路径，绥不能退化成放行或静默失败。",
+            "why_not_candidate": "设计约束，不是可单变量测量的改动。",
+            "external_evidence": "只读核实该仓库源文件，未运行任何代码。",
+            "source_urls": [
+                "https://github.com/X-Square-Robot/X2Streaming-TTS"
+            ]
+        },
+        {
+            "id": "provenance-paths-absent-from-declared-upstream",
+            "kind": "negative_evidence",
+            "summary": "新增一种本项目此前未记录的不一致形态：制品自述的上游来源路径，在它自己声明的上游里并不存在。X2Streaming-TTS 的 PROVENANCE.json 列出六个方法文件的上游来源路径，逐一比对上游 main / dev / beta / rime 四个分支后：engine/frontend/spliter/driver.py（14,161 字节）、engine/frontend/spliter/spliter.py（35,235 字节）、engine/text_normalization.py（4,529 字节）存在；而 engine/frontend/rule_boundary.py、engine/frontend/text_normalizer.py、engine/backend/continuity.py 在四个分支上全部不存在，而这三个恰好是 PROVENANCE.json 自己归类为 x2-method 或 x2-support 的那几个（rule_boundary.py 对应 E_t/U_t 划分，continuity.py 对应语音状态继承）。事实只到「它们不在公开上游」；「新方法代码在开源前被从上游剔掉」只是解读，上游历史从未声明包含过它们，因此不作为结论。",
+            "why_not_candidate": "属开放状态与一致性记账，不是可执行改动。",
+            "external_evidence": "一手核实：对上游四个分支各做一次递归树查询。",
+            "source_urls": [
+                "https://github.com/X-Square-Robot/X2Streaming-TTS",
+                "https://github.com/X-Square-Robot/Qwen3TTS-Streaming"
+            ]
+        },
+        {
+            "id": "maai-mono-weights-right-shape-wrong-license",
+            "kind": "negative_evidence",
+            "summary": "MaAI 本轮有三处真实变化，但对项目最关键的阻塞点一步未动，且差距被拉大。变化：vad_ch、bc_det_ch、vad_jp 三个 HF 仓库在 2026-08-21 各新增一个 mono 12.5 Hz 权重（vad_ch 的 vad_mono_mimi_state_dict_ch_12.5hz_20000msec.pt 为 17,352,856 字节，bc_det_ch 对应文件 17,353,081 字节）；仓库新增提交 605a258ccb6b（2026-08-21T23:57:11Z，只动 src/maai/util.py，+11/-2，加英语 VAD，util.py 由 35,850 到 36,282 字节即正好 +432，blob 数仍 224）；HF 模型数 34 到 35，新增 vad_en。但：vad_ch 与 bc_det_ch 仍为 CC-BY-NC-ND-4.0，无任何权重移出该许可证；新增的 vad_en 同样是 NC-ND，说明新语种默认落 NC-ND，不宜预期中文权重自行改证；MIT 的 vap_ch_kyoto 自 2025-11-07T12:31:24Z 起未动、仍只有 2 个权重文件（NC-ND 的 vap_ch 有 9 个）；整个组织内不存在任何 MIT 许可的中文 vad、vad_mono、bc_det 或 bc_det_mono 权重。净效果是 NC-ND 的中文线变强、MIT 的中文线原地不动。mono 本身恰好是旁路想要的形状（一路麦克风进、一路概率出，不需合成第二路通道也不需抽 TTS 回环），而 bc_det 区分「这句短语是应答」与「这是真正的接话开始」正是座舱最怕的误触发；但 ND 比非商用更硬——它禁止衍生，量化、ONNX 导出、蒸馏在非商用条款生效前已被挡住。",
+            "why_not_candidate": "许可证阻塞未解，且项目仍缺带应答与打断标注的中文评测数据，两个前置条件都未满足。",
+            "external_evidence": "一手核实 GitHub 与 Hugging Face API。许可证家族分布现为 MIT 15 / CC-BY-NC-ND-4.0 14 / CC-BY-NC-SA-4.0 3 / CC-BY-4.0 1 / 无标签 2。",
+            "source_urls": [
+                "https://github.com/MaAI-Kyoto/MaAI",
+                "https://huggingface.co/maai-kyoto/vad_ch",
+                "https://huggingface.co/maai-kyoto/bc_det_ch",
+                "https://huggingface.co/maai-kyoto/vap_ch_kyoto"
+            ]
+        },
+        {
+            "id": "maai-pin-by-commit-sha-not-tag",
+            "kind": "process_rule",
+            "summary": "任何对 MaAI 的评估必须按 commit SHA 钉死，不得按 tag。依据：/releases 长度为 0，而 /tags 有 67 个、最高仍是 v0.2.15（指向 10ba9f0895，2026-08-13T06:26:24Z），因此 08-17 的应答检测、08-19 的 mono、08-21 的 vad_en 全部是未打标签、未发布的 main 分支代码，按 tag 钉版本会漏掉全部近期功能。这把候选 backchannel-timing-sidecar-maai-offline-v1 里「必须记录所使用的 commit SHA」这一条由建议升格为硬要求。",
+            "why_not_candidate": "属候选的执行边界收紧，不是新候选。",
+            "external_evidence": "一手核实：/releases 返回长度 0；/tags 返回 67 项。",
+            "source_urls": [
+                "https://github.com/MaAI-Kyoto/MaAI"
+            ]
+        },
+        {
+            "id": "maai-accuracy-still-unverifiable-round-two",
+            "kind": "negative_evidence",
+            "summary": "MaAI 仍然没有任何可核实的精度数字，这是连续第二轮的结论。全仓 47 个 md 与 txt 文件再扫一遍，所有数字都是阈值、类别先验或占位符，没有一个是实测得分：readme/vad.md 只给阈值（0.5 默认、0.54 在开发集上最佳 F1，而 F1 的值本身没给）；readme/bc_det.md 给日语开发集调出的阈值 0.39（帧级 F1）与 0.45（事件级 F1），并说明应答只占约 4% 的帧（这是类别先验不是性能）；train/README.md 第 115 到 120 行的指标表是字面占位符 XXXXX。因此项目文档里仍不得出现任何关于 MaAI 的准确率。另记文档滞后新增一处：readme/vap_bc.md 第 21 行「Currently, only Japanese is supported.」仍在，且 readme/vad.md 的可用性矩阵只列 jp 与 ch 而代码自 08-21 起已接受 lang 为 en，即代码比文档快一个语种。",
+            "why_not_candidate": "属开放状态与证据记账。",
+            "external_evidence": "一手核实：递归树列出 readme/ 24 个 blob 与 docs/ 19 个 blob 后逐个读取。",
+            "source_urls": [
+                "https://github.com/MaAI-Kyoto/MaAI"
+            ]
+        },
+        {
+            "id": "artifact-progress-signals-are-not-signals",
+            "kind": "process_rule",
+            "summary": "pushed_at 前移、star 数增长、以及 README 里出现 arxiv，三者都不是进展信号。本轮七个追踪缺口逐条复核，没有任何一项关闭，而五个仓库 pushed_at 前移且五次全部是 README 或引用信息编辑，其中四次集中在 2026-08-21T03:10Z 到 08-21T22:22Z 这 34 小时内，属论文投稿后的引用整理潮。一条以这三者为触发条件的流水线本轮会报四到五个假阳性，其中最危险的是把 Thinkingbox 新增的论文链接读成「发布产品不发布实验」这个形态被打破，而它的制品关键词命中数全部仍为 0。因此进展判断必须落到文件级：制品关键词在全树路径中的命中数。",
+            "why_not_candidate": "属制品通道的操作纪律。",
+            "external_evidence": "七项逐条一手核实。Thinkingbox：唯一新提交 dafead8aaf97（2026-08-21T22:22:42Z）只改 README，dataset 全树逐字节不变，retail 等五个域名在 163 条路径中命中仍为 0。EnvHarness：webshop 在 242 条路径与 README 中命中仍为 0，rules.py 仍逐字节 8,274 字节，stars 9 到 104 而代码零变化。MaliciousSkillBench：两侧逐字节不变，且该作者名下 models 端点返回 0 个模型。ReCache：作者 08-21 在改 README 却仍未加 LICENSE。FlashPrefill V2：两条新提交只改 README，四个缺口全部原样。",
+            "source_urls": [
+                "https://github.com/microsoft/thinkingbox",
+                "https://github.com/google-research/envharness",
+                "https://github.com/EIT-NLP/ReCache",
+                "https://github.com/qhfan/FlashPrefillv2"
+            ]
+        },
+        {
+            "id": "artifact-scan-traps-2026-08-22",
+            "kind": "process_rule",
+            "summary": "三条本轮实测的新扫描陷阱，全部会让人把无变化读成有变化。其一 star 数可以在代码零变化时暴涨（EnvHarness 9 到 104，11.6 倍，同期只有一次 README 标题修改，而新标题 Awakening Static Worlds for Agent Learning 与 arXiv 题名不一致，仓库标题不得当作该工作的名称）。其二架构支持的 grep 必须限定到项目自己的目录：FlashPrefill V2 全树搜 sm120 有 23 处命中，23 处全在 csrc/cutlass/include 下的第三方 CUTLASS 头文件里、实例化目录下为 0。其三 11,357 字节这个 Apache-2.0 判据不能当硬相等条件：X2-Turn 的 LICENSE 是 11,374 字节，但逐行归一化空白并剔掉开头那行 Copyright 2026 X Square contributors 之后与 apache.org 规范文本逐字节相同（两侧都归一化为 10,222 字节，cmp 无差异），故字节数只能作快速线索、判定要靠归一化比对。另补一条更一般的：仓库确实在被编辑却依然缺少承诺物，比仓库停滞是更强的负面证据，本轮两个实例是 ReCache 的 LICENSE 与 FlashPrefill V2 的 alpha 矛盾，后者在两次刻意潤色提交之后仍然存活，应从待澄清改记为既成的方法学矛盾。",
+            "why_not_candidate": "属制品复核清单的检查项。",
+            "external_evidence": "一手实测。",
+            "source_urls": [
+                "https://github.com/qhfan/FlashPrefillv2",
+                "https://github.com/google-research/envharness",
+                "https://github.com/X-Square-Robot/X2-Turn"
+            ]
+        },
+        {
+            "id": "retire-fireredtts3-wrong-arxiv-tag-note",
+            "kind": "negative_evidence",
+            "summary": "撒销一条既有记录：FireRedTeam/FireRedTTS3 的 Hugging Face 模型卡 arxiv 标签已被作者修正。基线记的是 arxiv:2502.03930（FireRedTTS 系列的早期论文，属错标），现在标签恰为 safetensors、arxiv:2608.17492、license:apache-2.0、region:us，旧标签已移除。但要写清这只改了引用、没改能力：它的时延缺口一步未动——33,398 字节的 GitHub README 与 33,060 字节的 HF 模型卡里，latenc、RTF、real-time、streaming、stream、chunk、throughput、TTFB、TTFA、first packet、benchmark 的命中数全部为 0，参数量仍未声明，因此在项目首音频 P90 不超 1,000ms 这道门前仍不可评估。",
+            "why_not_candidate": "属对既有记录的勘误。",
+            "external_evidence": "一手核实 HF 模型卡标签与两份 README 的关键词命中数。",
+            "source_urls": [
+                "https://huggingface.co/FireRedTeam/FireRedTTS3",
+                "https://arxiv.org/abs/2608.17492"
+            ]
+        },
+        {
+            "id": "sembridge-license-badge-points-to-404",
+            "kind": "negative_evidence",
+            "summary": "新增一个「公开但无许可证」的变体：ASLP-lab/SemBridge 的许可证实为未指定，而不是它徒章上写的 Apache-2.0。README 的 License-Apache--2.0 徒章链接指向 LICENSE，而该链接 404；license 字段为 null，/license 同样 404。即不是没写，而是写了一个指向不存在文件的徒章。仓库本身仍是占位：3 条目 2 个 blob，readme.md 2,383 字节加一张 311,669 字节的图，零代码，22 stars，pushed_at 仍 2026-08-10T05:51:29Z。另：aalto-speech/CASA 的零权重已双向确认（树里无权重扩展名 blob，且 api/models?author=aalto-speech 返回 0 个模型）。",
+            "why_not_candidate": "属开放状态记账。",
+            "external_evidence": "一手核实 GitHub API 与 HF API。",
+            "source_urls": [
+                "https://github.com/ASLP-lab/SemBridge",
+                "https://github.com/aalto-speech/CASA"
+            ]
+        },
+        {
+            "id": "lychee-fd-control-stream-early-exit",
+            "kind": "design_constraint",
+            "summary": "只读审阅 Lychee-FD（2607.06540）的控制头早退路径与控制词表，把「控制决策在语音生成完成之前就产出」这一形状写进判停与打断的设计文档。仓库 README 逐字：控制头 also uses an early-exit path, allowing interruption, stop-speaking, and listen/respond decisions to be produced before full speech generation completes。这是项目所需旁路形状的第一个可运行实例，且代码与权重均为 Apache-2.0、声明支持中文。其控制词表 Y_C = [<Start>, c_1, ..., <Stop>] 可直接照搬编码方式。必须只读，不运行该仓库任何代码。",
+            "why_not_candidate": "只读审阅与设计参照，不是被测系统上的单变量改动；而它作为系统已因三条理由被否决（依赖 3–4 张卡加每步 NCCL 广播、未声明时铟、效率声明只建立在 GFLOPs 上）。",
+            "external_evidence": "arXiv:2607.06540 v4 与其官方仓库 HITsz-TMG/Lychee-FD（Apache-2.0、124 stars）、HF HIT-TMG/Lychee-FD（非门控、Apache-2.0）。FSED 637ms，基线 Freeze-Omni 667 / FLM-audio 989 / Moshi 1895 / VITA 1.5 3036。",
+            "source_urls": [
+                "https://arxiv.org/abs/2607.06540",
+                "https://github.com/HITsz-TMG/Lychee-FD",
+                "https://huggingface.co/HIT-TMG/Lychee-FD"
+            ]
+        },
+        {
+            "id": "gradient-conflict-diagnostic-instrument",
+            "kind": "instrumentation",
+            "summary": "在项目自己的栈上跑一次 Lychee-FD 的梓度冲突诊断：逐层计算声学与语义梓度的余弦相似度。论文观察到它 drops sharply, turning negative and fluctuating in the deeper layers，因此这是一件可用来定位「任何多头流式模型应该在哪一层切分」的量具，而不是靠猜。配套一条具体警告：语义稀释——用 padding 把约 3 Hz 的文本流对齐到 25 Hz 音频会持续压制语义梓度幅值，因此项目任何把稀疏控制流或文本流时间对齐到密集音频帧的设计，都应预期该稀疏流被训练不足（其 w/o Sem-Channel 消融代价为 S→T 5.6 分、S→S 5.4 分）。",
+            "why_not_candidate": "量具而非候选：它测的是设计决策的依据，不直接产生可验收的正确性净修数。",
+            "external_evidence": "arXiv:2607.06540 v4 的梓度冲突分析与 w/o Param-Sep（S→S 崩到 27.6%）、w/o Sem-Channel 两组消融。",
+            "source_urls": [
+                "https://arxiv.org/abs/2607.06540"
+            ]
+        },
+        {
+            "id": "fsed-metric-name-for-first-audio",
+            "kind": "process_rule",
+            "summary": "项目今后报自己的首音频时延时，采用已发表的指标名 FSED（First-Speech-Emit-Delay）与 FDBench / FullDuplexBench 的定义，以便与外部可比；但必须同时注明自己的时铟。可对位的基线表：Lychee-FD 637ms、Freeze-Omni 667、FLM-audio 989、Moshi 1895、VITA 1.5 3036。同时记一条反面教训：2607.06540 本身就没说它的 637ms 是服务端还是客户端、未说并发、未说是均值还是分位，而且其 IRR/BRR 由 GPT-4o-1124 判定而非直接测量，因此那个 637ms 只能记为算法加测评框架口径。",
+            "why_not_candidate": "属记账口径。",
+            "external_evidence": "arXiv:2607.06540 v4 Table 2（明确标注单位为 ms）。",
+            "source_urls": [
+                "https://arxiv.org/abs/2607.06540"
+            ]
+        },
+        {
+            "id": "read-shipped-configs-in-triage",
+            "kind": "process_rule",
+            "summary": "把「读随仓库发布的配置文件」列为论文初筛的常规步骤。依据：S2-MoE（2608.15018）的批大小、预热状态、随机种子、每任务 prompt 条数与生成长度全部缺席于论文而齐备于仓库配置：README 命令含 --parallel 1 --no-warmup --no-mmap --temp 1 --min-p 0.01 --top-k 4 -s 42，配置文件含 parallel 2、no_warmup true、no_mmap true、temp 0.8、questions_limit 3 或 5。本轮该篇的批大小状态、缓存状态与样本量三件事全靠它才查清。特别注意样本量：每个数据集只评 3 到 5 条 prompt、单种子随机采样、无重复无误差棒。",
+            "why_not_candidate": "属初筛流程。",
+            "external_evidence": "arXiv:2608.15018 与其官方仓库 angerybob/S2-MoE 的 README 与 spec_config_*.json。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.15018",
+                "https://github.com/angerybob/S2-MoE"
+            ]
+        },
+        {
+            "id": "batch-size-four-states-repo-can-settle-it",
+            "kind": "process_rule",
+            "summary": "批大小四态规则新增一条用法：论文侧与仓库侧可以落在不同的态，必须分别记，而且应先看论文、再让仓库把状态定死。S2-MoE 论文侧属第四态（从未报告批大小），而官方仓库把它定到第一态（README 命令含 --parallel 1，配置含 parallel 2，两者不一致原样并存），而 1.2 到 5.25 倍的收益正是为这个区间报的，因此规则沉默、不得以批大小否决。本篇恰是通常那个陷阱的反面：它论证的是竞品在批 1 到 2 时收益消失，而自己是针对该区间的修法。同理，缓存命中陷阱在本篇也清除且方向有利：论文自己从未声明测量时的缓存与预热状态（这个缺失本身是发现），而仓库回答了它——no_warmup 与 no_mmap 均为真，即冷测，正是车机第一句话需要的条件。",
+            "why_not_candidate": "属筛选规则的细化。",
+            "external_evidence": "arXiv:2608.15018 正文与 Table 1 均未报批大小；论文原句 where batch sizes are typically one or two and verification remains memory-bound；仓库 README 与配置文件。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.15018",
+                "https://github.com/angerybob/S2-MoE"
+            ]
+        },
+        {
+            "id": "s2moe-paper-vs-repo-baseline-third-instance",
+            "kind": "negative_evidence",
+            "summary": "「论文与自家仓库在方法学声明上相反」的第三个实例，且受影响的是最强基线。S2-MoE 论文写 For Cascade, we implement its core policy in llama.cpp following the method described in their paper, and integrate it into the same evaluation pipeline for a fair comparison；而仓库 MOE_UTILITY_SPEC.md（中文）写的是实现了一个简化版，并补充说完整论文在 vLLM 等服务框架上的实现与此不同、此处用可观测统计量去近似收益与验证成本之比，且候选草稿长度只有四个值。即最强基线比论文声称的更弱。前两个实例是 FlashPrefill V2 的 alpha 值与 2608.19557 的基线文件。",
+            "why_not_candidate": "属一致性记账。",
+            "external_evidence": "arXiv:2608.15018 与 angerybob/S2-MoE 的 MOE_UTILITY_SPEC.md。另有四处不一致原样并存：672 个附录加速比格里 12 个不等于自己的 T/s 除 Auto，且 12 个全在基线行；OLMoE 的 S2-MoE 吞吐在 32GB 与 64GB 两表间像是复用而非重测；仓库报了 DFlash 与 Domino 两个论文没有的基线且其 S2-MoE 数字与论文任何一格都对不上；论文与仓库对 Jetson 型号的说法不同（Orin NX 16GB 对 AGX Orin 限容 16GB，且配置硬编码 bandwidth 204.8 即 AGX 的值）。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.15018",
+                "https://github.com/angerybob/S2-MoE"
+            ]
+        },
+        {
+            "id": "null-revision-is-a-result",
+            "kind": "negative_evidence",
+            "summary": "把「空修订」作为一类应当明确记录的结果。S2-MoE（2608.15018）的 v1 到 v2 是本项目记录到最纯粹的一例：逐页内容流逐字节相同（合计 213,096 字节）、十个图 XObject 的 MD5 全部相同、提取字符与行数完全一致（75,752 与 1,669）、裸 URL 集合相同，全文文本差异只有 arXiv 戳记那一行，唯一变化的二进制对象是 ArXivWatermark（102 到 125 字节）。这再次印证既有规则：修订的体量预测不了任何东西——StreamTTT 改了 184 行而判定不变、X2-Turn 只加一句话却翻转了一个开放状态判定、本篇一个字都没改。",
+            "why_not_candidate": "属版本通道的记账口径。",
+            "external_evidence": "一手对 arxiv.org/pdf/2608.15018v1 与 v2 的逐页内容流、图 XObject 散列、注解 URI 集与全文文本对比。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.15018"
+            ]
+        },
+        {
+            "id": "revision-can-disclose-or-concede",
+            "kind": "negative_evidence",
+            "summary": "两种本项目此前未记录的修订形态，均来自 2607.06540。其一，一次修订可以只是让步优先权：v3 到 v4 只 +235 字符、+2 行，实质增加一句话承认并列工作 MOSS-Speech 提出了 modality-based layer-splitting architecture 即与本文核心洞见基本相同的想法，从而软化了正文反复出现的 For the first time, we uncover the root cause 这一声明；Table 1 数值逐字节不变。其二，一次修订可以披露初版未显示的产业方参与：v1 到 v3 调换了作者顺序，并新增了一个 v1 中完全不存在的第四单位 PCG, Tencent, Shenzhen, China，五位作者从无任何单位标记变为归属该单位。因此逐版差分的价值不限于数字与结论。",
+            "why_not_candidate": "属版本通道的记账口径。",
+            "external_evidence": "一手对 arxiv.org/pdf/2607.06540 的 v1、v3、v4 三个版本做 /Title、/Author、页数、URL 集与全文文本对比。",
+            "source_urls": [
+                "https://arxiv.org/abs/2607.06540"
+            ]
+        },
+        {
+            "id": "alm-judge-verdict-scope-tightened",
+            "kind": "negative_evidence",
+            "summary": "收紧一条既有判定的措辞。项目记录为「不得把音频语言模型当作打断或情绪恰当性的自动判定器」（2608.06718）。v2 的证据基础完全未动，判定不变：Table 7 的原生 POINTWISE / No-Cue 一档里，十一个判定器只有 Gemini-3-Pro 一个的置信区间排除了 50%，且只是勉强排除（55.2 区间 50.1 到 60.1），其余全部统计上等于随机含全部开放模型，Qwen2.5-Omni-7B 恰好 50.0。但措辞必须收紧为「不得当作即插即用的判定器」，因为论文原句是 such a judge may be useful in a scaffolded pipeline, but should not be treated as a plug-and-play evaluator，而那正是 PAIRWISE 下 Gemini 家族达到 74 到 91% 的地方。两条迁移限制：审计只有英语，作者自陈主要依赖合成语音从而限制了外部效度，且最低单轮得分来自非母语英语者即题目对听者母语背景敏感，对中文座舱都不直接迁移。开放状态为第三档：只有将来时的 will be released，全文无任何作者制品 URL。",
+            "why_not_candidate": "证据而非制品；什么都没发布，无法构成候选。",
+            "external_evidence": "arXiv:2608.06718 v2 Table 6 与 Table 7（两表逐字节未动）。Table 6 显示 Gemini 家族从对照式格式获得 +21.3 到 +29.2 分，而每个非 Gemini 模型的区间都包含零。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.06718"
+            ]
+        },
+        {
+            "id": "version-diff-fixed-a-live-contradiction",
+            "kind": "negative_evidence",
+            "summary": "一条版本通道价值的实打实证明：2608.06718 的 v1 到 v2 修掉了一处存在于我们形成判定时那一版里的内部矛盾。v1 正文写人评一致性 88 到 92%，而附录 E 同一档写 88.0 到 100.0；v2 把附录改成 88.0 到 92.0 与正文对齐。其余实质编辑三处：Voxtral-Mini-3B 被整体删除（v1 三张附录鲁棒性表里有它，v2 零次出现，即少评了一个模型）、标注者人数下修从十名研究生改为九名学生（但这引入一处新歧义：九人却说每任务五名标注者且有两个任务，兼任未说明，v1 的十在这一点上是自洽的）、以及一批引用更正连带掉了两条 arXiv 超链接。合计 尟1,645 字符、四十九个差异块。",
+            "why_not_candidate": "属版本通道的记账与方法学依据。",
+            "external_evidence": "一手对 arxiv.org/pdf/2608.06718v1 与 v2 的全文对比。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.06718"
+            ]
+        },
+        {
+            "id": "counterfactual-audit-for-own-grader",
+            "kind": "evaluation_buildout",
+            "summary": "把 2608.06718 的反事实审计构造方式用到项目自己的判定器上：固定转写文本不变，只改与被测行为相关的那一个通道，要求判定器随之翻转。这正是项目那个「只翻转与行为无关的元数据即改变 180 条中的 31 条」实验的正向推广版，因此造一套中文的打断恰当性反事实集是一个自足且可立刻动手的后续项。配套三条：把 POINTWISE 对 PAIRWISE 的协议差当成诊断量具（只在两个候选同时可见时才表现良好的判定器，不在测量它的聚合分数所暗示的东西）、用 P 与 O 与 J 三态分解尤其是 Potemkin 态（感知与响应映射都过关而最终判断仍失败）取代单一召回率、以及报 Wilson 或 bootstrap 区间而不是点准确率。",
+            "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它与排在第一位的判定器处理不变性检查同源，且零 GPU。",
+            "external_evidence": "arXiv:2608.06718 v2；项目侧依据为 arXiv:2608.12880 与项目自己的 452 条判定。项目的 80.49% 为单次运行且不带区间。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.06718",
+                "https://arxiv.org/abs/2608.12880"
+            ]
+        },
+        {
+            "id": "grader-treatment-invariance-audit",
+            "kind": "evaluation_buildout",
+            "summary": "维持 2026-08-14 起的记录不变，优先级仍是全部事项中最高的一条，且本轮是连续第四轮列为待办而连续第四轮未开工。第一步不变：照搬 StateMemBench（2608.19652）Table 8 的四格转移表——选一个与被测行为无关的拨杆、判定器固定不变、报四个转移计数而不是那个差值。其原始值为关到开由错变对 3、开到关由对变错 7、两臂都对 35、两臂都错 5，即 10/50 = 20% 的条目翻转而聚合只动 8 个百分点。第二步是把 452 条改造成封闭选项池并公布确定性份额，第三步是补两个泄漏扫描器。零 GPU、零成本，本项被推迟四轮的唯一原因是没人动手。",
+            "why_not_candidate": "这是对判定链路本身的审计，不是被测系统上的单变量改动，也无法给出预计正确性净修数。但它是所有既有数字（80.49%/79.27%、414/452、净修 +4）的前提，且不需要 GPU。",
+            "external_evidence": "arXiv:2608.12880（只翻转与行为无关的元数据即改变 180 条中的 31 条判定）；arXiv:2608.19652 Table 8；arXiv:2608.19741 Thinkingbox（pass@20 91.12% 对 pass^20 25.25%，并明写工具调用层面的信号不是端到端任务完成的清晰代理）。本轮无任何新论文证据。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.12880",
+                "https://arxiv.org/abs/2608.19652",
+                "https://arxiv.org/abs/2608.19741"
+            ]
+        },
+        {
+            "id": "s2moe-version-diff-and-first-read",
+            "kind": "tracking",
+            "summary": "对 2608.15018《S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts》做 v1 到 v2 的逐版差分与全文首读。它是通道二扩表后浮出的最相关一条，主题直接对口项目解码 110ms/token 的问题（根因为 HF 的 MoE 实现在单 token 解码时每层多次 GPU 到 CPU 同步，48 层乘 17 次约 816 次同步每 token）。v1 投稿 2026-08-15T04:08:04Z，v2 修订 2026-08-19T09:26:35Z，此前从未差分、也没有全文首读记录。审阅要求：必须先把批大小四态判准再谈否决（评测过批 1 且收益保持则该规则沉默、评测过批 1 但收益向 1 收缩才是否决、从未在 1 上评测、以及批大小全文从未报告即记为未知而不等于前一种）；必检缓存命中陷阱，因为车机上电后的第一句话永远是冷的，而论文对缓存状态一字不提本身就是发现；必须分别记录硬件、是否提到 H20 或 sm120、以及是否给出与加速比并列的精度指标。",
+            "why_not_candidate": "只读审阅任务，本轮尚未拿到结论，无法给出单变量与预计修复数。",
+            "external_evidence": "本轮 173 ID 逐版复核的实测版本与时刻。",
+            "source_urls": [
+                "https://arxiv.org/abs/2608.15018"
+            ]
+        },
+        {
+            "id": "undiffed-nonv1-backlog",
+            "kind": "tracking",
+            "summary": "登记 17 个从未做过逐版差分的非 v1 条目，按对项目的相关度排序（相关度是编辑判断，版本与时刻是实测）：2608.15018 v2（2026-08-19T09:26:35Z，MoE 自投机解码，最相关）、2608.06718 v2（2026-08-12T18:57:42Z，音频语言模型是否使用副语言证据，对口判定器构造效度）、2607.06540 v4（2026-08-10T08:03:44Z，声学语义分层建模）、2608.07346 v2（2026-08-10T09:34:51Z，端到端 Agent 审计引擎）、2608.09096 v2（2026-08-11T02:53:55Z，Evo-Bench）、2604.00688 v3（OmniVoice TTS）、2608.12951 v2（VoxAudio）、2602.06036 v2（DFlash 投机解码）、2608.02508 v3（RoMeRL）、2608.03571 v2、2608.08311 v2（Ouroboros）、2608.09448 v2（VANE）、2608.14546 v2（CPI-Bench）、2603.22120 v2（StreamingClaw）、2604.26904 v3（ClawGym）、2608.14513 v2（无关，可视化）、2608.16790 v2（无关，通信 ISAC）。前三条已委派细读。",
+            "why_not_candidate": "待办清单，不是候选。",
+            "external_evidence": "本轮 173 ID 逐版复核的实测结果。",
+            "source_urls": [
+                "https://export.arxiv.org/api/query"
+            ]
+        },
+        {
+            "id": "main-publication-failure-tenth-consecutive",
+            "kind": "process_rule",
+            "summary": "main 的发布故障连续第十次复发，必须按常态而不是例外处理。本轮开工时 main 仍只有到 2026-08-10 的报告，尽管其 HEAD 提交标题是 radar: 2026-08-12。恢复做法不变且已执行：从最新的那个 reports 分支一次 git checkout 出 reports/ 与 data/handoff/candidates/（比 cherry-pick 干净，docs/ 由 build_site.py 重新生成），单独成一个 recover 提交，并且必须在写当日报告之前完成，否则当日报告的对比基线会指向一个主线上不存在的文件。本轮一次 checkout 恢复了 08-11 至 08-21 共 18 份报告与 9 份候选台账，并顺带修掉 2026-08-19 报告里一处会让 git diff --check 失败的行尾空白。",
+            "why_not_candidate": "属发布流程，不是技术候选。",
+            "external_evidence": "本轮实测：main 的 reports/ 树只含 2026-08-03 至 2026-08-10；最新 reports 分支含 34 份报告与 12 份台账。",
+            "source_urls": []
+        }
+    ]
+}
