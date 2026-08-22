@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-22</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-22</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-22</p>
+<p>对比基线：</p>
+<ul>
+<li><code>reports/全双工语音技术增量调研-2026-08-21.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>本轮证据边界（先写清，后面所有数字都受它约束）</h2>
+<p><strong>项目侧无新增。</strong> 项目快照仍是 2026-08-10 10:30 那一份，最新提交仍为 2026-08-04，最近一次 H20 A/B 仍是 2026-08-03。本轮没有新提交、没有新基准、没有新负面结果。</p>
+<p><strong>Radar 连续第十轮未刷新。</strong> <code>data/items.json</code> 的 <code>generated</code> 仍是 <code>2026-08-12T09:30:35+08:00</code>，条目仍为 499，新增 0 条。<code>data/explanations.json</code> 仍为 304 条。直接检索仍是唯一发现通道。</p>
+<p><strong>索引本轮进入&quot;冻结&quot;相位，而不是&quot;每天一批&quot;。这是 08-15 之后第一次观测到冻结。</strong> 08-21 报告记录当时全站最新投稿为 <code>2608.20340</code>（2026-08-20T17:59:59Z）。本轮同一查询（<code>all:a</code>，不限类别，按投稿时间倒序）返回的<strong>仍然是 <code>2608.20340</code>（2026-08-20T17:59:59Z）</strong>，前三条逐条相同（<code>2608.20340</code> / <code>2608.20339</code> / <code>2608.20337</code>）。五个对照总数与 08-21 <strong>逐位相同</strong>：<code>cat:cs.SD</code> <strong>21,749</strong>、<code>cat:eess.AS</code> <strong>22,209</strong>、<code>cat:cs.CL</code> <strong>116,790</strong>、<code>cat:cs.MM</code> <strong>9,947</strong>、<code>cat:cs.HC</code> <strong>32,292</strong>（<code>cs.HC</code> 为首次记录）。<strong>索引在 26 小时内一篇未动。</strong></p>
+<p>窗口按投稿时间取 <strong>2026-08-20T18:00Z 至 2026-08-22T02:30Z</strong>：起点严格衔接 08-21 报告实际覆盖到的最后一篇（投稿时刻 2026-08-20T17:59:59Z）之后的批次边界。本轮把查询组从 14 组扩到 <strong>17 组</strong>，<strong>17 组全部 totalResults = 0</strong>，去重后 <strong>0 篇</strong>。</p>
+<p><strong>因此本轮属于&quot;无重大新增&quot;。这个结论经过三级证伪，不是&quot;没查出来&quot;：</strong></p>
+<ol>
+<li><strong>每一个零结果组都做了去掉日期约束的对照</strong>，全部返回大数，证明解析路径正常：8,751 / 952 / 847 / 726 / 152 / 3,967 / 6,501 / 7,429 / 7,388 / 2,432 / 2,049 / 2,461 / 6,920 / 25,672 / 3,306 / 21,152 / 2,551 / 16,336。</li>
+<li><strong>全站最新投稿时刻已记录</strong>（见上，与前一轮相同）。</li>
+<li><strong>不限类别的窗口查询</strong> <code>(all:a) AND submittedDate:[202608201800 TO 202608220230]</code> totalResults = <strong>0</strong>，即窗口内全站一篇都没有，不只是语音方向没有。</li>
+<li>另加第四道：<code>(cat:cs.SD OR cat:eess.AS) AND lastUpdatedDate:[202608201800 TO 202608220230]</code> totalResults = <strong>0</strong>，修订通道在语音类目上同样为空。</li>
+</ol>
+<p><strong>下一轮窗口起点仍为 2026-08-20T18:00Z，不得前移。</strong> 依据是既定规则&quot;窗口起点定在<strong>最后一篇实际被覆盖到的投稿时刻</strong>，而不是上一轮的时钟时刻&quot;——本轮实际覆盖到的投稿数为 0，因此起点不变。<strong>把起点误改成 2026-08-22T02:30Z 会永久丢掉 08-21 与 08-22 两批（如果它们后来被回填的话）。</strong></p>
+<p><strong>但&quot;论文通道为零&quot;不等于&quot;本轮无产出&quot;。</strong> 本轮的产出全部来自另两条通道，且其中一条给出了一个影响此前多轮结论的方法学发现：</p>
+<ul>
+<li><strong>通道一（<code>submittedDate</code> 窗口查询）：零。</strong> 见上。</li>
+<li><strong>通道二（追踪表逐版复核）：窗口内零新修订，连续第二轮为零；但本轮把追踪表从惯例的 47 个 ID 扩到 173 个，发现非 v1 条目从&quot;已知 3 个&quot;变成 20 个，即 17 个从未做过逐版差分。</strong> 详见第 3 节。</li>
+<li><strong>通道三（制品反查）：进行中，结论以单独提交并入本报告。</strong></li>
+<li><strong>额外一条（本轮 P0）：对检索工具本身做了一次证伪实验，发现 arXiv <code>abs:</code> 字段做词干归并（stemming），据此 08-21 报告提出的查询改写方案被实测证明无效，且此前多轮记录的一整类&quot;词根假阳性&quot;由此获得统一机制解释。</strong> 详见第 2 节。</li>
+</ul>
+<p>制品复核时刻为 2026-08-22，晚于 02:30 的论文截止时刻。</p>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>首音频约 3 秒，瓶颈在外挂 Edge TTS</td><td>A/B 首音频 P50 2,918ms / 3,491ms，P90 3,453ms / 4,171ms，而首文本最快 131ms</td><td><strong>本轮无新增。</strong> TTS 组本窗口 totalResults = 0。<strong>另需修正一条口径</strong>：TTS 组此前的假阳性并非&quot;关键词跨领域&quot;，而是 <code>abs:&quot;TTS&quot;</code> 被词干归并成 <code>tt</code>（见第 2 节），该组历史召回质量比此前认为的更差</td><td>沿用 08-20 的 X2Streaming-TTS 只读审阅计划；另把 TTS 组查询改写为只保留短语形式</td><td>首音频 P90≤1,000ms；中文 CER 不劣于 Edge</td></tr>
+<tr><td>判停/打断&quot;该不该发生&quot;缺判据来源</td><td><code>probe_turn_end</code> 已实测主模型自判停不可行（负面结果）</td><td><strong>论文侧本轮零。</strong> 判停组（VAD/endpointing）本窗口 0；<code>cat:cs.HC</code> 组本窗口 0。<strong>但 08-21 建议的判停查询改写被实测证否</strong>——改写后与改写前在同一窗口返回<strong>完全相同的 22 篇</strong>，正确改法见第 2 节</td><td>08-21 立项的 MaAI 旁路观测（<code>vap_bc_ch</code>，MIT，纯 CPU）<strong>本轮未动，仍是待办</strong>；先按第 2 节的正确改法修好判停组查询，再谈召回</td><td>判停信号完全走音频通路之外的旁路；应答频次设上限而非越多越好</td></tr>
+<tr><td>判定器处理不变性未验证（<strong>优先级仍最高</strong>）</td><td>2608.12880：只翻转与行为无关的元数据即改变 180 条中的 31 条判定</td><td><strong>本轮无新论文证据，且本项本身仍未开工。</strong> 08-21 已把 StateMemBench Table 8 的四格转移表定为第一步样板，本轮无任何进展</td><td>照搬四格转移表（选一个与行为无关的拨杆、判定器固定、报四个转移计数而非那个差值），零 GPU</td><td>聚合通过率旁必须并列逐条翻转率；判定器最多只能索取二元判定</td></tr>
+<tr><td>工具/动作通道缺&quot;播报前动作门&quot;</td><td>工具名严格召回 80.49%，无泄漏扫描器、无重复运行翻转率</td><td><strong>本轮无新增。</strong> EnvHarness <code>rules.py</code> 的只读审阅仍未做</td><td>只读审阅 <code>rules.py</code>（8,274 字节，Apache-2.0），把四条规则与 <code>ABSTAIN_ERROR</code> 写进动作门设计文档</td><td>拒绝必须返回实时车态加理由；门永不得触碰评分器；门错误永不等于放行</td></tr>
+<tr><td>回声消除与扬声器泄漏零一手依据</td><td>项目从未获得任何 AEC 正文证据</td><td><strong>连续第十轮为零。</strong> 本窗口该组 totalResults = <strong>0</strong>。<strong>另新增一条与该组直接相关的口径修正</strong>：<code>abs:&quot;beamforming&quot;</code>、<code>abs:&quot;beamform&quot;</code>、<code>abs:&quot;beamformer&quot;</code> 三者 totalResults <strong>同为 6,618</strong>，即该词的历史噪声是词干归并的结果；而 <code>abs:&quot;AEC&quot;</code> 全库仅 <strong>259</strong>，<code>abs:&quot;echo cancellation&quot;</code> 仅 <strong>142</strong>，<strong>这两个才是该方向真正的可用探针</strong></td><td>不写任何 AEC 结论；把该组查询改成以 <code>abs:&quot;echo cancellation&quot;</code> 与 <code>abs:&quot;AEC&quot;</code> 为主、去掉 <code>beamforming</code></td><td>需要一篇因果、可流式、带下游指标、且含自身播放参考抽头的一手论文</td></tr>
+<tr><td>多乘员插话、&quot;谁在说话&quot;无任何一手依据</td><td>项目评测集为单说话人合成音频</td><td><strong>本轮零。</strong> 说话人组本窗口 0。<code>abs:&quot;VAD&quot;</code> 与 <code>abs:&quot;VADs&quot;</code> 同为 504，该探针无词干污染，可信</td><td>沿用架构约束（身份判定走旁路）</td><td>判定信号与音频通路解耦；多乘员需另找证据</td></tr>
+<tr><td>MoE 解码 110ms/token 与首包 prefill</td><td>每 token 约 816 次 GPU→CPU 同步</td><td><strong>通道二发现一条此前漏掉的直接相关修订</strong>：<code>2608.15018</code> S2-MoE《Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts》<strong>已于 2026-08-19T09:26:35Z 出到 v2 而从未被逐版差分</strong>，其主题正对口本项目的 MoE 解码</td><td>已委派该篇的 v1→v2 差分与全文首读，结论以单独提交并入</td><td>任何 prefill 收益必须在冷首次请求下复测；批大小四态必须先判准再谈否决</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：arXiv <code>abs:</code> 做词干归并——08-21 提出的查询改写实测无效，且此前多轮的&quot;词根假阳性&quot;由此获得统一解释</h3>
+<p><strong>这一条的性质与以往任何一条都不同：它不是一篇论文，而是对本项目唯一发现通道所依赖的检索工具本身做的一次证伪实验。</strong> 论文通道为零的这一天，正好是做这件事的时机——因为窗口内没有新论文，可以把 08-21 的完整窗口原样重放，做严格的 A/B。</p>
+<h4>1.1 直接证伪：08-21 提出的改写方案返回完全相同的 22 篇</h4>
+<p>08-21 报告第 6.7 节记录了一处查询缺陷：<code>abs:&quot;voice activity detection&quot; OR abs:&quot;endpoint&quot; OR abs:&quot;endpointing&quot;</code> 在其窗口返回 22 篇、<strong>22 篇全部与语音无关</strong>（泛函分析的 &quot;endpoint estimates&quot;、Tor 网站指纹、心脏形状补全、全息对偶等）。该报告的诊断是&quot;<strong>根因是裸词 <code>endpoint</code> 在数学与安全领域都是高频固定术语</strong>&quot;，并建议&quot;<strong>下一轮改写为 <code>abs:&quot;voice activity detection&quot; OR abs:&quot;endpointing&quot; OR abs:&quot;end-of-turn&quot; OR abs:&quot;turn-end detection&quot;</code>，即删去裸词 <code>endpoint</code></strong>&quot;。</p>
+<p><strong>本轮把 08-21 的窗口（<code>submittedDate:[202608191800 TO 202608210230]</code>）原样重放，对旧写法与新写法各跑一次：</strong></p>
+<table><thead><tr><th>写法</th><th>该窗口 totalResults</th><th>返回的 ID 集合</th></tr></thead><tbody>
+<tr><td>旧写法（含裸词 <code>endpoint</code>）</td><td><strong>22</strong></td><td>2608.20295, 2608.20283, 2608.20266, 2608.20243, 2608.20216, 2608.20160, 2608.20152, 2608.19938, 2608.19932, 2608.19846, 2608.19845, 2608.19708, 2608.19703, 2608.19679, 2608.19593, 2608.19553, 2608.19540, 2608.19497, 2608.19403, 2608.19387, 2608.19373, 2608.19369</td></tr>
+<tr><td>08-21 建议的新写法（删去裸词 <code>endpoint</code>）</td><td><strong>22</strong></td><td><strong>与上一行逐条完全相同</strong></td></tr>
+</tbody></table>
+<p><strong>改写没有去掉任何一篇假阳性。</strong> 全库口径下改写还略微更差：旧写法 <strong>7,388</strong>，08-21 建议的新写法 <strong>7,429</strong>（新写法多出的 41 来自新加的 <code>end-of-turn</code>，而删掉 <code>endpoint</code> 一个都没减）。</p>
+<h4>1.2 机制：<code>abs:</code> 对单词做词干归并，五个词族各自坍缩成同一个数</h4>
+<p>逐词测全库 totalResults，<strong>同一词族的所有变体返回完全相同的总数，且按投稿时间倒序的最新三条 ID 也逐条相同</strong>：</p>
+<table><thead><tr><th>词族</th><th>各变体的全库 totalResults</th><th>最新三条 ID（各变体相同）</th></tr></thead><tbody>
+<tr><td><code>endpoint</code> / <code>endpointing</code> / <code>endpoints</code></td><td><strong>7,145 / 7,145 / 7,145</strong></td><td>2608.20295, 2608.20283, 2608.20266</td></tr>
+<tr><td><code>interruption</code> / <code>interrupt</code> / <code>interrupted</code> / <code>interrupting</code></td><td><strong>2,491 / 2,491 / 2,491 / 2,491</strong></td><td>2608.19893, 2608.19887, 2608.19622</td></tr>
+<tr><td><code>stream</code> / <code>streaming</code> / <code>streamed</code></td><td><strong>30,701 / 30,701 / 30,701</strong></td><td>2608.20334, 2608.20290, 2608.20280</td></tr>
+<tr><td><code>beamforming</code> / <code>beamform</code> / <code>beamformer</code></td><td><strong>6,618 / 6,618 / 6,618</strong></td><td>2608.20278, 2608.19102, 2608.18458</td></tr>
+<tr><td><code>cancellation</code> / <code>cancel</code> / <code>cancelling</code></td><td><strong>15,005 / 15,005 / 15,005</strong></td><td>2608.20298, 2608.20296, 2608.19414</td></tr>
+</tbody></table>
+<p><strong>结论（我的判断，基于上述实测）：<code>abs:</code> 在匹配前把单词归并到词干，因此 <code>endpointing</code> 与裸词 <code>endpoint</code> 在检索层面是同一个词，删掉哪一个都不改变结果集。08-21 的诊断（词义歧义）方向对了一半——那 22 篇确实是词义问题，但可操作的根因是词干归并，因此按&quot;删掉裸词&quot;这个思路做的改写必然无效。</strong></p>
+<p><strong>多词短语不会被整体坍缩，但短语内部的成分词同样被归并：</strong></p>
+<table><thead><tr><th>探针</th><th>全库 totalResults</th><th>说明</th></tr></thead><tbody>
+<tr><td><code>abs:&quot;voice activity detection&quot;</code></td><td><strong>246</strong></td><td>短语邻接约束确实生效</td></tr>
+<tr><td><code>abs:&quot;activity detection&quot;</code></td><td><strong>718</strong></td><td>与上一行不同 ⇒ 短语匹配不是简单的词 AND</td></tr>
+<tr><td><code>abs:&quot;echo cancellation&quot;</code></td><td><strong>142</strong></td><td></td></tr>
+<tr><td><code>abs:&quot;echo cancel&quot;</code></td><td><strong>142</strong></td><td><strong>与上一行相同 ⇒ 短语内成分词也被归并</strong></td></tr>
+<tr><td><code>abs:&quot;end-of-turn&quot;</code></td><td><strong>42</strong></td><td></td></tr>
+<tr><td><code>abs:&quot;turn-end detection&quot;</code></td><td><strong>0</strong></td><td><strong>全库为零，见 1.4</strong></td></tr>
+</tbody></table>
+<h4>1.3 缩略词同样被归并，且这解释了&quot;记录以来跨度最大的一次假阳性&quot;</h4>
+<p>08-21 报告记录 TTS 组 3 篇中 2 篇是跨领域假阳性，其中 <code>2608.19651</code>（顶夸克 philic 第三类双希格斯二重态模型中的电弱重子生成，<strong>hep-ph</strong>）被称为&quot;本项目记录到的跨度最大的一次关键词假阳性&quot;。</p>
+<p><strong>本轮查清了机制，而且它根本不是&quot;关键词&quot;假阳性：</strong></p>
+<table><thead><tr><th>探针</th><th>全库 totalResults</th></tr></thead><tbody>
+<tr><td><code>abs:&quot;TTS&quot;</code></td><td><strong>4,956</strong></td></tr>
+<tr><td><code>abs:&quot;tts&quot;</code></td><td><strong>4,956</strong></td></tr>
+<tr><td><code>abs:&quot;TT&quot;</code></td><td><strong>4,956</strong></td></tr>
+<tr><td><code>abs:&quot;tt&quot;</code></td><td><strong>4,956</strong></td></tr>
+<tr><td><code>abs:&quot;ttses&quot;</code></td><td>1</td></tr>
+</tbody></table>
+<p><strong><code>abs:&quot;TTS&quot;</code> 与 <code>abs:&quot;tt&quot;</code> 是同一个查询。</strong> 词干器把缩略词 <code>TTS</code> 当成 <code>TT</code> 的复数，剥掉尾部 <code>S</code>，而 <code>tt</code> 正是粒子物理里顶夸克对的记法。该论文标题即为 &quot;... motivated by the $t\bar{t}$ Excess at the LHC&quot;。另一篇 <code>2608.19789</code> 的标题是 &quot;<strong>TT-net</strong>: Quantum Inspired Tensor Network Denoising in Conditional GANs&quot;，同一机制。</p>
+<p><strong>并且我核实了两篇的摘要全文：<code>speech</code> / <code>synthes</code> / <code>text-to</code> / <code>TTS</code> 四个模式的命中数全部为 0。</strong> 也就是说这两篇从来不是&quot;摘要里出现了某个语音词&quot;，它们与语音检索的唯一联系就是被剥掉的那个字母 S。<strong>&quot;跨度最大的关键词假阳性&quot;这个说法应当撤回，改记为&quot;缩略词词干归并导致的伪匹配&quot;。</strong></p>
+<p>其余缩略词探针的归并情况（用于判断哪些探针可信）：</p>
+<table><thead><tr><th>探针</th><th>全库 totalResults</th><th>是否受污染（我的判断）</th></tr></thead><tbody>
+<tr><td><code>abs:&quot;ASR&quot;</code> / <code>abs:&quot;ASRs&quot;</code></td><td>5,164 / 5,164</td><td>归并，但两形态都指 ASR，<strong>可用</strong></td></tr>
+<tr><td><code>abs:&quot;VAD&quot;</code> / <code>abs:&quot;VADs&quot;</code></td><td>504 / 504</td><td>归并，两形态都指 VAD，<strong>可用</strong></td></tr>
+<tr><td><code>abs:&quot;AEC&quot;</code></td><td>259</td><td>无尾部 S 可剥，<strong>干净，是该方向最好的探针</strong></td></tr>
+<tr><td><code>abs:&quot;KV cache&quot;</code> / <code>abs:&quot;KV caches&quot;</code></td><td>1,730 / 1,730</td><td>归并，<strong>可用</strong></td></tr>
+<tr><td><code>abs:&quot;TTS&quot;</code></td><td>4,956</td><td><strong>等于 <code>tt</code>，严重污染，应删除</strong></td></tr>
+</tbody></table>
+<h4>1.4 附带发现：08-21 建议的写法里有一个永远不可能命中的词</h4>
+<p><code>abs:&quot;turn-end detection&quot;</code> 的<strong>全库</strong> totalResults = <strong>0</strong>。这不是窗口内为零，是 arXiv 全库没有任何一篇摘要能匹配它。<strong>08-21 建议的改写里包含了一个按构造无法命中任何东西的词。</strong> 保留它无害但也无用，会让该组看起来比实际覆盖得更宽。</p>
+<h4>1.5 正确的改写，以及它的量级</h4>
+<table><thead><tr><th>写法</th><th>全库 totalResults</th></tr></thead><tbody>
+<tr><td>原写法 <code>VAD OR endpoint OR endpointing</code></td><td><strong>7,388</strong></td></tr>
+<tr><td>08-21 建议 <code>VAD OR endpointing OR end-of-turn OR turn-end detection</code></td><td><strong>7,429</strong>（比原写法更差）</td></tr>
+<tr><td><strong>本轮建议</strong>：<code>abs:&quot;voice activity detection&quot; OR abs:&quot;end-of-turn&quot; OR abs:&quot;turn-end detection&quot;</code>（<strong>两个被归并的词都删掉</strong>）</td><td><strong>288</strong></td></tr>
+</tbody></table>
+<p><strong>7,388 → 288，减少 25.6 倍</strong>，而保留的三个短语里 246 与 42 都是真正的判停语义探针。<strong>这一条可以立刻改，零成本，且下一轮必须照旧记录改写前后的对照总数——否则口径变化会被误读成产出变化。</strong></p>
+<h4>1.6 最重要的一条限定：归并的方向是&quot;多召回&quot;，不是&quot;漏召回&quot;</h4>
+<p><strong>必须把这条写清楚，否则本节会被过度解读。</strong> 词干归并让一个查询匹配到<strong>更多</strong>文档，从来不会让它匹配到更少。因此：</p>
+<ul>
+<li><strong>此前所有记录为 <code>totalResults = 0</code> 的零结果，全部仍然有效。</strong> 一个被人为放宽了的查询若仍返回零，那个零比原本更强，不是更弱。08-13 以来 AEC 的十轮为零、空间听觉的连续为零、流式 ASR 的连续为零，都不受本节影响。</li>
+<li><strong>受影响的是精度，不是召回。</strong> 此前记录的&quot;某组返回 N 篇、N 篇全是假阳性&quot;这一整类观察，现在有了机制解释。</li>
+<li><strong>因此&quot;全双工组存在系统性盲区&quot;这个结论只有一半被解释。</strong> 该组的<strong>噪声</strong>来源清楚了（<code>interruption</code> 一词就带来 2,491 篇全库量级的词干污染，且 08-21 该组返回的 3 篇假阳性正是 <code>abs:&quot;interrupt&quot;</code> 族最新的 3 篇：2608.19893、2608.19887、2608.19622，逐条吻合）。<strong>但&quot;漏掉真正的全双工进展&quot;这件事，词干归并解释不了</strong>——归并只会多给，不会少给。<strong>两个缺陷必须继续分开记录：精度损失已归因，召回损失仍未归因。</strong></li>
+<li>同理，<code>interrupt</code> 词根的三个假阳性（并行机排程、统计学 &quot;Interrupted Time Series&quot;、<code>2608.19893</code> &quot;Interrupting the Loop&quot;）<strong>应从&quot;三次巧合&quot;改记为&quot;一个机制的三次显形&quot;</strong>。</li>
+</ul>
+<h3>P1：通道二的覆盖面此前被系统性低估——追踪表从 47 个 ID 扩到 173 个后，非 v1 条目从 3 个变成 20 个</h3>
+<p><strong>窗口内的结论没变：零新修订，连续第二轮为零。</strong> 但本轮换了做法：不再用惯例的 47 个 ID，而是把 <code>reports/</code> 里出现过的<strong>全部 173 个 arXiv ID</strong> 一次性扫完（4 批，每批 ≤45，<code>?id_list=</code>，173 个全部解析成功、0 个缺失）。</p>
+<p>结果：</p>
+<ul>
+<li><strong>窗口内（2026-08-20T18:00Z 起）修订数 = 0。</strong> 与通道一的 <code>lastUpdatedDate</code> 查询（同为 0）互为独立印证。<strong>这一条必须明写，否则&quot;版本通道无产出&quot;会被误读成&quot;版本通道没查&quot;。</strong></li>
+<li><strong>但非 v1 条目共 20 个，而 08-21 记录的是 3 个。</strong> 已完成差分的仍是那 3 个（<code>2608.13416</code> StreamTTT 于 08-19、<code>2608.14097</code> Ambisonics 于 08-19、<code>2608.10878</code> X2-Turn 于 08-20）。<strong>其余 17 个从未做过任何逐版差分。</strong></li>
+</ul>
+<p>从未差分的 17 个，按对项目的相关度排序（相关度是我的判断，版本与时刻是实测）：</p>
+<table><thead><tr><th>arXiv ID</th><th>版本</th><th>最后修订时刻</th><th>题名（截断）</th><th>相关性（我的判断）</th></tr></thead><tbody>
+<tr><td><code>2608.15018</code></td><td>v2</td><td>2026-08-19T09:26:35Z</td><td>S2-MoE: Enabling Efficient Self-Speculative Decoding for MoE</td><td><strong>直接对口 MoE 解码 110ms/token</strong></td></tr>
+<tr><td><code>2608.06718</code></td><td>v2</td><td>2026-08-12T18:57:42Z</td><td>Do Audio Language Models Use Paralinguistic Evidence?</td><td>直接对口判定器构造效度</td></tr>
+<tr><td><code>2607.06540</code></td><td>v4</td><td>2026-08-10T08:03:44Z</td><td>Hierarchical Acoustic-Semantic Modeling: Modality Separation</td><td>声学/语义分离，对口首音频链路</td></tr>
+<tr><td><code>2608.07346</code></td><td>v2</td><td>2026-08-10T09:34:51Z</td><td>$A^2E$: An End-to-End Agent Auditing Engine</td><td>对口判定链路</td></tr>
+<tr><td><code>2608.09096</code></td><td>v2</td><td>2026-08-11T02:53:55Z</td><td>Evo-Bench: Can Language Models Improve Agent Harness?</td><td>harness 义项（二）</td></tr>
+<tr><td><code>2604.00688</code></td><td>v3</td><td>2026-04-21T12:14:57Z</td><td>OmniVoice: Omnilingual Zero-Shot Text-to-Speech</td><td>TTS</td></tr>
+<tr><td><code>2608.12951</code></td><td>v2</td><td>2026-08-17T05:54:53Z</td><td>VoxAudio: Vocalized Audio Synthesis via Multi-Reward AR</td><td>音频合成</td></tr>
+<tr><td><code>2602.06036</code></td><td>v2</td><td>2026-05-28T09:13:25Z</td><td>DFlash: Block Diffusion for Flash Speculative Decoding</td><td>投机解码</td></tr>
+<tr><td><code>2608.02508</code></td><td>v3</td><td>2026-08-10T04:22:00Z</td><td>RoMeRL: Feedback Coverage / Memory-Reward Tradeoff</td><td>Agent 训练</td></tr>
+<tr><td><code>2608.03571</code></td><td>v2</td><td>2026-08-06T02:46:18Z</td><td>Beyond Simply Environment Scaling</td><td>harness 义项（一）</td></tr>
+<tr><td><code>2608.08311</code></td><td>v2</td><td>2026-08-11T09:39:00Z</td><td>Ouroboros: Self-Developing Frontier Coding Agent</td><td>Agent</td></tr>
+<tr><td><code>2608.09448</code></td><td>v2</td><td>2026-08-12T10:16:02Z</td><td>VANE: Reliable Test-Time Training for VLA</td><td>测试时训练</td></tr>
+<tr><td><code>2608.14546</code></td><td>v2</td><td>2026-08-18T07:27:55Z</td><td>CPI-Bench</td><td>评测</td></tr>
+<tr><td><code>2603.22120</code></td><td>v2</td><td>2026-03-26T11:06:17Z</td><td>StreamingClaw Technical Report</td><td>流式</td></tr>
+<tr><td><code>2604.26904</code></td><td>v3</td><td>2026-05-16T05:33:51Z</td><td>ClawGym</td><td>Agent 框架</td></tr>
+<tr><td><code>2608.14513</code></td><td>v2</td><td><strong>2026-08-19T18:36:03Z</strong></td><td>Visualizing Uncertainty in Non-linear Projections</td><td><strong>无关（可视化）</strong></td></tr>
+<tr><td><code>2608.16790</code></td><td>v2</td><td>2026-08-18T03:29:44Z</td><td>Rank-Aware Element Grouping for Multiuser ISAC</td><td>无关（通信）</td></tr>
+</tbody></table>
+<p><strong>其中一条构成对 08-21 报告的一处必须写明的修正。</strong> <code>2608.14513</code> 的 v2 修订时刻是 <strong>2026-08-19T18:36:03Z</strong>，<strong>落在 08-21 报告自己的窗口（2026-08-19T18:00Z 至 2026-08-21T02:30Z）之内</strong>。08-21 报告写&quot;没有任何追踪项在本窗口产生新修订&quot;，<strong>该陈述对它实际扫过的那 47 个 ID 成立，但对本项目追踪过的全部 ID 不成立</strong>。</p>
+<p><strong>同时要把这条修正的实际份量说准，不要夸大：<code>2608.14513</code> 是一篇非线性投影不确定性可视化的论文，与本项目任何方向无关，因此 08-21 的实质结论（版本通道本轮无有价值产出）没有被推翻，被推翻的是它的覆盖面陈述。</strong> 这两件事必须分开说。</p>
+<p><strong>教训（我的判断）：通道二此前被&quot;追踪表&quot;这个词悄悄限制成了&quot;人工挑出来的 47 条&quot;，而通道二的定义本应是&quot;曾经进入过报告的全部条目&quot;。这与 08-21 记录的 MaAI 失败是同一形状——不是通道失效，是通道的覆盖范围被无声地缩小了。</strong> 固化规则：<strong>逐版复核的输入集合必须由 <code>reports/</code> 机械提取，不得人工挑选</strong>；提取命令与本轮所用完全一致，<code>grep -ohaE &#x27;\b26[0-9]{2}\.[0-9]{5}\b&#x27; reports/*.md | sort -u</code>，173 个 ID 一次扫完耗时约 28 秒，成本不构成理由。</p>
+<h3>本轮无 P0 级技术候选，且这一条要说清楚</h3>
+<p><strong>本轮不新增任何工程候选。</strong> 论文通道为零，通道二窗口内为零。上面两条 P0/P1 都是<strong>方法学与流程发现</strong>，不是可以进候选台账的技术。<strong>08-21 立项的那个候选（<code>backchannel-timing-sidecar-maai-offline-v1</code>，用 MaAI 的 MIT 中文应答权重做纯 CPU 旁路观测）本轮没有任何进展，仍然阻塞在同一个前置条件上：项目缺带应答/打断标注的中文评测数据。</strong></p>
+<h2>二、逐条对比 2026-08-21</h2>
+<table><thead><tr><th>项目</th><th>08-21</th><th>08-22（本轮）</th><th>变化性质</th></tr></thead><tbody>
+<tr><td>Radar 刷新</td><td>连续第九轮未刷新</td><td><strong>连续第十轮未刷新</strong>，<code>generated</code> 与条目数逐位相同</td><td>无变化</td></tr>
+<tr><td>索引相位</td><td>每天一批（连续第五次印证）</td><td><strong>冻结</strong>：全站最新投稿仍是 <code>2608.20340</code>，26 小时零推进</td><td><strong>相位改变</strong>，08-15 后首次</td></tr>
+<tr><td>窗口产出</td><td>14 组去重 78 篇</td><td><strong>17 组去重 0 篇</strong></td><td>从中等产出到零</td></tr>
+<tr><td>语音类目增量</td><td>cs.SD +9、eess.AS +7（记录最小之一）</td><td><strong>cs.SD +0、eess.AS +0</strong></td><td>新的最小值</td></tr>
+<tr><td>通道一</td><td>4 组为零，仍出 P0</td><td><strong>17 组全零</strong>，三级证伪 + <code>lastUpdatedDate</code> 第四道</td><td>零，且证伪更严</td></tr>
+<tr><td>通道二</td><td>47 ID，3 个非 v1，窗口内 0 修订（首次全空）</td><td><strong>173 ID，20 个非 v1，窗口内 0 修订（连续第二轮）</strong>；发现 17 个从未差分；并修正 08-21 的覆盖面陈述</td><td><strong>同结论、更强覆盖，且发现一处覆盖缺口</strong></td></tr>
+<tr><td>通道三</td><td>MaAI（完全不在追踪表内的项目）</td><td>进行中，以单独提交并入</td><td>待补</td></tr>
+<tr><td>判停组查询</td><td>诊断为裸词 <code>endpoint</code> 过宽，建议删该词</td><td><strong>该建议被实测证否</strong>（同窗口返回完全相同的 22 篇）；根因是词干归并；给出 288 篇的正确改法</td><td><strong>推翻前一日的诊断与建议</strong></td></tr>
+<tr><td>TTS 组假阳性</td><td>记为&quot;跨度最大的关键词假阳性&quot;（hep-ph）</td><td><strong>改记为缩略词词干归并伪匹配</strong>：<code>abs:&quot;TTS&quot;</code> = <code>abs:&quot;tt&quot;</code> = 4,956，两篇摘要的语音词命中数为 0</td><td><strong>改写前一日的归因</strong></td></tr>
+<tr><td><code>interrupt</code> 词根假阳性</td><td>记为第三个独立来源（共三次）</td><td><strong>改记为一个机制的三次显形</strong>；08-21 该组的 3 篇假阳性正是 <code>abs:&quot;interrupt&quot;</code> 族最新 3 篇，逐条吻合</td><td><strong>合并归因</strong></td></tr>
+<tr><td>AEC</td><td>连续第九轮零，组内 1 篇非声学</td><td><strong>连续第十轮零</strong>，组内 0 篇；另查明 <code>beamforming</code> 的噪声是词干归并，<code>AEC</code>(259) 与 <code>echo cancellation</code>(142) 才是干净探针</td><td>零延续 + 探针改进</td></tr>
+<tr><td>项目最高优先级项</td><td>判定器处理不变性检查（未开工）</td><td><strong>仍未开工，仍为最高优先级</strong></td><td>无变化</td></tr>
+<tr><td>main 状态</td><td>停在 08-10（第九轮），本轮恢复 08-11..08-20</td><td><strong>仍停在 08-10（第十轮）</strong>，本轮恢复 08-11..08-21 共 18 份报告与 9 份台账</td><td>同一故障第十次复发</td></tr>
+</tbody></table>
+<h2>三、可执行动作与优先级</h2>
+<h3>第一阶段（零 GPU、零成本，本轮新增两条排在最前）</h3>
+<ol>
+<li><strong>立刻改判停组查询为 <code>abs:&quot;voice activity detection&quot; OR abs:&quot;end-of-turn&quot; OR abs:&quot;turn-end detection&quot;</code></strong>，并在下一轮报告中记录改写前后的窗口对照总数。依据：第 1.5 节，全库 7,388 → 288。<strong>这是本轮唯一一条改完就见效、且已被实测验证的动作。</strong></li>
+<li><strong>改 TTS 组查询：删掉 <code>abs:&quot;TTS&quot;</code></strong>，只保留 <code>abs:&quot;text-to-speech&quot;</code>（2,316）与 <code>abs:&quot;speech synthesis&quot;</code>（1,204）。依据：第 1.3 节，<code>abs:&quot;TTS&quot;</code> 在检索层面等于 <code>abs:&quot;tt&quot;</code>。</li>
+<li><strong>改 AEC 组查询：删掉 <code>abs:&quot;beamforming&quot;</code>，改以 <code>abs:&quot;echo cancellation&quot;</code>（142）与 <code>abs:&quot;AEC&quot;</code>（259）为主。</strong> 依据：第 1.2、1.3 节。<strong>同时必须记住这不会改变&quot;AEC 十轮为零&quot;这个结论</strong>——归并只多召回不少召回，去掉噪声词只会让该组更干净，不会变出新论文。</li>
+<li><strong>把逐版复核的输入集合改成从 <code>reports/</code> 机械提取</strong>，不再人工维护 47 条清单。依据：第 P1 节。</li>
+<li><strong>判定器处理不变性检查</strong>，仍是全部事项中优先级最高的一条，<strong>连续第四轮列为待办且连续第四轮未开工</strong>。第一步仍是照搬 StateMemBench Table 8 的四格转移表：选一个与行为无关的拨杆、判定器固定不变、报四个转移计数而不是那个差值。</li>
+<li><strong>只读审阅 EnvHarness 的 <code>envharness/harnesses/rules.py</code></strong>（8,274 字节，Apache-2.0），把动作门四条规则与 <code>ABSTAIN_ERROR</code> 第三状态写进设计文档。08-21 立项，本轮未动。</li>
+<li><strong>解码可复现性自测</strong>（同一音频、同一 seed、连续 N 次、逐 token 比较），依据 CoRun（2608.14376），本轮无新证据。</li>
+<li><strong><code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的 clean/20dB/音色分桶归因</strong>，连续第五轮列为待办；验收口径仍为只以项目自测中文 CER 为准，PESQ 不得作为收益依据。</li>
+</ol>
+<h3>第二阶段（只读审阅，不执行任何论文代码）</h3>
+<ol>
+<li><strong><code>2608.15018</code> S2-MoE 的 v1→v2 差分与全文首读</strong>（已委派，本轮以单独提交并入）。这是通道二扩表后浮出的最相关一条。</li>
+<li><strong><code>2608.06718</code> v2 与 <code>2607.06540</code> v4 的差分</strong>（已委派）。</li>
+<li><strong>MaAI 中文应答权重 <code>vap_bc_ch</code> 的纯 CPU 旁路观测</strong>：仍卡在&quot;项目缺带应答/打断标注的中文评测数据&quot;这个前置条件上，<strong>且该前置条件本轮无进展</strong>。</li>
+<li><strong>离线复现 X2-Turn 的 EasyTurn-zh 判停指标</strong>（Apache-2.0、非门控权重，08-20 起列为可立刻动手项，连续第三轮未动）。</li>
+<li><strong>测项目自身的上游 token 速率与抖动</strong>（08-20 既定项，未动）。</li>
+</ol>
+<h3>第三阶段（需要环境或授权评估）</h3>
+<ol>
+<li><strong>若中文 VAD 的串音归属能力被判定为必需，需就 <code>vad_ch</code> 的 CC-BY-NC-ND-4.0 与作者接洽授权。</strong> 授权落定之前不得把 <code>vad_ch</code> 写进任何架构图。</li>
+<li><strong>评估 TensorRT/Triton 链路是否可接受</strong>（08-20 既定项，未动）。</li>
+<li><strong>跟踪 <code>X-Square-Robot/X2Streaming-TTS</code> 是否出现</strong>（08-20 设的两周期限，<strong>到期日 2026-09-02，本轮为第三天</strong>）。</li>
+</ol>
+<h2>四、本轮负面结果与零结果（与正面结果同等重要）</h2>
+<p><strong>这些是&quot;查了、没有&quot;，不是&quot;没查&quot;。每一条都记录了查询与 totalResults，且每一条都配了去掉日期约束的对照数以证明解析路径正常。</strong></p>
+<p>窗口 <code>submittedDate:[202608201800 TO 202608220230]</code>，17 组全部为零：</p>
+<table><thead><tr><th>组</th><th>查询</th><th>窗口</th><th>去日期约束对照</th></tr></thead><tbody>
+<tr><td>回声消除/增强</td><td><code>speech enhancement OR noise suppression OR echo cancellation OR beamforming</code></td><td><strong>0</strong></td><td>8,751</td></tr>
+<tr><td>语音语言模型/S2S</td><td><code>speech language model OR spoken dialogue OR speech-to-speech</code></td><td><strong>0</strong></td><td>952</td></tr>
+<tr><td>流式 ASR</td><td><code>speech recognition AND (streaming OR online OR latency)</code></td><td><strong>0</strong></td><td>847</td></tr>
+<tr><td>空间听觉</td><td><code>spatial audio OR ambisonic OR binaural OR sound source localization</code></td><td><strong>0</strong></td><td>726</td></tr>
+<tr><td>音频评测</td><td><code>speech evaluation OR audio benchmark OR MOS prediction</code></td><td><strong>0</strong></td><td>152</td></tr>
+<tr><td>全双工/判停</td><td><code>full duplex OR turn-taking OR barge-in OR interruption</code></td><td><strong>0</strong></td><td>3,967</td></tr>
+<tr><td>TTS</td><td><code>text-to-speech OR speech synthesis OR TTS</code></td><td><strong>0</strong></td><td>6,501</td></tr>
+<tr><td>判停（新写法）</td><td><code>voice activity detection OR endpointing OR end-of-turn OR turn-end detection</code></td><td><strong>0</strong></td><td>7,429</td></tr>
+<tr><td>判停（旧写法）</td><td><code>voice activity detection OR endpoint OR endpointing</code></td><td><strong>0</strong></td><td>7,388</td></tr>
+<tr><td>车内</td><td><code>(in-vehicle OR cockpit OR driver) AND (speech OR voice OR dialogue OR assistant)</code></td><td><strong>0</strong></td><td>2,432</td></tr>
+<tr><td>说话人</td><td><code>speaker diarization OR target speaker OR speaker verification</code></td><td><strong>0</strong></td><td>2,049</td></tr>
+<tr><td>KV/投机解码</td><td><code>KV cache OR key-value cache OR speculative decoding</code></td><td><strong>0</strong></td><td>2,461</td></tr>
+<tr><td>工具/Agent</td><td><code>tool use OR function calling OR agent harness OR tool calling</code></td><td><strong>0</strong></td><td>6,920</td></tr>
+<tr><td>语音类目</td><td><code>cat:cs.SD OR cat:eess.AS</code></td><td><strong>0</strong></td><td>25,672</td></tr>
+<tr><td>cs.HC / cs.OS（第 14 组）</td><td><code>(cat:cs.HC OR cat:cs.OS) AND (speech OR voice OR audio OR latency)</code></td><td><strong>0</strong></td><td>3,306</td></tr>
+<tr><td>cs.CL 语音</td><td><code>cat:cs.CL AND (speech OR audio OR voice OR duplex OR agent)</code></td><td><strong>0</strong></td><td>21,152</td></tr>
+<tr><td>流式多模态</td><td><code>streaming AND (speech OR audio OR multimodal)</code></td><td><strong>0</strong></td><td>2,551</td></tr>
+<tr><td>多媒体类目</td><td><code>cat:cs.MM OR (cat:cs.AI AND (speech OR audio OR voice agent))</code></td><td><strong>0</strong></td><td>16,336</td></tr>
+</tbody></table>
+<p><strong>关于第 14 组的一条限定：</strong> 它连续两轮独家命中当轮最重要线索（08-20、08-21），本轮为零。<strong>但本轮全站窗口都是零，所以这不能算该组的表现下滑，只能算窗口本身为空。保留该组的决定不受影响。</strong></p>
+<p><strong>关于&quot;17 组全零&quot;这件事的正确读法（我的判断）：</strong> 08-21 记下过一条规则——&quot;篇数与查询组的空满程度都不是&#x27;有无重大新增&#x27;的代理&quot;。本轮不构成对该规则的反例，因为本轮的零<strong>不是语音方向没产出，而是索引一篇都没进</strong>（不限类别的窗口查询也是 0）。<strong>&quot;方向为零&quot;与&quot;索引为零&quot;必须分开记：本轮是后者。这是本项目第二次遇到后者（第一次是 08-15）。</strong></p>
+<h2>五、持续跟踪项（本轮无进展，逐条列出以免被&quot;有 P0&quot;掩盖）</h2>
+<ul>
+<li><strong>判定器处理不变性检查（<code>2608.12880</code>）——优先级仍为全部事项中最高，连续第四轮未开工。</strong></li>
+<li><code>2608.19652</code> StateMemBench：追踪表上价值最高的第三档条目（论文称已发布基准与标注工具包，23 页全文无任何 URL）；其标注工具包仍是最直接可用而不可得的制品。</li>
+<li><code>2608.19741</code> Thinkingbox：507 任务基准是否落地（第七档&quot;承诺两件、交付一件&quot;）。</li>
+<li><code>2608.19662</code> ReCache：是否出现 LICENSE（公开但无许可证）。</li>
+<li><code>2608.19880</code> EnvHarness：WebShop 桥接是否出现。</li>
+<li><code>2608.19901</code> MaliciousSkillBench：附录 G.6 缺失的四类制品是否出现。</li>
+<li><code>2608.19557</code>：是否出现 LICENSE。</li>
+<li><code>X-Square-Robot/X2Streaming-TTS</code>：论文声明的仓库是否出现（<strong>到期日 2026-09-02，本轮第三天</strong>）。</li>
+<li><code>X-Square-Robot/Qwen3TTS-Streaming</code>：是否出现提及论文的提交。</li>
+<li><code>MaAI-Kyoto/MaAI</code>：中文 <code>vad_ch</code> / <code>bc_det_ch</code> 是否移出 CC-BY-NC-ND-4.0；<code>readme/vap_bc.md</code> 里&quot;目前仅支持日语&quot;这句陈旧说明是否修正；<strong>是否首次出现任何可核实的精度数字</strong>。</li>
+<li>离线复现 X2-Turn 的 EasyTurn-zh 判停指标（权重与代码为非门控 Apache-2.0，连续第三轮未动）。</li>
+<li>测项目自身上游 token 速率与抖动（X2Streaming-TTS 的 ρ 论证在项目条件下仍未验证）。</li>
+<li>TensorRT/Triton 链路环境评估。</li>
+<li><code>streaming-se-frontend-rtsemamba-kd1-v1</code> 的 PESQ→CER 阻塞（RT-SEMamba 仍须自测中文 CER）。</li>
+<li>PACE（<code>2608.07631</code>）仍是最强全双工命中。</li>
+<li>AutoDesign 附录 A.5 人评数据（第七次待核）。</li>
+<li>GCM-Bench 的 PACE 中间件、SemBridge、Smart-Glass-Challenge、flashdrive、CASA、<code>duplexgen/personaplex-finetune</code> 六个占位仓库。</li>
+<li>DuplexGen-B 承诺的 180 段基准。</li>
+<li>FireRedTTS3 是否补出任何时延/流式基准。</li>
+<li>Real-World AVSE 挑战赛数据是否公开。</li>
+<li><strong>本轮新增：17 个从未做过逐版差分的非 v1 条目</strong>（清单见第 P1 节），其中 <code>2608.15018</code>、<code>2608.06718</code>、<code>2607.06540</code> 已委派。</li>
+</ul>
+<h2>六、方法学固化（本轮新增，建议写入长期规则）</h2>
+<ol>
+<li><strong><code>abs:</code> 做词干归并。</strong> 任何单词探针实际匹配的是它的词干，因此：不要用&quot;删掉某个宽泛单词&quot;来提精度（无效）；缩略词若以 S 结尾会被剥成另一个词（<code>TTS</code>→<code>tt</code>）；短语内的成分词同样被归并（<code>echo cancellation</code> = <code>echo cancel</code>）。<strong>提精度的唯一有效手段是改用多词短语。</strong></li>
+<li><strong>归并只会多召回，不会少召回。因此所有历史零结果依然有效，受影响的只有精度。</strong> 不得用本发现去回溯质疑任何一条已记录的零结果。</li>
+<li><strong>每次改写查询都必须做同窗口 A/B 并记录两个总数。</strong> 本轮正是靠 A/B 才发现 08-21 的建议无效——若只换写法不做对照，会把&quot;改写生效&quot;当成既成事实带进后续若干轮。</li>
+<li><strong>提出一个新查询词时，先测它的全库 totalResults。</strong> <code>abs:&quot;turn-end detection&quot;</code> = 0 说明它永远不会命中；一个全库为零的词进了查询组，会让该组看起来比实际覆盖得更宽。</li>
+<li><strong>逐版复核的输入集合必须机械提取，不得人工维护。</strong> 依据是本轮 47→173 的对比。</li>
+<li><strong>窗口起点绑定&quot;最后一篇实际覆盖到的投稿时刻&quot;，而不是上一轮的时钟时刻。</strong> 本轮覆盖 0 篇，所以起点不前移。<strong>这是索引冻结日必须显式处理的一步，否则会永久丢批。</strong></li>
+<li><strong>区分&quot;方向为零&quot;与&quot;索引为零&quot;。</strong> 前者是领域没产出，后者是检索源没推进；两者的后续动作完全不同（前者继续等，后者下一轮必须把窗口起点保持不动并预期回填）。</li>
+</ol></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-22</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-22</h2><p class="solution-source"><b>2026-08-22</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
