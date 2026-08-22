@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全双工语音技术增量调研 · 2026-08-20</title>
+<link rel="alternate" type="application/rss+xml" title="cockpit-agent-radar"
+      href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">
+<style>
+:root { --bg:#0e1116; --card:#161b23; --fg:#dbe2ea; --dim:#8b96a5;
+        --acc:#4da3ff; --line:#232b36; --chip:#1d2733; }
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f7f8fa; --card:#ffffff; --fg:#1c2430; --dim:#5d6b7c;
+          --acc:#0d6ecc; --line:#e4e8ee; --chip:#eef2f7; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:15px/1.65 system-ui,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+.wrap { max-width:780px; margin:0 auto; padding:20px 16px 60px; }
+header.site { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+              border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:6px; }
+header.site h1 { font-size:20px; margin:0; }
+header.site .sub { color:var(--dim); font-size:13px; }
+.toolbar { margin-left:auto; display:flex; gap:8px; }
+.btn { background:var(--chip); color:var(--fg); border:1px solid var(--line);
+       border-radius:6px; padding:3px 10px; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--acc); }
+h2.day { font-size:14px; color:var(--dim); margin:26px 0 10px;
+         border-left:3px solid var(--acc); padding-left:8px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 14px; margin-bottom:10px; }
+.card .t { font-size:15.5px; font-weight:600; }
+.card .meta { color:var(--dim); font-size:12.5px; margin-top:4px;
+              display:flex; gap:10px; flex-wrap:wrap; }
+.badge { display:inline-block; background:var(--chip); border-radius:5px;
+         padding:0 7px; font-size:12px; color:var(--dim); }
+.badge.hi { color:var(--acc); }
+.sum { margin-top:6px; font-size:14px; color:var(--fg); opacity:.92; }
+.tags { margin-top:6px; } .tags .badge { margin-right:5px; }
+.demo-link { color:#3fb46b; font-weight:600; }
+.datebar { display:flex; gap:8px; align-items:center; margin:16px 0 2px; }
+.datebar input[type=date] { background:var(--chip); color:var(--fg);
+        border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+        font:inherit; font-size:13px; color-scheme:dark light; }
+.datebar .btn.off { opacity:.35; pointer-events:none; }
+h3.slot { font-size:13px; color:var(--dim); margin:16px 0 8px 8px; font-weight:600; }
+.badge.new { background:#1f8f4d; color:#fff; font-weight:700; }
+[data-lang="zh"] .l-en { display:none; } [data-lang="en"] .l-zh { display:none; }
+.item-page .sum-block { background:var(--card); border:1px solid var(--line);
+        border-radius:10px; padding:14px 16px; margin:14px 0; }
+.deep-badge { color:#b98cff; font-weight:600; }
+.explain { margin-top:22px; }
+.explain h3 { font-size:15px; margin:22px 0 7px; padding-bottom:5px;
+              border-bottom:1px solid var(--line); }
+.explain p { margin:7px 0; }
+.explain ul,.explain ol { margin:7px 0; padding-left:22px; }
+.explain li { margin:5px 0; }
+.explain .lead { border-left:3px solid var(--acc); padding:10px 14px;
+                 background:var(--card); border-radius:0 8px 8px 0; }
+.explain .editorial { border:1px solid var(--line); background:var(--chip);
+                      border-radius:9px; padding:11px 14px; }
+.explain .note { color:var(--dim); font-size:12.5px; margin-top:18px; }
+.open-status { display:inline-block; border-radius:5px; padding:1px 7px;
+               background:var(--chip); font-size:12px; font-weight:600; }
+.open-status.open { color:#3fb46b; }
+.open-status.partial { color:#e0a23f; }
+.open-status.unavailable { color:#e06b6b; }
+.pending-explain { color:var(--dim); border:1px dashed var(--line);
+                   border-radius:9px; padding:12px 14px; margin-top:20px; }
+.no-updates { background:var(--card); border:1px dashed var(--line);
+              border-radius:10px; padding:16px; color:var(--dim); }
+.reviews { border:1px solid var(--line); background:var(--card);
+           border-radius:10px; padding:12px 14px; margin:14px 0 20px; }
+.reviews h2 { font-size:15px; margin:0 0 8px; }
+.review-row { padding:8px 0; border-top:1px solid var(--line); }
+.review-row:first-of-type { border-top:0; }
+.review-row .links { color:var(--dim); font-size:12.5px; margin-top:3px; }
+.report-body { background:var(--card); border:1px solid var(--line);
+               border-radius:10px; padding:18px 20px; margin-top:14px; }
+.report-body h1,.report-body h2,.report-body h3 { line-height:1.35; }
+.report-body h2 { margin-top:28px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+.report-body pre { overflow:auto; background:var(--bg); border:1px solid var(--line);
+                   border-radius:7px; padding:11px; }
+.report-body code { background:var(--chip); border-radius:4px; padding:1px 4px; }
+.report-body pre code { background:none; padding:0; }
+.report-body table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+.report-body th,.report-body td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+.report-body blockquote { margin:12px 0; padding:5px 14px; border-left:3px solid var(--acc);
+                          color:var(--dim); }
+.solution-source { border-left:3px solid #3fb46b; background:var(--card);
+                   border-radius:0 8px 8px 0; padding:9px 12px; }
+.solution-source.stale { border-color:#e0a23f; }
+.solution-card .solution-metric { margin-top:9px; }
+.solution-status.retained,.solution-status.qualified { color:#3fb46b; }
+.solution-status.conditional,.solution-status.partial_improvement { color:#e0a23f; }
+.solution-status.rejected,.solution-status.invalid { color:#e06b6b; }
+.solution-metric { margin:10px 0; }
+.solution-metric>div:first-child { display:flex; justify-content:space-between; gap:10px; }
+.solution-metric small { color:var(--dim); }
+.metric-strip { height:6px; border-radius:99px; margin:4px 0;
+                background:linear-gradient(90deg,#3fb46b,var(--acc)); }
+.metric-strip.shared { background:repeating-linear-gradient(90deg,#e0a23f 0 8px,
+                       var(--chip) 8px 14px); }
+.solution-flow { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+                 background:var(--card); border:1px solid var(--line);
+                 border-radius:9px; padding:12px; margin:14px 0; }
+.solution-flow span { background:var(--chip); border-radius:6px; padding:4px 8px; }
+.solution-detail section { margin:25px 0; }
+.solution-comparison { border-left:3px solid var(--acc); padding-left:9px; }
+.evidence-scope { margin:2px 4px 2px 0; }
+.evidence-table-wrap { overflow-x:auto; }
+.evidence-table { width:100%; min-width:980px; border-collapse:collapse; font-size:12px; }
+.evidence-table th,.evidence-table td { border:1px solid var(--line); padding:7px;
+                                        text-align:left; vertical-align:top; }
+.evidence-table th { background:var(--chip); }
+.evidence-table small { color:var(--dim); }
+.solution-feedback { border-top:1px solid var(--line); margin-top:24px; padding-top:12px; }
+.solution-feedback h2 { font-size:15px; }
+details { background:var(--card); border:1px solid var(--line); border-radius:8px;
+          padding:9px 12px; margin:9px 0; }
+summary { cursor:pointer; } summary:focus-visible { outline:3px solid var(--acc); }
+@media(max-width:520px) {
+  .solution-flow b { display:none; }
+  .solution-flow span { width:100%; }
+  .solution-metric>div:first-child { display:block; }
+  .report-body { overflow-wrap:anywhere; }
+}
+@media(prefers-reduced-motion:reduce) { *,*:before,*:after {
+  animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+footer { margin-top:40px; color:var(--dim); font-size:12.5px;
+         border-top:1px solid var(--line); padding-top:12px; }
+</style>
+<script>
+(function () {
+  var saved = localStorage.getItem("radar-lang")
+           || (navigator.language.startsWith("zh") ? "zh" : "en");
+  document.documentElement.setAttribute("data-lang", saved);
+  window.toggleLang = function () {
+    var next = document.documentElement.getAttribute("data-lang") === "zh" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    localStorage.setItem("radar-lang", next);
+  };
+  // 回看断点：比你上次打开首页时更新的条目标 NEW。
+  // 基线只在首页翻新——翻旧日期页不会把"看到哪了"冲掉。
+  document.addEventListener("DOMContentLoaded", function () {
+    var seen = localStorage.getItem("radar-seen") || "";
+    var maxF = seen;
+    document.querySelectorAll(".card[data-found]").forEach(function (c) {
+      var f = c.getAttribute("data-found");
+      if (seen && f > seen) {
+        var b = document.createElement("span");
+        b.className = "badge new"; b.textContent = "NEW";
+        var meta = c.querySelector(".meta");
+        if (meta) meta.insertBefore(b, meta.firstChild);
+      }
+      if (f > maxF) maxF = f;
+    });
+    if (document.body.getAttribute("data-page") === "index" && maxF)
+      localStorage.setItem("radar-seen", maxF);
+  });
+})();
+</script>
+</head>
+<body data-page=""><div class="wrap">
+<header class="site">
+  <h1><a href="https://piiiiiig.github.io/cockpit-agent-radar/" style="color:inherit">🚗 cockpit-agent-radar</a></h1>
+  <span class="sub"><span class="l-zh">全双工 · 多模态 · 座舱语音 agent 技术雷达</span><span class="l-en">full-duplex · multimodal · cockpit voice-agent radar</span></span>
+  <span class="toolbar">
+    <button class="btn" onclick="toggleLang()">中 / EN</button>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/feed.xml">RSS</a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/automation/"><span class="l-zh">自动化</span><span class="l-en">Automation</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/solutions/"><span class="l-zh">好方案</span><span class="l-en">Solutions</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reviews.html"><span class="l-zh">精读记录</span><span class="l-en">Reviews</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">日报</span><span class="l-en">Reports</span></a>
+    <a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/archive.html"><span class="l-zh">存档</span><span class="l-en">Archive</span></a>
+  </span>
+</header>
+<div class="item-page"><h2>全双工语音技术增量调研 · 2026-08-20</h2><div class="report-body"><h1>全双工语音技术增量调研</h1>
+<p>更新日期：2026-08-20</p>
+<p>对比基线：</p>
+<ul>
+<li><code>reports/全双工语音技术增量调研-2026-08-19.md</code></li>
+</ul>
+<p>面向项目：</p>
+<ul>
+<li>StreamingModelHarness</li>
+<li>Cockpit Agent Radar</li>
+<li>视觉、音频、文本与车控融合的智能座舱助手</li>
+</ul>
+<h2>本轮证据边界（先写清，后面所有数字都受它约束）</h2>
+<p><strong>项目侧无新增。</strong> 项目快照仍是 2026-08-10 10:30 那一份，最新提交仍为 2026-08-04，最近一次 H20 A/B 仍是 2026-08-03。本轮没有新提交、没有新基准、没有新负面结果。</p>
+<p><strong>Radar 连续第八轮未刷新。</strong> <code>data/items.json</code> 的 <code>generated</code> 仍是 <code>2026-08-12T09:30:35+08:00</code>，条目仍为 499，新增 0 条。直接检索仍是唯一发现通道。</p>
+<p><strong>上一轮的四批次大回补之后，索引恢复成每天一批的正常节奏。</strong> 08-19 报告记录当时全站最新投稿为 <code>2608.18072</code>（2026-08-18T17:57:08Z）。本轮同一查询（<code>all:a</code>，不限类别，按投稿时间倒序）返回 <strong><code>2608.19197</code>（2026-08-19T17:58:56Z）</strong>，即只新增了 08-19 一个批次。截止时刻仍落在 17:5x 的 arXiv 每日 14:00 ET 截稿边界上，<strong>这是连续第四次观测到索引按整批推进，从不逐篇推进</strong>。</p>
+<p>窗口按投稿时间取 <strong>2026-08-18T18:00Z 至 2026-08-20T02:30Z</strong>：起点定在 08-18 批次截稿边界之后，与 08-19 报告实际覆盖到的最后一篇（投稿时刻 2026-08-18T17:57:08Z）严格衔接且不重叠。14 组查询去重后 <strong>50 篇</strong>。对照查询正常：<code>cat:cs.SD</code> totalResults <strong>21,740</strong>（08-19 为 21,728、08-17 为 21,696、08-15 为 21,686），<code>cat:eess.AS</code> <strong>22,202</strong>（08-19 为 22,199）。<strong>一切论文一律按投稿时间归属，不按发现时间归属。</strong></p>
+<p><strong>下一轮窗口起点：2026-08-19T18:00Z。</strong></p>
+<p><strong>本轮与前一轮的量级差别必须说清楚：50 篇对 235 篇。</strong> 08-19 是四批次一次性入库的积压，本轮是单个正常批次。<strong>但本轮的信号密度反而更高</strong>——单篇 P0 的质量是近若干轮最高的一次，且伴随一条追踪项的开放状态翻转。</p>
+<p>制品复核时刻为 2026-08-20，晚于 02:30 的论文截止时刻。</p>
+<h2>StreamingModelHarness 当前进展与问题</h2>
+<table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
+<tr><td>首音频约 3 秒，瓶颈在外挂 Edge TTS（<strong>本轮最大进展</strong>）</td><td>A/B 首音频 P50 2,918ms / 3,491ms，P90 3,453ms / 4,171ms，而首文本最快 131ms</td><td><strong>X2Streaming-TTS（2608.18661）</strong>：严格零前瞻的 token 级流式 TTS，中文 CER 0.78%，单请求 TTFT 中位数 <strong>15.8ms</strong>，且基准硬件就是 <strong>RTX 5090</strong>；正文称与离线参考&quot;使用同一离线骨干与完全相同的模型权重&quot;</td><td>只读审阅 + 离线首音频与中文 CER 实测；先核实论文声明的仓库地址为何 404</td><td>沿用既定编辑门：首音频 P90≤1,000ms；中文 CER 不劣于 Edge；工具/文本逐条一致</td></tr>
+<tr><td>判停/打断&quot;该不该发生&quot;缺判据来源</td><td><code>probe_turn_end</code> 已实测主模型自判停不可行（负面结果）</td><td><strong>X2-Turn（2608.10878）v2 把开放状态整个翻转</strong>：代码 Apache-2.0 已公开，4B 权重 <code>x-square-robot/X2-Turn-4B-0812</code> 已公开且非门控，另附一套含帧级 turn controller 的 full-duplex demo</td><td>离线复现 EasyTurn-zh 判停指标；只读审阅其 turn controller 的状态机</td><td>每个可插入点有可核验的动作依据；打断点与停止时延有确定口径</td></tr>
+<tr><td>判定器处理不变性未验证（<strong>优先级最高</strong>）</td><td>2608.12880：只翻转与行为无关的元数据即改变 180 条中的 31 条判定</td><td>本轮无直接进展；下述若干 agent 评测/审计类论文见第 3 节起</td><td>判定器处理不变性检查（零 GPU）</td><td>任一翻转即判定器缺陷，先修判定器</td></tr>
+<tr><td>回声消除与扬声器泄漏零一手依据</td><td>项目从未获得任何 AEC 正文证据</td><td><strong>连续第八轮为零。</strong> 本窗口 <code>speech enhancement OR noise suppression OR echo cancellation OR beamforming</code> 共 3 篇，<strong>3 篇全部不是声学论文</strong></td><td>不写任何 AEC 结论</td><td>需要一篇因果、可流式、带下游指标、且含自身播放参考抽头的一手论文</td></tr>
+<tr><td>多乘员插话、&quot;谁在说话&quot;无任何一手依据</td><td>项目评测集为单说话人合成音频</td><td><strong>本轮为零</strong>：<code>speaker diarization OR target speaker OR speaker verification</code> 与 <code>spatial audio OR binaural OR ambisonic</code> 两组查询在本窗口 totalResults 均为 <strong>0</strong></td><td>沿用 08-19 记下的架构约束（身份判定走音频通路之外的旁路）</td><td>判定信号与音频通路解耦</td></tr>
+<tr><td>「PESQ 涨了会不会让车控更准」</td><td><code>streaming-se-frontend-rtsemamba-kd1-v1</code> 硬阻塞</td><td>本轮无新增；08-19 的反向证据（2608.14812 Table 4）维持不变</td><td>阻塞不解除</td><td>前端改动必须以项目自己的 CER 验收</td></tr>
+</tbody></table>
+<h2>一、先说结论</h2>
+<h3>P0：X2Streaming-TTS —— 迄今为止最贴近项目首音频瓶颈的一篇，且硬件平台完全对得上</h3>
+<p><strong>论文事实。</strong> 2608.18661《X2Streaming-TTS: Causal Token-Level Text-to-Speech from Streaming Text with Speech-State Inheritance》，X Square Robot，投稿 2026-08-19T08:05Z，v1，11 页，cs.CL。它做的是<strong>严格零前瞻</strong>的 token 级流式 TTS：上游语言模型每吐一个 text token，TTS 就可以在不看任何未来 token 的前提下决定是否发声。正文自述的目标是&quot;many systems wait for sentence-level text and are therefore only pseudo-streaming&quot;。</p>
+<p>论文事实（指标）：SEED-TTS-Eval 中文 CER <strong>0.78%</strong>、英文 WER 1.93%；MiniMax 集中文 CER <strong>0.78%</strong>、英文 WER 1.86%；长文本外推 1×/2×/5×/10× 为 2.55/3.67/4.08/4.36。单请求 TTFT 中位数 <strong>15.8ms</strong>，并发 8/16/32/64/128 时分别为 38.5/50.2/76.3/118.6/<strong>260.8ms</strong>，测量硬件为<strong>一张 RTX 5090</strong>、BF16 引擎、每并发级 3 轮预热后 20 轮测量。</p>
+<p><strong>为什么这一条是本轮 P0，而 08-19 的 FireRedTTS3 不是。</strong> 08-19 记录 FireRedTTS3&quot;中文有指标、制品完整、但全文零时延数字，回答的不是项目的问题&quot;。X2Streaming-TTS 恰好补上了那个缺口的<strong>另一半</strong>：它同时给出中文 CER 与首包时延，<strong>且其基准 GPU（RTX 5090）与项目自身 5090 环境同级</strong>——这在整份追踪表里是第一次出现硬件可直接对照的 TTS 时延数字。</p>
+<p><strong>编辑判断（必须与论文事实分开读）：这一条最有价值的地方不是 15.8ms，而是&quot;论文称未改动权重&quot;。</strong> 正文比较 Table 1 首末两行时写：&quot;They use the same offline backbone and identical model weights, differing only in their input and decision conditions.&quot;（它们使用同一离线骨干与完全相同的模型权重，只在输入与决策条件上不同。）全文没有训练章节。<strong>若该表述成立，则这是一套纯推理期/前端机制，叠加在现成 Qwen3-TTS 之上，不需要重新训练</strong>——这正是项目能在短周期内评估的那一类改动。但&quot;论文没有写训练章节&quot;不等于&quot;论文证明了无需训练&quot;，本条按论文表述记录，不作更强的断言。</p>
+<p><strong>同等重要的三条边界，写在结论里而不是埋在下文：</strong></p>
+<ol>
+<li>**TTFT 是 time to first audio *token*，不是首个音频到达扬声器的时刻。** 项目的 P90≤1,000ms 编辑门管的是后者。二者之间还隔着 Code2Wav 解码与传输，论文没有给出这段的数字。</li>
+<li><strong>论文正文给出的仓库地址 <code>github.com/X-Square-Robot/X2Streaming-TTS</code> 在本轮复核时刻返回 404。</strong> 详见第 1 节的开放状态。</li>
+<li><strong>论文的两个评测语料都没有名字。</strong> &quot;59 held-out passages from the Mandarin proficiency subset of a Chinese TTS corpus&quot; 与 &quot;a target-speaker evaluation set&quot; 都只有描述、没有出处，因此 Table 2/Table 3/Table 4 的数字<strong>第三方无法复现</strong>。SEED-TTS-Eval 与 MiniMax 集是公开的，Table 1 不受此限。</li>
+</ol>
+<h3>P0（并列）：X2-Turn 的开放状态整个翻转 —— 追踪表上第一个中文可用、代码与权重双开放的判停模型</h3>
+<p><strong>这是一条状态变更，不是新论文，必须按修订版处理。</strong> 2608.10878 X2-Turn 在 08-19 的记录还是&quot;代码与权重仍未公开&quot;。本轮复核发现它已升到 <strong>v2</strong>（published 2026-08-11T12:54:52Z，updated <strong>2026-08-19T03:16:50Z</strong>）。</p>
+<p><strong>v1→v2 逐页比对结果：这是一次只改了两行的修订。</strong> 5 页对 5 页；第 2/3/4/5 页字符数完全一致（4186 / 6258 / 5457 / 7241），只有第 1 页从 5852 增至 5928 字符；标题两版完全一致；数值 token 从 364 增至 365，唯一新增的那个来自页边日期戳。<code>diff</code> 的实质内容只有一句，加在摘要末尾：</p>
+<blockquote>&quot;Code and models are available at https://github.com/X-Square-Robot/X2-Turn.&quot;</blockquote>
+<p>PDF 超链接与裸 URL 同步印证：v1 的裸 URL 为 4 条（1 条 arXiv 引用、1 条 ten-vad、1 条被截断的 HF 链接、1 条 OpenReview），v2 为 5 条，<strong>新增的正是该仓库地址</strong>。<strong>所有实验数字一个都没有变。</strong></p>
+<p><strong>制品逐项核实（全部为一手核实，不是转述论文）：</strong></p>
+<ul>
+<li><strong>代码</strong>：<code>github.com/X-Square-Robot/X2-Turn</code> 存在，created <strong>2026-08-17T11:42:23Z</strong>，pushed 2026-08-18T03:30:36Z，148 个 tree 条目 / 107 个 blob / 合计 <strong>669,029 字节</strong>，10 stars。LICENSE 文件 11,374 字节，GitHub API 报 <code>Apache-2.0</code>。</li>
+<li><strong>权重</strong>：<code>huggingface.co/x-square-robot/X2-Turn-4B-0812</code> 存在，createdAt 2026-08-18T07:56:40Z，<code>gated: False</code>、<code>private: False</code>，<strong>Apache-2.0</strong>，11 个文件合计 <strong>10,485,013,748 字节</strong>，其中 <code>model.safetensors</code> 10,470,070,544 字节。下载数 4、点赞 0。</li>
+<li><strong>该模型卡的 <code>arxiv:</code> 标签是 <code>arxiv:2608.10878</code>，指向正确。</strong> 这一点值得单独记：08-19 记录过 FireRedTTS3 的模型卡 <code>arxiv:</code> 标签指错论文，本条是反例，说明该字段<strong>不可默认信任、但也不可默认判错</strong>，必须逐个核。</li>
+<li><strong><code>base_model</code> 为 <code>mistralai/Voxtral-Mini-4B-Realtime-2602</code>（finetune）</strong>，与 08-19 记录的&quot;Voxtral-Mini-4B-Realtime 可直接用&quot;一致，现在多了一个已在其上微调好的判停模型。</li>
+<li>语言标签为 <code>zh, en</code>；功能标签含 <code>turn-taking</code>、<code>endpointing</code>、<code>barge-in</code>。</li>
+<li>仓库内另有 <code>full-duplex-demo/</code>（含 <code>dialogue_system/app.py</code> 27,458 字节、<code>clients/{llm,tts,vad}_client.py</code>、前端 4 件套）与 <code>voxtral-realtime/src/voxtral_realtime/turn/controller.py</code>（<strong>15,895 字节</strong>）及 <code>full-duplex-demo/tests/test_frame_turn_controller.py</code>。</li>
+</ul>
+<p><strong>编辑判断：项目的 <code>probe_turn_end</code> 负面结论（主模型自判停不可行）第一次有了一个可以直接对照的外部实现。</strong> X2-Turn 走的正是&quot;判停头与 ASR 头并行、不回灌解码&quot;的路线，现在这套路线的代码与中英双语 4B 权重都可下载、许可证都是 Apache-2.0、都不门控。这是追踪表上<strong>第一个</strong>同时满足&quot;中文可用 + 代码开放 + 权重开放 + 许可证宽松 + 非门控&quot;的判停/turn-taking 制品。</p>
+<p><strong>同时必须写死的边界：</strong> 08-19 记录的 X2-Turn 论文侧局限<strong>一条都没有被这次修订解除</strong>——联合训练仍然损害 ASR（AISHELL-1 2.57→3.94），EasyTurn-zh 在 τ=480ms 下的 91.00/93.00/96.00 与 288ms 时延仍然是<strong>相对词尾</strong>的口径，v2 没有补任何新实验。<strong>开放状态变了，论文结论一个字都没变。</strong></p>
+<h3>P0（并列）：两篇是同一条技术脉络，必须合并记录</h3>
+<p><strong>X2-Turn 与 X2Streaming-TTS 出自同一机构、共享 5 名作者。</strong> X2Streaming-TTS 作者为 Rime Wen、Zehan Liu、Shawn Qin、Lights Shi、Roy Gan、Hao Wang、Qian Wang；X2-Turn 作者为 Kaiqi Fu、<strong>Rime Wen</strong>、Altman Lin、<strong>Shawn Qin</strong>、<strong>Roy Gan</strong>、<strong>Hao Wang</strong>、<strong>Qian Wang</strong>。重合 5 人，通讯作者同为 Hao Wang，机构同为 X Square Robot。</p>
+<p><strong>编辑判断：这是&quot;一个全双工栈的两个半边&quot;，与 08-11/08-13 记录的 VoiceChat 11B ↔ VoiceChat-TTS 是完全同构的模式。</strong> X2-Turn 管的是&quot;输入侧：流式 ASR + 判停&quot;，X2Streaming-TTS 管的是&quot;输出侧：零前瞻流式合成&quot;，而 X2-Turn 仓库里的 <code>full-duplex-demo</code> 正是把两侧接起来的那层。<strong>按一条技术脉络记录，不作两条独立线索计数。</strong></p>
+<h3>P1：项目优先级最高的那条事项，本轮同时被加强和被证明&quot;外部没人替我们做掉&quot;</h3>
+<p><strong>判定器/脚手架敏感性在同一个窗口里拿到了两条独立佐证，加上 DuplexWorld 已是三条。</strong> SemaPLC（2608.18565）用 7 个模型 × 2 个条件的完全析因给出：固定模型加脚手架提升 <strong>8.5–33.3 个百分点、均值 +17.3</strong>，而固定脚手架换模型的跨度是 <strong>37.6 个百分点</strong>——同一量级。ComponentBench（2608.18307）在同一 harness、同一模型、同一批任务下只改观察与动作空间，通过率 <strong>83.1% → 48.9%</strong>。</p>
+<p><strong>同等重要的反向记录：这三篇没有一篇验证了自己的归因方法</strong>，人工一致性统计全部为零，其中两篇还把 LLM 放进了标注链路且不报任何人工一致率。<strong>所以本轮的结论是：<code>grader-treatment-invariance-audit</code> 的优先级不变、理由变强，且必须由项目自己做。</strong> 详见第 3.0 节。</p>
+<h3>P1（并列）：打断路径拿到一个可实现的原语，来自一篇整体被否决的论文</h3>
+<p><strong>掩码式 KV 回退（2608.19147）：不物理裁剪 KV cache，而是把作废位置的 attention mask 置零，同时让 <code>position_ids</code> 跟踪逻辑序列长度而非物理 cache 长度。</strong> 实测与物理裁剪逐位等价（logits 最大绝对差 0.0000），代价低于每步墙钟 1%，而物理裁剪一次约 48ms；2048 token 时 cache 膨胀收敛到 1.02 倍。<strong>这是&quot;在不改变形状的前提下撤回已写入 cache 的 token&quot;的答案，而这正是项目打断/撤回路径的核心问题，也是 CUDA Graph 捕获解码环所要求的形状。</strong> 论文本身因需要多机而否决，详见第 3.4 节。</p>
+<h3>P1（并列）：本轮的负面结果比正面结果覆盖面更广，且有两条是&quot;查询整组为零&quot;</h3>
+<p>见第 6 节。<strong>AEC 连续第八轮零一手依据</strong>；空间听觉与说话人分离/目标说话人两组查询在本窗口 totalResults 直接为 <strong>0</strong>；<code>full-duplex OR turn-taking OR barge-in OR interruption</code> 一组返回 4 篇而<strong>4 篇全是假阳性</strong>。</p>
+<h2>1. X2Streaming-TTS（2608.18661）</h2>
+<ul>
+<li>论文：<code>https://arxiv.org/abs/2608.18661</code>（v1，2026-08-19T08:05:00Z 投稿，11 页，cs.CL）</li>
+<li>作者与机构：Rime Wen*、Zehan Liu*（共同一作）、Shawn Qin、Lights Shi、Roy Gan、Hao Wang†（通讯）、Qian Wang，X Square Robot</li>
+<li>论文正文声明的代码地址：<code>https://github.com/X-Square-Robot/X2Streaming-TTS</code> —— <strong>本轮复核 404</strong></li>
+<li>同机构实际存在的相关仓库：<code>https://github.com/X-Square-Robot/Qwen3TTS-Streaming</code>（MIT）</li>
+<li>论文许可证（arXiv 元数据 <code>/License</code>）：<code>arxiv.org/licenses/nonexclusive-distrib/1.0/</code>。<strong>这是论文本身的许可证，与代码、权重无关。</strong></li>
+</ul>
+<h3>它是什么</h3>
+<p>一套架在 Qwen3-TTS 之上的<strong>严格因果</strong>流式 TTS 框架。论文给出的因果性定义是一条硬约束（式 1）：第 u 个声学 token 只能依赖于<strong>其生成时刻之前已观测到的文本</strong>、此前已生成的声学 token、以及从上一段继承来的语音状态。换言之，<strong>前瞻为零</strong>——这一点与既有工作的分界线，论文在 §2 讲得很清楚：LiveSpeech / SyncSpeech / SpeakStream 用的是固定前瞻，MagpieTTS-LF 用的是标点感知分块加历史文本，&quot;these methods reduce sentence-level waiting but still depend on future tokens, so their latency remains coupled to the upstream generation rate&quot;。</p>
+<p>论文用来支撑&quot;零前瞻是负担得起的&quot;这个前提的论证很干净：<strong>文本信息密度高，语音时间上冗余</strong>。它定义声学-文本膨胀比 ρ = 声学解码步数 / 文本 token 数，指出 ρ 通常远大于 1，因此&quot;把当前已有的文本先念出去&quot;这件事本身就为后续 token 的到达争取到了时间。</p>
+<h3>核心方法（或核心架构）</h3>
+<p>选 Qwen3-TTS 作骨干的理由，论文写得很具体，是三条工程属性而非效果：<strong>可计数的声学输出、可迁移的解码状态、可观测的剩余容量</strong>（&quot;its KV-cache-aware decoder exposes the remaining capacity in cache positions&quot;）。</p>
+<p><strong>（一）Causal Commitment（因果提交），管&quot;什么时候可以开口&quot;。</strong> 分两个耦合部件：</p>
+<ul>
+<li><strong>不确定性感知的语义就绪判定。</strong> 前端维护一个待定后缀 U_t，凡是发音仍可能被后续字符改写的跨度就压住不发。论文自己的例子是英文的 <code>He finished 3</code>——后续可能变成 <code>3 laps</code>（读 three）或 <code>3rd</code>（读 third），两者在词还没写完之前就已分叉，而<strong>已经播出去的音频无法撤回</strong>。规则覆盖数字、单位、符号、缩写、标点；一旦释放就永不修改；输入结束时残余后缀按同一套规则闭合。</li>
+<li><strong>容量自适应、标点感知的分段（CAPS）。</strong> 把分段建成一个带约束的最优化问题：边界分 1/2/3/Hard 四档（句末 / 从句级 / 更弱标点 / 非标点硬切），代价 c(1)&lt;c(2)&lt;c(3)&lt;c(Hard)，约束是每段的 KV cache 占用 G(S;ξ) 不得超过可用容量 B，目标是段数罚项 λ_seg 与边界代价之和最小。离线解由动态规划给出（式 4），复杂度 O(n²)，或段长上界为 C 时 O(nC)。在线侧用 EMA 估计 ρ̂：初值 <strong>6.0</strong>，β 常态 <strong>0.1</strong>、溢出后 <strong>0.5</strong>，ρ̂ 截断到 <strong>[2, 10]</strong>，(α₁,α₂,α₃)=(<strong>0.7, 0.8, 0.9</strong>)，因而段数因子上界 10/7≈1.429。实现是前端里的一个 token 驱动有限状态机，<strong>容量上限 B 直接从已加载的引擎读出</strong>。最多允许 2 个文本段排队，声学解码严格串行。</li>
+</ul>
+<p><strong>（二）Causal Speech-State Inheritance（因果语音状态继承），管&quot;下一段从什么状态接着说&quot;。</strong> 两条独立状态通路：</p>
+<ul>
+<li><strong>完整 Code2Wav 状态包</strong>跨段搬运，含其 KV cache、卷积状态、转置卷积状态与帧索引，用来热启动下一段的波形解码。</li>
+<li><strong>末尾 H 个 token 对齐的 Talker 状态</strong>作为有界历史记忆。H 是与流长度无关的全局超参，<strong>实验中固定 H = 4</strong>，因此继承的声学上下文被界定在 O(H)。</li>
+</ul>
+<p>两条通路都受一个<strong>健康检查</strong>门控：前一段必须收到完整输入、消费完所有已释放文本、声学解码正常终止、实现膨胀比 ρ_k ∈ <strong>[1, 12]</strong>、且 Code2Wav 快照完整；任一不满足则两条状态全部清零、从默认状态重启。</p>
+<p>注意力侧用一个<strong>固定因果先验</strong>（式 10）：偏置 b(d) 在 0≤d≤4 时为 −d²/8，d≥5 时为 log 0.1，<strong>d&lt;0 时为 −∞</strong>，因此未来位置权重恒为零；在内容相似度相等时，当前位置相对于距离≥5 的位置有 <strong>10:1</strong> 的先验优势。注入是<strong>有界</strong>的：门控分数 s_u 取归一化注意力集中度 ∈[0,1]，增益 g_u = 0.015(0.5+0.5·s_u)，故 <strong>0.0075 ≤ g_u ≤ 0.015</strong>，扰动满足 ‖z′_u − z_u‖ ≤ 0.015·max‖m_j‖。</p>
+<p><strong>编辑判断：这两个&quot;有界&quot;是这篇论文在工程上最讲究的地方。</strong> H 固定为 4、增益夹在 0.0075–0.015 之间、ρ̂ 截断在 [2,10]、健康检查一票清零——每一处都把&quot;跨段继承&quot;这件本质上会累积漂移的事情限死在常数代价内。项目若要借鉴，<strong>先借这套边界纪律，再谈具体数值</strong>。</p>
+<h3>论文结果</h3>
+<p><strong>Table 1（可懂度与长文本鲁棒性，% 错误率，越低越好）：</strong></p>
+<table><thead><tr><th>模型</th><th>流式</th><th>粒度</th><th>SEED CER-ZH</th><th>SEED WER-EN</th><th>MiniMax CER-ZH</th><th>MiniMax WER-EN</th><th>1×</th><th>2×</th><th>5×</th><th>10×</th></tr></thead><tbody>
+<tr><td>Qwen3-TTS-12Hz-1.7B</td><td>✗</td><td>Offline</td><td>1.10</td><td>1.43</td><td>0.87</td><td>1.85</td><td>3.95</td><td>3.05</td><td>4.01</td><td>3.93</td></tr>
+<tr><td>F5-TTS</td><td>✗</td><td>Offline</td><td>1.52</td><td>2.00</td><td>3.74</td><td>2.08</td><td>4.42</td><td>3.81</td><td>5.04</td><td>4.95</td></tr>
+<tr><td>FireRedTTS-2</td><td>✓</td><td>Chunk</td><td>1.14</td><td>1.95</td><td>0.97</td><td>2.25</td><td>5.36</td><td>4.79</td><td>5.04</td><td>5.32</td></tr>
+<tr><td>CosyVoice 2-S</td><td>✓</td><td>Chunk</td><td>1.45</td><td>2.57</td><td>1.98</td><td>2.38</td><td>4.76</td><td>3.83</td><td>5.05</td><td>5.48</td></tr>
+<tr><td>CosyVoice 3-S</td><td>✓</td><td>Chunk</td><td>0.81</td><td>1.68</td><td>1.43</td><td>2.21</td><td>4.72</td><td>3.36</td><td>4.86</td><td>5.12</td></tr>
+<tr><td><strong>X2Streaming-TTS</strong></td><td>✓</td><td><strong>Token</strong></td><td><strong>0.78</strong></td><td>1.93</td><td><strong>0.78</strong></td><td><strong>1.86</strong></td><td><strong>2.55</strong></td><td>3.67</td><td><strong>4.08</strong></td><td><strong>4.36</strong></td></tr>
+</tbody></table>
+<p><strong>这张表我逐格复核过，论文的两句概括都成立。</strong> 「在 8 个条件中的 3 个上优于离线参考，其余 5 个中最大退化 0.62 个百分点」——优于的是 SEED CER-ZH（0.78 对 1.10）、MiniMax CER-ZH（0.78 对 0.87）、1×（2.55 对 3.95）共 3 项，退化分别为 0.50 / 0.01 / 0.62 / 0.07 / 0.43，最大值确为 <strong>0.62</strong>（2× 条件）。「在流式系统中 8 个条件里 6 个最优」——两处例外为 SEED EN（CosyVoice 3-S 1.68 优于 1.93）与 2×（3.36 优于 3.67），确为 6/8。<strong>摘要、正文与表格三者一致，本篇未发现表述夸大。</strong></p>
+<p><strong>Table 2（因果提交，两套协议）：</strong> 在线回放（59 段落，列为 段数 / 硬切占比 / 预算利用率）——固定窗口 401 / <strong>87.13%</strong> / 92.48%；纯标点 315 / 10 / <strong>11.77%</strong>（<strong>该行三列在 PDF 抽取中连成一串 <code>3151011.77</code>，段数与硬切占比的切分位置无法从抽取文本唯一确定；利用率 11.77% 由正文原话独立证实，段数与硬切占比记为待核</strong>）；固定比例 470 / 1.70 / 78.90；本文 430 / <strong>0.54%</strong> / <strong>76.93%</strong>。等预算下的边界质量（对人工标注）——固定窗口 F1 0.017、纯标点 0.199、SaT-3L 0.940、本文 <strong>0.952</strong>（漏检 0.057、误切 0.036）。论文同时声明&quot;所有被评估策略的预估预算违规与 token 上限违规均为零&quot;。</p>
+<p><strong>Table 3（边界连续性与长文稳定性，固定速率 token 到达）：</strong> 本文 ΔF0 <strong>22.61 Hz</strong>、ΔE <strong>1.66 dB</strong>、PBD <strong>0.1092 [0.1000, 0.1192]</strong>、ECAPA 相似度 <strong>0.9511 [0.9454, 0.9565]</strong>、UTMOS <strong>3.9200 [3.8388, 3.9960]</strong>，五列全部最优。最接近的 FireRedTTS-2 PBD 为 0.1915 [0.1794, 0.2041]，<strong>两个自助区间不相交</strong>。CosyVoice 2-S / 3-S 的 PBD 为 0.3427 / 0.3479。</p>
+<p><strong>这里有一条论文自己点破、值得单独抄下来的对照：FireRedTTS-2 的边界指标在三个对比系统里最好（PBD 0.1915），但它的 ECAPA 质心相似度只有 0.5205，而本文是 0.9511。</strong> 论文的说法是：PBD 与 ECAPA 度量的是两种互补的一致性——<strong>段边界处的局部韵律一致性</strong>与<strong>跨段落的长时说话人一致性</strong>——只看其一会得出相反的排序。</p>
+<p><strong>Table 4（符号与前缀歧义，120 名听众）：</strong> 本文 CER <strong>2.00%</strong>、完全正确朗读率 <strong>73.3%</strong>、UTMOS 4.025、MOS 3.802、语义保持 <strong>93.33%</strong>；最强对比系统 CosyVoice 3-S 为 6.65% / 40.0% / 3.017 / 3.183 / 60.00%；CosyVoice 2-S 为 33.41% / <strong>0.0%</strong> / 3.075 / 3.220 / <strong>0.00%</strong>。论文指出 Read 与 Sem. 之间的差（73.3% 对 93.33%）说明剩余错误多为<strong>仍可理解的发音变体</strong>；数字类与流式歧义类两个子项均为 0% CER、100% 正确朗读。</p>
+<p><strong>Figure 3（时延）：</strong> 单请求 TTFT 中位数 <strong>15.8ms</strong>；并发 8/16/32/64/128 为 <strong>38.5 / 50.2 / 76.3 / 118.6 / 260.8ms</strong>。测量口径写得比多数论文清楚：<strong>客户端侧</strong>中位数、跨&quot;所测试的多个服务接口&quot;、一张 <strong>RTX 5090</strong>、BF16 部署引擎、每级 3 轮预热后 20 轮测量，对应样本量 n = 40 / 320 / 640 / 1,280 / 2,560 / 5,120。阴影带为最小值到 99 分位。</p>
+<h3>对 StreamingModelHarness 的帮助</h3>
+<p><strong>第一，它是目前唯一一篇同时满足&quot;中文有正文指标 + 有首包时延 + 硬件与项目同级&quot;的 TTS 工作。</strong> 追踪表上此前的三种缺口它各补了一块：Luna-TTS 无制品且首包时延要多卡；VoiceChat-TTS 是纯英文，且其 9.62ms 是 ITL 不是 TTFA；FireRedTTS3 中文与制品都过关但零时延数字。X2Streaming-TTS 的中文 CER 0.78% 与 15.8ms TTFT 出自同一篇、同一套系统。</p>
+<p><strong>第二，可以直接搬进项目的是三个机制，而不是三个数字。</strong></p>
+<ol>
+<li><strong>&quot;不确定性感知缓冲&quot;直接对应中文场景里最容易出错的一类。</strong> 论文用英文序数词举例，但同一问题在中文里更常见也更严重：车控场景的&quot;打开空调 26&quot;到底是&quot;二十六度&quot;还是&quot;二六&quot;、&quot;降到 3 档&quot;、&quot;播放第 2 首&quot;——<strong>在数字后面那个字到达之前，读法是不确定的</strong>。项目目前的外挂 Edge TTS 走的是整句合成，天然回避了这个问题；一旦转向 token 级流式，这个问题会立刻出现。<strong>这条机制应当在切流式之前就设计进去，而不是等出问题再补。</strong></li>
+<li><strong>CAPS 把&quot;分段&quot;从纯文本问题改造成&quot;文本 × 声学容量&quot;的联合问题。</strong> 它的核心不是那个 DP，而是那条约束：<strong>段的 KV cache 占用不得超过引擎实际可用容量，而这个容量是从已加载引擎读出来的、不是写死的常数</strong>。项目自己正在处理 MoE 解码与 KV 账本，这条&quot;容量从引擎读、不从配置猜&quot;的做法可以直接借鉴到判停与分段逻辑上。</li>
+<li><strong>状态继承给了一个可算的成本上界。</strong> 论文只抽象地说&quot;完整 Code2Wav 状态包&quot;，而同机构仓库里的一份官方设计文档把这笔账算死了（见下）。</li>
+</ol>
+<p><strong>第三，那份状态尺寸文档是本轮意外收获，可能比论文本身更实用。</strong> <code>Qwen3TTS-Streaming</code> 仓库的 <code>docs/dev/investigation/code2wav_state_size.md</code> 给出 Code2Wav 的状态构成与字节数（<strong>这是官方仓库的一手文档，不是论文正文，引用时必须区分</strong>）：</p>
+<ul>
+<li>解码器配置：<code>num_hidden_layers</code> <strong>8</strong>、<code>num_key_value_heads</code> <strong>16</strong>、<code>hidden_size</code> <strong>1024</strong>、<code>head_dim</code> <strong>64</strong>、<code>latent_dim</code> 1024、<code>decoder_dim</code> 1536、<strong>KV 滑动窗口 72</strong>（来自 <code>Qwen3TTSTokenizerV2DecoderConfig</code> 的官方默认 <code>sliding_window=72</code>）。</li>
+<li>KV cache：单层单路 K+V = 2×16×72×64 = 147,456 元素 = <strong>294,912 字节</strong>（BF16）；8 层单路 <strong>2,359,296 字节 ≈ 2.25 MB</strong>。</li>
+<li>卷积历史：17 个状态共 131,752 元素，单路 <strong>263,504 字节 ≈ 0.257 MB</strong>。</li>
+<li>转置卷积重叠：4 个状态共 9,120 元素，单路 <strong>18,240 字节 ≈ 0.018 MB</strong>。</li>
+<li><strong>单路合计 ≈ 2.53 MB（BF16），且与解码长度无关</strong>（滑动窗口固定 72 步）；16 路合计 ≈ 40.3 MB；存 FP32 则翻倍至约 80.6 MB。</li>
+</ul>
+<p><strong>编辑判断：这条&quot;跨段继承的状态成本是每路 2.53MB 且与长度无关&quot;是可以直接进项目设计文档的数字。</strong> 它同时回答了两个项目问题：其一，若要在打断后<strong>保留</strong>而非重置语音状态（PACE 的 playback boundary ledger 与 VoiceChat-TTS 的 &quot;KV never reset&quot; 都指向这个方向），代价是可计算且有界的；其二，滑动窗口 72 步意味着声学侧的历史依赖本来就只有约 6 秒，<strong>跨越 6 秒的状态继承在架构上没有意义</strong>。</p>
+<p><strong>第四，那份 README 的时延方法论比论文严谨，应当照抄进项目自己的埋点规范。</strong> 详见&quot;局限与开放状态&quot;。</p>
+<h3>局限与开放状态</h3>
+<p><strong>开放状态必须分四栏记，且本篇是一个新形态，需要单独命名。</strong></p>
+<ul>
+<li><strong>论文</strong>：公开（arXiv v1）。</li>
+<li><strong>代码</strong>：<strong>论文写了地址，但该地址不存在。</strong> <code>gh api /repos/X-Square-Robot/X2Streaming-TTS</code> 返回 <code>404 Not Found</code>。<strong>这既不是&quot;明确未发布&quot;，也不是 08-19 记下的&quot;声称发布但全文找不到任何 URL&quot;（unverifiable），而是第五种：给出了具体 URL，而该 URL 不解析。</strong> 建议记为 <strong>&quot;声称发布、地址失效&quot;</strong>。补充一条判据：GitHub 对仓库改名会做重定向，<strong>404 说明这不是改名，而是仓库尚未创建</strong>。</li>
+<li><strong>同机构确有一个高度吻合的公开仓库，但两边互不引用。</strong> <code>X-Square-Robot/Qwen3TTS-Streaming</code>，描述为 &quot;A streaming i/o engine for Qwen3 TTS&quot;，<strong>MIT</strong>（LICENSE 文件 1,069 字节，逐字读过，为未经修改的标准 MIT，版权方 XSquareRobot），created 2026-07-01T06:47:20Z，pushed <strong>2026-08-11T03:24:58Z</strong>，494 个 tree 条目，size 17,724 KB，6 stars。</li>
+<li><strong>权重</strong>：<strong>该仓库不分发权重。</strong> NOTICE 明确写 &quot;Qwen3-TTS model weights … NOT distributed with this repository; downloaded by the user at setup time&quot;，来源为 ModelScope / Hugging Face 上 Qwen/阿里发布的 Qwen3-TTS，<strong>许可证以各自模型卡为准</strong>。上游模型代码 <code>QwenLM/Qwen3-TTS</code> 为 Apache-2.0，以 git submodule 引入而非 vendored。<strong>代码许可证不传递到权重，这里是又一个例证。</strong></li>
+<li><strong>数据</strong>：论文的两个自建评测集（59 段落的中文语料子集、目标说话人评测集）<strong>均未命名、均未发布</strong>。</li>
+</ul>
+<p><strong>关于&quot;这个仓库是不是论文的实现&quot;，只能给到&quot;高度吻合但未证实&quot;。</strong> 支持的证据：同一机构；同一骨干（Qwen3-TTS 1.7B）；同一 GPU（RTX 5090）；同为 BF16；同样做 128 并发基准；<code>engine/frontend/</code> 下同时存在 <code>hold_window.py</code>（7,853 字节）与 <code>spliter/</code>（含 <code>spliter.py</code> 35,235 字节、<code>driver.py</code> 14,161 字节、<code>state.py</code>），分别对应论文的&quot;不确定性感知缓冲&quot;与&quot;分段&quot;；<code>docs/dev/investigation/code2wav_state_size.md</code> 对应&quot;Code2Wav 状态继承&quot;；<code>docs/dev/design/frontend_segmentation_pipeline.md</code>（26,625 字节）对应 CAPS。<strong>反对/存疑的证据：该仓库 README 全文没有出现 <code>arxiv</code>、<code>causal commitment</code>、<code>speech-state inheritance</code> 或 <code>X2Streaming</code> 任何一个词；且其最后一次 push（2026-08-11）早于论文投稿（2026-08-19）8 天。</strong> 因此本报告的表述是：<strong>论文声明的仓库不存在；同机构存在一个功能吻合的 MIT 仓库；两者没有任何互相引用。</strong></p>
+<p><strong>这也再次印证 08-19 记下的那条规律：制品常常早于论文，按时间窗扫仓库会漏。</strong> FireRedTTS3 的制品早于论文 5 天，本篇的疑似实现早 8 天。</p>
+<p><strong>数字口径不一致，必须原样保留，不得替读者选择。</strong> 论文与该仓库 README 报的是同一类量、同一张卡（RTX 5090）、同一精度（all-bf16），但数值与统计量都不同：</p>
+<table><thead><tr><th>项</th><th>论文（2608.18661）</th><th>仓库 README</th></tr></thead><tbody>
+<tr><td>单请求 TTFT</td><td><strong>15.8ms</strong>，客户端侧<strong>中位数</strong>，跨&quot;所测试的服务接口&quot;</td><td><strong>14.9 ± 0.3ms</strong> 服务端侧（min 14.4、p99 15.9、n=50）；<strong>~16.1ms</strong> 客户端 p50（复用本地 gRPC 通道）</td></tr>
+<tr><td>128 并发</td><td><strong>260.8ms</strong>，客户端侧中位数</td><td><strong>242–275ms</strong> 按传输方式（engine-websocket 242 / engine-grpc 275；p99 341–494ms）</td></tr>
+<tr><td>条件</td><td>3 轮预热后 20 轮测量</td><td>暖引擎、<strong>prefix-cache 命中</strong>、单请求负载、本地链路、<code>custom-1.7b</code>、batch=128 profile</td></tr>
+</tbody></table>
+<p><strong>编辑判断：论文的 15.8ms 落在 README 的 14.9（服务端）与 16.1（客户端 gRPC）之间，量级一致，可以互相印证；但 README 列出的条件里有一条论文完全没提——<code>prefix-cache 命中</code>。</strong> 对项目而言这条至关重要：<strong>冷首次请求不享有该条件</strong>，而车机的第一句话恰恰是冷的。README 另注明&quot;冷/懒 gRPC 通道大约多 13ms&quot;。</p>
+<p><strong>README 里还有两条方法论警告，应当直接搬进项目自己的时延埋点规范：</strong></p>
+<ol>
+<li><strong>服务端 TTFT 与客户端 TTFT 不可混用。</strong> README 明确说 WebUI 并发面板报的是服务端侧适配器 TTFT——&quot;计时从模型开始处理该请求时才开始，因此客户端连接建立、分发展开、处理前排队、首帧回程全部被排除在外&quot;——在同一硬件上该面板在 128 路时读数约 100–170ms，而对外可引用的客户端突发口径是 242–275ms。<strong>同一系统同一时刻，两种口径差出一倍以上。</strong></li>
+<li><strong>突发到达与斜坡到达不可混用。</strong> README 说明其 128 路数字是&quot;同时突发&quot;这一最坏情形，&quot;staggered arrivals see lower TTFT&quot;。</li>
+</ol>
+<p><strong>该 README 还给出一组论文里没有的吞吐数字（一手仓库文档，非论文）：</strong> 经三轮解码优化后，RTX 5090 上 128 路并发的解码步为 <strong>42.1ms / 80ms 音频帧</strong>，RTF ≈ <strong>1.90</strong>（约 47% 实时余量）；优化前为 <strong>119.8ms/帧</strong>，RTF ≈ <strong>0.67，低于实时</strong>；64 路时为 <strong>24.5ms/帧</strong>，RTF ≈ <strong>3.3</strong>。README 自己给了一句很克制的话：<strong>&quot;128 streams is the tested ceiling, not a safe production target.&quot;</strong></p>
+<p><strong>这里出现 CUDA Graph 的第五次独立佐证。</strong> README 列出的三轮优化中，2026-07-06 那轮明写为 &quot;CP in-graph KV + <strong>CUDA-graph decode replay</strong> + arena-ized KV gather&quot;，2026-07-07 为 &quot;batched burst admission + per-slot state pooling + serving hot-path slimming&quot;。此前四次分别是 FlashDrive（前置条件）、vToken（硬约束）、DeaMoE（方法与基线的公平性前提）、CoRun（确定性）。<strong>本次是第五次，且是第一次来自一个可读源码的生产级 TTS 引擎，而非论文。</strong> 项目既定顺序不变：先落地无同步 <code>index_select</code>+<code>bmm</code> 快路径，再把整环图捕获作为<strong>第二个独立变量</strong>。</p>
+<p><strong>另有一条与项目直接冲突的部署前提。</strong> 该仓库的运行路径依赖 <strong>NVIDIA NGC 容器</strong>（<code>nvcr.io/nvidia/tensorrt</code>、<code>nvcr.io/nvidia/tritonserver</code>），NOTICE 写明这是&quot;专有 NVIDIA 软件，受 NVIDIA EULA 约束&quot;，且 README 写明&quot;拉取 NGC 镜像即构成接受 NVIDIA EULA&quot;。硬件要求为 NVIDIA GPU、建议 ≥16GB 显存，磁盘约 20–40GB。另外 TensorRT 引擎&quot;绑定特定 GPU/驱动/TensorRT 组合，一台机器上构建的 <code>.plan</code> 无法可靠地在另一台上运行&quot;。<strong>编辑判断：这对车机侧是实打实的工程约束，不是许可证细节。</strong></p>
+<p><strong>NOTICE 里还埋了一条许可证陷阱，值得单独记。</strong> 可选的 TEN VAD 依赖为 <strong>&quot;Apache License 2.0 WITH ADDITIONAL CONDITIONS&quot;</strong>，NOTICE 自己点明这些附加条款<strong>不是标准宽松条款</strong>：含<strong>竞业限制</strong>（不得部署用于与 Agora 的产品竞争）、单一申请人使用、以及衍生作品继承同一许可证。<strong>该依赖默认关闭、非捆绑、需用户自行安装。</strong> 这是 08-19 记下的&quot;具名许可证可能附带额外义务&quot;的又一例，且是其中约束最强的一例——<strong>竞业限制条款对商业车机项目是实质性风险</strong>，即便当前默认关闭，也必须在选型文档里点名。</p>
+<p><strong>论文本身的局限，逐条列出：</strong></p>
+<ol>
+<li><strong>TTFT 是首个音频 token，不是首个音频到达听者。</strong> 项目的门槛管的是后者。</li>
+<li><strong>文本 token 按固定速率喂入。</strong> 论文自己声明：&quot;Text tokens are supplied at a fixed rate for controlled evaluation; a deployed upstream language model may exhibit variable token-generation latency.&quot;<strong>上游是我们自己的 MoE 主模型，其 110ms/token 且抖动未知，因此论文的 ρ 论证（&quot;声学侧的时间足以掩盖文本到达&quot;）在项目条件下不能默认成立</strong>——ρ 掩盖不掩盖得住，取决于上游吐字速度与声学速度之比，而项目的上游比论文的实验条件慢得多。<strong>这是项目采纳该方法前必须自测的第一件事。</strong></li>
+<li><strong>两个自建评测集均未命名未发布</strong>，Table 2/3/4 第三方不可复现。</li>
+<li><strong>模型命名与帧率存在未解的不一致，且是第二次遇到。</strong> 论文表 1 写 <code>Qwen3-TTS-12Hz-1.7B</code>；仓库 README 的吞吐口径写&quot;每 <strong>80ms</strong> 音频帧&quot;（对应 <strong>12.5 Hz</strong>）；而 <code>code2wav_state_size.md</code> 写&quot;滑动窗口 72 约合 12 Hz 编解码器下的 6 秒上下文&quot;（对应 <strong>12 Hz</strong>）。<strong>08-19 已经在 VoiceChat-TTS 上记过完全同形的一处（基线名 <code>Qwen3-TTS-12Hz</code> 而正文两次写 12.5 Hz）。两处独立出现，说明这是 Qwen3-TTS 生态自身的命名与实际帧率脱节，不是单篇笔误。</strong> 本报告不替其选择，两个值都记为并存，<strong>凡由帧率推导的任何时长换算一律标注所用取值</strong>。</li>
+<li><strong>Table 4 的最弱基线处于崩坏区间</strong>（CosyVoice 2-S 完全正确朗读率 0.0%、语义保持 0.00%），与 08-19 对 2608.14812 的告诫同理：<strong>崩坏区间的改善幅度不可外推到精细区间</strong>。</li>
+<li><strong>主观评测 120 名听众，但论文未说明母语构成、未报告评分者间一致性、未做显著性检验。</strong></li>
+<li><strong>Table 2 的&quot;纯标点&quot;策略硬切数记为 1（而非百分比），与同列其余三行的百分比口径不同</strong>，论文未加说明。按原样记录。</li>
+<li><strong>全文没有给出总参数量</strong>，也没有给出训练成本——因为论文没有训练章节。</li>
+</ol>
+<p><strong>综合判断：进入&quot;只读审阅 + 离线实测&quot;，不进入线上替换，也不列为候选。</strong> 理由有三：论文声明的代码地址失效；疑似实现依赖 NGC/TensorRT 这条项目尚未评估的部署链；以及第 2 条——上游 token 速率这个前提在项目条件下未经验证。<strong>但它是本轮唯一一篇值得排到首音频待办最前面的工作。</strong></p>
+<h2>2. X2-Turn v1→v2（2608.10878）：一次只改两行、却翻转开放状态的修订</h2>
+<ul>
+<li>论文：<code>https://arxiv.org/abs/2608.10878</code>（v2，published 2026-08-11T12:54:52Z，updated 2026-08-19T03:16:50Z）</li>
+<li>代码：<code>https://github.com/X-Square-Robot/X2-Turn</code>（Apache-2.0）</li>
+<li>权重：<code>https://huggingface.co/x-square-robot/X2-Turn-4B-0812</code>（Apache-2.0，非门控）</li>
+</ul>
+<p>内容见&quot;一、先说结论&quot;中的 P0（并列）一节，此处只补两条方法学记录。</p>
+<p><strong>第一，这是追踪表上第三个完成的 v1→v2 逐版差分，也是三者中差分最小、影响最大的一个。</strong> 三次的结果各不相同：StreamTTT（2608.13416）改了 184 行、结论不变；Ambisonics（2608.14097）只改了 2 字节，且改的是标题里一个漏掉的字母 <code>l</code>；本次 X2-Turn 只加了一句话，<strong>却把一项挂了 8 天的开放状态判定整个翻转</strong>。</p>
+<p><strong>08-19 记下的规律&quot;差分大小完全预测不了结论是否改变&quot;，本次是第三次印证，且提供了一个新的极端：内容改动量最小的一次，带来的判定改变最大。</strong> 由此追加一条操作规则：<strong>逐版复核时，除了重跑原判定所依赖的字词/数字计数，还必须单独比对两版的 URL 集合（超链接注解 + 裸 URL）</strong>——本次的全部实质变化就藏在裸 URL 从 4 条变成 5 条这一个差别里，而任何只看数值 token 的比对都会漏掉它（数值 token 只从 364 变成 365，且新增的那个是页边日期戳，纯属噪声）。</p>
+<p><strong>第二，论文结论未变这件事必须与开放状态分开写。</strong> v2 没有新增任何实验、没有改动任何数字。08-19 记录的三条局限原样保留：联合训练损害 ASR（AISHELL-1 从 2.57 劣化到 3.94）；EasyTurn-zh 在 τ=480ms 下的 91.00/93.00/96.00 与 288ms 时延是<strong>相对词尾</strong>而非相对说话结束的口径；判停头与 ASR 头并行、不回灌解码。</p>
+<h2>3. 其余七篇的细读结论</h2>
+<p>本节记录本窗口 50 篇中进入细读的其余七篇，全部完成全文核实与制品一手核查。<strong>七篇里没有一篇进入候选序列</strong>，但其中三条结论对项目的最高优先级事项有直接影响，因此不是纯粹的否决记录。</p>
+<h3>3.0 先说本节最重要的一条：判定器/脚手架敏感性在同一个窗口里拿到了两条独立佐证</h3>
+<p><strong>这是本轮除两条 P0 之外最有价值的发现，且它直指项目优先级最高的未决事项（判定器处理不变性）。</strong></p>
+<p>论文事实（SemaPLC，2608.18565）：<strong>7 个后端模型 × 2 个条件（有脚手架 / 无脚手架），同一批 117 个任务、同一个判定器。</strong> 固定模型、加上脚手架，指标提升 <strong>8.5 至 33.3 个百分点，均值 +17.3</strong>；而固定脚手架、换模型，指标跨度是 <strong>37.6 个百分点</strong>（bare 列 34.2 到 71.8）。</p>
+<p>论文事实（ComponentBench，2608.18307）：<strong>同一个 harness、同一个模型、同一批任务，只改变观察与动作空间</strong>，GPT-5 mini 的通过率从 AX-tree 的 <strong>83.1% 掉到 Pixel 的 48.9%</strong>，摆幅 34.2 个百分点。作者另给出一个更细的例子：在 clutter=none 时 GPT-5.4 的 Pixel（86.1%）胜过 AX-tree（81.6%），而 clutter=medium 时反转成 AX-tree 领先 9.7 个百分点——<strong>&quot;哪种观察空间更好&quot;这个结论本身会被一个场景参数翻转</strong>。</p>
+<p><strong>编辑判断：算上 DuplexWorld（2608.10716），&quot;脚手架挪动指标的幅度与换模型同量级&quot;这条现在有三条独立佐证，且本轮两条都比 DuplexWorld 强——SemaPLC 是 7×2 的完全析因，ComponentBench 的 harness 与全部原始运行记录是 MIT 开放的（4,264 个 blob + 40.97GB 运行归档，291 次下载，非门控），而 DuplexWorld 至今只有 18 条场景规格、无音频、无 harness 代码。</strong> 这把项目的排序结论钉死了：<strong>下一个评测周期应当花在判定器与 harness 的构造效度上，而不是换模型。</strong></p>
+<p><strong>但同等重要的反向记录：这三篇没有一篇验证了自己的归因方法。</strong> SemaPLC 的判定器是作者自己重写的（下详）；ComponentBench 的失效归因有两套标注，一套是&quot;确定性&quot;的但<strong>以组件类型先验为起点</strong>（原文：每条轨迹&quot;从一个组件驱动的类别先验出发&quot;，再由轨迹证据修正），另一套直接是 GPT-5.4 读日志，而唯一的复核者是另一个 LLM（Claude Opus 4.8，20 个案例、单次非确定性采样、<strong>改标 5 个即 25%</strong>）；LEDGER 则完全没有验证。<strong>三篇的人工一致性统计（kappa / 一致率 / 注入故障召回）全部为零。</strong> 所以：<strong>它们强化了&quot;必须做判定器审计&quot;这个结论，但没有一篇能替项目把这件事做掉。</strong> 这正是 2608.12880 那条教训的第二种形态——确定性买到的是可复现，不是构造效度；一个以&quot;滑块任务默认归为连续标定误差&quot;为先验的标注器，报出来的连续标定占比（20.2%）里有一部分是定义带来的。</p>
+<h3>3.1 SemaPLC（2608.18565）——TRACK，但它自己重写了判定器</h3>
+<p><strong>术语先定：这里的 <code>harness</code> 是执行脚手架（Evo-Bench 义），不是训练脚手架。</strong> 全文无训练、无微调、无梯度，七个后端都是第三方 API。<strong>另注该论文自己在实验描述里用了 <code>harness</code> 的第二个义项</strong>（程序被部署进去的 ST 外壳），一篇之内两义并存。</p>
+<p>它是什么：一个 PLC（可编程逻辑控制器）代码生成的验证门控执行脚手架，五个部件通过一个 16 工具的 MCP 工具层作用于环境。<strong>核心机制是三条门不变量</strong>，逐条抄录，因为这三条是可以直接搬进项目工具/动作通道的：<strong>有界重试</strong>（每项检查最多 2 轮修复）、<strong>编辑失效</strong>（任何修改作废此前全部verdict、全部检查重跑，&quot;verdict 附着在确切的字节上&quot;）、<strong>挣得的声明</strong>（每个结果都是机器可读哨兵并与工具调用日志交叉验证，&quot;未记录的声明降级为未检查&quot;）。作者的总结句是：<strong>&quot;交付的程序与挣得每一项已报告通过的候选完全相同，且没有任何自报通过能在缺少工具日志的情况下存活。&quot;</strong></p>
+<p>论文结果：功能轨道严格通过率均值 <strong>72.6%</strong>（最强基线 Agents4PLC 63.9%），且<strong>最差的 SemaPLC 模型 67.5% 高于每一条基线的均值</strong>；项目上下文轨道动态行为均值 <strong>52.2</strong>（最强基线 31.4）。<strong>层次消融（Table 3）是本轮唯一一处把门的代价测出来的地方</strong>：验证层从无到全，动态分 23.1 → 30.3 → 43.7 → 54.1，而每任务 token 从 34k 涨到 <strong>129k</strong>、请求数从 8.9 涨到 <strong>47.8</strong>——<strong>即 3.79 倍 token、5.37 倍请求买到 +31.0 分。</strong></p>
+<p><strong>对项目的帮助，只有一条，但这一条形状对：</strong> 那套完成纪律（终止必须有已记录的外部验证；编辑作废此前 verdict；每一条声称的通过都要与日志交叉核对）是对&quot;模型说它做完了&quot;这个问题的一个精确且可实现的回答。项目的对应物是<strong>播报前的动作门</strong>：把发出的工具名与参数对照实时车态与工具 schema 做确定性校验，未记录的自我断言不得移交 TTS。<strong>关键在于 SemaPLC 的检查器不是模型调用</strong>——是编译器与运行时——<strong>这是唯一可能塞进时延预算的形状。任何座舱版本同样必须是确定性校验，不能是 LLM 审阅者。</strong></p>
+<p><strong>局限与开放状态（这一段决定了它只能 TRACK）：</strong></p>
+<ul>
+<li><strong>判定器是作者自己重写的。</strong> 原文：其发布的 oracle&quot;包含会让正确实现失败的缺陷验证属性与任务描述，因此 PLC 工程师审计并修复了受影响的任务（<strong>117 个中的 43 个</strong>）&quot;；附录写明改动 53 个样本、属性数 <strong>629 → 607</strong>。作者的缓解措施异常认真（三轮审计、独立平行复核、布尔逻辑用穷举真值表重新推导、盲审第三轮裁决、只修两轮以上确认的缺陷、无依据的属性直接删除而非编造阈值、所有方法都在同一份修复数据上评测）——<strong>内部可比性成立，但与任何此前发表的 Agents4PLC 数字的可比性被彻底破坏，而论文没有说这一点，也没有在原始 oracle 上给出对照消融，更没有发布修复后的数据。</strong> 编辑判断：这是 2608.12880 的新形态——不是意外的标志位，而是<strong>有意的、有记录的、未发布的重写</strong>。</li>
+<li><strong>最强基线是作者自己的复现实现</strong>（&quot;Agents4PLC ... 一个忠实的重新实现&quot;）。8.8 分的头条优势是对着获胜方自己写的代码取得的。</li>
+<li><strong>形式化验证对有状态、跨时间的构造完全失明</strong>：<strong>32 个含定时器（TON）的程序、174 条属性，结论性判定为 0，全部 100% inconclusive。</strong> 编辑判断：这条负面结果可以直接迁移——静态判定与实际执行行为会分叉，这正是项目应当坚持端到端播放边界与判停时序实测、而不是静态打分的理由。</li>
+<li><strong>全文未声明任何硬件，连运行时本身都没命名</strong>（只写&quot;a live runtime&quot;），而它的头条指标恰恰是运行时测量。它因此加入 CoRun、AATC、DuplexGen-B、2608.17972 的无硬件名单。</li>
+<li>开放状态四分：<strong>代码公开（<code>midea-ai/SemaPLC</code>，MIT + 署名条款 + 下游 Docker 镜像 copyleft 义务），但公开的是产品不是实验</strong>——README 全文不提论文、不提 arXiv、不提任何一个数字；<strong>权重不适用</strong>；<strong>数据：论文写&quot;The released data ...&quot;却在全文任何位置都没给 URL，属第三档 unverifiable</strong>，且发布的 skill 目录里缺了论文 Table S3 列出的 <code>benchmark-verify</code>、也缺了论文枚举的六条领域公理。</li>
+<li><strong>一条应当明确给出的正面记录：全篇没有 LLM-as-judge。</strong> 判定用 PLCverif + nuXmv + RuSTy 编译器与确定性断言。<strong>项目关于&quot;不得采纳 LLM 判定器作为阈值&quot;的既定规则在这篇上不触发。</strong></li>
+</ul>
+<h3>3.2 DART-SD（2608.18524，字节跳动）——REJECT</h3>
+<p><strong>在项目真正测量的那个轴上，它几乎没动。</strong> RoTBench 工具选择（最接近项目严格工具名召回 80.49% 的公开对应物）在 8B 上是 <strong>75.52 → 75.83，即 +0.31</strong>，而同表的 FTRL-GRPO 是 <strong>77.02</strong>，比它高。4B 上它的 72.02 只是与两个 MatchTIR 变体打平；参数正确率一列在 4B 上 <strong>42.38 输给普通 SFT 的 44.40</strong>。</p>
+<p><strong>它自己的消融拆穿了自己的标题。</strong> 固定 Qwen3-8B，逐项累加：普通自蒸馏 <strong>+14.62</strong>，CTB 定位 <strong>+1.41</strong>，渐进 SFT +4.42，ISTG <strong>+1.73</strong>。<strong>总增益 22.18 里，普通自蒸馏贡献 66%，而标题命名的两项机制合计 3.14 分、占 14%。</strong></p>
+<p>其余否决理由：<strong>按构造不可能改善时延</strong>（纯训练期方法，无任何推理期组件，全文零时延、零硬件、零吞吐，推理批大小从未评测）；<strong>沉默式未发布</strong>（无代码、无权重、无数据，且从未声称过要发布）；<strong>写出每一条训练目标的 <code>AugGen</code> 组件从头到尾没有命名</strong>，信息原子的&quot;语义阶段&quot;标注器同样没有命名，加上 ISTG 消融的对照臂本身就是一个 LLM 判定器——<strong>训练信号的来源整体不可复现</strong>。BFCL 多轮（最标准的多轮工具调用基准）是它最弱的一项：8B 上 27.63，输给 FTRL-GRPO 的 35.25，也远低于教师的 54.5。</p>
+<p><strong>唯一值得留下的是一个想法而非系统：把损失掩码限制在出错之后的恢复片段、保护有效前缀。</strong> 若项目将来微调自己的工具调用数据，这是训练脚本上的两行改动；但它在这里的实测边际价值只有 +1.41，单次运行、无置信区间。</p>
+<p><strong>一条口径警告：不要引用它的 <code>Avg.</code> 列。</strong> 它是九个数值列的无权重平均，其中 FTRL 占 3/9 且第三列是前两列的导出量（等于三重加权且有一列重复计数），而 RoTBench TS 一列在所有行（包括未训练的基座）都落在 60.36–77.02 的窄带里，注入了一个近似常数的偏置，压缩了所有方法间差异。另：<strong>该论文报告的 Solve-F1 在全部 18 行上都不等于其报告的 Solve-P 与 Solve-R 的调和平均</strong>（例如 8B DART-SD 应为 47.30 而报 45.66），方向一致偏低，最可能是按任务先算 F1 再宏平均，<strong>但论文从未声明聚合顺序</strong>，按原样记录。</p>
+<h3>3.3 WhiteMatter（2608.18486，USC）——REJECT</h3>
+<p><strong>否决理由一句话：它是从零预训练的架构改动，而它的全部代价都记在 prefill 上——3.05 至 3.30 倍于原版的 prefill FLOPs——而 prefill 正是项目的首音频瓶颈。</strong> 它无法以任何代价加装到现有 Qwen3-Omni 上；即便可以，换来的是一个从未做过墙钟测量的约 1.0 倍解码 FLOP 曲线（0.99–1.03×），代价是把项目最需要缩短的那条路径变成三倍贵。它自己的消融证明这笔代价躲不掉：去掉深到浅反馈的 depth-causal 变体&quot;训练与 prefill 代价与原版相近&quot;，但困惑度从 34.71 劣化到 37.30——<strong>迭代本身就是机制</strong>。</p>
+<p>其余边界：全部是 48.7M–约 100M 的稠密小模型、8B token 预算，<strong>全文 <code>MoE</code> 出现 0 次</strong>；无解码墙钟、无解码批大小、无制品（<strong>沉默式未发布</strong>：全文对代码/权重/数据不作任何声明，14 条裸 URL 全是参考文献）。</p>
+<p><strong>值得留下的一条工程技巧：为了让注意力对角线不可读又不破坏 FlashAttention-2，它在 KV cache 前面预置了一个可学习的哑元 token，把 cache 相对 query 偏移一位</strong>，而不是去掉对角线掩码。原文：掩掉对角线&quot;与 FlashAttention-2 之类的 kernel 不兼容&quot;。这个技巧可迁移到任何需要 cache 偏移的场合。另一条可留的论证方式：它为&quot;每层只读一个通道&quot;给出的理由是 HBM 带宽——密集读取&quot;将要求每一层从 HBM 流式读取全部 k 路 key 与 value 通道&quot;——与项目对 MoE dispatch 的每层固定代价推理同构。</p>
+<h3>3.4 Pre-Compiled Pipeline Shards（2608.19147，Intel）——REJECT，但带走一个直接可用的原语</h3>
+<p><strong>否决理由：它的全部价值主张是用网络跳数换聚合显存，而项目既没有第二台机器，也没有第二个用户。</strong> 头条数字全部需要多个物理节点（43.97 tok/s 要两台、64.67 要三台、70B 要四个云实例）。更关键的是<strong>用在单机上它是净负的</strong>：它自己的表显示把 8B 模型在一台机器上切成多段要付 11–15% 的开销，而它的并发机制在单用户处反转——OpenVINO 的连续批处理&quot;在并发度 1 上损失 8–15%&quot;。<strong>座舱在任一时刻只有一个人在说话。</strong> 两条次要否决理由，写下来以免日后按错误理由重新litigate：整个栈是 Intel iGPU/NPU + OpenVINO，<strong>CUDA 内容为零</strong>，与项目的 CUDA Graph 与 MoE dispatch 工作毫无交集；目标模型全是稠密模型。</p>
+<p><strong>明确不以批大小否决：这篇论文全程把批固定为 1 并反复强调，批大小判据在此静默，引用它会是一次错误否决。</strong></p>
+<p><strong>但它有一个直接对得上项目打断路径的原语，值得单独记：掩码式 KV 回退。</strong> 不去物理裁剪 KV cache，而是把作废位置的 attention mask 置零，同时让 <code>position_ids</code> 跟踪<strong>逻辑</strong>序列长度（回退前的计数）而非物理 cache 长度。论文实测：与物理裁剪<strong>逐位等价</strong>（修正后 logits 最大绝对差 <strong>0.0000</strong>，fp32 机器精度相等），代价在 K=3 时<strong>低于每步墙钟的 1%</strong>，而物理裁剪一次要 <strong>约 48ms</strong>；生成到 2048 token 时 cache 膨胀收敛到 <strong>1.02 倍逻辑长度</strong>。</p>
+<p><strong>编辑判断：这正是&quot;在不改变形状的前提下撤回已写入 cache 的 token&quot;这个问题的答案，而这个问题就是项目打断/撤回路径的核心问题，也是 CUDA Graph 捕获的解码环所要求的形状（固定形状、无主机分支）。</strong> 它与既有的 PACE playback boundary ledger、VoiceChat-TTS 的 &quot;KV never reset&quot; 属同一族，但<strong>前两者给的是协议，这一条给的是可实现的原语与代价数字</strong>。配套必须记下一个陷阱，项目自己的掩码代码要遵守：<strong>空闲行必须在自己的 query 列上开一个口，不能整行掩掉——整行被屏蔽的行会让 softmax 产生 NaN 并污染共享同一次推理的其它活跃行。</strong></p>
+<p>另有两条外部佐证值得带走：其一，<strong>INT8 KV cache 在其硬件上比默认慢 4%</strong>（20.86 对 21.74 tok/s，&quot;反量化开销超过内存带宽节省&quot;），这是&quot;不要指望 cache 量化带来每 token 带宽收益&quot;的独立证据；其二，其剖析结论&quot;用户 Python 占墙钟 0.6%（4521ms 中的 27ms），<code>req.infer()</code> 占 99.3%&quot;，与项目 host-sync 工作所依据的&quot;开销在运行时内部而不在你的循环里&quot;是同一条教训。</p>
+<p><strong>开放状态：这是本轮第三个&quot;给了 URL 而 URL 失效&quot;的实例</strong>，且带一个新形态。论文两处印出 <code>github.com/labscommunity/pipeline-sharded-inference-paper</code> 并二十余次引用 <code>reproduction/</code> 下的具体文件名，该仓库 <strong>404</strong>（注意：已认证的 <code>gh</code> 对私有仓库同样返回 404，因此 404 不能区分&quot;不存在&quot;与&quot;存在但私有&quot;，但两种情况下今天都不可核实）。<strong>新形态在于那个&quot;近似命中&quot;的仓库是真实且实质的</strong>：同组织的 <code>labscommunity/cascadia</code>（Apache-2.0，884 条目/712 blob/12,280,772 字节，22 stars）在<strong>论文投稿前 17 分钟</strong>推送，实现了本文的技术并逐字提到本文的制品名（&quot;Requires <strong>v5 shards</strong> ... v3 shards are rejected at load time&quot;）——<strong>但它不是论文承诺的那个包</strong>（全树 <code>reproduction</code> 出现 0 次，且它是 Rust 而论文引用的每个基准脚本都是 Python），<strong>且两边互不引用</strong>。</p>
+<h3>3.5 ComponentBench（2608.18307，Duke + Amazon）——TRACK，只借协议</h3>
+<p>结论见 3.0。此处补三条可直接照搬的做法与一条否决理由。</p>
+<p><strong>可照搬的三条：</strong></p>
+<ol>
+<li><strong>把&quot;判定器输入隔离&quot;做成可测试的不变量。</strong> 它的成功谓词存放在 React 组件闭包里，测试用 DOM 属性由一个实时 MutationObserver 剥除，并且<strong>有一个 CI 就绪的扫描器验证全部 2,910 个页面上没有任何此类属性存活</strong>。项目的 452 条自建判定没有任何等价的泄漏扫描器。</li>
+<li><strong>把聚合稳定性与逐条翻转分开报告。</strong> 原文实例：GPT-5 mini 在 Pixel 上两次运行的通过率完全相同（52.5%），<strong>却有 17.3% 的任务结果翻转，pass→fail 与 fail→pass 在聚合上互相抵消</strong>。在通过率旁边同时公布一致率与 Jaccard 是零成本的，且<strong>直接适用于项目的 80.49% 严格工具名召回</strong>。</li>
+<li><strong>把&quot;设计意图难度&quot;与&quot;实测实现难度&quot;分开记录。</strong> 与 08-19 从 DuplexGen-B 得到的&quot;合成重叠数据系统性偏易&quot;是同一条纪律，项目的合成音频集需要它。</li>
+</ol>
+<p><strong>否决为技术候选的理由：</strong> 浏览器 GUI 组件，无语音、无中文、无工具调用语义、无每轮时延；它自己的范围声明也承认&quot;它测量的是组件级能力，不是长程规划&quot;。另注其硬件只在一句里出现且<strong>从未命名 GPU 型号</strong>，且七个模型经由五种不同的服务通道（Google AI Studio、OpenAI API、Duke LiteLLM 代理、本地 vLLM FP8、Amazon Bedrock），<strong>跨模型时延比较因此不成立</strong>——论文自己也拒绝相信自己的时长：&quot;我们把效率结论建立在动作计数而不是受时延污染的时长上。&quot;</p>
+<h3>3.6 LEDGER（2608.18398，CMU + LLNL）——REJECT</h3>
+<p><strong>否决理由一句话：全文零数字。</strong> 没有错误率、没有时延、没有稳定性、没有人工一致性、没有基线、没有用户研究、没有节点或边的计数——<strong>不是藏在图里，是不存在</strong>。正文中仅有的数字是章节号、参考文献序号、两个邮编与若干资助编号。</p>
+<p><strong>针对&quot;它是不是 PIPES 那一族、有没有补上 PIPES 的两个缺口&quot;这个问题：两问都是否。</strong> PIPES 是在<strong>运行时</strong>把溯源挂在工具回执上并给出了实测效果（ASR 致错率 84.7% → 2.3%），缺的是时延与代码；LEDGER 是一个<strong>事后的人工审阅面板</strong>，没有运行时强制、没有任何错误率指标、<strong>同样没有时延、同样没有代码</strong>。相似之处只有&quot;溯源&quot;这个词。</p>
+<p><strong>唯一值得留下的是一条设计纪律而非系统：显式的层次信任分离。</strong> 它把审计记录的每个字段标记为&quot;确定性捕获&quot;还是&quot;模型推断&quot;，原文：&quot;这一区分之所以重要，是因为审阅者需要把被捕获的证据与图构造期间被推断出来的结构区分开。&quot;<strong>项目的判定器工作正需要这条规则，且它与 playback boundary ledger 是同一精神：采纳规则，忽略那张图。</strong> 值得记一笔的是该论文对自己的诚实——它自己写明&quot;这些选择可能是不完整的、不稳定的、或错误的&quot;，并自己点名了缺失的实验（&quot;重复运行研究还应当测量同一会话在重建下是否产生稳定的节点、边与声明支持路径&quot;）。开放状态属&quot;从未声称发布&quot;这一最诚实的一档。</p>
+<h3>3.7 Task-Conditioned Least-Privilege Learning（2608.18351，Purdue Northwest）——TRACK（有条件），并且它更正了项目的一个假设</h3>
+<p><strong>它的价值在于：这是名单上第一篇同时测量了权限效应与任务准确率效应、并发现二者不冲突的论文。</strong> MetaTool 通用工具选择准确率 <strong>81.9% → 83.6%（+1.7 个百分点，p = 4.55×10⁻⁴）</strong>，同时越权下降；内部任务成功率 68.92% → 99.27%。论文自己点破了项目一直担心的那个失败模式：&quot;一个只测越权的安全指标可以通过让 agent 更不作为、普遍拒绝来轻易改善……这是自我挫败的，因为它降低能力。&quot;</p>
+<p><strong>但它更正了项目从 2608.14036 推出的那条假设，这一点必须写清楚。</strong> 项目此前记的推论是：&quot;既然技能池从 5 涨到 100 会让实际使用精度从 29.6% 崩到 3.3%，那么任何能合法缩小可达工具集的东西都可能提升准确率而不只是安全性。&quot; <strong>这篇论文不缩小可达工具集</strong>——原文明写&quot;模型看到的是一份完整的工具清单&quot;，broker 在环境侧且对模型不可见，训练的是让策略去<strong>选择</strong>更低权限的动作。<strong>因此它不能作为那条假设的证据，那个问题仍然开放，而这不是回答它的论文。</strong></p>
+<p><strong>两条阻止它成为候选的理由：</strong></p>
+<ol>
+<li><strong>它优化的指标不是座舱需要的那个。</strong> &quot;越权成功&quot;这一列按定义等于（任务成功 − 安全成功），即<strong>分子只统计成功的 episode</strong>；基座策略另外约 900 个失败 episode 的越权行为从未被报告。<strong>在失败轮次中发生的越权动作——正是车辆执行场景中最危险的那一类——在这套指标里一次都没被计入。</strong> 另注论文摘要把这个数写成&quot;把越权错误事件从 4.56% 降到 0.79%&quot;，而结论段写的是&quot;<strong>成功的</strong>越权事件&quot;，后者才是准确的。</li>
+<li><strong>定义&quot;越权&quot;的那个充分权限包络本身没有被验证。</strong> 论文自己承认&quot;权限维度、权重与充分包络编码了可能并不完全正确的判断&quot;，而任务与包络是 LLM 生成的（致谢：仓库代码与任务撰写&quot;大部分是合成的，由 Codex 与 Claude Code 的工具在人工监督下生成&quot;）。<strong>无标注者间一致性、无 kappa、无人工审计抽样、无注入故障召回率、无风险向量消融</strong>（最后一项论文自己列为缺失）。</li>
+</ol>
+<p>其余阻塞：<strong>推理时延与 broker 开销全部为零测量，而这条 broker 恰恰内联在工具执行路径上</strong>（对座舱而言那是 LLM 与执行之间的一个内联阶段）；只有一个 4B 模型与一个适配器族；<strong>头条是三个种子里被挑出的那一个</strong>（routine 集上三个种子分别是 85.98 / 97.63 / 86.29，约 11.6 个百分点的跨种子摆幅，而 500 任务集上根本没报种子方差）；开放状态为 unverifiable（正文暗示存在仓库却全文无 URL），唯一能归属到作者的制品是 Hugging Face 上一个<strong>空的 MIT 占位库</strong>（两个文件，README 只有 21 字节的许可证前置块，0 下载）。</p>
+<p><strong>现在就能零成本借走的两条：</strong> 其一，<strong>&quot;尝试&quot;与&quot;被允许&quot;分开记录</strong>——即便门拦住了，也要记下策略<strong>请求过</strong>不正当权限（原文：&quot;被阻止的命令因此不会造成外部损害，但仍会被记录为该策略请求了不正当的权限&quot;）。项目目前不做这个测量，它不需要任何模型改动，而且它是&quot;只靠门防御&quot;会掩盖掉的那个先行指标。其二，<strong>提示词消融的设计</strong>（完整提示 / 去掉安全措辞 / 一行提示，同一评测集、两个策略同跑）是判断某个行为是被内化了还是被提示词撑着的廉价而有说服力的检验，本轮它给出了最干净的对比：训练后的策略跨三种提示只动了 0.24 个百分点，基座动了 3.70。</p>
+<h2>4. 术语与同名/同源辨析（本轮新增）</h2>
+<ul>
+<li><strong>X2-Turn 与 X2Streaming-TTS 是同一机构、同一技术脉络的两个半边</strong>，共享 5 名作者与同一通讯作者，按一条脉络记录。<strong>这与 08-19 的 DuplexGen 同名案恰好相反</strong>：那里是两篇毫无关系的论文用了同一个名字，这里是两篇不同名的论文属于同一个栈。<strong>&quot;名字相同&quot;与&quot;工作相同&quot;两个方向的误判都会发生，判据一律是作者/机构重合 + 是否互相引用 + 投稿间隔。</strong></li>
+<li><strong><code>X2Streaming-TTS</code>（论文名）与 <code>Qwen3TTS-Streaming</code>（仓库名）疑似同一系统的两个名字</strong>，但两边互不引用，<strong>在得到作者确认之前不合并记录</strong>。</li>
+<li><strong><code>TTSD-FAR</code>（2608.18386）里的 <code>TTSD</code> 不是 TTS。</strong> 其展开为 Test-Time Self-Distillation，论文主题是缺失模态下的情绪识别。<strong>关键词扫描的又一个缩写级假阳性</strong>，与已记录的 <code>RTF</code>＝relative transfer function、<code>HRTF</code> 内含 <code>RTF</code>、<code>wall-clock</code>＝视频时间轴位置同类。</li>
+<li><strong><code>2608.19013</code> &quot;Harness Continual Learning&quot; 里的 <code>harness</code> 既不是训练脚手架也不是执行脚手架</strong>，而是动词&quot;驾驭&quot;。<strong>&quot;harness&quot; 的第三种义项</strong>，加入术语陷阱清单。</li>
+</ul>
+<h2>5. 今日建议路线</h2>
+<h3>第一阶段（零 GPU，可立即做）</h3>
+<ol>
+<li><strong>把 X2Streaming-TTS 的三条&quot;有界纪律&quot;写进项目的流式 TTS 设计文档</strong>：固定 H、夹紧增益、状态健康检查一票清零。<strong>先落纪律，不落数值。</strong></li>
+<li><strong>把&quot;不确定性感知缓冲&quot;的中文场景清单列出来</strong>：数字后缀（度/档/首/号/路）、单位、序数、时间、车控参数。<strong>这件事必须在切 token 级流式之前做完</strong>，否则一定会以&quot;念错档位&quot;的形式在线上暴露。</li>
+<li><strong>把仓库 README 的时延方法论抄进项目埋点规范</strong>：服务端 TTFT 与客户端 TTFT 分开记；突发到达与斜坡到达分开记；prefix-cache 命中与否分开记；冷通道额外成本单列。<strong>项目当前的首音频 P50/P90 属于哪一种口径，需要先自查。</strong></li>
+<li><strong>判定器处理不变性检查</strong>（优先级仍为最高，来自 2608.12880，与本轮无关但未完成）。</li>
+</ol>
+<h3>第二阶段（单卡可做）</h3>
+<ol>
+<li><strong>离线复现 X2-Turn</strong>：权重与代码都已开放且非门控，先测 EasyTurn-zh 中文判停，再测项目自己的 452 条基准音频。<strong>这是本轮唯一一项可以立刻动手、无需任何谈判或申请的实验。</strong></li>
+<li><strong>测上游 token 速率</strong>：X2Streaming-TTS 全部论证建立在&quot;声学侧膨胀比 ρ 足以掩盖文本到达&quot;之上，而项目上游是 110ms/token 的 MoE。<strong>先测出项目自身的 ρ 与 token 到达抖动，再决定 token 级流式是否成立。</strong> 这一步不需要任何外部代码。</li>
+</ol>
+<h3>第三阶段（需要环境评估）</h3>
+<ol>
+<li><strong>评估 TensorRT/Triton 链路是否可接受</strong>，包括 NGC EULA、<code>.plan</code> 与 GPU/驱动绑定、20–40GB 磁盘。<strong>在这一步完成之前，不把 X2Streaming-TTS 的任何时延数字写进项目预期。</strong></li>
+<li><strong>跟踪 <code>X-Square-Robot/X2Streaming-TTS</code> 是否出现。</strong> 若出现，重新做一次完整开放状态核实；若两周内仍为 404，则按&quot;声称发布、地址失效&quot;定案。</li>
+</ol>
+<h2>6. 本轮负面结果与零结果（与正面结果同等重要）</h2>
+<p><strong>这些是&quot;查了、没有&quot;，不是&quot;没查&quot;。每一条都记录了查询与 totalResults。</strong></p>
+<ul>
+<li><strong>回声消除：连续第八轮零一手依据。</strong> 查询 <code>abs:&quot;speech enhancement&quot; OR abs:&quot;noise suppression&quot; OR abs:&quot;echo cancellation&quot; OR abs:&quot;beamforming&quot;</code> 在本窗口 totalResults = <strong>3</strong>，而这 3 篇<strong>没有一篇是声学论文</strong>：<code>2608.19102</code> 是射电天文的实时射频干扰抑制（SPOTLIGHT 巡天）、<code>2608.18458</code> 是 RIS-ISAC 的联合波束成形与相移设计（通信）、<code>2608.18252</code> 是医学超声的平面波角度域零陷成像。<strong>&quot;beamforming&quot; 一词在本窗口 100% 落在非声学领域</strong>，与 08-19 观察到的比例（15 篇里 11 篇是无线波束成形/ISAC、1 篇是稀疏视角 CT）方向一致。查询继续保留——08-19 那 4 篇声学论文里出过窗口 P0。</li>
+<li><strong>全双工/判停：查询返回 4 篇，4 篇全是假阳性。</strong> <code>abs:&quot;full-duplex&quot; OR &quot;full duplex&quot; OR &quot;turn-taking&quot; OR &quot;barge-in&quot; OR &quot;interruption&quot;</code> totalResults = <strong>4</strong>：<code>2608.18837</code> 是两台同型并行机的排程近似（&quot;loading–unloading&quot; 语境下的 interruption）、<code>2608.18490</code> 是 LLM 协作的贝叶斯伙伴建模、<code>2608.18399</code> 是 ViT 的注意力迁移、<code>2608.18326</code> 是中断时间序列的因果中介分析（&quot;Interrupted Time Series&quot; 是统计学固定术语）。<strong>本窗口没有任何一篇真正的全双工语音论文。</strong> 本轮真正的全双工进展全部来自 X Square Robot 那条脉络，而<strong>那两篇都没有被这组关键词命中</strong>（X2Streaming-TTS 命中的是 TTS 组与 S2S 组）——<strong>这是&quot;关键词扫描存在主题级盲区&quot;的又一个实例，与 PosterBench 对 14 组关键词全部隐形同类。</strong></li>
+<li><strong>空间听觉：totalResults = 0。</strong> <code>abs:&quot;spatial audio&quot; OR &quot;binaural&quot; OR &quot;ambisonic&quot; OR &quot;sound source localization&quot;</code> 在本窗口返回 0 篇。与 08-19 的结论（空间音频/Ambisonics 对实时链路是死路）无冲突，只是本轮无新增。</li>
+<li><strong>说话人分离与目标说话人：totalResults = 0。</strong> <code>abs:&quot;speaker diarization&quot; OR &quot;target speaker&quot; OR &quot;speaker verification&quot;</code> 返回 0 篇。多乘员方向本轮无任何新增，沿用 08-19 记下的架构约束。</li>
+<li><strong>流式 ASR：totalResults = 0。</strong> <code>abs:&quot;speech recognition&quot; AND (abs:streaming OR abs:online OR abs:latency)</code> 返回 0 篇。<strong>但这一组的零结果具有误导性</strong>——X2-Turn 的 v2 修订正是流式 ASR 方向的实质进展，而修订版不会出现在按 <code>submittedDate</code> 过滤的查询里。<strong>规则：<code>submittedDate</code> 窗口永远看不见修订版，追踪表的逐版复核是不可替代的第二通道。</strong></li>
+<li><strong><code>cat:cs.SD OR cat:eess.AS</code> 只有 9 篇</strong>，且其中与项目相关的为零：FM 合成器参数嵌入、神经音频编解码器的几何迭代检索、符号旋律分析、按人声模仿检索声音、鼓手动作生成、声学异常检测、不确定性可视化的听觉化、S-JEPA 表征、多语种医学 ASR 的层间分析。<strong>编辑判断：本窗口的语音类目基本是音乐信息检索与声音事件方向，与座舱语音无交集。</strong></li>
+</ul>
+<ul>
+<li><strong>车内一组返回 12 篇，12 篇全部与语音无关，且这一组本身有一个必须修的查询缺陷。</strong> 12 篇为：2608.19135（V2X 安全的多智能体防御）、2608.19014（自动驾驶单阶段检测器）、2608.18996（无人机影像视觉定位）、2608.18844（电动车与电动巴士充电设施规划）、2608.18801 与 2608.18778（自动驾驶车辆的心理安全评估框架，两篇同组作者的姊妹稿）、2608.18662（超高清水下图像增强）、2608.18624（无人机视觉里程计的图像匹配评测）、2608.18494（工程电动车充电调度）、2608.18326（中断时间序列的因果中介分析）、2608.18314（公交线路实时设计）、2608.18263（SIGMA 自适应控制）。<strong>没有任何一篇涉及语音、对话或座舱交互。</strong></li>
+</ul>
+<p><strong>查询缺陷：这一组写成 <code>abs:&quot;in-vehicle&quot; OR abs:&quot;cockpit&quot; OR abs:&quot;driver&quot; AND abs:speech</code>，而 <code>AND</code> 的结合优先级高于 <code>OR</code>，因此 <code>abs:speech</code> 这个约束只作用在 <code>driver</code> 上，<code>in-vehicle</code> 与 <code>cockpit</code> 两个词是无约束匹配的。</strong> 这解释了为什么会命中电动车充电与水下图像增强——它们只要正文出现 <code>in-vehicle</code> 之类的词就会进来。<strong>编辑判断：这是本轮唯一一个查询写法本身的缺陷，不是领域没有产出。下一轮应改写为 <code>(abs:&quot;in-vehicle&quot; OR abs:&quot;cockpit&quot; OR abs:&quot;driver&quot;) AND (abs:speech OR abs:voice OR abs:dialogue OR abs:assistant)</code> 并记录改写前后的 totalResults 对照，以免把口径变化误读成产出变化。</strong></p>
+<ul>
+<li><strong><code>cat:cs.HC OR cat:cs.OS</code> 一组 7 篇，其中 2 篇进入细读队列</strong>（2608.18398 LEDGER、2608.18307 ComponentBench），其余 5 篇为：2608.18638（交互式信息获取的主动个性化 agent 研讨会报告）、2608.18547（公开赏金列表的举证负担）、2608.18401（真实人机交互中的多模态融洽度估计）、2608.18369（生成式 AI 与职场绩效的不透明性）、2608.18312（自主科研 agent 的以制品为中心的可观测性）。<strong>这一组继续证明保留第 14 组查询是值得的——本轮的两篇细读候选都只有它命中。</strong></li>
+</ul>
+<ul>
+<li><strong>多模态实时一组 3 篇全部无关</strong>：2608.18386（缺失模态情绪识别，注意 TTSD 不是 TTS）、2608.18322（Netflix 的多媒体资产个性化）、2608.18275（甚大天线阵的高频 SETI 搜索）。</li>
+</ul>
+<h2>风险提醒</h2>
+<ol>
+<li><strong>不要把 15.8ms 当成项目可获得的首音频。</strong> 它是首个音频 *token*、客户端侧中位数、暖引擎、prefix-cache 命中、本地链路、单请求、RTX 5090、BF16。项目的门槛管的是首个音频<strong>到达听者</strong>，且首句必然是冷的。<strong>这两个量之间隔着至少四层未测量的成本。</strong></li>
+<li><strong>不要把&quot;论文没有训练章节&quot;读成&quot;论文证明了无需训练&quot;。</strong> 论文只说了离线参考与流式版本使用相同权重。</li>
+<li><strong>X2Streaming-TTS 论文声明的仓库地址目前不存在。</strong> 在它出现之前，任何&quot;代码已开放&quot;的表述都是错的。同机构那个 MIT 仓库是<strong>疑似</strong>实现，两边互不引用。</li>
+<li><strong>TEN VAD 的 &quot;Apache-2.0 WITH ADDITIONAL CONDITIONS&quot; 含竞业限制条款。</strong> 虽然默认关闭且非捆绑，但对商业车机项目属实质性风险，选型文档必须点名。</li>
+<li><strong>NGC 容器与 TensorRT 引擎绑定是部署侧的硬约束</strong>，不是许可证细节：<code>.plan</code> 不能跨机器复用，且拉取 NGC 镜像即接受 NVIDIA EULA。</li>
+<li><strong>X2-Turn 的开放状态变了，论文结论一个字都没变。</strong> 联合训练损害 ASR（2.57→3.94）这条依然成立，复现时必须同时测 ASR 退化，不能只测判停指标。</li>
+<li><strong>12 Hz 与 12.5 Hz 的不一致已经在两个独立来源上出现。</strong> 凡由帧率推导时长的换算，一律标注所用取值。</li>
+<li><strong>本轮有三篇论文的判定器/真值是作者自己或 LLM 造的，引用其数字时必须同时引用这一点。</strong> SemaPLC 修复了 117 个任务中的 43 个并未发布修复数据；ComponentBench 的失效标注一套以组件类型先验为起点、一套是 GPT-5.4、复核者是 Claude Opus 4.8；2608.18351 的充分权限包络由 Codex 与 Claude Code 生成且无任何人工一致性统计。<strong>三者的人工一致性统计全部为零。</strong></li>
+<li><strong>不要把 2608.18351 读成&quot;缩小工具池能提准确率&quot;的证据。</strong> 它明写&quot;模型看到的是一份完整的工具清单&quot;，broker 在环境侧且对模型不可见。项目从 2608.14036 推出的那条假设仍然开放。</li>
+<li><strong>本轮 50 篇的窗口不代表低产。</strong> 上一轮 235 篇是四批积压，本轮是单批常态。<strong>用篇数判断&quot;有没有重大新增&quot;是错的</strong>——本轮篇数只有上轮的 21%，却出了近若干轮质量最高的一条 P0。</li>
+</ol></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-20</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-20</h2><p class="solution-source"><b>2026-08-20</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
+<footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
+</div></body></html>
