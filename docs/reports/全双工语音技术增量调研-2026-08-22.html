@@ -204,19 +204,19 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <ul>
 <li><strong>通道一（<code>submittedDate</code> 窗口查询）：零。</strong> 见上。</li>
 <li><strong>通道二（追踪表逐版复核）：窗口内零新修订，连续第二轮为零；但本轮把追踪表从惯例的 47 个 ID 扩到 173 个，发现非 v1 条目从&quot;已知 3 个&quot;变成 20 个，即 17 个从未做过逐版差分。</strong> 详见第 3 节。</li>
-<li><strong>通道三（制品反查）：本轮唯一产出实质技术结论的通道，且它推翻了 08-20 立下的一个待办判定。</strong> 详见第 2 节：<code>X-Square-Robot/X2Streaming-TTS</code> 已经公开，而且它<strong>从 2026-08-12 起就一直存在</strong>——此前的 404 是私有仓库遮蔽，不是仓库不存在。</li>
+<li><strong>通道三（制品反查）：推翻了 08-20 立下的一个待办判定。</strong> 详见第 2 节：<code>X-Square-Robot/X2Streaming-TTS</code> 已经公开，而且它<strong>从 2026-08-12 起就一直存在</strong>——此前的 404 是私有仓库遮蔽，不是仓库不存在。</li>
 <li><strong>额外一条（本轮 P0）：对检索工具本身做了一次证伪实验，发现 arXiv <code>abs:</code> 字段做词干归并（stemming），据此 08-21 报告提出的查询改写方案被实测证明无效，且此前多轮记录的一整类&quot;词根假阳性&quot;由此获得统一机制解释。</strong> 详见第 2 节。</li>
 </ul>
 <p>制品复核时刻为 2026-08-22，晚于 02:30 的论文截止时刻。</p>
 <h2>StreamingModelHarness 当前进展与问题</h2>
 <table><thead><tr><th>当前问题</th><th>项目证据</th><th>今日相关技术</th><th>可执行实验</th><th>成功门槛</th></tr></thead><tbody>
-<tr><td>首音频约 3 秒，瓶颈在外挂 Edge TTS</td><td>A/B 首音频 P50 2,918ms / 3,491ms，P90 3,453ms / 4,171ms，而首文本最快 131ms</td><td><strong>本轮无新增。</strong> TTS 组本窗口 totalResults = 0。<strong>另需修正一条口径</strong>：TTS 组此前的假阳性并非&quot;关键词跨领域&quot;，而是 <code>abs:&quot;TTS&quot;</code> 被词干归并成 <code>tt</code>（见第 2 节），该组历史召回质量比此前认为的更差</td><td>沿用 08-20 的 X2Streaming-TTS 只读审阅计划；另把 TTS 组查询改写为只保留短语形式</td><td>首音频 P90≤1,000ms；中文 CER 不劣于 Edge</td></tr>
-<tr><td>判停/打断&quot;该不该发生&quot;缺判据来源</td><td><code>probe_turn_end</code> 已实测主模型自判停不可行（负面结果）</td><td><strong>论文侧本轮零。</strong> 判停组（VAD/endpointing）本窗口 0；<code>cat:cs.HC</code> 组本窗口 0。<strong>但 08-21 建议的判停查询改写被实测证否</strong>——改写后与改写前在同一窗口返回<strong>完全相同的 22 篇</strong>，正确改法见第 2 节</td><td>08-21 立项的 MaAI 旁路观测（<code>vap_bc_ch</code>，MIT，纯 CPU）<strong>本轮未动，仍是待办</strong>；先按第 2 节的正确改法修好判停组查询，再谈召回</td><td>判停信号完全走音频通路之外的旁路；应答频次设上限而非越多越好</td></tr>
+<tr><td>首音频约 3 秒，瓶颈在外挂 Edge TTS</td><td>A/B 首音频 P50 2,918ms / 3,491ms，P90 3,453ms / 4,171ms，而首文本最快 131ms</td><td><strong>通道二带回本轮最相关的一篇：Lychee-FD（<code>2607.06540</code> v4）</strong>——硬件就是 8 张 H20、HF 卡声明支持中文、代码与权重均 Apache-2.0、<strong>FSED（首音频对应量）637ms 已低于项目 1,000ms 门槛</strong>；但它依赖 3–4 张卡加每步 NCCL 广播，且<strong>未声明是哪一个时钟</strong>，故只能记为算法加测评框架口径（第 3.1 节）。TTS 组本窗口 totalResults = 0；该组此前的假阳性并非&quot;关键词跨领域&quot;，而是 <code>abs:&quot;TTS&quot;</code> 被词干归并成 <code>tt</code>（第 1.3 节）</td><td>只读审阅 Lychee-FD 的控制头早退路径与 <code>&lt;Start&gt;</code>/<code>&lt;Stop&gt;</code> 控制词表；另把 TTS 组查询改写为只保留短语形式</td><td>首音频 P90≤1,000ms；中文 CER 不劣于 Edge</td></tr>
+<tr><td>判停/打断&quot;该不该发生&quot;缺判据来源</td><td><code>probe_turn_end</code> 已实测主模型自判停不可行（负面结果）</td><td><strong>论文侧本轮零。</strong> 判停组（VAD/endpointing）本窗口 0；<code>cat:cs.HC</code> 组本窗口 0。<strong>但 08-21 建议的判停查询改写被实测证否</strong>——改写后与改写前在同一窗口返回<strong>完全相同的 22 篇</strong>，正确改法见第 1.5 节</td><td>08-21 立项的 MaAI 旁路观测（<code>vap_bc_ch</code>，MIT，纯 CPU）<strong>本轮未动，仍是待办</strong>；先按第 1.5 节的正确改法修好判停组查询，再谈召回</td><td>判停信号完全走音频通路之外的旁路；应答频次设上限而非越多越好</td></tr>
 <tr><td>判定器处理不变性未验证（<strong>优先级仍最高</strong>）</td><td>2608.12880：只翻转与行为无关的元数据即改变 180 条中的 31 条判定</td><td><strong>本轮无新论文证据，且本项本身仍未开工。</strong> 08-21 已把 StateMemBench Table 8 的四格转移表定为第一步样板，本轮无任何进展</td><td>照搬四格转移表（选一个与行为无关的拨杆、判定器固定、报四个转移计数而非那个差值），零 GPU</td><td>聚合通过率旁必须并列逐条翻转率；判定器最多只能索取二元判定</td></tr>
 <tr><td>工具/动作通道缺&quot;播报前动作门&quot;</td><td>工具名严格召回 80.49%，无泄漏扫描器、无重复运行翻转率</td><td><strong>本轮无新增。</strong> EnvHarness <code>rules.py</code> 的只读审阅仍未做</td><td>只读审阅 <code>rules.py</code>（8,274 字节，Apache-2.0），把四条规则与 <code>ABSTAIN_ERROR</code> 写进动作门设计文档</td><td>拒绝必须返回实时车态加理由；门永不得触碰评分器；门错误永不等于放行</td></tr>
 <tr><td>回声消除与扬声器泄漏零一手依据</td><td>项目从未获得任何 AEC 正文证据</td><td><strong>连续第十轮为零。</strong> 本窗口该组 totalResults = <strong>0</strong>。<strong>另新增一条与该组直接相关的口径修正</strong>：<code>abs:&quot;beamforming&quot;</code>、<code>abs:&quot;beamform&quot;</code>、<code>abs:&quot;beamformer&quot;</code> 三者 totalResults <strong>同为 6,618</strong>，即该词的历史噪声是词干归并的结果；而 <code>abs:&quot;AEC&quot;</code> 全库仅 <strong>259</strong>，<code>abs:&quot;echo cancellation&quot;</code> 仅 <strong>142</strong>，<strong>这两个才是该方向真正的可用探针</strong></td><td>不写任何 AEC 结论；把该组查询改成以 <code>abs:&quot;echo cancellation&quot;</code> 与 <code>abs:&quot;AEC&quot;</code> 为主、去掉 <code>beamforming</code></td><td>需要一篇因果、可流式、带下游指标、且含自身播放参考抽头的一手论文</td></tr>
 <tr><td>多乘员插话、&quot;谁在说话&quot;无任何一手依据</td><td>项目评测集为单说话人合成音频</td><td><strong>本轮零。</strong> 说话人组本窗口 0。<code>abs:&quot;VAD&quot;</code> 与 <code>abs:&quot;VADs&quot;</code> 同为 504，该探针无词干污染，可信</td><td>沿用架构约束（身份判定走旁路）</td><td>判定信号与音频通路解耦；多乘员需另找证据</td></tr>
-<tr><td>MoE 解码 110ms/token 与首包 prefill</td><td>每 token 约 816 次 GPU→CPU 同步</td><td><strong>通道二发现一条此前漏掉的直接相关修订</strong>：<code>2608.15018</code> S2-MoE《Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts》<strong>已于 2026-08-19T09:26:35Z 出到 v2 而从未被逐版差分</strong>，其主题正对口本项目的 MoE 解码</td><td>已委派该篇的 v1→v2 差分与全文首读，结论以单独提交并入</td><td>任何 prefill 收益必须在冷首次请求下复测；批大小四态必须先判准再谈否决</td></tr>
+<tr><td>MoE 解码 110ms/token 与首包 prefill</td><td>每 token 约 816 次 GPU→CPU 同步</td><td><strong><code>2608.15018</code> S2-MoE 已完成差分与全文首读（第 3.2 节），结论为否决</strong>，两条否决理由都不是通常那两条：瓶颈不对（<code>synchroniz</code>/<code>cuda graph</code>/<code>kernel launch</code> 命中数全为 0），且收益随显存饥饿缓解单调衰减（2.500→1.926→1.718）</td><td>不进入候选。可带走其硬件校准成本模型与「草稿与目标共享同一份 KV cache」（接受率 +23%~+79%）</td><td>任何 prefill 收益必须在冷首次请求下复测；<strong>批大小规则在本篇沉默，不得以此否决</strong></td></tr>
 </tbody></table>
 <h2>一、先说结论</h2>
 <h3>P0：arXiv <code>abs:</code> 做词干归并——08-21 提出的查询改写实测无效，且此前多轮的&quot;词根假阳性&quot;由此获得统一解释</h3>
@@ -318,7 +318,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <h3>本轮无 P0 级技术候选，且这一条要说清楚</h3>
 <p><strong>本轮不新增任何工程候选。</strong> 论文通道为零，通道二窗口内为零。上面两条 P0/P1 是<strong>方法学与流程发现</strong>；制品通道（第 2 节）确实产出了实质技术结论，但<strong>那两条同样不构成候选</strong>：<code>X2Streaming-TTS</code> 自述 pre-alpha、不分发权重、需要给未合并 hook 的上游打两组补丁（第 2.1 节四条否决理由）；MaAI 的中文能力仍全部锁在 CC-BY-NC-ND-4.0 之下（第 2.2 节）。<strong>08-21 立项的那个候选（<code>backchannel-timing-sidecar-maai-offline-v1</code>，用 MaAI 的 MIT 中文应答权重做纯 CPU 旁路观测）本轮没有任何进展，仍然阻塞在同一个前置条件上：项目缺带应答/打断标注的中文评测数据。</strong></p>
 <p><strong>且本轮把该候选的一条边界收紧了：</strong> MaAI 零 release、67 个 tag 最高仍是 <code>v0.2.15</code>，而 08-17 的应答检测、08-19 的 mono、08-21 的 <code>vad_en</code> <strong>全部是未打标签的 <code>main</code> 分支代码</strong>，因此该候选的&quot;必须记录所使用的 commit SHA&quot;这条要求<strong>由建议升格为硬要求</strong>——按 tag 钉版本会漏掉全部近期功能。</p>
-<h2>二、制品通道（通道三）：本轮唯一产出实质技术结论的通道</h2>
+<h2>二、制品通道（通道三）：推翻了 08-20 立下的一个待办判定</h2>
 <h3>2.1 P0（制品侧）：<code>X2Streaming-TTS</code> 的仓库已公开，而且它一直都存在——08-20 的&quot;两周后判死&quot;判定按错误前提设立</h3>
 <p><strong>事实（全部经 GitHub API 一手核实，2026-08-22）：</strong></p>
 <ul>
@@ -394,7 +394,92 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li><strong>架构支持的 grep 必须限定目录。</strong> FlashPrefill V2 全树搜 <code>sm_?120</code> 有 <strong>23 处命中，23 处全部在 <code>csrc/cutlass/include/</code> 下的第三方 CUTLASS 头文件里，没有一处在 <code>flashprefill_ops/instantiations/</code> 下</strong>。不限定目录就会把&quot;厂商头文件里提到过 sm120&quot;误读成&quot;新增了 sm120 支持&quot;。</li>
 <li><strong><code>11,357 字节</code>这个 Apache-2.0 判据不能当成硬相等条件。</strong> X2-Turn 的 LICENSE 是 <strong>11,374 字节</strong>，看似不符；但逐行归一化空白并剥掉开头那行 <code>Copyright 2026 X Square contributors</code> 之后，<strong>与 apache.org 的规范文本逐字节相同（两侧都归一化为 10,222 字节，<code>cmp</code> 无差异）</strong>。<strong>结论：字节数只能用作快速线索，判定必须靠归一化比对。</strong></li>
 </ol>
-<h2>三、逐条对比 2026-08-21</h2>
+<h2>三、逐版差分的实际产出：三篇从未差分的修订，其中一篇是本轮最有价值的一手材料</h2>
+<p>第 P1 节说明了通道二此前被人工缩小到 47 个 ID，扩到 173 个后浮出 17 个从未差分的非 v1 条目。本节是对其中相关度最高的三篇的差分与全文首读结果。<strong>这三篇全部完成，其中 <code>2607.06540</code> Lychee-FD 是本轮唯一一篇硬件、语言、许可证三项同时对口本项目的论文。</strong></p>
+<h3>3.1 Lychee-FD（<code>2607.06540</code> v4）—— 作为系统否决，作为架构参照接受；本轮最有价值的一篇</h3>
+<p><strong>为什么它是本轮最重要的一手材料（编辑判断）：追踪表上第一次出现&quot;硬件就是 H20 + 支持中文 + 代码与权重都是 Apache-2.0 + 首音频类指标已低于项目门槛&quot;四项同时成立的论文。</strong> 而它此前从未被读过，只因为它不在那 47 个 ID 里。</p>
+<p><strong>一手事实：</strong></p>
+<ul>
+<li><strong>硬件逐字为</strong>：<code>All experiments are conducted on 8 NVIDIA H20 GPUs, with a global batch size of 32 and a learning rate of 3e-6.</code> <strong>必须写清这是训练配置</strong>（同句出现 AdamW、cosine、warmup ratio、epoch），<strong>全文从未单独声明推理硬件</strong>，这也是全文唯一一句硬件声明。无 sm_120 / RTX 5090。</li>
+<li><strong>语言：论文本身一个字没说；官方 HF 模型卡声明 <code>language: zh, en</code>，仓库另有 <code>README_CN.md</code> 与 <code>FAQ_CN.md</code>。</strong> 因此<strong>中文支持是制品级事实，不是论文级事实</strong>，引用时必须标明来源层级。</li>
+<li><strong>开放状态为第二档，且三件承诺物全部到位（已查到文件级）</strong>：GitHub <code>HITsz-TMG/Lychee-FD</code>（Apache-2.0、124 stars、约 463 MB、<code>Training_package/</code> 与 <code>lychee_fd/</code> 齐备）、HF <code>HIT-TMG/Lychee-FD</code>（HTTP 200、非门控、Apache-2.0、六个 safetensors 分片）、项目页 301 可达。</li>
+<li><strong>它是本项目见过的&quot;成分许可证&quot;最佳实践，值得作为正面样板</strong>：LICENSE 为 Apache-2.0 <strong>11,405 字节</strong>（比规范文本多 48 字节，与填入版权行一致）、另有 <code>NOTICE</code>、并且 <code>third_party/THIRD_PARTY_NOTICES.md</code> 做到了逐组件核算——Step-Audio2 的 Apache-2.0 本地副本，以及一处<strong>追到单个文件</strong>的嵌套 MIT 归属（<code>flashcosyvoice/modules/hifigan_components/layers.py</code> 改自 <code>EdwardDixon/snake</code>）。<strong>更关键的是作者自己写明了代码与权重的分界</strong>：<code>This repository and Docker image do not vendor model weights. Users who download Step-Audio2 or other model checkpoints must comply with the license terms published by the corresponding model providers.</code></li>
+</ul>
+<p><strong>时延按四种口径分别记账（这是本项目的硬要求，本篇正好把第四种暴露为缺口）：</strong></p>
+<table><thead><tr><th>口径</th><th>值</th><th>说明</th></tr></thead><tbody>
+<tr><td>算法/理论</td><td>Figure 1 的 <code>Inference Cost (GFLOPs)</code> 轴，<strong>140–240 GFLOPs</strong></td><td><strong>这是&quot;不牺牲推理效率&quot;这句话的唯一依据</strong>，而 GFLOPs 对集合通信与 kernel 启动开销是盲的</td></tr>
+<tr><td>流水块长</td><td><strong>40 ms</strong>（CosyVoice2 25 Hz 声学帧）；文本流约 3 Hz</td><td>反应粒度的结构下限</td></tr>
+<tr><td>实测墙钟</td><td>Table 2 明确标注 ms：<strong>FSED 637</strong>、IRD 1210、FullDuplexBench 1.0 Stop 840、1.5 Stop 570、Lat. 826</td><td>FSED（First-Speech-Emit-Delay）即首音频时延对应量，基线为 Freeze-Omni 667 / FLM-audio 989 / Moshi 1895 / VITA 1.5 3036</td></tr>
+<tr><td><strong>哪一个时钟</strong></td><td><strong>未声明</strong></td><td>未说服务端还是客户端、未说推理设备、未说并发、未说是均值/中位/分位。三个第三方测评框架的测点论文也未描述，只写 <code>We follow the recommended settings of these benchmarks.</code> 且 FullDuplexBench 1.5 的 IRR/BRR <strong>由 GPT-4o-1124 判定</strong>，不是直接测量</td></tr>
+</tbody></table>
+<p><strong>否决理由（作为可采用系统），三条，且第一条是决定性的：</strong></p>
+<ol>
+<li><strong>637 ms 是 3–4 张 GPU 的结果，而这一点只写在附录里。</strong> 正文断言 <code>our architecture incurs no computational overhead</code>，而附录 Algorithm 1（DAG Pipeline Parallelism）显示：共享骨干在 GPU 0，随后 <code>NCCL_Broadcast(Hshared → GPU_T, GPU_A, GPU_C)</code>，三个头&quot;strictly in parallel across different devices&quot;。附录自己说明这是承重的：<code>Forcing this multi-head architecture into a single GPU or a linear pipeline would result in the sequential execution of the specialized heads, introducing severe latency bottlenecks that disrupt the fluidity of real-time conversation.</code> <strong>座舱只有一张加速卡。更要紧的是：每 token 一次跨设备集合通信，正是本项目已实测根因（每 token 约 816 次 GPU→CPU 同步）最不该走的方向。</strong></li>
+<li><strong>哪一个时钟未声明</strong>，因此 637 ms 不能直接对着&quot;首音频 P90 ≤ 1,000ms&quot;这道门记账。沿用既定判据（同一系统的服务端与客户端 TTFT 曾相差 2 倍以上），<strong>它只能记为&quot;算法加测评框架&quot;口径，不是客户端观测值</strong>。</li>
+<li><strong>效率声明建立在 GFLOPs 上</strong>，而 GFLOPs 恰好看不见本项目解码中占主导的那两类开销。</li>
+</ol>
+<p><strong>但作为架构参照必须接受，因为它给出了项目自己那条负面结果的机制解释。</strong> 项目已实测&quot;主模型自己判停不可行&quot;并据此把旁路放到音频通路之外；Lychee-FD 的 <code>w/o Param-Sep</code> 消融正是它的机制版本——<strong>S→S 准确率崩到 27.6%</strong>，论文解释为深层参数共享导致&quot;the optimization landscape becomes dominated by semantic modeling, effectively suppressing the learning of acoustic features in deep layers&quot;。<strong>这是一条来自完全不同方向的、量化的独立佐证。</strong></p>
+<p><strong>四条可直接搬的原语：</strong></p>
+<ul>
+<li><strong>带早退路径的专用控制流，是本轮三篇里对项目最有价值的一条。</strong> 仓库 README 逐字：控制头<code>also uses an early-exit path, allowing interruption, stop-speaking, and listen/respond decisions to be produced <strong>before full speech generation completes</strong></code>。<strong>这正是项目为判停与打断所要求的那个形状的一个可运行实例</strong>，其控制词表 <code>Y_C = [&lt;Start&gt;, c_1, ···, &lt;Stop&gt;]</code> 可直接照搬编码方式。</li>
+<li><strong>梯度冲突诊断是一件可复用的量具，而不只是一个结论。</strong> 逐层计算声学与语义梯度的余弦相似度（论文观察到它&quot;drops sharply, turning negative and fluctuating in the deeper layers&quot;），<strong>可以用来定位任何多头流式模型该在哪一层切分，而不是靠猜</strong>。</li>
+<li><strong>&quot;语义稀释&quot;是一条关于帧率对齐的具体警告。</strong> 用 padding 把约 3 Hz 的文本流对齐到 25 Hz 音频会&quot;consistently suppress the magnitude of semantic gradients&quot;。<strong>项目任何把稀疏控制流或文本流时间对齐到密集音频帧的设计，都应预期该稀疏流被训练不足</strong>——其 <code>w/o Sem-Channel</code> 消融代价为 S→T 5.6 分、S→S 5.4 分。</li>
+<li><strong>FSED 是首音频这件事的正确指标名</strong>，并自带一张可对位的基线表。项目今后报自己的首音频时应采用这个已发表定义，<strong>但必须注明自己的时钟</strong>。</li>
+</ul>
+<p><strong>必须原样并存的五处不一致：</strong></p>
+<ol>
+<li><strong>摘要的 <code>+28.5%</code> 是两个指标的均值，没有任何单项指标接近这个改进幅度。</strong> 它等于 mean(IRR, BRR) 的 73.50 减 Freeze-Omni 的 45.00；而 IRR 相对最佳基线只 +17.0、BRR 只 +6.0。<strong>属&quot;摘要级最高级只在聚合上成立&quot;这一既有形态。</strong></li>
+<li><strong>正文说单卡会造成&quot;severe latency bottlenecks&quot;，而仓库明确提供了单卡模式。</strong> README 默认是 token2wav 与主后端<strong>各占一卡（两张，不是四张）</strong>，并另给 <code>For a single-GPU machine:</code> 配置。<strong>部署形态（多流 vLLM 服务管线 + 控制头早退）与论文附录的 DAG-PP 并不是同一个东西。</strong></li>
+<li><strong>仓库报了两个论文里没有的数字</strong>：<code>about 2.96x speedup in speaking rounds</code> 与 <code>reduces incremental GPU memory growth by about 23%</code>。不矛盾，但<strong>仓库的性能故事与论文的性能故事不是同一个故事</strong>。</li>
+<li><strong>S→T 的领先是统计学上的平局，却被加粗报成胜出。</strong> Avg S→T 51.500 对 StepAudio-2-mini 的 51.367，<strong>只差 0.13 分</strong>，报为&quot;+0.2%&quot;；而 Lychee-FD 在三个 S→T 子任务中有两个不是最优（LlamaQ 73.7 对 75.7/74.7；WebQ 38.3 对 41.8/39.9），聚合领先全靠 TriviaQA。<strong>摘要只引 S→S 的 +7.4%，从不提 S→T。全文无种子、无重复、无置信区间，因此这 0.13 分没有误差棒。</strong></li>
+<li><strong>Table 1 的 Avg 列没有一致的取整约定</strong>：20 个均值格里 6 个只符合四舍五入、6 个只符合截断（如 Freeze-Omni S→S 算得 33.4667 印 33.4，而 <code>w/o Sem-Channel</code> S→T 算得 45.8667 印 45.9）。<strong>全部偏差 ≤0.1 且不改变任何排名</strong>，属呈现缺陷。另有一处编号缺陷：Algorithm 1 落在标题为&quot;11. Data Synthesis Pipeline Details&quot;的附录小节下。</li>
+</ol>
+<p><strong>版本差分本身也有产出，且形态是新的。</strong> <code>v3 → v4</code>（本轮追踪的那次修订）只 <strong>+235 字符、+2 行</strong>，实质增加<strong>一句话</strong>：承认并列工作 MOSS-Speech 提出了<code>modality-based layer-splitting architecture</code>，即与本文核心洞见基本相同的想法；另把一处引用具名化为 <code>Step-Audio (Wu et al., 2025)</code>。Table 1 数值逐字节不变。<strong>这次修订的价值在于它让步了什么，而不在于它测了什么——它软化了论文反复出现的&quot;For the first time, we uncover the root cause&quot;这一优先权声明。</strong> 而顺手做的 <code>v1 → v3</code> 差分带回一条<strong>本项目此前未记录的形态</strong>：<strong>作者顺序调换，并新增了一个 v1 中完全不存在的第四单位 <code>PCG, Tencent, Shenzhen, China</code>，五位作者从&quot;无任何单位标记&quot;变为归属该单位。</strong> 即<strong>一次修订披露了初版未显示的产业方参与</strong>。</p>
+<h3>3.2 S2-MoE（<code>2608.15018</code> v2）—— 否决，但两条否决理由都不是通常那两条</h3>
+<p><strong>v1 → v2 是一次真正的空修订，且是本项目记录到的最纯粹一例。</strong> 逐页内容流<strong>逐字节相同</strong>（合计 213,096 字节）、10 个图 XObject <strong>MD5 全部相同</strong>、提取字符数与行数完全一致（75,752 / 1,669）、裸 URL 集合相同、注解 URI 集合除自指戳记外相同。<strong>全文文本差异只有一行</strong>：<code>arXiv:2608.15018v1 [cs.AI] 15 Aug 2026</code> → <code>v2 [cs.AI] 19 Aug 2026</code>。唯一变化的二进制对象是 <code>/ArXivWatermark</code>（102 → 125 字节）。<strong>因此无任何判定可能改变。</strong> 这与既有记录一致：&quot;修订的体量预测不了任何东西&quot;——StreamTTT 改了 184 行而判定不变，X2-Turn 只加一句话却翻转了一个开放状态判定，本篇则一个字都没改。</p>
+<p><strong>否决理由两条，且都不是批大小、也不是缓存命中：</strong></p>
+<ol>
+<li><strong>瓶颈不对。</strong> 项目 blocker 是每 token 约 816 次 GPU→CPU 同步，根因是<strong>主机同步</strong>。本篇对 <code>synchroniz</code> / <code>cuda graph</code> / <code>kernel launch</code> / <code>launch overhead</code> / <code>host-side</code> / <code>d2h</code> / <code>h2d</code> <strong>命中数全部为 0</strong>。它优化的是<strong>卸载条件下的显存带宽与专家流量</strong>——另一个瓶颈。<strong>而在 H20 上这四个模型都不需要专家卸载，因此它所利用的机制在项目服务端硬件上根本不存在。</strong></li>
+<li><strong>收益是显存饥饿的函数，且随饥饿缓解单调衰减。</strong> 平均加速比 <strong>2.500（16 GB）→ 1.926（32 GB）→ 1.718（64 GB）</strong>；唯一的&quot;装得下对装不下&quot;受控对照（DeepSeek/HumanEval）<strong>从 3.76× 崩到 1.65×</strong>。外推到完全不需要卸载的设备，所剩不多。<strong>5.3× 这个头条在 H20 上不可达。</strong></li>
+</ol>
+<p><strong>必须写明不以哪两条理由否决，否则日后会被按错理由重估：</strong></p>
+<ul>
+<li><strong>批大小规则在本篇沉默。</strong> 论文侧属第四态（正文与 Table 1 均未报批大小），<strong>但官方仓库把它定到了第一态</strong>：README 代表性命令含 <code>--parallel 1</code>，配置文件含 <code>&quot;parallel&quot;: 2</code>（<strong>两者不一致，原样并存</strong>），而 1.2–5.25× 的收益正是<strong>为这个区间</strong>报的。<strong>本篇恰是通常那个陷阱的反面：它论证的是竞品在批 1–2 时收益消失，而自己是针对该区间的修法。</strong></li>
+<li><strong>缓存命中陷阱在本篇清除，方向还是有利的。</strong> 唯一相关段落写明现有卸载方法&quot;their ideal operating regime corresponds to scenarios with high cache hit rates. Such settings are effectively equivalent to memory-relaxed configurations, which we explicitly evaluate (e.g., 64GB memory budgets)&quot;——即它<strong>同时报了宽松档与紧张档，而头条来自紧张档</strong>。<strong>论文自己从未声明测量时的缓存/预热状态（这个缺失本身是发现），而仓库回答了它</strong>：每个配置都设 <code>&quot;no_warmup&quot;: true</code> 与 <code>&quot;no_mmap&quot;: true</code>，README 命令带 <code>--no-warmup --no-mmap</code>，<strong>即冷测</strong>，正是车机第一句话需要的条件。残留一处不对称：<code>docs/baselines.md</code> 的基线命令只有 <code>--no-mmap</code> 而<strong>没有</strong> <code>--no-warmup</code>，即基线跑热而本方法跑冷；<strong>该不对称对作者不利（热基线更快、会压低报出的加速比），故记为低严重度。</strong></li>
+</ul>
+<p><strong>本篇最严重的问题在外部，且是&quot;论文与自家仓库在方法学声明上相反&quot;的第三个实例。</strong> 论文写 <code>For Cascade [35], we implement its core policy in llama.cpp <strong>following the method described in their paper</strong>, and integrate it into the same evaluation pipeline for <strong>a fair comparison</strong>.</code>；而仓库的 <code>MOE_UTILITY_SPEC.md</code>（中文）写的是实现了一个<strong>&quot;简化版&quot;</strong>，并补充说完整论文在 vLLM 等服务框架上的实现与此不同，此处是<strong>用&quot;observable statistics to approximate&quot;收益与验证成本之比</strong>。该文档还暴露搜索空间极小：候选草稿长度仅 <code>{0, 1, max(2, cap/2), cap}</code> 四个值，<code>test_iters=4</code> / <code>set_iters=16</code>。<strong>即最强基线比论文声称的更弱。</strong></p>
+<p><strong>另四处不一致，原样并存：</strong></p>
+<ul>
+<li><strong>672 个附录加速比格里有 12 个不等于自己的 <code>T/s ÷ Auto(T/s)</code>，而 112 个 S2-MoE 格全部自洽——12 个错格全在基线行</strong>（Cascade、EAGLE3、ES、LS）。多个错格共享一个与印出的 <code>Auto</code> 行不同的隐含分母（Table 8/MT 印 Auto = 1.60，而 Cascade 与 LS 都反推出约 1.377；Table 8/HE 印 1.68 而两者都反推出约 1.80）。误差达 16% 且双向，读作记账错误而非方向性偏差。</li>
+<li><strong>OLMoE 的 S2-MoE 吞吐在 32 GB 与 64 GB 两张表间像是复用而非重测</strong>：7 个任务中有 5 个末位数字完全相同，而每个基线方法的吞吐都有小幅移动。加速比列印证了机制：HumanEval 印 2.38（32 GB）与 2.37（64 GB），而 74.32/31.27 = 2.3767、74.32/31.36 = 2.3699，<strong>即处理组吞吐被固定、只重测了基线</strong>。</li>
+<li><strong>仓库报了论文完全没有的两个基线（DFlash、Domino），而其 S2-MoE 数字与论文任何一格都对不上。</strong> 我核对了全部 112 格：DeepSeek/64 GB 的 (1.60×, 2.50) 与 OLMoE/32 GB 的 (1.87×, 2.56) 都无法匹配（该模型该档的论文加速比区间为 1.42–1.83、接受长度 3.45–5.50，README 的 2.50 低于整个区间，而 README 自称其接受长度<strong>含</strong>目标 token、本应更大）。<strong>但要写清这条省略对作者不利</strong>：Domino 在两格都低于 1.0×，即论文漏掉了两个自己能赢的基线。</li>
+<li><strong>仓库独有的测量参数，论文一个字没提，而它们直接决定可信度</strong>：采样是随机且单种子的（<code>--temp 1 --min-p 0.01 --top-k 4 -s 42</code>，另一配置 <code>&quot;temp&quot;: 0.8</code>），生成长度按配置在 64 与 640 之间变化，<strong>最要紧的是每个数据集只评 3 到 5 条 prompt</strong>（<code>&quot;questions_limit&quot;: 5</code> / <code>3</code>、README <code>--n-questions 5</code>）。<strong>论文无种子、无重复、无误差棒。</strong></li>
+</ul>
+<p><strong>开放状态为第二档，但带一处第七档尾巴与一处成分许可证缺口。</strong> 代码在 <code>https://github.com/angerybob/S2-MoE</code>，是 llama.cpp 的 fork（1,956 条树条目），MIT——<code>LICENSE</code> 1,078 字节且版权行是 <code>Copyright (c) 2023-2024 The ggml authors</code>，<strong>本应触发聚合许可证陷阱，但 README 把它补上了</strong>：<code>This project is built on llama.cpp. The implementation retains its MIT license; see LICENSE.</code> <strong>成分许可证仍未覆盖</strong>：仓库随附 <code>datasets/*.jsonl</code>（gsm8K、human-eval、mt_bench、specbench 等第三方评测数据），而单一 MIT LICENSE 未涉及其各自条款，无 <code>NOTICE</code>、无 <code>COPYING</code>。<strong>第七档尾巴</strong>：<code>spec_config_qwen3.json</code> 需要 <code>hot_experts.json</code>，而全树递归搜索 <code>hot_expert</code> <strong>零命中</strong>；不过生成它所需的四份逐层专家激活剖面已随仓库发布，<strong>即该派生物缺失但可重建</strong>。另：<code>When memory permits, we further keep frequently activated experts resident in device memory based on offline profiling.</code>——<strong>离线剖析成本被使用却从未计入任何地方。</strong></p>
+<p><strong>硬件也有一处矛盾</strong>：论文两处明确写 <code>Jetson Orin NX 16GB</code>，而仓库两处写 <code>a Jetson AGX Orin under a 16 GB memory budget</code>，且 <code>spec_config_olmoe2.json</code> 硬编码 <code>&quot;bandwidth&quot;: 204.8</code>（AGX Orin 的值；Orin NX 16 GB 为 102.4）。<strong>这很重要，因为 5.25× 的最大值完全来自 16 GB 档</strong>——按仓库的读法，该档是同一台设备被人为限容，<strong>于是头条变成纯粹的显存容量效应而不是设备效应</strong>。两种读法原样并存。</p>
+<p><strong>干净的部分要说明，它校准其余各条：</strong> 全部头条数字都能从附录复现，包括&quot;about 2.0× on average&quot;落在 112 格均值 <strong>1.9907</strong>；<strong>摘要没有藏聚合值——它把均值与最大值并列披露</strong>；Table 3 的&quot;acceptance rates increase by up to 79%&quot;复现为 33.01 → 59.09（+79.01%）；Table 4 复现；<strong>仓库的专家剖面独立佐证了论文 Table 1</strong>（最大 <code>expert_id</code>+1 得 64/64/128/128，四个模型全部吻合，层数也与真实架构一致，且每条 <code>count/total_activations == frequency</code> 零失配）；消融 Figure 8 诚实报告了单靠自投机会<strong>变慢</strong>（0.2–0.8×）；README 链接了 arXiv 与 BibTeX 并复述了头条数字，<strong>因此&quot;README 不提论文也不提数字&quot;这个陷阱不触发</strong>。</p>
+<p><strong>三条可带走的原语：</strong></p>
+<ul>
+<li><strong>硬件校准的成本模型是本篇最可迁移的资产。</strong> 把每个新激活专家折算成&quot;一个硬件校准的时延单位&quot;（<code>expert_bytes / bandwidth</code>，拟合 R²=0.981、MAPE 2.3%），<strong>是&quot;用实测设备常数而不是启发式来做调度判断&quot;的干净范式</strong>，项目可以把同样的形状用到自己的解码预算上。</li>
+<li><strong>上下文对齐的自投机</strong>——草稿与目标共享同一份 KV cache——带来 <strong>+23% 到 +79%</strong> 的接受率，且不需要额外训练、不需要第二个模型。<strong>对一个时延受限的单用户座舱助手，这是本篇性价比最高的想法。</strong></li>
+<li><strong>一条方法学教训，其价值超出本篇：决定一个加速比是否可信的那些测量参数（批大小、预热、种子、prompt 条数、生成长度）全部缺席于论文而齐备于仓库的配置文件。</strong> 因此<strong>&quot;读随仓库发布的配置文件&quot;应成为本项目论文初筛的常规步骤</strong>——本篇的批大小状态、缓存状态与样本量三件事，全部是靠它才查清的。</li>
+<li><strong>另附一条对项目最高优先级事项的校准数据点</strong>：DeepSeek 的 Qasper 从 27.40 涨到 32.72（+5.32）、四个模型的平均任务准确率全部改善，而论文把这些差异描述为&quot;small and non-systematic&quot;。<strong>在单种子随机采样、每任务 3–5 条 prompt 的条件下，这是噪声呈现为信号</strong>——<strong>这是&quot;单次运行的头条数字不可靠&quot;的又一条独立佐证，与项目自己的 80.49% 同源。</strong></li>
+</ul>
+<h3>3.3 <code>2608.06718</code> v2 —— 既有判定不变，但措辞需要收紧，而且这次修订正好修掉了一处旧矛盾</h3>
+<p><strong>判定不变：不得把音频语言模型当作打断/情绪恰当性的自动判定器。</strong> 证据基础完全没动。<strong>Table 7 的原生 POINTWISE / No-Cue 一档是决定性的：11 个判定器里只有 Gemini-3-Pro 一个的置信区间排除了 50%，而且只是勉强排除（55.2 [50.1, 60.1]）。</strong> 其余全部统计上等于随机，含全部开放模型；Qwen2.5-Omni-7B 恰好 <strong>50.0</strong>。Table 6 的协议差（配对 bootstrap 95% CI）显示 Gemini 家族从对照式格式获得 <strong>+21.3 到 +29.2</strong> 分，而每个非 Gemini 模型的区间都包含零。</p>
+<p><strong>但措辞必须收紧，因为论文比&quot;一律禁止&quot;要窄。</strong> 最直接支持该判定的原句是：<code>Cueing is a diagnostic intervention, so a judge whose conclusion depends sharply on prompt wording may be useful in a scaffolded pipeline, but <strong>should not be treated as a plug-and-play evaluator</strong>.</code> 以及 <code>similar aggregate accuracies can hide different failure modes ... ALM judges should not be evaluated by accuracy alone, instead requiring thorough behavioral audits before deployment.</code></p>
+<p><strong>因此被支持的判定是：&quot;不得把音频语言模型当作即插即用的判定器&quot;，而论文明确留下了&quot;在有脚手架的管线里可能有用&quot;这一条</strong>——而那正是 PAIRWISE 下 Gemini 家族达到 74–91% 的地方。<strong>这条区分值得保留，因为它指向一个可用设计而不只是一条禁令。</strong></p>
+<p><strong>两条不可忽略的迁移限制</strong>：审计<strong>只有英语</strong>，且作者自陈<code>relies primarily on synthesized speech ... it limits external validity</code>。另有一条对中文部署尤其不利的构造效度提示：<strong>最低的单轮得分来自非母语英语者</strong>，即该基准的题目对听者母语背景敏感。<strong>开放状态为第三档</strong>：只有将来时的 <code>will be released</code>，全文没有任何作者制品 URL（唯一裸 URL <code>talkarena.org/cava</code> 是第三方源数据集，30 条注解 URI 全是参考文献）。</p>
+<p><strong>这次修订恰好修掉了一处存在于我们形成判定时那一版里的内部矛盾，这是版本通道的一次实打实的价值证明。</strong> v1 的 §4.3 正文写人评一致性 <code>88-92%</code>，而附录 E 同一档写 <code>88.0–100.0</code>；<strong>v2 把附录改成 <code>88.0 – 92.0</code>，与正文对齐。</strong> 其余实质编辑三处：<strong>Voxtral-Mini-3B 被整体删除</strong>（v1 三张附录鲁棒性表里有它，v2 零次出现，即少评了一个模型）；标注者人数下修，<code>We recruited ten graduate students</code> → <code>We recruited nine students</code>；以及一批引用更正（其中 NOESIS-II 的第一作者由 <code>Kummerfeld et al., 2019</code> 改为 <code>Gunasekara et al., 2020</code>），连带掉了两条 arXiv 超链接。合计 −1,645 字符、49 个差异块。<strong>Table 6 与 Table 7 这两张承载全部证据的表逐字节未动，因此没有任何数字级的判定变化。</strong></p>
+<p><strong>一处残留的轻微歧义，原样并存</strong>：v2 说&quot;nine students&quot;，同时又说每个任务&quot;five independent annotators&quot;、而任务有两个（十个标注位），附录表也列 5 名标注者。<strong>九人填十位意味着有一人兼做两个任务，论文未说明；v1 的&quot;ten&quot;在这一点上是自洽的，即这次更正引入了该歧义。</strong></p>
+<p><strong>四条可带走的原语：</strong></p>
+<ul>
+<li><strong>反事实审计的构造方式，是本轮三篇里对项目最高优先级事项最直接可用的一条。</strong> 固定转写文本不变，只改与被测行为相关的那一个通道，要求判定器随之翻转。<strong>这正是项目那个&quot;只翻转与行为无关的元数据即改变 180 条中的 31 条&quot;实验的正向推广版</strong>，而<strong>造一套中文的打断恰当性反事实集是一个自足、可立刻动手的后续项。</strong></li>
+<li><strong>POINTWISE 对 PAIRWISE 的协议差本身就是一件诊断量具。</strong> 任何只在两个候选同时可见时才表现良好的判定器，<strong>都不在测量它的聚合分数所暗示的那个东西</strong>。做起来便宜，而它检出了单看准确率会被掩盖的失效。</li>
+<li><strong>(P, O, J) 三态分解，尤其是&quot;Potemkin&quot;这一态</strong>——感知与响应映射都过关、最终判断仍失败。<strong>这给项目一套给自己判定器失效分类的词汇，取代单一召回率。</strong></li>
+<li><strong>报 Wilson 或 bootstrap 区间，不要报点准确率。</strong> 本篇的结论之所以可读，全靠每个数字都带区间；<strong>项目的 80.49% 是单次运行且不带区间，这恰恰是它现在不被信任的原因。</strong></li>
+</ul>
+<h2>四、逐条对比 2026-08-21</h2>
 <table><thead><tr><th>项目</th><th>08-21</th><th>08-22（本轮）</th><th>变化性质</th></tr></thead><tbody>
 <tr><td>Radar 刷新</td><td>连续第九轮未刷新</td><td><strong>连续第十轮未刷新</strong>，<code>generated</code> 与条目数逐位相同</td><td>无变化</td></tr>
 <tr><td>索引相位</td><td>每天一批（连续第五次印证）</td><td><strong>冻结</strong>：全站最新投稿仍是 <code>2608.20340</code>，26 小时零推进</td><td><strong>相位改变</strong>，08-15 后首次</td></tr>
@@ -402,7 +487,8 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <tr><td>语音类目增量</td><td>cs.SD +9、eess.AS +7（记录最小之一）</td><td><strong>cs.SD +0、eess.AS +0</strong></td><td>新的最小值</td></tr>
 <tr><td>通道一</td><td>4 组为零，仍出 P0</td><td><strong>17 组全零</strong>，三级证伪 + <code>lastUpdatedDate</code> 第四道</td><td>零，且证伪更严</td></tr>
 <tr><td>通道二</td><td>47 ID，3 个非 v1，窗口内 0 修订（首次全空）</td><td><strong>173 ID，20 个非 v1，窗口内 0 修订（连续第二轮）</strong>；发现 17 个从未差分；并修正 08-21 的覆盖面陈述</td><td><strong>同结论、更强覆盖，且发现一处覆盖缺口</strong></td></tr>
-<tr><td>通道三</td><td>MaAI（完全不在追踪表内的项目）</td><td><strong><code>X2Streaming-TTS</code> 仓库已公开且自 08-12 起一直存在</strong>；MaAI 新增 mono 中文权重与 <code>vad_en</code>（仍全为 NC-ND）；七个承诺制品缺口一个未关闭，五个仓库动的全是 README</td><td><strong>本轮唯一产出实质技术结论的通道，并推翻 08-20 的一个待办判定</strong></td></tr>
+<tr><td>通道二的实际产出</td><td>47 ID、3 个非 v1、无差分动作</td><td><strong>三篇从未差分的修订已完成差分与全文首读</strong>：Lychee-FD（<code>2607.06540</code> v4）为本轮最有价值一手材料、S2-MoE（<code>2608.15018</code>）否决且 v1→v2 为纯空修订、<code>2608.06718</code> v2 修掉一处旧矛盾</td><td><strong>扩表直接换来了三份新的一手材料</strong></td></tr>
+<tr><td>通道三</td><td>MaAI（完全不在追踪表内的项目）</td><td><strong><code>X2Streaming-TTS</code> 仓库已公开且自 08-12 起一直存在</strong>；MaAI 新增 mono 中文权重与 <code>vad_en</code>（仍全为 NC-ND）；七个承诺制品缺口一个未关闭，五个仓库动的全是 README</td><td><strong>推翻 08-20 的一个待办判定</strong></td></tr>
 <tr><td>08-20 的 X2Streaming-TTS 判定</td><td>第五档「URL 给了但 404」，设 2026-09-02 判死期限</td><td><strong>前提被证伪</strong>：仓库自 2026-08-12 起存在，此前是私有。404 无法区分&quot;不存在&quot;与&quot;私有&quot;，本轮首次拿到实证</td><td><strong>推翻前提，期限作废</strong></td></tr>
 <tr><td>08-20 的 Qwen3TTS-Streaming 判定</td><td>「疑似实现，不得与论文记录合并」</td><td><strong>可以合并了</strong>：新公开仓库自述为其 code-only extension，并以 <code>UPSTREAM_LOCK.json</code> 把子模块钉到 <code>0745e4a8613f</code>（已核实可解析）</td><td><strong>悬置判定获一手确认</strong></td></tr>
 <tr><td>FireRedTTS3 的 HF <code>arxiv:</code> 标签</td><td>记为错标（<code>arxiv:2502.03930</code>）</td><td><strong>作者已修正</strong>为 <code>arxiv:2608.17492</code>，旧标签移除 ⇒ 该条记录应撤销。但时延/流式/参数量数据仍全部为 0</td><td><strong>撤销一条既有记录</strong></td></tr>
@@ -413,7 +499,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <tr><td>项目最高优先级项</td><td>判定器处理不变性检查（未开工）</td><td><strong>仍未开工，仍为最高优先级</strong></td><td>无变化</td></tr>
 <tr><td>main 状态</td><td>停在 08-10（第九轮），本轮恢复 08-11..08-20</td><td><strong>仍停在 08-10（第十轮）</strong>，本轮恢复 08-11..08-21 共 18 份报告与 9 份台账</td><td>同一故障第十次复发</td></tr>
 </tbody></table>
-<h2>四、可执行动作与优先级</h2>
+<h2>五、可执行动作与优先级</h2>
 <h3>第一阶段（零 GPU、零成本，本轮新增两条排在最前）</h3>
 <ol>
 <li><strong>立刻改判停组查询为 <code>abs:&quot;voice activity detection&quot; OR abs:&quot;end-of-turn&quot; OR abs:&quot;turn-end detection&quot;</code></strong>，并在下一轮报告中记录改写前后的窗口对照总数。依据：第 1.5 节，全库 7,388 → 288。<strong>这是本轮唯一一条改完就见效、且已被实测验证的动作。</strong></li>
@@ -427,8 +513,9 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </ol>
 <h3>第二阶段（只读审阅，不执行任何论文代码）</h3>
 <ol>
-<li><strong><code>2608.15018</code> S2-MoE 的 v1→v2 差分与全文首读</strong>（已委派，本轮以单独提交并入）。这是通道二扩表后浮出的最相关一条。</li>
-<li><strong><code>2608.06718</code> v2 与 <code>2607.06540</code> v4 的差分</strong>（已委派）。</li>
+<li><strong>只读审阅 Lychee-FD（<code>2607.06540</code>）的控制头早退路径与 <code>&lt;Start&gt;</code>/<code>&lt;Stop&gt;</code> 控制词表</strong>，把&quot;控制决策在语音生成完成之前就产出&quot;这一形状写进判停与打断的设计文档。<strong>本轮新增，且优先级高于其余只读审阅项</strong>——它是项目所需旁路形状的第一个可运行实例，代码与权重均 Apache-2.0、支持中文。<strong>只读，不运行该仓库任何代码。</strong></li>
+<li><strong>在项目自己的栈上跑一次 Lychee-FD 的梯度冲突诊断</strong>（逐层计算声学与语义梯度的余弦相似度），用来定位该在哪一层切分，而不是靠猜。<strong>这是本轮唯一一条新增的、可直接动手的量具。</strong></li>
+<li><strong>剩余 14 个从未差分的非 v1 条目</strong>（清单见第 P1 节）。本轮已完成 <code>2608.15018</code>、<code>2608.06718</code>、<code>2607.06540</code> 三篇。</li>
 <li><strong>MaAI 中文应答权重 <code>vap_bc_ch</code> 的纯 CPU 旁路观测</strong>：仍卡在&quot;项目缺带应答/打断标注的中文评测数据&quot;这个前置条件上，<strong>且该前置条件本轮无进展</strong>。</li>
 <li><strong>离线复现 X2-Turn 的 EasyTurn-zh 判停指标</strong>（Apache-2.0、非门控权重，08-20 起列为可立刻动手项，连续第三轮未动）。</li>
 <li><strong>测项目自身的上游 token 速率与抖动</strong>（08-20 既定项，未动）。</li>
@@ -437,9 +524,9 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <ol>
 <li><strong>若中文 VAD 的串音归属能力被判定为必需，需就 <code>vad_ch</code> 的 CC-BY-NC-ND-4.0 与作者接洽授权。</strong> 授权落定之前不得把 <code>vad_ch</code> 写进任何架构图。</li>
 <li><strong>评估 TensorRT/Triton 链路是否可接受</strong>（08-20 既定项，未动）。</li>
-<li><strong>跟踪 <code>X-Square-Robot/X2Streaming-TTS</code> 是否出现</strong>（08-20 设的两周期限，<strong>到期日 2026-09-02，本轮为第三天</strong>）。</li>
+<li>~~跟踪 <code>X-Square-Robot/X2Streaming-TTS</code> 是否出现~~ → <strong>已结案（第 2.1 节）：仓库公开且自 2026-08-12 即存在，期限作废。改为跟踪它是否发布权重、是否走出 pre-alpha。</strong></li>
 </ol>
-<h2>五、本轮负面结果与零结果（与正面结果同等重要）</h2>
+<h2>六、本轮负面结果与零结果（与正面结果同等重要）</h2>
 <p><strong>这些是&quot;查了、没有&quot;，不是&quot;没查&quot;。每一条都记录了查询与 totalResults，且每一条都配了去掉日期约束的对照数以证明解析路径正常。</strong></p>
 <p>窗口 <code>submittedDate:[202608201800 TO 202608220230]</code>，17 组全部为零：</p>
 <table><thead><tr><th>组</th><th>查询</th><th>窗口</th><th>去日期约束对照</th></tr></thead><tbody>
@@ -464,7 +551,7 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 </tbody></table>
 <p><strong>关于第 14 组的一条限定：</strong> 它连续两轮独家命中当轮最重要线索（08-20、08-21），本轮为零。<strong>但本轮全站窗口都是零，所以这不能算该组的表现下滑，只能算窗口本身为空。保留该组的决定不受影响。</strong></p>
 <p><strong>关于&quot;17 组全零&quot;这件事的正确读法（我的判断）：</strong> 08-21 记下过一条规则——&quot;篇数与查询组的空满程度都不是&#x27;有无重大新增&#x27;的代理&quot;。本轮不构成对该规则的反例，因为本轮的零<strong>不是语音方向没产出，而是索引一篇都没进</strong>（不限类别的窗口查询也是 0）。<strong>&quot;方向为零&quot;与&quot;索引为零&quot;必须分开记：本轮是后者。这是本项目第二次遇到后者（第一次是 08-15）。</strong></p>
-<h2>六、持续跟踪项（本轮无进展，逐条列出以免被&quot;有 P0&quot;掩盖）</h2>
+<h2>七、持续跟踪项（本轮无进展，逐条列出以免被&quot;有 P0&quot;掩盖）</h2>
 <ul>
 <li><strong>判定器处理不变性检查（<code>2608.12880</code>）——优先级仍为全部事项中最高，连续第四轮未开工。</strong></li>
 <li><code>2608.19652</code> StateMemBench：追踪表上价值最高的第三档条目（论文称已发布基准与标注工具包，23 页全文无任何 URL）；其标注工具包仍是最直接可用而不可得的制品。</li>
@@ -488,9 +575,11 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li>DuplexGen-B 承诺的 180 段基准。</li>
 <li>FireRedTTS3 是否补出任何时延/流式基准。</li>
 <li>Real-World AVSE 挑战赛数据是否公开。</li>
-<li><strong>本轮新增：17 个从未做过逐版差分的非 v1 条目</strong>（清单见第 P1 节），其中 <code>2608.15018</code>、<code>2608.06718</code>、<code>2607.06540</code> 已委派。</li>
+<li><strong>本轮新增：17 个从未做过逐版差分的非 v1 条目</strong>（清单见第 P1 节），其中 <code>2608.15018</code>、<code>2608.06718</code>、<code>2607.06540</code> <strong>已完成差分（第 3 节），剩余 14 条待做</strong>。</li>
+<li><strong>新增：Lychee-FD（<code>2607.06540</code>）的三处待核</strong>——推理侧究竟需要几张卡（论文附录说 3–4 张且单卡会有&quot;severe latency bottlenecks&quot;，仓库却给了单卡模式）；FSED 637ms 是服务端还是客户端时钟；仓库自报的 <code>2.96x</code> 与 <code>23%</code> 两个数字是否会进入某个后续版本。</li>
+<li><strong>新增：S2-MoE（<code>2608.15018</code>）的 <code>hot_experts.json</code> 是否补上</strong>（第七档尾巴，输入剖面已随仓库发布故可重建），以及其 Cascade 基线的&quot;简化版&quot;实现是否与论文声明对齐。</li>
 </ul>
-<h2>七、方法学固化（本轮新增，建议写入长期规则）</h2>
+<h2>八、方法学固化（本轮新增，建议写入长期规则）</h2>
 <ol>
 <li><strong><code>abs:</code> 做词干归并。</strong> 任何单词探针实际匹配的是它的词干，因此：不要用&quot;删掉某个宽泛单词&quot;来提精度（无效）；缩略词若以 S 结尾会被剥成另一个词（<code>TTS</code>→<code>tt</code>）；短语内的成分词同样被归并（<code>echo cancellation</code> = <code>echo cancel</code>）。<strong>提精度的唯一有效手段是改用多词短语。</strong></li>
 <li><strong>归并只会多召回，不会少召回。因此所有历史零结果依然有效，受影响的只有精度。</strong> 不得用本发现去回溯质疑任何一条已记录的零结果。</li>
@@ -503,6 +592,11 @@ footer { margin-top:40px; color:var(--dim); font-size:12.5px;
 <li><strong><code>pushed_at</code>、star 数与&quot;README 里出现了 <code>arxiv</code>&quot;三者都不是进展信号。</strong> 本轮五个动了的仓库，五次全是 README / 引用编辑，四次集中在同一个 34 小时窗口内（论文投稿后的引用整理潮）。<strong>以这三者为触发条件的流水线本轮会报四到五个假阳性。</strong> 判断进展必须落到文件级：制品关键词在全树路径中的命中数。</li>
 <li><strong>架构/能力支持的 grep 必须限定到项目自己的目录。</strong> FlashPrefill V2 全树搜 <code>sm_?120</code> 有 23 处命中，<strong>23 处全在第三方 CUTLASS 头文件里，实例化目录下为 0</strong>。</li>
 <li><strong><code>11,357 字节</code>只能当作 Apache-2.0 的快速线索，不能当作硬相等条件。</strong> X2-Turn 的 LICENSE 为 11,374 字节，但归一化空白并剥掉开头的版权行后与规范文本逐字节相同。<strong>判定靠归一化比对，不靠字节数。</strong></li>
+<li><strong>随仓库发布的配置文件是判断一个加速比是否可信的必读材料，应列为论文初筛的常规步骤。</strong> S2-MoE 的批大小、预热状态、随机种子、每任务 prompt 条数（<strong>只有 3 到 5 条</strong>）与生成长度<strong>全部缺席于论文而齐备于仓库配置</strong>。本轮该篇的批大小状态、缓存状态与样本量三件事全靠它才查清。</li>
+<li><strong>批大小四态的判定，论文侧与仓库侧可以落在不同的态，必须分别记。</strong> S2-MoE 论文侧是第四态（从未报告），而仓库把它定到第一态（<code>--parallel 1</code>，且收益正是为该区间报的）⇒ <strong>规则沉默，不得否决</strong>。<strong>这是四态规则的一个新用法：先看论文，再让仓库把状态定死。</strong></li>
+<li><strong>一次修订可以披露初版未显示的产业方参与。</strong> <code>2607.06540</code> 的 v1→v3 调换了作者顺序，并新增了一个 v1 中完全不存在的第四单位（腾讯 PCG），五位作者从无任何单位标记变为归属该单位。<strong>逐版差分的价值不限于数字与结论。</strong></li>
+<li><strong>一次修订也可以只是让步优先权。</strong> <code>2607.06540</code> 的 v3→v4 只 +235 字符，实质就是承认一篇并列工作提出了基本相同的核心洞见，<strong>软化了正文反复出现的&quot;For the first time&quot;声明</strong>。这类修订不改数字却改可信度归属。</li>
+<li><strong>&quot;空修订&quot;是一种应当明确记录的结果。</strong> <code>2608.15018</code> 的 v1→v2 逐页内容流逐字节相同、10 个图 MD5 全同、全文文本只差 arXiv 戳记那一行。<strong>与既有记录一致：修订体量预测不了任何东西</strong>（StreamTTT 改 184 行判定不变；X2-Turn 加一句话翻转了一个开放状态判定；本篇一个字未改）。</li>
 <li><strong>一次&quot;仓库确实在被编辑却依然缺少承诺物&quot;，比&quot;仓库停滞&quot;是更强的负面证据。</strong> 本轮两个实例：ReCache 的作者 08-21 在改 README 却仍未加 LICENSE；FlashPrefill V2 的 α 矛盾在两次刻意的 README 润色之后依然存活，<strong>因此该矛盾应从&quot;待澄清&quot;改记为&quot;既成的方法学矛盾&quot;</strong>。</li>
 </ol></div><section class="solution-feedback"><h2><span class="l-zh">正式保留 / 高收益组件</span><span class="l-en">Retained / high-value components</span> · 2026-08-22</h2><p class="no-updates"><span class="l-zh">当日新增/更新的保留组件：0。</span><span class="l-en">Retained components added/updated today: 0.</span></p></section><section class="solution-feedback"><h2><span class="l-zh">每日实验工作台</span><span class="l-en">Daily experiment workbench</span> · 2026-08-22</h2><p class="solution-source"><b>2026-08-22</b> · 精读=0 · 候选=0 · 离线实验=0 · H20实验=0 · 保留=0 · 拒绝=0 · 阻塞=0 · GPU消耗=否</p><p class="no-updates"><span class="l-zh">当日实验活动未记录。</span><span class="l-en">No experiment activity recorded.</span></p></section><p><a class="btn" href="https://piiiiiig.github.io/cockpit-agent-radar/reports/"><span class="l-zh">← 返回日报</span><span class="l-en">← reports</span></a></p></div>
 <footer><span class="l-zh">每天北京时间 9:00 / 14:00 / 19:00 自动更新 · 订阅 RSS 获取推送 · 源码在 <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">GitHub</a></span><span class="l-en">Updates 9:00 / 14:00 / 19:00 (UTC+8) daily · subscribe via RSS · <a href="https://github.com/pIIiiIIg/cockpit-agent-radar">source</a></span></footer>
